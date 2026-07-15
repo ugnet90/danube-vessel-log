@@ -1,4 +1,4 @@
-#Danube Vessel Log
+Danube Vessel Log
 
 Private project for documenting and analysing observed vessels on the Danube.
 
