@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "next_ids": {
+    "photo": 1,
+    "vessel": 1,
+    "observation": 1
+  }
+}
