@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "submission_id": "SUB-20260716-134326-247491",
+  "uploaded_at": "2026-07-16T13:43:26.800Z",
+  "captured_at": "2026-07-16T10:45:00.000Z",
+  "location_id": "LOC-001",
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "",
+  "notes": "Erste Test-Submission",
+  "photos": [],
+  "workflow": {
+    "status": "new",
+    "vessel_id": "",
+    "review_notes": ""
+  }
+}
