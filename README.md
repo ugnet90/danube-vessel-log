@@ -8,3 +8,5 @@ Features:
 - photo archive
 - statistics
 - GitHub Pages
+
+Cloudflare Worker wird automatisch aus GitHub bereitgestellt.
