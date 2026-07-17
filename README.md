@@ -9,4 +9,4 @@ Features:
 - statistics
 - GitHub Pages
 
-Cloudflare Worker wird automatisch aus GitHub bereitgestellt.
+Cloudflare Worker wird automatisch aus GitHub bereitgestellt!
