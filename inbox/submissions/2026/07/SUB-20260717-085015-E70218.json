@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "submission_id": "SUB-20260717-085015-E70218",
+  "uploaded_at": "2026-07-17T08:50:15.962Z",
+  "captured_at": "2026-07-17T08:23:00.000Z",
+  "location_id": "LOC-001",
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "",
+  "notes": "Erster Foto-Test",
+  "photos": [
+    {
+      "photo_id": "PHOTO-1C380DDE0C5F4B60A908FFA6AC9303F7",
+      "path": "photos/PHOTO-1C380DDE0C5F4B60A908FFA6AC9303F7.jpg",
+      "filename": "PHOTO-1C380DDE0C5F4B60A908FFA6AC9303F7.jpg",
+      "original_filename": "IMG_1455.jpeg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 7286287
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "vessel_id": "",
+    "review_notes": ""
+  }
+}
