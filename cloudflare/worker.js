@@ -295,7 +295,7 @@ function buildSubmission({
   photos
 }) {
   return {
-    schema_version: 1,
+    schema_version: 2,
     submission_id: submissionId,
     uploaded_at: uploadedAt.toISOString(),
     captured_at: capturedAt.toISOString(),
