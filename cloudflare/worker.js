@@ -279,6 +279,12 @@ async function createPhotoSubmission(request, env) {
 
   const vesselMatchResult = await resolveVessel(input, env);
   
+  return jsonResponse({
+    debug: true,
+    vessel_name_entered: input.vessel_name_entered,
+    vesselMatchResult
+  });
+    
   if (!vesselMatchResult.ok) {
     return jsonResponse(
       {
@@ -766,15 +772,6 @@ async function resolveVessel(input, env) {
   }
 
   const vesselsResult = await loadVessels(env);
-
-  if (!vesselsResult.ok) {
-    return vesselsResult;
-  }
-  
-  return jsonResponse({
-    ok: true,
-    vessels: vesselsResult.vessels
-  });  
 
   if (!vesselsResult.ok) {
     return vesselsResult;
