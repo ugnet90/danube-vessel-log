@@ -376,7 +376,7 @@ function buildSubmission({
   photos
 }) {
   return {
-    schema_version: 7,
+    schema_version: 8,
     submission_id: submissionId,
     uploaded_at: uploadedAt.toISOString(),
     captured_at: capturedAt.toISOString(),
@@ -434,7 +434,12 @@ function buildSubmission({
             input.vessel_match?.matched_by ?? "",
     
           candidate_count:
-            input.vessel_match?.candidate_count ?? 0
+            input.vessel_match?.candidate_count ?? 0,
+          
+          candidate_ids:
+            Array.isArray(input.vessel_match?.candidate_ids)
+              ? input.vessel_match.candidate_ids
+              : []
         }
       },
     
@@ -770,7 +775,8 @@ async function resolveVessel(input, env) {
         status: "unmatched",
         vessel_id: "",
         matched_by: "",
-        candidate_count: 0
+        candidate_count: 0,
+        candidate_ids: []
       }
     };
   }
@@ -818,7 +824,10 @@ async function resolveVessel(input, env) {
         status: "matched",
         vessel_id: matches[0].vessel.vessel_id,
         matched_by: matches[0].matched_by,
-        candidate_count: 1
+        candidate_count: 1,
+        candidate_ids: [
+          matches[0].vessel.vessel_id
+        ]
       }
     };
   }
@@ -830,7 +839,10 @@ async function resolveVessel(input, env) {
         status: "ambiguous",
         vessel_id: "",
         matched_by: "name",
-        candidate_count: matches.length
+        candidate_count: matches.length,
+        candidate_ids: matches.map(
+          match => match.vessel.vessel_id
+        )
       }
     };
   }
@@ -841,7 +853,8 @@ async function resolveVessel(input, env) {
       status: "unmatched",
       vessel_id: "",
       matched_by: "",
-      candidate_count: 0
+      candidate_count: 0,
+      candidate_ids: []
     }
   };
 }
