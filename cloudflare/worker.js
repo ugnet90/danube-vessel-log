@@ -376,7 +376,7 @@ function buildSubmission({
   photos
 }) {
   return {
-    schema_version: 6,
+    schema_version: 7,
     submission_id: submissionId,
     uploaded_at: uploadedAt.toISOString(),
     captured_at: capturedAt.toISOString(),
@@ -418,24 +418,34 @@ function buildSubmission({
         : null,
     
     photos,
+    
     workflow: {
       status: "new",
     
-      vessel_id:
-        input.vessel_match?.vessel_id ?? "",
+      auto: {
+        vessel_match: {
+          status:
+            input.vessel_match?.status ?? "unmatched",
     
-      vessel_match: {
-        status:
-          input.vessel_match?.status ?? "unmatched",
+          vessel_id:
+            input.vessel_match?.vessel_id ?? "",
     
-        matched_by:
-          input.vessel_match?.matched_by ?? "",
+          matched_by:
+            input.vessel_match?.matched_by ?? "",
     
-        candidate_count:
-          input.vessel_match?.candidate_count ?? 0
+          candidate_count:
+            input.vessel_match?.candidate_count ?? 0
+        }
       },
     
-      review_notes: ""
+      review: {
+        reviewed: false,
+        reviewed_at: "",
+        reviewed_by: "",
+        vessel_id: "",
+        decision: "",
+        notes: ""
+      }
     }
   };
 }
