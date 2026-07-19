@@ -1,0 +1,33 @@
+{
+  "schema_version": 4,
+  "submission_id": "SUB-20260719-153937-710675",
+  "uploaded_at": "2026-07-19T15:39:37.220Z",
+  "captured_at": "2026-07-19T15:39:24.000Z",
+  "location": {
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich"
+  },
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "A‘Rosa Riva",
+  "notes": "",
+  "photo_lat": 48.30783,
+  "photo_lon": 14.28536333333333,
+  "photos": [
+    {
+      "photo_id": "PHOTO-5F48A7B1B6424C60BB50639B619E67D3",
+      "path": "inbox/photos/2026/07/PHOTO-5F48A7B1B6424C60BB50639B619E67D3.jpg",
+      "filename": "PHOTO-5F48A7B1B6424C60BB50639B619E67D3.jpg",
+      "original_filename": "IMG_1477.jpeg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 8369943
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "vessel_id": "",
+    "review_notes": ""
+  }
+}
