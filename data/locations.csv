@@ -1,2 +1,2 @@
-location_id;name;municipality;country;latitude;longitude;location_type;public_name;notes
-LOC-001;Nibelungenbrücke;Linz;Österreich;;;;bridge;Nibelungenbrücke, Linz;
+location_id;name;municipality;country;latitude;longitude;radius_m;location_type;public_name;notes
+LOC-001;Nibelungenbrücke;Linz;Österreich;48.30680;14.28620;500;bridge;Nibelungenbrücke, Linz;
