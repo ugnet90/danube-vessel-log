@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "submission_id": "SUB-20260719-150258-464C3A",
+  "uploaded_at": "2026-07-19T15:02:58.057Z",
+  "captured_at": "2026-07-19T15:02:50.000Z",
+  "location_id": "LOC-001",
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "Anna Stella",
+  "notes": "",
+  "photo_lat": 48.3079,
+  "photo_lon": 14.28531333333333,
+  "photos": [
+    {
+      "photo_id": "PHOTO-BB732EC64E1F4830BD5F6208C5855959",
+      "path": "inbox/photos/2026/07/PHOTO-BB732EC64E1F4830BD5F6208C5855959.jpg",
+      "filename": "PHOTO-BB732EC64E1F4830BD5F6208C5855959.jpg",
+      "original_filename": "IMG_1478.jpeg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 1529341
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "vessel_id": "",
+    "review_notes": ""
+  }
+}
