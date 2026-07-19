@@ -64,6 +64,21 @@ async function createJsonSubmission(request, env) {
 
   const uploadedAt = new Date();
   const capturedAt = new Date(input.captured_at);
+  
+  const locationResult = await resolveLocation(input, env);
+  
+  if (!locationResult.ok) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: locationResult.error
+      },
+      502
+    );
+  }
+  
+  input.location_id = locationResult.location?.location_id ?? "";
+  
   const submissionId = createSubmissionId(uploadedAt);
 
   const submission = buildSubmission({
@@ -211,6 +226,20 @@ async function createPhotoSubmission(request, env) {
   const uploadedAt = new Date();
   const capturedAt = new Date(input.captured_at);
 
+  const locationResult = await resolveLocation(input, env);
+  
+  if (!locationResult.ok) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: locationResult.error
+      },
+      502
+    );
+  }
+  
+  input.location_id = locationResult.location?.location_id ?? "";  
+  
   const submissionId = createSubmissionId(uploadedAt);
   const photoId = createPhotoId();
 
@@ -341,11 +370,23 @@ function validateMetadata(input) {
     return "captured_at fehlt oder ist ungültig.";
   }
 
-  if (
-    typeof input.location_id !== "string" ||
-    !/^LOC-\d{3,}$/.test(input.location_id)
-  ) {
-    return "location_id fehlt oder ist ungültig.";
+  const hasValidLocationId =
+    typeof input.location_id === "string" &&
+    /^LOC-\d{3,}$/.test(input.location_id);
+  
+  const photoLat = parseCoordinate(input.photo_lat);
+  const photoLon = parseCoordinate(input.photo_lon);
+  
+  const hasValidCoordinates =
+    photoLat !== null &&
+    photoLon !== null &&
+    photoLat >= -90 &&
+    photoLat <= 90 &&
+    photoLon >= -180 &&
+    photoLon <= 180;
+  
+  if (!hasValidLocationId && !hasValidCoordinates) {
+    return "Es fehlen eine gültige location_id oder gültige Fotokoordinaten.";
   }
 
   const allowedMovements = ["moving", "moored", "unknown"];
@@ -388,6 +429,240 @@ function validateMetadata(input) {
   }
 
   return null;
+}
+
+async function resolveLocation(input, env) {
+  const latitude = parseCoordinate(input.photo_lat);
+  const longitude = parseCoordinate(input.photo_lon);
+
+  if (latitude === null || longitude === null) {
+    if (
+      typeof input.location_id === "string" &&
+      /^LOC-\d{3,}$/.test(input.location_id)
+    ) {
+      return {
+        ok: true,
+        location: {
+          location_id: input.location_id
+        }
+      };
+    }
+
+    return {
+      ok: true,
+      location: null
+    };
+  }
+
+  const locationsResult = await loadLocations(env);
+
+  if (!locationsResult.ok) {
+    return locationsResult;
+  }
+
+  let bestMatch = null;
+
+  for (const location of locationsResult.locations) {
+    const distanceM = calculateDistanceMeters(
+      latitude,
+      longitude,
+      location.latitude,
+      location.longitude
+    );
+
+    if (
+      distanceM <= location.radius_m &&
+      (
+        bestMatch === null ||
+        distanceM < bestMatch.distance_m
+      )
+    ) {
+      bestMatch = {
+        ...location,
+        distance_m: Math.round(distanceM)
+      };
+    }
+  }
+
+  return {
+    ok: true,
+    location: bestMatch
+  };
+}
+
+async function loadLocations(env) {
+  const url =
+    `https://api.github.com/repos/` +
+    `${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/` +
+    `${LOCATIONS_PATH}?ref=${encodeURIComponent(BRANCH)}`;
+
+  const result = await githubRequest(url, {
+    method: "GET",
+    headers: githubHeaders(env)
+  });
+
+  if (!result.ok) {
+    return {
+      ok: false,
+      error: "data/locations.csv konnte nicht aus GitHub geladen werden."
+    };
+  }
+
+  if (
+    typeof result.body.content !== "string" ||
+    result.body.encoding !== "base64"
+  ) {
+    return {
+      ok: false,
+      error: "GitHub lieferte locations.csv nicht im erwarteten Format."
+    };
+  }
+
+  let csvText;
+
+  try {
+    csvText = decodeBase64Utf8(
+      result.body.content.replace(/\s/g, "")
+    );
+  } catch {
+    return {
+      ok: false,
+      error: "locations.csv konnte nicht decodiert werden."
+    };
+  }
+
+  try {
+    return {
+      ok: true,
+      locations: parseLocationsCsv(csvText)
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      error:
+        error instanceof Error
+          ? error.message
+          : "locations.csv konnte nicht verarbeitet werden."
+    };
+  }
+}
+
+function parseLocationsCsv(csvText) {
+  const lines = csvText
+    .replace(/^\uFEFF/, "")
+    .split(/\r?\n/)
+    .filter(line => line.trim() !== "");
+
+  if (lines.length < 2) {
+    throw new Error("locations.csv enthält keine Standortdaten.");
+  }
+
+  const headers = lines[0].split(";").map(value => value.trim());
+
+  const requiredHeaders = [
+    "location_id",
+    "latitude",
+    "longitude",
+    "radius_m"
+  ];
+
+  for (const requiredHeader of requiredHeaders) {
+    if (!headers.includes(requiredHeader)) {
+      throw new Error(
+        `locations.csv: Spalte ${requiredHeader} fehlt.`
+      );
+    }
+  }
+
+  const locations = [];
+
+  for (const line of lines.slice(1)) {
+    const values = line.split(";");
+    const row = {};
+
+    headers.forEach((header, index) => {
+      row[header] = (values[index] ?? "").trim();
+    });
+
+    const latitude = parseCoordinate(row.latitude);
+    const longitude = parseCoordinate(row.longitude);
+    const radiusM = Number(
+      String(row.radius_m).replace(",", ".")
+    );
+
+    if (
+      !/^LOC-\d{3,}$/.test(row.location_id) ||
+      latitude === null ||
+      longitude === null ||
+      !Number.isFinite(radiusM) ||
+      radiusM <= 0
+    ) {
+      continue;
+    }
+
+    locations.push({
+      ...row,
+      latitude,
+      longitude,
+      radius_m: radiusM
+    });
+  }
+
+  return locations;
+}
+
+function parseCoordinate(value) {
+  if (
+    value === undefined ||
+    value === null ||
+    String(value).trim() === ""
+  ) {
+    return null;
+  }
+
+  const number = Number(
+    String(value).trim().replace(",", ".")
+  );
+
+  return Number.isFinite(number) ? number : null;
+}
+
+function calculateDistanceMeters(
+  latitude1,
+  longitude1,
+  latitude2,
+  longitude2
+) {
+  const earthRadiusM = 6371000;
+  const toRadians = value => value * Math.PI / 180;
+
+  const lat1 = toRadians(latitude1);
+  const lat2 = toRadians(latitude2);
+  const deltaLat = toRadians(latitude2 - latitude1);
+  const deltaLon = toRadians(longitude2 - longitude1);
+
+  const a =
+    Math.sin(deltaLat / 2) ** 2 +
+    Math.cos(lat1) *
+      Math.cos(lat2) *
+      Math.sin(deltaLon / 2) ** 2;
+
+  const c = 2 * Math.atan2(
+    Math.sqrt(a),
+    Math.sqrt(1 - a)
+  );
+
+  return earthRadiusM * c;
+}
+
+function decodeBase64Utf8(value) {
+  const binary = atob(value);
+  const bytes = Uint8Array.from(
+    binary,
+    character => character.charCodeAt(0)
+  );
+
+  return new TextDecoder().decode(bytes);
 }
 
 function checkUploadKey(request, env) {
