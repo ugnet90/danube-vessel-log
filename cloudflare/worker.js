@@ -310,6 +310,15 @@ function buildSubmission({
       typeof input.notes === "string"
         ? input.notes
         : "",
+    photo_lat:
+      input.photo_lat !== undefined
+        ? Number(String(input.photo_lat).replace(",", "."))
+        : null,
+    photo_lon:
+      input.photo_lon !== undefined
+        ? Number(String(input.photo_lon).replace(",", "."))
+        : null,
+    
     photos,
     workflow: {
       status: "new",
@@ -361,6 +370,20 @@ function validateMetadata(input) {
     typeof input.notes !== "string"
   ) {
     return "notes muss Text sein.";
+  }
+  
+  if (
+    input.photo_lat !== undefined &&
+    Number.isNaN(Number(String(input.photo_lat).replace(",", ".")))
+  ) {
+    return "photo_lat ist ungültig.";
+  }
+  
+  if (
+    input.photo_lon !== undefined &&
+    Number.isNaN(Number(String(input.photo_lon).replace(",", ".")))
+  ) {
+    return "photo_lon ist ungültig.";
   }
 
   return null;
