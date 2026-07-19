@@ -84,6 +84,12 @@ async function createJsonSubmission(request, env) {
   locationResult.location?.name ??
   "";
   
+  input.location_municipality =
+    locationResult.location?.municipality ?? "";
+  
+  input.location_country =
+    locationResult.location?.country ?? "";
+    
   const submissionId = createSubmissionId(uploadedAt);
 
   const submission = buildSubmission({
@@ -250,6 +256,12 @@ async function createPhotoSubmission(request, env) {
   locationResult.location?.name ??
   "";
   
+  input.location_municipality =
+    locationResult.location?.municipality ?? "";
+  
+  input.location_country =
+    locationResult.location?.country ?? "";
+  
   const submissionId = createSubmissionId(uploadedAt);
   const photoId = createPhotoId();
 
@@ -335,15 +347,26 @@ function buildSubmission({
   photos
 }) {
   return {
-    schema_version: 3,
+    schema_version: 4,
     submission_id: submissionId,
     uploaded_at: uploadedAt.toISOString(),
     captured_at: capturedAt.toISOString(),
     location: {
       id: input.location_id,
+    
       name:
         typeof input.location_name === "string"
           ? input.location_name
+          : "",
+    
+      municipality:
+        typeof input.location_municipality === "string"
+          ? input.location_municipality
+          : "",
+    
+      country:
+        typeof input.location_country === "string"
+          ? input.location_country
           : ""
     },
     movement: input.movement ?? "unknown",
