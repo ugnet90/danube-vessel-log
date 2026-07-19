@@ -78,6 +78,11 @@ async function createJsonSubmission(request, env) {
   }
   
   input.location_id = locationResult.location?.location_id ?? "";
+
+  input.location_name =
+  locationResult.location?.public_name ??
+  locationResult.location?.name ??
+  "";
   
   const submissionId = createSubmissionId(uploadedAt);
 
@@ -239,6 +244,11 @@ async function createPhotoSubmission(request, env) {
   }
   
   input.location_id = locationResult.location?.location_id ?? "";  
+
+  input.location_name =
+  locationResult.location?.public_name ??
+  locationResult.location?.name ??
+  "";
   
   const submissionId = createSubmissionId(uploadedAt);
   const photoId = createPhotoId();
@@ -325,11 +335,17 @@ function buildSubmission({
   photos
 }) {
   return {
-    schema_version: 2,
+    schema_version: 3,
     submission_id: submissionId,
     uploaded_at: uploadedAt.toISOString(),
     captured_at: capturedAt.toISOString(),
-    location_id: input.location_id,
+    location: {
+      id: input.location_id,
+      name:
+        typeof input.location_name === "string"
+          ? input.location_name
+          : ""
+    },
     movement: input.movement ?? "unknown",
     direction: input.direction ?? "unknown",
     vessel_name_entered:
