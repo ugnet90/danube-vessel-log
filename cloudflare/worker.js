@@ -347,7 +347,7 @@ function buildSubmission({
   photos
 }) {
   return {
-    schema_version: 4,
+    schema_version: 5,
     submission_id: submissionId,
     uploaded_at: uploadedAt.toISOString(),
     captured_at: capturedAt.toISOString(),
@@ -392,6 +392,11 @@ function buildSubmission({
     workflow: {
       status: "new",
       vessel_id: "",
+      vessel_match: {
+        status: "unmatched",
+        matched_by: "",
+        candidate_count: 0
+      },
       review_notes: ""
     }
   };
