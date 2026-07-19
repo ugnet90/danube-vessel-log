@@ -1,6 +1,7 @@
 const API_VERSION = "2022-11-28";
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024; // 8 MB
 const BRANCH = "main";
+const LOCATIONS_PATH = "data/locations.csv";
 
 export default {
   async fetch(request, env) {
