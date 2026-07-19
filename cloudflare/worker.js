@@ -770,6 +770,15 @@ async function resolveVessel(input, env) {
   if (!vesselsResult.ok) {
     return vesselsResult;
   }
+  
+  return jsonResponse({
+    ok: true,
+    vessels: vesselsResult.vessels
+  });  
+
+  if (!vesselsResult.ok) {
+    return vesselsResult;
+  }
 
   const normalizedEnteredName = normalizeVesselName(enteredName);
   const matches = [];
