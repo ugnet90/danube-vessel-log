@@ -2,6 +2,7 @@ const API_VERSION = "2022-11-28";
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024; // 8 MB
 const BRANCH = "main";
 const LOCATIONS_PATH = "data/locations.csv";
+const VESSELS_PATH = "data/vessels.csv";
 
 export default {
   async fetch(request, env) {
@@ -89,7 +90,21 @@ async function createJsonSubmission(request, env) {
   
   input.location_country =
     locationResult.location?.country ?? "";
-    
+
+  const vesselMatchResult = await resolveVessel(input, env);
+  
+  if (!vesselMatchResult.ok) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: vesselMatchResult.error
+      },
+      502
+    );
+  }
+  
+  input.vessel_match = vesselMatchResult.match;
+  
   const submissionId = createSubmissionId(uploadedAt);
 
   const submission = buildSubmission({
@@ -261,6 +276,18 @@ async function createPhotoSubmission(request, env) {
   
   input.location_country =
     locationResult.location?.country ?? "";
+
+  const vesselMatchResult = await resolveVessel(input, env);
+  
+  if (!vesselMatchResult.ok) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: vesselMatchResult.error
+      },
+      502
+    );
+  }
   
   const submissionId = createSubmissionId(uploadedAt);
   const photoId = createPhotoId();
@@ -347,7 +374,7 @@ function buildSubmission({
   photos
 }) {
   return {
-    schema_version: 5,
+    schema_version: 6,
     submission_id: submissionId,
     uploaded_at: uploadedAt.toISOString(),
     captured_at: capturedAt.toISOString(),
@@ -391,12 +418,21 @@ function buildSubmission({
     photos,
     workflow: {
       status: "new",
-      vessel_id: "",
+    
+      vessel_id:
+        input.vessel_match?.vessel_id ?? "",
+    
       vessel_match: {
-        status: "unmatched",
-        matched_by: "",
-        candidate_count: 0
+        status:
+          input.vessel_match?.status ?? "unmatched",
+    
+        matched_by:
+          input.vessel_match?.matched_by ?? "",
+    
+        candidate_count:
+          input.vessel_match?.candidate_count ?? 0
       },
+    
       review_notes: ""
     }
   };
@@ -707,6 +743,211 @@ function decodeBase64Utf8(value) {
   );
 
   return new TextDecoder().decode(bytes);
+}
+
+async function resolveVessel(input, env) {
+  const enteredName =
+    typeof input.vessel_name_entered === "string"
+      ? input.vessel_name_entered.trim()
+      : "";
+
+  if (!enteredName) {
+    return {
+      ok: true,
+      match: {
+        status: "unmatched",
+        vessel_id: "",
+        matched_by: "",
+        candidate_count: 0
+      }
+    };
+  }
+
+  const vesselsResult = await loadVessels(env);
+
+  if (!vesselsResult.ok) {
+    return vesselsResult;
+  }
+
+  const normalizedEnteredName = normalizeVesselName(enteredName);
+  const matches = [];
+
+  for (const vessel of vesselsResult.vessels) {
+    if (normalizeVesselName(vessel.name) === normalizedEnteredName) {
+      matches.push({
+        vessel,
+        matched_by: "name"
+      });
+
+      continue;
+    }
+
+    const formerNames = vessel.former_names
+      .split("|")
+      .map(value => value.trim())
+      .filter(Boolean);
+
+    if (
+      formerNames.some(
+        name => normalizeVesselName(name) === normalizedEnteredName
+      )
+    ) {
+      matches.push({
+        vessel,
+        matched_by: "former_name"
+      });
+    }
+  }
+
+  if (matches.length === 1) {
+    return {
+      ok: true,
+      match: {
+        status: "matched",
+        vessel_id: matches[0].vessel.vessel_id,
+        matched_by: matches[0].matched_by,
+        candidate_count: 1
+      }
+    };
+  }
+
+  if (matches.length > 1) {
+    return {
+      ok: true,
+      match: {
+        status: "ambiguous",
+        vessel_id: "",
+        matched_by: "name",
+        candidate_count: matches.length
+      }
+    };
+  }
+
+  return {
+    ok: true,
+    match: {
+      status: "unmatched",
+      vessel_id: "",
+      matched_by: "",
+      candidate_count: 0
+    }
+  };
+}
+
+async function loadVessels(env) {
+  const url =
+    `https://api.github.com/repos/` +
+    `${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/` +
+    `${VESSELS_PATH}?ref=${encodeURIComponent(BRANCH)}`;
+
+  const result = await githubRequest(url, {
+    method: "GET",
+    headers: githubHeaders(env)
+  });
+
+  if (!result.ok) {
+    return {
+      ok: false,
+      error: "data/vessels.csv konnte nicht aus GitHub geladen werden."
+    };
+  }
+
+  if (
+    typeof result.body.content !== "string" ||
+    result.body.encoding !== "base64"
+  ) {
+    return {
+      ok: false,
+      error: "GitHub lieferte vessels.csv nicht im erwarteten Format."
+    };
+  }
+
+  let csvText;
+
+  try {
+    csvText = decodeBase64Utf8(
+      result.body.content.replace(/\s/g, "")
+    );
+  } catch {
+    return {
+      ok: false,
+      error: "vessels.csv konnte nicht decodiert werden."
+    };
+  }
+
+  try {
+    return {
+      ok: true,
+      vessels: parseVesselsCsv(csvText)
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      error:
+        error instanceof Error
+          ? error.message
+          : "vessels.csv konnte nicht verarbeitet werden."
+    };
+  }
+}
+
+function parseVesselsCsv(csvText) {
+  const lines = csvText
+    .replace(/^\uFEFF/, "")
+    .split(/\r?\n/)
+    .filter(line => line.trim() !== "");
+
+  if (lines.length < 1) {
+    throw new Error("vessels.csv ist leer.");
+  }
+
+  const headers = lines[0]
+    .split(";")
+    .map(value => value.trim());
+
+  const requiredHeaders = [
+    "vessel_id",
+    "name",
+    "former_names"
+  ];
+
+  for (const requiredHeader of requiredHeaders) {
+    if (!headers.includes(requiredHeader)) {
+      throw new Error(
+        `vessels.csv: Spalte ${requiredHeader} fehlt.`
+      );
+    }
+  }
+
+  const vessels = [];
+
+  for (const line of lines.slice(1)) {
+    const values = line.split(";");
+    const row = {};
+
+    headers.forEach((header, index) => {
+      row[header] = (values[index] ?? "").trim();
+    });
+
+    if (
+      row.vessel_id === "" ||
+      row.name === ""
+    ) {
+      continue;
+    }
+
+    vessels.push(row);
+  }
+
+  return vessels;
+}
+
+function normalizeVesselName(value) {
+  return String(value)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, "");
 }
 
 function checkUploadKey(request, env) {
