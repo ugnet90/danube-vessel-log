@@ -1,0 +1,38 @@
+{
+  "schema_version": 6,
+  "submission_id": "SUB-20260719-160723-D3BF9E",
+  "uploaded_at": "2026-07-19T16:07:23.422Z",
+  "captured_at": "2026-07-19T16:07:15.000Z",
+  "location": {
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich"
+  },
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "Anna Stella",
+  "notes": "",
+  "photo_lat": 48.3079,
+  "photo_lon": 14.28531333333333,
+  "photos": [
+    {
+      "photo_id": "PHOTO-855B5EDFCFAF45289E8ABDA3DDB5405F",
+      "path": "inbox/photos/2026/07/PHOTO-855B5EDFCFAF45289E8ABDA3DDB5405F.jpg",
+      "filename": "PHOTO-855B5EDFCFAF45289E8ABDA3DDB5405F.jpg",
+      "original_filename": "IMG_1478.jpeg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 1529341
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "vessel_id": "",
+    "vessel_match": {
+      "status": "unmatched",
+      "matched_by": "",
+      "candidate_count": 0
+    },
+    "review_notes": ""
+  }
+}
