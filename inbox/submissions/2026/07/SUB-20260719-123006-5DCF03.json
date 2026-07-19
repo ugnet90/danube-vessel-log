@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "submission_id": "SUB-20260719-123006-5DCF03",
+  "uploaded_at": "2026-07-19T12:30:06.096Z",
+  "captured_at": "2026-07-19T12:29:34.000Z",
+  "location_id": "LOC-001",
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "TUI Skyla",
+  "notes": "",
+  "photos": [
+    {
+      "photo_id": "PHOTO-1EF67D03117E4C28872234D5D4DBD185",
+      "path": "inbox/photos/2026/07/PHOTO-1EF67D03117E4C28872234D5D4DBD185.jpg",
+      "filename": "PHOTO-1EF67D03117E4C28872234D5D4DBD185.jpg",
+      "original_filename": "IMG_1476.jpeg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 8303540
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "vessel_id": "",
+    "review_notes": ""
+  }
+}
