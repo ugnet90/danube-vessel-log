@@ -213,7 +213,11 @@ async function createPhotoSubmission(request, env) {
   const submissionId = createSubmissionId(uploadedAt);
   const photoId = createPhotoId();
 
-  const photoPath = `photos/${photoId}.jpg`;
+  const year = String(capturedAt.getUTCFullYear());
+  const month = String(capturedAt.getUTCMonth() + 1).padStart(2, "0");
+  
+  const photoPath =
+    `inbox/photos/${year}/${month}/${photoId}.jpg`;
   const submissionPath =
     createSubmissionPath(capturedAt, submissionId);
 
