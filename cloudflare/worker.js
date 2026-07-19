@@ -289,6 +289,8 @@ async function createPhotoSubmission(request, env) {
     );
   }
   
+  input.vessel_match = vesselMatchResult.match;
+  
   const submissionId = createSubmissionId(uploadedAt);
   const photoId = createPhotoId();
 
