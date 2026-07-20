@@ -1547,47 +1547,6 @@ async function readGitHubFile({
 
   try {
     content = decodeBase64Utf8(
-      String(result.data?.content ?? "").replace(/\n/g, "")
-    );
-  }
-  catch {
-    return {
-      ok: false,
-      status: 500,
-      error: "GitHub-Datei konnte nicht decodiert werden."
-    };
-  }
-
-  return {
-    ok: true,
-    status: result.status,
-    path,
-    sha: result.data?.sha ?? "",
-    content
-  };
-}
-
-async function readGitHubFile({
-  env,
-  path
-}) {
-  const url =
-    `https://api.github.com/repos/` +
-    `${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${path}`;
-
-  const result = await githubRequest(url, {
-    method: "GET",
-    headers: githubHeaders(env)
-  });
-
-  if (!result.ok) {
-    return result;
-  }
-
-  let content = "";
-
-  try {
-    content = decodeBase64Utf8(
       String(result.body?.content ?? "").replace(/\n/g, "")
     );
   }
