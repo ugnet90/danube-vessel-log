@@ -487,11 +487,11 @@ async function handleSubmissionReview(request, env) {
     }
 
     return jsonResponse({
-        ok: true,
-        submission_id: submissionId,
-        decision: review.decision,
-        path,
-        update
+      ok: true,
+      submission_id: submissionId,
+      decision: review.decision,
+      path,
+      commit: update.commit_sha ?? null
     });
 
 }
