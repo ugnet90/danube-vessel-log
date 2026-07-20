@@ -434,18 +434,13 @@ async function handleSubmissionReview(request, env) {
         }, 500);
     }
 
-    let review;
-
-    try {
-        review = validateReviewInput(input);
-    } catch (err) {
-        return jsonResponse({
-            ok: false,
-            error: err.message
-        }, 400);
+    const review = validateReviewInput(input, submission);
+    
+    if (!review.ok) {
+        return jsonResponse(review, 400);
     }
-
-    applyReview(submission, review);
+    
+    applyReview(submission, input, review);
 
     const update = await updateGitHubFile({
         env,
