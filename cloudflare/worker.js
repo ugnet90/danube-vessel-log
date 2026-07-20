@@ -1567,21 +1567,44 @@ async function readGitHubFile({
   };
 }
 
-async function githubRequest(url, options) {
-  const response = await fetch(url, options);
+async function readGitHubFile({
+  env,
+  path
+}) {
+  const url =
+    `https://api.github.com/repos/` +
+    `${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${path}`;
 
-  let body;
+  const result = await githubRequest(url, {
+    method: "GET",
+    headers: githubHeaders(env)
+  });
+
+  if (!result.ok) {
+    return result;
+  }
+
+  let content = "";
 
   try {
-    body = await response.json();
-  } catch {
-    body = await response.text();
+    content = decodeBase64Utf8(
+      String(result.body?.content ?? "").replace(/\n/g, "")
+    );
+  }
+  catch {
+    return {
+      ok: false,
+      status: 500,
+      error: "GitHub-Datei konnte nicht decodiert werden."
+    };
   }
 
   return {
-    ok: response.ok,
-    status: response.status,
-    body
+    ok: true,
+    status: result.status,
+    path,
+    sha: result.body?.sha ?? "",
+    content
   };
 }
 
