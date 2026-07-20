@@ -38,7 +38,22 @@ export default {
       request.method === "POST" &&
       url.pathname === "/submission-review"
     ) {
-      return handleSubmissionReview(request, env);
+      try {
+        return await handleSubmissionReview(request, env);
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error: "Unbehandelter Fehler im Submission-Review.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          stack:
+            error instanceof Error
+              ? error.stack
+              : null
+        }, 500);
+      }
     }
 
     return jsonResponse(
