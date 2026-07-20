@@ -388,49 +388,85 @@ async function createPhotoSubmission(request, env) {
 }
 
 async function handleSubmissionReview(request, env) {
-  const input = await request.json();
 
-  const submissionId =
-    typeof input.submission_id === "string"
-      ? input.submission_id.trim()
-      : "";
+    let input;
 
-  const path = buildSubmissionPath(submissionId);
+    try {
+        input = await request.json();
+    } catch {
+        return jsonResponse({
+            ok: false,
+            error: "Ungültiges JSON."
+        }, 400);
+    }
 
-  if (!path) {
+    const submissionId =
+        typeof input.submission_id === "string"
+            ? input.submission_id.trim()
+            : "";
+
+    const path = buildSubmissionPath(submissionId);
+
+    if (!path) {
+        return jsonResponse({
+            ok: false,
+            error: "Ungültige submission_id."
+        }, 400);
+    }
+
+    const file = await readGitHubFile({
+        env,
+        path
+    });
+
+    if (!file.ok) {
+        return jsonResponse(file, file.status ?? 500);
+    }
+
+    let submission;
+
+    try {
+        submission = JSON.parse(file.content);
+    } catch {
+        return jsonResponse({
+            ok: false,
+            error: "Submission enthält ungültiges JSON."
+        }, 500);
+    }
+
+    let review;
+
+    try {
+        review = validateReviewInput(input);
+    } catch (err) {
+        return jsonResponse({
+            ok: false,
+            error: err.message
+        }, 400);
+    }
+
+    applyReview(submission, review);
+
+    const update = await updateGitHubFile({
+        env,
+        path,
+        content: JSON.stringify(submission, null, 2),
+        sha: file.sha,
+        message: `Review ${submissionId}: ${review.decision}`
+    });
+
+    if (!update.ok) {
+        return jsonResponse(update, update.status ?? 500);
+    }
+
     return jsonResponse({
-      ok: false,
-      error: "Ungültige submission_id."
-    }, 400);
-  }
+        ok: true,
+        submission_id: submissionId,
+        decision: review.decision,
+        path,
+        commit: update.commit_sha ?? null
+    });
 
-  const file = await readGitHubFile({
-    env,
-    path
-  });
-
-  if (!file.ok) {
-    return jsonResponse(file, file.status ?? 500);
-  }
-
-  let submission;
-
-  try {
-    submission = JSON.parse(file.content);
-  }
-  catch {
-    return jsonResponse({
-      ok: false,
-      error: "Submission enthält ungültiges JSON."
-    }, 500);
-  }
-
-  return jsonResponse({
-    ok: true,
-    path,
-    sha: file.sha,
-    submission
-  });
 }
 
 function buildSubmission({
