@@ -487,7 +487,6 @@ function buildSubmission({
       review: {
         reviewed: false,
         reviewed_at: "",
-        reviewed_by: "",
         vessel_id: "",
         decision: "",
         notes: ""
@@ -571,11 +570,6 @@ function validateReviewInput(input, submission) {
 }
 
 function applyReview(submission, input, validatedReview) {
-  const reviewedBy =
-    typeof input.reviewed_by === "string"
-      ? input.reviewed_by.trim()
-      : "";
-
   const notes =
     typeof input.notes === "string"
       ? input.notes.trim()
@@ -589,7 +583,6 @@ function applyReview(submission, input, validatedReview) {
   submission.workflow.review = {
     reviewed: true,
     reviewed_at: new Date().toISOString(),
-    reviewed_by: reviewedBy,
     vessel_id: validatedReview.vessel_id,
     decision: validatedReview.decision,
     notes
