@@ -1419,6 +1419,17 @@ async function updateGitHubFile({
   });
 }
 
+function buildSubmissionPath(submissionId) {
+  if (!/^SUB-\d{8}-\d{6}-[A-F0-9]{6}$/i.test(submissionId)) {
+    return null;
+  }
+
+  const year = submissionId.substring(4, 8);
+  const month = submissionId.substring(8, 10);
+
+  return `inbox/submissions/${year}/${month}/${submissionId}.json`;
+}
+
 async function readGitHubFile({
   env,
   path
