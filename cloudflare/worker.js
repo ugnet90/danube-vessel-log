@@ -6,6 +6,13 @@ const VESSELS_PATH = "data/vessels.csv";
 
 export default {
   async fetch(request, env) {
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders()
+      });
+    }
+    
     const url = new URL(request.url);
 
     if (request.method === "GET" && url.pathname === "/") {
@@ -1613,12 +1620,21 @@ function githubErrorResponse(result) {
   );
 }
 
+function corsHeaders() {
+  return {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, X-API-Key"
+  };
+}
+
 function jsonResponse(data, status = 200) {
   return new Response(JSON.stringify(data, null, 2), {
     status,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      "Cache-Control": "no-store"
+      "Cache-Control": "no-store",
+      ...corsHeaders()
     }
   });
 }
