@@ -1,0 +1,51 @@
+{
+  "schema_version": 8,
+  "submission_id": "SUB-20260720-131922-091803",
+  "uploaded_at": "2026-07-20T13:19:22.825Z",
+  "captured_at": "2026-07-20T13:19:05.000Z",
+  "location": {
+    "id": "LOC-001",
+    "name": "",
+    "municipality": "",
+    "country": ""
+  },
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "Testschiff",
+  "notes": "",
+  "photo_lat": 0,
+  "photo_lon": 0,
+  "photos": [
+    {
+      "photo_id": "PHOTO-C579263EF9204430B25F04F10726FA48",
+      "path": "inbox/photos/2026/07/PHOTO-C579263EF9204430B25F04F10726FA48.jpg",
+      "filename": "PHOTO-C579263EF9204430B25F04F10726FA48.jpg",
+      "original_filename": "IMG_1511.jpeg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 6176554
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "ambiguous",
+        "vessel_id": "",
+        "matched_by": "name",
+        "candidate_count": 2,
+        "candidate_ids": [
+          "VES-000001",
+          "VES-000002"
+        ]
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "reviewed_by": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
