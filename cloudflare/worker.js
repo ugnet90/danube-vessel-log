@@ -388,9 +388,48 @@ async function createPhotoSubmission(request, env) {
 }
 
 async function handleSubmissionReview(request, env) {
+  const input = await request.json();
+
+  const submissionId =
+    typeof input.submission_id === "string"
+      ? input.submission_id.trim()
+      : "";
+
+  const path = buildSubmissionPath(submissionId);
+
+  if (!path) {
+    return jsonResponse({
+      ok: false,
+      error: "Ungültige submission_id."
+    }, 400);
+  }
+
+  const file = await readGitHubFile({
+    env,
+    path
+  });
+
+  if (!file.ok) {
+    return jsonResponse(file, file.status ?? 500);
+  }
+
+  let submission;
+
+  try {
+    submission = JSON.parse(file.content);
+  }
+  catch {
+    return jsonResponse({
+      ok: false,
+      error: "Submission enthält ungültiges JSON."
+    }, 500);
+  }
+
   return jsonResponse({
     ok: true,
-    message: "submission-review endpoint reached"
+    path,
+    sha: file.sha,
+    submission
   });
 }
 
