@@ -27,6 +27,13 @@ export default {
       return createPhotoSubmission(request, env);
     }
 
+    if (
+      request.method === "POST" &&
+      url.pathname === "/submission-review"
+    ) {
+      return handleSubmissionReview(request, env);
+    }
+
     return jsonResponse(
       {
         ok: false,
@@ -480,6 +487,108 @@ function buildSubmission({
       }
     }
   };
+}
+
+function validateReviewInput(input, submission) {
+  const decision =
+    typeof input.decision === "string"
+      ? input.decision.trim()
+      : "";
+
+  const vesselId =
+    typeof input.vessel_id === "string"
+      ? input.vessel_id.trim()
+      : "";
+
+  const allowedDecisions = [
+    "confirmed",
+    "corrected",
+    "rejected"
+  ];
+
+  if (!allowedDecisions.includes(decision)) {
+    return {
+      ok: false,
+      error: "Ungültige Review-Entscheidung."
+    };
+  }
+
+  if (decision === "confirmed") {
+    const automaticVesselId =
+      submission.workflow?.auto?.vessel_match?.vessel_id ?? "";
+
+    if (!automaticVesselId) {
+      return {
+        ok: false,
+        error:
+          "Eine automatische Zuordnung kann nicht bestätigt werden, weil kein eindeutiger Treffer vorliegt."
+      };
+    }
+
+    if (vesselId && vesselId !== automaticVesselId) {
+      return {
+        ok: false,
+        error:
+          "Bei confirmed muss die automatische vessel_id verwendet werden."
+      };
+    }
+
+    return {
+      ok: true,
+      decision,
+      vessel_id: automaticVesselId
+    };
+  }
+
+  if (decision === "corrected") {
+    if (!/^VES-\d{6}$/.test(vesselId)) {
+      return {
+        ok: false,
+        error:
+          "Bei corrected ist eine gültige vessel_id erforderlich."
+      };
+    }
+
+    return {
+      ok: true,
+      decision,
+      vessel_id: vesselId
+    };
+  }
+
+  return {
+    ok: true,
+    decision,
+    vessel_id: ""
+  };
+}
+
+function applyReview(submission, input, validatedReview) {
+  const reviewedBy =
+    typeof input.reviewed_by === "string"
+      ? input.reviewed_by.trim()
+      : "";
+
+  const notes =
+    typeof input.notes === "string"
+      ? input.notes.trim()
+      : "";
+
+  submission.workflow.status =
+    validatedReview.decision === "rejected"
+      ? "rejected"
+      : "reviewed";
+
+  submission.workflow.review = {
+    reviewed: true,
+    reviewed_at: new Date().toISOString(),
+    reviewed_by: reviewedBy,
+    vessel_id: validatedReview.vessel_id,
+    decision: validatedReview.decision,
+    notes
+  };
+
+  return submission;
 }
 
 function validateMetadata(input) {
