@@ -491,7 +491,7 @@ async function handleSubmissionReview(request, env) {
         submission_id: submissionId,
         decision: review.decision,
         path,
-        commit: update.commit_sha ?? null
+        update
     });
 
 }
