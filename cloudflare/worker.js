@@ -1040,21 +1040,39 @@ function decodeBase64Utf8(value) {
 }
 
 async function resolveVessel(input, env) {
+
   const enteredName =
+
     typeof input.vessel_name_entered === "string"
+
       ? input.vessel_name_entered.trim()
+
       : "";
 
+  const normalizedEnteredName =
+
+    normalizeVesselName(enteredName);
+
   if (!enteredName) {
+
     return {
+
       ok: true,
+
       match: {
+
         status: "unmatched",
+
         vessel_id: "",
+
         matched_by: "",
+
         matched_value: "",
+
         normalized_input: normalizedEnteredName,
+
         candidate_count: 0,
+
         candidate_ids: []
       }
     };
@@ -1519,7 +1537,7 @@ async function updateGitHubFile({
     `https://api.github.com/repos/` +
     `${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${path}`;
 
-  return githubRequest(url, {
+  const result = await githubRequest(url, {
     method: "PUT",
     headers: githubHeaders(env),
     body: JSON.stringify({
@@ -1528,6 +1546,15 @@ async function updateGitHubFile({
       sha
     })
   });
+
+  if (!result.ok) {
+    return result;
+  }
+
+  return {
+    ...result,
+    commit_sha: result.body?.commit?.sha ?? null
+  };
 }
 
 function buildSubmissionPath(submissionId) {
