@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Submission-Review testen</title>
+
+  <link
+    rel="stylesheet"
+    href="css/common.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/review_test.css"
+  >
+</head>
+
+<body>
+  <main class="page-container">
+    <section class="card">
+      <header class="page-header">
+        <h1>Submission-Review testen</h1>
+
+        <p>
+          Diese Seite sendet einen Review direkt an den
+          Worker-Endpunkt
+          <code>/submission-review</code>.
+        </p>
+      </header>
+
+      <form id="reviewForm">
+        <div class="form-field">
+          <label for="workerUrl">
+            Worker-URL
+          </label>
+
+          <input
+            id="workerUrl"
+            name="workerUrl"
+            type="url"
+            inputmode="url"
+            placeholder="https://dein-worker.workers.dev"
+            autocomplete="url"
+            required
+          >
+
+          <span class="field-hint">
+            Nur die Basis-URL eingeben, ohne
+            <code>/submission-review</code>.
+          </span>
+        </div>
+
+        <div class="form-field">
+          <label for="apiKey">
+            API-Schlüssel
+          </label>
+
+          <input
+            id="apiKey"
+            name="apiKey"
+            type="password"
+            placeholder="Optional"
+            autocomplete="off"
+          >
+
+          <span class="field-hint">
+            Nur ausfüllen, wenn dein Worker einen
+            <code>X-API-Key</code> erwartet.
+            Der Schlüssel wird nicht gespeichert.
+          </span>
+        </div>
+
+        <div class="form-field">
+          <label for="submissionId">
+            Submission-ID
+          </label>
+
+          <input
+            id="submissionId"
+            name="submissionId"
+            type="text"
+            value="SUB-20260720-134418-4C746B"
+            pattern="SUB-[0-9]{8}-[0-9]{6}-[A-Za-z0-9]+"
+            autocomplete="off"
+            required
+          >
+
+          <span class="field-hint">
+            Beispiel:
+            <code>SUB-20260720-134418-4C746B</code>
+          </span>
+        </div>
+
+        <div class="form-field">
+          <label for="decision">
+            Entscheidung
+          </label>
+
+          <select
+            id="decision"
+            name="decision"
+            required
+          >
+            <option value="confirmed">
+              Automatische Zuordnung bestätigen
+            </option>
+
+            <option value="corrected">
+              Zuordnung korrigieren
+            </option>
+
+            <option value="rejected">
+              Submission ablehnen
+            </option>
+          </select>
+        </div>
+
+        <div
+          id="vesselField"
+          class="form-field hidden"
+        >
+          <label for="vesselId">
+            Korrigierte Vessel-ID
+          </label>
+
+          <input
+            id="vesselId"
+            name="vesselId"
+            type="text"
+            placeholder="VES-000001"
+            pattern="VES-[0-9]{6}"
+            autocomplete="off"
+          >
+
+          <span class="field-hint">
+            Dieses Feld ist nur bei einer Korrektur erforderlich.
+          </span>
+        </div>
+
+        <div class="form-field">
+          <label for="notes">
+            Anmerkungen
+          </label>
+
+          <textarea
+            id="notes"
+            name="notes"
+            placeholder="Optional"
+          ></textarea>
+        </div>
+
+        <button
+          id="submitButton"
+          class="primary-button"
+          type="submit"
+        >
+          Review senden
+        </button>
+      </form>
+
+      <section
+        id="result"
+        class="result-box hidden"
+        aria-live="polite"
+      >
+        <strong id="resultTitle"></strong>
+
+        <div id="resultText"></div>
+
+        <pre
+          id="responseJson"
+          class="response-json hidden"
+        ></pre>
+      </section>
+    </section>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/review_test.js"></script>
+</body>
+</html>
