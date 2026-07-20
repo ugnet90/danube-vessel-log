@@ -1582,6 +1582,24 @@ async function readGitHubFile({
   };
 }
 
+async function githubRequest(url, options) {
+  const response = await fetch(url, options);
+
+  let body;
+
+  try {
+    body = await response.json();
+  } catch {
+    body = await response.text();
+  }
+
+  return {
+    ok: response.ok,
+    status: response.status,
+    body
+  };
+}
+
 function githubHeaders(env) {
   return {
     Authorization: `Bearer ${env.GITHUB_TOKEN}`,
