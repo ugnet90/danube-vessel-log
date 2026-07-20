@@ -431,14 +431,24 @@ async function handleSubmissionReview(request, env) {
     }
 
     let submission;
-
+    
     try {
-        submission = JSON.parse(file.content);
-    } catch {
-        return jsonResponse({
-            ok: false,
-            error: "Submission enthält ungültiges JSON."
-        }, 500);
+      const normalizedContent =
+        String(file.content ?? "").replace(/^\uFEFF/, "");
+    
+      submission = JSON.parse(normalizedContent);
+    } catch (error) {
+      return jsonResponse({
+        ok: false,
+        error: "Submission enthält ungültiges JSON.",
+        parse_error:
+          error instanceof Error
+            ? error.message
+            : String(error),
+        content_length: String(file.content ?? "").length,
+        content_start: String(file.content ?? "").slice(0, 300),
+        content_end: String(file.content ?? "").slice(-100)
+      }, 500);
     }
 
     const review = validateReviewInput(input, submission);
