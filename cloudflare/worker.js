@@ -649,6 +649,22 @@ function applyReview(submission, input, validatedReview) {
     validatedReview.decision === "rejected"
       ? "rejected"
       : "reviewed";
+      
+  // bisherigen Review archivieren
+  if (submission.workflow.review?.reviewed) {
+  
+    if (!Array.isArray(submission.workflow.review_history)) {
+      submission.workflow.review_history = [];
+    }
+  
+    submission.workflow.review_history.push({
+      reviewed_at: submission.workflow.review.reviewed_at,
+      decision: submission.workflow.review.decision,
+      vessel_id: submission.workflow.review.vessel_id,
+      notes: submission.workflow.review.notes
+    });
+  
+  }
 
   submission.workflow.review = {
     reviewed: true,
