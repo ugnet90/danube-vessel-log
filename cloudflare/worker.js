@@ -1084,7 +1084,6 @@ async function resolveVessel(input, env) {
     return vesselsResult;
   }
 
-  const normalizedEnteredName = normalizeVesselName(enteredName);
   const matches = [];
 
   for (const vessel of vesselsResult.vessels) {
