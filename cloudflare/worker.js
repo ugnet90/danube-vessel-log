@@ -1583,17 +1583,6 @@ function encodeBase64Utf8(value) {
   return arrayBufferToBase64(bytes.buffer);
 }
 
-function decodeBase64Utf8(value) {
-  const binary = atob(value);
-
-  const bytes = Uint8Array.from(
-    binary,
-    character => character.charCodeAt(0)
-  );
-
-  return new TextDecoder().decode(bytes);
-}
-
 function arrayBufferToBase64(buffer) {
   const bytes = new Uint8Array(buffer);
   let binary = "";
