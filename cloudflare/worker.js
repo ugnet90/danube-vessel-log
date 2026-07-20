@@ -387,6 +387,13 @@ async function createPhotoSubmission(request, env) {
   );
 }
 
+async function handleSubmissionReview(request, env) {
+  return jsonResponse({
+    ok: true,
+    message: "submission-review endpoint reached"
+  });
+}
+
 function buildSubmission({
   submissionId,
   uploadedAt,
@@ -1390,6 +1397,69 @@ async function createGitHubFile({
   });
 }
 
+async function updateGitHubFile({
+  env,
+  path,
+  content,
+  message,
+  sha
+}) {
+  const url =
+    `https://api.github.com/repos/` +
+    `${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${path}`;
+
+  return githubRequest(url, {
+    method: "PUT",
+    headers: githubHeaders(env),
+    body: JSON.stringify({
+      message,
+      content: encodeBase64Utf8(content),
+      sha
+    })
+  });
+}
+
+async function readGitHubFile({
+  env,
+  path
+}) {
+  const url =
+    `https://api.github.com/repos/` +
+    `${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${path}`;
+
+  const result = await githubRequest(url, {
+    method: "GET",
+    headers: githubHeaders(env)
+  });
+
+  if (!result.ok) {
+    return result;
+  }
+
+  let content = "";
+
+  try {
+    content = decodeBase64Utf8(
+      String(result.data?.content ?? "").replace(/\n/g, "")
+    );
+  }
+  catch {
+    return {
+      ok: false,
+      status: 500,
+      error: "GitHub-Datei konnte nicht decodiert werden."
+    };
+  }
+
+  return {
+    ok: true,
+    status: result.status,
+    path,
+    sha: result.data?.sha ?? "",
+    content
+  };
+}
+
 async function githubRequest(url, options) {
   const response = await fetch(url, options);
 
@@ -1421,6 +1491,17 @@ function githubHeaders(env) {
 function encodeBase64Utf8(value) {
   const bytes = new TextEncoder().encode(value);
   return arrayBufferToBase64(bytes.buffer);
+}
+
+function decodeBase64Utf8(value) {
+  const binary = atob(value);
+
+  const bytes = Uint8Array.from(
+    binary,
+    character => character.charCodeAt(0)
+  );
+
+  return new TextDecoder().decode(bytes);
 }
 
 function arrayBufferToBase64(buffer) {
