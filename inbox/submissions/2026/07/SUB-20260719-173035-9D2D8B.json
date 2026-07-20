@@ -40,7 +40,7 @@
     },
     "review": {
       "reviewed": true,
-      "reviewed_at": "2026-07-20T20:26:22.421Z",
+      "reviewed_at": "2026-07-20T20:35:34.358Z",
       "vessel_id": "VES-000001",
       "decision": "confirmed",
       "notes": ""
@@ -48,6 +48,12 @@
     "review_history": [
       {
         "reviewed_at": "2026-07-20T20:11:46.018Z",
+        "decision": "confirmed",
+        "vessel_id": "VES-000001",
+        "notes": ""
+      },
+      {
+        "reviewed_at": "2026-07-20T20:26:22.421Z",
         "decision": "confirmed",
         "vessel_id": "VES-000001",
         "notes": ""
