@@ -91,6 +91,12 @@ async function createJsonSubmission(request, env) {
   input.location_country =
     locationResult.location?.country ?? "";
 
+  input.location_status =
+    locationResult.location ? "matched" : "unknown";
+  
+  input.location_matched_by =
+    locationResult.matched_by ?? "";  
+
   const vesselMatchResult = await resolveVessel(input, env);
   
   if (!vesselMatchResult.ok) {
@@ -277,6 +283,12 @@ async function createPhotoSubmission(request, env) {
   input.location_country =
     locationResult.location?.country ?? "";
 
+  input.location_status =
+    locationResult.location ? "matched" : "unknown";
+  
+  input.location_matched_by =
+    locationResult.matched_by ?? "";  
+
   const vesselMatchResult = await resolveVessel(input, env);
   
   if (!vesselMatchResult.ok) {
@@ -376,12 +388,25 @@ function buildSubmission({
   photos
 }) {
   return {
-    schema_version: 9,
+    schema_version: 10,
     submission_id: submissionId,
     uploaded_at: uploadedAt.toISOString(),
     captured_at: capturedAt.toISOString(),
     location: {
-      id: input.location_id,
+      status:
+        input.location_status === "matched"
+          ? "matched"
+          : "unknown",
+    
+      matched_by:
+        typeof input.location_matched_by === "string"
+          ? input.location_matched_by
+          : "",
+    
+      id:
+        typeof input.location_id === "string"
+          ? input.location_id
+          : "",
     
       name:
         typeof input.location_name === "string"
@@ -408,14 +433,10 @@ function buildSubmission({
       typeof input.notes === "string"
         ? input.notes
         : "",
-    photo_lat:
-      input.photo_lat !== undefined
-        ? Number(String(input.photo_lat).replace(",", "."))
-        : null,
-    photo_lon:
-      input.photo_lon !== undefined
-        ? Number(String(input.photo_lon).replace(",", "."))
-        : null,
+    
+    photo_lat: parseCoordinate(input.photo_lat),
+    
+    photo_lon: parseCoordinate(input.photo_lon),
     
     photos,
     
@@ -538,29 +559,51 @@ async function resolveLocation(input, env) {
   const latitude = parseCoordinate(input.photo_lat);
   const longitude = parseCoordinate(input.photo_lon);
 
-  if (latitude === null || longitude === null) {
-    if (
-      typeof input.location_id === "string" &&
-      /^LOC-\d{3,}$/.test(input.location_id)
-    ) {
-      return {
-        ok: true,
-        location: {
-          location_id: input.location_id
-        }
-      };
-    }
-
-    return {
-      ok: true,
-      location: null
-    };
-  }
-
   const locationsResult = await loadLocations(env);
 
   if (!locationsResult.ok) {
     return locationsResult;
+  }
+
+  /*
+   * Keine Fotokoordinaten vorhanden:
+   * Standort über die mitgelieferte location_id bestimmen.
+   */
+  if (latitude === null || longitude === null) {
+    const enteredLocationId =
+      typeof input.location_id === "string"
+        ? input.location_id.trim()
+        : "";
+
+    if (!/^LOC-\d{3,}$/.test(enteredLocationId)) {
+      return {
+        ok: true,
+        location: null,
+        matched_by: ""
+      };
+    }
+
+    const locationById =
+      locationsResult.locations.find(
+        location => location.location_id === enteredLocationId
+      ) ?? null;
+
+    return {
+      ok: true,
+      location: locationById,
+      matched_by: locationById ? "location_id" : ""
+    };
+  }
+
+  /*
+   * Koordinaten 0/0 gelten in diesem Projekt als ungültig.
+   */
+  if (latitude === 0 && longitude === 0) {
+    return {
+      ok: true,
+      location: null,
+      matched_by: ""
+    };
   }
 
   let bestMatch = null;
@@ -589,7 +632,8 @@ async function resolveLocation(input, env) {
 
   return {
     ok: true,
-    location: bestMatch
+    location: bestMatch,
+    matched_by: bestMatch ? "coordinates" : ""
   };
 }
 
