@@ -376,7 +376,7 @@ function buildSubmission({
   photos
 }) {
   return {
-    schema_version: 8,
+    schema_version: 9,
     submission_id: submissionId,
     uploaded_at: uploadedAt.toISOString(),
     captured_at: capturedAt.toISOString(),
@@ -439,7 +439,13 @@ function buildSubmission({
           candidate_ids:
             Array.isArray(input.vessel_match?.candidate_ids)
               ? input.vessel_match.candidate_ids
-              : []
+              : [],
+          
+          matched_value:
+            input.vessel_match?.matched_value ?? "",
+          
+          normalized_input:
+            input.vessel_match?.normalized_input ?? ""
         }
       },
     
@@ -775,6 +781,8 @@ async function resolveVessel(input, env) {
         status: "unmatched",
         vessel_id: "",
         matched_by: "",
+        matched_value: "",
+        normalized_input: normalizedEnteredName,
         candidate_count: 0,
         candidate_ids: []
       }
@@ -822,9 +830,20 @@ async function resolveVessel(input, env) {
       ok: true,
       match: {
         status: "matched",
+      
         vessel_id: matches[0].vessel.vessel_id,
+      
         matched_by: matches[0].matched_by,
+      
+        matched_value:
+          matches[0].matched_by === "name"
+            ? matches[0].vessel.name
+            : enteredName,
+      
+        normalized_input: normalizedEnteredName,
+      
         candidate_count: 1,
+      
         candidate_ids: [
           matches[0].vessel.vessel_id
         ]
@@ -837,9 +856,17 @@ async function resolveVessel(input, env) {
       ok: true,
       match: {
         status: "ambiguous",
+      
         vessel_id: "",
+      
         matched_by: "name",
+      
+        matched_value: enteredName,
+      
+        normalized_input: normalizedEnteredName,
+      
         candidate_count: matches.length,
+      
         candidate_ids: matches.map(
           match => match.vessel.vessel_id
         )
@@ -853,6 +880,8 @@ async function resolveVessel(input, env) {
       status: "unmatched",
       vessel_id: "",
       matched_by: "",
+      matched_value: "",
+      normalized_input: "",
       candidate_count: 0,
       candidate_ids: []
     }
