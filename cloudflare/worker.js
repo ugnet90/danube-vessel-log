@@ -1,5 +1,6 @@
 const API_VERSION = "2022-11-28";
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024; // 8 MB
+const MAX_PHOTOS_PER_SUBMISSION = 10;
 const BRANCH = "main";
 const LOCATIONS_PATH = "data/locations.csv";
 const VESSELS_PATH = "data/vessels.csv";
@@ -196,17 +197,30 @@ async function createJsonSubmission(request, env) {
  * Neuer Endpunkt:
  * ein JPEG plus Metadaten in einer multipart/form-data-Anfrage.
  */
+/**
+ * Speichert ein oder mehrere JPEG-Fotos zusammen mit den Metadaten
+ * als eine gemeinsame Submission.
+ *
+ * Im Multipart-Formular können mehrere Felder mit dem Namen
+ * "photo" enthalten sein.
+ */
 async function createPhotoSubmission(request, env) {
   const authError = checkUploadKey(request, env);
   if (authError) return authError;
 
-  const contentType = request.headers.get("Content-Type") ?? "";
+  const contentType =
+    request.headers.get("Content-Type") ?? "";
 
-  if (!contentType.toLowerCase().includes("multipart/form-data")) {
+  if (
+    !contentType
+      .toLowerCase()
+      .includes("multipart/form-data")
+  ) {
     return jsonResponse(
       {
         ok: false,
-        error: "Content-Type muss multipart/form-data sein."
+        error:
+          "Content-Type muss multipart/form-data sein."
       },
       415
     );
@@ -220,14 +234,18 @@ async function createPhotoSubmission(request, env) {
     return jsonResponse(
       {
         ok: false,
-        error: "Die Formulardaten konnten nicht gelesen werden."
+        error:
+          "Die Formulardaten konnten nicht gelesen werden."
       },
       400
     );
   }
 
   const metadataRaw = form.get("metadata");
-  const photo = form.get("photo");
+
+  const photos = form
+    .getAll("photo")
+    .filter(value => value instanceof File);
 
   if (typeof metadataRaw !== "string") {
     return jsonResponse(
@@ -239,13 +257,27 @@ async function createPhotoSubmission(request, env) {
     );
   }
 
-  if (!(photo instanceof File)) {
+  if (photos.length === 0) {
     return jsonResponse(
       {
         ok: false,
-        error: "Das Formularfeld photo fehlt oder ist keine Datei."
+        error:
+          "Es wurde kein gültiges Formularfeld photo übermittelt."
       },
       400
+    );
+  }
+
+  if (photos.length > MAX_PHOTOS_PER_SUBMISSION) {
+    return jsonResponse(
+      {
+        ok: false,
+        error:
+          `Pro Submission sind höchstens ` +
+          `${MAX_PHOTOS_PER_SUBMISSION} Fotos erlaubt.`,
+        photo_count: photos.length
+      },
+      413
     );
   }
 
@@ -257,56 +289,78 @@ async function createPhotoSubmission(request, env) {
     return jsonResponse(
       {
         ok: false,
-        error: "metadata enthält kein gültiges JSON."
+        error:
+          "metadata enthält kein gültiges JSON."
       },
       400
     );
   }
 
   const validationError = validateMetadata(input);
+
   if (validationError) {
-    return jsonResponse({ ok: false, error: validationError }, 400);
-  }
-
-  if (
-    photo.type !== "image/jpeg" &&
-    photo.type !== "image/jpg"
-  ) {
     return jsonResponse(
       {
         ok: false,
-        error: `Nur JPEG ist erlaubt; empfangen wurde ${photo.type || "unbekannt"}.`
-      },
-      415
-    );
-  }
-
-  if (photo.size < 1) {
-    return jsonResponse(
-      {
-        ok: false,
-        error: "Die Bilddatei ist leer."
+        error: validationError
       },
       400
     );
   }
 
-  if (photo.size > MAX_PHOTO_BYTES) {
-    return jsonResponse(
-      {
-        ok: false,
-        error: "Das Foto ist größer als 8 MB.",
-        size_bytes: photo.size
-      },
-      413
-    );
+  /*
+   * Alle Fotos prüfen, bevor GitHub-Dateien erzeugt werden.
+   */
+  for (let index = 0; index < photos.length; index += 1) {
+    const photo = photos[index];
+    const photoNumber = index + 1;
+
+    if (
+      photo.type !== "image/jpeg" &&
+      photo.type !== "image/jpg"
+    ) {
+      return jsonResponse(
+        {
+          ok: false,
+          error:
+            `Foto ${photoNumber}: Nur JPEG ist erlaubt; ` +
+            `empfangen wurde ${photo.type || "unbekannt"}.`
+        },
+        415
+      );
+    }
+
+    if (photo.size < 1) {
+      return jsonResponse(
+        {
+          ok: false,
+          error:
+            `Foto ${photoNumber}: Die Bilddatei ist leer.`
+        },
+        400
+      );
+    }
+
+    if (photo.size > MAX_PHOTO_BYTES) {
+      return jsonResponse(
+        {
+          ok: false,
+          error:
+            `Foto ${photoNumber} ist größer als 8 MB.`,
+          photo_number: photoNumber,
+          size_bytes: photo.size
+        },
+        413
+      );
+    }
   }
 
   const uploadedAt = new Date();
   const capturedAt = new Date(input.captured_at);
 
-  const locationResult = await resolveLocation(input, env);
-  
+  const locationResult =
+    await resolveLocation(input, env);
+
   if (!locationResult.ok) {
     return jsonResponse(
       {
@@ -316,28 +370,32 @@ async function createPhotoSubmission(request, env) {
       502
     );
   }
-  
-  input.location_id = locationResult.location?.location_id ?? "";  
+
+  input.location_id =
+    locationResult.location?.location_id ?? "";
 
   input.location_name =
-  locationResult.location?.public_name ??
-  locationResult.location?.name ??
-  "";
-  
+    locationResult.location?.public_name ??
+    locationResult.location?.name ??
+    "";
+
   input.location_municipality =
     locationResult.location?.municipality ?? "";
-  
+
   input.location_country =
     locationResult.location?.country ?? "";
 
   input.location_status =
-    locationResult.location ? "matched" : "unknown";
-  
-  input.location_matched_by =
-    locationResult.matched_by ?? "";  
+    locationResult.location
+      ? "matched"
+      : "unknown";
 
-  const vesselMatchResult = await resolveVessel(input, env);
-  
+  input.location_matched_by =
+    locationResult.matched_by ?? "";
+
+  const vesselMatchResult =
+    await resolveVessel(input, env);
+
   if (!vesselMatchResult.ok) {
     return jsonResponse(
       {
@@ -347,64 +405,114 @@ async function createPhotoSubmission(request, env) {
       502
     );
   }
-  
+
   input.vessel_match = vesselMatchResult.match;
-  
-  const submissionId = createSubmissionId(uploadedAt);
-  const photoId = createPhotoId();
 
-  const year = String(capturedAt.getUTCFullYear());
-  const month = String(capturedAt.getUTCMonth() + 1).padStart(2, "0");
-  
-  const photoPath =
-    `inbox/photos/${year}/${month}/${photoId}.jpg`;
+  const submissionId =
+    createSubmissionId(uploadedAt);
+
+  const year =
+    String(capturedAt.getUTCFullYear());
+
+  const month =
+    String(capturedAt.getUTCMonth() + 1)
+      .padStart(2, "0");
+
   const submissionPath =
-    createSubmissionPath(capturedAt, submissionId);
+    createSubmissionPath(
+      capturedAt,
+      submissionId
+    );
 
-  const photoBytes = await photo.arrayBuffer();
+  const photoRecords = [];
+  const commitFiles = [];
 
-  const photoRecord = {
-    photo_id: photoId,
-    path: photoPath,
-    filename: `${photoId}.jpg`,
-    original_filename:
+  const originalFilenames =
+    Array.isArray(input.original_filenames)
+      ? input.original_filenames
+      : [];
+
+  /*
+   * Für jedes Foto:
+   * - eigene Photo-ID
+   * - eigener GitHub-Pfad
+   * - eigener Datensatz in submission.photos
+   * - eigener Blob im atomaren Commit
+   */
+  for (let index = 0; index < photos.length; index += 1) {
+    const photo = photos[index];
+    const photoId = createPhotoId();
+
+    const photoPath =
+      `inbox/photos/${year}/${month}/${photoId}.jpg`;
+
+    const photoBytes =
+      await photo.arrayBuffer();
+
+    const suppliedOriginalFilename =
+      typeof originalFilenames[index] === "string"
+        ? originalFilenames[index].trim()
+        : "";
+
+    const legacyOriginalFilename =
+      photos.length === 1 &&
       typeof input.original_filename === "string"
-        ? input.original_filename
-        : photo.name || "",
-    mime_type: "image/jpeg",
-    size_bytes: photoBytes.byteLength
-  };
+        ? input.original_filename.trim()
+        : "";
+
+    const originalFilename =
+      suppliedOriginalFilename ||
+      legacyOriginalFilename ||
+      photo.name ||
+      "";
+
+    photoRecords.push({
+      photo_id: photoId,
+      path: photoPath,
+      filename: `${photoId}.jpg`,
+      original_filename: originalFilename,
+      mime_type: "image/jpeg",
+      size_bytes: photoBytes.byteLength,
+      sequence: index + 1
+    });
+
+    commitFiles.push({
+      path: photoPath,
+      content: arrayBufferToBase64(photoBytes),
+      encoding: "base64"
+    });
+  }
 
   const submission = buildSubmission({
     submissionId,
     uploadedAt,
     capturedAt,
     input,
-    photos: [photoRecord]
+    photos: photoRecords
   });
 
-  const commitResult = await createAtomicGitHubCommit({
-    env,
-    message: `Neue Schiffssichtung ${submissionId}`,
-    files: [
-      {
-        path: photoPath,
-        content: arrayBufferToBase64(photoBytes),
-        encoding: "base64"
-      },
-      {
-        path: submissionPath,
-        content: JSON.stringify(submission, null, 2) + "\n",
-        encoding: "utf-8"
-      }
-    ]
+  commitFiles.push({
+    path: submissionPath,
+    content:
+      JSON.stringify(submission, null, 2) + "\n",
+    encoding: "utf-8"
   });
+
+  const commitResult =
+    await createAtomicGitHubCommit({
+      env,
+      message:
+        `Neue Schiffssichtung ${submissionId} ` +
+        `mit ${photoRecords.length} Foto(s)`,
+      files: commitFiles
+    });
 
   if (!commitResult.ok) {
     return jsonResponse(
       {
         ok: false,
-        error: "Foto und Submission konnten nicht gespeichert werden.",
+        error:
+          "Fotos und Submission konnten nicht gespeichert werden.",
         github_step: commitResult.step,
         github_status: commitResult.status,
         github_response: commitResult.body
@@ -413,14 +521,38 @@ async function createPhotoSubmission(request, env) {
     );
   }
 
+  /*
+   * photo_id und photo_path bleiben für bestehende Clients erhalten.
+   * Sie enthalten das jeweils erste Foto.
+   */
   return jsonResponse(
     {
       ok: true,
-      message: "Foto und Submission wurden gespeichert.",
+      message:
+        photoRecords.length === 1
+          ? "Foto und Submission wurden gespeichert."
+          : `${photoRecords.length} Fotos und Submission wurden gespeichert.`,
+
       submission_id: submissionId,
       submission_path: submissionPath,
-      photo_id: photoId,
-      photo_path: photoPath,
+
+      photo_count: photoRecords.length,
+
+      photo_id:
+        photoRecords[0]?.photo_id ?? "",
+
+      photo_path:
+        photoRecords[0]?.path ?? "",
+
+      photos: photoRecords.map(photo => ({
+        photo_id: photo.photo_id,
+        photo_path: photo.path,
+        original_filename:
+          photo.original_filename,
+        size_bytes: photo.size_bytes,
+        sequence: photo.sequence
+      })),
+
       commit_sha: commitResult.commitSha
     },
     201
@@ -513,11 +645,47 @@ async function handleReviewSubmissionsList(request, env) {
       continue;
     }
 
-    const photoPath =
-      Array.isArray(submission.photos) &&
-      submission.photos.length > 0
-        ? submission.photos[0]?.path ?? ""
-        : "";
+    const photoRecords =
+      Array.isArray(submission.photos)
+        ? submission.photos
+            .filter(photo =>
+              photo &&
+              typeof photo.path === "string" &&
+              photo.path.trim() !== ""
+            )
+            .map((photo, index) => ({
+              photo_id:
+                typeof photo.photo_id === "string"
+                  ? photo.photo_id
+                  : "",
+    
+              path: photo.path,
+    
+              url:
+                buildRawGitHubUrl(
+                  env,
+                  photo.path
+                ),
+    
+              original_filename:
+                typeof photo.original_filename === "string"
+                  ? photo.original_filename
+                  : "",
+    
+              size_bytes:
+                Number.isFinite(photo.size_bytes)
+                  ? photo.size_bytes
+                  : null,
+    
+              sequence:
+                Number.isInteger(photo.sequence)
+                  ? photo.sequence
+                  : index + 1
+            }))
+        : [];
+    
+    const firstPhoto =
+      photoRecords[0] ?? null;
 
     submissions.push({
       submission_id:
@@ -593,13 +761,21 @@ async function handleReviewSubmissionsList(request, env) {
           notes: ""
         },
 
+      photo_count:
+        photoRecords.length,
+      
+      photos:
+        photoRecords,
+      
+      /*
+       * Die bisherigen Felder bleiben vorläufig erhalten,
+       * damit bestehende Testseiten kompatibel bleiben.
+       */
       photo_path:
-        photoPath,
-
+        firstPhoto?.path ?? "",
+      
       photo_url:
-        photoPath
-          ? buildRawGitHubUrl(env, photoPath)
-          : "",
+        firstPhoto?.url ?? "",
 
       submission_path:
         file.path
