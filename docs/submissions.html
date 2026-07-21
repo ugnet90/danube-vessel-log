@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schiffssichtungen</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/submissions.css">
+</head>
+<body>
+  <main class="submissions-page">
+    <header class="submissions-header">
+      <div>
+        <h1>Schiffssichtungen</h1>
+        <p>Sichtungen prüfen, zuordnen und ablehnen.</p>
+      </div>
+      <button id="reloadButton" class="secondary-button" type="button">Neu laden</button>
+    </header>
+
+    <section class="connection-card">
+      <div class="form-field">
+        <label for="workerUrl">Worker-URL</label>
+        <input id="workerUrl" type="url" inputmode="url" placeholder="https://dein-worker.workers.dev" autocomplete="url">
+      </div>
+      <div class="form-field">
+        <label for="apiKey">API-Schlüssel</label>
+        <input id="apiKey" type="password" placeholder="Optional" autocomplete="off">
+      </div>
+    </section>
+
+    <section class="submissions-workspace">
+      <aside class="submissions-sidebar">
+        <div class="filter-bar">
+          <label for="statusFilter">Status</label>
+          <select id="statusFilter">
+            <option value="new">Offen</option>
+            <option value="reviewed">Bearbeitet</option>
+            <option value="rejected">Abgelehnt</option>
+            <option value="all">Alle</option>
+          </select>
+        </div>
+        <div id="listStatus" class="list-status" aria-live="polite"></div>
+        <div id="submissionList" class="submission-list"></div>
+      </aside>
+
+      <section class="submission-detail">
+        <div id="emptyState" class="empty-state">
+          <strong>Keine Sichtung ausgewählt</strong>
+          <span>Wähle links eine Sichtung aus.</span>
+        </div>
+
+        <article id="detailContent" class="detail-content hidden">
+          <header class="detail-header">
+            <div>
+              <h2 id="detailTitle"></h2>
+              <div id="detailMeta" class="detail-meta"></div>
+            </div>
+            <span id="workflowBadge" class="status-badge"></span>
+          </header>
+
+          <section class="photo-section">
+            <div class="photo-frame">
+              <img id="submissionPhoto" alt="">
+            </div>
+            <div id="photoControls" class="photo-controls hidden">
+              <button id="previousPhotoButton" class="secondary-button" type="button">Zurück</button>
+              <span id="photoCounter"></span>
+              <button id="nextPhotoButton" class="secondary-button" type="button">Weiter</button>
+            </div>
+            <div id="noPhotoMessage" class="no-photo-message hidden">Kein Foto vorhanden.</div>
+          </section>
+
+          <section class="detail-grid">
+            <div class="detail-card">
+              <h3>Sichtung</h3>
+              <dl>
+                <div><dt>Aufgenommen</dt><dd id="capturedAt"></dd></div>
+                <div><dt>Standort</dt><dd id="locationText"></dd></div>
+                <div><dt>Bewegung</dt><dd id="movementText"></dd></div>
+                <div><dt>Richtung</dt><dd id="directionText"></dd></div>
+                <div><dt>Eingabe</dt><dd id="enteredName"></dd></div>
+              </dl>
+            </div>
+
+            <div class="detail-card">
+              <h3>Automatische Zuordnung</h3>
+              <dl>
+                <div><dt>Status</dt><dd id="autoMatchStatus"></dd></div>
+                <div><dt>Vessel-ID</dt><dd id="autoVesselId"></dd></div>
+                <div><dt>Treffer über</dt><dd id="matchedBy"></dd></div>
+                <div><dt>Kandidaten</dt><dd id="candidateIds"></dd></div>
+              </dl>
+            </div>
+          </section>
+
+          <section id="reviewSection" class="review-section">
+            <h3>Entscheidung</h3>
+            <div class="review-actions">
+              <button id="confirmButton" class="primary-button" type="button">Zuordnung bestätigen</button>
+              <button id="correctButton" class="secondary-button" type="button">Zuordnung korrigieren</button>
+              <button id="rejectButton" class="danger-button" type="button">Sichtung ablehnen</button>
+            </div>
+
+            <div id="correctionPanel" class="correction-panel hidden">
+              <div class="form-field">
+                <label for="correctedVesselId">Korrigierte Vessel-ID</label>
+                <input id="correctedVesselId" type="text" placeholder="VES-000001" pattern="VES-[0-9]{6}" autocomplete="off">
+              </div>
+              <button id="saveCorrectionButton" class="primary-button" type="button">Korrektur speichern</button>
+            </div>
+
+            <div class="form-field">
+              <label for="reviewNotes">Anmerkungen</label>
+              <textarea id="reviewNotes" placeholder="Optional"></textarea>
+            </div>
+            <div id="reviewResult" class="review-result hidden" aria-live="polite"></div>
+          </section>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/submissions.js"></script>
+</body>
+</html>
