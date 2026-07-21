@@ -254,12 +254,6 @@ async function createPhotoSubmission(request, env) {
       value.size > 0
   );
   
-  const photos = photoEntries.filter(
-    value =>
-      value instanceof File &&
-      value.size > 0
-  );
-  
   if (typeof metadataRaw !== "string") {
     return jsonResponse(
       {
