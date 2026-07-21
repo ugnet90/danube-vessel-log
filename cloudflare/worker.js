@@ -243,9 +243,14 @@ async function createPhotoSubmission(request, env) {
 
   const metadataRaw = form.get("metadata");
 
-  const photos = form
-    .getAll("photo")
-    .filter(value => value instanceof File);
+  const photoEntries = [
+    ...form.getAll("photo"),
+    ...form.getAll("photos")
+  ];
+  
+  const photos = photoEntries.filter(
+    value => value instanceof File
+  );
 
   if (typeof metadataRaw !== "string") {
     return jsonResponse(
@@ -262,12 +267,12 @@ async function createPhotoSubmission(request, env) {
       {
         ok: false,
         error:
-          "Es wurde kein gültiges Formularfeld photo übermittelt."
+          "Es wurde keine gültige Bilddatei in den Formularfeldern photo oder photos übermittelt."
       },
       400
     );
   }
-
+  
   if (photos.length > MAX_PHOTOS_PER_SUBMISSION) {
     return jsonResponse(
       {
@@ -539,12 +544,15 @@ async function createPhotoSubmission(request, env) {
 
       submission_id: submissionId,
       submission_path: submissionPath,
-
+      
       photo_count: photoRecords.length,
-
+      
+      received_photo_entries: photoEntries.length,
+      received_photo_files: photos.length,
+      
       photo_id:
         photoRecords[0]?.photo_id ?? "",
-
+        
       photo_path:
         photoRecords[0]?.path ?? "",
 
