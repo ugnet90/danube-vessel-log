@@ -35,6 +35,24 @@ export default {
     }
 
     if (
+      request.method === "GET" &&
+      url.pathname === "/review-submissions"
+    ) {
+      try {
+        return await handleReviewSubmissionsList(request, env);
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error: "Unbehandelter Fehler beim Laden der Review-Liste.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error)
+        }, 500);
+      }
+    }
+    
+    if (
       request.method === "POST" &&
       url.pathname === "/submission-review"
     ) {
@@ -406,6 +424,275 @@ async function createPhotoSubmission(request, env) {
       commit_sha: commitResult.commitSha
     },
     201
+  );
+}
+
+async function handleReviewSubmissionsList(request, env) {
+  const url = new URL(request.url);
+
+  const requestedStatus =
+    typeof url.searchParams.get("status") === "string"
+      ? url.searchParams.get("status").trim()
+      : "new";
+
+  const allowedStatuses = [
+    "new",
+    "reviewed",
+    "rejected",
+    "all"
+  ];
+
+  if (!allowedStatuses.includes(requestedStatus)) {
+    return jsonResponse({
+      ok: false,
+      error: "Ungültiger Statusfilter."
+    }, 400);
+  }
+
+  const requestedLimit = Number(
+    url.searchParams.get("limit") ?? 50
+  );
+
+  const limit = Number.isInteger(requestedLimit)
+    ? Math.min(Math.max(requestedLimit, 1), 100)
+    : 50;
+
+  const pathsResult = await listSubmissionPaths(env);
+
+  if (!pathsResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: pathsResult.error,
+      github_status: pathsResult.status ?? null,
+      github_response: pathsResult.body ?? null
+    }, 502);
+  }
+
+  /*
+   * Die Submission-ID enthält Datum und Uhrzeit.
+   * Eine absteigende Pfadsortierung ergibt daher:
+   * neueste Sichtungen zuerst.
+   */
+  const candidatePaths = pathsResult.paths
+    .sort((a, b) => b.localeCompare(a))
+    .slice(0, limit);
+
+  const loadedFiles = await Promise.all(
+    candidatePaths.map(path =>
+      readGitHubFile({
+        env,
+        path
+      })
+    )
+  );
+
+  const submissions = [];
+
+  for (const file of loadedFiles) {
+    if (!file.ok) {
+      continue;
+    }
+
+    let submission;
+
+    try {
+      submission = JSON.parse(
+        String(file.content ?? "").replace(/^\uFEFF/, "")
+      );
+    } catch {
+      continue;
+    }
+
+    const workflowStatus =
+      submission.workflow?.status ?? "new";
+
+    if (
+      requestedStatus !== "all" &&
+      workflowStatus !== requestedStatus
+    ) {
+      continue;
+    }
+
+    const photoPath =
+      Array.isArray(submission.photos) &&
+      submission.photos.length > 0
+        ? submission.photos[0]?.path ?? ""
+        : "";
+
+    submissions.push({
+      submission_id:
+        submission.submission_id ?? "",
+
+      captured_at:
+        submission.captured_at ?? "",
+
+      uploaded_at:
+        submission.uploaded_at ?? "",
+
+      workflow_status:
+        workflowStatus,
+
+      location: {
+        id:
+          submission.location?.id ?? "",
+
+        name:
+          submission.location?.name ?? "",
+
+        municipality:
+          submission.location?.municipality ?? "",
+
+        country:
+          submission.location?.country ?? ""
+      },
+
+      movement:
+        submission.movement ?? "unknown",
+
+      direction:
+        submission.direction ?? "unknown",
+
+      vessel_name_entered:
+        submission.vessel_name_entered ?? "",
+
+      automatic_match: {
+        status:
+          submission.workflow?.auto?.vessel_match?.status ??
+          "unmatched",
+
+        vessel_id:
+          submission.workflow?.auto?.vessel_match?.vessel_id ??
+          "",
+
+        matched_by:
+          submission.workflow?.auto?.vessel_match?.matched_by ??
+          "",
+
+        matched_value:
+          submission.workflow?.auto?.vessel_match?.matched_value ??
+          "",
+
+        candidate_count:
+          submission.workflow?.auto?.vessel_match?.candidate_count ??
+          0,
+
+        candidate_ids:
+          Array.isArray(
+            submission.workflow?.auto?.vessel_match?.candidate_ids
+          )
+            ? submission.workflow.auto.vessel_match.candidate_ids
+            : []
+      },
+
+      review:
+        submission.workflow?.review ?? {
+          reviewed: false,
+          reviewed_at: "",
+          vessel_id: "",
+          decision: "",
+          notes: ""
+        },
+
+      photo_path:
+        photoPath,
+
+      photo_url:
+        photoPath
+          ? buildRawGitHubUrl(env, photoPath)
+          : "",
+
+      submission_path:
+        file.path
+    });
+  }
+
+  return jsonResponse({
+    ok: true,
+    status_filter: requestedStatus,
+    count: submissions.length,
+    submissions
+  });
+}
+
+async function listSubmissionPaths(env) {
+  const baseUrl =
+    `https://api.github.com/repos/` +
+    `${env.GITHUB_OWNER}/${env.GITHUB_REPO}`;
+
+  const branchResult = await githubRequest(
+    `${baseUrl}/git/ref/heads/${BRANCH}`,
+    {
+      method: "GET",
+      headers: githubHeaders(env)
+    }
+  );
+
+  if (!branchResult.ok) {
+    return {
+      ...branchResult,
+      error:
+        "Der aktuelle GitHub-Branch konnte nicht gelesen werden."
+    };
+  }
+
+  const commitSha =
+    branchResult.body?.object?.sha ?? "";
+
+  if (!commitSha) {
+    return {
+      ok: false,
+      status: 502,
+      error: "GitHub lieferte keinen Commit-SHA."
+    };
+  }
+
+  const treeResult = await githubRequest(
+    `${baseUrl}/git/trees/${commitSha}?recursive=1`,
+    {
+      method: "GET",
+      headers: githubHeaders(env)
+    }
+  );
+
+  if (!treeResult.ok) {
+    return {
+      ...treeResult,
+      error:
+        "Der GitHub-Dateibaum konnte nicht gelesen werden."
+    };
+  }
+
+  const tree = Array.isArray(treeResult.body?.tree)
+    ? treeResult.body.tree
+    : [];
+
+  const paths = tree
+    .filter(entry =>
+      entry?.type === "blob" &&
+      typeof entry.path === "string" &&
+      /^inbox\/submissions\/\d{4}\/\d{2}\/SUB-[A-Z0-9-]+\.json$/i
+        .test(entry.path)
+    )
+    .map(entry => entry.path);
+
+  return {
+    ok: true,
+    paths
+  };
+}
+
+function buildRawGitHubUrl(env, path) {
+  const encodedPath = String(path)
+    .split("/")
+    .map(part => encodeURIComponent(part))
+    .join("/");
+
+  return (
+    `https://raw.githubusercontent.com/` +
+    `${encodeURIComponent(env.GITHUB_OWNER)}/` +
+    `${encodeURIComponent(env.GITHUB_REPO)}/` +
+    `${encodeURIComponent(BRANCH)}/` +
+    encodedPath
   );
 }
 
