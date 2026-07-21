@@ -29,7 +29,7 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "reviewed",
     "auto": {
       "vessel_match": {
         "status": "ambiguous",
@@ -45,10 +45,10 @@
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
-      "vessel_id": "",
-      "decision": "",
+      "reviewed": true,
+      "reviewed_at": "2026-07-21T10:33:40.648Z",
+      "vessel_id": "VES-000001",
+      "decision": "corrected",
       "notes": ""
     }
   }
