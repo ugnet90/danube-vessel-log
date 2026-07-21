@@ -498,12 +498,16 @@ async function createPhotoSubmission(request, env) {
     encoding: "utf-8"
   });
 
+  const photoLabel =
+    photoRecords.length === 1
+      ? "1 Foto"
+      : `${photoRecords.length} Fotos`;
+  
   const commitResult =
     await createAtomicGitHubCommit({
       env,
       message:
-        `Neue Schiffssichtung ${submissionId} ` +
-        `mit ${photoRecords.length} Foto(s)`,
+        `Neue Schiffssichtung ${submissionId} mit ${photoLabel}`,
       files: commitFiles
     });
 
