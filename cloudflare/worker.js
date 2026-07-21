@@ -243,16 +243,110 @@ async function createPhotoSubmission(request, env) {
 
   const metadataRaw = form.get("metadata");
 
+  /*
+   * Bisheriger Multipart-Weg:
+   * photo bzw. photos können weiterhin verwendet werden.
+   */
   const photoEntries = [
     ...form.getAll("photo"),
     ...form.getAll("photos")
   ];
   
-  const photos = photoEntries.filter(
+  const multipartPhotos = photoEntries.filter(
     value =>
       value instanceof File &&
       value.size > 0
   );
+  
+  /*
+   * Neuer Mehrfachfoto-Weg für Apple Kurzbefehle:
+   * Jedes Foto steht als Base64-Text in einer eigenen Zeile.
+   */
+  const photosBase64Raw = form.get("photos_base64");
+  
+  const base64Photos = [];
+  
+  if (
+    typeof photosBase64Raw === "string" &&
+    photosBase64Raw.trim() !== ""
+  ) {
+    const encodedPhotos = photosBase64Raw
+      .split(/\r?\n/)
+      .map(value => value.trim())
+      .filter(Boolean);
+  
+    for (
+      let index = 0;
+      index < encodedPhotos.length;
+      index += 1
+    ) {
+      let encodedPhoto = encodedPhotos[index];
+  
+      /*
+       * Sicherheitshalber auch Data-URLs akzeptieren:
+       * data:image/jpeg;base64,...
+       */
+      const commaIndex =
+        encodedPhoto.indexOf(",");
+  
+      if (
+        encodedPhoto.startsWith("data:") &&
+        commaIndex >= 0
+      ) {
+        encodedPhoto =
+          encodedPhoto.slice(commaIndex + 1);
+      }
+  
+      let binaryString;
+  
+      try {
+        binaryString = atob(encodedPhoto);
+      } catch {
+        return jsonResponse(
+          {
+            ok: false,
+            error:
+              `Foto ${index + 1} in photos_base64 ` +
+              `enthält kein gültiges Base64.`
+          },
+          400
+        );
+      }
+  
+      const bytes =
+        new Uint8Array(binaryString.length);
+  
+      for (
+        let byteIndex = 0;
+        byteIndex < binaryString.length;
+        byteIndex += 1
+      ) {
+        bytes[byteIndex] =
+          binaryString.charCodeAt(byteIndex);
+      }
+  
+      base64Photos.push(
+        new File(
+          [bytes],
+          `shortcut-photo-${String(index + 1).padStart(2, "0")}.jpg`,
+          {
+            type: "image/jpeg"
+          }
+        )
+      );
+    }
+  }
+  
+  /*
+   * Wenn photos_base64 vorhanden ist, verwenden wir ausschließlich
+   * diese Liste. Dadurch wird das erste Foto nicht doppelt gespeichert.
+   *
+   * Fehlt photos_base64, bleibt der bisherige Multipart-Weg aktiv.
+   */
+  const photos =
+    base64Photos.length > 0
+      ? base64Photos
+      : multipartPhotos;
   
   if (typeof metadataRaw !== "string") {
     return jsonResponse(
@@ -549,8 +643,14 @@ async function createPhotoSubmission(request, env) {
       
       photo_count: photoRecords.length,
       
-      received_photo_entries: photoEntries.length,
-      received_photo_files: photos.length,
+      received_photo_entries:
+        photoEntries.length,
+      
+      received_base64_photos:
+        base64Photos.length,
+      
+      received_photo_files:
+        photos.length,
       
       photo_id:
         photoRecords[0]?.photo_id ?? "",
