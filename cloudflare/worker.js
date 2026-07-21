@@ -251,6 +251,21 @@ async function createPhotoSubmission(request, env) {
   const photos = photoEntries.filter(
     value => value instanceof File
   );
+  
+  return jsonResponse(
+    {
+      ok: true,
+  
+      metadata_type: typeof metadataRaw,
+      metadata_value: metadataRaw,
+  
+      photo_entries: photoEntries.length,
+      photo_files: photos.length,
+  
+      form_keys: [...form.keys()]
+    },
+    200
+  );
 
   if (typeof metadataRaw !== "string") {
     return jsonResponse(
