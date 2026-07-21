@@ -1,0 +1,55 @@
+{
+  "schema_version": 10,
+  "submission_id": "SUB-20260721-190946-54E45C",
+  "uploaded_at": "2026-07-21T19:09:46.152Z",
+  "captured_at": "2026-07-21T19:09:24.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich"
+  },
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "Testschiff",
+  "notes": "",
+  "photo_lat": 48.307675,
+  "photo_lon": 14.285475,
+  "photos": [
+    {
+      "photo_id": "PHOTO-287969497FF24D37A00A4C8260D0C390",
+      "path": "inbox/photos/2026/07/PHOTO-287969497FF24D37A00A4C8260D0C390.jpg",
+      "filename": "PHOTO-287969497FF24D37A00A4C8260D0C390.jpg",
+      "original_filename": "IMG_1528.jpeg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 8223811,
+      "sequence": 1
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "ambiguous",
+        "vessel_id": "",
+        "matched_by": "name",
+        "candidate_count": 2,
+        "candidate_ids": [
+          "VES-000001",
+          "VES-000002"
+        ],
+        "matched_value": "Testschiff",
+        "normalized_input": "TESTSCHIFF"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
