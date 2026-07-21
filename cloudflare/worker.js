@@ -243,13 +243,28 @@ async function createPhotoSubmission(request, env) {
 
   const metadataRaw = form.get("metadata");
 
-  const photoEntries = [
-    ...form.getAll("photo"),
-    ...form.getAll("photos")
+  const photoFieldNames = [
+    "photo",
+    "photos",
+    "photo2",
+    "photo3",
+    "photo4",
+    "photo5",
+    "photo6",
+    "photo7",
+    "photo8",
+    "photo9",
+    "photo10"
   ];
   
+  const photoEntries = photoFieldNames.flatMap(
+    fieldName => form.getAll(fieldName)
+  );
+  
   const photos = photoEntries.filter(
-    value => value instanceof File
+    value =>
+      value instanceof File &&
+      value.size > 0
   );
   
   if (typeof metadataRaw !== "string") {
