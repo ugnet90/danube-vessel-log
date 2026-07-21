@@ -1,0 +1,61 @@
+{
+  "schema_version": 10,
+  "submission_id": "SUB-20260721-191622-37FF92",
+  "uploaded_at": "2026-07-21T19:16:22.778Z",
+  "captured_at": "2026-07-21T19:16:05.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich"
+  },
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "S. S. Beatrice",
+  "notes": "",
+  "photo_lat": 48.307675,
+  "photo_lon": 14.285475,
+  "photos": [
+    {
+      "photo_id": "PHOTO-CC094D0FAE8947F89A143B961007E053",
+      "path": "inbox/photos/2026/07/PHOTO-CC094D0FAE8947F89A143B961007E053.jpg",
+      "filename": "PHOTO-CC094D0FAE8947F89A143B961007E053.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 8223811,
+      "sequence": 1
+    },
+    {
+      "photo_id": "PHOTO-F532C02BD94C44B5A1C12385673B0B59",
+      "path": "inbox/photos/2026/07/PHOTO-F532C02BD94C44B5A1C12385673B0B59.jpg",
+      "filename": "PHOTO-F532C02BD94C44B5A1C12385673B0B59.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 7870522,
+      "sequence": 2
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": ""
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
