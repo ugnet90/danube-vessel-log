@@ -134,6 +134,36 @@ document.addEventListener("DOMContentLoaded", () => {
     rejected: "abgelehnt"
   };
 
+  const decisionLabels = {
+    confirmed: "bestätigt",
+    corrected: "korrigiert",
+    rejected: "abgelehnt"
+  };
+  
+  function getWorkflowStatus(submission) {
+    return (
+      submission.workflow?.status ??
+      submission.workflow_status ??
+      "new"
+    );
+  }
+  
+  function getAutomaticMatch(submission) {
+    return (
+      submission.workflow?.auto?.vessel_match ??
+      submission.automatic_match ??
+      {}
+    );
+  }
+  
+  function getReview(submission) {
+    return (
+      submission.workflow?.review ??
+      submission.review ??
+      {}
+    );
+  }
+  
   function normalizeWorkerUrl(value) {
     return String(value ?? "")
       .trim()
@@ -318,15 +348,19 @@ document.addEventListener("DOMContentLoaded", () => {
       status.className =
         "submission-list-status";
 
+      const automaticMatch =
+        getAutomaticMatch(submission);
+      
       const matchStatus =
-        submission.automatic_match?.status ??
+        automaticMatch.status ??
         "unmatched";
 
+      const workflowStatus =
+        getWorkflowStatus(submission);
+      
       const workflowText =
-        workflowLabels[
-          submission.workflow_status
-        ] ??
-        submission.workflow_status;
+        workflowLabels[workflowStatus] ??
+        workflowStatus;
 
       const matchText =
         matchLabels[matchStatus] ??
@@ -372,8 +406,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const submission =
       selectedSubmission;
 
+    const workflowStatus =
+      getWorkflowStatus(submission);
+    
     const automaticMatch =
-      submission.automatic_match ?? {};
+      getAutomaticMatch(submission);
+    
+    const review =
+      getReview(submission);
 
     detailTitle.textContent =
       submission.submission_id;
@@ -382,13 +422,11 @@ document.addEventListener("DOMContentLoaded", () => {
       formatDateTime(submission.captured_at);
 
     workflowBadge.textContent =
-      workflowLabels[
-        submission.workflow_status
-      ] ??
-      submission.workflow_status;
-
+      workflowLabels[workflowStatus] ??
+      workflowStatus;
+    
     workflowBadge.className =
-      `status-badge status-${submission.workflow_status}`;
+      `status-badge status-${workflowStatus}`;
 
     capturedAt.textContent =
       formatDateTime(
@@ -420,33 +458,53 @@ document.addEventListener("DOMContentLoaded", () => {
       submission.vessel_name_entered ||
       "—";
 
-    autoMatchStatus.textContent =
-      matchLabels[automaticMatch.status] ??
-      automaticMatch.status ??
-      "—";
-
-    autoVesselId.textContent =
-      automaticMatch.vessel_id ||
-      "—";
-
-    matchedBy.textContent =
-      automaticMatch.matched_by ||
-      "—";
-
-    candidateIds.textContent =
-      Array.isArray(
-        automaticMatch.candidate_ids
-      ) &&
-      automaticMatch.candidate_ids.length > 0
-        ? automaticMatch.candidate_ids.join(", ")
-        : "—";
-
+    if (review.reviewed === true) {
+      autoMatchStatus.textContent =
+        decisionLabels[review.decision] ??
+        review.decision ??
+        "bearbeitet";
+    
+      autoVesselId.textContent =
+        review.vessel_id ||
+        "—";
+    
+      matchedBy.textContent =
+        review.decision === "confirmed"
+          ? "manuell bestätigt"
+          : review.decision === "corrected"
+            ? "manuell korrigiert"
+            : "—";
+    
+      candidateIds.textContent =
+        "—";
+    } else {
+      autoMatchStatus.textContent =
+        matchLabels[automaticMatch.status] ??
+        automaticMatch.status ??
+        "—";
+    
+      autoVesselId.textContent =
+        automaticMatch.vessel_id ||
+        "—";
+    
+      matchedBy.textContent =
+        automaticMatch.matched_by ||
+        "—";
+    
+      candidateIds.textContent =
+        Array.isArray(
+          automaticMatch.candidate_ids
+        ) &&
+        automaticMatch.candidate_ids.length > 0
+          ? automaticMatch.candidate_ids.join(", ")
+          : "—";
+    }
     reviewNotes.value =
-      submission.review?.notes ?? "";
-
+      review.notes ?? "";
+    
     correctedVesselId.value =
-      submission.review?.decision === "corrected"
-        ? submission.review?.vessel_id ?? ""
+      review.decision === "corrected"
+        ? review.vessel_id ?? ""
         : "";
 
     correctionPanel.classList.add("hidden");
@@ -454,7 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
     clearReviewResult();
 
     const isNew =
-      submission.workflow_status === "new";
+      workflowStatus === "new";
 
     reviewSection.classList.toggle(
       "hidden",
