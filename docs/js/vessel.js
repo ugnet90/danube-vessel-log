@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.8.1
+// Version: 0.9.0
 // Updated: 2026-07-22
 
 "use strict";
@@ -21,9 +21,18 @@ document.addEventListener("DOMContentLoaded", () => {
     ?.trim() || "";
 
   const apiKey = byId("apiKey");
+  const editButton = byId("editButton");
   const reloadButton = byId("reloadButton");
   const pageStatus = byId("pageStatus");
   const content = byId("vesselContent");
+  
+  const editCard = byId("vesselEditCard");
+  const editForm = byId("vesselEditForm");
+  const saveEditButton = byId("saveEditButton");
+  const cancelEditButton = byId("cancelEditButton");
+  
+  let currentVessel = null;
+  let editModeActive = false;
 
   function value(input, suffix = "") {
     return (
@@ -133,6 +142,431 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return element;
   }
+
+  function setInputValue(id, inputValue) {
+    byId(id).value =
+      inputValue === null ||
+      inputValue === undefined
+        ? ""
+        : String(inputValue);
+  }
+  
+  function optionalNumber(id) {
+    const rawValue =
+      byId(id).value.trim();
+  
+    if (rawValue === "") {
+      return null;
+    }
+  
+    const parsedValue = Number(
+      rawValue.replace(",", ".")
+    );
+  
+    return Number.isFinite(parsedValue)
+      ? parsedValue
+      : null;
+  }
+  
+  function optionalInteger(id) {
+    const parsedValue =
+      optionalNumber(id);
+  
+    if (parsedValue === null) {
+      return null;
+    }
+  
+    return Number.isInteger(parsedValue)
+      ? parsedValue
+      : null;
+  }
+  
+  function parseFormerNames(valueText) {
+    return [
+      ...new Set(
+        String(valueText)
+          .split(/\r?\n/)
+          .map(name => name.trim())
+          .filter(Boolean)
+      )
+    ];
+  }
+  
+  function populateEditForm(vessel) {
+    const identity =
+      vessel?.identity || {};
+  
+    const classification =
+      vessel?.classification || {};
+  
+    const technical =
+      vessel?.technical || {};
+  
+    const operations =
+      vessel?.operations || {};
+  
+    setInputValue(
+      "editVesselId",
+      vesselId
+    );
+  
+    setInputValue(
+      "editName",
+      identity.name
+    );
+  
+    setInputValue(
+      "editFormerNames",
+      Array.isArray(identity.former_names)
+        ? identity.former_names.join("\n")
+        : ""
+    );
+  
+    setInputValue(
+      "editMmsi",
+      identity.mmsi
+    );
+  
+    setInputValue(
+      "editImo",
+      identity.imo
+    );
+  
+    setInputValue(
+      "editEni",
+      identity.eni
+    );
+  
+    setInputValue(
+      "editCallSign",
+      identity.call_sign
+    );
+  
+    setInputValue(
+      "editShipType",
+      classification.ship_type
+    );
+  
+    setInputValue(
+      "editShipSubtype",
+      classification.ship_subtype
+    );
+  
+    setInputValue(
+      "editFlag",
+      classification.flag
+    );
+  
+    setInputValue(
+      "editStatus",
+      classification.status || "unknown"
+    );
+  
+    setInputValue(
+      "editYearBuilt",
+      technical.year_built
+    );
+  
+    setInputValue(
+      "editShipyard",
+      technical.shipyard
+    );
+  
+    setInputValue(
+      "editLengthM",
+      technical.length_m
+    );
+  
+    setInputValue(
+      "editWidthM",
+      technical.width_m
+    );
+  
+    setInputValue(
+      "editDraftM",
+      technical.draft_m
+    );
+  
+    setInputValue(
+      "editPassengers",
+      technical.passengers
+    );
+  
+    setInputValue(
+      "editOperator",
+      operations.operator
+    );
+  
+    setInputValue(
+      "editOwner",
+      operations.owner
+    );
+  
+    setInputValue(
+      "editManager",
+      operations.manager
+    );
+  
+    setInputValue(
+      "editCruiseBrand",
+      operations.cruise_brand
+    );
+  
+    setInputValue(
+      "editHomePort",
+      operations.home_port
+    );
+  
+    setInputValue(
+      "editNotes",
+      vessel?.notes
+    );
+  }
+  
+  function setEditMode(enabled) {
+    editModeActive = Boolean(enabled);
+  
+    editCard.classList.toggle(
+      "hidden",
+      !editModeActive
+    );
+  
+    editButton.textContent =
+      editModeActive
+        ? "Bearbeitung geöffnet"
+        : "Bearbeiten";
+  
+    editButton.disabled =
+      editModeActive ||
+      !currentVessel;
+  
+    reloadButton.disabled =
+      editModeActive;
+  
+    if (editModeActive) {
+      editCard.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+  
+      byId("editName").focus();
+    }
+  }
+  
+  function buildVesselUpdatePayload() {
+    return {
+      vessel_id: vesselId,
+  
+      name:
+        byId("editName")
+          .value
+          .trim(),
+  
+      former_names:
+        parseFormerNames(
+          byId("editFormerNames").value
+        ),
+  
+      mmsi:
+        byId("editMmsi")
+          .value
+          .trim(),
+  
+      imo:
+        byId("editImo")
+          .value
+          .trim(),
+  
+      eni:
+        byId("editEni")
+          .value
+          .trim(),
+  
+      call_sign:
+        byId("editCallSign")
+          .value
+          .trim(),
+  
+      ship_type:
+        byId("editShipType")
+          .value
+          .trim(),
+  
+      ship_subtype:
+        byId("editShipSubtype")
+          .value
+          .trim(),
+  
+      flag:
+        byId("editFlag")
+          .value
+          .trim()
+          .toUpperCase(),
+  
+      status:
+        byId("editStatus").value,
+  
+      year_built:
+        optionalInteger(
+          "editYearBuilt"
+        ),
+  
+      shipyard:
+        byId("editShipyard")
+          .value
+          .trim(),
+  
+      length_m:
+        optionalNumber(
+          "editLengthM"
+        ),
+  
+      width_m:
+        optionalNumber(
+          "editWidthM"
+        ),
+  
+      draft_m:
+        optionalNumber(
+          "editDraftM"
+        ),
+  
+      passengers:
+        optionalInteger(
+          "editPassengers"
+        ),
+  
+      operator:
+        byId("editOperator")
+          .value
+          .trim(),
+  
+      owner:
+        byId("editOwner")
+          .value
+          .trim(),
+  
+      manager:
+        byId("editManager")
+          .value
+          .trim(),
+  
+      cruise_brand:
+        byId("editCruiseBrand")
+          .value
+          .trim(),
+  
+      home_port:
+        byId("editHomePort")
+          .value
+          .trim(),
+  
+      notes:
+        byId("editNotes").value.trim()
+    };
+  }
+  
+  async function saveVesselUpdates() {
+    if (!editForm.reportValidity()) {
+      return;
+    }
+  
+    const payload =
+      buildVesselUpdatePayload();
+  
+    if (!payload.name) {
+      pageStatus.className =
+        "page-status error";
+  
+      pageStatus.textContent =
+        "Der Schiffsname ist erforderlich.";
+  
+      byId("editName").focus();
+      return;
+    }
+  
+    saveEditButton.disabled = true;
+    cancelEditButton.disabled = true;
+  
+    const originalButtonText =
+      saveEditButton.textContent;
+  
+    saveEditButton.textContent =
+      "Wird gespeichert …";
+  
+    pageStatus.className =
+      "page-status";
+  
+    pageStatus.textContent = "";
+  
+    try {
+      const headers = {
+        "Content-Type": "application/json"
+      };
+  
+      const suppliedApiKey =
+        apiKey.value.trim();
+  
+      if (suppliedApiKey) {
+        headers["X-API-Key"] =
+          suppliedApiKey;
+      }
+  
+      const response = await fetch(
+        `${workerUrl}/vessel-update`,
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify(payload)
+        }
+      );
+  
+      let result = {};
+  
+      try {
+        result = await response.json();
+      } catch {
+        result = {};
+      }
+  
+      if (
+        !response.ok ||
+        result.ok !== true
+      ) {
+        throw new Error(
+          result.error ||
+          `Der Worker antwortete mit HTTP ${response.status}.`
+        );
+      }
+  
+      setEditMode(false);
+  
+      await load();
+  
+      pageStatus.className =
+        "page-status success";
+  
+      pageStatus.textContent =
+        Array.isArray(result.changed_fields) &&
+        result.changed_fields.length === 0
+          ? "Es waren keine Änderungen zu speichern."
+          : "Die Stammdaten wurden gespeichert.";
+    } catch (error) {
+      pageStatus.className =
+        "page-status error";
+  
+      pageStatus.textContent =
+        error instanceof Error
+          ? error.message
+          : String(error);
+    } finally {
+      saveEditButton.disabled = false;
+      cancelEditButton.disabled = false;
+  
+      saveEditButton.textContent =
+        originalButtonText;
+    }
+  }  
 
   async function savePrimaryPhoto(
     photo,
@@ -665,6 +1099,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function render(payload) {
     const vessel =
       payload.vessel || {};
+  
+    currentVessel = vessel;
+    editButton.disabled = false;
 
     const identity =
       vessel.identity || {};
@@ -906,7 +1343,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     reloadButton.disabled = true;
-
+    editButton.disabled = true;
+    
     pageStatus.className =
       "page-status";
 
@@ -935,19 +1373,58 @@ document.addEventListener("DOMContentLoaded", () => {
           ? error.message
           : String(error);
     } finally {
-      reloadButton.disabled = false;
+      reloadButton.disabled =
+        editModeActive;
+    
+      editButton.disabled =
+        editModeActive ||
+        !currentVessel;
     }
   }
 
+  editButton.addEventListener(
+    "click",
+    () => {
+      if (!currentVessel) return;
+  
+      populateEditForm(currentVessel);
+      setEditMode(true);
+    }
+  );
+  
+  cancelEditButton.addEventListener(
+    "click",
+    () => {
+      setEditMode(false);
+  
+      pageStatus.className =
+        "page-status";
+  
+      pageStatus.textContent = "";
+    }
+  );
+  
+  editForm.addEventListener(
+    "submit",
+    event => {
+      event.preventDefault();
+      saveVesselUpdates();
+    }
+  );
+  
   reloadButton.addEventListener(
     "click",
     load
   );
-
+  
   apiKey.addEventListener(
     "change",
-    load
+    () => {
+      if (!editModeActive) {
+        load();
+      }
+    }
   );
-
+  
   load();
 });
