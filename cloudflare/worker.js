@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.9.1
+ * Version: 0.10.0
  * Updated: 2026-07-22
  */
 
@@ -172,6 +172,58 @@ export default {
         }, 500);
       }
     }
+
+    if (
+      request.method === "POST" &&
+      url.pathname === "/vessel-source-add"
+    ) {
+      try {
+        return await handleAddVesselSource(
+          request,
+          env
+        );
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler beim Hinzufügen der Quelle.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          stack:
+            error instanceof Error
+              ? error.stack
+              : null
+        }, 500);
+      }
+    }
+    
+    if (
+      request.method === "POST" &&
+      url.pathname === "/vessel-source-remove"
+    ) {
+      try {
+        return await handleRemoveVesselSource(
+          request,
+          env
+        );
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler beim Entfernen der Quelle.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          stack:
+            error instanceof Error
+              ? error.stack
+              : null
+        }, 500);
+      }
+    }    
     
     if (request.method === "POST" && url.pathname === "/submission") {
       return createJsonSubmission(request, env);
@@ -1962,6 +2014,568 @@ async function handleUpdateVessel(
     commit_sha:
       commitResult.commitSha
   });
+}
+
+async function handleAddVesselSource(
+  request,
+  env
+) {
+  const authError =
+    checkManagementKey(request, env);
+
+  if (authError) return authError;
+
+  let input;
+
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Der Anfrageinhalt ist kein gültiges JSON."
+    }, 400);
+  }
+
+  const vesselId =
+    typeof input?.vessel_id === "string"
+      ? input.vessel_id.trim()
+      : "";
+
+  if (!VESSEL_ID_PATTERN.test(vesselId)) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "vessel_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  const validation =
+    validateVesselSourceInput(input);
+
+  if (!validation.ok) {
+    return jsonResponse({
+      ok: false,
+      error: validation.error
+    }, 400);
+  }
+
+  const vesselResult =
+    await loadCanonicalVessel(
+      env,
+      vesselId
+    );
+
+  if (!vesselResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: vesselResult.error
+    }, vesselResult.status === 404
+      ? 404
+      : 502);
+  }
+
+  const vessel =
+    vesselResult.vessel;
+
+  const existingSources =
+    Array.isArray(vessel.sources)
+      ? vessel.sources
+      : [];
+
+  const duplicateSource =
+    existingSources.find(source =>
+      String(source?.url ?? "")
+        .trim()
+        .toLowerCase() ===
+      validation.data.url.toLowerCase()
+    );
+
+  if (duplicateSource) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Diese URL ist für das Schiff bereits als Quelle hinterlegt."
+    }, 409);
+  }
+
+  const updatedAt =
+    new Date().toISOString();
+
+  const source = {
+    source_id:
+      createVesselSourceId(),
+
+    provider:
+      validation.data.provider,
+
+    title:
+      validation.data.title,
+
+    url:
+      validation.data.url,
+
+    notes:
+      validation.data.notes,
+
+    retrieved_at:
+      updatedAt,
+
+    verified_at:
+      validation.data.verified
+        ? updatedAt
+        : "",
+
+    added_at:
+      updatedAt,
+
+    added_by:
+      "web-ui"
+  };
+
+  vessel.sources = [
+    ...existingSources,
+    source
+  ];
+
+  appendVesselAuditEntry({
+    vessel,
+    updatedAt,
+    summary:
+      `Quelle hinzugefügt: ` +
+      `${source.provider}` +
+      `${source.title
+        ? ` – ${source.title}`
+        : ""}`,
+    oldSourceCount:
+      existingSources.length,
+    newSourceCount:
+      vessel.sources.length
+  });
+
+  const saveResult =
+    await saveCanonicalVesselAndIndex({
+      env,
+      vesselResult,
+      vessel,
+      updatedAt,
+      message:
+        `Quelle zu ${vesselId} hinzugefügt`
+    });
+
+  if (!saveResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: saveResult.error,
+      github_step:
+        saveResult.step ?? null,
+      github_status:
+        saveResult.status ?? null,
+      github_response:
+        saveResult.body ?? null
+    }, 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+    message:
+      "Die Quelle wurde gespeichert.",
+    vessel_id: vesselId,
+    source,
+    source_count:
+      vessel.sources.length,
+    commit_sha:
+      saveResult.commitSha
+  });
+}
+
+async function handleRemoveVesselSource(
+  request,
+  env
+) {
+  const authError =
+    checkManagementKey(request, env);
+
+  if (authError) return authError;
+
+  let input;
+
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Der Anfrageinhalt ist kein gültiges JSON."
+    }, 400);
+  }
+
+  const vesselId =
+    typeof input?.vessel_id === "string"
+      ? input.vessel_id.trim()
+      : "";
+
+  const sourceId =
+    typeof input?.source_id === "string"
+      ? input.source_id.trim()
+      : "";
+
+  if (!VESSEL_ID_PATTERN.test(vesselId)) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "vessel_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  if (!/^SRC-[A-Z0-9]{12}$/.test(sourceId)) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "source_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  const vesselResult =
+    await loadCanonicalVessel(
+      env,
+      vesselId
+    );
+
+  if (!vesselResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: vesselResult.error
+    }, vesselResult.status === 404
+      ? 404
+      : 502);
+  }
+
+  const vessel =
+    vesselResult.vessel;
+
+  const existingSources =
+    Array.isArray(vessel.sources)
+      ? vessel.sources
+      : [];
+
+  const removedSource =
+    existingSources.find(source =>
+      source?.source_id === sourceId
+    );
+
+  if (!removedSource) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Die angegebene Quelle wurde beim Schiff nicht gefunden."
+    }, 404);
+  }
+
+  vessel.sources =
+    existingSources.filter(source =>
+      source?.source_id !== sourceId
+    );
+
+  const updatedAt =
+    new Date().toISOString();
+
+  appendVesselAuditEntry({
+    vessel,
+    updatedAt,
+    summary:
+      `Quelle entfernt: ` +
+      `${
+        removedSource.provider ||
+        removedSource.title ||
+        sourceId
+      }` +
+      `${
+        removedSource.title &&
+        removedSource.provider
+          ? ` – ${removedSource.title}`
+          : ""
+      }`,
+    oldSourceCount:
+      existingSources.length,
+    newSourceCount:
+      vessel.sources.length
+  });
+
+  const saveResult =
+    await saveCanonicalVesselAndIndex({
+      env,
+      vesselResult,
+      vessel,
+      updatedAt,
+      message:
+        `Quelle von ${vesselId} entfernt`
+    });
+
+  if (!saveResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: saveResult.error,
+      github_step:
+        saveResult.step ?? null,
+      github_status:
+        saveResult.status ?? null,
+      github_response:
+        saveResult.body ?? null
+    }, 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+    message:
+      "Die Quelle wurde entfernt.",
+    vessel_id: vesselId,
+    removed_source_id:
+      sourceId,
+    source_count:
+      vessel.sources.length,
+    commit_sha:
+      saveResult.commitSha
+  });
+}
+
+function validateVesselSourceInput(input) {
+  const provider =
+    normalizeFreeText(
+      input?.provider,
+      80
+    );
+
+  const title =
+    normalizeFreeText(
+      input?.title,
+      150
+    );
+
+  const notes =
+    normalizeFreeText(
+      input?.notes,
+      1000
+    );
+
+  const urlText =
+    normalizeFreeText(
+      input?.url,
+      1000
+    );
+
+  if (!provider) {
+    return {
+      ok: false,
+      error:
+        "Der Quellenanbieter ist erforderlich."
+    };
+  }
+
+  if (!urlText) {
+    return {
+      ok: false,
+      error:
+        "Die Quellen-URL ist erforderlich."
+    };
+  }
+
+  let normalizedUrl;
+
+  try {
+    const parsedUrl =
+      new URL(urlText);
+
+    if (
+      !["http:", "https:"].includes(
+        parsedUrl.protocol
+      )
+    ) {
+      return {
+        ok: false,
+        error:
+          "Die Quellen-URL muss mit http:// oder https:// beginnen."
+      };
+    }
+
+    normalizedUrl =
+      parsedUrl.href;
+  } catch {
+    return {
+      ok: false,
+      error:
+        "Die Quellen-URL ist ungültig."
+    };
+  }
+
+  return {
+    ok: true,
+
+    data: {
+      provider,
+      title,
+      url: normalizedUrl,
+      notes,
+      verified:
+        input?.verified === true
+    }
+  };
+}
+
+function createVesselSourceId() {
+  return (
+    "SRC-" +
+    crypto.randomUUID()
+      .replaceAll("-", "")
+      .slice(0, 12)
+      .toUpperCase()
+  );
+}
+
+function appendVesselAuditEntry({
+  vessel,
+  updatedAt,
+  summary,
+  oldSourceCount,
+  newSourceCount
+}) {
+  if (
+    !vessel.audit ||
+    typeof vessel.audit !== "object" ||
+    Array.isArray(vessel.audit)
+  ) {
+    vessel.audit = {};
+  }
+
+  if (
+    !Array.isArray(
+      vessel.audit.change_history
+    )
+  ) {
+    vessel.audit.change_history = [];
+  }
+
+  vessel.audit.change_history.push({
+    changed_at: updatedAt,
+    changed_by: "web-ui",
+    summary,
+    changed_fields: [
+      "sources"
+    ],
+    changes: [
+      {
+        field: "sources",
+        old_value:
+          oldSourceCount,
+        new_value:
+          newSourceCount
+      }
+    ]
+  });
+
+  vessel.audit.updated_at =
+    updatedAt;
+
+  vessel.audit.updated_by =
+    "web-ui";
+}
+
+async function saveCanonicalVesselAndIndex({
+  env,
+  vesselResult,
+  vessel,
+  updatedAt,
+  message
+}) {
+  const vesselsResult =
+    await loadVessels(env);
+
+  if (!vesselsResult.ok) {
+    return {
+      ok: false,
+      error:
+        vesselsResult.error
+    };
+  }
+
+  const updatedIndexRow =
+    buildVesselIndexRow({
+      vessel,
+      path: vesselResult.path,
+      updatedAt
+    });
+
+  let indexEntryFound = false;
+
+  const updatedVessels =
+    vesselsResult.vessels
+      .map(indexVessel => {
+        if (
+          indexVessel.vessel_id !==
+          vessel.vessel_id
+        ) {
+          return indexVessel;
+        }
+
+        indexEntryFound = true;
+
+        return updatedIndexRow;
+      })
+      .sort(
+        (left, right) =>
+          left.vessel_id.localeCompare(
+            right.vessel_id
+          )
+      );
+
+  if (!indexEntryFound) {
+    return {
+      ok: false,
+      status: 409,
+      error:
+        `Für ${vessel.vessel_id} fehlt der Eintrag in data/vessels.csv.`
+    };
+  }
+
+  const commitResult =
+    await createAtomicGitHubCommit({
+      env,
+      message,
+      files: [
+        {
+          path: vesselResult.path,
+          content:
+            JSON.stringify(
+              vessel,
+              null,
+              2
+            ) + "\n",
+          encoding: "utf-8"
+        },
+        {
+          path: VESSELS_PATH,
+          content:
+            serializeVesselsCsv(
+              updatedVessels
+            ),
+          encoding: "utf-8"
+        }
+      ]
+    });
+
+  if (!commitResult.ok) {
+    return {
+      ...commitResult,
+      error:
+        "Vessel-JSON und CSV-Index konnten nicht atomar gespeichert werden."
+    };
+  }
+
+  return {
+    ok: true,
+    commitSha:
+      commitResult.commitSha
+  };
 }
 
 async function handleVesselIdSuggestion(request, env) {
