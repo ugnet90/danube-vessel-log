@@ -2,7 +2,7 @@
 <!--
   Danube Vessel Log
   File: docs/vessel.html
-  Version: 0.9.1
+  Version: 0.10.0
   Updated: 2026-07-22
 -->
 <html lang="de">
@@ -569,20 +569,123 @@
 
       <section class="detail-card">
         <div class="card-heading-row">
-          <h2>Quellen</h2>
-          <span
-            id="sourceCountBadge"
-            class="count-badge"
-          >0</span>
+          <div class="card-title-with-count">
+            <h2>Quellen</h2>
+      
+            <span
+              id="sourceCountBadge"
+              class="count-badge"
+            >
+              0
+            </span>
+          </div>
+      
+          <button
+            id="addSourceButton"
+            class="secondary-button"
+            type="button"
+          >
+            Quelle hinzufügen
+          </button>
         </div>
-
+      
+        <form
+          id="sourceForm"
+          class="source-form hidden"
+        >
+          <h3>Neue Quelle</h3>
+      
+          <div class="source-form-grid">
+            <label class="edit-field">
+              <span>Anbieter *</span>
+      
+              <select
+                id="sourceProvider"
+                required
+              >
+                <option value="">Bitte wählen</option>
+                <option value="MarineTraffic">MarineTraffic</option>
+                <option value="VesselFinder">VesselFinder</option>
+                <option value="FleetMon">FleetMon</option>
+                <option value="Wikipedia">Wikipedia</option>
+                <option value="Betreiber">Betreiber</option>
+                <option value="Werft">Werft</option>
+                <option value="Behörde">Behörde</option>
+                <option value="Presse">Presse</option>
+                <option value="Sonstige">Sonstige</option>
+              </select>
+            </label>
+      
+            <label class="edit-field">
+              <span>Titel</span>
+      
+              <input
+                id="sourceTitle"
+                type="text"
+                maxlength="150"
+                placeholder="z. B. Schiffsprofil"
+              >
+            </label>
+      
+            <label class="edit-field source-field-wide">
+              <span>URL *</span>
+      
+              <input
+                id="sourceUrl"
+                type="url"
+                maxlength="1000"
+                placeholder="https://…"
+                required
+              >
+            </label>
+      
+            <label class="edit-field source-field-wide">
+              <span>Notiz</span>
+      
+              <textarea
+                id="sourceNotes"
+                rows="3"
+                maxlength="1000"
+                placeholder="Welche Angaben wurden dieser Quelle entnommen?"
+              ></textarea>
+            </label>
+      
+            <label class="source-checkbox source-field-wide">
+              <input
+                id="sourceVerified"
+                type="checkbox"
+              >
+      
+              <span>Quelle wurde manuell geprüft</span>
+            </label>
+          </div>
+      
+          <div class="source-form-actions">
+            <button
+              id="saveSourceButton"
+              class="primary-button"
+              type="submit"
+            >
+              Quelle speichern
+            </button>
+      
+            <button
+              id="cancelSourceButton"
+              class="secondary-button"
+              type="button"
+            >
+              Abbrechen
+            </button>
+          </div>
+        </form>
+      
         <div
           id="sourceEmpty"
           class="empty-state"
         >
           Noch keine Quellen hinterlegt.
         </div>
-
+      
         <div
           id="sourceList"
           class="source-list hidden"
