@@ -2,7 +2,7 @@
 <!--
   Danube Vessel Log
   File: docs/vessel.html
-  Version: 0.10.0
+  Version: 0.10.1
   Updated: 2026-07-22
 -->
 <html lang="de">
@@ -142,12 +142,19 @@
     
               <label class="edit-field">
                 <span>ENI</span>
+              
                 <input
                   id="editEni"
                   type="text"
-                  maxlength="30"
+                  maxlength="16"
                   inputmode="numeric"
+                  placeholder="z. B. 02330531"
                 >
+              
+                <small class="field-help">
+                  Acht Ziffern; „ENI “, Leerzeichen, Punkte und Bindestriche
+                  werden automatisch entfernt.
+                </small>
               </label>
     
               <label class="edit-field">
@@ -167,30 +174,32 @@
             <div class="edit-grid">
               <label class="edit-field">
                 <span>Schiffstyp</span>
-                <input
-                  id="editShipType"
-                  type="text"
-                  maxlength="80"
-                >
+              
+                <select id="editShipType">
+                  <option value="">
+                    Referenzdaten werden geladen …
+                  </option>
+                </select>
               </label>
-    
+              
               <label class="edit-field">
                 <span>Untertyp</span>
-                <input
-                  id="editShipSubtype"
-                  type="text"
-                  maxlength="80"
-                >
+              
+                <select id="editShipSubtype">
+                  <option value="">
+                    Referenzdaten werden geladen …
+                  </option>
+                </select>
               </label>
     
               <label class="edit-field">
                 <span>Flagge</span>
-                <input
-                  id="editFlag"
-                  type="text"
-                  maxlength="10"
-                  placeholder="z. B. AT"
-                >
+              
+                <select id="editFlag">
+                  <option value="">
+                    Referenzdaten werden geladen …
+                  </option>
+                </select>
               </label>
     
               <label class="edit-field">
@@ -584,6 +593,7 @@
             id="addSourceButton"
             class="secondary-button"
             type="button"
+            disabled
           >
             Quelle hinzufügen
           </button>
@@ -593,26 +603,21 @@
           id="sourceForm"
           class="source-form hidden"
         >
-          <h3>Neue Quelle</h3>
+          <h3 id="sourceFormTitle">
+            Neue Quelle
+          </h3>
       
           <div class="source-form-grid">
             <label class="edit-field">
               <span>Anbieter *</span>
-      
+            
               <select
                 id="sourceProvider"
                 required
               >
-                <option value="">Bitte wählen</option>
-                <option value="MarineTraffic">MarineTraffic</option>
-                <option value="VesselFinder">VesselFinder</option>
-                <option value="FleetMon">FleetMon</option>
-                <option value="Wikipedia">Wikipedia</option>
-                <option value="Betreiber">Betreiber</option>
-                <option value="Werft">Werft</option>
-                <option value="Behörde">Behörde</option>
-                <option value="Presse">Presse</option>
-                <option value="Sonstige">Sonstige</option>
+                <option value="">
+                  Referenzdaten werden geladen …
+                </option>
               </select>
             </label>
       
@@ -649,6 +654,24 @@
                 placeholder="Welche Angaben wurden dieser Quelle entnommen?"
               ></textarea>
             </label>
+
+            <fieldset
+              class="source-fields-section source-field-wide"
+            >
+              <legend>
+                Übernommene Felder
+              </legend>
+            
+              <p class="source-fields-help">
+                Markiere alle Stammdatenfelder, deren Inhalt aus dieser
+                Quelle stammt.
+              </p>
+            
+              <div
+                id="sourceFieldsUsed"
+                class="source-fields-grid"
+              ></div>
+            </fieldset>            
       
             <label class="source-checkbox source-field-wide">
               <input
@@ -792,6 +815,7 @@
   <script src="js/site_map.js"></script>
   <script src="js/nav.js"></script>
   <script src="js/api.js"></script>
+  <script src="js/vessel_reference.js"></script>
   <script src="js/vessel.js"></script>
 </body>
 </html>
