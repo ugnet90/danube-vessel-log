@@ -986,33 +986,6 @@ async function handleVesselDetail(request, env) {
     }, vesselResult.status === 404 ? 404 : 502);
   }
 
-  const referenceResult =
-    await loadVesselReferenceData(
-      env
-    );
-  
-  if (!referenceResult.ok) {
-    return jsonResponse({
-      ok: false,
-      error:
-        referenceResult.error
-    }, referenceResult.status ?? 502);
-  }
-  
-  const validation =
-    validateVesselUpdateInput(
-      input,
-      vesselResult.vessel,
-      referenceResult.data
-    );
-  
-  if (!validation.ok) {
-    return jsonResponse({
-      ok: false,
-      error: validation.error
-    }, 400);
-  }  
-
   const sightingsResult =
     await loadVesselSightings({
       env,
@@ -1671,6 +1644,33 @@ async function handleUpdateVessel(
     }, vesselResult.status === 404
       ? 404
       : 502);
+  }
+
+  const referenceResult =
+    await loadVesselReferenceData(
+      env
+    );
+
+  if (!referenceResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        referenceResult.error
+    }, referenceResult.status ?? 502);
+  }
+
+  const validation =
+    validateVesselUpdateInput(
+      input,
+      vesselResult.vessel,
+      referenceResult.data
+    );
+
+  if (!validation.ok) {
+    return jsonResponse({
+      ok: false,
+      error: validation.error
+    }, 400);
   }
 
   const vessel =
