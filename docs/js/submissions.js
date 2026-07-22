@@ -774,6 +774,14 @@ document.addEventListener("DOMContentLoaded", () => {
         "Zuordnung bestätigen";
     }
 
+    if (hasAutomaticMatch || hasSelectedCandidate) {
+      correctButton.textContent =
+        "Anderes Schiff zuordnen";
+    } else {
+      correctButton.textContent =
+        "Vessel-ID manuell zuordnen";
+    }
+    
     correctButton.disabled = reviewBusy;
     rejectButton.disabled = reviewBusy;
     previewCorrectionButton.disabled = reviewBusy;
