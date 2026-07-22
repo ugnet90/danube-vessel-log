@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/vessel.css
- * Version: 0.9.1
+ * Version: 0.10.0
  * Updated: 2026-07-22
  */
 
@@ -260,6 +260,59 @@ dd {
   text-align: center;
 }
 
+.card-title-with-count {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.source-form {
+  margin-bottom: 18px;
+  padding: 16px;
+  border: 1px solid #b8cdf6;
+  border-radius: 10px;
+  background: #f8faff;
+}
+
+.source-form h3 {
+  margin: 0 0 14px;
+  font-size: 1rem;
+}
+
+.source-form-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+}
+
+.source-field-wide {
+  grid-column: 1 / -1;
+}
+
+.source-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #52606d;
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.source-checkbox input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.source-form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #dce5ef;
+}
+
 .source-list {
   display: grid;
   grid-template-columns:
@@ -272,6 +325,50 @@ dd {
   border: 1px solid #e2e8ef;
   border-radius: 10px;
   background: #f8fafc;
+}
+
+.source-item-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.source-provider {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 0.84rem;
+}
+
+.source-notes {
+  margin: 9px 0 0;
+  color: #46515c;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+.source-remove-button {
+  flex: 0 0 auto;
+  padding: 5px 8px;
+  border: 1px solid #e4b9b9;
+  border-radius: 7px;
+  background: #fff;
+  color: #b42318;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.source-remove-button:not(:disabled):hover,
+.source-remove-button:not(:disabled):focus-visible {
+  border-color: #b42318;
+  background: #fff5f5;
+}
+
+.source-remove-button:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .source-title {
@@ -469,6 +566,14 @@ dd {
   font-weight: 750;
 }
 
+.change-history-summary {
+  margin: 0;
+  padding: 12px 16px;
+  border-bottom: 1px solid #edf1f5;
+  color: #25313c;
+  font-weight: 650;
+}
+
 .change-details {
   display: grid;
 }
@@ -652,6 +757,26 @@ dd {
 }
 
 @media (max-width: 600px) {
+  .source-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .source-field-wide {
+    grid-column: auto;
+  }
+
+  .source-form-actions {
+    flex-direction: column;
+  }
+
+  .source-form-actions button {
+    width: 100%;
+  }
+
+  .source-item-header {
+    flex-direction: column;
+  }
+  
   .vessel-actions,
   .edit-actions {
     width: 100%;
