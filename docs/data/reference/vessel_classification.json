@@ -1,0 +1,619 @@
+{
+  "schema_version": 1,
+  "version": "0.10.1",
+  "default_type_code": "UNKNOWN",
+  "default_subtype_code": "UNKNOWN",
+  "types": [
+    {
+      "code": "UNKNOWN",
+      "label": "Noch nicht klassifiziert",
+      "aliases": [
+        "unbekannt",
+        "unknown",
+        "nicht klassifiziert"
+      ],
+      "subtypes": [
+        {
+          "code": "UNKNOWN",
+          "label": "Noch nicht klassifiziert",
+          "aliases": [
+            "unbekannt",
+            "unknown",
+            "nicht klassifiziert"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "PASSENGER",
+      "label": "Passagierschiff",
+      "aliases": [
+        "passenger",
+        "passagierschiff",
+        "fahrgastschiff",
+        "ausflugsschiff",
+        "kabinenfahrgastschiff",
+        "flusskreuzfahrtschiff",
+        "river cruise"
+      ],
+      "subtypes": [
+        {
+          "code": "UNKNOWN",
+          "label": "Untertyp noch nicht klassifiziert",
+          "aliases": [
+            "unbekannt",
+            "unknown"
+          ]
+        },
+        {
+          "code": "RIVER_CRUISE",
+          "label": "Kabinenfahrgastschiff / Flusskreuzfahrtschiff",
+          "aliases": [
+            "kabinenfahrgastschiff",
+            "flusskreuzfahrtschiff",
+            "flusskreuzer",
+            "river cruise",
+            "river cruise ship",
+            "kreuzfahrtschiff"
+          ]
+        },
+        {
+          "code": "EXCURSION",
+          "label": "Fahrgast- oder Ausflugsschiff",
+          "aliases": [
+            "fahrgastschiff",
+            "ausflugsschiff",
+            "tagesausflugsschiff",
+            "day passenger ship"
+          ]
+        },
+        {
+          "code": "FERRY",
+          "label": "Fähre",
+          "aliases": [
+            "fähre",
+            "ferry",
+            "personenfähre",
+            "autofähre"
+          ]
+        },
+        {
+          "code": "WATER_TAXI",
+          "label": "Wassertaxi",
+          "aliases": [
+            "wassertaxi",
+            "water taxi"
+          ]
+        },
+        {
+          "code": "PASSENGER_OTHER",
+          "label": "Sonstiges Passagierschiff",
+          "aliases": [
+            "sonstiges passagierschiff"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "CARGO",
+      "label": "Güterschiff",
+      "aliases": [
+        "cargo",
+        "güterschiff",
+        "frachtschiff",
+        "motorgüterschiff"
+      ],
+      "subtypes": [
+        {
+          "code": "UNKNOWN",
+          "label": "Untertyp noch nicht klassifiziert",
+          "aliases": [
+            "unbekannt",
+            "unknown"
+          ]
+        },
+        {
+          "code": "GENERAL_CARGO",
+          "label": "Motorgüterschiff",
+          "aliases": [
+            "motorgüterschiff",
+            "general cargo",
+            "general cargo vessel"
+          ]
+        },
+        {
+          "code": "CONTAINER",
+          "label": "Containerschiff",
+          "aliases": [
+            "containerschiff",
+            "container ship",
+            "container vessel"
+          ]
+        },
+        {
+          "code": "BULK",
+          "label": "Massengutschiff",
+          "aliases": [
+            "massengutschiff",
+            "bulk carrier"
+          ]
+        },
+        {
+          "code": "RO_RO",
+          "label": "RoRo-Güterschiff",
+          "aliases": [
+            "roro",
+            "ro-ro",
+            "ro ro"
+          ]
+        },
+        {
+          "code": "BARGE",
+          "label": "Güterschubleichter / Schleppkahn",
+          "aliases": [
+            "schubleichter",
+            "güterschubleichter",
+            "schleppkahn",
+            "barge"
+          ]
+        },
+        {
+          "code": "CARGO_OTHER",
+          "label": "Sonstiges Güterschiff",
+          "aliases": [
+            "sonstiges güterschiff"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "TANKER",
+      "label": "Tankschiff",
+      "aliases": [
+        "tanker",
+        "tankschiff",
+        "motortankschiff"
+      ],
+      "subtypes": [
+        {
+          "code": "UNKNOWN",
+          "label": "Untertyp noch nicht klassifiziert",
+          "aliases": [
+            "unbekannt",
+            "unknown"
+          ]
+        },
+        {
+          "code": "LIQUID_TANKER",
+          "label": "Motortankschiff",
+          "aliases": [
+            "motortankschiff",
+            "flüssigguttanker",
+            "liquid tanker"
+          ]
+        },
+        {
+          "code": "GAS_TANKER",
+          "label": "Gastankschiff",
+          "aliases": [
+            "gastankschiff",
+            "gas tanker"
+          ]
+        },
+        {
+          "code": "BUNKER_TANKER",
+          "label": "Bunkerschiff",
+          "aliases": [
+            "bunkerschiff",
+            "bunker tanker"
+          ]
+        },
+        {
+          "code": "TANK_BARGE",
+          "label": "Tankschubleichter",
+          "aliases": [
+            "tankschubleichter",
+            "tank barge"
+          ]
+        },
+        {
+          "code": "TANKER_OTHER",
+          "label": "Sonstiges Tankschiff",
+          "aliases": [
+            "sonstiges tankschiff"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "TUG",
+      "label": "Schlepp- oder Schubschiff",
+      "aliases": [
+        "tug",
+        "tugboat",
+        "schubschiff",
+        "schleppschiff",
+        "schleppboot"
+      ],
+      "subtypes": [
+        {
+          "code": "UNKNOWN",
+          "label": "Untertyp noch nicht klassifiziert",
+          "aliases": [
+            "unbekannt",
+            "unknown"
+          ]
+        },
+        {
+          "code": "PUSHER",
+          "label": "Schubschiff",
+          "aliases": [
+            "schubschiff",
+            "pusher",
+            "push boat"
+          ]
+        },
+        {
+          "code": "TUGBOAT",
+          "label": "Schleppboot",
+          "aliases": [
+            "schleppboot",
+            "schleppschiff",
+            "tugboat",
+            "tug"
+          ]
+        },
+        {
+          "code": "PUSH_TUG",
+          "label": "Schub- und Schleppboot",
+          "aliases": [
+            "schub- und schleppboot",
+            "schubschleppboot"
+          ]
+        },
+        {
+          "code": "TUG_OTHER",
+          "label": "Sonstiges Schlepp- oder Schubschiff",
+          "aliases": [
+            "sonstiges schleppschiff",
+            "sonstiges schubschiff"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "SERVICE",
+      "label": "Arbeits- oder Dienstschiff",
+      "aliases": [
+        "service",
+        "arbeitsschiff",
+        "dienstschiff",
+        "workboat"
+      ],
+      "subtypes": [
+        {
+          "code": "UNKNOWN",
+          "label": "Untertyp noch nicht klassifiziert",
+          "aliases": [
+            "unbekannt",
+            "unknown"
+          ]
+        },
+        {
+          "code": "DREDGER",
+          "label": "Baggerschiff",
+          "aliases": [
+            "baggerschiff",
+            "dredger"
+          ]
+        },
+        {
+          "code": "CRANE",
+          "label": "Kranschiff",
+          "aliases": [
+            "kranschiff",
+            "crane vessel"
+          ]
+        },
+        {
+          "code": "CONSTRUCTION",
+          "label": "Bau- oder Montageschiff",
+          "aliases": [
+            "bauschiff",
+            "montageschiff",
+            "construction vessel"
+          ]
+        },
+        {
+          "code": "SURVEY_RESEARCH",
+          "label": "Vermessungs- oder Forschungsschiff",
+          "aliases": [
+            "vermessungsschiff",
+            "forschungsschiff",
+            "survey vessel",
+            "research vessel"
+          ]
+        },
+        {
+          "code": "SUPPLY",
+          "label": "Versorgungsschiff",
+          "aliases": [
+            "versorgungsschiff",
+            "supply vessel"
+          ]
+        },
+        {
+          "code": "PILOT",
+          "label": "Lotsenboot",
+          "aliases": [
+            "lotsenboot",
+            "pilot boat"
+          ]
+        },
+        {
+          "code": "ICEBREAKER",
+          "label": "Eisbrecher",
+          "aliases": [
+            "eisbrecher",
+            "icebreaker"
+          ]
+        },
+        {
+          "code": "FIREBOAT",
+          "label": "Feuerlöschboot",
+          "aliases": [
+            "feuerlöschboot",
+            "löschboot",
+            "fireboat"
+          ]
+        },
+        {
+          "code": "WORKBOAT",
+          "label": "Arbeitsboot",
+          "aliases": [
+            "arbeitsboot",
+            "workboat"
+          ]
+        },
+        {
+          "code": "SERVICE_OTHER",
+          "label": "Sonstiges Arbeits- oder Dienstschiff",
+          "aliases": [
+            "sonstiges arbeitsschiff",
+            "sonstiges dienstschiff"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "GOVERNMENT",
+      "label": "Behörden- oder Einsatzschiff",
+      "aliases": [
+        "government",
+        "behördenschiff",
+        "einsatzschiff"
+      ],
+      "subtypes": [
+        {
+          "code": "UNKNOWN",
+          "label": "Untertyp noch nicht klassifiziert",
+          "aliases": [
+            "unbekannt",
+            "unknown"
+          ]
+        },
+        {
+          "code": "POLICE",
+          "label": "Polizeiboot",
+          "aliases": [
+            "polizeiboot",
+            "police boat"
+          ]
+        },
+        {
+          "code": "CUSTOMS",
+          "label": "Zollboot",
+          "aliases": [
+            "zollboot",
+            "customs boat"
+          ]
+        },
+        {
+          "code": "MILITARY",
+          "label": "Militärschiff",
+          "aliases": [
+            "militärschiff",
+            "militärboot",
+            "military vessel"
+          ]
+        },
+        {
+          "code": "RESCUE",
+          "label": "Rettungsboot",
+          "aliases": [
+            "rettungsboot",
+            "rescue boat"
+          ]
+        },
+        {
+          "code": "PATROL",
+          "label": "Patrouillenboot",
+          "aliases": [
+            "patrouillenboot",
+            "patrol boat"
+          ]
+        },
+        {
+          "code": "GOVERNMENT_OTHER",
+          "label": "Sonstiges Behörden- oder Einsatzschiff",
+          "aliases": [
+            "sonstiges behördenschiff",
+            "sonstiges einsatzschiff"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "RECREATIONAL",
+      "label": "Sport- oder Freizeitfahrzeug",
+      "aliases": [
+        "recreational",
+        "sportboot",
+        "freizeitboot",
+        "yacht"
+      ],
+      "subtypes": [
+        {
+          "code": "UNKNOWN",
+          "label": "Untertyp noch nicht klassifiziert",
+          "aliases": [
+            "unbekannt",
+            "unknown"
+          ]
+        },
+        {
+          "code": "MOTOR_YACHT",
+          "label": "Motoryacht",
+          "aliases": [
+            "motoryacht",
+            "motor yacht"
+          ]
+        },
+        {
+          "code": "SAILING_YACHT",
+          "label": "Segelyacht",
+          "aliases": [
+            "segelyacht",
+            "sailing yacht"
+          ]
+        },
+        {
+          "code": "HOUSEBOAT",
+          "label": "Hausboot",
+          "aliases": [
+            "hausboot",
+            "houseboat"
+          ]
+        },
+        {
+          "code": "PLEASURE_CRAFT",
+          "label": "Sport- oder Freizeitboot",
+          "aliases": [
+            "sportboot",
+            "freizeitboot",
+            "pleasure craft"
+          ]
+        },
+        {
+          "code": "RECREATIONAL_OTHER",
+          "label": "Sonstiges Freizeitfahrzeug",
+          "aliases": [
+            "sonstiges freizeitfahrzeug"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "FLOATING_OBJECT",
+      "label": "Schwimmende Anlage",
+      "aliases": [
+        "floating object",
+        "schwimmende anlage",
+        "ponton"
+      ],
+      "subtypes": [
+        {
+          "code": "UNKNOWN",
+          "label": "Untertyp noch nicht klassifiziert",
+          "aliases": [
+            "unbekannt",
+            "unknown"
+          ]
+        },
+        {
+          "code": "PONTOON",
+          "label": "Ponton",
+          "aliases": [
+            "ponton",
+            "pontoon"
+          ]
+        },
+        {
+          "code": "FLOATING_DOCK",
+          "label": "Schwimmdock",
+          "aliases": [
+            "schwimmdock",
+            "floating dock"
+          ]
+        },
+        {
+          "code": "LANDING_STAGE",
+          "label": "Schwimmende Anlegestelle",
+          "aliases": [
+            "anlegestelle",
+            "schwimmende anlegestelle",
+            "landing stage"
+          ]
+        },
+        {
+          "code": "FLOATING_OBJECT_OTHER",
+          "label": "Sonstige schwimmende Anlage",
+          "aliases": [
+            "sonstige schwimmende anlage"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "OTHER",
+      "label": "Sonstiges Schiff",
+      "aliases": [
+        "other",
+        "sonstiges",
+        "sonstiges schiff"
+      ],
+      "subtypes": [
+        {
+          "code": "UNKNOWN",
+          "label": "Untertyp noch nicht klassifiziert",
+          "aliases": [
+            "unbekannt",
+            "unknown"
+          ]
+        },
+        {
+          "code": "HISTORIC",
+          "label": "Historisches Schiff",
+          "aliases": [
+            "historisches schiff",
+            "historic vessel"
+          ]
+        },
+        {
+          "code": "MUSEUM",
+          "label": "Museumsschiff",
+          "aliases": [
+            "museumsschiff",
+            "museum ship"
+          ]
+        },
+        {
+          "code": "TRAINING",
+          "label": "Schul- oder Ausbildungsschiff",
+          "aliases": [
+            "schulschiff",
+            "ausbildungsschiff",
+            "training ship"
+          ]
+        },
+        {
+          "code": "OTHER",
+          "label": "Sonstiger Untertyp",
+          "aliases": [
+            "sonstiger untertyp"
+          ]
+        }
+      ]
+    }
+  ]
+}
