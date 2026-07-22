@@ -120,6 +120,39 @@
     });
   }
 
+  async function getVesselIdSuggestion({
+    workerUrl,
+    apiKey = "",
+    environment = "production"
+  }) {
+    const normalizedEnvironment =
+      environment === "test"
+        ? "test"
+        : "production";
+
+    return request({
+      workerUrl,
+      path:
+        `/vessel-id-suggestion?environment=` +
+        encodeURIComponent(normalizedEnvironment),
+      apiKey
+    });
+  }
+
+  async function createVessel({
+    workerUrl,
+    apiKey = "",
+    vessel
+  }) {
+    return request({
+      workerUrl,
+      path: "/vessel",
+      method: "POST",
+      apiKey,
+      body: vessel
+    });
+  }
+
   async function reviewSubmission({
     workerUrl,
     apiKey = "",
@@ -150,6 +183,8 @@
   window.VesselApi = {
     request,
     getVessel,
+    getVesselIdSuggestion,
+    createVessel,
     reviewSubmission
   };
 })();

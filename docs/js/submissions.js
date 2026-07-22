@@ -2,13 +2,13 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   const byId = id => document.getElementById(id);
-  
+
   const workerUrl = String(
     window.VesselConfig?.workerUrl ?? ""
   )
     .trim()
     .replace(/\/+$/, "");
-  
+
   const apiKeyInput = byId("apiKey");
   const reloadButton = byId("reloadButton");
   const statusFilter = byId("statusFilter");
@@ -69,6 +69,36 @@ document.addEventListener("DOMContentLoaded", () => {
   const vesselSourceCount = byId("vesselSourceCount");
   const vesselUpdatedAt = byId("vesselUpdatedAt");
 
+  const openVesselCreateButton = byId("openVesselCreateButton");
+  const vesselCreatePanel = byId("vesselCreatePanel");
+  const cancelVesselCreateButton = byId("cancelVesselCreateButton");
+  const newVesselEnvironment = byId("newVesselEnvironment");
+  const newVesselId = byId("newVesselId");
+  const newVesselName = byId("newVesselName");
+  const newVesselFormerNames = byId("newVesselFormerNames");
+  const newVesselMmsi = byId("newVesselMmsi");
+  const newVesselImo = byId("newVesselImo");
+  const newVesselEni = byId("newVesselEni");
+  const newVesselCallSign = byId("newVesselCallSign");
+  const newVesselShipType = byId("newVesselShipType");
+  const newVesselShipSubtype = byId("newVesselShipSubtype");
+  const newVesselFlag = byId("newVesselFlag");
+  const newVesselStatus = byId("newVesselStatus");
+  const newVesselYearBuilt = byId("newVesselYearBuilt");
+  const newVesselShipyard = byId("newVesselShipyard");
+  const newVesselLength = byId("newVesselLength");
+  const newVesselWidth = byId("newVesselWidth");
+  const newVesselDraft = byId("newVesselDraft");
+  const newVesselPassengers = byId("newVesselPassengers");
+  const newVesselOperator = byId("newVesselOperator");
+  const newVesselOwner = byId("newVesselOwner");
+  const newVesselManager = byId("newVesselManager");
+  const newVesselCruiseBrand = byId("newVesselCruiseBrand");
+  const newVesselHomePort = byId("newVesselHomePort");
+  const newVesselNotes = byId("newVesselNotes");
+  const vesselCreateResult = byId("vesselCreateResult");
+  const saveVesselCreateButton = byId("saveVesselCreateButton");
+
   const reviewSection = byId("reviewSection");
   const confirmButton = byId("confirmButton");
   const correctButton = byId("correctButton");
@@ -89,6 +119,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let reviewCandidateVesselId = "";
   let vesselLoadToken = 0;
   let reviewBusy = false;
+  let vesselCreateBusy = false;
+  let vesselSuggestionToken = 0;
 
   const vesselCache = new Map();
 
@@ -119,6 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const decisionLabels = {
     confirmed: "bestätigt",
     corrected: "korrigiert",
+    created: "neu angelegt",
     rejected: "abgelehnt"
   };
 
@@ -455,8 +488,266 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function showVesselCreateResult(type, text) {
+    vesselCreateResult.className =
+      `review-result ${type}`;
+    vesselCreateResult.textContent = text;
+  }
+
+  function clearVesselCreateResult() {
+    vesselCreateResult.className =
+      "review-result hidden";
+    vesselCreateResult.textContent = "";
+  }
+
+  function setVesselCreateBusy(isBusy) {
+    vesselCreateBusy = isBusy;
+
+    for (const control of vesselCreatePanel.querySelectorAll(
+      "input, select, textarea, button"
+    )) {
+      control.disabled = isBusy;
+    }
+
+    openVesselCreateButton.disabled =
+      isBusy ||
+      !selectedSubmission ||
+      getWorkflowStatus(selectedSubmission) !== "new";
+
+    saveVesselCreateButton.textContent =
+      isBusy
+        ? "Schiff wird angelegt …"
+        : "Schiff anlegen und Sichtung zuordnen";
+  }
+
+  function resetVesselCreateForm() {
+    newVesselEnvironment.value = "production";
+    newVesselId.value = "";
+    newVesselName.value =
+      selectedSubmission?.vessel_name_entered ?? "";
+    newVesselFormerNames.value = "";
+    newVesselMmsi.value = "";
+    newVesselImo.value = "";
+    newVesselEni.value = "";
+    newVesselCallSign.value = "";
+    newVesselShipType.value = "";
+    newVesselShipSubtype.value = "";
+    newVesselFlag.value = "";
+    newVesselStatus.value = "unknown";
+    newVesselYearBuilt.value = "";
+    newVesselShipyard.value = "";
+    newVesselLength.value = "";
+    newVesselWidth.value = "";
+    newVesselDraft.value = "";
+    newVesselPassengers.value = "";
+    newVesselOperator.value = "";
+    newVesselOwner.value = "";
+    newVesselManager.value = "";
+    newVesselCruiseBrand.value = "";
+    newVesselHomePort.value = "";
+    newVesselNotes.value = "";
+    clearVesselCreateResult();
+  }
+
+  async function requestVesselIdSuggestion() {
+    if (!workerUrl) {
+      showVesselCreateResult(
+        "error",
+        "Die Worker-URL fehlt in js/config.js."
+      );
+      return;
+    }
+
+    const token = ++vesselSuggestionToken;
+    newVesselId.value = "wird ermittelt …";
+    saveVesselCreateButton.disabled = true;
+    clearVesselCreateResult();
+
+    try {
+      const response =
+        await window.VesselApi.getVesselIdSuggestion({
+          workerUrl,
+          apiKey: apiKeyInput.value,
+          environment: newVesselEnvironment.value
+        });
+
+      if (token !== vesselSuggestionToken) {
+        return;
+      }
+
+      newVesselId.value =
+        response.data?.vessel_id ?? "";
+
+      if (!vesselIdPattern.test(newVesselId.value)) {
+        throw new Error(
+          "Der Worker lieferte keine gültige Vessel-ID."
+        );
+      }
+    } catch (error) {
+      if (token !== vesselSuggestionToken) {
+        return;
+      }
+
+      newVesselId.value = "";
+      showVesselCreateResult(
+        "error",
+        error instanceof Error
+          ? error.message
+          : String(error)
+      );
+    } finally {
+      if (token === vesselSuggestionToken) {
+        saveVesselCreateButton.disabled =
+          vesselCreateBusy ||
+          !vesselIdPattern.test(newVesselId.value);
+      }
+    }
+  }
+
+  function openVesselCreateForm() {
+    if (
+      !selectedSubmission ||
+      getWorkflowStatus(selectedSubmission) !== "new"
+    ) {
+      return;
+    }
+
+    resetVesselCreateForm();
+    vesselCreatePanel.classList.remove("hidden");
+    correctionPanel.classList.add("hidden");
+    requestVesselIdSuggestion();
+
+    requestAnimationFrame(() => {
+      vesselCreatePanel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+      newVesselName.focus();
+      newVesselName.select();
+    });
+  }
+
+  function parseFormerNames(value) {
+    return [
+      ...new Set(
+        String(value ?? "")
+          .split(/\r?\n/)
+          .map(item => item.trim())
+          .filter(Boolean)
+      )
+    ];
+  }
+
+  function buildNewVesselPayload() {
+    return {
+      environment: newVesselEnvironment.value,
+      submission_id:
+        selectedSubmission?.submission_id ?? "",
+      review_notes: reviewNotes.value.trim(),
+      name: newVesselName.value.trim(),
+      former_names:
+        parseFormerNames(newVesselFormerNames.value),
+      mmsi: newVesselMmsi.value.trim(),
+      imo: newVesselImo.value.trim(),
+      eni: newVesselEni.value.trim(),
+      call_sign: newVesselCallSign.value.trim(),
+      ship_type: newVesselShipType.value.trim(),
+      ship_subtype: newVesselShipSubtype.value.trim(),
+      flag: newVesselFlag.value.trim(),
+      status: newVesselStatus.value,
+      year_built: newVesselYearBuilt.value,
+      shipyard: newVesselShipyard.value.trim(),
+      length_m: newVesselLength.value,
+      width_m: newVesselWidth.value,
+      draft_m: newVesselDraft.value,
+      passengers: newVesselPassengers.value,
+      operator: newVesselOperator.value.trim(),
+      owner: newVesselOwner.value.trim(),
+      manager: newVesselManager.value.trim(),
+      cruise_brand: newVesselCruiseBrand.value.trim(),
+      home_port: newVesselHomePort.value.trim(),
+      notes: newVesselNotes.value.trim()
+    };
+  }
+
+  async function saveNewVessel() {
+    if (
+      !selectedSubmission ||
+      getWorkflowStatus(selectedSubmission) !== "new"
+    ) {
+      return;
+    }
+
+    if (!newVesselName.value.trim()) {
+      showVesselCreateResult(
+        "error",
+        "Bitte einen Schiffsnamen eingeben."
+      );
+      newVesselName.focus();
+      return;
+    }
+
+    if (!vesselIdPattern.test(newVesselId.value)) {
+      showVesselCreateResult(
+        "error",
+        "Es liegt noch keine gültige Vessel-ID vor."
+      );
+      return;
+    }
+
+    clearVesselCreateResult();
+    setVesselCreateBusy(true);
+
+    try {
+      const selectedSubmissionId =
+        selectedSubmission.submission_id;
+
+      const response = await window.VesselApi.createVessel({
+        workerUrl,
+        apiKey: apiKeyInput.value,
+        vessel: buildNewVesselPayload()
+      });
+
+      const createdVesselId =
+        response.data?.vessel_id ?? "";
+
+      if (!vesselIdPattern.test(createdVesselId)) {
+        throw new Error(
+          "Der Worker meldete keine gültige neue Vessel-ID."
+        );
+      }
+
+      vesselCache.clear();
+      vesselCache.set(createdVesselId, response.data);
+      vesselCreatePanel.classList.add("hidden");
+
+      statusFilter.value = "reviewed";
+      selectedSubmission = {
+        ...selectedSubmission,
+        submission_id: selectedSubmissionId
+      };
+
+      await loadSubmissions({
+        preserveSelection: true
+      });
+
+      vesselStatus.textContent =
+        `${createdVesselId} wurde angelegt und mit der Sichtung verknüpft.`;
+    } catch (error) {
+      showVesselCreateResult(
+        "error",
+        error instanceof Error
+          ? error.message
+          : String(error)
+      );
+    } finally {
+      setVesselCreateBusy(false);
+    }
+  }
+
   function resetVesselPanel() {
     vesselLoadToken += 1;
+    vesselSuggestionToken += 1;
     selectedVesselId = "";
     reviewCandidateVesselId = "";
     vesselStatus.textContent = "";
@@ -468,6 +759,8 @@ document.addEventListener("DOMContentLoaded", () => {
     vesselError.classList.add("hidden");
     vesselError.textContent = "";
     vesselContent.classList.add("hidden");
+    vesselCreatePanel.classList.add("hidden");
+    clearVesselCreateResult();
   }
 
   function updateCandidateSelection() {
@@ -504,6 +797,7 @@ document.addEventListener("DOMContentLoaded", () => {
          * dafür geschlossen.
          */
         correctionPanel.classList.add("hidden");
+        vesselCreatePanel.classList.add("hidden");
         clearReviewResult();
         updateCandidateSelection();
         loadVessel(candidateId);
@@ -783,11 +1077,16 @@ document.addEventListener("DOMContentLoaded", () => {
       correctButton.textContent =
         "Vessel-ID manuell zuordnen";
     }
-    
+
     correctButton.disabled = reviewBusy;
     rejectButton.disabled = reviewBusy;
     previewCorrectionButton.disabled = reviewBusy;
     saveCorrectionButton.disabled = reviewBusy;
+    openVesselCreateButton.disabled =
+      reviewBusy ||
+      vesselCreateBusy ||
+      !selectedSubmission ||
+      getWorkflowStatus(selectedSubmission) !== "new";
   }
 
   function renderDetail() {
@@ -856,8 +1155,10 @@ document.addEventListener("DOMContentLoaded", () => {
         review.decision === "confirmed"
           ? "manuell bestätigt"
           : review.decision === "corrected"
-            ? "manuell korrigiert"
-            : "—";
+            ? "manuell zugeordnet"
+            : review.decision === "created"
+              ? "bei Neuanlage"
+              : "—";
       candidateIds.textContent = "—";
     } else {
       autoMatchStatus.textContent =
@@ -884,6 +1185,11 @@ document.addEventListener("DOMContentLoaded", () => {
     clearReviewResult();
 
     reviewSection.classList.toggle(
+      "hidden",
+      workflowStatus !== "new"
+    );
+
+    openVesselCreateButton.classList.toggle(
       "hidden",
       workflowStatus !== "new"
     );
@@ -1076,6 +1382,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   correctButton.addEventListener("click", () => {
+    vesselCreatePanel.classList.add("hidden");
     correctionPanel.classList.remove("hidden");
 
     if (
@@ -1128,6 +1435,24 @@ document.addEventListener("DOMContentLoaded", () => {
       decision: "corrected",
       vesselId: correctedId
     });
+  });
+
+  openVesselCreateButton.addEventListener("click", () => {
+    openVesselCreateForm();
+  });
+
+  cancelVesselCreateButton.addEventListener("click", () => {
+    vesselSuggestionToken += 1;
+    vesselCreatePanel.classList.add("hidden");
+    clearVesselCreateResult();
+  });
+
+  newVesselEnvironment.addEventListener("change", () => {
+    requestVesselIdSuggestion();
+  });
+
+  saveVesselCreateButton.addEventListener("click", () => {
+    saveNewVessel();
   });
 
   correctedVesselId.addEventListener("keydown", event => {
