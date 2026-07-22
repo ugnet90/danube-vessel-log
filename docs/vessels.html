@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schiffe</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/vessels.css">
+</head>
+<body>
+  <div class="site-nav-shell" data-site-nav></div>
+
+  <main class="vessels-page">
+    <header class="vessels-header">
+      <div>
+        <h1>Schiffe</h1>
+        <p>Kanonische Schiffsstammdaten durchsuchen und öffnen.</p>
+      </div>
+      <button id="reloadButton" class="secondary-button" type="button">Neu laden</button>
+    </header>
+
+    <section class="connection-card">
+      <div class="form-field compact-field">
+        <label for="apiKey">API-Schlüssel</label>
+        <input id="apiKey" type="password" placeholder="Optional" autocomplete="off">
+      </div>
+    </section>
+
+    <section class="filter-card" aria-label="Filter">
+      <div class="form-field search-field">
+        <label for="searchInput">Suche</label>
+        <input id="searchInput" type="search" placeholder="Name, frühere Namen, ID, MMSI, IMO, ENI …" autocomplete="off">
+      </div>
+
+      <div class="filter-grid">
+        <div class="form-field">
+          <label for="typeFilter">Schiffstyp</label>
+          <select id="typeFilter"><option value="">Alle</option></select>
+        </div>
+        <div class="form-field">
+          <label for="flagFilter">Flagge</label>
+          <select id="flagFilter"><option value="">Alle</option></select>
+        </div>
+        <div class="form-field">
+          <label for="statusFilter">Status</label>
+          <select id="statusFilter"><option value="">Alle</option></select>
+        </div>
+        <label class="test-toggle">
+          <input id="showTestData" type="checkbox">
+          <span>Testdaten anzeigen</span>
+        </label>
+      </div>
+    </section>
+
+    <div class="list-toolbar">
+      <div id="resultCount" class="result-count" aria-live="polite"></div>
+      <div id="listStatus" class="list-status" aria-live="polite"></div>
+    </div>
+
+    <section class="table-card">
+      <div class="table-scroll">
+        <table class="vessels-table">
+          <thead>
+            <tr>
+              <th>Vessel-ID</th>
+              <th>Name</th>
+              <th>Typ</th>
+              <th>Betreiber</th>
+              <th>Flagge</th>
+              <th>Baujahr</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="vesselRows"></tbody>
+        </table>
+      </div>
+      <div id="emptyState" class="empty-state hidden">Keine passenden Schiffe gefunden.</div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/site_map.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/vessels.js"></script>
+</body>
+</html>

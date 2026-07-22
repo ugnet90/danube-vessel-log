@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schiff</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/vessel.css">
+</head>
+<body>
+  <div class="site-nav-shell" data-site-nav></div>
+
+  <main class="vessel-page">
+    <div class="breadcrumb"><a href="vessels.html">Schiffe</a><span>›</span><span id="breadcrumbId">…</span></div>
+
+    <header class="vessel-header">
+      <div>
+        <div class="title-line">
+          <h1 id="vesselName">Schiff wird geladen …</h1>
+          <span id="environmentBadge" class="environment-badge hidden"></span>
+        </div>
+        <p id="vesselSubtitle"></p>
+      </div>
+      <button id="reloadButton" class="secondary-button" type="button">Neu laden</button>
+    </header>
+
+    <section class="connection-card">
+      <div class="form-field compact-field">
+        <label for="apiKey">API-Schlüssel</label>
+        <input id="apiKey" type="password" placeholder="Optional" autocomplete="off">
+      </div>
+    </section>
+
+    <div id="pageStatus" class="page-status" aria-live="polite"></div>
+
+    <article id="vesselContent" class="vessel-content hidden">
+      <section class="detail-card">
+        <h2>Identität</h2>
+        <dl class="detail-grid">
+          <div><dt>Vessel-ID</dt><dd id="vesselId"></dd></div>
+          <div><dt>Name</dt><dd id="identityName"></dd></div>
+          <div><dt>Frühere Namen</dt><dd id="formerNames"></dd></div>
+          <div><dt>MMSI</dt><dd id="mmsi"></dd></div>
+          <div><dt>IMO</dt><dd id="imo"></dd></div>
+          <div><dt>ENI</dt><dd id="eni"></dd></div>
+          <div><dt>Rufzeichen</dt><dd id="callSign"></dd></div>
+        </dl>
+      </section>
+
+      <section class="detail-card">
+        <h2>Klassifikation</h2>
+        <dl class="detail-grid">
+          <div><dt>Schiffstyp</dt><dd id="shipType"></dd></div>
+          <div><dt>Untertyp</dt><dd id="shipSubtype"></dd></div>
+          <div><dt>Flagge</dt><dd id="flag"></dd></div>
+          <div><dt>Status</dt><dd id="status"></dd></div>
+        </dl>
+      </section>
+
+      <section class="detail-card">
+        <h2>Technische Daten</h2>
+        <dl class="detail-grid">
+          <div><dt>Baujahr</dt><dd id="yearBuilt"></dd></div>
+          <div><dt>Werft</dt><dd id="shipyard"></dd></div>
+          <div><dt>Länge</dt><dd id="lengthM"></dd></div>
+          <div><dt>Breite</dt><dd id="widthM"></dd></div>
+          <div><dt>Tiefgang</dt><dd id="draftM"></dd></div>
+          <div><dt>Passagiere</dt><dd id="passengers"></dd></div>
+        </dl>
+      </section>
+
+      <section class="detail-card">
+        <h2>Betrieb</h2>
+        <dl class="detail-grid">
+          <div><dt>Betreiber</dt><dd id="operator"></dd></div>
+          <div><dt>Eigentümer</dt><dd id="owner"></dd></div>
+          <div><dt>Manager</dt><dd id="manager"></dd></div>
+          <div><dt>Marke</dt><dd id="cruiseBrand"></dd></div>
+          <div><dt>Heimathafen</dt><dd id="homePort"></dd></div>
+        </dl>
+      </section>
+
+      <section class="detail-card">
+        <h2>Verwaltung</h2>
+        <dl class="detail-grid">
+          <div><dt>Anreicherung</dt><dd id="enrichmentStatus"></dd></div>
+          <div><dt>Letzter Lauf</dt><dd id="enrichmentDate"></dd></div>
+          <div><dt>Quellen</dt><dd id="sourceCount"></dd></div>
+          <div><dt>Angelegt</dt><dd id="createdAt"></dd></div>
+          <div><dt>Letzte Änderung</dt><dd id="updatedAt"></dd></div>
+          <div><dt>JSON-Pfad</dt><dd id="jsonPath"></dd></div>
+        </dl>
+        <div class="notes-block">
+          <h3>Notizen</h3>
+          <p id="notes"></p>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/site_map.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/vessel.js"></script>
+</body>
+</html>
