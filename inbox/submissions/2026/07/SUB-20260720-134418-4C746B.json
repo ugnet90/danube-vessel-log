@@ -26,27 +26,26 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "reviewed",
     "auto": {
       "vessel_match": {
         "status": "ambiguous",
         "vessel_id": "",
         "matched_by": "name",
+        "matched_value": "Testschiff",
         "candidate_count": 2,
         "candidate_ids": [
-          "VES-000001",
-          "VES-000002"
+          "VES-000000",
+          "VES-000001"
         ],
-        "matched_value": "Testschiff",
         "normalized_input": "TESTSCHIFF"
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
-      "reviewed_by": "",
-      "vessel_id": "",
-      "decision": "",
+      "reviewed": true,
+      "reviewed_at": "2026-07-22T10:48:04.276Z",
+      "vessel_id": "VES-000000",
+      "decision": "corrected",
       "notes": ""
     }
   }
