@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.9.0
+ * Version: 0.9.1
  * Updated: 2026-07-22
  */
 
@@ -1721,7 +1721,8 @@ async function handleUpdateVessel(
   };
 
   const changedFields = [];
-
+  const changeDetails = [];
+  
   const compareField = (
     path,
     previousValue,
@@ -1732,6 +1733,12 @@ async function handleUpdateVessel(
       JSON.stringify(nextValue)
     ) {
       changedFields.push(path);
+  
+      changeDetails.push({
+        field: path,
+        old_value: previousValue,
+        new_value: nextValue
+      });
     }
   };
 
@@ -1844,7 +1851,8 @@ async function handleUpdateVessel(
   vessel.audit.change_history.push({
     changed_at: updatedAt,
     changed_by: "web-ui",
-    changed_fields: changedFields
+    changed_fields: changedFields,
+    changes: changeDetails
   });
 
   vessel.audit.updated_at =
@@ -1947,6 +1955,7 @@ async function handleUpdateVessel(
       "Die Stammdaten wurden gespeichert.",
     vessel_id: vesselId,
     changed_fields: changedFields,
+    changes: changeDetails,
     updated_at: updatedAt,
     index: updatedIndexRow,
     vessel,
