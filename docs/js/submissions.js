@@ -81,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedSubmission = null;
   let selectedPhotoIndex = 0;
   let selectedVesselId = "";
+  let reviewCandidateVesselId = "";
   let vesselLoadToken = 0;
   let reviewBusy = false;
 
@@ -452,6 +453,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function resetVesselPanel() {
     vesselLoadToken += 1;
     selectedVesselId = "";
+    reviewCandidateVesselId = "";
     vesselStatus.textContent = "";
     vesselEnvironmentBadge.className =
       "environment-badge hidden";
@@ -467,7 +469,7 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const button of vesselCandidates.querySelectorAll("button")) {
       button.classList.toggle(
         "active",
-        button.dataset.vesselId === selectedVesselId
+        button.dataset.vesselId === reviewCandidateVesselId
       );
     }
   }
@@ -488,15 +490,19 @@ document.addEventListener("DOMContentLoaded", () => {
       button.textContent = candidateId;
 
       button.addEventListener("click", () => {
+        reviewCandidateVesselId = candidateId;
         correctedVesselId.value = candidateId;
 
-        if (
-          getWorkflowStatus(selectedSubmission) === "new"
-        ) {
-          correctionPanel.classList.remove("hidden");
-        }
-
+        /*
+         * Die Kandidatenauswahl ist der normale Weg bei einem
+         * mehrdeutigen Treffer. Das manuelle Korrekturfeld bleibt
+         * dafür geschlossen.
+         */
+        correctionPanel.classList.add("hidden");
+        clearReviewResult();
+        updateCandidateSelection();
         loadVessel(candidateId);
+        updateReviewButtons();
       });
 
       vesselCandidates.append(button);
@@ -599,8 +605,15 @@ document.addEventListener("DOMContentLoaded", () => {
       vesselEnvironmentBadge.textContent = "";
     }
 
+    const automaticMatch =
+      getAutomaticMatch(selectedSubmission);
+
     vesselStatus.textContent =
-      "Kanonischer Stammdatensatz geladen.";
+      automaticMatch.status === "ambiguous" &&
+      reviewCandidateVesselId === vessel.vessel_id
+        ? `${vessel.vessel_id} ist ausgewählt. ` +
+          `Mit „Auswahl bestätigen“ wird die Zuordnung gespeichert.`
+        : "Kanonischer Stammdatensatz geladen.";
     vesselError.classList.add("hidden");
     vesselContent.classList.remove("hidden");
     updateCandidateSelection();
@@ -728,10 +741,38 @@ document.addEventListener("DOMContentLoaded", () => {
     const automaticMatch =
       getAutomaticMatch(selectedSubmission);
 
+    const hasAutomaticMatch =
+      automaticMatch.status === "matched" &&
+      vesselIdPattern.test(
+        automaticMatch.vessel_id ?? ""
+      );
+
+    const candidateIds =
+      selectedSubmission
+        ? getCandidateVesselIds(selectedSubmission)
+        : [];
+
+    const hasSelectedCandidate =
+      automaticMatch.status === "ambiguous" &&
+      candidateIds.includes(reviewCandidateVesselId);
+
     confirmButton.disabled =
       reviewBusy ||
-      automaticMatch.status !== "matched" ||
-      !automaticMatch.vessel_id;
+      (!hasAutomaticMatch && !hasSelectedCandidate);
+
+    if (hasAutomaticMatch) {
+      confirmButton.textContent =
+        "Zuordnung bestätigen";
+    } else if (hasSelectedCandidate) {
+      confirmButton.textContent =
+        "Auswahl bestätigen";
+    } else if (automaticMatch.status === "ambiguous") {
+      confirmButton.textContent =
+        "Kandidaten auswählen";
+    } else {
+      confirmButton.textContent =
+        "Zuordnung bestätigen";
+    }
 
     correctButton.disabled = reviewBusy;
     rejectButton.disabled = reviewBusy;
@@ -990,17 +1031,62 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   confirmButton.addEventListener("click", () => {
-    submitReview({
-      decision: "confirmed"
-    });
+    const automaticMatch =
+      getAutomaticMatch(selectedSubmission);
+
+    if (
+      automaticMatch.status === "matched" &&
+      vesselIdPattern.test(
+        automaticMatch.vessel_id ?? ""
+      )
+    ) {
+      submitReview({
+        decision: "confirmed"
+      });
+      return;
+    }
+
+    const candidateIds =
+      selectedSubmission
+        ? getCandidateVesselIds(selectedSubmission)
+        : [];
+
+    if (
+      automaticMatch.status === "ambiguous" &&
+      candidateIds.includes(reviewCandidateVesselId)
+    ) {
+      submitReview({
+        decision: "corrected",
+        vesselId: reviewCandidateVesselId
+      });
+      return;
+    }
+
+    showReviewResult(
+      "error",
+      "Bitte zuerst eines der möglichen Schiffe auswählen."
+    );
   });
 
   correctButton.addEventListener("click", () => {
-    correctionPanel.classList.toggle("hidden");
+    correctionPanel.classList.remove("hidden");
 
-    if (!correctionPanel.classList.contains("hidden")) {
-      correctedVesselId.focus();
+    if (
+      !correctedVesselId.value.trim() &&
+      reviewCandidateVesselId
+    ) {
+      correctedVesselId.value =
+        reviewCandidateVesselId;
     }
+
+    requestAnimationFrame(() => {
+      correctionPanel.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+      correctedVesselId.focus();
+      correctedVesselId.select();
+    });
   });
 
   previewCorrectionButton.addEventListener("click", () => {
