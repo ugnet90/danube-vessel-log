@@ -93,6 +93,86 @@
             </div>
           </section>
 
+          <section id="vesselSection" class="vessel-section">
+            <header class="vessel-section-header">
+              <div>
+                <h3>Schiffsstammdaten</h3>
+                <div id="vesselStatus" class="vessel-section-status" aria-live="polite"></div>
+              </div>
+              <span id="vesselEnvironmentBadge" class="environment-badge hidden"></span>
+            </header>
+
+            <div id="vesselCandidatePanel" class="candidate-panel hidden">
+              <strong>Mögliche Schiffe</strong>
+              <div id="vesselCandidates" class="candidate-buttons"></div>
+            </div>
+
+            <div id="vesselError" class="review-result error hidden" aria-live="polite"></div>
+
+            <div id="vesselContent" class="hidden">
+              <div class="vessel-summary">
+                <div>
+                  <strong id="vesselName"></strong>
+                  <span id="vesselId" class="vessel-summary-id"></span>
+                </div>
+                <code id="vesselJsonPath" class="vessel-json-path"></code>
+              </div>
+
+              <section class="detail-grid vessel-detail-grid">
+                <div class="detail-card">
+                  <h3>Identität</h3>
+                  <dl>
+                    <div><dt>Frühere Namen</dt><dd id="vesselFormerNames"></dd></div>
+                    <div><dt>MMSI</dt><dd id="vesselMmsi"></dd></div>
+                    <div><dt>IMO</dt><dd id="vesselImo"></dd></div>
+                    <div><dt>ENI</dt><dd id="vesselEni"></dd></div>
+                    <div><dt>Rufzeichen</dt><dd id="vesselCallSign"></dd></div>
+                  </dl>
+                </div>
+
+                <div class="detail-card">
+                  <h3>Klassifikation</h3>
+                  <dl>
+                    <div><dt>Schiffstyp</dt><dd id="vesselShipType"></dd></div>
+                    <div><dt>Untertyp</dt><dd id="vesselShipSubtype"></dd></div>
+                    <div><dt>Flagge</dt><dd id="vesselFlag"></dd></div>
+                    <div><dt>Status</dt><dd id="vesselStatusValue"></dd></div>
+                  </dl>
+                </div>
+
+                <div class="detail-card">
+                  <h3>Technische Daten</h3>
+                  <dl>
+                    <div><dt>Baujahr</dt><dd id="vesselYearBuilt"></dd></div>
+                    <div><dt>Werft</dt><dd id="vesselShipyard"></dd></div>
+                    <div><dt>Länge</dt><dd id="vesselLength"></dd></div>
+                    <div><dt>Breite</dt><dd id="vesselWidth"></dd></div>
+                    <div><dt>Tiefgang</dt><dd id="vesselDraft"></dd></div>
+                    <div><dt>Passagiere</dt><dd id="vesselPassengers"></dd></div>
+                  </dl>
+                </div>
+
+                <div class="detail-card">
+                  <h3>Betrieb</h3>
+                  <dl>
+                    <div><dt>Betreiber</dt><dd id="vesselOperator"></dd></div>
+                    <div><dt>Eigentümer</dt><dd id="vesselOwner"></dd></div>
+                    <div><dt>Manager</dt><dd id="vesselManager"></dd></div>
+                    <div><dt>Marke</dt><dd id="vesselCruiseBrand"></dd></div>
+                    <div><dt>Heimathafen</dt><dd id="vesselHomePort"></dd></div>
+                  </dl>
+                </div>
+              </section>
+
+              <dl class="vessel-footer-grid">
+                <div><dt>Anreicherung</dt><dd id="vesselEnrichmentStatus"></dd></div>
+                <div><dt>Letzter Lauf</dt><dd id="vesselEnrichmentDate"></dd></div>
+                <div><dt>Quellen</dt><dd id="vesselSourceCount"></dd></div>
+                <div><dt>Letzte Änderung</dt><dd id="vesselUpdatedAt"></dd></div>
+              </dl>
+            </div>
+          </section>
+
           <section id="reviewSection" class="review-section">
             <h3>Entscheidung</h3>
             <div class="review-actions">
@@ -106,7 +186,10 @@
                 <label for="correctedVesselId">Korrigierte Vessel-ID</label>
                 <input id="correctedVesselId" type="text" placeholder="VES-000001" pattern="VES-[0-9]{6}" autocomplete="off">
               </div>
-              <button id="saveCorrectionButton" class="primary-button" type="button">Korrektur speichern</button>
+              <div class="correction-buttons">
+                <button id="previewCorrectionButton" class="secondary-button" type="button">Schiff anzeigen</button>
+                <button id="saveCorrectionButton" class="primary-button" type="button">Korrektur speichern</button>
+              </div>
             </div>
 
             <div class="form-field">
