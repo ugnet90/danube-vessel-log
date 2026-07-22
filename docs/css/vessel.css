@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/vessel.css
- * Version: 0.8.0
+ * Version: 0.8.1
  * Updated: 2026-07-22
  */
 
@@ -89,6 +89,10 @@
 
 .page-status.error {
   color: #b42318;
+}
+
+.page-status.success {
+  color: #067647;
 }
 
 .vessel-content {
@@ -334,10 +338,51 @@ dd {
   grid-template-columns:
     repeat(
       auto-fill,
-      minmax(120px, 1fr)
+      minmax(150px, 1fr)
     );
   gap: 9px;
   margin-top: 14px;
+}
+
+.sighting-photo-card {
+  display: grid;
+  gap: 7px;
+  padding: 6px;
+  border: 1px solid #dfe5eb;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.sighting-photo-card.is-primary {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px #2563eb;
+}
+
+.primary-photo-button {
+  width: 100%;
+  min-height: 34px;
+  padding: 7px 9px;
+  border: 1px solid #cbd5df;
+  border-radius: 7px;
+  background: #fff;
+  color: #25313c;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary-photo-button:not(:disabled):hover,
+.primary-photo-button:not(:disabled):focus-visible {
+  border-color: #2563eb;
+  color: #1d4ed8;
+}
+
+.primary-photo-button:disabled {
+  border-color: #b8cdf6;
+  background: #eaf1ff;
+  color: #1d4ed8;
+  cursor: default;
 }
 
 .sighting-photo-link {
