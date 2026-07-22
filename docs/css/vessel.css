@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/vessel.css
- * Version: 0.8.1
+ * Version: 0.9.0
  * Updated: 2026-07-22
  */
 
@@ -426,6 +426,102 @@ dd {
   line-height: 1.55;
 }
 
+.vessel-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.vessel-edit-card {
+  border-color: #b8cdf6;
+  box-shadow:
+    0 0 0 1px rgba(37, 99, 235, 0.08),
+    0 5px 18px rgba(0, 0, 0, 0.06);
+}
+
+.edit-intro {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.edit-section {
+  padding: 18px 0;
+  border-top: 1px solid #e6ebf0;
+}
+
+.edit-section:first-of-type {
+  margin-top: 18px;
+}
+
+.edit-section h3 {
+  margin: 0 0 14px;
+  font-size: 1rem;
+}
+
+.edit-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+}
+
+.edit-field {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+}
+
+.edit-field-wide {
+  grid-column: 1 / -1;
+}
+
+.edit-field > span {
+  color: #52606d;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.edit-field input,
+.edit-field select,
+.edit-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 10px;
+  border: 1px solid #cbd5df;
+  border-radius: 8px;
+  background: #fff;
+  color: #17212b;
+  font: inherit;
+}
+
+.edit-field input:focus,
+.edit-field select:focus,
+.edit-field textarea:focus {
+  border-color: #2563eb;
+  outline: 3px solid rgba(37, 99, 235, 0.12);
+}
+
+.edit-field input[readonly] {
+  background: #f2f4f7;
+  color: #667085;
+}
+
+.edit-field textarea {
+  resize: vertical;
+  line-height: 1.45;
+}
+
+.edit-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 18px;
+  border-top: 1px solid #e6ebf0;
+}
+
 @media (max-width: 820px) {
   .vessel-overview,
   .detail-sections {
@@ -434,6 +530,24 @@ dd {
 }
 
 @media (max-width: 600px) {
+  .vessel-actions,
+  .edit-actions {
+    width: 100%;
+  }
+
+  .vessel-actions button,
+  .edit-actions button {
+    flex: 1 1 auto;
+  }
+
+  .edit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .edit-field-wide {
+    grid-column: auto;
+  }
+  
   .vessel-page {
     padding: 16px 12px 32px;
   }
