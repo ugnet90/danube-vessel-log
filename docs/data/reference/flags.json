@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "version": "0.10.1",
+  "preferred_codes": [
+    "AT",
+    "DE",
+    "CH",
+    "NL",
+    "SK",
+    "HU",
+    "HR",
+    "RS",
+    "RO",
+    "BG",
+    "UA",
+    "MD"
+  ],
+  "countries": [
+    {
+      "code": "AT",
+      "name": "Österreich"
+    },
+    {
+      "code": "BE",
+      "name": "Belgien"
+    },
+    {
+      "code": "BG",
+      "name": "Bulgarien"
+    },
+    {
+      "code": "BS",
+      "name": "Bahamas"
+    },
+    {
+      "code": "CH",
+      "name": "Schweiz"
+    },
+    {
+      "code": "CY",
+      "name": "Zypern"
+    },
+    {
+      "code": "CZ",
+      "name": "Tschechien"
+    },
+    {
+      "code": "DE",
+      "name": "Deutschland"
+    },
+    {
+      "code": "DK",
+      "name": "Dänemark"
+    },
+    {
+      "code": "EE",
+      "name": "Estland"
+    },
+    {
+      "code": "ES",
+      "name": "Spanien"
+    },
+    {
+      "code": "FI",
+      "name": "Finnland"
+    },
+    {
+      "code": "FR",
+      "name": "Frankreich"
+    },
+    {
+      "code": "GB",
+      "name": "Vereinigtes Königreich"
+    },
+    {
+      "code": "GR",
+      "name": "Griechenland"
+    },
+    {
+      "code": "HR",
+      "name": "Kroatien"
+    },
+    {
+      "code": "HU",
+      "name": "Ungarn"
+    },
+    {
+      "code": "IE",
+      "name": "Irland"
+    },
+    {
+      "code": "IT",
+      "name": "Italien"
+    },
+    {
+      "code": "LI",
+      "name": "Liechtenstein"
+    },
+    {
+      "code": "LR",
+      "name": "Liberia"
+    },
+    {
+      "code": "LT",
+      "name": "Litauen"
+    },
+    {
+      "code": "LU",
+      "name": "Luxemburg"
+    },
+    {
+      "code": "LV",
+      "name": "Lettland"
+    },
+    {
+      "code": "MD",
+      "name": "Moldau"
+    },
+    {
+      "code": "MH",
+      "name": "Marshallinseln"
+    },
+    {
+      "code": "MT",
+      "name": "Malta"
+    },
+    {
+      "code": "NL",
+      "name": "Niederlande"
+    },
+    {
+      "code": "NO",
+      "name": "Norwegen"
+    },
+    {
+      "code": "PA",
+      "name": "Panama"
+    },
+    {
+      "code": "PL",
+      "name": "Polen"
+    },
+    {
+      "code": "PT",
+      "name": "Portugal"
+    },
+    {
+      "code": "RO",
+      "name": "Rumänien"
+    },
+    {
+      "code": "RS",
+      "name": "Serbien"
+    },
+    {
+      "code": "SE",
+      "name": "Schweden"
+    },
+    {
+      "code": "SI",
+      "name": "Slowenien"
+    },
+    {
+      "code": "SK",
+      "name": "Slowakei"
+    },
+    {
+      "code": "TR",
+      "name": "Türkei"
+    },
+    {
+      "code": "UA",
+      "name": "Ukraine"
+    }
+  ]
+}
