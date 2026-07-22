@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/vessel.css
- * Version: 0.10.0
+ * Version: 0.10.1
  * Updated: 2026-07-22
  */
 
@@ -305,6 +305,58 @@ dd {
   margin: 0;
 }
 
+.field-help {
+  color: #7b8794;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.source-fields-section {
+  min-width: 0;
+  margin: 0;
+  padding: 13px;
+  border: 1px solid #d7e0e9;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.source-fields-section legend {
+  padding: 0 5px;
+  color: #52606d;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.source-fields-help {
+  margin: 0 0 12px;
+  color: #6b7280;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.source-fields-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 8px 14px;
+}
+
+.source-field-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: #46515c;
+  font-size: 0.84rem;
+  line-height: 1.3;
+}
+
+.source-field-choice input {
+  flex: 0 0 auto;
+  width: 17px;
+  height: 17px;
+  margin: 0;
+}
+
 .source-form-actions {
   display: flex;
   gap: 10px;
@@ -345,6 +397,58 @@ dd {
   color: #46515c;
   line-height: 1.45;
   white-space: pre-wrap;
+}
+
+.source-fields-label {
+  margin: 11px 0 6px;
+  color: #6b7280;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.source-used-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.source-used-field {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #eaf1ff;
+  color: #1d4ed8;
+  font-size: 0.76rem;
+  font-weight: 650;
+}
+
+.source-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.source-edit-button {
+  flex: 0 0 auto;
+  padding: 5px 8px;
+  border: 1px solid #b8cdf6;
+  border-radius: 7px;
+  background: #fff;
+  color: #1d4ed8;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.source-edit-button:not(:disabled):hover,
+.source-edit-button:not(:disabled):focus-visible {
+  border-color: #2563eb;
+  background: #f4f7ff;
+}
+
+.source-edit-button:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .source-remove-button {
@@ -757,6 +861,18 @@ dd {
 }
 
 @media (max-width: 600px) {
+  .source-fields-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .source-item-actions {
+    width: 100%;
+  }
+
+  .source-item-actions button {
+    flex: 1 1 auto;
+  }
+  
   .source-form-grid {
     grid-template-columns: 1fr;
   }
