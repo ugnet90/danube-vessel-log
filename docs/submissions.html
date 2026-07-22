@@ -95,13 +95,146 @@
                 <h3>Schiffsstammdaten</h3>
                 <div id="vesselStatus" class="vessel-section-status" aria-live="polite"></div>
               </div>
-              <span id="vesselEnvironmentBadge" class="environment-badge hidden"></span>
+              <div class="vessel-header-actions">
+                <span id="vesselEnvironmentBadge" class="environment-badge hidden"></span>
+                <button id="openVesselCreateButton" class="primary-button compact-button" type="button">Neues Schiff anlegen</button>
+              </div>
             </header>
 
             <div id="vesselCandidatePanel" class="candidate-panel hidden">
               <strong>Mögliche Schiffe</strong>
               <div id="vesselCandidates" class="candidate-buttons"></div>
             </div>
+
+            <section id="vesselCreatePanel" class="vessel-create-panel hidden">
+              <header class="vessel-create-header">
+                <div>
+                  <h3>Neues Schiff anlegen</h3>
+                  <p>Die Vessel-ID wird serverseitig ermittelt und beim Speichern nochmals geprüft.</p>
+                </div>
+                <button id="cancelVesselCreateButton" class="secondary-button" type="button">Abbrechen</button>
+              </header>
+
+              <div class="create-form-grid create-form-grid-small">
+                <div class="form-field">
+                  <label for="newVesselEnvironment">Datensatzart</label>
+                  <select id="newVesselEnvironment">
+                    <option value="production">Echtes Schiff</option>
+                    <option value="test">Testdatensatz</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="newVesselId">Vorgeschlagene Vessel-ID</label>
+                  <input id="newVesselId" type="text" readonly>
+                </div>
+              </div>
+
+              <div class="create-form-grid">
+                <div class="form-field create-form-wide">
+                  <label for="newVesselName">Name *</label>
+                  <input id="newVesselName" type="text" maxlength="150" autocomplete="off">
+                </div>
+                <div class="form-field create-form-wide">
+                  <label for="newVesselFormerNames">Frühere Namen</label>
+                  <textarea id="newVesselFormerNames" placeholder="Ein Name pro Zeile"></textarea>
+                </div>
+
+                <div class="form-field">
+                  <label for="newVesselMmsi">MMSI</label>
+                  <input id="newVesselMmsi" type="text" maxlength="30" autocomplete="off">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselImo">IMO</label>
+                  <input id="newVesselImo" type="text" maxlength="30" autocomplete="off">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselEni">ENI</label>
+                  <input id="newVesselEni" type="text" maxlength="30" autocomplete="off">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselCallSign">Rufzeichen</label>
+                  <input id="newVesselCallSign" type="text" maxlength="40" autocomplete="off">
+                </div>
+
+                <div class="form-field">
+                  <label for="newVesselShipType">Schiffstyp</label>
+                  <input id="newVesselShipType" type="text" maxlength="80" autocomplete="off">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselShipSubtype">Untertyp</label>
+                  <input id="newVesselShipSubtype" type="text" maxlength="80" autocomplete="off">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselFlag">Flagge</label>
+                  <input id="newVesselFlag" type="text" maxlength="10" placeholder="z. B. AT" autocomplete="off">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselStatus">Status</label>
+                  <select id="newVesselStatus">
+                    <option value="unknown">Unbekannt</option>
+                    <option value="active">Aktiv</option>
+                    <option value="inactive">Inaktiv</option>
+                    <option value="scrapped">Verschrottet</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label for="newVesselYearBuilt">Baujahr</label>
+                  <input id="newVesselYearBuilt" type="number" min="1800" step="1">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselShipyard">Werft</label>
+                  <input id="newVesselShipyard" type="text" maxlength="200" autocomplete="off">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselLength">Länge (m)</label>
+                  <input id="newVesselLength" type="number" min="0" step="0.01">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselWidth">Breite (m)</label>
+                  <input id="newVesselWidth" type="number" min="0" step="0.01">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselDraft">Tiefgang (m)</label>
+                  <input id="newVesselDraft" type="number" min="0" step="0.01">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselPassengers">Passagiere</label>
+                  <input id="newVesselPassengers" type="number" min="0" step="1">
+                </div>
+
+                <div class="form-field">
+                  <label for="newVesselOperator">Betreiber</label>
+                  <input id="newVesselOperator" type="text" maxlength="200" autocomplete="off">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselOwner">Eigentümer</label>
+                  <input id="newVesselOwner" type="text" maxlength="200" autocomplete="off">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselManager">Manager</label>
+                  <input id="newVesselManager" type="text" maxlength="200" autocomplete="off">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselCruiseBrand">Marke</label>
+                  <input id="newVesselCruiseBrand" type="text" maxlength="200" autocomplete="off">
+                </div>
+                <div class="form-field">
+                  <label for="newVesselHomePort">Heimathafen</label>
+                  <input id="newVesselHomePort" type="text" maxlength="150" autocomplete="off">
+                </div>
+                <div class="form-field create-form-wide">
+                  <label for="newVesselNotes">Schiffsnotizen</label>
+                  <textarea id="newVesselNotes" maxlength="5000"></textarea>
+                </div>
+              </div>
+
+              <div id="vesselCreateResult" class="review-result hidden" aria-live="polite"></div>
+
+              <div class="vessel-create-actions">
+                <button id="saveVesselCreateButton" class="primary-button" type="button">Schiff anlegen und Sichtung zuordnen</button>
+              </div>
+            </section>
 
             <div id="vesselError" class="review-result error hidden" aria-live="polite"></div>
 
