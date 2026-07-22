@@ -758,6 +758,20 @@ async function handleReviewSubmissionsList(request, env) {
     ? Math.min(Math.max(requestedLimit, 1), 100)
     : 50;
 
+  /*
+   * Offene Sichtungen werden beim Laden immer gegen den aktuellen
+   * Vessel-Index neu abgeglichen. Dadurch bleiben Kandidaten aktuell,
+   * auch wenn Testdaten oder Vessel-IDs nachträglich geändert wurden.
+   */
+  const vesselsResult = await loadVessels(env);
+
+  if (!vesselsResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: vesselsResult.error
+    }, 502);
+  }
+
   const pathsResult = await listSubmissionPaths(env);
 
   if (!pathsResult.ok) {
@@ -813,6 +827,18 @@ async function handleReviewSubmissionsList(request, env) {
     ) {
       continue;
     }
+
+    const storedAutomaticMatch = normalizeVesselMatch(
+      submission.workflow?.auto?.vessel_match
+    );
+
+    const automaticMatch =
+      workflowStatus === "new"
+        ? matchVesselByName(
+            submission.vessel_name_entered ?? "",
+            vesselsResult.vessels
+          )
+        : storedAutomaticMatch;
 
     const photoRecords =
       Array.isArray(submission.photos)
@@ -892,34 +918,7 @@ async function handleReviewSubmissionsList(request, env) {
       vessel_name_entered:
         submission.vessel_name_entered ?? "",
 
-      automatic_match: {
-        status:
-          submission.workflow?.auto?.vessel_match?.status ??
-          "unmatched",
-
-        vessel_id:
-          submission.workflow?.auto?.vessel_match?.vessel_id ??
-          "",
-
-        matched_by:
-          submission.workflow?.auto?.vessel_match?.matched_by ??
-          "",
-
-        matched_value:
-          submission.workflow?.auto?.vessel_match?.matched_value ??
-          "",
-
-        candidate_count:
-          submission.workflow?.auto?.vessel_match?.candidate_count ??
-          0,
-
-        candidate_ids:
-          Array.isArray(
-            submission.workflow?.auto?.vessel_match?.candidate_ids
-          )
-            ? submission.workflow.auto.vessel_match.candidate_ids
-            : []
-      },
+      automatic_match: automaticMatch,
 
       review:
         submission.workflow?.review ?? {
@@ -1096,6 +1095,37 @@ async function handleSubmissionReview(request, env) {
         content_start: String(file.content ?? "").slice(0, 300),
         content_end: String(file.content ?? "").slice(-100)
       }, 500);
+    }
+
+    /*
+     * Vor einer Bestätigung oder Korrektur wird der automatische Treffer
+     * nochmals aus dem aktuellen Vessel-Index berechnet. So kann keine
+     * veraltete Vessel-ID aus einer älteren Submission bestätigt werden.
+     * Der aktuelle Treffer wird mit der Review-Entscheidung gespeichert.
+     */
+    if (input.decision !== "rejected") {
+      const vesselsResult = await loadVessels(env);
+
+      if (!vesselsResult.ok) {
+        return jsonResponse({
+          ok: false,
+          error: vesselsResult.error
+        }, 502);
+      }
+
+      if (!submission.workflow || typeof submission.workflow !== "object") {
+        submission.workflow = {};
+      }
+
+      if (!submission.workflow.auto || typeof submission.workflow.auto !== "object") {
+        submission.workflow.auto = {};
+      }
+
+      submission.workflow.auto.vessel_match =
+        matchVesselByName(
+          submission.vessel_name_entered ?? "",
+          vesselsResult.vessels
+        );
     }
 
     const review =
@@ -1690,139 +1720,146 @@ function decodeBase64Utf8(value) {
 }
 
 async function resolveVessel(input, env) {
-
-  const enteredName =
-
-    typeof input.vessel_name_entered === "string"
-
-      ? input.vessel_name_entered.trim()
-
-      : "";
-
-  const normalizedEnteredName =
-
-    normalizeVesselName(enteredName);
-
-  if (!enteredName) {
-
-    return {
-
-      ok: true,
-
-      match: {
-
-        status: "unmatched",
-
-        vessel_id: "",
-
-        matched_by: "",
-
-        matched_value: "",
-
-        normalized_input: normalizedEnteredName,
-
-        candidate_count: 0,
-
-        candidate_ids: []
-      }
-    };
-  }
-
   const vesselsResult = await loadVessels(env);
 
   if (!vesselsResult.ok) {
     return vesselsResult;
   }
 
+  return {
+    ok: true,
+    match: matchVesselByName(
+      input?.vessel_name_entered ?? "",
+      vesselsResult.vessels
+    )
+  };
+}
+
+function matchVesselByName(enteredNameValue, vessels) {
+  const enteredName =
+    typeof enteredNameValue === "string"
+      ? enteredNameValue.trim()
+      : "";
+
+  const normalizedEnteredName =
+    normalizeVesselName(enteredName);
+
+  if (!enteredName) {
+    return normalizeVesselMatch({
+      normalized_input: normalizedEnteredName
+    });
+  }
+
   const matches = [];
 
-  for (const vessel of vesselsResult.vessels) {
+  for (const vessel of Array.isArray(vessels) ? vessels : []) {
     if (normalizeVesselName(vessel.name) === normalizedEnteredName) {
       matches.push({
         vessel,
-        matched_by: "name"
+        matched_by: "name",
+        matched_value: vessel.name
       });
 
       continue;
     }
 
-    const formerNames = vessel.former_names
+    const formerNames = String(vessel.former_names ?? "")
       .split("|")
       .map(value => value.trim())
       .filter(Boolean);
 
-    if (
-      formerNames.some(
-        name => normalizeVesselName(name) === normalizedEnteredName
-      )
-    ) {
+    const matchedFormerName = formerNames.find(
+      name => normalizeVesselName(name) === normalizedEnteredName
+    );
+
+    if (matchedFormerName) {
       matches.push({
         vessel,
-        matched_by: "former_name"
+        matched_by: "former_name",
+        matched_value: matchedFormerName
       });
     }
   }
 
   if (matches.length === 1) {
-    return {
-      ok: true,
-      match: {
-        status: "matched",
-      
-        vessel_id: matches[0].vessel.vessel_id,
-      
-        matched_by: matches[0].matched_by,
-      
-        matched_value:
-          matches[0].matched_by === "name"
-            ? matches[0].vessel.name
-            : enteredName,
-      
-        normalized_input: normalizedEnteredName,
-      
-        candidate_count: 1,
-      
-        candidate_ids: [
-          matches[0].vessel.vessel_id
-        ]
-      }
-    };
+    return normalizeVesselMatch({
+      status: "matched",
+      vessel_id: matches[0].vessel.vessel_id,
+      matched_by: matches[0].matched_by,
+      matched_value: matches[0].matched_value,
+      normalized_input: normalizedEnteredName,
+      candidate_count: 1,
+      candidate_ids: [
+        matches[0].vessel.vessel_id
+      ]
+    });
   }
 
   if (matches.length > 1) {
-    return {
-      ok: true,
-      match: {
-        status: "ambiguous",
-      
-        vessel_id: "",
-      
-        matched_by: "name",
-      
-        matched_value: enteredName,
-      
-        normalized_input: normalizedEnteredName,
-      
-        candidate_count: matches.length,
-      
-        candidate_ids: matches.map(
-          match => match.vessel.vessel_id
-        )
-      }
-    };
+    return normalizeVesselMatch({
+      status: "ambiguous",
+      vessel_id: "",
+      matched_by: "name",
+      matched_value: enteredName,
+      normalized_input: normalizedEnteredName,
+      candidate_count: matches.length,
+      candidate_ids: matches.map(
+        match => match.vessel.vessel_id
+      )
+    });
   }
 
+  return normalizeVesselMatch({
+    normalized_input: normalizedEnteredName
+  });
+}
+
+function normalizeVesselMatch(value) {
+  const source =
+    value && typeof value === "object"
+      ? value
+      : {};
+
+  const allowedStatuses = [
+    "matched",
+    "ambiguous",
+    "unmatched"
+  ];
+
+  const status = allowedStatuses.includes(source.status)
+    ? source.status
+    : "unmatched";
+
+  const candidateIds = Array.isArray(source.candidate_ids)
+    ? source.candidate_ids
+        .filter(value => typeof value === "string")
+        .map(value => value.trim())
+        .filter(value => VESSEL_ID_PATTERN.test(value))
+    : [];
+
   return {
-    ok: true,
-    match: {
-      status: "unmatched",
-      vessel_id: "",
-      matched_by: "",
-      matched_value: "",
-      normalized_input: "",
-      candidate_count: 0,
-      candidate_ids: []
-    }
+    status,
+    vessel_id:
+      typeof source.vessel_id === "string"
+        ? source.vessel_id.trim()
+        : "",
+    matched_by:
+      typeof source.matched_by === "string"
+        ? source.matched_by.trim()
+        : "",
+    matched_value:
+      typeof source.matched_value === "string"
+        ? source.matched_value
+        : "",
+    candidate_count:
+      Number.isInteger(source.candidate_count)
+        ? source.candidate_count
+        : candidateIds.length,
+    candidate_ids: candidateIds,
+    normalized_input:
+      typeof source.normalized_input === "string"
+        ? source.normalized_input
+        : ""
   };
 }
 
