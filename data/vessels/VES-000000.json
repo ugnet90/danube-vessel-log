@@ -4,8 +4,7 @@
   "identity": {
     "name": "Testschiff",
     "former_names": [
-      "Test",
-      "Testvessel"
+      "Test"
     ],
     "mmsi": "",
     "imo": "",
@@ -15,7 +14,7 @@
   "classification": {
     "ship_type": "",
     "ship_subtype": "",
-    "status": "unknown",
+    "status": "active",
     "flag": ""
   },
   "technical": {
@@ -45,12 +44,12 @@
     "primary_photo_id": "",
     "primary_submission_id": ""
   },
-  "notes": "das ist ein Test zum Bearbeiten",
+  "notes": "",
   "audit": {
     "environment": "test",
     "created_at": "",
     "created_from_submission_id": "",
-    "updated_at": "2026-07-22T17:19:08.546Z",
+    "updated_at": "2026-07-22T18:30:59.539Z",
     "updated_by": "web-ui",
     "change_history": [
       {
@@ -59,6 +58,37 @@
         "changed_fields": [
           "identity.former_names",
           "notes"
+        ]
+      },
+      {
+        "changed_at": "2026-07-22T18:30:59.539Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "identity.former_names",
+          "classification.status",
+          "notes"
+        ],
+        "changes": [
+          {
+            "field": "identity.former_names",
+            "old_value": [
+              "Test",
+              "Testvessel"
+            ],
+            "new_value": [
+              "Test"
+            ]
+          },
+          {
+            "field": "classification.status",
+            "old_value": "unknown",
+            "new_value": "active"
+          },
+          {
+            "field": "notes",
+            "old_value": "das ist ein Test zum Bearbeiten",
+            "new_value": ""
+          }
         ]
       }
     ]
