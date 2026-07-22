@@ -4,6 +4,8 @@ const MAX_PHOTOS_PER_SUBMISSION = 10;
 const BRANCH = "main";
 const LOCATIONS_PATH = "data/locations.csv";
 const VESSELS_PATH = "data/vessels.csv";
+const VESSELS_DIRECTORY = "data/vessels";
+const VESSEL_ID_PATTERN = /^VES-\d{6}$/;
 
 export default {
   async fetch(request, env) {
@@ -22,6 +24,21 @@ export default {
         service: "danube-vessel-api",
         message: "Worker ist erreichbar."
       });
+    }
+
+    if (request.method === "GET" && url.pathname === "/vessel") {
+      try {
+        return await handleVesselDetail(request, env);
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error: "Unbehandelter Fehler beim Laden des Schiffes.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error)
+        }, 500);
+      }
     }
 
     if (request.method === "POST" && url.pathname === "/submission") {
@@ -673,6 +690,44 @@ async function createPhotoSubmission(request, env) {
   );
 }
 
+async function handleVesselDetail(request, env) {
+  const url = new URL(request.url);
+
+  const vesselId =
+    typeof url.searchParams.get("vessel_id") === "string"
+      ? url.searchParams.get("vessel_id").trim()
+      : "";
+
+  if (!VESSEL_ID_PATTERN.test(vesselId)) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "vessel_id fehlt oder hat nicht das Format VES-000000."
+    }, 400);
+  }
+
+  const vesselResult =
+    await loadCanonicalVessel(env, vesselId);
+
+  if (!vesselResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: vesselResult.error,
+      vessel_id: vesselId,
+      path: vesselResult.path ?? "",
+      github_status: vesselResult.status ?? null
+    }, vesselResult.status === 404 ? 404 : 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+    vessel_id: vesselId,
+    path: vesselResult.path,
+    index: vesselResult.index,
+    vessel: vesselResult.vessel
+  });
+}
+
 async function handleReviewSubmissionsList(request, env) {
   const url = new URL(request.url);
 
@@ -1043,7 +1098,8 @@ async function handleSubmissionReview(request, env) {
       }, 500);
     }
 
-    const review = validateReviewInput(input, submission);
+    const review =
+      await validateReviewInput(input, submission, env);
     
     if (!review.ok) {
         return jsonResponse(review, 400);
@@ -1174,7 +1230,7 @@ function buildSubmission({
   };
 }
 
-function validateReviewInput(input, submission) {
+async function validateReviewInput(input, submission, env) {
   const decision =
     typeof input.decision === "string"
       ? input.decision.trim()
@@ -1198,6 +1254,16 @@ function validateReviewInput(input, submission) {
     };
   }
 
+  if (decision === "rejected") {
+    return {
+      ok: true,
+      decision,
+      vessel_id: ""
+    };
+  }
+
+  let reviewedVesselId = vesselId;
+
   if (decision === "confirmed") {
     const automaticVesselId =
       submission.workflow?.auto?.vessel_match?.vessel_id ?? "";
@@ -1218,33 +1284,40 @@ function validateReviewInput(input, submission) {
       };
     }
 
+    reviewedVesselId = automaticVesselId;
+  }
+
+  if (!VESSEL_ID_PATTERN.test(reviewedVesselId)) {
     return {
-      ok: true,
-      decision,
-      vessel_id: automaticVesselId
+      ok: false,
+      error:
+        decision === "corrected"
+          ? "Bei corrected ist eine gültige vessel_id erforderlich."
+          : "Die automatisch ermittelte vessel_id ist ungültig."
     };
   }
 
-  if (decision === "corrected") {
-    if (!/^VES-\d{6}$/.test(vesselId)) {
-      return {
-        ok: false,
-        error:
-          "Bei corrected ist eine gültige vessel_id erforderlich."
-      };
-    }
+  /*
+   * Eine Review-Zuordnung ist erst gültig, wenn sowohl der
+   * CSV-Indexeintrag als auch der kanonische JSON-Stammdatensatz
+   * vorhanden und konsistent sind.
+   */
+  const vesselResult =
+    await loadCanonicalVessel(env, reviewedVesselId);
 
+  if (!vesselResult.ok) {
     return {
-      ok: true,
-      decision,
-      vessel_id: vesselId
+      ok: false,
+      error:
+        `Die Vessel-ID ${reviewedVesselId} kann nicht verwendet werden: ` +
+        vesselResult.error
     };
   }
 
   return {
     ok: true,
     decision,
-    vessel_id: ""
+    vessel_id: reviewedVesselId
   };
 }
 
@@ -1827,7 +1900,8 @@ function parseVesselsCsv(csvText) {
   const requiredHeaders = [
     "vessel_id",
     "name",
-    "former_names"
+    "former_names",
+    "json_path"
   ];
 
   for (const requiredHeader of requiredHeaders) {
@@ -1839,6 +1913,7 @@ function parseVesselsCsv(csvText) {
   }
 
   const vessels = [];
+  const seenVesselIds = new Set();
 
   for (const line of lines.slice(1)) {
     const values = line.split(";");
@@ -1849,16 +1924,213 @@ function parseVesselsCsv(csvText) {
     });
 
     if (
-      row.vessel_id === "" ||
-      row.name === ""
+      row.vessel_id === "" &&
+      row.name === "" &&
+      row.json_path === ""
     ) {
       continue;
     }
 
+    if (!VESSEL_ID_PATTERN.test(row.vessel_id)) {
+      throw new Error(
+        `vessels.csv: Ungültige vessel_id ${row.vessel_id || "(leer)"}.`
+      );
+    }
+
+    if (!row.name) {
+      throw new Error(
+        `vessels.csv: Name für ${row.vessel_id} fehlt.`
+      );
+    }
+
+    const expectedPath =
+      `${VESSELS_DIRECTORY}/${row.vessel_id}.json`;
+
+    if (row.json_path !== expectedPath) {
+      throw new Error(
+        `vessels.csv: json_path für ${row.vessel_id} muss ` +
+        `${expectedPath} sein.`
+      );
+    }
+
+    if (seenVesselIds.has(row.vessel_id)) {
+      throw new Error(
+        `vessels.csv: Doppelte vessel_id ${row.vessel_id}.`
+      );
+    }
+
+    seenVesselIds.add(row.vessel_id);
     vessels.push(row);
   }
 
   return vessels;
+}
+
+async function loadCanonicalVessel(
+  env,
+  vesselId,
+  preloadedVessels = null
+) {
+  if (!VESSEL_ID_PATTERN.test(vesselId)) {
+    return {
+      ok: false,
+      status: 400,
+      error: "Die Vessel-ID ist ungültig."
+    };
+  }
+
+  let vessels = preloadedVessels;
+
+  if (!Array.isArray(vessels)) {
+    const vesselsResult = await loadVessels(env);
+
+    if (!vesselsResult.ok) {
+      return vesselsResult;
+    }
+
+    vessels = vesselsResult.vessels;
+  }
+
+  const index =
+    vessels.find(
+      vessel => vessel.vessel_id === vesselId
+    ) ?? null;
+
+  if (!index) {
+    return {
+      ok: false,
+      status: 404,
+      error:
+        `${vesselId} ist in data/vessels.csv nicht vorhanden.`
+    };
+  }
+
+  const expectedPath =
+    `${VESSELS_DIRECTORY}/${vesselId}.json`;
+
+  const indexedPath =
+    typeof index.json_path === "string"
+      ? index.json_path.trim()
+      : "";
+
+  if (indexedPath !== expectedPath) {
+    return {
+      ok: false,
+      status: 409,
+      path: indexedPath,
+      error:
+        `Der CSV-Index verweist nicht auf den erwarteten JSON-Pfad ` +
+        `${expectedPath}.`
+    };
+  }
+
+  const file = await readGitHubFile({
+    env,
+    path: indexedPath
+  });
+
+  if (!file.ok) {
+    return {
+      ok: false,
+      status: file.status ?? 502,
+      path: indexedPath,
+      error:
+        file.status === 404
+          ? `Der kanonische Stammdatensatz ${indexedPath} fehlt.`
+          : `Der kanonische Stammdatensatz ${indexedPath} konnte nicht gelesen werden.`
+    };
+  }
+
+  let vessel;
+
+  try {
+    vessel = JSON.parse(
+      String(file.content ?? "").replace(/^\uFEFF/, "")
+    );
+  } catch (error) {
+    return {
+      ok: false,
+      status: 500,
+      path: indexedPath,
+      error:
+        `Der kanonische Stammdatensatz ${indexedPath} enthält ungültiges JSON: ` +
+        (
+          error instanceof Error
+            ? error.message
+            : String(error)
+        )
+    };
+  }
+
+  if (
+    !vessel ||
+    typeof vessel !== "object" ||
+    Array.isArray(vessel)
+  ) {
+    return {
+      ok: false,
+      status: 500,
+      path: indexedPath,
+      error:
+        `Der kanonische Stammdatensatz ${indexedPath} ist kein JSON-Objekt.`
+    };
+  }
+
+  if (vessel.vessel_id !== vesselId) {
+    return {
+      ok: false,
+      status: 409,
+      path: indexedPath,
+      error:
+        `Die vessel_id im JSON stimmt nicht mit ${vesselId} überein.`
+    };
+  }
+
+  if (
+    !Number.isInteger(vessel.schema_version) ||
+    vessel.schema_version < 1
+  ) {
+    return {
+      ok: false,
+      status: 409,
+      path: indexedPath,
+      error:
+        "Im kanonischen JSON fehlt eine gültige schema_version."
+    };
+  }
+
+  const canonicalName =
+    typeof vessel.identity?.name === "string"
+      ? vessel.identity.name.trim()
+      : "";
+
+  if (!canonicalName) {
+    return {
+      ok: false,
+      status: 409,
+      path: indexedPath,
+      error:
+        "Im kanonischen JSON fehlt identity.name."
+    };
+  }
+
+  if (canonicalName !== index.name) {
+    return {
+      ok: false,
+      status: 409,
+      path: indexedPath,
+      error:
+        `Der Name im CSV-Index (${index.name}) stimmt nicht mit ` +
+        `identity.name im JSON (${canonicalName}) überein.`
+    };
+  }
+
+  return {
+    ok: true,
+    path: indexedPath,
+    index,
+    vessel
+  };
 }
 
 function normalizeVesselName(value) {
@@ -2252,7 +2524,7 @@ function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, X-API-Key"
+    "Access-Control-Allow-Headers": "Content-Type, X-API-Key, X-Upload-Key"
   };
 }
 
