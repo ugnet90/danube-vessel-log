@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.8.0
+// Version: 0.8.1
 // Updated: 2026-07-22
 
 "use strict";
@@ -133,6 +133,104 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return element;
   }
+
+  async function savePrimaryPhoto(
+    photo,
+    sighting,
+    button
+  ) {
+    const photoId =
+      typeof photo?.photo_id === "string"
+        ? photo.photo_id.trim()
+        : "";
+  
+    if (!photoId) {
+      pageStatus.className =
+        "page-status error";
+  
+      pageStatus.textContent =
+        "Dieses Foto besitzt keine gültige Photo-ID.";
+  
+      return;
+    }
+  
+    const originalButtonText =
+      button.textContent;
+  
+    button.disabled = true;
+    button.textContent =
+      "Wird gespeichert …";
+  
+    pageStatus.className =
+      "page-status";
+  
+    pageStatus.textContent = "";
+  
+    try {
+      const headers = {
+        "Content-Type": "application/json"
+      };
+  
+      const suppliedApiKey =
+        apiKey.value.trim();
+  
+      if (suppliedApiKey) {
+        headers["X-API-Key"] =
+          suppliedApiKey;
+      }
+  
+      const response = await fetch(
+        `${workerUrl}/vessel-primary-photo`,
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify({
+            vessel_id: vesselId,
+            photo_id: photoId
+          })
+        }
+      );
+  
+      let result = {};
+  
+      try {
+        result = await response.json();
+      } catch {
+        result = {};
+      }
+  
+      if (
+        !response.ok ||
+        result.ok !== true
+      ) {
+        throw new Error(
+          result.error ||
+          `Der Worker antwortete mit HTTP ${response.status}.`
+        );
+      }
+  
+      await load();
+  
+      pageStatus.className =
+        "page-status success";
+  
+      pageStatus.textContent =
+        "Hauptfoto wurde geändert.";
+    } catch (error) {
+      pageStatus.className =
+        "page-status error";
+  
+      pageStatus.textContent =
+        error instanceof Error
+          ? error.message
+          : String(error);
+  
+      button.disabled = false;
+  
+      button.textContent =
+        originalButtonText;
+    }
+  }  
 
   function renderPrimaryPhoto(primaryPhoto) {
     const image = byId("primaryPhoto");
@@ -273,7 +371,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderSightings(
     sightings,
-    sightingsMeta
+    sightingsMeta,
+    primaryPhoto
   ) {
     const sightingsList =
       byId("sightingsList");
@@ -289,6 +388,12 @@ document.addEventListener("DOMContentLoaded", () => {
         ? sightings
         : [];
 
+    const primaryPhotoId =
+      typeof primaryPhoto?.photo_id ===
+        "string"
+        ? primaryPhoto.photo_id
+        : "";    
+
     sightingsList.replaceChildren();
 
     set(
@@ -296,9 +401,19 @@ document.addEventListener("DOMContentLoaded", () => {
       String(normalizedSightings.length)
     );
 
+    const sightingCount =
+      normalizedSightings.length;
+    
     set(
       "summarySightings",
-      String(normalizedSightings.length)
+      String(sightingCount)
+    );
+    
+    set(
+      "summarySightingsLabel",
+      sightingCount === 1
+        ? "Sichtung"
+        : "Sichtungen"
     );
 
     const totalPhotos =
@@ -312,6 +427,13 @@ document.addEventListener("DOMContentLoaded", () => {
     set(
       "summaryPhotos",
       String(totalPhotos)
+    );
+    
+    set(
+      "summaryPhotosLabel",
+      totalPhotos === 1
+        ? "Foto"
+        : "Fotos"
     );
 
     const latest =
@@ -427,36 +549,86 @@ document.addEventListener("DOMContentLoaded", () => {
             const photoUrl = safeUrl(
               photo?.url ?? ""
             );
-
+          
             if (!photoUrl) continue;
-
+          
+            const photoCard =
+              document.createElement("div");
+          
+            photoCard.className =
+              "sighting-photo-card";
+          
             const link =
               document.createElement("a");
-
+          
             link.href = photoUrl;
             link.target = "_blank";
             link.rel = "noopener noreferrer";
-
+          
             link.className =
               "sighting-photo-link";
-
+          
             link.title =
               photo.original_filename ||
               "Foto öffnen";
-
+          
             const image =
               document.createElement("img");
-
+          
             image.src = photoUrl;
-
+          
             image.alt =
               photo.original_filename ||
               `Foto aus ${sighting.submission_id}`;
-
+          
             image.loading = "lazy";
-
+          
             link.append(image);
-            gallery.append(link);
+          
+            const selectButton =
+              document.createElement("button");
+          
+            selectButton.type = "button";
+          
+            selectButton.className =
+              "primary-photo-button";
+          
+            const isPrimaryPhoto =
+              Boolean(photo.photo_id) &&
+              photo.photo_id === primaryPhotoId;
+          
+            if (isPrimaryPhoto) {
+              photoCard.classList.add(
+                "is-primary"
+              );
+          
+              selectButton.textContent =
+                "Hauptfoto";
+          
+              selectButton.disabled = true;
+            } else {
+              selectButton.textContent =
+                "Als Hauptfoto";
+          
+              selectButton.disabled =
+                !photo.photo_id;
+          
+              selectButton.addEventListener(
+                "click",
+                () => savePrimaryPhoto(
+                  photo,
+                  sighting,
+                  selectButton
+                )
+              );
+            }
+          
+            photoCard.append(
+              link,
+              selectButton
+            );
+          
+            gallery.append(photoCard);
           }
 
           if (
@@ -714,7 +886,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderSightings(
       payload.sightings,
-      payload.sightings_meta
+      payload.sightings_meta,
+      payload.primary_photo
     );
 
     content.classList.remove("hidden");
