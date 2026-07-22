@@ -2,8 +2,13 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   const byId = id => document.getElementById(id);
-
-  const workerUrlInput = byId("workerUrl");
+  
+  const workerUrl = String(
+    window.VesselConfig?.workerUrl ?? ""
+  )
+    .trim()
+    .replace(/\/+$/, "");
+  
   const apiKeyInput = byId("apiKey");
   const reloadButton = byId("reloadButton");
   const statusFilter = byId("statusFilter");
@@ -649,12 +654,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const workerUrl =
-      normalizeWorkerUrl(workerUrlInput.value);
-
     if (!workerUrl) {
       showVesselError(
-        new Error("Bitte zuerst die Worker-URL eingeben.")
+        new Error("Die Worker-URL fehlt in js/config.js.")
       );
       return;
     }
@@ -906,12 +908,9 @@ document.addEventListener("DOMContentLoaded", () => {
   async function loadSubmissions({
     preserveSelection = true
   } = {}) {
-    const workerUrl =
-      normalizeWorkerUrl(workerUrlInput.value);
-
     if (!workerUrl) {
       setListStatus(
-        "Bitte zuerst die Worker-URL eingeben."
+        "Die Worker-URL fehlt in js/config.js."
       );
       return;
     }
@@ -985,7 +984,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       await window.VesselApi.reviewSubmission({
-        workerUrl: workerUrlInput.value,
+        workerUrl,
         apiKey: apiKeyInput.value,
         submissionId:
           selectedSubmission.submission_id,
