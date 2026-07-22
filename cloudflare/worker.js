@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.10.0
+ * Version: 0.10.1
  * Updated: 2026-07-22
  */
 
@@ -13,6 +13,19 @@ const BRANCH = "main";
 const LOCATIONS_PATH = "data/locations.csv";
 const VESSELS_PATH = "data/vessels.csv";
 const VESSELS_DIRECTORY = "data/vessels";
+const REFERENCE_FLAGS_PATH =
+  "docs/data/reference/flags.json";
+
+const REFERENCE_CLASSIFICATION_PATH =
+  "docs/data/reference/vessel_classification.json";
+
+const REFERENCE_SOURCES_PATH =
+  "docs/data/reference/source_reference.json";
+
+const REFERENCE_CACHE_TTL_MS =
+  60 * 1000;
+
+let vesselReferenceCache = null;
 const VESSEL_ID_PATTERN = /^VES-\d{6}$/;
 const VESSEL_INDEX_HEADERS = [
   "vessel_id",
@@ -213,6 +226,32 @@ export default {
           ok: false,
           error:
             "Unbehandelter Fehler beim Entfernen der Quelle.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          stack:
+            error instanceof Error
+              ? error.stack
+              : null
+        }, 500);
+      }
+    }    
+
+    if (
+      request.method === "POST" &&
+      url.pathname === "/vessel-source-update"
+    ) {
+      try {
+        return await handleUpdateVesselSource(
+          request,
+          env
+        );
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler beim Aktualisieren der Quelle.",
           exception:
             error instanceof Error
               ? error.message
@@ -947,6 +986,33 @@ async function handleVesselDetail(request, env) {
     }, vesselResult.status === 404 ? 404 : 502);
   }
 
+  const referenceResult =
+    await loadVesselReferenceData(
+      env
+    );
+  
+  if (!referenceResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        referenceResult.error
+    }, referenceResult.status ?? 502);
+  }
+  
+  const validation =
+    validateVesselUpdateInput(
+      input,
+      vesselResult.vessel,
+      referenceResult.data
+    );
+  
+  if (!validation.ok) {
+    return jsonResponse({
+      ok: false,
+      error: validation.error
+    }, 400);
+  }  
+
   const sightingsResult =
     await loadVesselSightings({
       env,
@@ -1591,16 +1657,6 @@ async function handleUpdateVessel(
     }, 400);
   }
 
-  const validation =
-    validateVesselUpdateInput(input);
-
-  if (!validation.ok) {
-    return jsonResponse({
-      ok: false,
-      error: validation.error
-    }, 400);
-  }
-
   const vesselResult =
     await loadCanonicalVessel(
       env,
@@ -2050,9 +2106,25 @@ async function handleAddVesselSource(
     }, 400);
   }
 
+  const referenceResult =
+    await loadVesselReferenceData(
+      env
+    );
+  
+  if (!referenceResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        referenceResult.error
+    }, referenceResult.status ?? 502);
+  }
+  
   const validation =
-    validateVesselSourceInput(input);
-
+    validateVesselSourceInput(
+      input,
+      referenceResult.data
+    );
+  
   if (!validation.ok) {
     return jsonResponse({
       ok: false,
@@ -2117,6 +2189,9 @@ async function handleAddVesselSource(
 
     notes:
       validation.data.notes,
+
+    fields_used:
+      validation.data.fields_used,    
 
     retrieved_at:
       updatedAt,
@@ -2187,6 +2262,411 @@ async function handleAddVesselSource(
     commit_sha:
       saveResult.commitSha
   });
+}
+
+async function handleUpdateVesselSource(
+  request,
+  env
+) {
+  const authError =
+    checkManagementKey(
+      request,
+      env
+    );
+
+  if (authError) {
+    return authError;
+  }
+
+  let input;
+
+  try {
+    input =
+      await request.json();
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Der Anfrageinhalt ist kein gültiges JSON."
+    }, 400);
+  }
+
+  const vesselId =
+    typeof input?.vessel_id ===
+      "string"
+      ? input.vessel_id.trim()
+      : "";
+
+  const sourceId =
+    typeof input?.source_id ===
+      "string"
+      ? input.source_id.trim()
+      : "";
+
+  if (
+    !VESSEL_ID_PATTERN.test(
+      vesselId
+    )
+  ) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "vessel_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  if (
+    !/^SRC-[A-Z0-9]{12}$/.test(
+      sourceId
+    )
+  ) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "source_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  const vesselResult =
+    await loadCanonicalVessel(
+      env,
+      vesselId
+    );
+
+  if (!vesselResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        vesselResult.error
+    }, vesselResult.status === 404
+      ? 404
+      : 502);
+  }
+
+  const vessel =
+    vesselResult.vessel;
+
+  const existingSources =
+    Array.isArray(
+      vessel.sources
+    )
+      ? vessel.sources
+      : [];
+
+  const sourceIndex =
+    existingSources.findIndex(
+      source =>
+        source?.source_id ===
+        sourceId
+    );
+
+  if (sourceIndex < 0) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Die angegebene Quelle wurde beim Schiff nicht gefunden."
+    }, 404);
+  }
+
+  const previousSource =
+    existingSources[
+      sourceIndex
+    ];
+
+  const referenceResult =
+    await loadVesselReferenceData(
+      env
+    );
+
+  if (!referenceResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        referenceResult.error
+    }, referenceResult.status ?? 502);
+  }
+
+  const validation =
+    validateVesselSourceInput(
+      input,
+      referenceResult.data,
+      previousSource.provider ?? ""
+    );
+
+  if (!validation.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        validation.error
+    }, 400);
+  }
+
+  const duplicateSource =
+    existingSources.find(
+      source =>
+        source?.source_id !==
+          sourceId &&
+        String(source?.url ?? "")
+          .trim()
+          .toLowerCase() ===
+        validation.data.url
+          .toLowerCase()
+    );
+
+  if (duplicateSource) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Diese URL ist für das Schiff bereits als andere Quelle hinterlegt."
+    }, 409);
+  }
+
+  const updatedAt =
+    new Date().toISOString();
+
+  const updatedSource = {
+    ...previousSource,
+
+    provider:
+      validation.data.provider,
+
+    title:
+      validation.data.title,
+
+    url:
+      validation.data.url,
+
+    notes:
+      validation.data.notes,
+
+    fields_used:
+      validation.data.fields_used,
+
+    verified_at:
+      validation.data.verified
+        ? (
+            previousSource
+              .verified_at ||
+            updatedAt
+          )
+        : "",
+
+    updated_at:
+      updatedAt,
+
+    updated_by:
+      "web-ui"
+  };
+
+  const comparablePrevious = {
+    provider:
+      previousSource.provider ??
+      "",
+
+    title:
+      previousSource.title ??
+      "",
+
+    url:
+      previousSource.url ??
+      previousSource.source_url ??
+      "",
+
+    notes:
+      previousSource.notes ??
+      "",
+
+    fields_used:
+      Array.isArray(
+        previousSource.fields_used
+      )
+        ? previousSource.fields_used
+        : [],
+
+    verified:
+      Boolean(
+        previousSource.verified_at
+      )
+  };
+
+  const comparableUpdated = {
+    provider:
+      updatedSource.provider,
+
+    title:
+      updatedSource.title,
+
+    url:
+      updatedSource.url,
+
+    notes:
+      updatedSource.notes,
+
+    fields_used:
+      updatedSource.fields_used,
+
+    verified:
+      Boolean(
+        updatedSource.verified_at
+      )
+  };
+
+  if (
+    JSON.stringify(
+      comparablePrevious
+    ) ===
+    JSON.stringify(
+      comparableUpdated
+    )
+  ) {
+    return jsonResponse({
+      ok: true,
+      message:
+        "Es waren keine Änderungen zu speichern.",
+      vessel_id:
+        vesselId,
+      source:
+        previousSource
+    });
+  }
+
+  vessel.sources = [
+    ...existingSources
+  ];
+
+  vessel.sources[
+    sourceIndex
+  ] = updatedSource;
+
+  if (
+    !vessel.audit ||
+    typeof vessel.audit !==
+      "object" ||
+    Array.isArray(
+      vessel.audit
+    )
+  ) {
+    vessel.audit = {};
+  }
+
+  if (
+    !Array.isArray(
+      vessel.audit
+        .change_history
+    )
+  ) {
+    vessel.audit
+      .change_history = [];
+  }
+
+  const sourceLabel =
+    updatedSource.title ||
+    updatedSource.provider ||
+    sourceId;
+
+  vessel.audit
+    .change_history
+    .push({
+      changed_at:
+        updatedAt,
+
+      changed_by:
+        "web-ui",
+
+      summary:
+        `Quelle bearbeitet: ` +
+        `${sourceLabel}`,
+
+      changed_fields: [
+        "sources"
+      ],
+
+      changes: [
+        {
+          field:
+            "sources",
+
+          old_value:
+            formatVesselSourceAuditValue(
+              comparablePrevious
+            ),
+
+          new_value:
+            formatVesselSourceAuditValue(
+              comparableUpdated
+            )
+        }
+      ]
+    });
+
+  vessel.audit.updated_at =
+    updatedAt;
+
+  vessel.audit.updated_by =
+    "web-ui";
+
+  const saveResult =
+    await saveCanonicalVesselAndIndex({
+      env,
+      vesselResult,
+      vessel,
+      updatedAt,
+      message:
+        `Quelle bei ${vesselId} aktualisiert`
+    });
+
+  if (!saveResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        saveResult.error,
+      github_step:
+        saveResult.step ?? null,
+      github_status:
+        saveResult.status ?? null,
+      github_response:
+        saveResult.body ?? null
+    }, 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+    message:
+      "Die Quelle wurde aktualisiert.",
+    vessel_id:
+      vesselId,
+    source:
+      updatedSource,
+    commit_sha:
+      saveResult.commitSha
+  });
+}
+
+function formatVesselSourceAuditValue(
+  source
+) {
+  const parts = [
+    source.provider,
+    source.title,
+    source.url,
+
+    Array.isArray(
+      source.fields_used
+    ) &&
+    source.fields_used.length
+      ? (
+          "Felder: " +
+          source.fields_used
+            .join(", ")
+        )
+      : "",
+
+    source.verified
+      ? "geprüft"
+      : "nicht geprüft"
+  ].filter(Boolean);
+
+  return parts.join(" · ");
 }
 
 async function handleRemoveVesselSource(
@@ -2339,12 +2819,42 @@ async function handleRemoveVesselSource(
   });
 }
 
-function validateVesselSourceInput(input) {
-  const provider =
+function validateVesselSourceInput(
+  input,
+  referenceData,
+  existingProvider = ""
+) {
+  const rawProvider =
     normalizeFreeText(
       input?.provider,
       80
     );
+
+  const canonicalProvider =
+    resolveWorkerSourceProvider(
+      rawProvider,
+      referenceData
+    );
+
+  let provider =
+    canonicalProvider;
+
+  if (!provider) {
+    if (
+      existingProvider &&
+      rawProvider ===
+        existingProvider
+    ) {
+      provider =
+        existingProvider;
+    } else {
+      return {
+        ok: false,
+        error:
+          "Der Quellenanbieter ist nicht in source_reference.json definiert."
+      };
+    }
+  }
 
   const title =
     normalizeFreeText(
@@ -2364,14 +2874,6 @@ function validateVesselSourceInput(input) {
       1000
     );
 
-  if (!provider) {
-    return {
-      ok: false,
-      error:
-        "Der Quellenanbieter ist erforderlich."
-    };
-  }
-
   if (!urlText) {
     return {
       ok: false,
@@ -2387,7 +2889,10 @@ function validateVesselSourceInput(input) {
       new URL(urlText);
 
     if (
-      !["http:", "https:"].includes(
+      ![
+        "http:",
+        "https:"
+      ].includes(
         parsedUrl.protocol
       )
     ) {
@@ -2408,16 +2913,57 @@ function validateVesselSourceInput(input) {
     };
   }
 
+  const requestedFields =
+    Array.isArray(
+      input?.fields_used
+    )
+      ? input.fields_used
+      : [];
+
+  const fieldsUsed = [
+    ...new Set(
+      requestedFields
+        .map(field =>
+          typeof field ===
+            "string"
+            ? field.trim()
+            : ""
+        )
+        .filter(Boolean)
+    )
+  ];
+
+  const invalidField =
+    fieldsUsed.find(
+      field =>
+        !referenceData
+          .selectableSourceFieldPaths
+          .has(field)
+    );
+
+  if (invalidField) {
+    return {
+      ok: false,
+      error:
+        `Das Quellenfeld ${invalidField} ist nicht zulässig.`
+    };
+  }
+
   return {
     ok: true,
 
     data: {
       provider,
       title,
-      url: normalizedUrl,
+      url:
+        normalizedUrl,
       notes,
+
       verified:
-        input?.verified === true
+        input?.verified === true,
+
+      fields_used:
+        fieldsUsed
     }
   };
 }
@@ -2635,8 +3181,25 @@ async function handleCreateVessel(request, env) {
     }, 400);
   }
 
-  const validation = validateNewVesselInput(input);
-
+  const referenceResult =
+    await loadVesselReferenceData(
+      env
+    );
+  
+  if (!referenceResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        referenceResult.error
+    }, referenceResult.status ?? 502);
+  }
+  
+  const validation =
+    validateNewVesselInput(
+      input,
+      referenceResult.data
+    );
+  
   if (!validation.ok) {
     return jsonResponse({
       ok: false,
@@ -2830,58 +3393,1080 @@ async function handleCreateVessel(request, env) {
   }, 201);
 }
 
-function validateNewVesselInput(input) {
-  if (!input || typeof input !== "object" || Array.isArray(input)) {
+function normalizeReferenceAlias(
+  value
+) {
+  return String(value ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/ß/g, "ss")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function registerWorkerReferenceAlias(
+  map,
+  alias,
+  value,
+  description
+) {
+  const normalizedAlias =
+    normalizeReferenceAlias(
+      alias
+    );
+
+  if (!normalizedAlias) {
+    return;
+  }
+
+  const existingValue =
+    map.get(normalizedAlias);
+
+  if (
+    existingValue &&
+    existingValue !== value
+  ) {
+    throw new Error(
+      `Doppelter Alias ${alias} bei ${description}.`
+    );
+  }
+
+  map.set(
+    normalizedAlias,
+    value
+  );
+}
+
+function parseReferenceJson(
+  file,
+  path
+) {
+  try {
+    return JSON.parse(
+      String(file.content ?? "")
+        .replace(/^\uFEFF/, "")
+    );
+  } catch (error) {
+    throw new Error(
+      `${path} enthält ungültiges JSON: ` +
+      (
+        error instanceof Error
+          ? error.message
+          : String(error)
+      )
+    );
+  }
+}
+
+function buildWorkerReferenceData({
+  flagsDocument,
+  classificationDocument,
+  sourceDocument
+}) {
+  if (
+    !Array.isArray(
+      flagsDocument?.countries
+    )
+  ) {
+    throw new Error(
+      "flags.json: countries fehlt."
+    );
+  }
+
+  const flagCodes =
+    new Set();
+
+  for (
+    const country
+    of flagsDocument.countries
+  ) {
+    const code =
+      String(country?.code ?? "")
+        .trim()
+        .toUpperCase();
+
+    const name =
+      String(country?.name ?? "")
+        .trim();
+
+    if (
+      !/^[A-Z]{2}$/.test(code) ||
+      !name
+    ) {
+      throw new Error(
+        "flags.json enthält einen ungültigen Ländereintrag."
+      );
+    }
+
+    if (flagCodes.has(code)) {
+      throw new Error(
+        `Flaggencode ${code} ist doppelt vorhanden.`
+      );
+    }
+
+    flagCodes.add(code);
+  }
+
+  if (
+    !Array.isArray(
+      classificationDocument?.types
+    )
+  ) {
+    throw new Error(
+      "vessel_classification.json: types fehlt."
+    );
+  }
+
+  const defaultTypeCode =
+    String(
+      classificationDocument
+        .default_type_code ??
+      "UNKNOWN"
+    )
+      .trim()
+      .toUpperCase();
+
+  const defaultSubtypeCode =
+    String(
+      classificationDocument
+        .default_subtype_code ??
+      "UNKNOWN"
+    )
+      .trim()
+      .toUpperCase();
+
+  const shipTypeByCode =
+    new Map();
+
+  const shipTypeAliases =
+    new Map();
+
+  const subtypesByType =
+    new Map();
+
+  const subtypeAliasesByType =
+    new Map();
+
+  for (
+    const type
+    of classificationDocument.types
+  ) {
+    const typeCode =
+      String(type?.code ?? "")
+        .trim()
+        .toUpperCase();
+
+    const typeLabel =
+      String(type?.label ?? "")
+        .trim();
+
+    if (
+      !/^[A-Z0-9_]+$/.test(
+        typeCode
+      ) ||
+      !typeLabel
+    ) {
+      throw new Error(
+        "vessel_classification.json enthält einen ungültigen Schiffstyp."
+      );
+    }
+
+    if (
+      shipTypeByCode.has(
+        typeCode
+      )
+    ) {
+      throw new Error(
+        `Schiffstyp ${typeCode} ist doppelt vorhanden.`
+      );
+    }
+
+    shipTypeByCode.set(
+      typeCode,
+      {
+        code: typeCode,
+        label: typeLabel
+      }
+    );
+
+    registerWorkerReferenceAlias(
+      shipTypeAliases,
+      typeCode,
+      typeCode,
+      "Schiffstypen"
+    );
+
+    registerWorkerReferenceAlias(
+      shipTypeAliases,
+      typeLabel,
+      typeCode,
+      "Schiffstypen"
+    );
+
+    for (
+      const alias
+      of Array.isArray(type.aliases)
+        ? type.aliases
+        : []
+    ) {
+      registerWorkerReferenceAlias(
+        shipTypeAliases,
+        alias,
+        typeCode,
+        "Schiffstypen"
+      );
+    }
+
+    if (
+      !Array.isArray(
+        type.subtypes
+      )
+    ) {
+      throw new Error(
+        `Schiffstyp ${typeCode} enthält keine Untertypen.`
+      );
+    }
+
+    const subtypeCodes =
+      new Set();
+
+    const subtypeAliases =
+      new Map();
+
+    for (
+      const subtype
+      of type.subtypes
+    ) {
+      const subtypeCode =
+        String(subtype?.code ?? "")
+          .trim()
+          .toUpperCase();
+
+      const subtypeLabel =
+        String(subtype?.label ?? "")
+          .trim();
+
+      if (
+        !/^[A-Z0-9_]+$/.test(
+          subtypeCode
+        ) ||
+        !subtypeLabel
+      ) {
+        throw new Error(
+          `Schiffstyp ${typeCode} enthält einen ungültigen Untertyp.`
+        );
+      }
+
+      if (
+        subtypeCodes.has(
+          subtypeCode
+        )
+      ) {
+        throw new Error(
+          `Untertyp ${subtypeCode} ist bei ${typeCode} doppelt vorhanden.`
+        );
+      }
+
+      subtypeCodes.add(
+        subtypeCode
+      );
+
+      registerWorkerReferenceAlias(
+        subtypeAliases,
+        subtypeCode,
+        subtypeCode,
+        `Untertypen von ${typeCode}`
+      );
+
+      registerWorkerReferenceAlias(
+        subtypeAliases,
+        subtypeLabel,
+        subtypeCode,
+        `Untertypen von ${typeCode}`
+      );
+
+      for (
+        const alias
+        of Array.isArray(
+          subtype.aliases
+        )
+          ? subtype.aliases
+          : []
+      ) {
+        registerWorkerReferenceAlias(
+          subtypeAliases,
+          alias,
+          subtypeCode,
+          `Untertypen von ${typeCode}`
+        );
+      }
+    }
+
+    subtypesByType.set(
+      typeCode,
+      subtypeCodes
+    );
+
+    subtypeAliasesByType.set(
+      typeCode,
+      subtypeAliases
+    );
+  }
+
+  if (
+    !shipTypeByCode.has(
+      defaultTypeCode
+    )
+  ) {
+    throw new Error(
+      "Der Standard-Schiffstyp ist nicht definiert."
+    );
+  }
+
+  if (
+    !Array.isArray(
+      sourceDocument?.providers
+    ) ||
+    !Array.isArray(
+      sourceDocument?.fields
+    )
+  ) {
+    throw new Error(
+      "source_reference.json ist unvollständig."
+    );
+  }
+
+  const sourceProviders =
+    new Set();
+
+  const sourceProviderAliases =
+    new Map();
+
+  for (
+    const provider
+    of sourceDocument.providers
+  ) {
+    const providerValue =
+      String(provider?.value ?? "")
+        .trim();
+
+    const providerLabel =
+      String(
+        provider?.label ??
+        provider?.value ??
+        ""
+      )
+        .trim();
+
+    if (
+      !providerValue ||
+      !providerLabel
+    ) {
+      throw new Error(
+        "source_reference.json enthält einen ungültigen Anbieter."
+      );
+    }
+
+    if (
+      sourceProviders.has(
+        providerValue
+      )
+    ) {
+      throw new Error(
+        `Quellenanbieter ${providerValue} ist doppelt vorhanden.`
+      );
+    }
+
+    sourceProviders.add(
+      providerValue
+    );
+
+    registerWorkerReferenceAlias(
+      sourceProviderAliases,
+      providerValue,
+      providerValue,
+      "Quellenanbietern"
+    );
+
+    registerWorkerReferenceAlias(
+      sourceProviderAliases,
+      providerLabel,
+      providerValue,
+      "Quellenanbietern"
+    );
+
+    for (
+      const alias
+      of Array.isArray(
+        provider.aliases
+      )
+        ? provider.aliases
+        : []
+    ) {
+      registerWorkerReferenceAlias(
+        sourceProviderAliases,
+        alias,
+        providerValue,
+        "Quellenanbietern"
+      );
+    }
+  }
+
+  const sourceFieldPaths =
+    new Set();
+
+  const selectableSourceFieldPaths =
+    new Set();
+
+  for (
+    const field
+    of sourceDocument.fields
+  ) {
+    const path =
+      String(field?.path ?? "")
+        .trim();
+
+    const label =
+      String(field?.label ?? "")
+        .trim();
+
+    if (!path || !label) {
+      throw new Error(
+        "source_reference.json enthält ein ungültiges Feld."
+      );
+    }
+
+    if (
+      sourceFieldPaths.has(path)
+    ) {
+      throw new Error(
+        `Quellenfeld ${path} ist doppelt vorhanden.`
+      );
+    }
+
+    sourceFieldPaths.add(path);
+
+    if (
+      field.selectable !== false
+    ) {
+      selectableSourceFieldPaths.add(
+        path
+      );
+    }
+  }
+
+  return {
+    defaultTypeCode,
+    defaultSubtypeCode,
+
+    flagCodes,
+
+    shipTypeByCode,
+    shipTypeAliases,
+
+    subtypesByType,
+    subtypeAliasesByType,
+
+    sourceProviders,
+    sourceProviderAliases,
+
+    sourceFieldPaths,
+    selectableSourceFieldPaths
+  };
+}
+
+async function loadVesselReferenceData(
+  env
+) {
+  const cacheKey =
+    `${env.GITHUB_OWNER}/` +
+    `${env.GITHUB_REPO}/` +
+    `${BRANCH}`;
+
+  const now = Date.now();
+
+  if (
+    vesselReferenceCache &&
+    vesselReferenceCache.key ===
+      cacheKey &&
+    (
+      now -
+      vesselReferenceCache.loadedAt
+    ) <
+      REFERENCE_CACHE_TTL_MS
+  ) {
     return {
-      ok: false,
-      error: "Die Schiffsdaten fehlen."
+      ok: true,
+      data:
+        vesselReferenceCache.data
     };
   }
 
-  const environment = normalizeVesselEnvironment(
-    input.environment
+  const [
+    flagsFile,
+    classificationFile,
+    sourceFile
+  ] = await Promise.all([
+    readGitHubFile({
+      env,
+      path:
+        REFERENCE_FLAGS_PATH
+    }),
+
+    readGitHubFile({
+      env,
+      path:
+        REFERENCE_CLASSIFICATION_PATH
+    }),
+
+    readGitHubFile({
+      env,
+      path:
+        REFERENCE_SOURCES_PATH
+    })
+  ]);
+
+  const files = [
+    {
+      file: flagsFile,
+      path:
+        REFERENCE_FLAGS_PATH
+    },
+    {
+      file: classificationFile,
+      path:
+        REFERENCE_CLASSIFICATION_PATH
+    },
+    {
+      file: sourceFile,
+      path:
+        REFERENCE_SOURCES_PATH
+    }
+  ];
+
+  for (
+    const entry
+    of files
+  ) {
+    if (!entry.file.ok) {
+      return {
+        ok: false,
+        status:
+          entry.file.status ?? 502,
+        error:
+          `${entry.path} konnte nicht geladen werden.`
+      };
+    }
+  }
+
+  try {
+    const data =
+      buildWorkerReferenceData({
+        flagsDocument:
+          parseReferenceJson(
+            flagsFile,
+            REFERENCE_FLAGS_PATH
+          ),
+
+        classificationDocument:
+          parseReferenceJson(
+            classificationFile,
+            REFERENCE_CLASSIFICATION_PATH
+          ),
+
+        sourceDocument:
+          parseReferenceJson(
+            sourceFile,
+            REFERENCE_SOURCES_PATH
+          )
+      });
+
+    vesselReferenceCache = {
+      key: cacheKey,
+      loadedAt: now,
+      data
+    };
+
+    return {
+      ok: true,
+      data
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      status: 500,
+      error:
+        error instanceof Error
+          ? error.message
+          : (
+              "Die Referenzdaten konnten nicht verarbeitet werden."
+            )
+    };
+  }
+}
+
+function resolveWorkerShipType(
+  value,
+  referenceData
+) {
+  const raw =
+    String(value ?? "").trim();
+
+  if (!raw) {
+    return (
+      referenceData
+        .defaultTypeCode
+    );
+  }
+
+  const upper =
+    raw.toUpperCase();
+
+  if (
+    referenceData
+      .shipTypeByCode
+      .has(upper)
+  ) {
+    return upper;
+  }
+
+  return (
+    referenceData
+      .shipTypeAliases
+      .get(
+        normalizeReferenceAlias(
+          raw
+        )
+      ) || ""
   );
+}
+
+function resolveWorkerSubtype(
+  typeCode,
+  value,
+  referenceData
+) {
+  const raw =
+    String(value ?? "").trim();
+
+  if (!raw) {
+    return (
+      referenceData
+        .defaultSubtypeCode
+    );
+  }
+
+  const aliases =
+    referenceData
+      .subtypeAliasesByType
+      .get(typeCode);
+
+  if (!aliases) {
+    return "";
+  }
+
+  return (
+    aliases.get(
+      normalizeReferenceAlias(
+        raw
+      )
+    ) || ""
+  );
+}
+
+function validateVesselClassification({
+  shipType,
+  shipSubtype,
+  referenceData,
+  existingShipType = "",
+  existingShipSubtype = ""
+}) {
+  const rawType =
+    normalizeIndexText(
+      shipType,
+      80
+    ) ||
+    referenceData.defaultTypeCode;
+
+  const canonicalType =
+    resolveWorkerShipType(
+      rawType,
+      referenceData
+    );
+
+  if (!canonicalType) {
+    if (
+      existingShipType &&
+      rawType ===
+        existingShipType &&
+      normalizeIndexText(
+        shipSubtype,
+        80
+      ) ===
+        existingShipSubtype
+    ) {
+      return {
+        ok: true,
+        data: {
+          ship_type:
+            existingShipType,
+
+          ship_subtype:
+            existingShipSubtype
+        }
+      };
+    }
+
+    return {
+      ok: false,
+      error:
+        "Der Schiffstyp ist nicht in den Referenzdaten definiert."
+    };
+  }
+
+  const rawSubtype =
+    normalizeIndexText(
+      shipSubtype,
+      80
+    ) ||
+    referenceData.defaultSubtypeCode;
+
+  const canonicalSubtype =
+    resolveWorkerSubtype(
+      canonicalType,
+      rawSubtype,
+      referenceData
+    );
+
+  if (!canonicalSubtype) {
+    if (
+      existingShipType &&
+      existingShipSubtype &&
+      rawType ===
+        existingShipType &&
+      rawSubtype ===
+        existingShipSubtype
+    ) {
+      return {
+        ok: true,
+        data: {
+          ship_type:
+            existingShipType,
+
+          ship_subtype:
+            existingShipSubtype
+        }
+      };
+    }
+
+    return {
+      ok: false,
+      error:
+        "Der Untertyp passt nicht zum ausgewählten Schiffstyp."
+    };
+  }
+
+  return {
+    ok: true,
+
+    data: {
+      ship_type:
+        canonicalType,
+
+      ship_subtype:
+        canonicalSubtype
+    }
+  };
+}
+
+function validateVesselFlag({
+  value,
+  referenceData,
+  existingValue = ""
+}) {
+  const normalized =
+    normalizeIndexText(
+      value,
+      10
+    ).toUpperCase();
+
+  if (!normalized) {
+    return {
+      ok: true,
+      value: ""
+    };
+  }
+
+  if (
+    referenceData
+      .flagCodes
+      .has(normalized)
+  ) {
+    return {
+      ok: true,
+      value: normalized
+    };
+  }
+
+  if (
+    existingValue &&
+    normalized ===
+      String(existingValue)
+        .trim()
+        .toUpperCase()
+  ) {
+    return {
+      ok: true,
+      value: normalized
+    };
+  }
+
+  return {
+    ok: false,
+    error:
+      `Der Flaggencode ${normalized} ist nicht in flags.json definiert.`
+  };
+}
+
+function normalizeEniValue(value) {
+  const raw =
+    normalizeFreeText(
+      value,
+      30
+    );
+
+  if (!raw) {
+    return {
+      ok: true,
+      value: ""
+    };
+  }
+
+  const normalized =
+    raw
+      .replace(
+        /^ENI\s*[:#-]?\s*/i,
+        ""
+      )
+      .replace(/[\s.-]/g, "");
+
+  if (
+    !/^\d{8}$/.test(
+      normalized
+    )
+  ) {
+    return {
+      ok: false,
+      value: ""
+    };
+  }
+
+  return {
+    ok: true,
+    value: normalized
+  };
+}
+
+function resolveWorkerSourceProvider(
+  value,
+  referenceData
+) {
+  const raw =
+    String(value ?? "").trim();
+
+  if (!raw) {
+    return "";
+  }
+
+  return (
+    referenceData
+      .sourceProviderAliases
+      .get(
+        normalizeReferenceAlias(
+          raw
+        )
+      ) || ""
+  );
+}
+
+function validateNewVesselInput(
+  input,
+  referenceData
+) {
+  if (
+    !input ||
+    typeof input !== "object" ||
+    Array.isArray(input)
+  ) {
+    return {
+      ok: false,
+      error:
+        "Die Schiffsdaten fehlen."
+    };
+  }
+
+  const environment =
+    normalizeVesselEnvironment(
+      input.environment
+    );
 
   if (!environment) {
     return {
       ok: false,
-      error: "environment muss production oder test sein."
+      error:
+        "environment muss production oder test sein."
     };
   }
 
-  const name = normalizeIndexText(input.name, 150);
+  const name =
+    normalizeIndexText(
+      input.name,
+      150
+    );
 
   if (!name) {
     return {
       ok: false,
-      error: "Der Schiffsname ist erforderlich."
+      error:
+        "Der Schiffsname ist erforderlich."
     };
   }
 
-  const formerNames = normalizeStringArray(
-    input.former_names,
-    50,
-    150
-  );
+  const formerNames =
+    normalizeStringArray(
+      input.former_names,
+      50,
+      150
+    );
+
+  const eniResult =
+    normalizeEniValue(
+      input.eni
+    );
+
+  if (!eniResult.ok) {
+    return {
+      ok: false,
+      error:
+        "Die ENI muss aus genau acht Ziffern bestehen."
+    };
+  }
+
+  const classificationResult =
+    validateVesselClassification({
+      shipType:
+        input.ship_type,
+
+      shipSubtype:
+        input.ship_subtype,
+
+      referenceData
+    });
+
+  if (!classificationResult.ok) {
+    return classificationResult;
+  }
+
+  const flagResult =
+    validateVesselFlag({
+      value:
+        input.flag,
+
+      referenceData
+    });
+
+  if (!flagResult.ok) {
+    return flagResult;
+  }
 
   const simpleFields = {
-    mmsi: normalizeIndexText(input.mmsi, 30),
-    imo: normalizeIndexText(input.imo, 30),
-    eni: normalizeIndexText(input.eni, 30),
-    call_sign: normalizeIndexText(input.call_sign, 40),
-    ship_type: normalizeIndexText(input.ship_type, 80),
-    ship_subtype: normalizeIndexText(input.ship_subtype, 80),
-    flag: normalizeIndexText(input.flag, 10).toUpperCase(),
-    shipyard: normalizeFreeText(input.shipyard, 200),
-    operator: normalizeIndexText(input.operator, 200),
-    owner: normalizeFreeText(input.owner, 200),
-    manager: normalizeFreeText(input.manager, 200),
-    cruise_brand: normalizeIndexText(input.cruise_brand, 200),
-    home_port: normalizeFreeText(input.home_port, 150),
-    notes: normalizeFreeText(input.notes, 5000),
-    review_notes: normalizeFreeText(input.review_notes, 1000),
+    mmsi:
+      normalizeIndexText(
+        input.mmsi,
+        30
+      ),
+
+    imo:
+      normalizeIndexText(
+        input.imo,
+        30
+      ),
+
+    eni:
+      eniResult.value,
+
+    call_sign:
+      normalizeIndexText(
+        input.call_sign,
+        40
+      ),
+
+    ship_type:
+      classificationResult
+        .data
+        .ship_type,
+
+    ship_subtype:
+      classificationResult
+        .data
+        .ship_subtype,
+
+    flag:
+      flagResult.value,
+
+    shipyard:
+      normalizeFreeText(
+        input.shipyard,
+        200
+      ),
+
+    operator:
+      normalizeIndexText(
+        input.operator,
+        200
+      ),
+
+    owner:
+      normalizeFreeText(
+        input.owner,
+        200
+      ),
+
+    manager:
+      normalizeFreeText(
+        input.manager,
+        200
+      ),
+
+    cruise_brand:
+      normalizeIndexText(
+        input.cruise_brand,
+        200
+      ),
+
+    home_port:
+      normalizeFreeText(
+        input.home_port,
+        150
+      ),
+
+    notes:
+      normalizeFreeText(
+        input.notes,
+        5000
+      ),
+
+    review_notes:
+      normalizeFreeText(
+        input.review_notes,
+        1000
+      ),
+
     submission_id:
-      typeof input.submission_id === "string"
+      typeof input.submission_id ===
+        "string"
         ? input.submission_id.trim()
         : ""
   };
@@ -2901,15 +4486,15 @@ function validateNewVesselInput(input) {
   ];
 
   if (
-    unsafeIndexValues.some(value =>
-      /[;\r\n|]/.test(value)
+    unsafeIndexValues.some(
+      value =>
+        /[;\r\n|]/.test(value)
     )
   ) {
     return {
       ok: false,
       error:
-        "Indexfelder dürfen keine Semikolons, Zeilenumbrüche oder " +
-        "senkrechten Striche enthalten."
+        "Indexfelder dürfen keine Semikolons, Zeilenumbrüche oder senkrechten Striche enthalten."
     };
   }
 
@@ -2919,65 +4504,119 @@ function validateNewVesselInput(input) {
       : "unknown";
 
   if (
-    !["active", "inactive", "scrapped", "unknown"]
-      .includes(status)
+    ![
+      "active",
+      "inactive",
+      "scrapped",
+      "unknown"
+    ].includes(status)
   ) {
     return {
       ok: false,
-      error: "Der Schiffsstatus ist ungültig."
+      error:
+        "Der Schiffsstatus ist ungültig."
     };
   }
 
-  const yearBuilt = parseOptionalInteger(
-    input.year_built,
-    1800,
-    new Date().getUTCFullYear() + 1
-  );
+  const yearBuilt =
+    parseOptionalInteger(
+      input.year_built,
+      1800,
+      new Date().getUTCFullYear() + 1
+    );
+
+  const lengthM =
+    parseOptionalNumber(
+      input.length_m,
+      0,
+      1000
+    );
+
+  const widthM =
+    parseOptionalNumber(
+      input.width_m,
+      0,
+      200
+    );
+
+  const draftM =
+    parseOptionalNumber(
+      input.draft_m,
+      0,
+      50
+    );
+
+  const passengers =
+    parseOptionalInteger(
+      input.passengers,
+      0,
+      10000
+    );
 
   if (!yearBuilt.ok) {
     return {
       ok: false,
-      error: "Das Baujahr ist ungültig."
+      error:
+        "Das Baujahr ist ungültig."
     };
   }
 
-  const lengthM = parseOptionalNumber(input.length_m, 0, 1000);
-  const widthM = parseOptionalNumber(input.width_m, 0, 200);
-  const draftM = parseOptionalNumber(input.draft_m, 0, 50);
-  const passengers = parseOptionalInteger(input.passengers, 0, 10000);
-
-  if (!lengthM.ok || !widthM.ok || !draftM.ok) {
+  if (
+    !lengthM.ok ||
+    !widthM.ok ||
+    !draftM.ok
+  ) {
     return {
       ok: false,
-      error: "Länge, Breite oder Tiefgang sind ungültig."
+      error:
+        "Länge, Breite oder Tiefgang sind ungültig."
     };
   }
 
   if (!passengers.ok) {
     return {
       ok: false,
-      error: "Die Passagierzahl ist ungültig."
+      error:
+        "Die Passagierzahl ist ungültig."
     };
   }
 
   return {
     ok: true,
+
     data: {
       environment,
       name,
-      former_names: formerNames,
+      former_names:
+        formerNames,
+
       ...simpleFields,
+
       status,
-      year_built: yearBuilt.value,
-      length_m: lengthM.value,
-      width_m: widthM.value,
-      draft_m: draftM.value,
-      passengers: passengers.value
+
+      year_built:
+        yearBuilt.value,
+
+      length_m:
+        lengthM.value,
+
+      width_m:
+        widthM.value,
+
+      draft_m:
+        draftM.value,
+
+      passengers:
+        passengers.value
     }
   };
 }
 
-function validateVesselUpdateInput(input) {
+function validateVesselUpdateInput(
+  input,
+  existingVessel,
+  referenceData
+) {
   if (
     !input ||
     typeof input !== "object" ||
@@ -3011,6 +4650,61 @@ function validateVesselUpdateInput(input) {
       150
     );
 
+  const eniResult =
+    normalizeEniValue(
+      input.eni
+    );
+
+  if (!eniResult.ok) {
+    return {
+      ok: false,
+      error:
+        "Die ENI muss aus genau acht Ziffern bestehen."
+    };
+  }
+
+  const classificationResult =
+    validateVesselClassification({
+      shipType:
+        input.ship_type,
+
+      shipSubtype:
+        input.ship_subtype,
+
+      referenceData,
+
+      existingShipType:
+        existingVessel
+          ?.classification
+          ?.ship_type ?? "",
+
+      existingShipSubtype:
+        existingVessel
+          ?.classification
+          ?.ship_subtype ?? ""
+    });
+
+  if (!classificationResult.ok) {
+    return classificationResult;
+  }
+
+  const flagResult =
+    validateVesselFlag({
+      value:
+        input.flag,
+
+      referenceData,
+
+      existingValue:
+        existingVessel
+          ?.classification
+          ?.flag ?? ""
+    });
+
+  if (!flagResult.ok) {
+    return flagResult;
+  }
+
   const data = {
     name,
 
@@ -3030,10 +4724,7 @@ function validateVesselUpdateInput(input) {
       ),
 
     eni:
-      normalizeIndexText(
-        input.eni,
-        30
-      ),
+      eniResult.value,
 
     call_sign:
       normalizeIndexText(
@@ -3042,22 +4733,17 @@ function validateVesselUpdateInput(input) {
       ),
 
     ship_type:
-      normalizeIndexText(
-        input.ship_type,
-        80
-      ),
+      classificationResult
+        .data
+        .ship_type,
 
     ship_subtype:
-      normalizeIndexText(
-        input.ship_subtype,
-        80
-      ),
+      classificationResult
+        .data
+        .ship_subtype,
 
     flag:
-      normalizeIndexText(
-        input.flag,
-        10
-      ).toUpperCase(),
+      flagResult.value,
 
     shipyard:
       normalizeFreeText(
@@ -3117,8 +4803,9 @@ function validateVesselUpdateInput(input) {
   ];
 
   if (
-    unsafeIndexValues.some(value =>
-      /[;\r\n|]/.test(value)
+    unsafeIndexValues.some(
+      value =>
+        /[;\r\n|]/.test(value)
     )
   ) {
     return {
@@ -3217,14 +4904,19 @@ function validateVesselUpdateInput(input) {
     data: {
       ...data,
       status,
+
       year_built:
         yearBuilt.value,
+
       length_m:
         lengthM.value,
+
       width_m:
         widthM.value,
+
       draft_m:
         draftM.value,
+
       passengers:
         passengers.value
     }
