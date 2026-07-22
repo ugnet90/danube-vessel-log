@@ -29,23 +29,25 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "reviewed",
     "auto": {
       "vessel_match": {
-        "status": "unmatched",
-        "vessel_id": "",
-        "matched_by": "",
-        "candidate_count": 0,
-        "candidate_ids": [],
-        "matched_value": "",
-        "normalized_input": ""
+        "status": "matched",
+        "vessel_id": "VES-000100",
+        "matched_by": "name",
+        "matched_value": "S. S. Beatrice",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000100"
+        ],
+        "normalized_input": "SSBEATRICE"
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
-      "vessel_id": "",
-      "decision": "",
+      "reviewed": true,
+      "reviewed_at": "2026-07-22T13:04:29.876Z",
+      "vessel_id": "VES-000100",
+      "decision": "confirmed",
       "notes": ""
     }
   }
