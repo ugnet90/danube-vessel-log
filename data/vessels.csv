@@ -1,3 +1,3 @@
-vessel_id;name;former_names;mmsi;imo;eni;callsign;ship_type;ship_subtype;operator;owner;cruise_brand;flag;home_port;year_built;shipyard;length_m;width_m;passengers;marine_traffic_url;vessel_finder_url;source_url;verified_at;notes
-VES-000001;Testschiff;;;;;;;;;;;;;;;;;;;;;;;
-VES-000002;Testschiff;;;;;;;;;;;;;;;;;;;;;;;
+vessel_id;name;former_names;mmsi;imo;eni;callsign;ship_type;ship_subtype;operator;cruise_brand;flag;status;year_built;length_m;width_m;json_path;updated_at
+VES-000000;Testschiff;;;;;;;;;;;unknown;;;;data/vessels/VES-000000.json;
+VES-000001;Testschiff;;;;;;;;;;;unknown;;;;data/vessels/VES-000001.json;
