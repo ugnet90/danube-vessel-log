@@ -46,6 +46,21 @@ export default {
       });
     }
 
+    if (request.method === "GET" && url.pathname === "/vessels") {
+      try {
+        return await handleVesselsList(request, env);
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error: "Unbehandelter Fehler beim Laden der Schiffsliste.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error)
+        }, 500);
+      }
+    }
+
     if (request.method === "GET" && url.pathname === "/vessel") {
       try {
         return await handleVesselDetail(request, env);
@@ -745,6 +760,39 @@ async function createPhotoSubmission(request, env) {
     },
     201
   );
+}
+
+
+async function handleVesselsList(request, env) {
+  const authError = checkManagementKey(request, env);
+  if (authError) return authError;
+
+  const result = await loadVessels(env);
+
+  if (!result.ok) {
+    return jsonResponse({
+      ok: false,
+      error: result.error
+    }, 502);
+  }
+
+  const vessels = result.vessels
+    .map(vessel => ({
+      ...vessel,
+      environment:
+        parseVesselIdNumber(vessel.vessel_id) < 100
+          ? "test"
+          : "production"
+    }))
+    .sort((left, right) =>
+      left.vessel_id.localeCompare(right.vessel_id)
+    );
+
+  return jsonResponse({
+    ok: true,
+    count: vessels.length,
+    vessels
+  });
 }
 
 async function handleVesselDetail(request, env) {
