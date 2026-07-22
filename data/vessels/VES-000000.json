@@ -34,7 +34,19 @@
   },
   "name_history": [],
   "identifiers_history": [],
-  "sources": [],
+  "sources": [
+    {
+      "source_id": "SRC-02E2AA0B7379",
+      "provider": "Wikipedia",
+      "title": "Liste von Flusskreuzfahrtschiffen",
+      "url": "https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen",
+      "notes": "ENI;Bild;Baujahr;Länge;Breite;Passagiere;Betreiber;Heimat­hafen;Flagge",
+      "retrieved_at": "2026-07-22T19:22:43.299Z",
+      "verified_at": "2026-07-22T19:22:43.299Z",
+      "added_at": "2026-07-22T19:22:43.299Z",
+      "added_by": "web-ui"
+    }
+  ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
@@ -49,7 +61,7 @@
     "environment": "test",
     "created_at": "",
     "created_from_submission_id": "",
-    "updated_at": "2026-07-22T18:30:59.539Z",
+    "updated_at": "2026-07-22T19:22:43.299Z",
     "updated_by": "web-ui",
     "change_history": [
       {
@@ -88,6 +100,21 @@
             "field": "notes",
             "old_value": "das ist ein Test zum Bearbeiten",
             "new_value": ""
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-07-22T19:22:43.299Z",
+        "changed_by": "web-ui",
+        "summary": "Quelle hinzugefügt: Wikipedia – Liste von Flusskreuzfahrtschiffen",
+        "changed_fields": [
+          "sources"
+        ],
+        "changes": [
+          {
+            "field": "sources",
+            "old_value": 0,
+            "new_value": 1
           }
         ]
       }
