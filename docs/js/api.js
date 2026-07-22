@@ -95,6 +95,18 @@
     };
   }
 
+
+  async function getVessels({
+    workerUrl,
+    apiKey = ""
+  }) {
+    return request({
+      workerUrl,
+      path: "/vessels",
+      apiKey
+    });
+  }
+
   async function getVessel({
     workerUrl,
     apiKey = "",
@@ -182,6 +194,7 @@
 
   window.VesselApi = {
     request,
+    getVessels,
     getVessel,
     getVesselIdSuggestion,
     createVessel,
