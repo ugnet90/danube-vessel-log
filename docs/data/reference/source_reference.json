@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "version": "0.10.1",
+  "providers": [
+    {
+      "value": "MarineTraffic",
+      "label": "MarineTraffic",
+      "aliases": [
+        "marine traffic",
+        "marinetraffic"
+      ]
+    },
+    {
+      "value": "VesselFinder",
+      "label": "VesselFinder",
+      "aliases": [
+        "vessel finder",
+        "vesselfinder"
+      ]
+    },
+    {
+      "value": "FleetMon",
+      "label": "FleetMon",
+      "aliases": [
+        "fleet mon",
+        "fleetmon"
+      ]
+    },
+    {
+      "value": "Wikipedia",
+      "label": "Wikipedia",
+      "aliases": [
+        "wiki",
+        "wikipedia"
+      ]
+    },
+    {
+      "value": "Schiffsregister",
+      "label": "Schiffsregister",
+      "aliases": [
+        "register",
+        "schiffsregister"
+      ]
+    },
+    {
+      "value": "Betreiber",
+      "label": "Betreiber",
+      "aliases": [
+        "operator",
+        "reederei",
+        "betreiber"
+      ]
+    },
+    {
+      "value": "Werft",
+      "label": "Werft",
+      "aliases": [
+        "shipyard",
+        "werft"
+      ]
+    },
+    {
+      "value": "Behörde",
+      "label": "Behörde",
+      "aliases": [
+        "amt",
+        "behörde",
+        "government"
+      ]
+    },
+    {
+      "value": "Presse",
+      "label": "Presse / Medien",
+      "aliases": [
+        "presse",
+        "zeitung",
+        "medien"
+      ]
+    },
+    {
+      "value": "Sonstige",
+      "label": "Sonstige Quelle",
+      "aliases": [
+        "sonstige",
+        "andere"
+      ]
+    }
+  ],
+  "fields": [
+    {
+      "path": "identity.name",
+      "label": "Name",
+      "selectable": true
+    },
+    {
+      "path": "identity.former_names",
+      "label": "Frühere Namen",
+      "selectable": true
+    },
+    {
+      "path": "identity.mmsi",
+      "label": "MMSI",
+      "selectable": true
+    },
+    {
+      "path": "identity.imo",
+      "label": "IMO",
+      "selectable": true
+    },
+    {
+      "path": "identity.eni",
+      "label": "ENI",
+      "selectable": true
+    },
+    {
+      "path": "identity.call_sign",
+      "label": "Rufzeichen",
+      "selectable": true
+    },
+    {
+      "path": "classification.ship_type",
+      "label": "Schiffstyp",
+      "selectable": true
+    },
+    {
+      "path": "classification.ship_subtype",
+      "label": "Untertyp",
+      "selectable": true
+    },
+    {
+      "path": "classification.flag",
+      "label": "Flagge",
+      "selectable": true
+    },
+    {
+      "path": "classification.status",
+      "label": "Status",
+      "selectable": true
+    },
+    {
+      "path": "technical.year_built",
+      "label": "Baujahr",
+      "selectable": true
+    },
+    {
+      "path": "technical.shipyard",
+      "label": "Werft",
+      "selectable": true
+    },
+    {
+      "path": "technical.length_m",
+      "label": "Länge",
+      "selectable": true
+    },
+    {
+      "path": "technical.width_m",
+      "label": "Breite",
+      "selectable": true
+    },
+    {
+      "path": "technical.draft_m",
+      "label": "Tiefgang",
+      "selectable": true
+    },
+    {
+      "path": "technical.passengers",
+      "label": "Passagiere",
+      "selectable": true
+    },
+    {
+      "path": "operations.operator",
+      "label": "Betreiber",
+      "selectable": true
+    },
+    {
+      "path": "operations.owner",
+      "label": "Eigentümer",
+      "selectable": true
+    },
+    {
+      "path": "operations.manager",
+      "label": "Manager",
+      "selectable": true
+    },
+    {
+      "path": "operations.cruise_brand",
+      "label": "Marke",
+      "selectable": true
+    },
+    {
+      "path": "operations.home_port",
+      "label": "Heimathafen",
+      "selectable": true
+    },
+    {
+      "path": "notes",
+      "label": "Notizen",
+      "selectable": true
+    },
+    {
+      "path": "sources",
+      "label": "Quellen",
+      "selectable": false
+    }
+  ]
+}
