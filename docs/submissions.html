@@ -1,3 +1,10 @@
+<!--
+  Danube Vessel Log
+  File: docs/submissions.html
+  Version: 0.10.1
+  Updated: 2026-07-22
+-->
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -150,7 +157,15 @@
                 </div>
                 <div class="form-field">
                   <label for="newVesselEni">ENI</label>
-                  <input id="newVesselEni" type="text" maxlength="30" autocomplete="off">
+                  
+                  <input
+                    id="newVesselEni"
+                    type="text"
+                    maxlength="16"
+                    inputmode="numeric"
+                    placeholder="z. B. 02330531"
+                    autocomplete="off"
+                  >
                 </div>
                 <div class="form-field">
                   <label for="newVesselCallSign">Rufzeichen</label>
@@ -158,16 +173,37 @@
                 </div>
 
                 <div class="form-field">
-                  <label for="newVesselShipType">Schiffstyp</label>
-                  <input id="newVesselShipType" type="text" maxlength="80" autocomplete="off">
+                  <label for="newVesselShipType">
+                    Schiffstyp
+                  </label>
+                  
+                  <select id="newVesselShipType">
+                    <option value="">
+                      Referenzdaten werden geladen …
+                    </option>
+                  </select>
                 </div>
                 <div class="form-field">
-                  <label for="newVesselShipSubtype">Untertyp</label>
-                  <input id="newVesselShipSubtype" type="text" maxlength="80" autocomplete="off">
+                  <label for="newVesselShipSubtype">
+                    Untertyp
+                  </label>
+                  
+                  <select id="newVesselShipSubtype">
+                    <option value="">
+                      Referenzdaten werden geladen …
+                    </option>
+                  </select>
                 </div>
                 <div class="form-field">
-                  <label for="newVesselFlag">Flagge</label>
-                  <input id="newVesselFlag" type="text" maxlength="10" placeholder="z. B. AT" autocomplete="off">
+                  <label for="newVesselFlag">
+                    Flagge
+                  </label>
+                  
+                  <select id="newVesselFlag">
+                    <option value="">
+                      Referenzdaten werden geladen …
+                    </option>
+                  </select>
                 </div>
                 <div class="form-field">
                   <label for="newVesselStatus">Status</label>
@@ -337,6 +373,7 @@
   <script src="js/site_map.js"></script>
   <script src="js/nav.js"></script>
   <script src="js/api.js"></script>
+  <script src="js/vessel_reference.js"></script>
   <script src="js/submissions.js"></script>
 </body>
 </html>
