@@ -1,7 +1,14 @@
+// Danube Vessel Log
+// File: docs/js/submissions.js
+// Version: 0.10.1
+// Updated: 2026-07-22
+
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
   const byId = id => document.getElementById(id);
+  const reference =
+    window.VesselReference;  
 
   const workerUrl = String(
     window.VesselConfig?.workerUrl ?? ""
@@ -112,6 +119,106 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const vesselIdPattern = /^VES-\d{6}$/;
 
+  function replaceNewVesselSelectOptions(
+    select,
+    options,
+    selectedValue
+  ) {
+    select.replaceChildren();
+  
+    for (
+      const optionData
+      of options
+    ) {
+      const option =
+        document.createElement("option");
+  
+      option.value =
+        optionData.value;
+  
+      option.textContent =
+        optionData.label;
+  
+      select.append(option);
+    }
+  
+    select.value =
+      selectedValue;
+  
+    if (
+      select.value !==
+      selectedValue
+    ) {
+      select.value =
+        options[0]?.value ?? "";
+    }
+  }
+  
+  function populateNewVesselShipTypes(
+    selectedValue = "UNKNOWN"
+  ) {
+    replaceNewVesselSelectOptions(
+      newVesselShipType,
+  
+      reference
+        .getShipTypes()
+        .map(type => ({
+          value: type.code,
+          label: type.label
+        })),
+  
+      selectedValue
+    );
+  }
+  
+  function populateNewVesselShipSubtypes(
+    shipType,
+    selectedValue = "UNKNOWN"
+  ) {
+    const options =
+      reference
+        .getShipSubtypes(
+          shipType
+        )
+        .map(subtype => ({
+          value: subtype.code,
+          label: subtype.label
+        }));
+  
+    replaceNewVesselSelectOptions(
+      newVesselShipSubtype,
+      options,
+      selectedValue
+    );
+  }
+  
+  function populateNewVesselFlags(
+    selectedValue = ""
+  ) {
+    replaceNewVesselSelectOptions(
+      newVesselFlag,
+  
+      [
+        {
+          value: "",
+          label: "Nicht angegeben"
+        },
+  
+        ...reference
+          .getFlags()
+          .map(flag => ({
+            value: flag.code,
+            label:
+              reference.flagLabel(
+                flag.code
+              )
+          }))
+      ],
+  
+      selectedValue
+    );
+  }  
+
   let submissions = [];
   let selectedSubmission = null;
   let selectedPhotoIndex = 0;
@@ -121,6 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let reviewBusy = false;
   let vesselCreateBusy = false;
   let vesselSuggestionToken = 0;
+  let referenceReady = false;
 
   const vesselCache = new Map();
 
@@ -530,9 +638,17 @@ document.addEventListener("DOMContentLoaded", () => {
     newVesselImo.value = "";
     newVesselEni.value = "";
     newVesselCallSign.value = "";
-    newVesselShipType.value = "";
-    newVesselShipSubtype.value = "";
-    newVesselFlag.value = "";
+    
+    populateNewVesselShipTypes(
+      "UNKNOWN"
+    );
+    
+    populateNewVesselShipSubtypes(
+      "UNKNOWN",
+      "UNKNOWN"
+    );
+    
+    populateNewVesselFlags("");
     newVesselStatus.value = "unknown";
     newVesselYearBuilt.value = "";
     newVesselShipyard.value = "";
@@ -605,6 +721,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function openVesselCreateForm() {
+    if (!referenceReady) {
+      showVesselCreateResult(
+        "error",
+        "Die Referenzdaten wurden noch nicht geladen."
+      );
+    
+      return;
+    }
+    
     if (
       !selectedSubmission ||
       getWorkflowStatus(selectedSubmission) !== "new"
@@ -649,7 +774,10 @@ document.addEventListener("DOMContentLoaded", () => {
         parseFormerNames(newVesselFormerNames.value),
       mmsi: newVesselMmsi.value.trim(),
       imo: newVesselImo.value.trim(),
-      eni: newVesselEni.value.trim(),
+      eni:
+        reference.normalizeEni(
+          newVesselEni.value
+        ),
       call_sign: newVesselCallSign.value.trim(),
       ship_type: newVesselShipType.value.trim(),
       ship_subtype: newVesselShipSubtype.value.trim(),
@@ -686,6 +814,28 @@ document.addEventListener("DOMContentLoaded", () => {
       newVesselName.focus();
       return;
     }
+
+    const normalizedEni =
+      reference.normalizeEni(
+        newVesselEni.value
+      );
+    
+    newVesselEni.value =
+      normalizedEni;
+    
+    if (
+      !reference.isValidEni(
+        normalizedEni
+      )
+    ) {
+      showVesselCreateResult(
+        "error",
+        "Die ENI muss aus genau acht Ziffern bestehen."
+      );
+    
+      newVesselEni.focus();
+      return;
+    }    
 
     if (!vesselIdPattern.test(newVesselId.value)) {
       showVesselCreateResult(
@@ -835,11 +985,20 @@ document.addEventListener("DOMContentLoaded", () => {
       formatValue(identity.call_sign);
 
     vesselShipType.textContent =
-      formatValue(classification.ship_type);
+      reference.shipTypeLabel(
+        classification.ship_type
+      );
+    
     vesselShipSubtype.textContent =
-      formatValue(classification.ship_subtype);
+      reference.shipSubtypeLabel(
+        classification.ship_subtype,
+        classification.ship_type
+      );
+    
     vesselFlag.textContent =
-      formatValue(classification.flag);
+      reference.flagLabel(
+        classification.flag
+      );
     vesselStatusValue.textContent =
       vesselStatusLabels[classification.status] ??
       formatValue(classification.status);
@@ -1451,6 +1610,26 @@ document.addEventListener("DOMContentLoaded", () => {
     requestVesselIdSuggestion();
   });
 
+  newVesselShipType.addEventListener(
+    "change",
+    () => {
+      populateNewVesselShipSubtypes(
+        newVesselShipType.value,
+        "UNKNOWN"
+      );
+    }
+  );
+  
+  newVesselEni.addEventListener(
+    "blur",
+    () => {
+      newVesselEni.value =
+        reference.normalizeEni(
+          newVesselEni.value
+        );
+    }
+  );  
+
   saveVesselCreateButton.addEventListener("click", () => {
     saveNewVessel();
   });
@@ -1477,4 +1656,40 @@ document.addEventListener("DOMContentLoaded", () => {
       decision: "rejected"
     });
   });
+
+  async function initializeReferenceData() {
+    try {
+      await reference.load();
+  
+      referenceReady = true;
+  
+      populateNewVesselShipTypes(
+        "UNKNOWN"
+      );
+  
+      populateNewVesselShipSubtypes(
+        "UNKNOWN",
+        "UNKNOWN"
+      );
+  
+      populateNewVesselFlags("");
+    } catch (error) {
+      referenceReady = false;
+  
+      listStatus.className =
+        "list-status error";
+  
+      listStatus.textContent =
+        error instanceof Error
+          ? (
+              "Die Referenzdaten konnten nicht geladen werden: " +
+              error.message
+            )
+          : (
+              "Die Referenzdaten konnten nicht geladen werden."
+            );
+    }
+  }
+  
+  initializeReferenceData();  
 });
