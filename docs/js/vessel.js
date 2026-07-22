@@ -1,12 +1,14 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.10.0
+// Version: 0.10.1
 // Updated: 2026-07-22
 
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
   const byId = id => document.getElementById(id);
+  const reference =
+    window.VesselReference;  
 
   const workerUrl = String(
     window.VesselConfig?.workerUrl ?? ""
@@ -46,36 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentVessel = null;
   let editModeActive = false;
   let sourceFormActive = false;
-
-  const changeFieldLabels = Object.freeze({
-    "identity.name": "Name",
-    "identity.former_names": "Frühere Namen",
-    "identity.mmsi": "MMSI",
-    "identity.imo": "IMO",
-    "identity.eni": "ENI",
-    "identity.call_sign": "Rufzeichen",
-  
-    "classification.ship_type": "Schiffstyp",
-    "classification.ship_subtype": "Untertyp",
-    "classification.status": "Status",
-    "classification.flag": "Flagge",
-  
-    "technical.year_built": "Baujahr",
-    "technical.shipyard": "Werft",
-    "technical.length_m": "Länge",
-    "technical.width_m": "Breite",
-    "technical.draft_m": "Tiefgang",
-    "technical.passengers": "Passagiere",
-  
-    "operations.operator": "Betreiber",
-    "operations.owner": "Eigentümer",
-    "operations.manager": "Manager",
-    "operations.cruise_brand": "Marke",
-    "operations.home_port": "Heimathafen",
-  
-    "notes": "Notizen",
-    "sources": "Quellen"
-  }); 
+  let editingSourceId = "";
+  let referenceReady = false;
 
   function value(input, suffix = "") {
     return (
@@ -186,6 +160,315 @@ document.addEventListener("DOMContentLoaded", () => {
     return element;
   }
 
+  function replaceSelectOptions(
+    select,
+    options,
+    selectedValue
+  ) {
+    select.replaceChildren();
+  
+    for (
+      const optionData
+      of options
+    ) {
+      const option =
+        document.createElement("option");
+  
+      option.value =
+        optionData.value;
+  
+      option.textContent =
+        optionData.label;
+  
+      select.append(option);
+    }
+  
+    select.value =
+      selectedValue;
+  
+    if (
+      select.value !==
+      selectedValue
+    ) {
+      select.value =
+        options[0]?.value ?? "";
+    }
+  }
+  
+  function populateShipTypeSelect(
+    currentValue
+  ) {
+    const rawValue =
+      String(currentValue ?? "")
+        .trim();
+  
+    const canonicalValue =
+      reference.canonicalShipType(
+        rawValue
+      );
+  
+    const options =
+      reference
+        .getShipTypes()
+        .map(type => ({
+          value: type.code,
+          label: type.label
+        }));
+  
+    let selectedValue =
+      canonicalValue ||
+      rawValue ||
+      "UNKNOWN";
+  
+    if (
+      rawValue &&
+      !canonicalValue
+    ) {
+      options.push({
+        value: rawValue,
+        label:
+          `Bisheriger Wert: ${rawValue}`
+      });
+    }
+  
+    replaceSelectOptions(
+      byId("editShipType"),
+      options,
+      selectedValue
+    );
+  }
+  
+  function populateShipSubtypeSelect(
+    typeValue,
+    currentValue
+  ) {
+    const rawValue =
+      String(currentValue ?? "")
+        .trim();
+  
+    const canonicalType =
+      reference.canonicalShipType(
+        typeValue
+      ) ||
+      String(typeValue ?? "").trim();
+  
+    const canonicalSubtype =
+      reference.canonicalShipSubtype(
+        canonicalType,
+        rawValue
+      );
+  
+    const options =
+      reference
+        .getShipSubtypes(
+          canonicalType
+        )
+        .map(subtype => ({
+          value: subtype.code,
+          label: subtype.label
+        }));
+  
+    let selectedValue =
+      canonicalSubtype ||
+      rawValue ||
+      "UNKNOWN";
+  
+    if (
+      rawValue &&
+      !canonicalSubtype &&
+      !options.some(
+        option =>
+          option.value === rawValue
+      )
+    ) {
+      options.push({
+        value: rawValue,
+        label:
+          `Bisheriger Wert: ${rawValue}`
+      });
+    }
+  
+    if (
+      !options.some(
+        option =>
+          option.value ===
+          selectedValue
+      )
+    ) {
+      selectedValue =
+        options[0]?.value ??
+        "UNKNOWN";
+    }
+  
+    replaceSelectOptions(
+      byId("editShipSubtype"),
+      options,
+      selectedValue
+    );
+  }
+  
+  function populateFlagSelect(
+    currentValue
+  ) {
+    const rawValue =
+      String(currentValue ?? "")
+        .trim()
+        .toUpperCase();
+  
+    const options = [
+      {
+        value: "",
+        label: "Nicht angegeben"
+      },
+  
+      ...reference
+        .getFlags()
+        .map(flag => ({
+          value: flag.code,
+          label:
+            reference.flagLabel(
+              flag.code
+            )
+        }))
+    ];
+  
+    if (
+      rawValue &&
+      !options.some(
+        option =>
+          option.value ===
+          rawValue
+      )
+    ) {
+      options.push({
+        value: rawValue,
+        label:
+          `Bisheriger Wert: ` +
+          `${reference.flagLabel(rawValue)}`
+      });
+    }
+  
+    replaceSelectOptions(
+      byId("editFlag"),
+      options,
+      rawValue
+    );
+  }
+  
+  function populateSourceProviderSelect(
+    currentValue = ""
+  ) {
+    const rawValue =
+      String(currentValue ?? "")
+        .trim();
+  
+    const canonicalValue =
+      reference
+        .canonicalSourceProvider(
+          rawValue
+        );
+  
+    const options = [
+      {
+        value: "",
+        label: "Bitte wählen"
+      },
+  
+      ...reference
+        .getSourceProviders()
+        .map(provider => ({
+          value: provider.value,
+          label: provider.label
+        }))
+    ];
+  
+    const selectedValue =
+      canonicalValue ||
+      rawValue;
+  
+    if (
+      rawValue &&
+      !canonicalValue
+    ) {
+      options.push({
+        value: rawValue,
+        label:
+          `Bisheriger Wert: ${rawValue}`
+      });
+    }
+  
+    replaceSelectOptions(
+      byId("sourceProvider"),
+      options,
+      selectedValue
+    );
+  }
+  
+  function renderSourceFieldChoices(
+    selectedPaths = []
+  ) {
+    const container =
+      byId("sourceFieldsUsed");
+  
+    const selected =
+      new Set(
+        Array.isArray(
+          selectedPaths
+        )
+          ? selectedPaths
+          : []
+      );
+  
+    container.replaceChildren();
+  
+    for (
+      const field
+      of reference.getSourceFields()
+    ) {
+      const label =
+        document.createElement("label");
+  
+      label.className =
+        "source-field-choice";
+  
+      const checkbox =
+        document.createElement("input");
+  
+      checkbox.type = "checkbox";
+      checkbox.value = field.path;
+  
+      checkbox.checked =
+        selected.has(
+          field.path
+        );
+  
+      const text =
+        document.createElement("span");
+  
+      text.textContent =
+        field.label;
+  
+      label.append(
+        checkbox,
+        text
+      );
+  
+      container.append(label);
+    }
+  }
+  
+  function getSelectedSourceFields() {
+    return [
+      ...byId("sourceFieldsUsed")
+        .querySelectorAll(
+          'input[type="checkbox"]:checked'
+        )
+    ].map(
+      checkbox =>
+        checkbox.value
+    );
+  }  
+
   async function postManagementRequest(
     endpoint,
     payload
@@ -233,16 +516,74 @@ document.addEventListener("DOMContentLoaded", () => {
   } 
 
   function resetSourceForm() {
+    editingSourceId = "";
+  
     sourceForm.reset();
   
-    byId("sourceProvider").value = "";
+    byId("sourceFormTitle")
+      .textContent =
+        "Neue Quelle";
+  
+    saveSourceButton.textContent =
+      "Quelle speichern";
+  
+    populateSourceProviderSelect("");
+  
     byId("sourceTitle").value = "";
     byId("sourceUrl").value = "";
     byId("sourceNotes").value = "";
-    byId("sourceVerified").checked = false;
+  
+    byId("sourceVerified")
+      .checked = false;
+  
+    renderSourceFieldChoices([]);
   }
   
-  function setSourceFormMode(enabled) {
+  function populateSourceForm(
+    source
+  ) {
+    editingSourceId =
+      String(
+        source?.source_id ?? ""
+      ).trim();
+  
+    byId("sourceFormTitle")
+      .textContent =
+        "Quelle bearbeiten";
+  
+    saveSourceButton.textContent =
+      "Änderungen speichern";
+  
+    populateSourceProviderSelect(
+      source?.provider
+    );
+  
+    byId("sourceTitle").value =
+      source?.title ?? "";
+  
+    byId("sourceUrl").value =
+      source?.url ??
+      source?.source_url ??
+      "";
+  
+    byId("sourceNotes").value =
+      source?.notes ?? "";
+  
+    byId("sourceVerified")
+      .checked =
+        Boolean(
+          source?.verified_at
+        );
+  
+    renderSourceFieldChoices(
+      source?.fields_used
+    );
+  }
+  
+  function setSourceFormMode(
+    enabled,
+    source = null
+  ) {
     sourceFormActive =
       Boolean(enabled);
   
@@ -252,24 +593,41 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   
     addSourceButton.disabled =
-      sourceFormActive;
+      sourceFormActive ||
+      !currentVessel ||
+      !referenceReady;
   
-    if (sourceFormActive) {
+    if (!sourceFormActive) {
       resetSourceForm();
-  
-      sourceForm.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
-      });
-  
-      byId("sourceProvider").focus();
+      return;
     }
+  
+    if (source) {
+      populateSourceForm(
+        source
+      );
+    } else {
+      resetSourceForm();
+    }
+  
+    sourceForm.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest"
+    });
+  
+    byId("sourceProvider")
+      .focus();
   }
   
   async function saveSource() {
-    if (!sourceForm.reportValidity()) {
+    if (
+      !sourceForm.reportValidity()
+    ) {
       return;
     }
+  
+    const sourceWasEdited =
+      Boolean(editingSourceId);
   
     const originalButtonText =
       saveSourceButton.textContent;
@@ -286,35 +644,47 @@ document.addEventListener("DOMContentLoaded", () => {
     pageStatus.textContent = "";
   
     try {
+      const payload = {
+        vessel_id: vesselId,
+  
+        provider:
+          byId("sourceProvider")
+            .value
+            .trim(),
+  
+        title:
+          byId("sourceTitle")
+            .value
+            .trim(),
+  
+        url:
+          byId("sourceUrl")
+            .value
+            .trim(),
+  
+        notes:
+          byId("sourceNotes")
+            .value
+            .trim(),
+  
+        verified:
+          byId("sourceVerified")
+            .checked,
+  
+        fields_used:
+          getSelectedSourceFields()
+      };
+  
+      if (editingSourceId) {
+        payload.source_id =
+          editingSourceId;
+      }
+  
       await postManagementRequest(
-        "/vessel-source-add",
-        {
-          vessel_id: vesselId,
-  
-          provider:
-            byId("sourceProvider")
-              .value
-              .trim(),
-  
-          title:
-            byId("sourceTitle")
-              .value
-              .trim(),
-  
-          url:
-            byId("sourceUrl")
-              .value
-              .trim(),
-  
-          notes:
-            byId("sourceNotes")
-              .value
-              .trim(),
-  
-          verified:
-            byId("sourceVerified")
-              .checked
-        }
+        sourceWasEdited
+          ? "/vessel-source-update"
+          : "/vessel-source-add",
+        payload
       );
   
       setSourceFormMode(false);
@@ -325,7 +695,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "page-status success";
   
       pageStatus.textContent =
-        "Die Quelle wurde gespeichert.";
+        sourceWasEdited
+          ? "Die Quelle wurde aktualisiert."
+          : "Die Quelle wurde gespeichert.";
     } catch (error) {
       pageStatus.className =
         "page-status error";
@@ -339,7 +711,9 @@ document.addEventListener("DOMContentLoaded", () => {
       cancelSourceButton.disabled = false;
   
       saveSourceButton.textContent =
-        originalButtonText;
+        sourceWasEdited
+          ? "Änderungen speichern"
+          : "Quelle speichern";
     }
   }
   
@@ -419,10 +793,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }  
 
   function changeFieldLabel(fieldPath) {
-    return (
-      changeFieldLabels[fieldPath] ||
-      fieldPath ||
-      "Unbekanntes Feld"
+    return reference.sourceFieldLabel(
+      fieldPath
     );
   }
   
@@ -817,7 +1189,9 @@ document.addEventListener("DOMContentLoaded", () => {
   
     setInputValue(
       "editEni",
-      identity.eni
+      reference.normalizeEni(
+        identity.eni
+      )
     );
   
     setInputValue(
@@ -825,18 +1199,16 @@ document.addEventListener("DOMContentLoaded", () => {
       identity.call_sign
     );
   
-    setInputValue(
-      "editShipType",
+    populateShipTypeSelect(
       classification.ship_type
     );
-  
-    setInputValue(
-      "editShipSubtype",
+    
+    populateShipSubtypeSelect(
+      byId("editShipType").value,
       classification.ship_subtype
     );
-  
-    setInputValue(
-      "editFlag",
+    
+    populateFlagSelect(
       classification.flag
     );
   
@@ -961,9 +1333,9 @@ document.addEventListener("DOMContentLoaded", () => {
           .trim(),
   
       eni:
-        byId("editEni")
-          .value
-          .trim(),
+        reference.normalizeEni(
+          byId("editEni").value
+        ),
   
       call_sign:
         byId("editCallSign")
@@ -1056,7 +1428,22 @@ document.addEventListener("DOMContentLoaded", () => {
   
     const payload =
       buildVesselUpdatePayload();
-  
+
+    if (
+      !reference.isValidEni(
+        payload.eni
+      )
+    ) {
+      pageStatus.className =
+        "page-status error";
+    
+      pageStatus.textContent =
+        "Die ENI muss aus genau acht Ziffern bestehen.";
+    
+      byId("editEni").focus();
+      return;
+    }
+    
     if (!payload.name) {
       pageStatus.className =
         "page-status error";
@@ -1304,11 +1691,13 @@ document.addEventListener("DOMContentLoaded", () => {
     normalizedSources.sort(
       (left, right) =>
         String(
+          right?.updated_at ||
           right?.added_at ||
           right?.retrieved_at ||
           ""
         ).localeCompare(
           String(
+            left?.updated_at ||
             left?.added_at ||
             left?.retrieved_at ||
             ""
@@ -1320,20 +1709,36 @@ document.addEventListener("DOMContentLoaded", () => {
   
     set(
       "sourceCountBadge",
-      String(normalizedSources.length)
+      String(
+        normalizedSources.length
+      )
     );
   
-    if (normalizedSources.length === 0) {
-      sourceList.classList.add("hidden");
-      sourceEmpty.classList.remove("hidden");
+    if (
+      normalizedSources.length === 0
+    ) {
+      sourceList.classList.add(
+        "hidden"
+      );
+  
+      sourceEmpty.classList.remove(
+        "hidden"
+      );
+  
       return;
     }
   
-    for (const source of normalizedSources) {
+    for (
+      const source
+      of normalizedSources
+    ) {
       const item =
-        document.createElement("article");
+        document.createElement(
+          "article"
+        );
   
-      item.className = "source-item";
+      item.className =
+        "source-item";
   
       const header =
         document.createElement("div");
@@ -1344,9 +1749,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const headerText =
         document.createElement("div");
   
+      const providerLabel =
+        reference.sourceProviderLabel(
+          source?.provider
+        );
+  
       const title =
         source?.title ||
-        source?.provider ||
+        providerLabel ||
         source?.name ||
         "Quelle";
   
@@ -1359,22 +1769,59 @@ document.addEventListener("DOMContentLoaded", () => {
       );
   
       if (
-        source?.provider &&
-        source.provider !== title
+        providerLabel &&
+        providerLabel !== title
       ) {
         headerText.append(
           createTextElement(
             "p",
             "source-provider",
-            source.provider
+            providerLabel
           )
         );
       }
   
-      header.append(headerText);
+      header.append(
+        headerText
+      );
+  
+      const actions =
+        document.createElement("div");
+  
+      actions.className =
+        "source-item-actions";
+  
+      const editSourceButton =
+        document.createElement(
+          "button"
+        );
+  
+      editSourceButton.type =
+        "button";
+  
+      editSourceButton.className =
+        "source-edit-button";
+  
+      editSourceButton.textContent =
+        "Bearbeiten";
+  
+      editSourceButton.disabled =
+        !source?.source_id;
+  
+      editSourceButton.addEventListener(
+        "click",
+        () => {
+          setSourceFormMode(
+            true,
+            source
+          );
+        }
+      );
   
       const removeButton =
-        document.createElement("button");
+        document.createElement(
+          "button"
+        );
   
       removeButton.type = "button";
   
@@ -1395,7 +1842,12 @@ document.addEventListener("DOMContentLoaded", () => {
         )
       );
   
-      header.append(removeButton);
+      actions.append(
+        editSourceButton,
+        removeButton
+      );
+  
+      header.append(actions);
       item.append(header);
   
       const metadata = [
@@ -1414,15 +1866,13 @@ document.addEventListener("DOMContentLoaded", () => {
         .filter(Boolean)
         .join(" · ");
   
-      if (metadata) {
-        item.append(
-          createTextElement(
-            "p",
-            "source-meta",
-            metadata
-          )
-        );
-      }
+      item.append(
+        createTextElement(
+          "p",
+          "source-meta",
+          metadata
+        )
+      );
   
       if (source?.notes) {
         item.append(
@@ -1432,6 +1882,50 @@ document.addEventListener("DOMContentLoaded", () => {
             source.notes
           )
         );
+      }
+  
+      const fieldsUsed =
+        Array.isArray(
+          source?.fields_used
+        )
+          ? source.fields_used
+          : [];
+  
+      if (fieldsUsed.length > 0) {
+        item.append(
+          createTextElement(
+            "p",
+            "source-fields-label",
+            fieldsUsed.length === 1
+              ? "Übernommenes Feld"
+              : "Übernommene Felder"
+          )
+        );
+  
+        const fieldList =
+          document.createElement(
+            "div"
+          );
+  
+        fieldList.className =
+          "source-used-fields";
+  
+        for (
+          const fieldPath
+          of fieldsUsed
+        ) {
+          fieldList.append(
+            createTextElement(
+              "span",
+              "source-used-field",
+              reference.sourceFieldLabel(
+                fieldPath
+              )
+            )
+          );
+        }
+  
+        item.append(fieldList);
       }
   
       const url = safeUrl(
@@ -1444,11 +1938,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const link =
           document.createElement("a");
   
-        link.className = "source-link";
+        link.className =
+          "source-link";
+  
         link.href = url;
         link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = "Quelle öffnen";
+  
+        link.rel =
+          "noopener noreferrer";
+  
+        link.textContent =
+          "Quelle öffnen";
   
         item.append(link);
       }
@@ -1456,8 +1956,13 @@ document.addEventListener("DOMContentLoaded", () => {
       sourceList.append(item);
     }
   
-    sourceEmpty.classList.add("hidden");
-    sourceList.classList.remove("hidden");
+    sourceEmpty.classList.add(
+      "hidden"
+    );
+  
+    sourceList.classList.remove(
+      "hidden"
+    );
   }
 
   function renderSightings(
@@ -1758,7 +2263,12 @@ document.addEventListener("DOMContentLoaded", () => {
       payload.vessel || {};
   
     currentVessel = vessel;
+    
     editButton.disabled = false;
+    
+    addSourceButton.disabled =
+      sourceFormActive ||
+      !referenceReady;
 
     const identity =
       vessel.identity || {};
@@ -1829,17 +2339,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     set(
       "shipType",
-      value(classification.ship_type)
+      reference.shipTypeLabel(
+        classification.ship_type
+      )
     );
-
+    
     set(
       "shipSubtype",
-      value(classification.ship_subtype)
+      reference.shipSubtypeLabel(
+        classification.ship_subtype,
+        classification.ship_type
+      )
     );
-
+    
     set(
       "flag",
-      value(classification.flag)
+      reference.flagLabel(
+        classification.flag
+      )
     );
 
     set(
@@ -2046,7 +2563,10 @@ document.addEventListener("DOMContentLoaded", () => {
   addSourceButton.addEventListener(
     "click",
     () => {
-      setSourceFormMode(true);
+      setSourceFormMode(
+        true,
+        null
+      );
     }
   );
   
@@ -2113,6 +2633,69 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   );
+
+  byId("editShipType")
+    .addEventListener(
+      "change",
+      () => {
+        populateShipSubtypeSelect(
+          byId("editShipType")
+            .value,
+          "UNKNOWN"
+        );
+      }
+    );
   
-  load();
+  byId("editEni")
+    .addEventListener(
+      "blur",
+      () => {
+        byId("editEni").value =
+          reference.normalizeEni(
+            byId("editEni")
+              .value
+          );
+      }
+    );  
+  
+  async function initialize() {
+    reloadButton.disabled = true;
+    addSourceButton.disabled = true;
+  
+    pageStatus.className =
+      "page-status";
+  
+    pageStatus.textContent =
+      "Referenzdaten werden geladen …";
+  
+    try {
+      await reference.load();
+  
+      referenceReady = true;
+  
+      populateSourceProviderSelect("");
+      renderSourceFieldChoices([]);
+  
+      await load();
+    } catch (error) {
+      referenceReady = false;
+  
+      pageStatus.className =
+        "page-status error";
+  
+      pageStatus.textContent =
+        error instanceof Error
+          ? (
+              "Die Referenzdaten konnten nicht geladen werden: " +
+              error.message
+            )
+          : (
+              "Die Referenzdaten konnten nicht geladen werden."
+            );
+  
+      reloadButton.disabled = false;
+    }
+  }
+  
+  initialize();
 });
