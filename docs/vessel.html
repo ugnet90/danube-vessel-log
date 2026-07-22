@@ -2,7 +2,7 @@
 <!--
   Danube Vessel Log
   File: docs/vessel.html
-  Version: 0.8.1
+  Version: 0.9.0
   Updated: 2026-07-22
 -->
 <html lang="de">
@@ -31,9 +31,24 @@
         </div>
         <p id="vesselSubtitle"></p>
       </div>
-      <button id="reloadButton" class="secondary-button" type="button">
-        Neu laden
-      </button>
+      <div class="vessel-actions">
+        <button
+          id="editButton"
+          class="primary-button"
+          type="button"
+          disabled
+        >
+          Bearbeiten
+        </button>
+      
+        <button
+          id="reloadButton"
+          class="secondary-button"
+          type="button"
+        >
+          Neu laden
+        </button>
+      </div>
     </header>
 
     <section class="connection-card">
@@ -58,6 +73,294 @@
       id="vesselContent"
       class="vessel-content hidden"
     >
+      <section
+        id="vesselEditCard"
+        class="detail-card vessel-edit-card hidden"
+      >
+        <div class="card-heading-row">
+          <div>
+            <h2>Stammdaten bearbeiten</h2>
+            <p class="edit-intro">
+              Die Vessel-ID bleibt unverändert. Leere optionale Felder
+              werden als nicht vorhanden gespeichert.
+            </p>
+          </div>
+        </div>
+    
+        <form id="vesselEditForm">
+          <section class="edit-section">
+            <h3>Identität</h3>
+    
+            <div class="edit-grid">
+              <label class="edit-field">
+                <span>Vessel-ID</span>
+                <input
+                  id="editVesselId"
+                  type="text"
+                  readonly
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>Name *</span>
+                <input
+                  id="editName"
+                  type="text"
+                  maxlength="150"
+                  required
+                >
+              </label>
+    
+              <label class="edit-field edit-field-wide">
+                <span>Frühere Namen</span>
+                <textarea
+                  id="editFormerNames"
+                  rows="4"
+                  placeholder="Ein Name pro Zeile"
+                ></textarea>
+              </label>
+    
+              <label class="edit-field">
+                <span>MMSI</span>
+                <input
+                  id="editMmsi"
+                  type="text"
+                  maxlength="30"
+                  inputmode="numeric"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>IMO</span>
+                <input
+                  id="editImo"
+                  type="text"
+                  maxlength="30"
+                  inputmode="numeric"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>ENI</span>
+                <input
+                  id="editEni"
+                  type="text"
+                  maxlength="30"
+                  inputmode="numeric"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>Rufzeichen</span>
+                <input
+                  id="editCallSign"
+                  type="text"
+                  maxlength="40"
+                >
+              </label>
+            </div>
+          </section>
+    
+          <section class="edit-section">
+            <h3>Klassifikation</h3>
+    
+            <div class="edit-grid">
+              <label class="edit-field">
+                <span>Schiffstyp</span>
+                <input
+                  id="editShipType"
+                  type="text"
+                  maxlength="80"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>Untertyp</span>
+                <input
+                  id="editShipSubtype"
+                  type="text"
+                  maxlength="80"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>Flagge</span>
+                <input
+                  id="editFlag"
+                  type="text"
+                  maxlength="10"
+                  placeholder="z. B. AT"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>Status</span>
+                <select id="editStatus">
+                  <option value="active">Aktiv</option>
+                  <option value="inactive">Inaktiv</option>
+                  <option value="scrapped">Verschrottet</option>
+                  <option value="unknown">Unbekannt</option>
+                </select>
+              </label>
+            </div>
+          </section>
+    
+          <section class="edit-section">
+            <h3>Technische Daten</h3>
+    
+            <div class="edit-grid">
+              <label class="edit-field">
+                <span>Baujahr</span>
+                <input
+                  id="editYearBuilt"
+                  type="number"
+                  min="1800"
+                  max="2100"
+                  step="1"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>Werft</span>
+                <input
+                  id="editShipyard"
+                  type="text"
+                  maxlength="200"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>Länge in Metern</span>
+                <input
+                  id="editLengthM"
+                  type="number"
+                  min="0"
+                  max="1000"
+                  step="0.01"
+                  inputmode="decimal"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>Breite in Metern</span>
+                <input
+                  id="editWidthM"
+                  type="number"
+                  min="0"
+                  max="200"
+                  step="0.01"
+                  inputmode="decimal"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>Tiefgang in Metern</span>
+                <input
+                  id="editDraftM"
+                  type="number"
+                  min="0"
+                  max="50"
+                  step="0.01"
+                  inputmode="decimal"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>Passagiere</span>
+                <input
+                  id="editPassengers"
+                  type="number"
+                  min="0"
+                  max="10000"
+                  step="1"
+                >
+              </label>
+            </div>
+          </section>
+    
+          <section class="edit-section">
+            <h3>Betrieb</h3>
+    
+            <div class="edit-grid">
+              <label class="edit-field">
+                <span>Betreiber</span>
+                <input
+                  id="editOperator"
+                  type="text"
+                  maxlength="200"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>Eigentümer</span>
+                <input
+                  id="editOwner"
+                  type="text"
+                  maxlength="200"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>Manager</span>
+                <input
+                  id="editManager"
+                  type="text"
+                  maxlength="200"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>Marke</span>
+                <input
+                  id="editCruiseBrand"
+                  type="text"
+                  maxlength="200"
+                >
+              </label>
+    
+              <label class="edit-field">
+                <span>Heimathafen</span>
+                <input
+                  id="editHomePort"
+                  type="text"
+                  maxlength="150"
+                >
+              </label>
+            </div>
+          </section>
+    
+          <section class="edit-section">
+            <h3>Notizen</h3>
+    
+            <label class="edit-field">
+              <textarea
+                id="editNotes"
+                rows="6"
+                maxlength="5000"
+              ></textarea>
+            </label>
+          </section>
+    
+          <div class="edit-actions">
+            <button
+              id="saveEditButton"
+              class="primary-button"
+              type="submit"
+            >
+              Änderungen speichern
+            </button>
+    
+            <button
+              id="cancelEditButton"
+              class="secondary-button"
+              type="button"
+            >
+              Abbrechen
+            </button>
+          </div>
+        </form>
+      </section>
+    
       <section class="vessel-overview">
         <figure class="primary-photo-card">
           <img
