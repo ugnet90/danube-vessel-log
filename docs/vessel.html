@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!--
+  Danube Vessel Log
+  File: docs/vessel.html
+  Version: 0.8.0
+  Updated: 2026-07-22
+-->
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +17,11 @@
   <div class="site-nav-shell" data-site-nav></div>
 
   <main class="vessel-page">
-    <div class="breadcrumb"><a href="vessels.html">Schiffe</a><span>›</span><span id="breadcrumbId">…</span></div>
+    <div class="breadcrumb">
+      <a href="vessels.html">Schiffe</a>
+      <span>›</span>
+      <span id="breadcrumbId">…</span>
+    </div>
 
     <header class="vessel-header">
       <div>
@@ -21,75 +31,317 @@
         </div>
         <p id="vesselSubtitle"></p>
       </div>
-      <button id="reloadButton" class="secondary-button" type="button">Neu laden</button>
+      <button id="reloadButton" class="secondary-button" type="button">
+        Neu laden
+      </button>
     </header>
 
     <section class="connection-card">
       <div class="form-field compact-field">
         <label for="apiKey">API-Schlüssel</label>
-        <input id="apiKey" type="password" placeholder="Optional" autocomplete="off">
+        <input
+          id="apiKey"
+          type="password"
+          placeholder="Optional"
+          autocomplete="off"
+        >
       </div>
     </section>
 
-    <div id="pageStatus" class="page-status" aria-live="polite"></div>
+    <div
+      id="pageStatus"
+      class="page-status"
+      aria-live="polite"
+    ></div>
 
-    <article id="vesselContent" class="vessel-content hidden">
+    <article
+      id="vesselContent"
+      class="vessel-content hidden"
+    >
+      <section class="vessel-overview">
+        <figure class="primary-photo-card">
+          <img
+            id="primaryPhoto"
+            class="primary-photo hidden"
+            alt=""
+          >
+
+          <div
+            id="primaryPhotoPlaceholder"
+            class="primary-photo-placeholder"
+          >
+            Noch kein Foto verknüpft
+          </div>
+
+          <figcaption id="primaryPhotoCaption"></figcaption>
+        </figure>
+
+        <section
+          class="summary-card"
+          aria-label="Übersicht"
+        >
+          <h2>Übersicht</h2>
+
+          <div class="summary-grid">
+            <div>
+              <span
+                class="summary-value"
+                id="summarySightings"
+              >0</span>
+              <span class="summary-label">Sichtungen</span>
+            </div>
+
+            <div>
+              <span
+                class="summary-value"
+                id="summaryPhotos"
+              >0</span>
+              <span class="summary-label">Fotos</span>
+            </div>
+
+            <div>
+              <span
+                class="summary-value summary-value-small"
+                id="summaryLastSeen"
+              >–</span>
+              <span class="summary-label">
+                Letzte Sichtung
+              </span>
+            </div>
+
+            <div>
+              <span
+                class="summary-value summary-value-small"
+                id="summaryLastLocation"
+              >–</span>
+              <span class="summary-label">
+                Letzter Standort
+              </span>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <div class="detail-sections">
+        <section class="detail-card">
+          <h2>Identität</h2>
+
+          <dl class="detail-grid">
+            <div>
+              <dt>Vessel-ID</dt>
+              <dd id="vesselId"></dd>
+            </div>
+
+            <div>
+              <dt>Name</dt>
+              <dd id="identityName"></dd>
+            </div>
+
+            <div>
+              <dt>Frühere Namen</dt>
+              <dd id="formerNames"></dd>
+            </div>
+
+            <div>
+              <dt>MMSI</dt>
+              <dd id="mmsi"></dd>
+            </div>
+
+            <div>
+              <dt>IMO</dt>
+              <dd id="imo"></dd>
+            </div>
+
+            <div>
+              <dt>ENI</dt>
+              <dd id="eni"></dd>
+            </div>
+
+            <div>
+              <dt>Rufzeichen</dt>
+              <dd id="callSign"></dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="detail-card">
+          <h2>Klassifikation</h2>
+
+          <dl class="detail-grid">
+            <div>
+              <dt>Schiffstyp</dt>
+              <dd id="shipType"></dd>
+            </div>
+
+            <div>
+              <dt>Untertyp</dt>
+              <dd id="shipSubtype"></dd>
+            </div>
+
+            <div>
+              <dt>Flagge</dt>
+              <dd id="flag"></dd>
+            </div>
+
+            <div>
+              <dt>Status</dt>
+              <dd id="status"></dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="detail-card">
+          <h2>Technische Daten</h2>
+
+          <dl class="detail-grid">
+            <div>
+              <dt>Baujahr</dt>
+              <dd id="yearBuilt"></dd>
+            </div>
+
+            <div>
+              <dt>Werft</dt>
+              <dd id="shipyard"></dd>
+            </div>
+
+            <div>
+              <dt>Länge</dt>
+              <dd id="lengthM"></dd>
+            </div>
+
+            <div>
+              <dt>Breite</dt>
+              <dd id="widthM"></dd>
+            </div>
+
+            <div>
+              <dt>Tiefgang</dt>
+              <dd id="draftM"></dd>
+            </div>
+
+            <div>
+              <dt>Passagiere</dt>
+              <dd id="passengers"></dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="detail-card">
+          <h2>Betrieb</h2>
+
+          <dl class="detail-grid">
+            <div>
+              <dt>Betreiber</dt>
+              <dd id="operator"></dd>
+            </div>
+
+            <div>
+              <dt>Eigentümer</dt>
+              <dd id="owner"></dd>
+            </div>
+
+            <div>
+              <dt>Manager</dt>
+              <dd id="manager"></dd>
+            </div>
+
+            <div>
+              <dt>Marke</dt>
+              <dd id="cruiseBrand"></dd>
+            </div>
+
+            <div>
+              <dt>Heimathafen</dt>
+              <dd id="homePort"></dd>
+            </div>
+          </dl>
+        </section>
+      </div>
+
       <section class="detail-card">
-        <h2>Identität</h2>
-        <dl class="detail-grid">
-          <div><dt>Vessel-ID</dt><dd id="vesselId"></dd></div>
-          <div><dt>Name</dt><dd id="identityName"></dd></div>
-          <div><dt>Frühere Namen</dt><dd id="formerNames"></dd></div>
-          <div><dt>MMSI</dt><dd id="mmsi"></dd></div>
-          <div><dt>IMO</dt><dd id="imo"></dd></div>
-          <div><dt>ENI</dt><dd id="eni"></dd></div>
-          <div><dt>Rufzeichen</dt><dd id="callSign"></dd></div>
-        </dl>
+        <div class="card-heading-row">
+          <h2>Quellen</h2>
+          <span
+            id="sourceCountBadge"
+            class="count-badge"
+          >0</span>
+        </div>
+
+        <div
+          id="sourceEmpty"
+          class="empty-state"
+        >
+          Noch keine Quellen hinterlegt.
+        </div>
+
+        <div
+          id="sourceList"
+          class="source-list hidden"
+        ></div>
       </section>
 
       <section class="detail-card">
-        <h2>Klassifikation</h2>
-        <dl class="detail-grid">
-          <div><dt>Schiffstyp</dt><dd id="shipType"></dd></div>
-          <div><dt>Untertyp</dt><dd id="shipSubtype"></dd></div>
-          <div><dt>Flagge</dt><dd id="flag"></dd></div>
-          <div><dt>Status</dt><dd id="status"></dd></div>
-        </dl>
-      </section>
+        <div class="card-heading-row">
+          <h2>Sichtungen</h2>
+          <span
+            id="sightingsCount"
+            class="count-badge"
+          >0</span>
+        </div>
 
-      <section class="detail-card">
-        <h2>Technische Daten</h2>
-        <dl class="detail-grid">
-          <div><dt>Baujahr</dt><dd id="yearBuilt"></dd></div>
-          <div><dt>Werft</dt><dd id="shipyard"></dd></div>
-          <div><dt>Länge</dt><dd id="lengthM"></dd></div>
-          <div><dt>Breite</dt><dd id="widthM"></dd></div>
-          <div><dt>Tiefgang</dt><dd id="draftM"></dd></div>
-          <div><dt>Passagiere</dt><dd id="passengers"></dd></div>
-        </dl>
-      </section>
+        <div
+          id="sightingsEmpty"
+          class="empty-state"
+        >
+          Noch keine Sichtung mit diesem Schiff verknüpft.
+        </div>
 
-      <section class="detail-card">
-        <h2>Betrieb</h2>
-        <dl class="detail-grid">
-          <div><dt>Betreiber</dt><dd id="operator"></dd></div>
-          <div><dt>Eigentümer</dt><dd id="owner"></dd></div>
-          <div><dt>Manager</dt><dd id="manager"></dd></div>
-          <div><dt>Marke</dt><dd id="cruiseBrand"></dd></div>
-          <div><dt>Heimathafen</dt><dd id="homePort"></dd></div>
-        </dl>
+        <div
+          id="sightingsList"
+          class="sightings-list hidden"
+        ></div>
+
+        <p
+          id="sightingsScanNote"
+          class="scan-note hidden"
+        ></p>
       </section>
 
       <section class="detail-card">
         <h2>Verwaltung</h2>
+
         <dl class="detail-grid">
-          <div><dt>Anreicherung</dt><dd id="enrichmentStatus"></dd></div>
-          <div><dt>Letzter Lauf</dt><dd id="enrichmentDate"></dd></div>
-          <div><dt>Quellen</dt><dd id="sourceCount"></dd></div>
-          <div><dt>Angelegt</dt><dd id="createdAt"></dd></div>
-          <div><dt>Letzte Änderung</dt><dd id="updatedAt"></dd></div>
-          <div><dt>JSON-Pfad</dt><dd id="jsonPath"></dd></div>
+          <div>
+            <dt>Anreicherung</dt>
+            <dd id="enrichmentStatus"></dd>
+          </div>
+
+          <div>
+            <dt>Letzter Lauf</dt>
+            <dd id="enrichmentDate"></dd>
+          </div>
+
+          <div>
+            <dt>Quellen</dt>
+            <dd id="sourceCount"></dd>
+          </div>
+
+          <div>
+            <dt>Angelegt</dt>
+            <dd id="createdAt"></dd>
+          </div>
+
+          <div>
+            <dt>Letzte Änderung</dt>
+            <dd id="updatedAt"></dd>
+          </div>
+
+          <div>
+            <dt>JSON-Pfad</dt>
+            <dd id="jsonPath"></dd>
+          </div>
         </dl>
+
         <div class="notes-block">
           <h3>Notizen</h3>
           <p id="notes"></p>
