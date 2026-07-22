@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.8.1
+ * Version: 0.9.0
  * Updated: 2026-07-22
  */
 
@@ -147,6 +147,32 @@ export default {
       }
     }    
 
+    if (
+      request.method === "POST" &&
+      url.pathname === "/vessel-update"
+    ) {
+      try {
+        return await handleUpdateVessel(
+          request,
+          env
+        );
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler beim Aktualisieren des Schiffes.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          stack:
+            error instanceof Error
+              ? error.stack
+              : null
+        }, 500);
+      }
+    }
+    
     if (request.method === "POST" && url.pathname === "/submission") {
       return createJsonSubmission(request, env);
     }
@@ -1479,6 +1505,456 @@ async function handleVesselPrimaryPhoto(
   });
 }
 
+async function handleUpdateVessel(
+  request,
+  env
+) {
+  const authError =
+    checkManagementKey(request, env);
+
+  if (authError) return authError;
+
+  let input;
+
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Der Anfrageinhalt ist kein gültiges JSON."
+    }, 400);
+  }
+
+  const vesselId =
+    typeof input?.vessel_id === "string"
+      ? input.vessel_id.trim()
+      : "";
+
+  if (!VESSEL_ID_PATTERN.test(vesselId)) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "vessel_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  const validation =
+    validateVesselUpdateInput(input);
+
+  if (!validation.ok) {
+    return jsonResponse({
+      ok: false,
+      error: validation.error
+    }, 400);
+  }
+
+  const vesselResult =
+    await loadCanonicalVessel(
+      env,
+      vesselId
+    );
+
+  if (!vesselResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: vesselResult.error,
+      vessel_id: vesselId
+    }, vesselResult.status === 404
+      ? 404
+      : 502);
+  }
+
+  const vessel =
+    vesselResult.vessel;
+
+  const previousValues = {
+    identity: {
+      name:
+        vessel.identity?.name ?? "",
+
+      former_names:
+        Array.isArray(
+          vessel.identity?.former_names
+        )
+          ? vessel.identity.former_names
+          : [],
+
+      mmsi:
+        vessel.identity?.mmsi ?? "",
+
+      imo:
+        vessel.identity?.imo ?? "",
+
+      eni:
+        vessel.identity?.eni ?? "",
+
+      call_sign:
+        vessel.identity?.call_sign ?? ""
+    },
+
+    classification: {
+      ship_type:
+        vessel.classification
+          ?.ship_type ?? "",
+
+      ship_subtype:
+        vessel.classification
+          ?.ship_subtype ?? "",
+
+      status:
+        vessel.classification
+          ?.status ?? "unknown",
+
+      flag:
+        vessel.classification
+          ?.flag ?? ""
+    },
+
+    technical: {
+      year_built:
+        vessel.technical
+          ?.year_built ?? null,
+
+      shipyard:
+        vessel.technical
+          ?.shipyard ?? "",
+
+      length_m:
+        vessel.technical
+          ?.length_m ?? null,
+
+      width_m:
+        vessel.technical
+          ?.width_m ?? null,
+
+      draft_m:
+        vessel.technical
+          ?.draft_m ?? null,
+
+      passengers:
+        vessel.technical
+          ?.passengers ?? null
+    },
+
+    operations: {
+      operator:
+        vessel.operations
+          ?.operator ?? "",
+
+      owner:
+        vessel.operations
+          ?.owner ?? "",
+
+      manager:
+        vessel.operations
+          ?.manager ?? "",
+
+      cruise_brand:
+        vessel.operations
+          ?.cruise_brand ?? "",
+
+      home_port:
+        vessel.operations
+          ?.home_port ?? ""
+    },
+
+    notes:
+      typeof vessel.notes === "string"
+        ? vessel.notes
+        : ""
+  };
+
+  const nextValues = {
+    identity: {
+      name: validation.data.name,
+      former_names:
+        validation.data.former_names,
+      mmsi: validation.data.mmsi,
+      imo: validation.data.imo,
+      eni: validation.data.eni,
+      call_sign:
+        validation.data.call_sign
+    },
+
+    classification: {
+      ship_type:
+        validation.data.ship_type,
+      ship_subtype:
+        validation.data.ship_subtype,
+      status:
+        validation.data.status,
+      flag:
+        validation.data.flag
+    },
+
+    technical: {
+      year_built:
+        validation.data.year_built,
+      shipyard:
+        validation.data.shipyard,
+      length_m:
+        validation.data.length_m,
+      width_m:
+        validation.data.width_m,
+      draft_m:
+        validation.data.draft_m,
+      passengers:
+        validation.data.passengers
+    },
+
+    operations: {
+      operator:
+        validation.data.operator,
+      owner:
+        validation.data.owner,
+      manager:
+        validation.data.manager,
+      cruise_brand:
+        validation.data.cruise_brand,
+      home_port:
+        validation.data.home_port
+    },
+
+    notes:
+      validation.data.notes
+  };
+
+  const changedFields = [];
+
+  const compareField = (
+    path,
+    previousValue,
+    nextValue
+  ) => {
+    if (
+      JSON.stringify(previousValue) !==
+      JSON.stringify(nextValue)
+    ) {
+      changedFields.push(path);
+    }
+  };
+
+  for (
+    const field
+    of Object.keys(nextValues.identity)
+  ) {
+    compareField(
+      `identity.${field}`,
+      previousValues.identity[field],
+      nextValues.identity[field]
+    );
+  }
+
+  for (
+    const field
+    of Object.keys(
+      nextValues.classification
+    )
+  ) {
+    compareField(
+      `classification.${field}`,
+      previousValues
+        .classification[field],
+      nextValues
+        .classification[field]
+    );
+  }
+
+  for (
+    const field
+    of Object.keys(nextValues.technical)
+  ) {
+    compareField(
+      `technical.${field}`,
+      previousValues.technical[field],
+      nextValues.technical[field]
+    );
+  }
+
+  for (
+    const field
+    of Object.keys(nextValues.operations)
+  ) {
+    compareField(
+      `operations.${field}`,
+      previousValues.operations[field],
+      nextValues.operations[field]
+    );
+  }
+
+  compareField(
+    "notes",
+    previousValues.notes,
+    nextValues.notes
+  );
+
+  if (changedFields.length === 0) {
+    return jsonResponse({
+      ok: true,
+      message:
+        "Es waren keine Änderungen zu speichern.",
+      vessel_id: vesselId,
+      changed_fields: []
+    });
+  }
+
+  vessel.identity = {
+    ...(vessel.identity || {}),
+    ...nextValues.identity
+  };
+
+  vessel.classification = {
+    ...(vessel.classification || {}),
+    ...nextValues.classification
+  };
+
+  vessel.technical = {
+    ...(vessel.technical || {}),
+    ...nextValues.technical
+  };
+
+  vessel.operations = {
+    ...(vessel.operations || {}),
+    ...nextValues.operations
+  };
+
+  vessel.notes =
+    nextValues.notes;
+
+  const updatedAt =
+    new Date().toISOString();
+
+  if (
+    !vessel.audit ||
+    typeof vessel.audit !== "object" ||
+    Array.isArray(vessel.audit)
+  ) {
+    vessel.audit = {};
+  }
+
+  if (
+    !Array.isArray(
+      vessel.audit.change_history
+    )
+  ) {
+    vessel.audit.change_history = [];
+  }
+
+  vessel.audit.change_history.push({
+    changed_at: updatedAt,
+    changed_by: "web-ui",
+    changed_fields: changedFields
+  });
+
+  vessel.audit.updated_at =
+    updatedAt;
+
+  vessel.audit.updated_by =
+    "web-ui";
+
+  const vesselsResult =
+    await loadVessels(env);
+
+  if (!vesselsResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: vesselsResult.error
+    }, 502);
+  }
+
+  const updatedIndexRow =
+    buildVesselIndexRow({
+      vessel,
+      path: vesselResult.path,
+      updatedAt
+    });
+
+  let indexEntryFound = false;
+
+  const updatedVessels =
+    vesselsResult.vessels
+      .map(indexVessel => {
+        if (
+          indexVessel.vessel_id !==
+          vesselId
+        ) {
+          return indexVessel;
+        }
+
+        indexEntryFound = true;
+        return updatedIndexRow;
+      })
+      .sort(
+        (left, right) =>
+          left.vessel_id.localeCompare(
+            right.vessel_id
+          )
+      );
+
+  if (!indexEntryFound) {
+    return jsonResponse({
+      ok: false,
+      error:
+        `Für ${vesselId} fehlt der Eintrag in data/vessels.csv.`
+    }, 409);
+  }
+
+  const commitResult =
+    await createAtomicGitHubCommit({
+      env,
+      message:
+        `Stammdaten ${vesselId} aktualisiert`,
+      files: [
+        {
+          path: vesselResult.path,
+          content:
+            JSON.stringify(
+              vessel,
+              null,
+              2
+            ) + "\n",
+          encoding: "utf-8"
+        },
+        {
+          path: VESSELS_PATH,
+          content:
+            serializeVesselsCsv(
+              updatedVessels
+            ),
+          encoding: "utf-8"
+        }
+      ]
+    });
+
+  if (!commitResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Die Stammdaten konnten nicht atomar gespeichert werden.",
+      github_step:
+        commitResult.step,
+      github_status:
+        commitResult.status,
+      github_response:
+        commitResult.body
+    }, 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+    message:
+      "Die Stammdaten wurden gespeichert.",
+    vessel_id: vesselId,
+    changed_fields: changedFields,
+    updated_at: updatedAt,
+    index: updatedIndexRow,
+    vessel,
+    commit_sha:
+      commitResult.commitSha
+  });
+}
+
 async function handleVesselIdSuggestion(request, env) {
   const url = new URL(request.url);
   const environment = normalizeVesselEnvironment(
@@ -1874,6 +2350,260 @@ function validateNewVesselInput(input) {
       width_m: widthM.value,
       draft_m: draftM.value,
       passengers: passengers.value
+    }
+  };
+}
+
+function validateVesselUpdateInput(input) {
+  if (
+    !input ||
+    typeof input !== "object" ||
+    Array.isArray(input)
+  ) {
+    return {
+      ok: false,
+      error:
+        "Die Schiffsdaten fehlen."
+    };
+  }
+
+  const name =
+    normalizeIndexText(
+      input.name,
+      150
+    );
+
+  if (!name) {
+    return {
+      ok: false,
+      error:
+        "Der Schiffsname ist erforderlich."
+    };
+  }
+
+  const formerNames =
+    normalizeStringArray(
+      input.former_names,
+      50,
+      150
+    );
+
+  const data = {
+    name,
+
+    former_names:
+      formerNames,
+
+    mmsi:
+      normalizeIndexText(
+        input.mmsi,
+        30
+      ),
+
+    imo:
+      normalizeIndexText(
+        input.imo,
+        30
+      ),
+
+    eni:
+      normalizeIndexText(
+        input.eni,
+        30
+      ),
+
+    call_sign:
+      normalizeIndexText(
+        input.call_sign,
+        40
+      ),
+
+    ship_type:
+      normalizeIndexText(
+        input.ship_type,
+        80
+      ),
+
+    ship_subtype:
+      normalizeIndexText(
+        input.ship_subtype,
+        80
+      ),
+
+    flag:
+      normalizeIndexText(
+        input.flag,
+        10
+      ).toUpperCase(),
+
+    shipyard:
+      normalizeFreeText(
+        input.shipyard,
+        200
+      ),
+
+    operator:
+      normalizeIndexText(
+        input.operator,
+        200
+      ),
+
+    owner:
+      normalizeFreeText(
+        input.owner,
+        200
+      ),
+
+    manager:
+      normalizeFreeText(
+        input.manager,
+        200
+      ),
+
+    cruise_brand:
+      normalizeIndexText(
+        input.cruise_brand,
+        200
+      ),
+
+    home_port:
+      normalizeFreeText(
+        input.home_port,
+        150
+      ),
+
+    notes:
+      normalizeFreeText(
+        input.notes,
+        5000
+      )
+  };
+
+  const unsafeIndexValues = [
+    data.name,
+    ...data.former_names,
+    data.mmsi,
+    data.imo,
+    data.eni,
+    data.call_sign,
+    data.ship_type,
+    data.ship_subtype,
+    data.operator,
+    data.cruise_brand,
+    data.flag
+  ];
+
+  if (
+    unsafeIndexValues.some(value =>
+      /[;\r\n|]/.test(value)
+    )
+  ) {
+    return {
+      ok: false,
+      error:
+        "Indexfelder dürfen keine Semikolons, Zeilenumbrüche oder senkrechten Striche enthalten."
+    };
+  }
+
+  const status =
+    typeof input.status === "string"
+      ? input.status.trim()
+      : "unknown";
+
+  if (
+    ![
+      "active",
+      "inactive",
+      "scrapped",
+      "unknown"
+    ].includes(status)
+  ) {
+    return {
+      ok: false,
+      error:
+        "Der Schiffsstatus ist ungültig."
+    };
+  }
+
+  const yearBuilt =
+    parseOptionalInteger(
+      input.year_built,
+      1800,
+      new Date().getUTCFullYear() + 1
+    );
+
+  const lengthM =
+    parseOptionalNumber(
+      input.length_m,
+      0,
+      1000
+    );
+
+  const widthM =
+    parseOptionalNumber(
+      input.width_m,
+      0,
+      200
+    );
+
+  const draftM =
+    parseOptionalNumber(
+      input.draft_m,
+      0,
+      50
+    );
+
+  const passengers =
+    parseOptionalInteger(
+      input.passengers,
+      0,
+      10000
+    );
+
+  if (!yearBuilt.ok) {
+    return {
+      ok: false,
+      error:
+        "Das Baujahr ist ungültig."
+    };
+  }
+
+  if (
+    !lengthM.ok ||
+    !widthM.ok ||
+    !draftM.ok
+  ) {
+    return {
+      ok: false,
+      error:
+        "Länge, Breite oder Tiefgang sind ungültig."
+    };
+  }
+
+  if (!passengers.ok) {
+    return {
+      ok: false,
+      error:
+        "Die Passagierzahl ist ungültig."
+    };
+  }
+
+  return {
+    ok: true,
+
+    data: {
+      ...data,
+      status,
+      year_built:
+        yearBuilt.value,
+      length_m:
+        lengthM.value,
+      width_m:
+        widthM.value,
+      draft_m:
+        draftM.value,
+      passengers:
+        passengers.value
     }
   };
 }
