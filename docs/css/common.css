@@ -159,3 +159,87 @@ code {
     font-size: 1.4rem;
   }
 }
+.site-nav-shell {
+  border-bottom: 1px solid #d9e0e7;
+  background: #ffffff;
+}
+
+.site-nav {
+  width: min(1400px, 100%);
+  margin: 0 auto;
+  padding: 0 20px;
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.site-brand {
+  color: #172b4d;
+  font-size: 1.05rem;
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-nav-links {
+  display: flex;
+  align-items: stretch;
+  align-self: stretch;
+  gap: 4px;
+}
+
+.site-nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  border-bottom: 3px solid transparent;
+  color: #52606d;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.site-nav-link:hover {
+  color: #1d4ed8;
+  background: #f8fafc;
+}
+
+.site-nav-link.active {
+  border-bottom-color: #2563eb;
+  color: #1d4ed8;
+}
+
+.secondary-button,
+.danger-button {
+  padding: 10px 14px;
+  border-radius: 7px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.secondary-button {
+  border: 1px solid #b8c2cc;
+  background: #ffffff;
+  color: #334e68;
+}
+
+.secondary-button:hover {
+  background: #f4f6f8;
+}
+
+@media (max-width: 600px) {
+  .site-nav {
+    padding: 0 12px;
+    min-height: 54px;
+  }
+
+  .site-brand {
+    font-size: 0.94rem;
+  }
+
+  .site-nav-link {
+    padding: 0 10px;
+    font-size: 0.92rem;
+  }
+}
