@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.9.1
+// Version: 0.10.0
 // Updated: 2026-07-22
 
 "use strict";
@@ -31,8 +31,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const saveEditButton = byId("saveEditButton");
   const cancelEditButton = byId("cancelEditButton");
   
+  const addSourceButton =
+    byId("addSourceButton");
+  
+  const sourceForm =
+    byId("sourceForm");
+  
+  const saveSourceButton =
+    byId("saveSourceButton");
+  
+  const cancelSourceButton =
+    byId("cancelSourceButton");
+  
   let currentVessel = null;
   let editModeActive = false;
+  let sourceFormActive = false;
 
   const changeFieldLabels = Object.freeze({
     "identity.name": "Name",
@@ -60,8 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
     "operations.cruise_brand": "Marke",
     "operations.home_port": "Heimathafen",
   
-    "notes": "Notizen"
-  });  
+    "notes": "Notizen",
+    "sources": "Quellen"
+  }); 
 
   function value(input, suffix = "") {
     return (
@@ -171,6 +185,238 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return element;
   }
+
+  async function postManagementRequest(
+    endpoint,
+    payload
+  ) {
+    const headers = {
+      "Content-Type": "application/json"
+    };
+  
+    const suppliedApiKey =
+      apiKey.value.trim();
+  
+    if (suppliedApiKey) {
+      headers["X-API-Key"] =
+        suppliedApiKey;
+    }
+  
+    const response = await fetch(
+      `${workerUrl}${endpoint}`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify(payload)
+      }
+    );
+  
+    let result = {};
+  
+    try {
+      result = await response.json();
+    } catch {
+      result = {};
+    }
+  
+    if (
+      !response.ok ||
+      result.ok !== true
+    ) {
+      throw new Error(
+        result.error ||
+        `Der Worker antwortete mit HTTP ${response.status}.`
+      );
+    }
+  
+    return result;
+  } 
+
+  function resetSourceForm() {
+    sourceForm.reset();
+  
+    byId("sourceProvider").value = "";
+    byId("sourceTitle").value = "";
+    byId("sourceUrl").value = "";
+    byId("sourceNotes").value = "";
+    byId("sourceVerified").checked = false;
+  }
+  
+  function setSourceFormMode(enabled) {
+    sourceFormActive =
+      Boolean(enabled);
+  
+    sourceForm.classList.toggle(
+      "hidden",
+      !sourceFormActive
+    );
+  
+    addSourceButton.disabled =
+      sourceFormActive;
+  
+    if (sourceFormActive) {
+      resetSourceForm();
+  
+      sourceForm.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+  
+      byId("sourceProvider").focus();
+    }
+  }
+  
+  async function saveSource() {
+    if (!sourceForm.reportValidity()) {
+      return;
+    }
+  
+    const originalButtonText =
+      saveSourceButton.textContent;
+  
+    saveSourceButton.disabled = true;
+    cancelSourceButton.disabled = true;
+  
+    saveSourceButton.textContent =
+      "Wird gespeichert …";
+  
+    pageStatus.className =
+      "page-status";
+  
+    pageStatus.textContent = "";
+  
+    try {
+      await postManagementRequest(
+        "/vessel-source-add",
+        {
+          vessel_id: vesselId,
+  
+          provider:
+            byId("sourceProvider")
+              .value
+              .trim(),
+  
+          title:
+            byId("sourceTitle")
+              .value
+              .trim(),
+  
+          url:
+            byId("sourceUrl")
+              .value
+              .trim(),
+  
+          notes:
+            byId("sourceNotes")
+              .value
+              .trim(),
+  
+          verified:
+            byId("sourceVerified")
+              .checked
+        }
+      );
+  
+      setSourceFormMode(false);
+  
+      await load();
+  
+      pageStatus.className =
+        "page-status success";
+  
+      pageStatus.textContent =
+        "Die Quelle wurde gespeichert.";
+    } catch (error) {
+      pageStatus.className =
+        "page-status error";
+  
+      pageStatus.textContent =
+        error instanceof Error
+          ? error.message
+          : String(error);
+    } finally {
+      saveSourceButton.disabled = false;
+      cancelSourceButton.disabled = false;
+  
+      saveSourceButton.textContent =
+        originalButtonText;
+    }
+  }
+  
+  async function removeSource(
+    source,
+    button
+  ) {
+    const sourceId =
+      typeof source?.source_id === "string"
+        ? source.source_id.trim()
+        : "";
+  
+    if (!sourceId) {
+      pageStatus.className =
+        "page-status error";
+  
+      pageStatus.textContent =
+        "Diese Quelle besitzt keine gültige Source-ID.";
+  
+      return;
+    }
+  
+    const sourceName =
+      source.title ||
+      source.provider ||
+      "Quelle";
+  
+    const confirmed = window.confirm(
+      `Quelle „${sourceName}“ wirklich entfernen?`
+    );
+  
+    if (!confirmed) {
+      return;
+    }
+  
+    const originalButtonText =
+      button.textContent;
+  
+    button.disabled = true;
+    button.textContent =
+      "Wird entfernt …";
+  
+    pageStatus.className =
+      "page-status";
+  
+    pageStatus.textContent = "";
+  
+    try {
+      await postManagementRequest(
+        "/vessel-source-remove",
+        {
+          vessel_id: vesselId,
+          source_id: sourceId
+        }
+      );
+  
+      await load();
+  
+      pageStatus.className =
+        "page-status success";
+  
+      pageStatus.textContent =
+        "Die Quelle wurde entfernt.";
+    } catch (error) {
+      pageStatus.className =
+        "page-status error";
+  
+      pageStatus.textContent =
+        error instanceof Error
+          ? error.message
+          : String(error);
+  
+      button.disabled = false;
+      button.textContent =
+        originalButtonText;
+    }
+  }  
 
   function changeFieldLabel(fieldPath) {
     return (
@@ -341,7 +587,22 @@ document.addEventListener("DOMContentLoaded", () => {
       );
   
       item.append(header);
-  
+      
+      const historySummary =
+        typeof entry?.summary === "string"
+          ? entry.summary.trim()
+          : "";
+      
+      if (historySummary) {
+        item.append(
+          createTextElement(
+            "p",
+            "change-history-summary",
+            historySummary
+          )
+        );
+      }
+      
       if (detailedChanges.length > 0) {
         const changesContainer =
           document.createElement("div");
@@ -1031,64 +1292,128 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderSources(sources) {
     const sourceList =
       byId("sourceList");
-
+  
     const sourceEmpty =
       byId("sourceEmpty");
-
+  
     const normalizedSources =
       Array.isArray(sources)
-        ? sources
+        ? [...sources]
         : [];
-
+  
+    normalizedSources.sort(
+      (left, right) =>
+        String(
+          right?.added_at ||
+          right?.retrieved_at ||
+          ""
+        ).localeCompare(
+          String(
+            left?.added_at ||
+            left?.retrieved_at ||
+            ""
+          )
+        )
+    );
+  
     sourceList.replaceChildren();
-
+  
     set(
       "sourceCountBadge",
       String(normalizedSources.length)
     );
-
+  
     if (normalizedSources.length === 0) {
       sourceList.classList.add("hidden");
       sourceEmpty.classList.remove("hidden");
       return;
     }
-
+  
     for (const source of normalizedSources) {
       const item =
         document.createElement("article");
-
+  
       item.className = "source-item";
-
-      const name =
-        source?.name ||
-        source?.provider ||
+  
+      const header =
+        document.createElement("div");
+  
+      header.className =
+        "source-item-header";
+  
+      const headerText =
+        document.createElement("div");
+  
+      const title =
         source?.title ||
+        source?.provider ||
+        source?.name ||
         "Quelle";
-
-      const title = createTextElement(
-        "h3",
-        "source-title",
-        name
+  
+      headerText.append(
+        createTextElement(
+          "h3",
+          "source-title",
+          title
+        )
       );
-
-      item.append(title);
-
+  
+      if (
+        source?.provider &&
+        source.provider !== title
+      ) {
+        headerText.append(
+          createTextElement(
+            "p",
+            "source-provider",
+            source.provider
+          )
+        );
+      }
+  
+      header.append(headerText);
+  
+      const removeButton =
+        document.createElement("button");
+  
+      removeButton.type = "button";
+  
+      removeButton.className =
+        "source-remove-button";
+  
+      removeButton.textContent =
+        "Entfernen";
+  
+      removeButton.disabled =
+        !source?.source_id;
+  
+      removeButton.addEventListener(
+        "click",
+        () => removeSource(
+          source,
+          removeButton
+        )
+      );
+  
+      header.append(removeButton);
+      item.append(header);
+  
       const metadata = [
         source?.retrieved_at
-          ? `abgerufen ${formatDate(
+          ? `erfasst ${formatDate(
               source.retrieved_at
             )}`
           : "",
-
+  
         source?.verified_at
           ? `geprüft ${formatDate(
               source.verified_at
             )}`
-          : ""
+          : "nicht geprüft"
       ]
         .filter(Boolean)
         .join(" · ");
-
+  
       if (metadata) {
         item.append(
           createTextElement(
@@ -1098,29 +1423,39 @@ document.addEventListener("DOMContentLoaded", () => {
           )
         );
       }
-
+  
+      if (source?.notes) {
+        item.append(
+          createTextElement(
+            "p",
+            "source-notes",
+            source.notes
+          )
+        );
+      }
+  
       const url = safeUrl(
         source?.url ??
         source?.source_url ??
         ""
       );
-
+  
       if (url) {
         const link =
           document.createElement("a");
-
+  
         link.className = "source-link";
         link.href = url;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
         link.textContent = "Quelle öffnen";
-
+  
         item.append(link);
       }
-
+  
       sourceList.append(item);
     }
-
+  
     sourceEmpty.classList.add("hidden");
     sourceList.classList.remove("hidden");
   }
@@ -1708,6 +2043,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  addSourceButton.addEventListener(
+    "click",
+    () => {
+      setSourceFormMode(true);
+    }
+  );
+  
+  cancelSourceButton.addEventListener(
+    "click",
+    () => {
+      setSourceFormMode(false);
+  
+      pageStatus.className =
+        "page-status";
+  
+      pageStatus.textContent = "";
+    }
+  );
+  
+  sourceForm.addEventListener(
+    "submit",
+    event => {
+      event.preventDefault();
+      saveSource();
+    }
+  );
+  
   editButton.addEventListener(
     "click",
     () => {
