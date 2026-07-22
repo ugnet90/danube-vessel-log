@@ -514,3 +514,88 @@ button:disabled {
     gap: 3px;
   }
 }
+
+.vessel-header-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.submissions-page .compact-button {
+  padding: 8px 12px;
+}
+
+.vessel-create-panel {
+  padding: 18px;
+  margin-bottom: 18px;
+  border: 1px solid #b8c2cc;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.vessel-create-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.vessel-create-header h3 {
+  margin: 0 0 5px;
+}
+
+.vessel-create-header p {
+  margin: 0;
+  color: #5f6b76;
+  line-height: 1.4;
+}
+
+.create-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 16px;
+}
+
+.create-form-grid-small {
+  max-width: 720px;
+}
+
+.create-form-wide {
+  grid-column: 1 / -1;
+}
+
+.vessel-create-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+@media (max-width: 900px) {
+  .vessel-header-actions,
+  .vessel-create-header {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .vessel-header-actions {
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 700px) {
+  .create-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .create-form-wide {
+    grid-column: auto;
+  }
+
+  .vessel-create-actions .primary-button {
+    width: 100%;
+  }
+}
