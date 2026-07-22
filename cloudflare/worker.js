@@ -6,6 +6,26 @@ const LOCATIONS_PATH = "data/locations.csv";
 const VESSELS_PATH = "data/vessels.csv";
 const VESSELS_DIRECTORY = "data/vessels";
 const VESSEL_ID_PATTERN = /^VES-\d{6}$/;
+const VESSEL_INDEX_HEADERS = [
+  "vessel_id",
+  "name",
+  "former_names",
+  "mmsi",
+  "imo",
+  "eni",
+  "callsign",
+  "ship_type",
+  "ship_subtype",
+  "operator",
+  "cruise_brand",
+  "flag",
+  "status",
+  "year_built",
+  "length_m",
+  "width_m",
+  "json_path",
+  "updated_at"
+];
 
 export default {
   async fetch(request, env) {
@@ -37,6 +57,43 @@ export default {
             error instanceof Error
               ? error.message
               : String(error)
+        }, 500);
+      }
+    }
+
+    if (
+      request.method === "GET" &&
+      url.pathname === "/vessel-id-suggestion"
+    ) {
+      try {
+        return await handleVesselIdSuggestion(request, env);
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error: "Unbehandelter Fehler bei der ID-Ermittlung.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error)
+        }, 500);
+      }
+    }
+
+    if (request.method === "POST" && url.pathname === "/vessel") {
+      try {
+        return await handleCreateVessel(request, env);
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error: "Unbehandelter Fehler bei der Schiffsanlage.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          stack:
+            error instanceof Error
+              ? error.stack
+              : null
         }, 500);
       }
     }
@@ -726,6 +783,706 @@ async function handleVesselDetail(request, env) {
     index: vesselResult.index,
     vessel: vesselResult.vessel
   });
+}
+
+async function handleVesselIdSuggestion(request, env) {
+  const url = new URL(request.url);
+  const environment = normalizeVesselEnvironment(
+    url.searchParams.get("environment")
+  );
+
+  if (!environment) {
+    return jsonResponse({
+      ok: false,
+      error: "environment muss production oder test sein."
+    }, 400);
+  }
+
+  const vesselsResult = await loadVessels(env);
+
+  if (!vesselsResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: vesselsResult.error
+    }, 502);
+  }
+
+  const suggestion = await findAvailableVesselId({
+    env,
+    vessels: vesselsResult.vessels,
+    environment
+  });
+
+  if (!suggestion.ok) {
+    return jsonResponse({
+      ok: false,
+      error: suggestion.error
+    }, suggestion.status ?? 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+    environment,
+    vessel_id: suggestion.vessel_id
+  });
+}
+
+async function handleCreateVessel(request, env) {
+  const authError = checkManagementKey(request, env);
+  if (authError) return authError;
+
+  let input;
+
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error: "Der Anfrageinhalt ist kein gültiges JSON."
+    }, 400);
+  }
+
+  const validation = validateNewVesselInput(input);
+
+  if (!validation.ok) {
+    return jsonResponse({
+      ok: false,
+      error: validation.error
+    }, 400);
+  }
+
+  const vesselsFile = await readGitHubFile({
+    env,
+    path: VESSELS_PATH
+  });
+
+  if (!vesselsFile.ok) {
+    return jsonResponse({
+      ok: false,
+      error: "data/vessels.csv konnte nicht gelesen werden.",
+      github_status: vesselsFile.status ?? null
+    }, 502);
+  }
+
+  let vessels;
+
+  try {
+    vessels = parseVesselsCsv(vesselsFile.content);
+  } catch (error) {
+    return jsonResponse({
+      ok: false,
+      error:
+        error instanceof Error
+          ? error.message
+          : "vessels.csv konnte nicht verarbeitet werden."
+    }, 500);
+  }
+
+  const suggestion = await findAvailableVesselId({
+    env,
+    vessels,
+    environment: validation.data.environment
+  });
+
+  if (!suggestion.ok) {
+    return jsonResponse({
+      ok: false,
+      error: suggestion.error
+    }, suggestion.status ?? 502);
+  }
+
+  const vesselId = suggestion.vessel_id;
+  const vesselPath = `${VESSELS_DIRECTORY}/${vesselId}.json`;
+  const createdAt = new Date().toISOString();
+
+  let submission = null;
+  let submissionPath = "";
+
+  if (validation.data.submission_id) {
+    submissionPath = buildSubmissionPath(
+      validation.data.submission_id
+    );
+
+    if (!submissionPath) {
+      return jsonResponse({
+        ok: false,
+        error: "Die submission_id ist ungültig."
+      }, 400);
+    }
+
+    const submissionFile = await readGitHubFile({
+      env,
+      path: submissionPath
+    });
+
+    if (!submissionFile.ok) {
+      return jsonResponse({
+        ok: false,
+        error: "Die zugehörige Sichtung konnte nicht gelesen werden.",
+        github_status: submissionFile.status ?? null
+      }, submissionFile.status === 404 ? 404 : 502);
+    }
+
+    try {
+      submission = JSON.parse(
+        String(submissionFile.content ?? "")
+          .replace(/^\uFEFF/, "")
+      );
+    } catch {
+      return jsonResponse({
+        ok: false,
+        error: "Die zugehörige Sichtung enthält ungültiges JSON."
+      }, 500);
+    }
+
+    if ((submission.workflow?.status ?? "new") !== "new") {
+      return jsonResponse({
+        ok: false,
+        error:
+          "Die Sichtung wurde bereits bearbeitet und kann nicht erneut " +
+          "mit einer Neuanlage verknüpft werden."
+      }, 409);
+    }
+  }
+
+  const primaryPhoto =
+    Array.isArray(submission?.photos)
+      ? submission.photos[0] ?? null
+      : null;
+
+  const vessel = buildCanonicalVessel({
+    vesselId,
+    input: validation.data,
+    createdAt,
+    primaryPhotoId:
+      typeof primaryPhoto?.photo_id === "string"
+        ? primaryPhoto.photo_id
+        : ""
+  });
+
+  const indexRow = buildVesselIndexRow({
+    vessel,
+    path: vesselPath,
+    updatedAt: createdAt
+  });
+
+  const updatedVessels = [
+    ...vessels,
+    indexRow
+  ].sort((left, right) =>
+    left.vessel_id.localeCompare(right.vessel_id)
+  );
+
+  const commitFiles = [
+    {
+      path: vesselPath,
+      content: JSON.stringify(vessel, null, 2) + "\n",
+      encoding: "utf-8"
+    },
+    {
+      path: VESSELS_PATH,
+      content: serializeVesselsCsv(updatedVessels),
+      encoding: "utf-8"
+    }
+  ];
+
+  if (submission && submissionPath) {
+    applyCreatedVesselReview({
+      submission,
+      vesselId,
+      reviewedAt: createdAt,
+      notes: validation.data.review_notes
+    });
+
+    commitFiles.push({
+      path: submissionPath,
+      content: JSON.stringify(submission, null, 2) + "\n",
+      encoding: "utf-8"
+    });
+  }
+
+  const commitResult = await createAtomicGitHubCommit({
+    env,
+    message:
+      submission
+        ? `Neues Schiff ${vesselId} aus ${validation.data.submission_id}`
+        : `Neues Schiff ${vesselId}`,
+    files: commitFiles
+  });
+
+  if (!commitResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Das Schiff konnte nicht atomar in JSON und CSV gespeichert werden.",
+      github_step: commitResult.step,
+      github_status: commitResult.status,
+      github_response: commitResult.body
+    }, commitResult.status === 422 ? 409 : 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+    message:
+      submission
+        ? "Schiff wurde angelegt und mit der Sichtung verknüpft."
+        : "Schiff wurde angelegt.",
+    vessel_id: vesselId,
+    path: vesselPath,
+    index: indexRow,
+    vessel,
+    linked_submission_id:
+      validation.data.submission_id || "",
+    commit_sha: commitResult.commitSha
+  }, 201);
+}
+
+function validateNewVesselInput(input) {
+  if (!input || typeof input !== "object" || Array.isArray(input)) {
+    return {
+      ok: false,
+      error: "Die Schiffsdaten fehlen."
+    };
+  }
+
+  const environment = normalizeVesselEnvironment(
+    input.environment
+  );
+
+  if (!environment) {
+    return {
+      ok: false,
+      error: "environment muss production oder test sein."
+    };
+  }
+
+  const name = normalizeIndexText(input.name, 150);
+
+  if (!name) {
+    return {
+      ok: false,
+      error: "Der Schiffsname ist erforderlich."
+    };
+  }
+
+  const formerNames = normalizeStringArray(
+    input.former_names,
+    50,
+    150
+  );
+
+  const simpleFields = {
+    mmsi: normalizeIndexText(input.mmsi, 30),
+    imo: normalizeIndexText(input.imo, 30),
+    eni: normalizeIndexText(input.eni, 30),
+    call_sign: normalizeIndexText(input.call_sign, 40),
+    ship_type: normalizeIndexText(input.ship_type, 80),
+    ship_subtype: normalizeIndexText(input.ship_subtype, 80),
+    flag: normalizeIndexText(input.flag, 10).toUpperCase(),
+    shipyard: normalizeFreeText(input.shipyard, 200),
+    operator: normalizeIndexText(input.operator, 200),
+    owner: normalizeFreeText(input.owner, 200),
+    manager: normalizeFreeText(input.manager, 200),
+    cruise_brand: normalizeIndexText(input.cruise_brand, 200),
+    home_port: normalizeFreeText(input.home_port, 150),
+    notes: normalizeFreeText(input.notes, 5000),
+    review_notes: normalizeFreeText(input.review_notes, 1000),
+    submission_id:
+      typeof input.submission_id === "string"
+        ? input.submission_id.trim()
+        : ""
+  };
+
+  const unsafeIndexValues = [
+    name,
+    ...formerNames,
+    simpleFields.mmsi,
+    simpleFields.imo,
+    simpleFields.eni,
+    simpleFields.call_sign,
+    simpleFields.ship_type,
+    simpleFields.ship_subtype,
+    simpleFields.operator,
+    simpleFields.cruise_brand,
+    simpleFields.flag
+  ];
+
+  if (
+    unsafeIndexValues.some(value =>
+      /[;\r\n|]/.test(value)
+    )
+  ) {
+    return {
+      ok: false,
+      error:
+        "Indexfelder dürfen keine Semikolons, Zeilenumbrüche oder " +
+        "senkrechten Striche enthalten."
+    };
+  }
+
+  const status =
+    typeof input.status === "string"
+      ? input.status.trim()
+      : "unknown";
+
+  if (
+    !["active", "inactive", "scrapped", "unknown"]
+      .includes(status)
+  ) {
+    return {
+      ok: false,
+      error: "Der Schiffsstatus ist ungültig."
+    };
+  }
+
+  const yearBuilt = parseOptionalInteger(
+    input.year_built,
+    1800,
+    new Date().getUTCFullYear() + 1
+  );
+
+  if (!yearBuilt.ok) {
+    return {
+      ok: false,
+      error: "Das Baujahr ist ungültig."
+    };
+  }
+
+  const lengthM = parseOptionalNumber(input.length_m, 0, 1000);
+  const widthM = parseOptionalNumber(input.width_m, 0, 200);
+  const draftM = parseOptionalNumber(input.draft_m, 0, 50);
+  const passengers = parseOptionalInteger(input.passengers, 0, 10000);
+
+  if (!lengthM.ok || !widthM.ok || !draftM.ok) {
+    return {
+      ok: false,
+      error: "Länge, Breite oder Tiefgang sind ungültig."
+    };
+  }
+
+  if (!passengers.ok) {
+    return {
+      ok: false,
+      error: "Die Passagierzahl ist ungültig."
+    };
+  }
+
+  return {
+    ok: true,
+    data: {
+      environment,
+      name,
+      former_names: formerNames,
+      ...simpleFields,
+      status,
+      year_built: yearBuilt.value,
+      length_m: lengthM.value,
+      width_m: widthM.value,
+      draft_m: draftM.value,
+      passengers: passengers.value
+    }
+  };
+}
+
+function normalizeVesselEnvironment(value) {
+  const normalized =
+    typeof value === "string"
+      ? value.trim().toLowerCase()
+      : "production";
+
+  return ["production", "test"].includes(normalized)
+    ? normalized
+    : "";
+}
+
+function normalizeIndexText(value, maximumLength) {
+  return normalizeFreeText(value, maximumLength)
+    .replace(/\s+/g, " ");
+}
+
+function normalizeFreeText(value, maximumLength) {
+  const normalized =
+    typeof value === "string"
+      ? value.trim()
+      : "";
+
+  return normalized.slice(0, maximumLength);
+}
+
+function normalizeStringArray(value, maximumItems, maximumLength) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return [
+    ...new Set(
+      value
+        .map(item => normalizeIndexText(item, maximumLength))
+        .filter(Boolean)
+    )
+  ].slice(0, maximumItems);
+}
+
+function parseOptionalNumber(value, minimum, maximum) {
+  if (
+    value === undefined ||
+    value === null ||
+    String(value).trim() === ""
+  ) {
+    return { ok: true, value: null };
+  }
+
+  const number = Number(
+    String(value).trim().replace(",", ".")
+  );
+
+  return {
+    ok:
+      Number.isFinite(number) &&
+      number >= minimum &&
+      number <= maximum,
+    value: number
+  };
+}
+
+function parseOptionalInteger(value, minimum, maximum) {
+  const parsed = parseOptionalNumber(value, minimum, maximum);
+
+  if (!parsed.ok || parsed.value === null) {
+    return parsed;
+  }
+
+  return {
+    ok: Number.isInteger(parsed.value),
+    value: parsed.value
+  };
+}
+
+async function findAvailableVesselId({
+  env,
+  vessels,
+  environment
+}) {
+  const startNumber = environment === "test" ? 0 : 100;
+  const endNumber = environment === "test" ? 99 : 999999;
+
+  const usedNumbers = new Set(
+    vessels
+      .map(vessel => parseVesselIdNumber(vessel.vessel_id))
+      .filter(number =>
+        number !== null &&
+        number >= startNumber &&
+        number <= endNumber
+      )
+  );
+
+  const maximumUsed =
+    usedNumbers.size > 0
+      ? Math.max(...usedNumbers)
+      : startNumber - 1;
+
+  let candidateNumber = Math.max(
+    startNumber,
+    maximumUsed + 1
+  );
+
+  while (candidateNumber <= endNumber) {
+    if (!usedNumbers.has(candidateNumber)) {
+      const vesselId = formatVesselId(candidateNumber);
+      const path = `${VESSELS_DIRECTORY}/${vesselId}.json`;
+      const file = await readGitHubFile({ env, path });
+
+      if (file.status === 404) {
+        return {
+          ok: true,
+          vessel_id: vesselId
+        };
+      }
+
+      if (!file.ok) {
+        return {
+          ok: false,
+          status: file.status ?? 502,
+          error:
+            `Der mögliche JSON-Pfad ${path} konnte nicht geprüft werden.`
+        };
+      }
+    }
+
+    candidateNumber += 1;
+  }
+
+  return {
+    ok: false,
+    status: 409,
+    error:
+      environment === "test"
+        ? "Der reservierte Test-ID-Bereich VES-000000 bis VES-000099 ist voll."
+        : "Es ist keine produktive Vessel-ID mehr verfügbar."
+  };
+}
+
+function parseVesselIdNumber(vesselId) {
+  if (!VESSEL_ID_PATTERN.test(vesselId ?? "")) {
+    return null;
+  }
+
+  return Number(vesselId.slice(4));
+}
+
+function formatVesselId(number) {
+  return `VES-${String(number).padStart(6, "0")}`;
+}
+
+function buildCanonicalVessel({
+  vesselId,
+  input,
+  createdAt,
+  primaryPhotoId
+}) {
+  return {
+    schema_version: 1,
+    vessel_id: vesselId,
+    identity: {
+      name: input.name,
+      former_names: input.former_names,
+      mmsi: input.mmsi,
+      imo: input.imo,
+      eni: input.eni,
+      call_sign: input.call_sign
+    },
+    classification: {
+      ship_type: input.ship_type,
+      ship_subtype: input.ship_subtype,
+      status: input.status,
+      flag: input.flag
+    },
+    technical: {
+      year_built: input.year_built,
+      shipyard: input.shipyard,
+      length_m: input.length_m,
+      width_m: input.width_m,
+      draft_m: input.draft_m,
+      passengers: input.passengers
+    },
+    operations: {
+      operator: input.operator,
+      owner: input.owner,
+      manager: input.manager,
+      cruise_brand: input.cruise_brand,
+      home_port: input.home_port
+    },
+    name_history: [],
+    identifiers_history: [],
+    sources: [],
+    enrichment: {
+      status: "pending",
+      last_run_at: "",
+      providers: []
+    },
+    media: {
+      primary_photo_id: primaryPhotoId,
+      primary_submission_id: input.submission_id
+    },
+    notes: input.notes,
+    audit: {
+      environment: input.environment,
+      created_at: createdAt,
+      created_from_submission_id: input.submission_id,
+      updated_at: createdAt,
+      updated_by: "web-ui"
+    }
+  };
+}
+
+function buildVesselIndexRow({ vessel, path, updatedAt }) {
+  return {
+    vessel_id: vessel.vessel_id,
+    name: vessel.identity.name,
+    former_names: vessel.identity.former_names.join("|"),
+    mmsi: vessel.identity.mmsi,
+    imo: vessel.identity.imo,
+    eni: vessel.identity.eni,
+    callsign: vessel.identity.call_sign,
+    ship_type: vessel.classification.ship_type,
+    ship_subtype: vessel.classification.ship_subtype,
+    operator: vessel.operations.operator,
+    cruise_brand: vessel.operations.cruise_brand,
+    flag: vessel.classification.flag,
+    status: vessel.classification.status,
+    year_built:
+      vessel.technical.year_built ?? "",
+    length_m:
+      vessel.technical.length_m ?? "",
+    width_m:
+      vessel.technical.width_m ?? "",
+    json_path: path,
+    updated_at: updatedAt
+  };
+}
+
+function serializeVesselsCsv(vessels) {
+  const lines = [
+    VESSEL_INDEX_HEADERS.join(";")
+  ];
+
+  for (const vessel of vessels) {
+    lines.push(
+      VESSEL_INDEX_HEADERS
+        .map(header => serializeVesselIndexValue(vessel[header]))
+        .join(";")
+    );
+  }
+
+  return lines.join("\n") + "\n";
+}
+
+function serializeVesselIndexValue(value) {
+  const normalized =
+    value === null || value === undefined
+      ? ""
+      : String(value);
+
+  if (/[;\r\n]/.test(normalized)) {
+    throw new Error(
+      "Ein CSV-Indexwert enthält ein unzulässiges Trennzeichen."
+    );
+  }
+
+  return normalized;
+}
+
+function applyCreatedVesselReview({
+  submission,
+  vesselId,
+  reviewedAt,
+  notes
+}) {
+  if (!submission.workflow || typeof submission.workflow !== "object") {
+    submission.workflow = {};
+  }
+
+  if (submission.workflow.review?.reviewed) {
+    if (!Array.isArray(submission.workflow.review_history)) {
+      submission.workflow.review_history = [];
+    }
+
+    submission.workflow.review_history.push({
+      reviewed_at: submission.workflow.review.reviewed_at,
+      decision: submission.workflow.review.decision,
+      vessel_id: submission.workflow.review.vessel_id,
+      notes: submission.workflow.review.notes
+    });
+  }
+
+  submission.workflow.status = "reviewed";
+  submission.workflow.review = {
+    reviewed: true,
+    reviewed_at: reviewedAt,
+    vessel_id: vesselId,
+    decision: "created",
+    notes
+  };
 }
 
 async function handleReviewSubmissionsList(request, env) {
@@ -2176,6 +2933,29 @@ function normalizeVesselName(value) {
     .replace(/[\u0300-\u036f]/g, "")
     .toUpperCase()
     .replace(/[^A-Z0-9]/g, "");
+}
+
+function checkManagementKey(request, env) {
+  const configuredKey =
+    typeof env.API_KEY === "string"
+      ? env.API_KEY.trim()
+      : "";
+
+  if (!configuredKey) {
+    return null;
+  }
+
+  const suppliedKey =
+    request.headers.get("X-API-Key") ?? "";
+
+  if (suppliedKey !== configuredKey) {
+    return jsonResponse({
+      ok: false,
+      error: "Nicht autorisiert."
+    }, 401);
+  }
+
+  return null;
 }
 
 function checkUploadKey(request, env) {
