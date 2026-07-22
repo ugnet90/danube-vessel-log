@@ -95,6 +95,31 @@
     };
   }
 
+  async function getVessel({
+    workerUrl,
+    apiKey = "",
+    vesselId
+  }) {
+    const normalizedVesselId =
+      typeof vesselId === "string"
+        ? vesselId.trim()
+        : "";
+
+    if (!/^VES-\d{6}$/.test(normalizedVesselId)) {
+      throw new Error(
+        "Die Vessel-ID muss dem Format VES-000000 entsprechen."
+      );
+    }
+
+    return request({
+      workerUrl,
+      path:
+        `/vessel?vessel_id=` +
+        encodeURIComponent(normalizedVesselId),
+      apiKey
+    });
+  }
+
   async function reviewSubmission({
     workerUrl,
     apiKey = "",
@@ -124,6 +149,7 @@
 
   window.VesselApi = {
     request,
+    getVessel,
     reviewSubmission
   };
 })();
