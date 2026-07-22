@@ -8,29 +8,29 @@
     ],
     "mmsi": "",
     "imo": "",
-    "eni": "",
+    "eni": "ENI 02336090",
     "call_sign": ""
   },
   "classification": {
-    "ship_type": "",
+    "ship_type": "Flusskreuzfahrtschiff",
     "ship_subtype": "",
     "status": "active",
-    "flag": ""
+    "flag": "MT"
   },
   "technical": {
-    "year_built": null,
+    "year_built": 2015,
     "shipyard": "",
-    "length_m": null,
-    "width_m": null,
+    "length_m": 135,
+    "width_m": 11.45,
     "draft_m": null,
-    "passengers": null
+    "passengers": 182
   },
   "operations": {
-    "operator": "",
+    "operator": "Emerald Waterways",
     "owner": "",
     "manager": "",
     "cruise_brand": "",
-    "home_port": ""
+    "home_port": "Valletta"
   },
   "name_history": [],
   "identifiers_history": [],
@@ -61,7 +61,7 @@
     "environment": "test",
     "created_at": "",
     "created_from_submission_id": "",
-    "updated_at": "2026-07-22T19:22:43.299Z",
+    "updated_at": "2026-07-22T19:27:38.289Z",
     "updated_by": "web-ui",
     "change_history": [
       {
@@ -115,6 +115,68 @@
             "field": "sources",
             "old_value": 0,
             "new_value": 1
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-07-22T19:27:38.289Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "identity.eni",
+          "classification.ship_type",
+          "classification.flag",
+          "technical.year_built",
+          "technical.length_m",
+          "technical.width_m",
+          "technical.passengers",
+          "operations.operator",
+          "operations.home_port"
+        ],
+        "changes": [
+          {
+            "field": "identity.eni",
+            "old_value": "",
+            "new_value": "ENI 02336090"
+          },
+          {
+            "field": "classification.ship_type",
+            "old_value": "",
+            "new_value": "Flusskreuzfahrtschiff"
+          },
+          {
+            "field": "classification.flag",
+            "old_value": "",
+            "new_value": "MT"
+          },
+          {
+            "field": "technical.year_built",
+            "old_value": null,
+            "new_value": 2015
+          },
+          {
+            "field": "technical.length_m",
+            "old_value": null,
+            "new_value": 135
+          },
+          {
+            "field": "technical.width_m",
+            "old_value": null,
+            "new_value": 11.45
+          },
+          {
+            "field": "technical.passengers",
+            "old_value": null,
+            "new_value": 182
+          },
+          {
+            "field": "operations.operator",
+            "old_value": "",
+            "new_value": "Emerald Waterways"
+          },
+          {
+            "field": "operations.home_port",
+            "old_value": "",
+            "new_value": "Valletta"
           }
         ]
       }
