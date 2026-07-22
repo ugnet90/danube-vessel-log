@@ -1,6 +1,14 @@
+/*
+ * Danube Vessel Log
+ * File: cloudflare/worker.js
+ * Version: 0.8.0
+ * Updated: 2026-07-22
+ */
+
 const API_VERSION = "2022-11-28";
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024; // 8 MB
 const MAX_PHOTOS_PER_SUBMISSION = 10;
+const VESSEL_DETAIL_SUBMISSION_SCAN_LIMIT = 100;
 const BRANCH = "main";
 const LOCATIONS_PATH = "data/locations.csv";
 const VESSELS_PATH = "data/vessels.csv";
@@ -796,11 +804,18 @@ async function handleVesselsList(request, env) {
 }
 
 async function handleVesselDetail(request, env) {
+  const authError =
+    checkManagementKey(request, env);
+
+  if (authError) return authError;
+
   const url = new URL(request.url);
 
   const vesselId =
     typeof url.searchParams.get("vessel_id") === "string"
-      ? url.searchParams.get("vessel_id").trim()
+      ? url.searchParams
+          .get("vessel_id")
+          .trim()
       : "";
 
   if (!VESSEL_ID_PATTERN.test(vesselId)) {
@@ -812,7 +827,10 @@ async function handleVesselDetail(request, env) {
   }
 
   const vesselResult =
-    await loadCanonicalVessel(env, vesselId);
+    await loadCanonicalVessel(
+      env,
+      vesselId
+    );
 
   if (!vesselResult.ok) {
     return jsonResponse({
@@ -820,8 +838,26 @@ async function handleVesselDetail(request, env) {
       error: vesselResult.error,
       vessel_id: vesselId,
       path: vesselResult.path ?? "",
-      github_status: vesselResult.status ?? null
+      github_status:
+        vesselResult.status ?? null
     }, vesselResult.status === 404 ? 404 : 502);
+  }
+
+  const sightingsResult =
+    await loadVesselSightings({
+      env,
+      vesselId,
+      vessel: vesselResult.vessel
+    });
+
+  if (!sightingsResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: sightingsResult.error,
+      vessel_id: vesselId,
+      github_status:
+        sightingsResult.status ?? null
+    }, 502);
   }
 
   return jsonResponse({
@@ -829,8 +865,345 @@ async function handleVesselDetail(request, env) {
     vessel_id: vesselId,
     path: vesselResult.path,
     index: vesselResult.index,
-    vessel: vesselResult.vessel
+    vessel: vesselResult.vessel,
+    primary_photo:
+      sightingsResult.primary_photo,
+    sightings:
+      sightingsResult.sightings,
+    sightings_meta:
+      sightingsResult.meta
   });
+}
+
+async function loadVesselSightings({
+  env,
+  vesselId,
+  vessel
+}) {
+  const pathsResult =
+    await listSubmissionPaths(env);
+
+  if (!pathsResult.ok) {
+    return {
+      ok: false,
+      status:
+        pathsResult.status ?? 502,
+
+      error:
+        pathsResult.error ??
+        "Die Submission-Dateien konnten nicht aufgelistet werden."
+    };
+  }
+
+  const allPaths = [
+    ...pathsResult.paths
+  ].sort(
+    (left, right) =>
+      right.localeCompare(left)
+  );
+
+  const candidatePaths =
+    allPaths.slice(
+      0,
+      VESSEL_DETAIL_SUBMISSION_SCAN_LIMIT
+    );
+
+  const loadedFiles =
+    await Promise.all(
+      candidatePaths.map(path =>
+        readGitHubFile({
+          env,
+          path
+        })
+      )
+    );
+
+  const sightings = [];
+
+  for (const file of loadedFiles) {
+    if (!file.ok) continue;
+
+    let submission;
+
+    try {
+      submission = JSON.parse(
+        String(file.content ?? "")
+          .replace(/^\uFEFF/, "")
+      );
+    } catch {
+      continue;
+    }
+
+    const workflowStatus =
+      submission.workflow?.status ??
+      "new";
+
+    const reviewedVesselId =
+      submission.workflow
+        ?.review
+        ?.vessel_id ?? "";
+
+    if (
+      workflowStatus !== "reviewed" ||
+      reviewedVesselId !== vesselId
+    ) {
+      continue;
+    }
+
+    const photos =
+      Array.isArray(submission.photos)
+        ? submission.photos
+            .filter(photo =>
+              photo &&
+              typeof photo.path ===
+                "string" &&
+              photo.path.trim() !== ""
+            )
+            .map(
+              (photo, index) => ({
+                photo_id:
+                  typeof photo.photo_id ===
+                    "string"
+                    ? photo.photo_id
+                    : "",
+
+                path: photo.path,
+
+                url:
+                  buildRawGitHubUrl(
+                    env,
+                    photo.path
+                  ),
+
+                original_filename:
+                  typeof photo
+                    .original_filename ===
+                    "string"
+                    ? photo.original_filename
+                    : "",
+
+                size_bytes:
+                  Number.isFinite(
+                    photo.size_bytes
+                  )
+                    ? photo.size_bytes
+                    : null,
+
+                sequence:
+                  Number.isInteger(
+                    photo.sequence
+                  )
+                    ? photo.sequence
+                    : index + 1
+              })
+            )
+        : [];
+
+    sightings.push({
+      submission_id:
+        typeof submission.submission_id ===
+          "string"
+          ? submission.submission_id
+          : "",
+
+      captured_at:
+        typeof submission.captured_at ===
+          "string"
+          ? submission.captured_at
+          : "",
+
+      uploaded_at:
+        typeof submission.uploaded_at ===
+          "string"
+          ? submission.uploaded_at
+          : "",
+
+      vessel_name_entered:
+        typeof submission
+          .vessel_name_entered ===
+          "string"
+          ? submission
+              .vessel_name_entered
+          : "",
+
+      location:
+        submission.location &&
+        typeof submission.location ===
+          "object"
+          ? {
+              id:
+                submission.location.id ??
+                "",
+
+              name:
+                submission.location.name ??
+                "",
+
+              municipality:
+                submission.location
+                  .municipality ?? "",
+
+              country:
+                submission.location
+                  .country ?? ""
+            }
+          : {
+              id: "",
+              name: "",
+              municipality: "",
+              country: ""
+            },
+
+      movement:
+        typeof submission.movement ===
+          "string"
+          ? submission.movement
+          : "unknown",
+
+      direction:
+        typeof submission.direction ===
+          "string"
+          ? submission.direction
+          : "unknown",
+
+      notes:
+        typeof submission.notes ===
+          "string"
+          ? submission.notes
+          : "",
+
+      review_decision:
+        submission.workflow
+          ?.review
+          ?.decision ?? "",
+
+      review_notes:
+        submission.workflow
+          ?.review
+          ?.notes ?? "",
+
+      photo_count:
+        photos.length,
+
+      photos,
+
+      submission_path:
+        file.path
+    });
+  }
+
+  sightings.sort(
+    (left, right) =>
+      String(right.captured_at)
+        .localeCompare(
+          String(left.captured_at)
+        )
+  );
+
+  const primaryPhotoId =
+    typeof vessel.media
+      ?.primary_photo_id === "string"
+      ? vessel.media.primary_photo_id
+      : "";
+
+  const primarySubmissionId =
+    typeof vessel.media
+      ?.primary_submission_id === "string"
+      ? vessel.media
+          .primary_submission_id
+      : "";
+
+  let primaryPhoto = null;
+
+  if (primaryPhotoId) {
+    for (const sighting of sightings) {
+      const photo =
+        sighting.photos.find(
+          item =>
+            item.photo_id ===
+            primaryPhotoId
+        );
+
+      if (photo) {
+        primaryPhoto = {
+          ...photo,
+          submission_id:
+            sighting.submission_id,
+          captured_at:
+            sighting.captured_at
+        };
+
+        break;
+      }
+    }
+  }
+
+  if (
+    !primaryPhoto &&
+    primarySubmissionId
+  ) {
+    const primarySighting =
+      sightings.find(
+        sighting =>
+          sighting.submission_id ===
+          primarySubmissionId
+      );
+
+    if (
+      primarySighting?.photos[0]
+    ) {
+      primaryPhoto = {
+        ...primarySighting.photos[0],
+
+        submission_id:
+          primarySighting
+            .submission_id,
+
+        captured_at:
+          primarySighting
+            .captured_at
+      };
+    }
+  }
+
+  if (
+    !primaryPhoto &&
+    sightings[0]?.photos[0]
+  ) {
+    primaryPhoto = {
+      ...sightings[0].photos[0],
+
+      submission_id:
+        sightings[0].submission_id,
+
+      captured_at:
+        sightings[0].captured_at
+    };
+  }
+
+  return {
+    ok: true,
+
+    primary_photo:
+      primaryPhoto,
+
+    sightings,
+
+    meta: {
+      total_submission_count:
+        allPaths.length,
+
+      scanned_count:
+        candidatePaths.length,
+
+      matched_count:
+        sightings.length,
+
+      truncated:
+        allPaths.length >
+        candidatePaths.length
+    }
+  };
 }
 
 async function handleVesselIdSuggestion(request, env) {
