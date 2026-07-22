@@ -1,4 +1,4 @@
 vessel_id;name;former_names;mmsi;imo;eni;callsign;ship_type;ship_subtype;operator;cruise_brand;flag;status;year_built;length_m;width_m;json_path;updated_at
-VES-000000;Testschiff;;;;;;;;;;;unknown;;;;data/vessels/VES-000000.json;
+VES-000000;Testschiff;Test|Testvessel;;;;;;;;;;unknown;;;;data/vessels/VES-000000.json;2026-07-22T17:19:08.546Z
 VES-000001;Testschiff;;;;;;;;;;;unknown;;;;data/vessels/VES-000001.json;
 VES-000100;S. S. Beatrice;;;;;;;;;;;unknown;;;;data/vessels/VES-000100.json;2026-07-22T16:36:07.542Z

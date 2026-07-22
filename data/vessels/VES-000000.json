@@ -3,7 +3,10 @@
   "vessel_id": "VES-000000",
   "identity": {
     "name": "Testschiff",
-    "former_names": [],
+    "former_names": [
+      "Test",
+      "Testvessel"
+    ],
     "mmsi": "",
     "imo": "",
     "eni": "",
@@ -42,12 +45,22 @@
     "primary_photo_id": "",
     "primary_submission_id": ""
   },
-  "notes": "",
+  "notes": "das ist ein Test zum Bearbeiten",
   "audit": {
     "environment": "test",
     "created_at": "",
     "created_from_submission_id": "",
-    "updated_at": "",
-    "updated_by": ""
+    "updated_at": "2026-07-22T17:19:08.546Z",
+    "updated_by": "web-ui",
+    "change_history": [
+      {
+        "changed_at": "2026-07-22T17:19:08.546Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "identity.former_names",
+          "notes"
+        ]
+      }
+    ]
   }
 }
