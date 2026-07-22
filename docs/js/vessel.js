@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.9.0
+// Version: 0.9.1
 // Updated: 2026-07-22
 
 "use strict";
@@ -33,6 +33,35 @@ document.addEventListener("DOMContentLoaded", () => {
   
   let currentVessel = null;
   let editModeActive = false;
+
+  const changeFieldLabels = Object.freeze({
+    "identity.name": "Name",
+    "identity.former_names": "Frühere Namen",
+    "identity.mmsi": "MMSI",
+    "identity.imo": "IMO",
+    "identity.eni": "ENI",
+    "identity.call_sign": "Rufzeichen",
+  
+    "classification.ship_type": "Schiffstyp",
+    "classification.ship_subtype": "Untertyp",
+    "classification.status": "Status",
+    "classification.flag": "Flagge",
+  
+    "technical.year_built": "Baujahr",
+    "technical.shipyard": "Werft",
+    "technical.length_m": "Länge",
+    "technical.width_m": "Breite",
+    "technical.draft_m": "Tiefgang",
+    "technical.passengers": "Passagiere",
+  
+    "operations.operator": "Betreiber",
+    "operations.owner": "Eigentümer",
+    "operations.manager": "Manager",
+    "operations.cruise_brand": "Marke",
+    "operations.home_port": "Heimathafen",
+  
+    "notes": "Notizen"
+  });  
 
   function value(input, suffix = "") {
     return (
@@ -142,6 +171,299 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return element;
   }
+
+  function changeFieldLabel(fieldPath) {
+    return (
+      changeFieldLabels[fieldPath] ||
+      fieldPath ||
+      "Unbekanntes Feld"
+    );
+  }
+  
+  function changeValueLabel(
+    valueToFormat,
+    fieldPath = ""
+  ) {
+    if (
+      valueToFormat === null ||
+      valueToFormat === undefined ||
+      valueToFormat === ""
+    ) {
+      return "leer";
+    }
+  
+    if (Array.isArray(valueToFormat)) {
+      return valueToFormat.length
+        ? valueToFormat.join(", ")
+        : "leer";
+    }
+  
+    if (
+      fieldPath ===
+      "classification.status"
+    ) {
+      return statusLabel(valueToFormat);
+    }
+  
+    if (typeof valueToFormat === "boolean") {
+      return valueToFormat
+        ? "Ja"
+        : "Nein";
+    }
+  
+    if (typeof valueToFormat === "object") {
+      try {
+        return JSON.stringify(
+          valueToFormat
+        );
+      } catch {
+        return String(valueToFormat);
+      }
+    }
+  
+    return String(valueToFormat);
+  }
+  
+  function renderChangeHistory(
+    historyEntries
+  ) {
+    const historyList =
+      byId("changeHistoryList");
+  
+    const historyEmpty =
+      byId("changeHistoryEmpty");
+  
+    const entries =
+      Array.isArray(historyEntries)
+        ? [...historyEntries]
+        : [];
+  
+    entries.sort(
+      (left, right) =>
+        String(right?.changed_at ?? "")
+          .localeCompare(
+            String(left?.changed_at ?? "")
+          )
+    );
+  
+    historyList.replaceChildren();
+  
+    set(
+      "changeHistoryCount",
+      String(entries.length)
+    );
+  
+    if (entries.length === 0) {
+      historyList.classList.add(
+        "hidden"
+      );
+  
+      historyEmpty.classList.remove(
+        "hidden"
+      );
+  
+      return;
+    }
+  
+    for (const entry of entries) {
+      const item =
+        document.createElement("article");
+  
+      item.className =
+        "change-history-item";
+  
+      const header =
+        document.createElement("div");
+  
+      header.className =
+        "change-history-header";
+  
+      const headerMain =
+        document.createElement("div");
+  
+      headerMain.append(
+        createTextElement(
+          "h3",
+          "change-history-date",
+          dateTime(entry?.changed_at)
+        )
+      );
+  
+      const changedBy =
+        typeof entry?.changed_by ===
+          "string"
+          ? entry.changed_by
+          : "";
+  
+      if (changedBy) {
+        headerMain.append(
+          createTextElement(
+            "p",
+            "change-history-user",
+            changedBy === "web-ui"
+              ? "Bearbeitung über Weboberfläche"
+              : changedBy ===
+                  "web-ui-primary-photo"
+                ? "Hauptfoto geändert"
+                : changedBy
+          )
+        );
+      }
+  
+      header.append(headerMain);
+  
+      const detailedChanges =
+        Array.isArray(entry?.changes)
+          ? entry.changes
+          : [];
+  
+      const legacyFields =
+        Array.isArray(
+          entry?.changed_fields
+        )
+          ? entry.changed_fields
+          : [];
+  
+      const changeCount =
+        detailedChanges.length ||
+        legacyFields.length;
+  
+      header.append(
+        createTextElement(
+          "span",
+          "change-history-count",
+          `${changeCount} ${
+            changeCount === 1
+              ? "Änderung"
+              : "Änderungen"
+          }`
+        )
+      );
+  
+      item.append(header);
+  
+      if (detailedChanges.length > 0) {
+        const changesContainer =
+          document.createElement("div");
+  
+        changesContainer.className =
+          "change-details";
+  
+        for (
+          const change
+          of detailedChanges
+        ) {
+          const fieldPath =
+            typeof change?.field ===
+              "string"
+              ? change.field
+              : "";
+  
+          const row =
+            document.createElement("div");
+  
+          row.className =
+            "change-detail-row";
+  
+          row.append(
+            createTextElement(
+              "div",
+              "change-detail-field",
+              changeFieldLabel(fieldPath)
+            )
+          );
+  
+          const values =
+            document.createElement("div");
+  
+          values.className =
+            "change-detail-values";
+  
+          const previousValue =
+            createTextElement(
+              "span",
+              "change-old-value",
+              changeValueLabel(
+                change?.old_value,
+                fieldPath
+              )
+            );
+  
+          const arrow =
+            createTextElement(
+              "span",
+              "change-arrow",
+              "→"
+            );
+  
+          const newValue =
+            createTextElement(
+              "span",
+              "change-new-value",
+              changeValueLabel(
+                change?.new_value,
+                fieldPath
+              )
+            );
+  
+          values.append(
+            previousValue,
+            arrow,
+            newValue
+          );
+  
+          row.append(values);
+          changesContainer.append(row);
+        }
+  
+        item.append(changesContainer);
+      } else if (legacyFields.length > 0) {
+        const fieldList =
+          document.createElement("div");
+  
+        fieldList.className =
+          "change-field-list";
+  
+        for (const fieldPath of legacyFields) {
+          fieldList.append(
+            createTextElement(
+              "span",
+              "change-field-badge",
+              changeFieldLabel(fieldPath)
+            )
+          );
+        }
+  
+        item.append(fieldList);
+  
+        item.append(
+          createTextElement(
+            "p",
+            "change-legacy-note",
+            "Für diesen älteren Eintrag wurden noch keine Vorher-/Nachher-Werte gespeichert."
+          )
+        );
+      } else {
+        item.append(
+          createTextElement(
+            "p",
+            "change-legacy-note",
+            "Für diesen Eintrag sind keine Felddetails vorhanden."
+          )
+        );
+      }
+  
+      historyList.append(item);
+    }
+  
+    historyEmpty.classList.add(
+      "hidden"
+    );
+  
+    historyList.classList.remove(
+      "hidden"
+    );
+  }  
 
   function setInputValue(id, inputValue) {
     byId(id).value =
@@ -1326,7 +1648,11 @@ document.addEventListener("DOMContentLoaded", () => {
       payload.sightings_meta,
       payload.primary_photo
     );
-
+    
+    renderChangeHistory(
+      audit.change_history
+    );
+    
     content.classList.remove("hidden");
   }
 
