@@ -32,7 +32,22 @@
   },
   "name_history": [],
   "identifiers_history": [],
-  "sources": [],
+  "sources": [
+    {
+      "source_id": "SRC-AB76FD3D0196",
+      "provider": "Wikipedia",
+      "title": "Kandidatenkatalog: AmaStella",
+      "url": "https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen",
+      "notes": "Nachträglich mit CAN-920BDFFE61E2 verknüpft. Es wurden keine Stammdaten automatisch überschrieben.",
+      "fields_used": [],
+      "retrieved_at": "",
+      "verified_at": "",
+      "added_at": "2026-07-23T13:41:08.398Z",
+      "added_by": "candidate-catalog",
+      "candidate_id": "CAN-920BDFFE61E2",
+      "source_revision_id": "268617530"
+    }
+  ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
@@ -47,7 +62,28 @@
     "environment": "production",
     "created_at": "2026-07-23T09:59:11.059Z",
     "created_from_submission_id": "SUB-20260719-160723-D3BF9E",
-    "updated_at": "2026-07-23T09:59:11.059Z",
-    "updated_by": "web-ui"
+    "updated_at": "2026-07-23T13:41:08.398Z",
+    "updated_by": "web-ui",
+    "linked_candidate_ids": [
+      "CAN-920BDFFE61E2"
+    ],
+    "change_history": [
+      {
+        "changed_at": "2026-07-23T13:41:08.398Z",
+        "changed_by": "web-ui",
+        "summary": "Mit Kandidat CAN-920BDFFE61E2 verknüpft",
+        "changed_fields": [
+          "sources"
+        ],
+        "changes": [
+          {
+            "field": "sources",
+            "old_value": 0,
+            "new_value": 1
+          }
+        ]
+      }
+    ],
+    "candidate_source_revision_id": "268617530"
   }
 }
