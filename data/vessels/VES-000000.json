@@ -44,7 +44,20 @@
       "retrieved_at": "2026-07-22T19:22:43.299Z",
       "verified_at": "2026-07-22T19:22:43.299Z",
       "added_at": "2026-07-22T19:22:43.299Z",
-      "added_by": "web-ui"
+      "added_by": "web-ui",
+      "fields_used": [
+        "identity.eni",
+        "classification.ship_type",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "updated_at": "2026-07-23T03:40:11.244Z",
+      "updated_by": "web-ui"
     }
   ],
   "enrichment": {
@@ -61,7 +74,7 @@
     "environment": "test",
     "created_at": "",
     "created_from_submission_id": "",
-    "updated_at": "2026-07-22T19:27:38.289Z",
+    "updated_at": "2026-07-23T03:40:11.244Z",
     "updated_by": "web-ui",
     "change_history": [
       {
@@ -177,6 +190,21 @@
             "field": "operations.home_port",
             "old_value": "",
             "new_value": "Valletta"
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-07-23T03:40:11.244Z",
+        "changed_by": "web-ui",
+        "summary": "Quelle bearbeitet: Liste von Flusskreuzfahrtschiffen",
+        "changed_fields": [
+          "sources"
+        ],
+        "changes": [
+          {
+            "field": "sources",
+            "old_value": "Wikipedia · Liste von Flusskreuzfahrtschiffen · https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen · geprüft",
+            "new_value": "Wikipedia · Liste von Flusskreuzfahrtschiffen · https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen · Felder: identity.eni, classification.ship_type, classification.flag, technical.year_built, technical.length_m, technical.width_m, technical.passengers, operations.operator, operations.home_port · geprüft"
           }
         ]
       }
