@@ -1,5 +1,5 @@
 vessel_id;name;former_names;mmsi;imo;eni;callsign;ship_type;ship_subtype;operator;cruise_brand;flag;status;year_built;length_m;width_m;json_path;updated_at
 VES-000000;Testschiff;Test;;;02336090;;PASSENGER;RIVER_CRUISE;Emerald Waterways;;MT;active;2015;135;11.45;data/vessels/VES-000000.json;2026-07-23T04:25:25.555Z
 VES-000001;Testschiff;;;;;;;;;;;unknown;;;;data/vessels/VES-000001.json;
-VES-000100;S. S. Beatrice;;;;;;;;;;;unknown;;;;data/vessels/VES-000100.json;2026-07-22T16:36:07.542Z
+VES-000100;ss beatrice;;;;;;UNKNOWN;UNKNOWN;;;;unknown;;;;data/vessels/VES-000100.json;2026-07-23T09:51:25.351Z
 VES-000101;Travelmarvel Capella;;;;;;UNKNOWN;UNKNOWN;;;;unknown;;;;data/vessels/VES-000101.json;2026-07-23T07:14:59.689Z
