@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/css/vessel.css
- * Version: 0.10.1
- * Updated: 2026-07-22
+ * Version: 0.10.5
+ * Updated: 2026-07-23
  */
 
 .vessel-page {
@@ -809,6 +809,132 @@ dd {
   grid-column: 1 / -1;
 }
 
+.edit-name-match-panel {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid #b8cdf6;
+  border-radius: 10px;
+  background: #f8faff;
+}
+
+.edit-name-match-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.edit-name-match-header h4 {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.edit-name-match-header p {
+  margin: 5px 0 0;
+  color: #667085;
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+.edit-name-match-count {
+  flex: 0 0 auto;
+  min-width: 28px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  font-weight: 750;
+  text-align: center;
+}
+
+.edit-name-match-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.edit-name-match-group-title {
+  margin: 2px 0 0;
+  color: #52606d;
+  font-size: 0.84rem;
+  font-weight: 750;
+}
+
+.edit-name-match-card {
+  padding: 12px;
+  border: 1px solid #d8e0e8;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.edit-name-match-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.edit-name-match-card h5 {
+  margin: 0 0 3px;
+  font-size: 1rem;
+}
+
+.edit-name-match-id {
+  color: #6b7280;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.edit-name-match-confidence {
+  flex: 0 0 auto;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #d1e7dd;
+  color: #0f5132;
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.edit-name-match-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px 16px;
+  margin-top: 11px;
+}
+
+.edit-name-match-meta > div {
+  display: flex;
+  gap: 6px;
+  min-width: 0;
+}
+
+.edit-name-match-meta span {
+  color: #6b7280;
+}
+
+.edit-name-match-meta strong {
+  overflow-wrap: anywhere;
+}
+
+.edit-name-match-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px solid #edf0f2;
+}
+
+.edit-name-match-source {
+  margin-right: auto;
+  color: #2563eb;
+  font-size: 0.86rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
 .edit-field > span {
   color: #52606d;
   font-size: 0.88rem;
@@ -903,8 +1029,24 @@ dd {
     flex: 1 1 auto;
   }
 
-  .edit-grid {
+  .edit-grid,
+  .edit-name-match-meta {
     grid-template-columns: 1fr;
+  }
+
+  .edit-name-match-header,
+  .edit-name-match-card-header,
+  .edit-name-match-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .edit-name-match-actions button {
+    width: 100%;
+  }
+
+  .edit-name-match-source {
+    margin-right: 0;
   }
 
   .edit-field-wide {
