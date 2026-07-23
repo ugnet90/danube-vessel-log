@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000101",
+  "identity": {
+    "name": "Travelmarvel Capella",
+    "former_names": [],
+    "mmsi": "",
+    "imo": "",
+    "eni": "",
+    "call_sign": ""
+  },
+  "classification": {
+    "ship_type": "UNKNOWN",
+    "ship_subtype": "UNKNOWN",
+    "status": "unknown",
+    "flag": ""
+  },
+  "technical": {
+    "year_built": null,
+    "shipyard": "",
+    "length_m": null,
+    "width_m": null,
+    "draft_m": null,
+    "passengers": null
+  },
+  "operations": {
+    "operator": "",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": ""
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-2682F5D98C964BC49CB557D429D6CB47",
+    "primary_submission_id": "SUB-20260723-071316-8E68BF"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-07-23T07:14:59.689Z",
+    "created_from_submission_id": "SUB-20260723-071316-8E68BF",
+    "updated_at": "2026-07-23T07:14:59.689Z",
+    "updated_by": "web-ui"
+  }
+}
