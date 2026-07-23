@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.10.1
+ * Version: 0.10.2
  * Updated: 2026-07-22
  */
 
@@ -2511,14 +2511,62 @@ async function handleUpdateVesselSource(
       )
   };
 
-  if (
-    JSON.stringify(
-      comparablePrevious
-    ) ===
-    JSON.stringify(
-      comparableUpdated
-    )
-  ) {
+  const sourceChangeDetails = [];
+
+  const compareSourceField = (
+    field,
+    oldValue,
+    newValue
+  ) => {
+    if (
+      JSON.stringify(oldValue) !==
+      JSON.stringify(newValue)
+    ) {
+      sourceChangeDetails.push({
+        field,
+        old_value: oldValue,
+        new_value: newValue
+      });
+    }
+  };
+
+  compareSourceField(
+    "sources.provider",
+    comparablePrevious.provider,
+    comparableUpdated.provider
+  );
+
+  compareSourceField(
+    "sources.title",
+    comparablePrevious.title,
+    comparableUpdated.title
+  );
+
+  compareSourceField(
+    "sources.url",
+    comparablePrevious.url,
+    comparableUpdated.url
+  );
+
+  compareSourceField(
+    "sources.notes",
+    comparablePrevious.notes,
+    comparableUpdated.notes
+  );
+
+  compareSourceField(
+    "sources.fields_used",
+    comparablePrevious.fields_used,
+    comparableUpdated.fields_used
+  );
+
+  compareSourceField(
+    "sources.verified",
+    comparablePrevious.verified,
+    comparableUpdated.verified
+  );
+
+  if (sourceChangeDetails.length === 0) {
     return jsonResponse({
       ok: true,
       message:
@@ -2577,26 +2625,13 @@ async function handleUpdateVesselSource(
         `Quelle bearbeitet: ` +
         `${sourceLabel}`,
 
-      changed_fields: [
-        "sources"
-      ],
+      changed_fields:
+        sourceChangeDetails.map(
+          change => change.field
+        ),
 
-      changes: [
-        {
-          field:
-            "sources",
-
-          old_value:
-            formatVesselSourceAuditValue(
-              comparablePrevious
-            ),
-
-          new_value:
-            formatVesselSourceAuditValue(
-              comparableUpdated
-            )
-        }
-      ]
+      changes:
+        sourceChangeDetails
     });
 
   vessel.audit.updated_at =
@@ -2640,33 +2675,6 @@ async function handleUpdateVesselSource(
     commit_sha:
       saveResult.commitSha
   });
-}
-
-function formatVesselSourceAuditValue(
-  source
-) {
-  const parts = [
-    source.provider,
-    source.title,
-    source.url,
-
-    Array.isArray(
-      source.fields_used
-    ) &&
-    source.fields_used.length
-      ? (
-          "Felder: " +
-          source.fields_used
-            .join(", ")
-        )
-      : "",
-
-    source.verified
-      ? "geprüft"
-      : "nicht geprüft"
-  ].filter(Boolean);
-
-  return parts.join(" · ");
 }
 
 async function handleRemoveVesselSource(
