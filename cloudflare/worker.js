@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.10.3
+ * Version: 0.10.4
  * Updated: 2026-07-22
  */
 
@@ -23,6 +23,8 @@ const VESSEL_CANDIDATE_MIN_SCORE =
 
 const EXISTING_VESSEL_MIN_SCORE =
   0.86;
+const VESSEL_NAME_SUGGESTION_MIN_SCORE =
+  0.82;
 const REFERENCE_FLAGS_PATH =
   "docs/data/reference/flags.json";
 
@@ -125,6 +127,32 @@ export default {
       }
     }
 
+    if (
+      request.method === "GET" &&
+      url.pathname === "/vessel-name-suggestions"
+    ) {
+      try {
+        return await handleVesselNameSuggestions(
+          request,
+          env
+        );
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler bei der Namenssuche.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          stack:
+            error instanceof Error
+              ? error.stack
+              : null
+        }, 500);
+      }
+    }    
+
     if (request.method === "POST" && url.pathname === "/vessel") {
       try {
         return await handleCreateVessel(request, env);
@@ -143,6 +171,32 @@ export default {
         }, 500);
       }
     }
+
+    if (
+      request.method === "POST" &&
+      url.pathname === "/vessel-candidate-link"
+    ) {
+      try {
+        return await handleLinkVesselCandidate(
+          request,
+          env
+        );
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler beim Verknüpfen des Kandidaten.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          stack:
+            error instanceof Error
+              ? error.stack
+              : null
+        }, 500);
+      }
+    }    
 
     if (
       request.method === "POST" &&
@@ -3049,7 +3103,8 @@ async function saveCanonicalVesselAndIndex({
   vesselResult,
   vessel,
   updatedAt,
-  message
+  message,
+  extraFiles = []
 }) {
   const vesselsResult =
     await loadVessels(env);
@@ -3123,7 +3178,8 @@ async function saveCanonicalVesselAndIndex({
               updatedVessels
             ),
           encoding: "utf-8"
-        }
+        },
+        ...extraFiles
       ]
     });
 
@@ -3181,6 +3237,411 @@ async function handleVesselIdSuggestion(request, env) {
     ok: true,
     environment,
     vessel_id: suggestion.vessel_id
+  });
+}
+
+async function handleVesselNameSuggestions(
+  request,
+  env
+) {
+  const authError =
+    checkManagementKey(request, env);
+
+  if (authError) {
+    return authError;
+  }
+
+  const url =
+    new URL(request.url);
+
+  const name =
+    String(
+      url.searchParams.get("name") ??
+      ""
+    ).trim();
+
+  if (name.length < 2) {
+    return jsonResponse({
+      ok: true,
+      query: name,
+      existing_vessels: [],
+      catalog_candidates: []
+    });
+  }
+
+  const vesselsResult =
+    await loadVessels(env);
+
+  if (!vesselsResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        vesselsResult.error
+    }, 502);
+  }
+
+  const candidatesResult =
+    await loadVesselCandidates(env);
+
+  if (!candidatesResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        candidatesResult.error
+    }, candidatesResult.status ?? 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+
+    query:
+      name,
+
+    existing_vessels:
+      findExistingVesselNameSuggestions(
+        name,
+        vesselsResult.vessels
+      ),
+
+    catalog_candidates:
+      matchVesselCatalogByName(
+        name,
+        candidatesResult.candidates
+      )
+  });
+}
+
+async function handleLinkVesselCandidate(
+  request,
+  env
+) {
+  const authError =
+    checkManagementKey(request, env);
+
+  if (authError) {
+    return authError;
+  }
+
+  let input;
+
+  try {
+    input =
+      await request.json();
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Der Anfrageinhalt ist kein gültiges JSON."
+    }, 400);
+  }
+
+  const vesselId =
+    String(
+      input?.vessel_id ?? ""
+    ).trim();
+
+  const candidateId =
+    String(
+      input?.candidate_id ?? ""
+    ).trim();
+
+  const submissionId =
+    String(
+      input?.submission_id ?? ""
+    ).trim();
+
+  if (
+    !VESSEL_ID_PATTERN.test(
+      vesselId
+    )
+  ) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "vessel_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  if (
+    !/^CAN-[A-F0-9]{12}$/.test(
+      candidateId
+    )
+  ) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "candidate_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  const submissionPath =
+    buildSubmissionPath(
+      submissionId
+    );
+
+  if (!submissionPath) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "submission_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  const [
+    vesselResult,
+    candidatesResult,
+    submissionFile
+  ] = await Promise.all([
+    loadCanonicalVessel(
+      env,
+      vesselId
+    ),
+
+    loadVesselCandidates(
+      env
+    ),
+
+    readGitHubFile({
+      env,
+      path:
+        submissionPath
+    })
+  ]);
+
+  if (!vesselResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        vesselResult.error
+    }, vesselResult.status === 404
+      ? 404
+      : 502);
+  }
+
+  if (!candidatesResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        candidatesResult.error
+    }, candidatesResult.status ?? 502);
+  }
+
+  if (!submissionFile.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Die zugehörige Sichtung konnte nicht geladen werden."
+    }, submissionFile.status === 404
+      ? 404
+      : 502);
+  }
+
+  const candidate =
+    candidatesResult.candidates.find(
+      item =>
+        item.candidate_id ===
+        candidateId
+    ) ?? null;
+
+  if (!candidate) {
+    return jsonResponse({
+      ok: false,
+      error:
+        `${candidateId} wurde im Kandidatenkatalog nicht gefunden.`
+    }, 404);
+  }
+
+  let submission;
+
+  try {
+    submission = JSON.parse(
+      String(
+        submissionFile.content ?? ""
+      ).replace(/^\uFEFF/, "")
+    );
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Die Sichtung enthält ungültiges JSON."
+    }, 500);
+  }
+
+  const reviewedVesselId =
+    submission.workflow
+      ?.review
+      ?.vessel_id ?? "";
+
+  if (
+    reviewedVesselId !==
+    vesselId
+  ) {
+    return jsonResponse({
+      ok: false,
+      error:
+        `Die Sichtung ist nicht mit ${vesselId} verknüpft.`
+    }, 409);
+  }
+
+  const vessel =
+    vesselResult.vessel;
+
+  const vesselNames = [
+    vessel.identity?.name,
+
+    ...(
+      Array.isArray(
+        vessel.identity?.former_names
+      )
+        ? vessel.identity.former_names
+        : []
+    )
+  ];
+
+  const nameMatch =
+    findBestVesselNameMatch(
+      buildVesselNameKeys(
+        candidate.name
+      ),
+      vesselNames
+    );
+
+  const eniMatch =
+    Boolean(
+      candidate.eni &&
+      vessel.identity?.eni &&
+      candidate.eni ===
+        vessel.identity.eni
+    );
+
+  const imoMatch =
+    Boolean(
+      candidate.imo &&
+      vessel.identity?.imo &&
+      candidate.imo ===
+        vessel.identity.imo
+    );
+
+  if (
+    nameMatch.score <
+      VESSEL_CANDIDATE_MIN_SCORE &&
+    !eniMatch &&
+    !imoMatch
+  ) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Der Kandidat stimmt weder beim Namen noch bei ENI oder IMO ausreichend mit dem Schiff überein."
+    }, 409);
+  }
+
+  const linkedAt =
+    new Date().toISOString();
+
+  const sourceAdded =
+    applyCandidateOrigin({
+      vessel,
+      candidate,
+      createdAt:
+        linkedAt,
+      createdFrom:
+        false
+    });
+
+  if (
+    !submission.workflow ||
+    typeof submission.workflow !==
+      "object"
+  ) {
+    submission.workflow = {};
+  }
+
+  if (
+    !submission.workflow.review ||
+    typeof submission.workflow.review !==
+      "object"
+  ) {
+    submission.workflow.review = {};
+  }
+
+  submission.workflow.review.candidate_id =
+    candidateId;
+
+  submission.workflow.review
+    .candidate_linked_at =
+      linkedAt;
+
+  const saveResult =
+    await saveCanonicalVesselAndIndex({
+      env,
+      vesselResult,
+      vessel,
+      updatedAt:
+        linkedAt,
+
+      message:
+        `${vesselId} mit ${candidateId} verknüpft`,
+
+      extraFiles: [
+        {
+          path:
+            submissionPath,
+
+          content:
+            JSON.stringify(
+              submission,
+              null,
+              2
+            ) + "\n",
+
+          encoding:
+            "utf-8"
+        }
+      ]
+    });
+
+  if (!saveResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        saveResult.error,
+      github_step:
+        saveResult.step ?? null,
+      github_status:
+        saveResult.status ?? null,
+      github_response:
+        saveResult.body ?? null
+    }, 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+
+    message:
+      sourceAdded
+        ? (
+            `${candidateId} wurde mit ` +
+            `${vesselId} verknüpft.`
+          )
+        : (
+            `${vesselId} war bereits mit ` +
+            `${candidateId} verknüpft.`
+          ),
+
+    vessel_id:
+      vesselId,
+
+    candidate_id:
+      candidateId,
+
+    submission_id:
+      submissionId,
+
+    source_added:
+      sourceAdded,
+
+    commit_sha:
+      saveResult.commitSha
   });
 }
 
@@ -3303,6 +3764,89 @@ async function handleCreateVessel(request, env) {
           ? error.message
           : "vessels.csv konnte nicht verarbeitet werden."
     }, 500);
+  }
+
+  /*
+   * Exakte oder praktisch exakte Treffer
+   * bei bereits vorhandenen Schiffen
+   * verhindern eine versehentliche Dublette.
+   */
+  const existingNameMatches =
+    findExistingVesselNameSuggestions(
+      validation.data.name,
+      vessels
+    )
+      .filter(
+        match =>
+          match.score >= 0.99
+      );
+
+  if (
+    existingNameMatches.length === 1
+  ) {
+    return jsonResponse({
+      ok: false,
+
+      code:
+        "EXISTING_VESSEL_MATCH",
+
+      error:
+        `Ein sehr wahrscheinlich identisches Schiff ist bereits vorhanden: ` +
+        `${existingNameMatches[0].vessel_id} – ` +
+        `${existingNameMatches[0].name}.`,
+
+      existing_vessels:
+        existingNameMatches
+    }, 409);
+  }
+
+  /*
+   * Bei genau einem sehr sicheren
+   * Katalogtreffer muss dieser zuerst
+   * ausdrücklich übernommen werden.
+   */
+  if (!candidateId) {
+    const candidatesResult =
+      await loadVesselCandidates(
+        env
+      );
+
+    if (!candidatesResult.ok) {
+      return jsonResponse({
+        ok: false,
+        error:
+          candidatesResult.error
+      }, candidatesResult.status ?? 502);
+    }
+
+    const strongCatalogMatches =
+      matchVesselCatalogByName(
+        validation.data.name,
+        candidatesResult.candidates
+      )
+        .filter(
+          candidate =>
+            candidate.score >= 0.98
+        );
+
+    if (
+      strongCatalogMatches.length === 1
+    ) {
+      return jsonResponse({
+        ok: false,
+
+        code:
+          "CANDIDATE_CONFIRMATION_REQUIRED",
+
+        error:
+          `Im Kandidatenkatalog wurde ein sehr sicherer Treffer gefunden: ` +
+          `${strongCatalogMatches[0].name}. ` +
+          `Bitte zuerst „Daten übernehmen“ wählen.`,
+
+        catalog_candidates:
+          strongCatalogMatches
+      }, 409);
+    }
   }
 
   const suggestion = await findAvailableVesselId({
@@ -5217,8 +5761,25 @@ function buildCanonicalVessel({
 function applyCandidateOrigin({
   vessel,
   candidate,
-  createdAt
+  createdAt,
+  createdFrom = true
 }) {
+  const currentSources =
+    Array.isArray(vessel.sources)
+      ? vessel.sources
+      : [];
+
+  const alreadyLinked =
+    currentSources.some(
+      source =>
+        source?.candidate_id ===
+        candidate.candidate_id
+    );
+
+  if (alreadyLinked) {
+    return false;
+  }
+
   const fieldsUsed = [];
 
   const addField = (
@@ -5234,71 +5795,81 @@ function applyCandidateOrigin({
     }
   };
 
-  addField(
-    "identity.name",
-    candidate.name
-  );
+  /*
+   * Bei einer Neuanlage wurden diese Werte
+   * tatsächlich aus dem Kandidaten übernommen.
+   *
+   * Bei einer nachträglichen Verknüpfung werden
+   * keine Stammdaten automatisch verändert;
+   * daher bleibt fields_used dort leer.
+   */
+  if (createdFrom) {
+    addField(
+      "identity.name",
+      candidate.name
+    );
 
-  if (
-    Array.isArray(
-      candidate.former_names
-    ) &&
-    candidate.former_names.length > 0
-  ) {
+    if (
+      Array.isArray(
+        candidate.former_names
+      ) &&
+      candidate.former_names.length > 0
+    ) {
+      fieldsUsed.push(
+        "identity.former_names"
+      );
+    }
+
+    addField(
+      "identity.eni",
+      candidate.eni
+    );
+
+    addField(
+      "identity.imo",
+      candidate.imo
+    );
+
     fieldsUsed.push(
-      "identity.former_names"
+      "classification.ship_type",
+      "classification.ship_subtype"
+    );
+
+    addField(
+      "classification.flag",
+      candidate.flag
+    );
+
+    addField(
+      "technical.year_built",
+      candidate.year_built
+    );
+
+    addField(
+      "technical.length_m",
+      candidate.length_m
+    );
+
+    addField(
+      "technical.width_m",
+      candidate.width_m
+    );
+
+    addField(
+      "technical.passengers",
+      candidate.passengers
+    );
+
+    addField(
+      "operations.operator",
+      candidate.operator
+    );
+
+    addField(
+      "operations.home_port",
+      candidate.home_port
     );
   }
-
-  addField(
-    "identity.eni",
-    candidate.eni
-  );
-
-  addField(
-    "identity.imo",
-    candidate.imo
-  );
-
-  fieldsUsed.push(
-    "classification.ship_type",
-    "classification.ship_subtype"
-  );
-
-  addField(
-    "classification.flag",
-    candidate.flag
-  );
-
-  addField(
-    "technical.year_built",
-    candidate.year_built
-  );
-
-  addField(
-    "technical.length_m",
-    candidate.length_m
-  );
-
-  addField(
-    "technical.width_m",
-    candidate.width_m
-  );
-
-  addField(
-    "technical.passengers",
-    candidate.passengers
-  );
-
-  addField(
-    "operations.operator",
-    candidate.operator
-  );
-
-  addField(
-    "operations.home_port",
-    candidate.home_port
-  );
 
   const sourceUrl =
     candidate.article_url ||
@@ -5329,10 +5900,16 @@ function applyCandidateOrigin({
         sourceUrl,
 
       notes:
-        (
-          `Vorbelegung aus ` +
-          `${candidate.candidate_id}.`
-        ),
+        createdFrom
+          ? (
+              `Vorbelegung aus ` +
+              `${candidate.candidate_id}.`
+            )
+          : (
+              `Nachträglich mit ` +
+              `${candidate.candidate_id} verknüpft. ` +
+              `Es wurden keine Stammdaten automatisch überschrieben.`
+            ),
 
       fields_used:
         fieldsUsed,
@@ -5363,14 +5940,74 @@ function applyCandidateOrigin({
     vessel.audit = {};
   }
 
-  vessel.audit
-    .created_from_candidate_id =
-      candidate.candidate_id;
+  if (createdFrom) {
+    vessel.audit
+      .created_from_candidate_id =
+        candidate.candidate_id;
+  } else {
+    const linkedCandidateIds =
+      Array.isArray(
+        vessel.audit.linked_candidate_ids
+      )
+        ? vessel.audit.linked_candidate_ids
+        : [];
+
+    vessel.audit.linked_candidate_ids = [
+      ...new Set([
+        ...linkedCandidateIds,
+        candidate.candidate_id
+      ])
+    ];
+
+    if (
+      !Array.isArray(
+        vessel.audit.change_history
+      )
+    ) {
+      vessel.audit.change_history = [];
+    }
+
+    vessel.audit.change_history.push({
+      changed_at:
+        createdAt,
+
+      changed_by:
+        "web-ui",
+
+      summary:
+        `Mit Kandidat ${candidate.candidate_id} verknüpft`,
+
+      changed_fields: [
+        "sources"
+      ],
+
+      changes: [
+        {
+          field:
+            "sources",
+
+          old_value:
+            currentSources.length,
+
+          new_value:
+            currentSources.length + 1
+        }
+      ]
+    });
+
+    vessel.audit.updated_at =
+      createdAt;
+
+    vessel.audit.updated_by =
+      "web-ui";
+  }
 
   vessel.audit
     .candidate_source_revision_id =
       candidate
         .source_revision_id ?? "";
+
+  return true;
 }
 
 function buildVesselIndexRow({ vessel, path, updatedAt }) {
@@ -5597,15 +6234,47 @@ async function handleReviewSubmissionsList(request, env) {
           )
         : storedAutomaticMatch;
 
-    const catalogCandidates =
-      workflowStatus === "new"
-        ? matchVesselCatalogByName(
-            submission
-              .vessel_name_entered,
+    const reviewedVesselId =
+      submission.workflow
+        ?.review
+        ?.vessel_id ?? "";
 
-            vesselCatalog
+    const reviewedVessel =
+      vesselsResult.vessels.find(
+        vessel =>
+          vessel.vessel_id ===
+          reviewedVesselId
+      ) ?? null;
+
+    const candidateSearchName =
+      workflowStatus === "new"
+        ? (
+            submission
+              .vessel_name_entered ??
+            ""
           )
-        : [];    
+        : (
+            reviewedVessel?.name ||
+            submission
+              .vessel_name_entered ||
+            ""
+          );
+
+    const linkedCandidateId =
+      submission.workflow
+        ?.review
+        ?.candidate_id ?? "";
+
+    const catalogCandidates =
+      matchVesselCatalogByName(
+        candidateSearchName,
+        vesselCatalog
+      )
+        .filter(
+          candidate =>
+            candidate.candidate_id !==
+            linkedCandidateId
+        );
 
     const photoRecords =
       Array.isArray(submission.photos)
@@ -6514,6 +7183,133 @@ async function resolveVessel(input, env) {
       vesselsResult.vessels
     )
   };
+}
+
+function findExistingVesselNameSuggestions(
+  enteredNameValue,
+  vessels
+) {
+  const enteredName =
+    String(
+      enteredNameValue ?? ""
+    ).trim();
+
+  const enteredKeys =
+    buildVesselNameKeys(
+      enteredName
+    );
+
+  if (!enteredKeys.compact) {
+    return [];
+  }
+
+  const results = [];
+
+  for (
+    const vessel
+    of Array.isArray(vessels)
+      ? vessels
+      : []
+  ) {
+    const formerNames =
+      String(
+        vessel.former_names ?? ""
+      )
+        .split("|")
+        .map(value =>
+          value.trim()
+        )
+        .filter(Boolean);
+
+    const bestMatch =
+      findBestVesselNameMatch(
+        enteredKeys,
+        [
+          vessel.name,
+          ...formerNames
+        ]
+      );
+
+    if (
+      bestMatch.score <
+      VESSEL_NAME_SUGGESTION_MIN_SCORE
+    ) {
+      continue;
+    }
+
+    results.push({
+      vessel_id:
+        vessel.vessel_id,
+
+      name:
+        vessel.name,
+
+      former_names:
+        formerNames,
+
+      score:
+        Number(
+          bestMatch.score
+            .toFixed(4)
+        ),
+
+      confidence:
+        vesselMatchConfidence(
+          bestMatch.score
+        ),
+
+      matched_by:
+        bestMatch.matched_by,
+
+      matched_value:
+        bestMatch.matched_value,
+
+      mmsi:
+        vessel.mmsi ?? "",
+
+      imo:
+        vessel.imo ?? "",
+
+      eni:
+        vessel.eni ?? "",
+
+      flag:
+        vessel.flag ?? "",
+
+      ship_type:
+        vessel.ship_type ?? "",
+
+      ship_subtype:
+        vessel.ship_subtype ?? "",
+
+      operator:
+        vessel.operator ?? "",
+
+      year_built:
+        vessel.year_built ?? "",
+
+      environment:
+        parseVesselIdNumber(
+          vessel.vessel_id
+        ) < 100
+          ? "test"
+          : "production"
+    });
+  }
+
+  return results
+    .sort(
+      (left, right) =>
+        right.score -
+          left.score ||
+        left.vessel_id.localeCompare(
+          right.vessel_id
+        )
+    )
+    .slice(
+      0,
+      VESSEL_CANDIDATE_MATCH_LIMIT
+    );
 }
 
 function matchVesselByName(
