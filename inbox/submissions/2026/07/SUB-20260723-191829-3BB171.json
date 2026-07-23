@@ -1,0 +1,61 @@
+{
+  "schema_version": 10,
+  "submission_id": "SUB-20260723-191829-3BB171",
+  "uploaded_at": "2026-07-23T19:18:29.111Z",
+  "captured_at": "2026-07-23T19:17:39.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich"
+  },
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "tui isla ",
+  "notes": "",
+  "photo_lat": 48.30780833333333,
+  "photo_lon": 14.28539666666667,
+  "photos": [
+    {
+      "photo_id": "PHOTO-9947C002C8D44AE0B2740FE47B7A4B12",
+      "path": "inbox/photos/2026/07/PHOTO-9947C002C8D44AE0B2740FE47B7A4B12.jpg",
+      "filename": "PHOTO-9947C002C8D44AE0B2740FE47B7A4B12.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 511366,
+      "sequence": 1
+    },
+    {
+      "photo_id": "PHOTO-E25AE8CE13D14225B2B7DA28F8A9D12C",
+      "path": "inbox/photos/2026/07/PHOTO-E25AE8CE13D14225B2B7DA28F8A9D12C.jpg",
+      "filename": "PHOTO-E25AE8CE13D14225B2B7DA28F8A9D12C.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 377947,
+      "sequence": 2
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "tui isla"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
