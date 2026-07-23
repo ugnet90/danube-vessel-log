@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.10.1
+// Version: 0.10.2
 // Updated: 2026-07-22
 
 "use strict";
@@ -793,8 +793,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }  
 
   function changeFieldLabel(fieldPath) {
-    return reference.sourceFieldLabel(
-      fieldPath
+    const sourceChangeLabels = {
+      "sources.provider":
+        "Quellenanbieter",
+  
+      "sources.title":
+        "Quellentitel",
+  
+      "sources.url":
+        "Quellen-URL",
+  
+      "sources.notes":
+        "Quellennotiz",
+  
+      "sources.fields_used":
+        "Übernommene Felder",
+  
+      "sources.verified":
+        "Prüfstatus"
+    };
+  
+    return (
+      sourceChangeLabels[fieldPath] ||
+      reference.sourceFieldLabel(
+        fieldPath
+      )
     );
   }
   
@@ -811,9 +834,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   
     if (Array.isArray(valueToFormat)) {
-      return valueToFormat.length
-        ? valueToFormat.join(", ")
-        : "leer";
+      if (valueToFormat.length === 0) {
+        return "leer";
+      }
+  
+      if (
+        fieldPath ===
+        "sources.fields_used"
+      ) {
+        return valueToFormat
+          .map(field =>
+            reference.sourceFieldLabel(
+              field
+            )
+          )
+          .join(", ");
+      }
+  
+      return valueToFormat.join(", ");
     }
   
     if (
