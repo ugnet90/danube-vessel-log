@@ -26,13 +26,20 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "rejected",
     "vessel_id": "VES-000001",
     "vessel_match": {
       "status": "matched",
       "matched_by": "name",
       "candidate_count": 1
     },
-    "review_notes": ""
+    "review_notes": "",
+    "review": {
+      "reviewed": true,
+      "reviewed_at": "2026-07-23T09:53:58.338Z",
+      "vessel_id": "",
+      "decision": "rejected",
+      "notes": ""
+    }
   }
 }
