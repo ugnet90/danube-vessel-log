@@ -3,36 +3,65 @@
   "vessel_id": "VES-000100",
   "identity": {
     "name": "ss beatrice",
-    "former_names": [],
+    "former_names": [
+      "River Beatrice"
+    ],
     "mmsi": "",
     "imo": "",
-    "eni": "",
+    "eni": "02329007",
     "call_sign": ""
   },
   "classification": {
-    "ship_type": "UNKNOWN",
-    "ship_subtype": "UNKNOWN",
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
     "status": "unknown",
-    "flag": ""
+    "flag": "NL"
   },
   "technical": {
-    "year_built": null,
+    "year_built": 2007,
     "shipyard": "",
-    "length_m": null,
-    "width_m": null,
+    "length_m": 131,
+    "width_m": 11.4,
     "draft_m": null,
-    "passengers": null
+    "passengers": 152
   },
   "operations": {
-    "operator": "",
+    "operator": "Uniworld River Cruises",
     "owner": "",
     "manager": "",
     "cruise_brand": "",
-    "home_port": ""
+    "home_port": "Rotterdam"
   },
   "name_history": [],
   "identifiers_history": [],
-  "sources": [],
+  "sources": [
+    {
+      "source_id": "SRC-D702629D47E3",
+      "provider": "Wikipedia",
+      "title": "Kandidatenkatalog: S. S. Beatrice",
+      "url": "https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen",
+      "notes": "Nachträglich mit CAN-77CB4FFC21DD verknüpft. Fehlende Stammdaten wurden aus dem Kandidatenkatalog übernommen.",
+      "fields_used": [
+        "identity.former_names",
+        "identity.eni",
+        "classification.ship_type",
+        "classification.ship_subtype",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "retrieved_at": "",
+      "verified_at": "",
+      "added_at": "2026-07-23T18:43:19.340Z",
+      "added_by": "candidate-catalog",
+      "candidate_id": "CAN-77CB4FFC21DD",
+      "source_revision_id": "268617530"
+    }
+  ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
@@ -48,7 +77,7 @@
     "environment": "production",
     "created_at": "2026-07-22T13:03:30.818Z",
     "created_from_submission_id": "SUB-20260721-191622-37FF92",
-    "updated_at": "2026-07-23T09:51:25.351Z",
+    "updated_at": "2026-07-23T18:43:19.340Z",
     "updated_by": "web-ui",
     "change_history": [
       {
@@ -76,7 +105,94 @@
             "new_value": "UNKNOWN"
           }
         ]
+      },
+      {
+        "changed_at": "2026-07-23T18:43:19.340Z",
+        "changed_by": "web-ui",
+        "summary": "Mit Kandidat CAN-77CB4FFC21DD verknüpft und 11 fehlende Felder übernommen",
+        "changed_fields": [
+          "identity.former_names",
+          "identity.eni",
+          "classification.ship_type",
+          "classification.ship_subtype",
+          "classification.flag",
+          "technical.year_built",
+          "technical.length_m",
+          "technical.width_m",
+          "technical.passengers",
+          "operations.operator",
+          "operations.home_port",
+          "sources"
+        ],
+        "changes": [
+          {
+            "field": "identity.former_names",
+            "old_value": [],
+            "new_value": [
+              "River Beatrice"
+            ]
+          },
+          {
+            "field": "identity.eni",
+            "old_value": "",
+            "new_value": "02329007"
+          },
+          {
+            "field": "classification.ship_type",
+            "old_value": "UNKNOWN",
+            "new_value": "PASSENGER"
+          },
+          {
+            "field": "classification.ship_subtype",
+            "old_value": "UNKNOWN",
+            "new_value": "RIVER_CRUISE"
+          },
+          {
+            "field": "classification.flag",
+            "old_value": "",
+            "new_value": "NL"
+          },
+          {
+            "field": "technical.year_built",
+            "old_value": null,
+            "new_value": 2007
+          },
+          {
+            "field": "technical.length_m",
+            "old_value": null,
+            "new_value": 131
+          },
+          {
+            "field": "technical.width_m",
+            "old_value": null,
+            "new_value": 11.4
+          },
+          {
+            "field": "technical.passengers",
+            "old_value": null,
+            "new_value": 152
+          },
+          {
+            "field": "operations.operator",
+            "old_value": "",
+            "new_value": "Uniworld River Cruises"
+          },
+          {
+            "field": "operations.home_port",
+            "old_value": "",
+            "new_value": "Rotterdam"
+          },
+          {
+            "field": "sources",
+            "old_value": 0,
+            "new_value": 1
+          }
+        ]
       }
-    ]
+    ],
+    "linked_candidate_ids": [
+      "CAN-77CB4FFC21DD"
+    ],
+    "candidate_source_revision_id": "268617530"
   }
 }
