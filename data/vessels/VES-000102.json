@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000102",
+  "identity": {
+    "name": "AmaStella",
+    "former_names": [],
+    "mmsi": "",
+    "imo": "",
+    "eni": "",
+    "call_sign": ""
+  },
+  "classification": {
+    "ship_type": "UNKNOWN",
+    "ship_subtype": "UNKNOWN",
+    "status": "unknown",
+    "flag": ""
+  },
+  "technical": {
+    "year_built": null,
+    "shipyard": "",
+    "length_m": null,
+    "width_m": null,
+    "draft_m": null,
+    "passengers": null
+  },
+  "operations": {
+    "operator": "",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": ""
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-855B5EDFCFAF45289E8ABDA3DDB5405F",
+    "primary_submission_id": "SUB-20260719-160723-D3BF9E"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-07-23T09:59:11.059Z",
+    "created_from_submission_id": "SUB-20260719-160723-D3BF9E",
+    "updated_at": "2026-07-23T09:59:11.059Z",
+    "updated_by": "web-ui"
+  }
+}
