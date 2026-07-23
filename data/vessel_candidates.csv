@@ -16,7 +16,7 @@ CAN-B2D44F214498;A-Rosa Stella;;a rosa stella;arosastella;a rosa stella;04803530
 CAN-92A19AAFEEF7;A-Rosa Viva;;a rosa viva;arosaviva;a rosa viva;04808020;9524188;2010;135.0;11.4;202;A-ROSA Flussschiff;Rostock;DE;Deutschland;https://de.wikipedia.org/wiki/A-Rosa_Viva;268617530
 CAN-719F9351F37E;A. S. Popov;;a s popov;aspopov;a s popov;;;1961;95.8;14.3;245;Oka;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
 CAN-6933E9E298CC;A-Silver;Amadeus Silver;a silver;asilver;a silver;02335475;;2013;135.0;11.4;180;Danubia Kreuzfahrten (Phoenix Reisen);Passau;DE;Deutschland;;268617530
-CAN-0115EA0877CA;Acamar;Amarco/Amarco I;acamar;acamar;acamar;;;2008;72.0;14.2;128;Galaxia Group;;;Agypten;;268617530
+CAN-0115EA0877CA;Acamar;Amarco|Amarco I;acamar;acamar;acamar;;;2008;72.0;14.2;128;Galaxia Group;;;Agypten;;268617530
 CAN-1756D0A9E7BD;Adonis;;adonis;adonis;adonis;;;2004;72.0;14.2;130;;;;Agypten;https://de.wikipedia.org/wiki/Adonis;268617530
 CAN-9D3ADED062D6;Adora;;adora;adora;adora;02337899;;2019;135.0;11.4;190;Dunav Tours ( Phoenix Reisen );Russe;BG;Bulgarien;;268617530
 CAN-0B93A03B9F50;Afanasiy Nikitin;Mir;afanasiy nikitin;afanasiynikitin;afanasiy nikitin;;;1959;96.27;14.98;294;;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
@@ -31,7 +31,7 @@ CAN-92BAB1D0BBA4;Aleksandr Pushkin;;aleksandr pushkin;aleksandrpushkin;aleksandr
 CAN-7F751192662C;Aleksandr Radishchev;;aleksandr radishchev;aleksandrradishchev;aleksandr radishchev;;8225682;1982;125.0;16.7;216;Vodohod;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
 CAN-97A50E4AC58B;Aleksandr Suvorov;;aleksandr suvorov;aleksandrsuvorov;aleksandr suvorov;;;1981;135.75;16.8;400;Vodohod;Nischni Nowgorod;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Aleksandr_Suvorov_(Schiff);268617530
 CAN-3193F5A42145;Aleksandr Sveshnikov;Volkhov;aleksandr sveshnikov;aleksandrsveshnikov;aleksandr sveshnikov;;;1961;77.91;15.2;;;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
-CAN-A31E420046D5;Aleksandra;Taras Shevchenko/T. G. Shevchenko;aleksandra;aleksandra;aleksandra;;8925036;1991;129.1;16.7;258;;Rostow am Don;UA;Sowjetunion → Ukraine → Kasachstan → Russland;https://de.wikipedia.org/wiki/Aleksandra_(Schiff);268617530
+CAN-A31E420046D5;Aleksandra;Taras Shevchenko|T. G. Shevchenko;aleksandra;aleksandra;aleksandra;;8925036;1991;129.1;16.7;258;;Rostow am Don;UA;Sowjetunion → Ukraine → Kasachstan → Russland;https://de.wikipedia.org/wiki/Aleksandra_(Schiff);268617530
 CAN-220E775FBBA3;Aleksey Tolstoy;N. Gastello;aleksey tolstoy;alekseytolstoy;aleksey tolstoy;;;1954;95.8;14.3;179;;Samara;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Aleksey_Tolstoy;268617530
 CAN-EAD2D3AC851C;Alemannia;Deutschland;alemannia;alemannia;alemannia;07001703;;1971;110.0;11.6;184;Breeze River Cruises Basel;Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Alemannia_(Schiff);268617530
 CAN-EB9378776F71;Alena;;alena;alena;alena;02337442;;2017;135.0;11.4;190;Scylla ( Phoenix Reisen );Valletta;MT;Malta;;268617530
@@ -40,8 +40,8 @@ CAN-EE92968DDEC1;Alessandra;;alessandra;alessandra;alessandra;;;1998;71.5;11.8;1
 CAN-C3FE5A2CD1B6;Alexander the Great;Sanctuary Retreats;alexander the great;alexanderthegreat;alexander the great;;;1982;70.0;11.5;60;Alexander the Great;;;Agypten;https://de.wikipedia.org/wiki/Alexander_the_Great;268617530
 CAN-DDD9DCEC6394;Alina;;alina;alina;alina;07001934;;2011;135.0;11.4;220;Scylla ( Phoenix Reisen );Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Alina_(Schiff);268617530
 CAN-156135B4A658;Alisa;;alisa;alisa;alisa;02339778;;2022;135.0;11.45;190;;Basel;CH;Schweiz;;268617530
-CAN-D1D7B92D2B0D;Allegro;Liberte/Abel Tasman;allegro;allegro;allegro;02326758;;1991;105.0;10.1;150;Calanda Riverline Cruises;Enkhuizen;NL;Frankreich → Niederlande;;268617530
-CAN-9193150CD12C;Allure;Hoop op Zegen/Adelaar;allure;allure;allure;02202474;;1908;42.26;6.0;24;Martien van de Velde;Amsterdam;NL;Niederlande;;268617530
+CAN-D1D7B92D2B0D;Allegro;Liberte|Abel Tasman;allegro;allegro;allegro;02326758;;1991;105.0;10.1;150;Calanda Riverline Cruises;Enkhuizen;NL;Frankreich → Niederlande;;268617530
+CAN-9193150CD12C;Allure;Hoop op Zegen|Adelaar;allure;allure;allure;02202474;;1908;42.26;6.0;24;Martien van de Velde;Amsterdam;NL;Niederlande;;268617530
 CAN-C7BDA7290DF9;Altay;;altay;altay;altay;;;1958;95.8;14.3;339;;Leningrad;;Sowjetunion;;268617530
 CAN-1F1576158061;Alyssa;;alyssa;alyssa;alyssa;;;2008;75.0;14.4;124;Alyssa Nile Cruise;;;Agypten;https://de.wikipedia.org/wiki/Alyssa;268617530
 CAN-98B72C941B76;AmaBella;;amabella;amabella;amabella;02332082;;2010;135.0;11.4;162;Australian Pacific Touring;Basel;CH;Schweiz;;268617530
@@ -74,7 +74,7 @@ CAN-D107554DD931;AmaLotus;;amalotus;amalotus;amalotus;;;2011;92.05;12.8;124;AMA 
 CAN-59C1AE880B0E;AmaLyra;;amalyra;amalyra;amalyra;02331266;;2009;110.0;11.4;148;AMA Waterways;Basel;CH;Schweiz;;268617530
 CAN-33DEC1E018B0;AmaMagna;;amamagna;amamagna;amamagna;02329183;;2019;135.0;22.0;194;AMA Waterways;Basel;CH;Schweiz;;268617530
 CAN-4C8D180B74D2;AmaMora;;amamora;amamora;amamora;07002112;;2019;135.0;11.45;156;AMA Waterways;Basel;CH;Schweiz;;268617530
-CAN-CA25C5FF9AC4;Amanpuri;De Zonnebloem/Harbourlight/Alegria;amanpuri;amanpuri;amanpuri;02205451;;1985;90.0;11.6;136;Rein Ouwinga;Rotterdam;NL;Niederlande;;268617530
+CAN-CA25C5FF9AC4;Amanpuri;De Zonnebloem|Harbourlight|Alegria;amanpuri;amanpuri;amanpuri;02205451;;1985;90.0;11.6;136;Rein Ouwinga;Rotterdam;NL;Niederlande;;268617530
 CAN-F0992839CDA1;AmaPrima;;amaprima;amaprima;amaprima;07001958;;2013;135.0;11.45;164;AMA Waterways;Basel;CH;Schweiz;;268617530
 CAN-131FCFD38007;AmaPura;;amapura;amapura;amapura;;;2014;57.3;12.19;56;AMA Waterways;;;Myanmar;;268617530
 CAN-86D725A05F6D;Amarante Isis;;amarante isis;amaranteisis;amarante isis;;;1963;73.0;11.0;74;Amarante Hotels;;;Agypten;;268617530
@@ -92,30 +92,30 @@ CAN-A9D0515DC66A;American Empress;Empress of the North;american empress;american
 CAN-8AF2A39470BB;American Queen;;american queen;americanqueen;american queen;;9084542;1995;127.44;27.22;436;American Queen Voyages;New Orleans;;Vereinigte Staaten;;268617530
 CAN-8AE6C056A56A;American Spirit;;american spirit;americanspirit;american spirit;;9283124;2005;60.8;14.0;100;American Cruise Lines;Wilmington;;Vereinigte Staaten;;268617530
 CAN-7A47DD3235FD;American Star;;american star;americanstar;american star;;9427615;2007;57.2;14.0;100;American Cruise Lines;Dover;;Vereinigte Staaten;;268617530
-CAN-F117D56420D5;Amethyst Classic;Ursula III/Heinrich Heine;amethyst classic;amethystclassic;amethyst classic;08948008;;1991;106.38;11.11;110;1AVista-Reisen;Russe;BG;Bulgarien;https://de.wikipedia.org/wiki/Amethyst_Classic;268617530
-CAN-0345CEAAAD99;Amsterdam;Schwyz/Heinrich Liesen I/Rex-Rheni, Tremella II;amsterdam;amsterdam;amsterdam;02325953;;1948;77.55;9.88;100;Wenniger River Cruises;Workum;NL;Schweiz → Deutschland → Niederlande;;268617530
+CAN-F117D56420D5;Amethyst Classic;Ursula III|Heinrich Heine;amethyst classic;amethystclassic;amethyst classic;08948008;;1991;106.38;11.11;110;1AVista-Reisen;Russe;BG;Bulgarien;https://de.wikipedia.org/wiki/Amethyst_Classic;268617530
+CAN-0345CEAAAD99;Amsterdam;Schwyz|Heinrich Liesen I|Rex-Rheni, Tremella II;amsterdam;amsterdam;amsterdam;02325953;;1948;77.55;9.88;100;Wenniger River Cruises;Workum;NL;Schweiz → Deutschland → Niederlande;;268617530
 CAN-8119A71FCB17;Amur;;amur;amur;amur;;;1960;85.8;14.06;212;;Budapest;HU;Sowjetunion → Ukraine → Ungarn;;268617530
 CAN-5A7040F83071;Amwaj Living Stone;;amwaj living stone;amwajlivingstone;amwaj living stone;;;2014;73.0;14.5;124;Amwaj International;;;Agypten;;268617530
 CAN-2D1EFBFF4371;Anakonda;;anakonda;anakonda;anakonda;;;2013;45.0;9.0;36;Amazon Anakonda Cruise;;;Ecuador;;268617530
-CAN-0741D6FA9258;Andante;Damco 21, Alexander von Engelberg/Scylla, Kellermann;andante;andante;andante;02325292;;1959;74.4;10.19;90;Calanda Riverline Cruises;Enkhuizen;NL;Niederlande;;268617530
+CAN-0741D6FA9258;Andante;Damco 21, Alexander von Engelberg|Scylla, Kellermann;andante;andante;andante;02325292;;1959;74.4;10.19;90;Calanda Riverline Cruises;Enkhuizen;NL;Niederlande;;268617530
 CAN-F54B3717C1FA;Andorinha;;andorinha;andorinha;andorinha;07002117;;2019;80.0;;84;Scylla (Tauck Tours);Basel;CH;Schweiz;;268617530
 CAN-2D93764535C4;Andrea II;Andrea;andrea ii;andreaii;andrea ii;02338509;;2020;135.0;11.4;190;Rijfers Nautical Management B.V. (Phoenix Reisen);;MT;Malta;;268617530
 CAN-0D187153AA5B;Andrey Rublyov;Nikolay Dobrolyubov;andrey rublyov;andreyrublyov;andrey rublyov;;8131532;1981;125.0;16.7;300;MosTurFlot;Moskau;UA;Sowjetunion → Ukraine → Russland;;268617530
 CAN-29C57E4DB396;Anesha;;anesha;anesha;anesha;07002024;;2014;135.0;11.4;180;Scylla ( Phoenix Reisen );Basel;CH;Schweiz;;268617530
 CAN-92390226B1C3;Angela Esmee;Hencor II, Tremella, Seresta;angela esmee;angelaesmee;angela esmee;03310386;;1955;62.95;7.22;63;Holland Cruises;De Tike;NL;Niederlande;;268617530
-CAN-A7BE0ABAD22F;Anichka;T. G. Shevtshenko/Svyatoy Petr;anichka;anichka;anichka;;;1959;95.8;14.3;;;Sligo;IE;Sowjetunion → Russland → Irland;;268617530
-CAN-EEA3BBA69B7A;Anna Akhmatova;Dnepr/Mikhail Nazarov, Don, Vladimir Monomakh;anna akhmatova;annaakhmatova;anna akhmatova;;;1959;77.91;15.2;311;;Moskau;;Sowjetunion → Russland;;268617530
+CAN-A7BE0ABAD22F;Anichka;T. G. Shevtshenko|Svyatoy Petr;anichka;anichka;anichka;;;1959;95.8;14.3;;;Sligo;IE;Sowjetunion → Russland → Irland;;268617530
+CAN-EEA3BBA69B7A;Anna Akhmatova;Dnepr|Mikhail Nazarov, Don, Vladimir Monomakh;anna akhmatova;annaakhmatova;anna akhmatova;;;1959;77.91;15.2;311;;Moskau;;Sowjetunion → Russland;;268617530
 CAN-B527F6000F82;Anna Katharina;;anna katharina;annakatharina;anna katharina;07002113;;2019;135.0;11.45;180;Scylla ( Phoenix Reisen );Basel;CH;Schweiz;;268617530
 CAN-F60A1B3EA2D8;Anne-Marie;;anne marie;annemarie;anne marie;;;2014;40.0;5.7;22;CroisiEurope;;FR;Frankreich;;268617530
 CAN-2955344A438B;Annika;;annika;annika;annika;07002137;;2020;135.0;14.45;190;;;CH;Schweiz;;268617530
-CAN-FF69F9057C68;Antares;Amarco II/Nile Express;antares;antares;antares;;;2007;72.0;14.4;62;Viking River Cruises;;;Agypten;https://de.wikipedia.org/wiki/Antares;268617530
+CAN-FF69F9057C68;Antares;Amarco II|Nile Express;antares;antares;antares;;;2007;72.0;14.4;62;Viking River Cruises;;;Agypten;https://de.wikipedia.org/wiki/Antares;268617530
 CAN-44704BFC3B1E;Anton Chekhov;;anton chekhov;antonchekhov;anton chekhov;;;1978;115.6;16.46;220;Orthodox Cruise Company;Rostow am Don;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Anton_Chekhov;268617530
 CAN-9E57DB71CD2D;Antonio Bellucci;;antonio bellucci;antoniobellucci;antonio bellucci;02334599;;2012;110.0;11.4;141;Medi Ship AG;Basel;CH;Schweiz;;268617530
 CAN-F3CF40DEC727;Arabella;L. Dovator;arabella;arabella;arabella;;;1955;95.8;14.3;150;Admiral;Kasan;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Arabella_(Schiff,_1955);268617530
 CAN-79B7BAAB7147;Arena;Flamenco;arena;arena;arena;09948011;;2005;135.0;11.4;200;1AVista-Reisen;Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Arena_(Schiff);268617530
 CAN-AAD91C2A5E09;Aria;;aria;aria;aria;;;2011;45.0;9.0;32;Avalon Waterways, Aqua Expedition;Iquitos;;Peru;;268617530
 CAN-EC57ABFCCFEF;Ariana;;ariana;ariana;ariana;02334084;;2012;110.0;11.4;162;Dunav Tours ( Phoenix Reisen );Russe;BG;Bulgarien;;268617530
-CAN-EB7118A52F2B;Arkona;Spree Berlin/St. Alban, Victoria, Polonaise, Rügen, Solaris;arkona;arkona;arkona;04031590;;1979;83.03;9.64;99;Quality Tours ApS;Oberwesel;DE;Deutschland;;268617530
+CAN-EB7118A52F2B;Arkona;Spree Berlin|St. Alban, Victoria, Polonaise, Rügen, Solaris;arkona;arkona;arkona;04031590;;1979;83.03;9.64;99;Quality Tours ApS;Oberwesel;DE;Deutschland;;268617530
 CAN-94200C0C6724;Arlene;;arlene;arlene;arlene;02326752;;2012;91.2;10.5;109;HTL Cruises;Arnheim;NL;Niederlande;;268617530
 CAN-AEB876334EDB;Armeniya;;armeniya;armeniya;armeniya;;;1953;80.22;12.5;233;;Perm;;Sowjetunion;;268617530
 CAN-BFF77972D0E0;Asara;;asara;asara;asara;02337042;;2017;135.0;11.4;190;Johan Rijfers River Cruises Arnhem ( Phoenix Reisen );Valletta;MT;Malta;;268617530
@@ -136,17 +136,17 @@ CAN-13403EDA24CC;Avalon Tranquility II;;avalon tranquility ii;avalontranquilityi
 CAN-C42DAE21AAAD;Avalon View;;avalon view;avalonview;avalon view;02338024;;2019;135.0;11.45;;Avalon Waterways;;;;;268617530
 CAN-036464005171;Avalon Visionary;;avalon visionary;avalonvisionary;avalon visionary;02334430;;2012;110.0;11.45;138;Avalon Waterways;Hamburg;DE;Deutschland;;268617530
 CAN-97E387774088;Avalon Vista;;avalon vista;avalonvista;avalon vista;02333954;;2012;135.0;11.45;170;Avalon Waterways;Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Avalon_Vista;268617530
-CAN-3EDE73B9E079;Avicena;60 let Oktyabrya/Floks;avicena;avicena;avicena;;8884749;1978;125.0;16.7;;Andrea Navigation;Kingstown;;Sowjetunion → Saint Vincent Grenadinen;;268617530
+CAN-3EDE73B9E079;Avicena;60 let Oktyabrya|Floks;avicena;avicena;avicena;;8884749;1978;125.0;16.7;;Andrea Navigation;Kingstown;;Sowjetunion → Saint Vincent Grenadinen;;268617530
 CAN-FF3FF4068E16;Avrora;;avrora;avrora;avrora;;;1960;95.8;14.3;;;Sankt Petersburg;;Sowjetunion → Russland;;268617530
 CAN-B89FDCF545A1;Azerbaydzhan;;azerbaydzhan;azerbaydzhan;azerbaydzhan;;;1953;80.22;12.5;233;;Sewastopol;UA;Sowjetunion → Ukraine;;268617530
-CAN-AD1D7C11FF79;Azolla;Adolf Linden 1/Ernst Tengelmann, Pionier Andreas;azolla;azolla;azolla;02311625;;1938;76.5;7.86;90;Vranken River Line;Maasbracht;NL;Niederlande;;268617530
+CAN-AD1D7C11FF79;Azolla;Adolf Linden 1|Ernst Tengelmann, Pionier Andreas;azolla;azolla;azolla;02311625;;1938;76.5;7.86;90;Vranken River Line;Maasbracht;NL;Niederlande;;268617530
 CAN-B7734D49811F;Bagration;;bagration;bagration;bagration;;;1958;95.8;14.3;339;;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
-CAN-F5F947C5759E;Bashkortostan;Daugava/Aleksey Kiselev;bashkortostan;bashkortostan;bashkortostan;;;1962;77.91;15.2;311;;Ufa;;Sowjetunion → Russland;;268617530
+CAN-F5F947C5759E;Bashkortostan;Daugava|Aleksey Kiselev;bashkortostan;bashkortostan;bashkortostan;;;1962;77.91;15.2;311;;Ufa;;Sowjetunion → Russland;;268617530
 CAN-ECFFE3F5E432;Beau Rivage;;beau rivage;beaurivage;beau rivage;;;2001;72.8;14.0;145;;;;Agypten;https://de.wikipedia.org/wiki/Beau_Rivage;268617530
 CAN-6C062CD03433;Beethoven;;beethoven;beethoven;beethoven;01823122;;2004;110.0;11.4;180;CroisiEurope;Straßburg;FR;Frankreich;;268617530
 CAN-98AB628917C0;Bellejour;Johann Strauß;bellejour;bellejour;bellejour;09948006;;2004;127.0;11.4;180;Transocean Kreuzfahrten;Valletta;MT;Malta;https://de.wikipedia.org/wiki/Bellejour;268617530
 CAN-7A0BC6DFFC9D;Bellisima;Royal Lindavia;bellisima;bellisima;bellisima;02324885;;2004;110.0;11.4;134;Nicko Cruises;Basel;CH;Niederlande → Schweiz;;268617530
-CAN-5DB20E43AF29;Bellriva;Holland Emerald/Italia, Bonaventura Emerald, Rhine Emerald;bellriva;bellriva;bellriva;07001702;;1971;104.64;11.61;186;1AVista Reisen;Heesch;NL;Niederlande;https://de.wikipedia.org/wiki/Bellriva;268617530
+CAN-5DB20E43AF29;Bellriva;Holland Emerald|Italia, Bonaventura Emerald, Rhine Emerald;bellriva;bellriva;bellriva;07001702;;1971;104.64;11.61;186;1AVista Reisen;Heesch;NL;Niederlande;https://de.wikipedia.org/wiki/Bellriva;268617530
 CAN-6DF89DE602BC;Belorussiya;;belorussiya;belorussiya;belorussiya;;;1953;80.22;12.5;233;;Kasan;;Sowjetunion;;268617530
 CAN-541617F3F854;Belvedere;Avalon Poetry;belvedere;belvedere;belvedere;09948010;;2004;126.6;11.4;176;Nicko Cruises;Valletta;MT;Malta;https://de.wikipedia.org/wiki/Belvedere_(Schiff,_2005);268617530
 CAN-C4024C8A1EAC;Bengal Ganga;Pandaw IV;bengal ganga;bengalganga;bengal ganga;;;2004;61.0;11.0;56;Thurgau Travel;Kalkutta;;Indien;;268617530
@@ -156,7 +156,7 @@ CAN-3EB26FC0FBB3;Blue Shadow;;blue shadow;blueshadow;blue shadow;;;2015;72.0;14.
 CAN-70ABFE1A9CBF;Blue Shadow II;;blue shadow ii;blueshadowii;blue shadow ii;;;2001;75.0;14.4;116;Princess Cruise Line;;;Agypten;;268617530
 CAN-DA9A133C4352;Blue Shadow III;;blue shadow iii;blueshadowiii;blue shadow iii;;;2006;74.0;14.0;132;Princess Cruise Line;;;Agypten;;268617530
 CAN-5FF7B72C87A8;Bolero;;bolero;bolero;bolero;09948004;;2003;126.7;11.4;180;Nicko Cruises;Valletta;MT;Malta;https://de.wikipedia.org/wiki/Bolero_(Schiff);268617530
-CAN-B857EFB2786A;Borodino;Berezina/Motovilikhinskiy Rabochiy;borodino;borodino;borodino;;;1961;77.91;15.2;311;;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
+CAN-B857EFB2786A;Borodino;Berezina|Motovilikhinskiy Rabochiy;borodino;borodino;borodino;;;1961;77.91;15.2;311;;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
 CAN-8CC9F772399A;Botticelli;;botticelli;botticelli;botticelli;01823123;;2004;110.0;11.4;160;CroisiEurope;Straßburg;FR;Frankreich;;268617530
 CAN-9C6F8811B121;Brabant (Schiff);Amadeus Princess;brabant schiff;brabantschiff;brabant schiff;04804710;;2006;110.0;11.4;156;Danubia Kreuzfahrten (Fred Olsen Cruises Lines);Passau;DE;Deutschland;;268617530
 CAN-FBCCBDB61907;Brilliant;;brilliant;brilliant;brilliant;02312870;;1948;63.49;8.86;82;BTR International River Cruises;Loenen;NL;Niederlande;;268617530
@@ -164,12 +164,12 @@ CAN-3DB891DE6E80;Britannia;;britannia;britannia;britannia;07001701;;1969;110.0;1
 CAN-482D90511E98;Bulgariya;;bulgariya;bulgariya;bulgariya;;;1955;80.22;12.5;180;Briz, AgroRechTur;Perm;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Bulgaria_(Schiff,_1955);268617530
 CAN-CCF75EC30309;Calypso;;calypso;calypso;calypso;02321970;;1978;74.75;10.52;95;Phoenix Reisen;Maassluis;NL;Niederlande;;268617530
 CAN-AE25B5393CC1;Camargue;;camargue;camargue;camargue;01822739;;1995;105.0;10.14;148;CroisiEurope;Tain-l’Hermitage;FR;Frankreich;;268617530
-CAN-D8464E5BE2DC;Carissima;Blue Danube II/Viking Sky/Schwentine;carissima;carissima;carissima;04802070;;1998;110.0;11.4;150;Rad und Reisen GmbH Wien;Oberwesel;DE;Deutschland;;268617530
-CAN-5D3FB4B53B07;Carmen;Viking Europe/Bellefleur;carmen;carmen;carmen;04800250;;2001;114.34;11.4;150;Sijfa Cruises;Valletta;MT;Malta;;268617530
+CAN-D8464E5BE2DC;Carissima;Blue Danube II|Viking Sky|Schwentine;carissima;carissima;carissima;04802070;;1998;110.0;11.4;150;Rad und Reisen GmbH Wien;Oberwesel;DE;Deutschland;;268617530
+CAN-5D3FB4B53B07;Carmen;Viking Europe|Bellefleur;carmen;carmen;carmen;04800250;;2001;114.34;11.4;150;Sijfa Cruises;Valletta;MT;Malta;;268617530
 CAN-9B653EB5CFA7;Carpati;;carpati;carpati;carpati;08800165;;1961;83.3;12.0;144;;;;;;268617530
 CAN-D2B6DBF04368;Casa Sol;;casa sol;casasol;casa sol;;;1999;70.0;13.5;;;;;Agypten;;268617530
 CAN-3CE89F65D857;Casanova;;casanova;casanova;casanova;04800110;;2003;103.5;9.56;96;Nicko Cruises;Basel;CH;Deutschland → Schweiz;;268617530
-CAN-1F3572E24B0C;Celebrity;Jaz Celebrity/Lady Sophia;celebrity;celebrity;celebrity;;;2000;72.0;14.8;121;Travcotels;;;Agypten;;268617530
+CAN-1F3572E24B0C;Celebrity;Jaz Celebrity|Lady Sophia;celebrity;celebrity;celebrity;;;2000;72.0;14.8;121;Travcotels;;;Agypten;;268617530
 CAN-96E8509BA53D;Cézanne;;cezanne;cezanne;cezanne;05117120;9037927;1993;118.75;11.0;100;Bernina River Cruises;Basel;CH;Deutschland → Schweiz;;268617530
 CAN-52F6BEC28189;Champollion II;Pyramisa 3;champollion ii;champollionii;champollion ii;;;1996;72.0;14.0;100;Tarot Tours Garannah;;;Agypten;;268617530
 CAN-6E2069E3C6CD;Charaidew;;charaidew;charaidew;charaidew;;;2003;39.0;9.8;24;Assam Bengal Navigation Company;Guwahati, Assam;;Indien;;268617530
@@ -186,14 +186,14 @@ CAN-7AE97D0DFAF7;Crown Emperor;;crown emperor;crownemperor;crown emperor;;;2003;
 CAN-6FFBF61DBE67;Crown Empress;;crown empress;crownempress;crown empress;;;2004;109.75;14.8;234;Travcotels - Iberotel;;;Agypten;;268617530
 CAN-CFB55AD1077B;Crown Jewel;;crown jewel;crownjewel;crown jewel;;;2000;71.9;14.5;156;Travcotels;;;Agypten;;268617530
 CAN-9D83A9BCB55F;Crown Prince;Jaz Crown Prince;crown prince;crownprince;crown prince;;;1997;71.9;14.5;156;Travcotels;;;Agypten;;268617530
-CAN-7D762B71F180;Crucebelle;Viking Sky/Viking Burgundy/Maribelle/Bijou;crucebelle;crucebelle;crucebelle;04608430;;2000;111.24;11.4;153;Premicon AG;Valletta;MT;Malta;;268617530
-CAN-49B58B3BA9DF;Crucestar;Viking Rhone/Viking Seine/Spirit of Caledonia/Regina Rheni;crucestar;crucestar;crucestar;02324591;;2000;110.0;11.4;160;;;;;;268617530
-CAN-DF03DCAE20B8;Crucevita;Erasmus/Da Vinci;crucevita;crucevita;crucevita;07001839;;1995;104.5;11.4;110;Breeze River Cruise GmbH Basel;Basel;CH;Schweiz;;268617530
+CAN-7D762B71F180;Crucebelle;Viking Sky|Viking Burgundy|Maribelle|Bijou;crucebelle;crucebelle;crucebelle;04608430;;2000;111.24;11.4;153;Premicon AG;Valletta;MT;Malta;;268617530
+CAN-49B58B3BA9DF;Crucestar;Viking Rhone|Viking Seine|Spirit of Caledonia|Regina Rheni;crucestar;crucestar;crucestar;02324591;;2000;110.0;11.4;160;;;;;;268617530
+CAN-DF03DCAE20B8;Crucevita;Erasmus|Da Vinci;crucevita;crucevita;crucevita;07001839;;1995;104.5;11.4;110;Breeze River Cruise GmbH Basel;Basel;CH;Schweiz;;268617530
 CAN-AD530D1CD7DA;Crystal Ravel;;crystal ravel;crystalravel;crystal ravel;04812710;;2018;134.91;11.45;130;Crystal Cruises;;;;https://de.wikipedia.org/wiki/Crystal_Ravel;268617530
 CAN-EA772976EB77;Cyrano de Bergerac;;cyrano de bergerac;cyranodebergerac;cyrano de bergerac;01831891;;2013;110.0;11.4;176;CroisiEurope;Strasbourg;FR;Frankreich;;268617530
-CAN-AC1464F9F818;Danubia;William F. Feenstra Sr./Filia Rheni, Franz Liszt;danubia;danubia;danubia;46000113;;1980;98.98;11.07;154;Danubia Kreuzfahrten;Passau;DE;Niederlande → Deutschland → Rumänien → Deutschland;;268617530
+CAN-AC1464F9F818;Danubia;William F. Feenstra Sr.|Filia Rheni, Franz Liszt;danubia;danubia;danubia;46000113;;1980;98.98;11.07;154;Danubia Kreuzfahrten;Passau;DE;Niederlande → Deutschland → Rumänien → Deutschland;;268617530
 CAN-D6C8687C9707;DCS Amethyst;Artistry;dcs amethyst;dcsamethyst;dcs amethyst;09948007;;2004;127.3;11.4;178;DCS Touristik;Valletta;MT;Malta;https://de.wikipedia.org/wiki/DCS_Amethyst;268617530
-CAN-5B336050D47E;De Amsterdam;Clara Schumann/Lale Andersen;de amsterdam;deamsterdam;de amsterdam;05113920;;1991;94.8;11.0;112;Velociped GmbH Marburg;Oberwesel;DE;Deutschland;https://de.wikipedia.org/wiki/De_Amsterdam;268617530
+CAN-5B336050D47E;De Amsterdam;Clara Schumann|Lale Andersen;de amsterdam;deamsterdam;de amsterdam;05113920;;1991;94.8;11.0;112;Velociped GmbH Marburg;Oberwesel;DE;Deutschland;https://de.wikipedia.org/wiki/De_Amsterdam;268617530
 CAN-674FD01E4955;De Zonnebloem;;de zonnebloem;dezonnebloem;de zonnebloem;02327391;;2005;115.0;11.5;135;De Zonnebloem;Breda;NL;Niederlande;https://de.wikipedia.org/wiki/De_Zonnebloem;268617530
 CAN-C823777EBCB4;Deborah;;deborah;deborah;deborah;;;2016;40.0;5.7;24;CroisiEurope;;FR;Frankreich;;268617530
 CAN-BC6870327D6C;Debusi;Debussy;debusi;debusi;debusi;07001738;;2000;110.0;11.4;120;;Aqtau;NL;Niederlande → Kasachstan;;268617530
@@ -204,7 +204,7 @@ CAN-C2AA5ABF6CA3;Der kleine Prinz;;der kleine prinz;derkleineprinz;der kleine pr
 CAN-1F744515FAA0;Diana;;diana;diana;diana;;8634120;1931;31.66;6.85;;Strömma Kanalbolaget;Göteborg;SE;Schweden;https://de.wikipedia.org/wiki/Diana_(Schiff,_1931);268617530
 CAN-516D1932C46A;Diana;;diana;diana;diana;02325128;;1964;78.63;7.75;78;Trans River Line;Rotterdam;NL;Niederlande;;268617530
 CAN-8973ACF0031E;Dmitri Poscharski;;dmitri poscharski;dmitriposcharski;dmitri poscharski;;;1957;95.8;14.3;140;Zesar Travel;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
-CAN-C8C97CB0BFEA;Dnieper Star;Marshal Rybalko/Zirka Dnipra;dnieper star;dnieperstar;dnieper star;;8707692;1988;130.0;17.0;250;Chernova Ruta;Cherson;UA;Sowjetunion → Ukraine;;268617530
+CAN-C8C97CB0BFEA;Dnieper Star;Marshal Rybalko|Zirka Dnipra;dnieper star;dnieperstar;dnieper star;;8707692;1988;130.0;17.0;250;Chernova Ruta;Cherson;UA;Sowjetunion → Ukraine;;268617530
 CAN-5EC9DDE521AA;Dnipro;Dnepr;dnipro;dnipro;dnipro;42000004;;1970;105.9;16.1;140;UDP;Ismajil;UA;Sowjetunion → Ukraine;https://de.wikipedia.org/wiki/Dnipro_(Schiff);268617530
 CAN-2EE6CD5ABE57;Dong Fang Zhi Xing;;dong fang zhi xing;dongfangzhixing;dong fang zhi xing;;;1994;76.5;13.0;534;;;;China Volksrepublik;https://de.wikipedia.org/wiki/Dong_Fang_Zhi_Xing;268617530
 CAN-C5E11D949E74;Douce France;;douce france;doucefrance;douce france;01822845;;1996;110.0;10.14;160;CroisiEurope;Straßburg;FR;Frankreich;;268617530
@@ -216,8 +216,8 @@ CAN-3B850FF0C18C;Douro Spirit;;douro spirit;dourospirit;douro spirit;;;2011;77.5
 CAN-16AF80AA34EF;Dunay;;dunay;dunay;dunay;;;1960;85.8;14.06;212;;Ismajil;UA;Sowjetunion → Ukraine;;268617530
 CAN-2E5214567C7D;Dutch Grace;Amadeus Classic;dutch grace;dutchgrace;dutch grace;04801620;;2001;110.0;11.4;146;Dutch Cruise Line;;NL;Niederlande;;268617530
 CAN-66D46FE62BE1;Dutch Melody;River Melody;dutch melody;dutchmelody;dutch melody;07001718;;1999;110.0;11.02;145;Dutch Cruise Line;;NL;Niederlande;;268617530
-CAN-F0581C545D1E;Dutch Opera;Amadeus II/Amadeus Rhapsody, Rhapsody, Amadeus Rhapsody;dutch opera;dutchopera;dutch opera;08848002;;1998;110.0;11.4;142;Dutch Cruise Line;Maastricht;NL;Niederlande;;268617530
-CAN-2B2479C63DFC;Dve Stolitsy;K. E. Tsiolkovskiy/Anatoliy Papanov;dve stolitsy;dvestolitsy;dve stolitsy;;;1961;95.8;14.3;140;Voyazh;Rostow am Don;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Dve_Stolitsy_(Schiff);268617530
+CAN-F0581C545D1E;Dutch Opera;Amadeus II|Amadeus Rhapsody, Rhapsody, Amadeus Rhapsody;dutch opera;dutchopera;dutch opera;08848002;;1998;110.0;11.4;142;Dutch Cruise Line;Maastricht;NL;Niederlande;;268617530
+CAN-2B2479C63DFC;Dve Stolitsy;K. E. Tsiolkovskiy|Anatoliy Papanov;dve stolitsy;dvestolitsy;dve stolitsy;;;1961;95.8;14.3;140;Voyazh;Rostow am Don;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Dve_Stolitsy_(Schiff);268617530
 CAN-74CD646C13CB;Edelweiss;;edelweiss;edelweiss;edelweiss;07001964;;2013;110.0;11.45;180;Scylla (Thurgau Travel);Basel;CH;Schweiz;;268617530
 CAN-8D5D7B0771CD;Egilkia;;egilkia;egilkia;egilkia;;9151072;1997;72.0;14.0;140;;;;Agypten;;268617530
 CAN-AF3B8A8AC4D0;Elbe Princesse;;elbe princesse;elbeprincesse;elbe princesse;01840744;;2016;95.0;10.5;80;CroisiEurope;Straßburg;FR;Frankreich;https://de.wikipedia.org/wiki/Elbe_Princesse;268617530
@@ -236,7 +236,7 @@ CAN-ECD5CB1FA7C5;Emily Brontë;;emily bronte;emilybronte;emily bronte;07002052;;
 CAN-264B5F807E1E;Esmeralda;;esmeralda;esmeralda;esmeralda;;;2014;72.0;12.6;118;Cyan Hotels and Cruises;;;Agypten;;268617530
 CAN-B87D732BC292;Esmeralda;;esmeralda;esmeralda;esmeralda;02315764;;1979;90.0;11.24;134;Trans River Line;Rotterdam;NL;Niederlande;;268617530
 CAN-A301062E4FE1;Esprit;Vista Prima;esprit;esprit;esprit;07001923;;2010;110.0;11.4;124;Scylla (Tauck Tours);Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Esprit_(Schiff);268617530
-CAN-FFE58B9EC940;Excellence Baroness;AmaLegro/Monarch Baronesse;excellence baroness;excellencebaroness;excellence baroness;07001837;;2007;110.0;11.4;150;8. Sanssouci Schiffsgesellschaft (Reisebüro Mittelthurgau);Hamburg;DE;Deutschland;;268617530
+CAN-FFE58B9EC940;Excellence Baroness;AmaLegro|Monarch Baronesse;excellence baroness;excellencebaroness;excellence baroness;07001837;;2007;110.0;11.4;150;8. Sanssouci Schiffsgesellschaft (Reisebüro Mittelthurgau);Hamburg;DE;Deutschland;;268617530
 CAN-F8C8EC38FA88;Excellence Coral;Swiss Coral;excellence coral;excellencecoral;excellence coral;07001711;;1998;82.0;9.5;90;Swiss Excellence River Cruise;Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Excellence_Coral;268617530
 CAN-0F1080F6BA0A;Excellence Countess;;excellence countess;excellencecountess;excellence countess;02338172;;2019;135.0;11.45;178;Swiss Excellence River Cruise;Basel;CH;Schweiz;;268617530
 CAN-221C2E737ED1;Excellence Empress;;excellence empress;excellenceempress;excellence empress;02338652;;2019;135.0;11.45;178;Swiss Excellence River Cruise;Basel;CH;Schweiz;;268617530
@@ -255,13 +255,13 @@ CAN-9C9D5FF8D4DE;Fedor Gladkov;;fedor gladkov;fedorgladkov;fedor gladkov;;;1961;
 CAN-DCAF6FECCE30;Felicitas;Martha, Walrus, Sjolec, Lena Magriet, Rijnland;felicitas;felicitas;felicitas;03031004;;1932;37.53;5.39;22;Felicitas Charters;Amsterdam;NL;Niederlande;;268617530
 CAN-CBC5EFA636CE;Feliks Dzerzhinskiy;;feliks dzerzhinskiy;feliksdzerzhinskiy;feliks dzerzhinskiy;;;1978;135.75;16.8;400;Vodohod;Nischni Nowgorod;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Feliks_Dzerzhinskiy;268617530
 CAN-54C5AE81E870;Fernao de Magalhaes;;fernao de magalhaes;fernaodemagalhaes;fernao de magalhaes;01823118;;2003;75.0;11.4;142;CroisiEurope;Strasbourg;FR;Frankreich;;268617530
-CAN-0AC6856F8FE2;Ferris Flotel;30 Let GDR/Vladimir Arsenyev;ferris flotel;ferrisflotel;ferris flotel;;8031366;1979;125.0;16.7;;;Busan;;Sowjetunion → Russland → Korea Sud;;268617530
-CAN-5B708BB3F857;Fidelio;Blue Danube/VistaFidelio;fidelio;fidelio;fidelio;04801210;;1995;110.0;11.02;148;Chervona Ruta;Kiew;UA;Niederlande → Deutschland → Schweiz → Ukraine;https://de.wikipedia.org/wiki/Fidelio_(Schiff);268617530
-CAN-988BDA70DE9F;Filia Rheni;Blue Danube III/Viking Danube;filia rheni;filiarheni;filia rheni;04608050;;1999;110.0;11.4;148;Rijfers River Cruises;Arnheim;NL;Deutschland → Niederlande;;268617530
+CAN-0AC6856F8FE2;Ferris Flotel;30 Let GDR|Vladimir Arsenyev;ferris flotel;ferrisflotel;ferris flotel;;8031366;1979;125.0;16.7;;;Busan;;Sowjetunion → Russland → Korea Sud;;268617530
+CAN-5B708BB3F857;Fidelio;Blue Danube|VistaFidelio;fidelio;fidelio;fidelio;04801210;;1995;110.0;11.02;148;Chervona Ruta;Kiew;UA;Niederlande → Deutschland → Schweiz → Ukraine;https://de.wikipedia.org/wiki/Fidelio_(Schiff);268617530
+CAN-988BDA70DE9F;Filia Rheni;Blue Danube III|Viking Danube;filia rheni;filiarheni;filia rheni;04608050;;1999;110.0;11.4;148;Rijfers River Cruises;Arnheim;NL;Deutschland → Niederlande;;268617530
 CAN-2731919A646D;Florence;;florence;florence;florence;;8903179;1991;71.5;12.8;84;;;;Agypten;;268617530
 CAN-72D4DF8127B3;Florentina;Kieler Sprotte;florentina;florentina;florentina;32108292;;1980;80.0;9.58;90;Thurgau Travel;Prag;CZ;Deutschland → Tschechien;;268617530
 CAN-9F216DEAF438;Fluvius;Hilgus 5, Najade, Cornelia, Alpha, WeraMs;fluvius;fluvius;fluvius;02315535;;1960;69.9;5.8;38;KVS-Tours;Zwijndrecht;NL;Niederlande;;268617530
-CAN-A04A085F4C2F;Forever Lucky;Konstantin Stanyukovich/Xian Ni;forever lucky;foreverlucky;forever lucky;;8529179;1991;129.1;16.7;258;;Dmitriy Furmanov / 302MK;;Philippinen;https://de.wikipedia.org/wiki/Forever_Lucky;268617530
+CAN-A04A085F4C2F;Forever Lucky;Konstantin Stanyukovich|Xian Ni;forever lucky;foreverlucky;forever lucky;;8529179;1991;129.1;16.7;258;;Dmitriy Furmanov / 302MK;;Philippinen;https://de.wikipedia.org/wiki/Forever_Lucky;268617530
 CAN-5C00221B3BC3;France;;france;france;france;01823029;;2003;110.0;11.4;160;CroisiEurope;Straßburg;FR;Frankreich;;268617530
 CAN-B7032DD43E79;Frederic Chopin;;frederic chopin;fredericchopin;frederic chopin;04801240;9272515;2002;82.93;9.5;79;Nicko Cruises;Basel;CH;Deutschland → Schweiz;;268617530
 CAN-F313675A9607;Fyodor Shalyapin;Kliment Voroshilov;fyodor shalyapin;fyodorshalyapin;fyodor shalyapin;;;1977;135.75;16.8;400;Vodohod;Nischni Nowgorod;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Fyodor_Shalyapin;268617530
@@ -275,7 +275,7 @@ CAN-2C1ADC236B89;Georgiy Zhukov;;georgiy zhukov;georgiyzhukov;georgiy zhukov;;;1
 CAN-26ADB76DF8C4;Gerard Schmitter;;gerard schmitter;gerardschmitter;gerard schmitter;01831335;;2012;110.0;11.4;176;CroisiEurope;Straßburg;FR;Frankreich;https://de.wikipedia.org/wiki/Gerard_Schmitter;268617530
 CAN-6BA6BAF66FC4;Gil Eanes;;gil eanes;gileanes;gil eanes;01840470;;2015;80.0;11.4;132;CroisiEurope;Straßburg;FR;Frankreich;;268617530
 CAN-2CA15F166C16;Gleb Krzhizhanovskiy;;gleb krzhizhanovskiy;glebkrzhizhanovskiy;gleb krzhizhanovskiy;;;1990;129.1;16.7;310;;Moskau;;Sowjetunion → Russland;;268617530
-CAN-35756340C7C8;Gospodin Velikiy Novgorod;Sevan/Geroy Y. Gagarin;gospodin velikiy novgorod;gospodinvelikiynovgorod;gospodin velikiy novgorod;;;1954;65.2;12.0;;;Weliki Nowgorod;;Sowjetunion → Russland;;268617530
+CAN-35756340C7C8;Gospodin Velikiy Novgorod;Sevan|Geroy Y. Gagarin;gospodin velikiy novgorod;gospodinvelikiynovgorod;gospodin velikiy novgorod;;;1954;65.2;12.0;;;Weliki Nowgorod;;Sowjetunion → Russland;;268617530
 CAN-3E5BF8296C19;Grace;;grace;grace;grace;07002029;;2016;135.0;11.45;142;Scylla (Tauck Tours);Basel;CH;Schweiz;;268617530
 CAN-D738F6CD98E5;Grand Rose;;grand rose;grandrose;grand rose;;;2004;72.0;14.4;128;Orient Hotels & Resorts;;;Agypten;;268617530
 CAN-051BA0DD798C;Gretha van Holland;Jan van Scorel;gretha van holland;grethavanholland;gretha van holland;03270481;;1950;38.5;5.05;24;Bob Bel Sail & Cruises;Zutphen;NL;Niederlande;;268617530
@@ -284,8 +284,8 @@ CAN-C92E10F20D2A;Hapi V;Nile Delta;hapi v;hapiv;hapi v;;;2005;72.0;14.4;138;Walt
 CAN-A0EC2D79031F;Heidelberg;;heidelberg;heidelberg;heidelberg;04802890;;2004;109.79;11.22;160;Nicko Cruises;Basel;CH;Deutschland → Schweiz;;268617530
 CAN-BD0F23E1E6B2;Hispania;Helvetia;hispania;hispania;hispania;04804450;;1961;93.2;11.6;144;Vesalia Schiffahrt;Oberwesel;DE;Deutschland;https://de.wikipedia.org/wiki/Hispania_(Schiff,_1961);268617530
 CAN-2B06A5E5726E;Historia;;historia;historia;historia;;;2021;72.0;;;Historia Cruises;;;Agypten;;268617530
-CAN-BCE5F31601B0;Holland;Verandering/Germa;holland;holland;holland;02301864;;1924;37.73;5.33;28;J.H. Sieben;Venlo;NL;Niederlande;;268617530
-CAN-DD4AF5243AAC;Horizon;Triton/Victoria Cruziana/Victoria Amazonica;horizon;horizon;horizon;02316938;;1956;80.0;9.0;99;Vof. de Bruin-Edelijn;Rotterdam;NL;Niederlande;;268617530
+CAN-BCE5F31601B0;Holland;Verandering|Germa;holland;holland;holland;02301864;;1924;37.73;5.33;28;J.H. Sieben;Venlo;NL;Niederlande;;268617530
+CAN-DD4AF5243AAC;Horizon;Triton|Victoria Cruziana|Victoria Amazonica;horizon;horizon;horizon;02316938;;1956;80.0;9.0;99;Vof. de Bruin-Edelijn;Rotterdam;NL;Niederlande;;268617530
 CAN-8490E9992BC5;I. A. Krylov;;i a krylov;iakrylov;i a krylov;;;1956;95.8;14.3;263;;Moskau;;Sowjetunion → Russland;;268617530
 CAN-C30272011EA6;I. S. Turgenev;;i s turgenev;isturgenev;i s turgenev;;;1959;95.8;14.3;;;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
 CAN-068CD262F259;Ilja Muromez;;ilja muromez;iljamuromez;ilja muromez;;;1958;95.8;14.3;140;Tsezar Travel;Moskau;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Ilja_Muromez_(Schiff,_1958);268617530
@@ -301,11 +301,11 @@ CAN-6039039E9383;Jane Austen;;jane austen;janeausten;jane austen;07002009;;2015;
 CAN-69DE60599868;Jeanine;;jeanine;jeanine;jeanine;07001430;;2013;40.0;5.7;22;CroisiEurope;Straßburg;FR;Frankreich;;268617530
 CAN-5B28BDAE7BCE;Johannes Brahms;;johannes brahms;johannesbrahms;johannes brahms;04033510;;1998;81.95;9.5;80;Swiss River Cruises;Hamburg;DE;Deutschland;https://de.wikipedia.org/wiki/Johannes_Brahms_(Schiff);268617530
 CAN-1BBF3E15E2D2;Joy;;joy;joy;joy;07002045;;2016;135.0;11.45;142;Scylla (Tauck Tours);Basel;CH;Schweiz;;268617530
-CAN-97832588C09A;Junker Jörg;Theodor Fontane/Viking Fontane;junker jorg;junkerjorg;junker jorg;05113670;;1991;94.8;11.0;112;Luther Travel Cruises GmbH;Lutherstadt Wittenberg;DE;Deutschland;https://de.wikipedia.org/wiki/Junker_J%C3%B6rg_(Schiff);268617530
+CAN-97832588C09A;Junker Jörg;Theodor Fontane|Viking Fontane;junker jorg;junkerjorg;junker jorg;05113670;;1991;94.8;11.0;112;Luther Travel Cruises GmbH;Lutherstadt Wittenberg;DE;Deutschland;https://de.wikipedia.org/wiki/Junker_J%C3%B6rg_(Schiff);268617530
 CAN-C74A2C65AE16;Juno;;juno;juno;juno;;8634132;1874;31.45;6.87;125;Strömma Kanalbolaget;Göteborg;SE;Schweden;https://de.wikipedia.org/wiki/Juno_(Schiff,_1874);268617530
 CAN-25D15E67EAD0;K. A. Timiryazev;;k a timiryazev;katimiryazev;k a timiryazev;;;1959;95.8;14.3;;;Astrachan;;Sowjetunion → Russland;;268617530
 CAN-0E4E154BCA6B;Kapitan Pushkaryov;XXI Syezd KPSS;kapitan pushkaryov;kapitanpushkaryov;kapitan pushkaryov;;;1960;96.27;14.98;312;Volga-Flot-Tur;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
-CAN-FD28A854C767;Kapitan Rodin;A. P. Chekhov/Baykal;kapitan rodin;kapitanrodin;kapitan rodin;;;1957;80.22;14.0;259;PassashirRetschTrans;Krasnojarsk;;Sowjetunion → Russland;;268617530
+CAN-FD28A854C767;Kapitan Rodin;A. P. Chekhov|Baykal;kapitan rodin;kapitanrodin;kapitan rodin;;;1957;80.22;14.0;259;PassashirRetschTrans;Krasnojarsk;;Sowjetunion → Russland;;268617530
 CAN-1F9A74A42913;Kareliya;;kareliya;kareliya;kareliya;;;1955;80.22;12.5;233;;Samara;;Sowjetunion;;268617530
 CAN-3AC49229822E;Karl Marks;;karl marks;karlmarks;karl marks;;;1958;80.22;14.0;233;;Kiew;;Sowjetunion;;268617530
 CAN-759E7C76C7E8;Karl Marks;;karl marks;karlmarks;karl marks;;;1957;95.8;14.3;148;Infoflot;Moskau;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Severnaya_Skazka_(Schiff,_1957);268617530
@@ -315,11 +315,11 @@ CAN-9ECAF048B03E;Khirurg Razumovskiy;;khirurg razumovskiy;khirurgrazumovskiy;khi
 CAN-91182B3879E2;King of Thebes;Queen Nabila;king of thebes;kingofthebes;king of thebes;;;1998;72.5;14.4;130;Nabila Grand;;;Agypten;;268617530
 CAN-F368D8929CAD;King Tut I;Queen of Escape;king tut i;kingtuti;king tut i;;;2003;72.0;14.3;160;Shalakami Nile Fleet;;;Agypten;;268617530
 CAN-D46F3DBC7345;Klara Tsetkin;;klara tsetkin;klaratsetkin;klara tsetkin;;;1961;96.27;14.98;312;;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
-CAN-58523A0F352F;Knyaz Donskoy;Dmitriy Donskoy/Kabargin/†;knyaz donskoy;knyazdonskoy;knyaz donskoy;;;1957;95.8;14.3;;Farvater;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
-CAN-C1C0D5008A55;Knyaz Vorontsov;Estoniya/Kievskaya Rus;knyaz vorontsov;knyazvorontsov;knyaz vorontsov;;;1955;80.22;12.5;259;;Moskau;;Sowjetunion → Russland;;268617530
+CAN-58523A0F352F;Knyaz Donskoy;Dmitriy Donskoy|Kabargin|†;knyaz donskoy;knyazdonskoy;knyaz donskoy;;;1957;95.8;14.3;;Farvater;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
+CAN-C1C0D5008A55;Knyaz Vorontsov;Estoniya|Kievskaya Rus;knyaz vorontsov;knyazvorontsov;knyaz vorontsov;;;1955;80.22;12.5;259;;Moskau;;Sowjetunion → Russland;;268617530
 CAN-770DEA2CD697;Knyazhna Anastasiya;Nikolay Bauman;knyazhna anastasiya;knyazhnaanastasiya;knyazhna anastasiya;;8922450;1989;129.1;16.7;332;MosTurFlot;Moskau;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Knyazhna_Anastasiya;268617530
 CAN-7E48B22E5A33;Knyazhna Viktoriya;Aleksandr Griboyedov;knyazhna viktoriya;knyazhnaviktoriya;knyazhna viktoriya;;8225694;1982;125.0;16.7;360;MosTurFlot;Moskau;;Sowjetunion → Russland;;268617530
-CAN-65E0CEA5D2B2;Kolomenskiy Shtandart;Uzbekistan/Tsar Petr;kolomenskiy shtandart;kolomenskiyshtandart;kolomenskiy shtandart;;;1953;80.22;12.5;233;;Moskau;;Sowjetunion → Russland;;268617530
+CAN-65E0CEA5D2B2;Kolomenskiy Shtandart;Uzbekistan|Tsar Petr;kolomenskiy shtandart;kolomenskiyshtandart;kolomenskiy shtandart;;;1953;80.22;12.5;233;;Moskau;;Sowjetunion → Russland;;268617530
 CAN-A295281CA8BE;Kompozitor Alyabyev;;kompozitor alyabyev;kompozitoralyabyev;kompozitor alyabyev;;;1958;80.22;14.0;259;;Omsk;;Sowjetunion → Russland;;268617530
 CAN-C8AE3C164277;Kompozitor Balakirev;;kompozitor balakirev;kompozitorbalakirev;kompozitor balakirev;;;1957;80.22;14.0;259;;Omsk;;Sowjetunion → Russland;;268617530
 CAN-562C68D0AB37;Kompozitor Glazunov;;kompozitor glazunov;kompozitorglazunov;kompozitor glazunov;;;1956;80.22;12.5;150;Junona i Avos;Perm;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Kompozitor_Glazunov;268617530
@@ -336,15 +336,15 @@ CAN-1275A2C190F9;Kosmonavt Gagarin;Kavkaz;kosmonavt gagarin;kosmonavtgagarin;kos
 CAN-81DA90069CB9;Kozma Minin;;kozma minin;kozmaminin;kozma minin;;;1960;95.8;14.3;;Gamma;Perm;;Sowjetunion → Russland;;268617530
 CAN-BF1948CFBFFE;Kremas;Tadzhikistan;kremas;kremas;kremas;;;1954;80.22;12.5;233;;Nawaschino;;Sowjetunion → Russland;;268617530
 CAN-80F0CBEF9276;Kronshtadt;Aleksandr Ulyanov;kronshtadt;kronshtadt;kronshtadt;;7706691;1979;125.0;16.7;270;Vodohod;Sankt Petersburg;UA;Sowjetunion → Ukraine → Russland;;268617530
-CAN-9500E4B09286;Kurmangazy;Cézanne G. I./Kazan, London Night;kurmangazy;kurmangazy;kurmangazy;;9172088;1999;126.5;11.2;150;;Aqtau;;→ Russland → Belize → Kasachstan;;268617530
+CAN-9500E4B09286;Kurmangazy;Cézanne G. I.|Kazan, London Night;kurmangazy;kurmangazy;kurmangazy;;9172088;1999;126.5;11.2;150;;Aqtau;;→ Russland → Belize → Kasachstan;;268617530
 CAN-50AE1A5F6B3C;L'Europe;;l europe;leurope;l europe;01823178;;2006;110.0;11.4;180;Croisi Europe;Straßburg;FR;Frankreich;https://de.wikipedia.org/wiki/L%27Europe;268617530
 CAN-A63F635FEC82;La Belle de Cadix;;la belle de cadix;labelledecadix;la belle de cadix;;9068938;2005;110.0;11.4;176;CroisiEurope;Brüssel;BE;Belgien;;268617530
 CAN-5C4E65C852CC;La Belle de L'Adriatique;;la belle de l adriatique;labelledeladriatique;la belle de l adriatique;;9432799;2007;110.65;11.9;198;CroisiEurope;Brüssel;BE;Belgien;;268617530
 CAN-FC6A4BA7B11E;La Boheme;;la boheme;laboheme;la boheme;01822744;;1995;110.0;10.14;162;CroisiEurope;Straßburg;FR;Frankreich;;268617530
 CAN-89E00455262E;La Sarah;Giselle;la sarah;lasarah;la sarah;;;1996;72.0;14.0;118;Extension Group;;;Agypten;;268617530
 CAN-1CE87C187EAD;La Terrasse;Queen Nefer II;la terrasse;laterrasse;la terrasse;;;2006;74.0;14.0;140;Pharao Hotels;;;Agypten;https://de.wikipedia.org/wiki/La_Terrasse;268617530
-CAN-F5EFD7EBF91F;Lady Anne;Waalwijk/Avanti;lady anne;ladyanne;lady anne;02007059;;1903;67.35;8.41;100;Nieuwe Rijnvaart Mij;Maasbommel;NL;Niederlande;;268617530
-CAN-D6C28E4C74F3;Lady Cristina;Amadagio/Monarch Queen/Klimt;lady cristina;ladycristina;lady cristina;07001828;;2006;110.0;11.4;150;;;DE;Deutschland;https://de.wikipedia.org/wiki/Lady_Cristina;268617530
+CAN-F5EFD7EBF91F;Lady Anne;Waalwijk|Avanti;lady anne;ladyanne;lady anne;02007059;;1903;67.35;8.41;100;Nieuwe Rijnvaart Mij;Maasbommel;NL;Niederlande;;268617530
+CAN-D6C28E4C74F3;Lady Cristina;Amadagio|Monarch Queen|Klimt;lady cristina;ladycristina;lady cristina;07001828;;2006;110.0;11.4;150;;;DE;Deutschland;https://de.wikipedia.org/wiki/Lady_Cristina;268617530
 CAN-C8F791CBB036;Lafayette;Ste. Odile;lafayette;lafayette;lafayette;01822624;;1992;90.0;10.0;82;CroisiEurope;Straßburg;FR;Frankreich;;268617530
 CAN-3812EE6E3F48;Lan Diep;;lan diep;landiep;lan diep;;;2007;50.0;10.0;44;Compagnie Fluviale du Mekong;;;Kambodscha;https://de.wikipedia.org/wiki/Lan_Diep;268617530
 CAN-F380EE6E4F46;Le Fayan II;;le fayan ii;lefayanii;le fayan ii;;;2005;75.0;14.25;118;;;;Agypten;;268617530
@@ -355,14 +355,14 @@ CAN-A02E59B59C7C;Lenin;;lenin;lenin;lenin;;8707678;1987;129.1;16.7;318;Vodohod;N
 CAN-B45C037C0DB5;Leonardo da Vinci;;leonardo da vinci;leonardodavinci;leonardo da vinci;01823119;;2003;105.0;11.4;144;CroisiEurope;Straßburg;FR;Frankreich;;268617530
 CAN-F8706C7B5243;Leonid Krasin;;leonid krasin;leonidkrasin;leonid krasin;;8922448;1989;129.1;16.7;332;MosTurFlot;Moskau;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Leonid_Krasin;268617530
 CAN-A3777288B131;Leonid Sobolev;;leonid sobolev;leonidsobolev;leonid sobolev;;8501000;1985;129.1;16.7;286;Vodohod;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
-CAN-6565956C10C0;Leonora;Avalon Scenery/Countess;leonora;leonora;leonora;02329477;;2008;110.0;11.45;138;;Arnhem;NL;Niederlande;;268617530
+CAN-6565956C10C0;Leonora;Avalon Scenery|Countess;leonora;leonora;leonora;02329477;;2008;110.0;11.45;138;;Arnhem;NL;Niederlande;;268617530
 CAN-D8D465FAABA5;Lev Tolstoy;;lev tolstoy;levtolstoy;lev tolstoy;;;1979;115.6;16.46;220;Vodohod;Rostow am Don;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Lev_Tolstoy_(Schiff);268617530
 CAN-8689BF51FFEA;Liberté;Anna-Ilona;liberte;liberte;liberte;04305280;;1935;37.66;5.05;12;Johann & Thomas Magner GbR;Neckargemünd;DE;Deutschland;;268617530
 CAN-4822ED76384D;Liberty;;liberty;liberty;liberty;;;1993;72.0;15.1;144;MG Travel;;;Agypten;;268617530
 CAN-28635D8DB273;Litva;;litva;litva;litva;;;1955;80.22;12.5;233;;Krasnojarsk;;Sowjetunion → Russland;;268617530
 CAN-22F545F87412;Loire Princesse;;loire princesse;loireprincesse;loire princesse;;;2015;90.0;15.3;96;CroisiEurope;Straßburg;FR;Frankreich;;268617530
 CAN-11C1E4BE0FCD;Lord Byron;;lord byron;lordbyron;lord byron;65000004;;2012;110.0;11.45;148;Scylla (Rivieratravel);Valletta;MT;Malta;;268617530
-CAN-137EA97B360C;Lunnaya Sonata;Marshal Rybalko/Zirka Dnipra;lunnaya sonata;lunnayasonata;lunnaya sonata;;8707692;1988;129.1;16.7;280;;Nischni Nowgorod;UA;Sowjetunion → Ukraine → Belize → Russland;https://de.wikipedia.org/wiki/Lunnaya_Sonata;268617530
+CAN-137EA97B360C;Lunnaya Sonata;Marshal Rybalko|Zirka Dnipra;lunnaya sonata;lunnayasonata;lunnaya sonata;;8707692;1988;129.1;16.7;280;;Nischni Nowgorod;UA;Sowjetunion → Ukraine → Belize → Russland;https://de.wikipedia.org/wiki/Lunnaya_Sonata;268617530
 CAN-162F5798374F;M. Yu. Lermontov;;m yu lermontov;myulermontov;m yu lermontov;;;1958;80.22;14.0;259;PassashirRetschTrans;Krasnojarsk;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/M._Yu._Lermontov;268617530
 CAN-32F99B2C6982;Madeleine;;madeleine;madeleine;madeleine;01840221;;2014;40.0;5.7;22;CroisiEurope;Straßburg;FR;Frankreich;;268617530
 CAN-F84071F5C931;Magic I;;magic i;magici;magic i;;;2001;71.0;14.0;140;Flash Tour;;;Agypten;;268617530
@@ -371,8 +371,8 @@ CAN-4F28DBEA477D;Maksim Gorkiy;;maksim gorkiy;maksimgorkiy;maksim gorkiy;;;1974;
 CAN-B7E444C9FEAC;Maksim Litvinov;;maksim litvinov;maksimlitvinov;maksim litvinov;;;1991;129.1;16.7;260;Doninturflot;Rostow am Don;;Sowjetunion → Russland;;268617530
 CAN-E58D74D705B7;Malaga;Moon River;malaga;malaga;malaga;;8912950;2001;64.0;11.6;98;;;;Agypten;;268617530
 CAN-16B1EA00B38A;Mamin-Sibiryak;;mamin sibiryak;maminsibiryak;mamin sibiryak;;;1956;65.2;12.0;;;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
-CAN-9F7305928A61;Maxima I;Maxima/TUI Maxima;maxima i;maximai;maxima i;09948005;;2003;127.7;11.4;180;Nicko Cruises;Valletta;MT;Malta;;268617530
-CAN-48971223D2B8;Mayak;Latviya/Mikhail Godenko;mayak;mayak;mayak;;;1955;80.22;12.5;233;;Krasnojarsk;;Sowjetunion → Russland;;268617530
+CAN-9F7305928A61;Maxima I;Maxima|TUI Maxima;maxima i;maximai;maxima i;09948005;;2003;127.7;11.4;180;Nicko Cruises;Valletta;MT;Malta;;268617530
+CAN-48971223D2B8;Mayak;Latviya|Mikhail Godenko;mayak;mayak;mayak;;;1955;80.22;12.5;233;;Krasnojarsk;;Sowjetunion → Russland;;268617530
 CAN-EEF8868ADF69;Mayfair;;mayfair;mayfair;mayfair;;;2011;74.5;14.2;146;Mayfair Cruises;;;Agypten;https://de.wikipedia.org/wiki/Mayfair;268617530
 CAN-3130B42A52B6;Mayflower;;mayflower;mayflower;mayflower;;;2019;77.0;14.0;108;Mayfair Cruises;;;Agypten;https://de.wikipedia.org/wiki/Mayflower;268617530
 CAN-6CFA7F599E3A;Mekhanik Kulibin;;mekhanik kulibin;mekhanikkulibin;mekhanik kulibin;;;1955;65.2;12.0;;;Jakutsk;;Sowjetunion → Russland;;268617530
@@ -380,9 +380,9 @@ CAN-C2ED919D256D;Mekong Explorer;;mekong explorer;mekongexplorer;mekong explorer
 CAN-872EAD1A8644;Mekong Island Cruise;;mekong island cruise;mekongislandcruise;mekong island cruise;;;2009;31.0;8.0;22;Mekong Island Cruise;Luang Prabang;;Laos;;268617530
 CAN-8B36505D30C5;Mekong Prestige II;;mekong prestige ii;mekongprestigeii;mekong prestige ii;;;2013;68.0;13.0;64;Mekong Waterways;Vietnam;;Vietnam;;268617530
 CAN-E1CFED96DF02;Mekong Sun;;mekong sun;mekongsun;mekong sun;;;2006;40.0;7.5;28;Mekong River Cruises;Luang Prabang;;Laos;;268617530
-CAN-A555373557D6;Merlijn;Secunda/Adelaar, Frisica II;merlijn;merlijn;merlijn;03030887;;1930;50.0;6.8;24;Merlijn BV;Dordrecht;NL;Niederlande;;268617530
+CAN-A555373557D6;Merlijn;Secunda|Adelaar, Frisica II;merlijn;merlijn;merlijn;03030887;;1930;50.0;6.8;24;Merlijn BV;Dordrecht;NL;Niederlande;;268617530
 CAN-84EEEF820950;Michelangelo;;michelangelo;michelangelo;michelangelo;;;2000;110.0;11.4;158;CroisiEurope;Straßburg;FR;Frankreich;;268617530
-CAN-C2FB9133BF06;Mikhail Bulgakov;V. I. Lenin/Maksym Rilskiy/Maksim Rylskiy;mikhail bulgakov;mikhailbulgakov;mikhail bulgakov;;7706689;1978;125.0;16.7;300;MosTurFlot;Moskau;UA;Sowjetunion → Ukraine → Russland;;268617530
+CAN-C2FB9133BF06;Mikhail Bulgakov;V. I. Lenin|Maksym Rilskiy|Maksim Rylskiy;mikhail bulgakov;mikhailbulgakov;mikhail bulgakov;;7706689;1978;125.0;16.7;300;MosTurFlot;Moskau;UA;Sowjetunion → Ukraine → Russland;;268617530
 CAN-46BFEA5AC9DF;Mikhail Frunze;;mikhail frunze;mikhailfrunze;mikhail frunze;;;1980;135.8;16.8;400;Vodohod;Nischni Nowgorod;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Mikhail_Frunze_(Schiff);268617530
 CAN-38FEEAEFF1A4;Mikhail Godenko;Borodin;mikhail godenko;mikhailgodenko;mikhail godenko;;;1956;80.22;12.5;233;;Krasnojarsk;;Sowjetunion → Russland;;268617530
 CAN-6ACC1AEFCE1E;Mikhail Kutuzov;;mikhail kutuzov;mikhailkutuzov;mikhail kutuzov;;;1957;95.8;14.3;140;Tsezar Travel;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
@@ -406,7 +406,7 @@ CAN-1C155AEC786D;Monarch Governess;Avalon Affinity;monarch governess;monarchgove
 CAN-8C6430E7AC43;Monarch Princess;Avalon Creativity;monarch princess;monarchprincess;monarch princess;02331194;;2009;110.0;11.45;138;Gate 1 Travel;Hamburg;DE;Deutschland;;268617530
 CAN-2AE720B20EF8;Monet;;monet;monet;monet;01822874;;1999;110.0;11.4;154;CroisiEurope;Straßburg;FR;Frankreich;https://de.wikipedia.org/wiki/Monet_(Schiff);268617530
 CAN-AB4D35D0212C;Monica;Montasser I;monica;monica;monica;;;1992;74.0;14.0;132;Red Sea Group;;;Agypten;;268617530
-CAN-E7190CB78D3F;Monte Carlo;Alexia/Zen Monte Carlo;monte carlo;montecarlo;monte carlo;;;1992;72.0;14.0;136;Sakkara Group;;;Agypten;https://de.wikipedia.org/wiki/Monte_Carlo;268617530
+CAN-E7190CB78D3F;Monte Carlo;Alexia|Zen Monte Carlo;monte carlo;montecarlo;monte carlo;;;1992;72.0;14.0;136;Sakkara Group;;;Agypten;https://de.wikipedia.org/wiki/Monte_Carlo;268617530
 CAN-0D0218CDE408;Moon Goddess;Sonesta Moon Goddess;moon goddess;moongoddess;moon goddess;;;2000;72.0;14.0;106;Sonesta Cruise Collection;;;Agypten;;268617530
 CAN-F3FD640D8832;Mövenpick Hamees;Hamees;movenpick hamees;movenpickhamees;movenpick hamees;;;2001;72.0;14.0;134;Al Salouma Travel;Kairo;;Agypten;;268617530
 CAN-074FAEFF9B66;Mövenpick Sunray;Sunray;movenpick sunray;movenpicksunray;movenpick sunray;;;2003;72.0;14.2;134;Al Salouma Travel;Kairo;;Agypten;;268617530
@@ -414,7 +414,7 @@ CAN-D5B83040AA4E;Mstislav Rostropovich;Mikhail Kalinin;mstislav rostropovich;mst
 CAN-A4F1269C2B8C;Musorgskiy;;musorgskiy;musorgskiy;musorgskiy;;;1956;80.22;12.5;233;;Moskau;;Sowjetunion;;268617530
 CAN-C9364D6724A3;Mustai Karim;;mustai karim;mustaikarim;mustai karim;;;2017;141.15;16.8;329;Vodohod;St. Petersburg;;Russland;;268617530
 CAN-75492EEB1DAE;M. V. Lomonosov;Olekma;mv lomonosov;mvlomonosov;lomonosov;;;1962;77.91;15.2;;;Moskau;;Sowjetunion → Russland;;268617530
-CAN-07A823A1DABF;My Story;Holland Pearl/Austria, Bonaventura Pearl, Danube Pearl, Papageno, Aurora, Basilea Danubia;my story;mystory;story;07001704;;1971;104.64;11.61;174;Euro Shipping Voyages;Bemmel;NL;Niederlande → Deutschland → Schweiz → Niederlande;https://de.wikipedia.org/wiki/My_Story;268617530
+CAN-07A823A1DABF;My Story;Holland Pearl|Austria, Bonaventura Pearl, Danube Pearl, Papageno, Aurora, Basilea Danubia;my story;mystory;story;07001704;;1971;104.64;11.61;174;Euro Shipping Voyages;Bemmel;NL;Niederlande → Deutschland → Schweiz → Niederlande;https://de.wikipedia.org/wiki/My_Story;268617530
 CAN-7D0C8E02C5B1;N. A. Nekrasov;Sergo Ordzhonikidze;n a nekrasov;nanekrasov;n a nekrasov;;;1961;96.27;14.98;312;Infoflot;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
 CAN-1E6918F70F50;N. V. Gogol;;n v gogol;nvgogol;n v gogol;;;1911;70.7;14.0;53;;Sewerodwinsk;;Russland → Russische Sozialistische Föderative Sowjetrepublik → Sowjetunion → Russland;https://de.wikipedia.org/wiki/N._V._Gogol;268617530
 CAN-BBF3E13F397F;N. V. Gogol;;n v gogol;nvgogol;n v gogol;;;1959;95.8;14.3;339;Gamma;Perm;;Sowjetunion → Russland;;268617530
@@ -425,10 +425,10 @@ CAN-7DF2B4690401;Nile Beauty;;nile beauty;nilebeauty;nile beauty;;;1983;61.5;13.
 CAN-8C9FEF41F51A;Nile Bride;;nile bride;nilebride;nile bride;;;1990;71.0;10.0;100;;;;Agypten;;268617530
 CAN-6319EB22289E;Nile Capital;;nile capital;nilecapital;nile capital;;;2023;76.0;15.0;;;;;Agypten;;268617530
 CAN-502CE30AB867;Nile Crown III;;nile crown iii;nilecrowniii;nile crown iii;;;2003;72.0;14.4;120;Isis Travel;;;Agypten;;268617530
-CAN-95566D73A1D8;Nile Diva;Atlas/Lady Karin/Royal Club;nile diva;nilediva;nile diva;;;1982;;;40;Flash Tours;;;Agypten;;268617530
+CAN-95566D73A1D8;Nile Diva;Atlas|Lady Karin|Royal Club;nile diva;nilediva;nile diva;;;1982;;;40;Flash Tours;;;Agypten;;268617530
 CAN-8F1DDEBEE54E;Nile Dolphin;;nile dolphin;niledolphin;nile dolphin;;;2007;72.0;15.0;130;Red Sea Group;;;Agypten;;268617530
 CAN-3C0E417E4E9A;Nile Goddess;Sonesta Nile Goddess;nile goddess;nilegoddess;nile goddess;;;1989;77.0;13.0;106;Sonesta Cruise Collection;;;Agypten;;268617530
-CAN-C826B940E589;Nile Imperial;JAZ Imperial/The Imperial;nile imperial;nileimperial;nile imperial;;9008380;1991;71.5;14.4;98;Travcotels;;;Agypten;;268617530
+CAN-C826B940E589;Nile Imperial;JAZ Imperial|The Imperial;nile imperial;nileimperial;nile imperial;;9008380;1991;71.5;14.4;98;Travcotels;;;Agypten;;268617530
 CAN-2914D52A0680;Nile Jewel;;nile jewel;nilejewel;nile jewel;;;1988;65.5;11.5;110;Italian Express Nile Cruises;;;Agypten;;268617530
 CAN-611AAB869E41;Nile Marquise;;nile marquise;nilemarquise;nile marquise;;;1992;72.0;14.5;135;Song of Egypt Co;;;Agypten;;268617530
 CAN-0FC6A67A79E8;Nile Monarch;;nile monarch;nilemonarch;nile monarch;;;1991;70.5;11.4;84;Travcotels;;;Agypten;;268617530
@@ -443,13 +443,13 @@ CAN-A4E80F2879E3;Nile View;Miss Esadora;nile view;nileview;nile view;;;2000;73.0
 CAN-1F5EEDB0E00C;Nile Vision;Santarita;nile vision;nilevision;nile vision;;;2003;73.0;14.0;110;Dynasty Floating Hotels & Restaurants;;;Agypten;https://de.wikipedia.org/wiki/Nile_Vision;268617530
 CAN-D9C98E84EC09;Nizhny Novgorod;Sovetskaya Rossiya;nizhny novgorod;nizhnynovgorod;nizhny novgorod;;7617785;1977;125.0;16.7;246;Vodohod;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
 CAN-325675280F48;Normandie;;normandie;normandie;normandie;02327268;;1989;91.2;10.5;108;Cruiselines Nijmegen;Heesch;NL;Niederlande;;268617530
-CAN-B19189CEE8EA;Ocharovannyy Strannik;Andrey Vyshinskiy/Taras Shevchenko, Sergey Kuchkin, Taras Shevchenko;ocharovannyy strannik;ocharovannyystrannik;ocharovannyy strannik;;;1956;95.8;14.3;150;Kazan Shipping;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
-CAN-C08AB3D5C624;Ogni Bolshogo Goroda;25 Syezd KPSS/Lesya Ukrai’nka/Lesya Ukrainka;ogni bolshogo goroda;ognibolshogogoroda;ogni bolshogo goroda;;7608526;1977;125.0;16.7;230;Orthodox Cruise Company;Nischni Nowgorod;UA;Sowjetunion → Ukraine → Russland;;268617530
+CAN-B19189CEE8EA;Ocharovannyy Strannik;Andrey Vyshinskiy|Taras Shevchenko, Sergey Kuchkin, Taras Shevchenko;ocharovannyy strannik;ocharovannyystrannik;ocharovannyy strannik;;;1956;95.8;14.3;150;Kazan Shipping;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
+CAN-C08AB3D5C624;Ogni Bolshogo Goroda;25 Syezd KPSS|Lesya Ukrai’nka|Lesya Ukrainka;ogni bolshogo goroda;ognibolshogogoroda;ogni bolshogo goroda;;7608526;1977;125.0;16.7;230;Orthodox Cruise Company;Nischni Nowgorod;UA;Sowjetunion → Ukraine → Russland;;268617530
 CAN-9ADB07C40FB8;Oktyabrskaya Revolyutsiya;;oktyabrskaya revolyutsiya;oktyabrskayarevolyutsiya;oktyabrskaya revolyutsiya;;;1957;96.27;14.98;294;Oka;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
 CAN-1562774E4882;Olympia;Venezia, Thurgau;olympia;olympia;olympia;08046009;;1984;88.5;10.5;100;Piz Olympia GmbH;Basel;CH;Schweiz → Luxemburg → Schweiz;;268617530
 CAN-23E1C9D692A1;Omar El Khayam;;omar el khayam;omarelkhayam;omar el khayam;;;2008;113.0;17.0;160;Travco Group;;;Agypten;https://de.wikipedia.org/wiki/Omar_El_Khayam;268617530
 CAN-78A8369C565B;Oscar Wilde;;oscar wilde;oscarwilde;oscar wilde;07002066;;2017;135.0;11.45;176;Scylla (Rivieratravel);Basel;CH;Schweiz;;268617530
-CAN-BDD765E0F8CE;Patria;Hoesch 1/Georg Reitz 1, Ruhr;patria;patria;patria;02312744;;1940;67.18;7.67;72;Sail & Cruises;Zutphen;NL;Deutschland → Niederlande;;268617530
+CAN-BDD765E0F8CE;Patria;Hoesch 1|Georg Reitz 1, Ruhr;patria;patria;patria;02312744;;1940;67.18;7.67;72;Sail & Cruises;Zutphen;NL;Deutschland → Niederlande;;268617530
 CAN-A43DD691E442;Paukan 1947;;paukan 1947;paukan1947;paukan 1947;;;1947;45.72;11.5;32;Ayravata Cruise Company;;;Myanmar;;268617530
 CAN-9E192BC9CACD;Paukan 2007;;paukan 2007;paukan2007;paukan 2007;;;2007;55.78;11.58;55;Ayravata Cruise Company;;;Myanmar;;268617530
 CAN-D077184CBB23;Pavel Bazhov;Vilgelym Pik;pavel bazhov;pavelbazhov;pavel bazhov;;;1961;95.8;14.3;228;Kama-Reederei;Perm;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Pavel_Bazhov;268617530
@@ -462,7 +462,7 @@ CAN-498A13E05B01;Prezident;Sergey Lazo;prezident;prezident;prezident;;;1961;96.2
 CAN-D5B9C2D94202;Prikamye;Dobrynya Nikitich;prikamye;prikamye;prikamye;;;1957;95.8;14.3;130;RusParohod;Moskau;;Sowjetunion → Russland;;268617530
 CAN-F022B1664649;Primadonna;Delphin Queen;primadonna;primadonna;primadonna;09240010;;1998;113.4;17.4;198;Conti Flussschifffahrts GmbH;Passau;DE;Malta → Deutschland;https://de.wikipedia.org/wiki/Primadonna_(Schiff);268617530
 CAN-1D0A4257353E;Prince Omar;;prince omar;princeomar;prince omar;;8892887;1988;71.0;13.0;140;;;;Agypten;;268617530
-CAN-A16DEB52FD2C;Princess;Husumer Krabbe/Sankt Halivard;princess;princess;princess;02323525;;1981;80.0;9.5;98;Cruisifix BV;Wijhe;NL;Deutschland → Niederlande;;268617530
+CAN-A16DEB52FD2C;Princess;Husumer Krabbe|Sankt Halivard;princess;princess;princess;02323525;;1981;80.0;9.5;98;Cruisifix BV;Wijhe;NL;Deutschland → Niederlande;;268617530
 CAN-537ACE07EDE6;Princess Sarah;Louvre II;princess sarah;princesssarah;princess sarah;;;2005;72.0;14.2;138;Extension Group;;;Agypten;;268617530
 CAN-8B0BD49D9A18;Princess Sophie;Princesse Sissi;princess sophie;princesssophie;princess sophie;01822735;;1994;105.0;10.14;152;Vof. Poseidon;Basel;CH;Frankreich → Schweiz;;268617530
 CAN-A4F6B2E10F93;Princesse d’Aquitaine;;princesse d aquitaine;princessedaquitaine;princesse d aquitaine;;;2001;110.0;11.4;158;CroisiEurope;;FR;Frankreich;;268617530
@@ -470,18 +470,18 @@ CAN-669057AA7FC2;Princesse de Provence;;princesse de provence;princessedeprovenc
 CAN-69C4FDCD72E7;Princesse du Nil;Princess Amira;princesse du nil;princessedunil;princesse du nil;;;1989;72.0;12.2;128;;;;Agypten;;268617530
 CAN-DC4B0B54F0A2;Prins Willem-Alexander;;prins willem alexander;prinswillemalexander;prins willem alexander;02325776;;2003;84.9;9.7;100;Varende Recreatie Stichting;Harderwijk;NL;Niederlande;;268617530
 CAN-E95CAEF64AAD;Prinses Christina;;prinses christina;prinseschristina;prinses christina;02326420;;1969;70.6;9.25;118;Trans River Line;Rotterdam;NL;Niederlande;;268617530
-CAN-AC411554A580;Prinses Irene;Stadt Köln/Stadt Lauenburg;prinses irene;prinsesirene;prinses irene;;;1896;58.0;6.35;96;Redirij Ketel;Zutphen;NL;Deutschland → Niederlande;;268617530
+CAN-AC411554A580;Prinses Irene;Stadt Köln|Stadt Lauenburg;prinses irene;prinsesirene;prinses irene;;;1896;58.0;6.35;96;Redirij Ketel;Zutphen;NL;Deutschland → Niederlande;;268617530
 CAN-5FFF195ACE2F;Prinses Juliana;;prinses juliana;prinsesjuliana;prinses juliana;07001270;;1976;94.8;10.9;142;River Cruise AG;Basel;CH;Niederlande → Schweiz;;268617530
 CAN-CEA95C06F077;Printsesa Dnipra;Yevgeniy Vuchetich;printsesa dnipra;printsesadnipra;printsesa dnipra;;;1976;125.0;16.7;260;Tschervona Ruta;Cherson;UA;Sowjetunion → Ukraine;;268617530
 CAN-0241F087E709;Prinzessin Isabella;River Odyssey;prinzessin isabella;prinzessinisabella;prinzessin isabella;04804660;;2002;125.5;11.4;170;Phoenix Reisen;Valletta;MT;Deutschland → Malta;;268617530
 CAN-FEAA66D7EF5C;Prinzessin Katharina;Prinzessin von Preußen;prinzessin katharina;prinzessinkatharina;prinzessin katharina;09948003;;1990;110.0;11.2;144;Marine Cruise Company Caravella, Phoenix GmbH;Valletta;MT;Malta;;268617530
-CAN-23B798F6F2AB;Prinzessin Sisi;Viking Star/Classica;prinzessin sisi;prinzessinsisi;prinzessin sisi;09948009;;2000;111.24;11.4;160;SE-Tours;Valletta;MT;Malta;;268617530
+CAN-23B798F6F2AB;Prinzessin Sisi;Viking Star|Classica;prinzessin sisi;prinzessinsisi;prinzessin sisi;09948009;;2000;111.24;11.4;160;SE-Tours;Valletta;MT;Malta;;268617530
 CAN-033EE28456A9;Provence;;provence;provence;provence;01830675;;2002;89.0;9.45;46;Grand Circle Cruise Line;Lyon;FR;Frankreich;;268617530
 CAN-B819CC7C76EF;Pyotr Alabin;Kirgiziya;pyotr alabin;pyotralabin;pyotr alabin;;;1954;80.22;12.5;180;Sputnik-Germes;Samara;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Pyotr_Alabin;268617530
 CAN-190532245D1E;Queen Isabel;;queen isabel;queenisabel;queen isabel;;;2013;79.0;11.5;118;Uniworld River Cruises;Porto;PT;Portugal;;268617530
 CAN-B5956609C8FC;Queen Isis;;queen isis;queenisis;queen isis;;;1991;56.0;11.5;98;;;;Agypten;;268617530
 CAN-0EE4C077C93B;Queen of Hansa;;queen of hansa;queenofhansa;queen of hansa;;;2000;72.0;14.5;134;Cyan Hotels & Cruises;;;Agypten;;268617530
-CAN-09598E1A3D6E;Quest Al Andalus;Quest/Quest Andalus/Nile Quest;quest al andalus;questalandalus;quest al andalus;;9071741;2001;73.0;14.0;120;Escapade Travel;;;Agypten;;268617530
+CAN-09598E1A3D6E;Quest Al Andalus;Quest|Quest Andalus|Nile Quest;quest al andalus;questalandalus;quest al andalus;;9071741;2001;73.0;14.0;120;Escapade Travel;;;Agypten;;268617530
 CAN-845F8F758906;Quo Vadis;;quo vadis;quovadis;quo vadis;02003103;;1939;45.0;6.6;24;Hanzecharter;Groningen;NL;Niederlande;;268617530
 CAN-E5D769677ADD;Ra I;Ra;ra i;rai;ra i;;;1988;73.0;11.8;144;Eastmar Travel;;;Agypten;;268617530
 CAN-197A3E220AED;Radamis;;radamis;radamis;radamis;;;1991;72.0;13.5;130;Radamis Nile Cruises;;;Agypten;;268617530
@@ -489,9 +489,9 @@ CAN-4B1FCDBB9870;Radamis II;;radamis ii;radamisii;radamis ii;;9086540;2002;72.0;
 CAN-26A741453721;Radyansykyy Soyuz;;radyansykyy soyuz;radyansykyysoyuz;radyansykyy soyuz;;;1958;80.22;14.0;233;;Kiew;;Sowjetunion;;268617530
 CAN-CF8F358CCA5C;Rajmahal;;rajmahal;rajmahal;rajmahal;;;2014;51.09;10.4;40;Assam Bengal Navigation Company;Guwahati, Assam;;Indien;;268617530
 CAN-6BEF57482AAB;Ramses of Egypt;;ramses of egypt;ramsesofegypt;ramses of egypt;;;1984;53.0;10.3;;;;;Agypten;;268617530
-CAN-E7B9E14F4BEA;Rasputin;Rossiya/Rossich;rasputin;rasputin;rasputin;;;1952;80.22;12.5;233;;Kimry;;Sowjetunion → Russland;;268617530
+CAN-E7B9E14F4BEA;Rasputin;Rossiya|Rossich;rasputin;rasputin;rasputin;;;1952;80.22;12.5;233;;Kimry;;Sowjetunion → Russland;;268617530
 CAN-1CC3000C1CCB;Raymonde;;raymonde;raymonde;raymonde;;;2014;40.0;5.7;22;CroisiEurope;;FR;Frankreich;;268617530
-CAN-FCA89B3F7F89;Regina Rheni;Viking Rhône/Viking Seine, Spirit of Caledonia;regina rheni;reginarheni;regina rheni;02324591;;2000;111.24;11.4;160;Rijfers River Cruises;Amsterdam;NL;Deutschland → Niederlande;;268617530
+CAN-FCA89B3F7F89;Regina Rheni;Viking Rhône|Viking Seine, Spirit of Caledonia;regina rheni;reginarheni;regina rheni;02324591;;2000;111.24;11.4;160;Rijfers River Cruises;Amsterdam;NL;Deutschland → Niederlande;;268617530
 CAN-1A5DFD1E12F6;Rembrandt van Rijn;Ursula II;rembrandt van rijn;rembrandtvanrijn;rembrandt van rijn;02319818;;1985;109.75;10.5;125;Tondia BV;Zwijndrecht;NL;Schweiz → Niederlande;;268617530
 CAN-00CBE5156FE1;Renaissance;;renaissance;renaissance;renaissance;;;2000;72.0;13.5;152;;;;Agypten;https://de.wikipedia.org/wiki/Renaissance;268617530
 CAN-7E58EBE36ADE;Renoir;Mistral;renoir;renoir;renoir;01822865;;1999;110.0;11.4;158;CroisiEurope;Straßburg;FR;Frankreich;;268617530
@@ -499,7 +499,7 @@ CAN-96BBC40AB371;Rex-Rheni;;rex rheni;rexrheni;rex rheni;02007993;;1979;90.5;11.
 CAN-49FA0A249ED0;Rhein Melodie;Viking Sun;rhein melodie;rheinmelodie;rhein melodie;04803570;;2005;131.8;11.4;198;Nicko Cruises;Oberwesel;DE;Deutschland;;268617530
 CAN-18CDDB3D65C1;Rhein Prinzessin;River Symphony;rhein prinzessin;rheinprinzessin;rhein prinzessin;07001717;;1998;110.0;11.4;140;Rhein Prinzessin AG;Valletta;MT;Schweiz → Malta;;268617530
 CAN-2F6D6B530B02;Rhein Symphonie;Viking Helvetia;rhein symphonie;rheinsymphonie;rhein symphonie;04804700;;2006;131.8;11.4;196;Nicko Cruises;Wiebelsheim;DE;Deutschland;;268617530
-CAN-19F323070295;Rhine Princess;Schwabenland/Ursula;rhine princess;rhineprincess;rhine princess;07000661;;1960;83.27;10.94;120;Princess River Cruise;Basel;CH;Deutschland → Schweiz;;268617530
+CAN-19F323070295;Rhine Princess;Schwabenland|Ursula;rhine princess;rhineprincess;rhine princess;07000661;;1960;83.27;10.94;120;Princess River Cruise;Basel;CH;Deutschland → Schweiz;;268617530
 CAN-48DEB0C25AB2;Rhone Princess;;rhone princess;rhoneprincess;rhone princess;01823026;;2001;110.0;11.4;120;CroisiEurope;Straßburg;FR;Frankreich;;268617530
 CAN-ED13B6E0CB8E;Rigoletto;Wilhelm Tell;rigoletto;rigoletto;rigoletto;02325887;;1987;105.0;10.5;120;Vof. Sijbrands-Faasen;Malden;NL;Schweiz → Niederlande;https://de.wikipedia.org/wiki/Rigoletto_(Schiff,_1987);268617530
 CAN-359AA1BA1893;Rikhard Zorge;Sungari;rikhard zorge;rikhardzorge;rikhard zorge;;;1963;77.91;15.2;311;;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
@@ -507,7 +507,7 @@ CAN-93D118B83F32;Rimskiy-Korsakov;;rimskiy korsakov;rimskiykorsakov;rimskiy kors
 CAN-9488F2577467;River Adagio;;river adagio;riveradagio;river adagio;07001803;;2003;125.5;11.4;164;Grand Circle Travel;Valletta;MT;Schweiz → Malta;;268617530
 CAN-A75BC224A9F1;River Allegro;Dresden;river allegro;riverallegro;river allegro;04031940;;1991;110.0;11.1;90;Grand Circle Travel;Valletta;MT;Deutschland → Malta;;268617530
 CAN-34AC95A50AC6;River Ambassador;;river ambassador;riverambassador;river ambassador;02320666;;1993;109.82;11.4;146;Uniworld River Cruises;Arnheim;NL;Niederlande;;268617530
-CAN-1416ABC188C9;River Anuket;A Sara/Hapi III;river anuket;riveranuket;river anuket;;;2001;72.0;14.4;136;;;;Agypten;;268617530
+CAN-1416ABC188C9;River Anuket;A Sara|Hapi III;river anuket;riveranuket;river anuket;;;2001;72.0;14.4;136;;;;Agypten;;268617530
 CAN-6C22D3493D09;River Aria;;river aria;riveraria;river aria;07001740;;2001;125.5;11.4;164;Grand Circle Travel;Valletta;MT;Schweiz → Malta;;268617530
 CAN-CBCDF4578569;River Art;Royal Gloriana;river art;riverart;river art;07001812;;2005;110.0;11.4;134;Alpina River Cruises;Basel;CH;Niederlande → Schweiz;;268617530
 CAN-F4604EE310B1;River Baroness;Queen of Holland;river baroness;riverbaroness;river baroness;02321750;;1995;110.0;11.4;144;Uniworld River Cruises;Rotterdam;NL;Niederlande;;268617530
@@ -522,35 +522,35 @@ CAN-D4CF0975A765;River Navigator;;river navigator;rivernavigator;river navigator
 CAN-CAA9A096B674;River Princess;;river princess;riverprincess;river princess;02325078;;2001;110.0;11.4;138;Uniworld River Cruises;Rheinfelden;CH;Niederlande → Schweiz;;268617530
 CAN-B09CAD336940;River Queen;;river queen;riverqueen;river queen;02323692;;1999;109.82;11.4;132;Uniworld River Cruises;Rotterdam;NL;Niederlande;https://de.wikipedia.org/wiki/River_Queen_(Schiff,_1999);268617530
 CAN-068330FB4958;River Rhapsody;;river rhapsody;riverrhapsody;river rhapsody;07001722;;1999;110.0;11.4;140;Grand Circle Travel;Valletta;MT;Schweiz → Malta;;268617530
-CAN-BF252725A335;River Sapphire;Avalon Tapestry/Vienna I/Travelmarvel Sapphire/WT Sapphire;river sapphire;riversapphire;river sapphire;09948012;;2006;135.0;11.42;164;;;;;;268617530
+CAN-BF252725A335;River Sapphire;Avalon Tapestry|Vienna I|Travelmarvel Sapphire|WT Sapphire;river sapphire;riversapphire;river sapphire;09948012;;2006;135.0;11.42;164;;;;;;268617530
 CAN-9D89F81D85F5;River Splendor;;river splendor;riversplendor;river splendor;02334836;;2013;135.0;11.45;176;Vantage Deluxe World Travel;Hamburg;DE;Deutschland;;268617530
 CAN-7FF17CEFCF48;River Venture;;river venture;riverventure;river venture;02334835;;2012;110.0;11.45;134;Vantage Deluxe World Travel;Hamburg;DE;Deutschland;;268617530
 CAN-FF42F268C49D;River Voyager;;river voyager;rivervoyager;river voyager;02336621;;2012;135.0;11.45;176;Vantage Deluxe World Travel;Köln;DE;Deutschland;;268617530
 CAN-FCBFF1B877D6;Riverside Bach;;riverside bach;riversidebach;riverside bach;04812680;;2017;135.0;11.4;110;Crystal River Cruises;;MT;Malta;;268617530
 CAN-88F0F4FDEF1A;Riverside Debussy;;riverside debussy;riversidedebussy;riverside debussy;04812690;;2018;135.0;11.4;110;Crystal River Cruises;Valletta;MT;Malta;;268617530
 CAN-B177C8036EAA;Riverside Mahler;;riverside mahler;riversidemahler;riverside mahler;04812700;;2017;135.0;11.4;110;Crystal River Cruises;Valletta;MT;Malta;;268617530
-CAN-720370CAF76B;Riverside Mozart;DERTOUR Mozart/Crystal Mozart;riverside mozart;riversidemozart;riverside mozart;04805980;;1987;120.6;22.86;207;Riverside Luxury Cruises;Valletta;MT;Deutschland → Malta;;268617530
+CAN-720370CAF76B;Riverside Mozart;DERTOUR Mozart|Crystal Mozart;riverside mozart;riversidemozart;riverside mozart;04805980;;1987;120.6;22.86;207;Riverside Luxury Cruises;Valletta;MT;Deutschland → Malta;;268617530
 CAN-80B2B7623CD6;Riverside Ravel;;riverside ravel;riversideravel;riverside ravel;04812710;;2018;135.0;11.4;110;Crystal River Cruises;Valletta;MT;Malta;;268617530
-CAN-D525482ECB64;Road to Mandalay;Nederland/Rhine Princess, Globus, Elbresidenz;road to mandalay;roadtomandalay;road to mandalay;;;1964;101.62;11.6;83;Belmond Ltd.;Rangun;DE;Deutschland → Myanmar;https://de.wikipedia.org/wiki/Road_to_Mandalay;268617530
-CAN-121ABC97427D;Rodnaya Rus;Klement Gotvald/Professor Lukachev, Yekaterina Velikaya;rodnaya rus;rodnayarus;rodnaya rus;;;1961;96.27;14.98;312;Sputnik-RMK;Perm;;Sowjetunion → Russland;;268617530
+CAN-D525482ECB64;Road to Mandalay;Nederland|Rhine Princess, Globus, Elbresidenz;road to mandalay;roadtomandalay;road to mandalay;;;1964;101.62;11.6;83;Belmond Ltd.;Rangun;DE;Deutschland → Myanmar;https://de.wikipedia.org/wiki/Road_to_Mandalay;268617530
+CAN-121ABC97427D;Rodnaya Rus;Klement Gotvald|Professor Lukachev, Yekaterina Velikaya;rodnaya rus;rodnayarus;rodnaya rus;;;1961;96.27;14.98;312;Sputnik-RMK;Perm;;Sowjetunion → Russland;;268617530
 CAN-0A8B2C13283B;Rossini;Donauprinzessin;rossini;rossini;rossini;05116760;;1983;111.0;15.4;215;Favorit Reisen;Heilbronn;DE;Deutschland;https://de.wikipedia.org/wiki/Rossini_(Schiff);268617530
 CAN-2CE397D7393D;Rossiya;Sovetskaya Rossiya;rossiya;rossiya;rossiya;;7638155;1978;125.0;16.7;216;Grand Circle Cruise Line;Moskau;UA;Sowjetunion → Ukraine → Russland;https://de.wikipedia.org/wiki/Rossiya_(Schiff,_1978);268617530
 CAN-014A1376AD27;Rotterdam;Delaware;rotterdam;rotterdam;rotterdam;07001417;;1969;75.53;10.42;109;Batavier River Line;Basel;CH;Niederlande → Schweden → Schweiz;;268617530
 CAN-5DC8FAA93B00;Rousse;;rousse;rousse;rousse;47000014;;1983;113.5;16.0;218;Dunav Tours;Russe;BG;Bulgarien;;268617530
 CAN-E6F7BC257B20;Rousse Prestige;;rousse prestige;rousseprestige;rousse prestige;08923002;;2004;110.0;11.4;156;Dunav Tours;Russe;BG;Bulgarien;;268617530
-CAN-C4F0EADF9AB4;Royal Adventure;Queen of the Nile/King of the Nile;royal adventure;royaladventure;royal adventure;;;1997;71.5;14.4;130;;;;Agypten;;268617530
+CAN-C4F0EADF9AB4;Royal Adventure;Queen of the Nile|King of the Nile;royal adventure;royaladventure;royal adventure;;;1997;71.5;14.4;130;;;;Agypten;;268617530
 CAN-8BF6D2D5700F;Royal Crown;River Cloud;royal crown;royalcrown;royal crown;07001647;;1996;109.9;11.4;90;Euro Shipping Voyages;Hamburg;DE;Deutschland;;268617530
-CAN-4B74B258A7A1;Royal Elite;Nile Elite/Lookea Nile;royal elite;royalelite;royal elite;;8918007;1993;72.0;14.3;144;;;;Agypten;;268617530
+CAN-4B74B258A7A1;Royal Elite;Nile Elite|Lookea Nile;royal elite;royalelite;royal elite;;8918007;1993;72.0;14.3;144;;;;Agypten;;268617530
 CAN-38977C08E611;Royal Emerald;Scenic Emerald;royal emerald;royalemerald;royal emerald;04806790;;2008;135.0;11.4;171;Werner Tours;Valletta;MT;Malta;;268617530
 CAN-372EF0983F1C;Royal Lily;;royal lily;royallily;royal lily;;;2007;74.5;14.0;120;Nile Exploration Corp;;;Agypten;;268617530
 CAN-E5167425B2D9;Royal Lotus;;royal lotus;royallotus;royal lotus;;;2005;74.0;14.0;124;Nile Exploration Corp;;;Agypten;;268617530
-CAN-396D5FCE92E4;Royal Ruby II;Ruby/Nile Ruby;royal ruby ii;royalrubyii;royal ruby ii;;;1999;72.5;14.5;140;Nile Sun Cruises;;;Agypten;;268617530
+CAN-396D5FCE92E4;Royal Ruby II;Ruby|Nile Ruby;royal ruby ii;royalrubyii;royal ruby ii;;;1999;72.5;14.5;140;Nile Sun Cruises;;;Agypten;;268617530
 CAN-4EE4CBDDA0EF;Royal Viking;;royal viking;royalviking;royal viking;;;2008;72.0;14.0;140;Karma Group;;;Agypten;;268617530
 CAN-3D9F3630CC39;Rus;;rus;rus;rus;;8707666;1987;129.1;16.7;318;Vodohod;Nischni Nowgorod;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Rus_(Schiff);268617530
 CAN-59F1EADC8C94;Rus Velikaya;General N. F. Vatutin;rus velikaya;rusvelikaya;rus velikaya;;;1960;95.8;14.3;;;Perm;;Sowjetunion → Russland;;268617530
-CAN-F684295B2659;Ryleev;Dmitriy Donskoy/Kabarginъ;ryleev;ryleev;ryleev;;;1957;95.8;14.3;;Farvater;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
+CAN-F684295B2659;Ryleev;Dmitriy Donskoy|Kabarginъ;ryleev;ryleev;ryleev;;;1957;95.8;14.3;;Farvater;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
 CAN-5A1FBC5A69A2;Salacia;;salacia;salacia;salacia;;;1990;72.0;11.0;62;Memphis Tours;;;Agypten;;268617530
-CAN-F7D1559D7094;Salvinia;Uri/Heinrich Liesen II, Uri, Amicitia, Holland;salvinia;salvinia;salvinia;02315334;;1939;91.5;10.05;164;Koudenberg BV;Papendrecht;NL;Schweiz → Deutschland → Niederlande;;268617530
+CAN-F7D1559D7094;Salvinia;Uri|Heinrich Liesen II, Uri, Amicitia, Holland;salvinia;salvinia;salvinia;02315334;;1939;91.5;10.05;164;Koudenberg BV;Papendrecht;NL;Schweiz → Deutschland → Niederlande;;268617530
 CAN-582F3A2AA514;Sanctuary Sun Boat IV;Sun Boat IV;sanctuary sun boat iv;sanctuarysunboativ;sanctuary sun boat iv;;;1996;72.0;12.8;80;Sanctuary Retreats;;;Agypten;;268617530
 CAN-9742461254A7;Sankt-Peterburg;Vladimir Ilyich;sankt peterburg;sanktpeterburg;sankt peterburg;;;1975;125.0;16.7;296;Vodohod;Sankt Petersburg;;Sowjetunion → Russland;;268617530
 CAN-1EDFDB692874;Sans Souci;Europa;sans souci;sanssouci;sans souci;02324177;;2000;82.0;9.0;81;Transocean;Peißen;DE;Niederlande → Deutschland;https://de.wikipedia.org/wiki/Sans_Souci_(Schiff);268617530
@@ -572,7 +572,7 @@ CAN-E146CE785A1A;Scenic Sapphire;;scenic sapphire;scenicsapphire;scenic sapphire
 CAN-E51D4FC5931F;Scenic Spirit;;scenic spirit;scenicspirit;scenic spirit;;;2016;85.0;;68;Scenic Tours;;;;;268617530
 CAN-09BB6E0CC66C;Seine Comtesse;Viking Spirit;seine comtesse;seinecomtesse;seine comtesse;04800380;;2002;114.34;11.4;150;Nicko Cruises;Oberwesel;DE;Deutschland;;268617530
 CAN-B75DCC6D3460;Seine Princess;;seine princess;seineprincess;seine princess;01823132;;2002;110.0;11.4;138;CroisiEurope;Straßburg;FR;Frankreich;;268617530
-CAN-A417D17BAE30;Select Explorer;River Explorer/Vista Explorer;select explorer;selectexplorer;select explorer;04804640;;2001;125.5;11.4;170;KD Cruise Services;Valletta;MT;Deutschland → Malta;;268617530
+CAN-A417D17BAE30;Select Explorer;River Explorer|Vista Explorer;select explorer;selectexplorer;select explorer;04804640;;2001;125.5;11.4;170;KD Cruise Services;Valletta;MT;Deutschland → Malta;;268617530
 CAN-888887EC38D6;Semiramis I;;semiramis i;semiramisi;semiramis i;;;2001;72.0;15.0;140;Sunrise Resorts & Cruises;;;Agypten;;268617530
 CAN-AF9EA34DA2AE;Semiramis II;;semiramis ii;semiramisii;semiramis ii;;;2009;72.0;15.0;140;Sunrise Resorts & Cruises;;;Agypten;;268617530
 CAN-8E35E08C32AF;Semiramis III;Mahrousa;semiramis iii;semiramisiii;semiramis iii;;;1999;72.0;14.5;106;Sunrise Resorts & Cruises;;;Agypten;;268617530
@@ -582,11 +582,11 @@ CAN-C84A3CD94883;Sentido Mahrousa;;sentido mahrousa;sentidomahrousa;sentido mahr
 CAN-7A0277D3520B;Serenade 1;;serenade 1;serenade1;serenade 1;02326953;;2005;110.0;11.4;134;Euro Shipping Voyages;Bemmel;NL;Niederlande;;268617530
 CAN-F47E0D2CA39D;Serenade 2;;serenade 2;serenade2;serenade 2;02328761;;2007;110.0;11.4;137;Euro Shipping Voyages;Bemmel;NL;Niederlande;;268617530
 CAN-2B30D34787B0;Serenité;;serenite;serenite;serenite;04608770;;2001;38.5;5.05;12;Serenité River Cruising;Erlenbach am Main;DE;Deutschland;;268617530
-CAN-7D9036437E44;Serenity;Hemmingway/Basilea Rhenus;serenity;serenity;serenity;07001831;;2006;110.0;11.4;200;Euro Shipping Voyages;Bemmel;NL;Schweiz → Niederlande;;268617530
-CAN-824E71EE399D;Sergey Abramov;Druzhba/Kapitan Rachkov;sergey abramov;sergeyabramov;sergey abramov;;;1960;96.27;14.98;312;Tsezar Travel;Moskau;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Sergey_Abramov_(Schiff);268617530
+CAN-7D9036437E44;Serenity;Hemmingway|Basilea Rhenus;serenity;serenity;serenity;07001831;;2006;110.0;11.4;200;Euro Shipping Voyages;Bemmel;NL;Schweiz → Niederlande;;268617530
+CAN-824E71EE399D;Sergey Abramov;Druzhba|Kapitan Rachkov;sergey abramov;sergeyabramov;sergey abramov;;;1960;96.27;14.98;312;Tsezar Travel;Moskau;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Sergey_Abramov_(Schiff);268617530
 CAN-EE717C30ADF0;Sergey Dyagilev;Novikov-Priboy;sergey dyagilev;sergeydyagilev;sergey dyagilev;;8326010;1983;129.1;16.7;242;Orthodox Cruise Company;Rostow am Don;;Sowjetunion → Russland;;268617530
 CAN-81CF359EE3D3;Sergey Kuchkin;Georgiy Dimitrov;sergey kuchkin;sergeykuchkin;sergey kuchkin;;;1979;135.75;16.8;300;Vodohod;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
-CAN-CF3D1071EA15;Sergey Obraztsov;Vilyuy/N. G. Slavyanov;sergey obraztsov;sergeyobraztsov;sergey obraztsov;;;1961;77.91;15.2;153;;Moskau;;Sowjetunion → Russland;;268617530
+CAN-CF3D1071EA15;Sergey Obraztsov;Vilyuy|N. G. Slavyanov;sergey obraztsov;sergeyobraztsov;sergey obraztsov;;;1961;77.91;15.2;153;;Moskau;;Sowjetunion → Russland;;268617530
 CAN-CCA29DD28FF0;Sergey Yesenin;;sergey yesenin;sergeyyesenin;sergey yesenin;;;1985;90.4;15.0;160;MosTurFlot;Moskau;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Sergey_Yesenin;268617530
 CAN-8FFE2CFF2137;Sergo Ordzhonikidze;;sergo ordzhonikidze;sergoordzhonikidze;sergo ordzhonikidze;;;1960;95.8;14.3;;;Moskau;;Sowjetunion → Russland;;268617530
 CAN-545E95F24E30;Shams Nile;Shams;shams nile;shamsnile;shams nile;;;2005;72.0;14.8;148;;;;Agypten;;268617530
@@ -597,12 +597,12 @@ CAN-871E500DD266;Sir Winston;Victoria Regia;sir winston;sirwinston;sir winston;0
 CAN-A0860235FC41;Sofia;;sofia;sofia;sofia;47000013;;1983;113.5;16.0;218;Dunav Tours;Russe;BG;Bulgarien;;268617530
 CAN-2B52D99484A4;Solaris I;Nile Caesar;solaris i;solarisi;solaris i;;;1991;72.5;14.5;132;Solaris Nile Cruises;;;Agypten;;268617530
 CAN-9DBF1D050D49;Solaris II;;solaris ii;solarisii;solaris ii;;;1999;72.0;14.4;143;Solaris Nile Cruises;;;Agypten;;268617530
-CAN-7E32A53B2F26;Solnechnyy Gorod;Karl Libknekht/Y. Nikulin;solnechnyy gorod;solnechnyygorod;solnechnyy gorod;;;1956;95.8;14.3;227;;Rostow am Don;;Sowjetunion → Russland;;268617530
+CAN-7E32A53B2F26;Solnechnyy Gorod;Karl Libknekht|Y. Nikulin;solnechnyy gorod;solnechnyygorod;solnechnyy gorod;;;1956;95.8;14.3;227;;Rostow am Don;;Sowjetunion → Russland;;268617530
 CAN-4FD7B37221B9;Sonesta St. George I;St. George I;sonesta st george i;sonestastgeorgei;sonesta st george i;;;2006;74.5;14.4;114;Sonesta Cruise Collection;;;Agypten;;268617530
 CAN-4A9CA4723D90;Sonesta Sun Goddess;Sun Goddess;sonesta sun goddess;sonestasungoddess;sonesta sun goddess;;;1993;77.0;14.0;124;Sonesta Cruise Collection;;;Agypten;;268617530
 CAN-04FBD98E8E38;Sound of Music;;sound of music;soundofmusic;sound of music;;;2006;110.0;11.4;136;River Advice;Basel;CH;Schweiz;;268617530
-CAN-BCCC96A53D76;Sphinx;Nile Secret/S.S. Sphinx;sphinx;sphinx;sphinx;;;1991;72.0;14.8;84;Sonesta Cruise Collection;;;Agypten;;268617530
-CAN-D330E4869247;Spirit of Chartwell;Vincent Van Gogh/Charlemagne;spirit of chartwell;spiritofchartwell;spirit of chartwell;07001842;8739384;1997;63.87;6.7;30;Douroazul;;PT;Portugal;;268617530
+CAN-BCCC96A53D76;Sphinx;Nile Secret|S.S. Sphinx;sphinx;sphinx;sphinx;;;1991;72.0;14.8;84;Sonesta Cruise Collection;;;Agypten;;268617530
+CAN-D330E4869247;Spirit of Chartwell;Vincent Van Gogh|Charlemagne;spirit of chartwell;spiritofchartwell;spirit of chartwell;07001842;8739384;1997;63.87;6.7;30;Douroazul;;PT;Portugal;;268617530
 CAN-C2C51BB091FA;Spirit of the Danube;;spirit of the danube;spiritofthedanube;spirit of the danube;02339346;;2022;135.0;11.4;182;;Basel;CH;Schweiz;;268617530
 CAN-1CB412954C8A;Spirit of the Rhine;;spirit of the rhine;spiritoftherhine;spirit of the rhine;02338872;;2020;135.0;11.4;190;Rijfers Nautical Management/Saga Cruises;Basel;CH;Schweiz;;268617530
 CAN-24CC173EEC3D;Spree;;spree;spree;spree;;;1882;67.26;8.22;86;VEB Kombinat Berliner Verkehrsbetriebe;Berlin;DE;Deutschland Demokratische Republik 1949;https://de.wikipedia.org/wiki/Spree_(Schiff,_1882);268617530
@@ -613,13 +613,13 @@ CAN-230B0B3FD128;S.S. Catherine;;ss catherine;sscatherine;catherine;02335393;;20
 CAN-75B5B223FEC9;S.S. Joie de Vivre;;ss joie de vivre;ssjoiedevivre;joie de vivre;02336845;;2017;125.0;11.4;128;Uniworld River Cruises;Rotterdam;NL;Niederlande;;268617530
 CAN-A69FE2D6C017;S.S. Maria Theresa;;ss maria theresa;ssmariatheresa;maria theresa;02335374;;2015;135.0;11.4;155;Uniworld River Cruises;Rotterdam;NL;Niederlande;;268617530
 CAN-BA99CFF67C8D;SS Sudan;;ss sudan;sssudan;sudan;;;1921;;;46;Voyageurs du Monde;;;Agypten;https://de.wikipedia.org/wiki/Sudan_(Schiff);268617530
-CAN-F8120E30D84A;Statendam;France/Avanti;statendam;statendam;statendam;07001727;;1966;104.3;11.6;184;Royal Riverline AG;Basel;CH;Deutschland → Schweiz;https://de.wikipedia.org/wiki/Statendam_(Schiff,_1966);268617530
+CAN-F8120E30D84A;Statendam;France|Avanti;statendam;statendam;statendam;07001727;;1966;104.3;11.6;184;Royal Riverline AG;Basel;CH;Deutschland → Schweiz;https://de.wikipedia.org/wiki/Statendam_(Schiff,_1966);268617530
 CAN-5C91584F7478;Steaua Deltei;;steaua deltei;steauadeltei;steaua deltei;46000141;;1992;107.22;12.8;170;;Giurgiu;RO;Rumänien;;268617530
 CAN-69323FD8C855;Steaua Dunarii;;steaua dunarii;steauadunarii;steaua dunarii;46000140;;1985;107.22;12.5;183;;Giurgiu;RO;Rumänien;;268617530
 CAN-76492614FCEA;Stephanie;;stephanie;stephanie;stephanie;;;2005;72.23;14.3;132;Red Sea Group;;;Agypten;;268617530
 CAN-7BE38024FADF;Sukapha;;sukapha;sukapha;sukapha;;;2006;39.0;9.8;24;Assam Bengal Navigation Company;Guwahati, Assam;;Indien;;268617530
 CAN-5086938BCC02;Sunray;;sunray;sunray;sunray;;;2003;72.0;14.2;134;Mövenpick Nile Cruises;;;Agypten;;268617530
-CAN-69B32963451F;Svyataya Rus;Rodina/†;svyataya rus;svyatayarus;svyataya rus;;;1955;95.8;14.3;216;;Sankt Petersburg;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Svyataya_Rus;268617530
+CAN-69B32963451F;Svyataya Rus;Rodina|†;svyataya rus;svyatayarus;svyataya rus;;;1955;95.8;14.3;216;;Sankt Petersburg;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Svyataya_Rus;268617530
 CAN-71B7EB0836A6;Swiss Corona;;swiss corona;swisscorona;swiss corona;07001807;;2004;110.0;11.4;155;Scylla;Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Swiss_Corona;268617530
 CAN-251FED898A7B;Swiss Crown;;swiss crown;swisscrown;swiss crown;07001725;;2000;110.0;11.4;154;Scylla;Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Swiss_Crown;268617530
 CAN-C5FC48C08E45;Swiss Crystal;;swiss crystal;swisscrystal;swiss crystal;07001643;;1995;101.3;11.02;125;Scylla;Basel;CH;Schweiz;;268617530
@@ -641,19 +641,19 @@ CAN-1CA813F7DD6C;Thomas Hardy;;thomas hardy;thomashardy;thomas hardy;07002048;;2
 CAN-8E91CAB233D4;Thurgau Exotic II;;thurgau exotic ii;thurgauexoticii;thurgau exotic ii;;;2011;47.25;9.15;28;Thurgau Travel;;;Myanmar;;268617530
 CAN-C783878B1AFA;Thurgau Exotic III;;thurgau exotic iii;thurgauexoticiii;thurgau exotic iii;;;;51.8;9.9;32;Nicko Cruises;;;;;268617530
 CAN-AE682C919F5F;Thurgau Silence;Bellevue;thurgau silence;thurgausilence;thurgau silence;09948013;;2006;135.0;11.4;198;Premicon AG;;CH;Schweiz;https://de.wikipedia.org/wiki/Thurgau_Silence;268617530
-CAN-817D8CFDF8AE;Thurgau Ultra;Premicon Queen/TUI Queen;thurgau ultra;thurgauultra;thurgau ultra;04806540;;2008;135.0;11.4;113;Thurgau Travel;;CH;Schweiz;https://de.wikipedia.org/wiki/Thurgau_Ultra;268617530
+CAN-817D8CFDF8AE;Thurgau Ultra;Premicon Queen|TUI Queen;thurgau ultra;thurgauultra;thurgau ultra;04806540;;2008;135.0;11.4;113;Thurgau Travel;;CH;Schweiz;https://de.wikipedia.org/wiki/Thurgau_Ultra;268617530
 CAN-0E38D1F361F7;Ti Yi;Queen Ti Yi;ti yi;tiyi;ti yi;;;2003;74.0;14.0;118;Red Sea Group;;;Agypten;;268617530
 CAN-21CD357F85A3;Ti-Yi;L'Aube du Nile;ti yi;tiyi;ti yi;;;2001;73.0;14.75;136;;;;Agypten;;268617530
 CAN-925EB9560188;Tikhiy Don;;tikhiy don;tikhiydon;tikhiy don;;7523752;1977;125.0;16.7;216;Grand Circle Cruise Line;Moskau;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Tikhiy_Don;268617530
 CAN-B0C72A601E7A;Tosca;;tosca;tosca;tosca;;;2009;72.0;14.0;82;Uniworld Boutique River Cruises;Kairo;;Agypten;;268617530
 CAN-4F6D5BD8FFB0;Travelmarvel Diamond;Avalon Imagery;travelmarvel diamond;travelmarveldiamond;travelmarvel diamond;09948014;;2007;135.0;11.4;170;Australian Pacific Touring;Valletta;MT;Malta;https://de.wikipedia.org/wiki/Travelmarvel_Diamond;268617530
 CAN-EE1A1B0FF17C;Travelmarvel Jewel;Avalon Tranquility;travelmarvel jewel;travelmarveljewel;travelmarvel jewel;09948015;;2007;135.0;11.4;170;Australian Pacific Touring;Valletta;MT;Malta;https://de.wikipedia.org/wiki/Travelmarvel_Jewel;268617530
-CAN-CB6E00D169F3;Travelmarvel Sapphire;Avalon Tapestry/Vienna I;travelmarvel sapphire;travelmarvelsapphire;travelmarvel sapphire;09948012;;2006;135.0;11.4;164;Australian Pacific Touring;Valletta;MT;Malta;https://de.wikipedia.org/wiki/Travelmarvel_Sapphire;268617530
+CAN-CB6E00D169F3;Travelmarvel Sapphire;Avalon Tapestry|Vienna I;travelmarvel sapphire;travelmarvelsapphire;travelmarvel sapphire;09948012;;2006;135.0;11.4;164;Australian Pacific Touring;Valletta;MT;Malta;https://de.wikipedia.org/wiki/Travelmarvel_Sapphire;268617530
 CAN-76071B53AEF4;Treasures;;treasures;treasures;treasures;07001943;;2010;110.0;11.4;158;Scylla (Tauck Tours);Basel;CH;Schweiz;;268617530
 CAN-D59958AAACD8;Tsezar;Ernst Telman;tsezar;tsezar;tsezar;;;1955;95.8;14.3;216;Tsezar Travel;Moskau;;Sowjetunion → Russland;;268617530
-CAN-4C8EA0A0A753;TUI Isla;TUI Allegra/Melodia/Excellence Allegra;tui isla;tuiisla;tui isla;04809190;;2010;135.0;11.45;155;TUI Cruises;Valletta;MT;Deutschland → Malta;;268617530
-CAN-990FE9778DA8;TUI Maya;TUI Melodia/Melodia/Excellence Melodia;tui maya;tuimaya;tui maya;04809200;;2011;135.0;11.45;155;TUI Cruises;Valletta;MT;Deutschland → Malta;;268617530
-CAN-AF7DB2400DEB;TUI Skyla;TUI Sonata/WT Sonata;tui skyla;tuiskyla;tui skyla;65000001;;2010;135.0;11.45;151;TUI Cruises;Valletta;MT;Deutschland → Malta;;268617530
+CAN-4C8EA0A0A753;TUI Isla;TUI Allegra|Melodia|Excellence Allegra;tui isla;tuiisla;tui isla;04809190;;2010;135.0;11.45;155;TUI Cruises;Valletta;MT;Deutschland → Malta;;268617530
+CAN-990FE9778DA8;TUI Maya;TUI Melodia|Melodia|Excellence Melodia;tui maya;tuimaya;tui maya;04809200;;2011;135.0;11.45;155;TUI Cruises;Valletta;MT;Deutschland → Malta;;268617530
+CAN-AF7DB2400DEB;TUI Skyla;TUI Sonata|WT Sonata;tui skyla;tuiskyla;tui skyla;65000001;;2010;135.0;11.45;151;TUI Cruises;Valletta;MT;Deutschland → Malta;;268617530
 CAN-0C9AA8728BCE;Tulip;;tulip;tulip;tulip;;;1998;72.0;14.0;114;Wings Group;;;Agypten;;268617530
 CAN-75C301592588;Turkmenistan;;turkmenistan;turkmenistan;turkmenistan;;;1954;80.22;12.5;233;;Wolgograd;;Sowjetunion;;268617530
 CAN-A6B932EE108A;Ukraina;;ukraina;ukraina;ukraina;;;1952;80.22;12.5;233;;Gorki;;Sowjetunion → Russland;;268617530
@@ -670,7 +670,7 @@ CAN-0C41C1E69FF4;Vasiliy Chapayev;;vasiliy chapayev;vasiliychapayev;vasiliy chap
 CAN-30D2B331FBF3;Vasiliy Surikov;;vasiliy surikov;vasiliysurikov;vasiliy surikov;;;1975;110.1;14.5;220;Mosturflot;Moskau;;Sowjetunion → Russland;;268617530
 CAN-02374F098C7C;Vatslav Vorovskiy;;vatslav vorovskiy;vatslavvorovskiy;vatslav vorovskiy;;;1961;96.27;14.98;312;;Nischni Nowgorod;;Sowjetunion → Russland;;268617530
 CAN-D01704967120;Verdi;;verdi;verdi;verdi;04800510;;2001;114.34;11.4;150;SijFa Cruises;Heumen;NL;Niederlande;;268617530
-CAN-C7161C26A086;Viceroy;Regina/JAZ Viceroy;viceroy;viceroy;viceroy;;9042609;1992;72.35;12.7;117;Travcotels;;;Agypten;;268617530
+CAN-C7161C26A086;Viceroy;Regina|JAZ Viceroy;viceroy;viceroy;viceroy;;9042609;1992;72.35;12.7;117;Travcotels;;;Agypten;;268617530
 CAN-F2CF02D0126B;Victor Hugo;;victor hugo;victorhugo;victor hugo;01823025;;2000;81.78;9.5;100;CroisiEurope;Straßburg;FR;Frankreich;;268617530
 CAN-669DFD0E87C8;Victoria Cruziana;Europa;victoria cruziana;victoriacruziana;victoria cruziana;02323472;;1960;88.48;11.56;116;;Rotterdam;NL;Niederlande;https://de.wikipedia.org/wiki/Victoria_Cruziana_(Schiff);268617530
 CAN-AF6E35CECB2F;Viking Aegir;;viking aegir;vikingaegir;viking aegir;07001957;;2012;135.0;11.45;190;Viking River Cruises;Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Viking_Aegir;268617530
@@ -724,7 +724,7 @@ CAN-82F981FF212B;Viking Prestige;;viking prestige;vikingprestige;viking prestige
 CAN-D29F2B8AFE89;Viking Ra;;viking ra;vikingra;viking ra;;;2018;66.0;12.0;48;Viking River Cruises;;;Agypten;;268617530
 CAN-A50CEED49D78;Viking Rinda;;viking rinda;vikingrinda;viking rinda;07001966;;2013;135.0;11.45;190;Viking River Cruises;Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Viking_Rinda;268617530
 CAN-BF90FDBD013B;Viking Rolf;;viking rolf;vikingrolf;viking rolf;07002037;;2016;135.0;11.45;190;Viking River Cruises;Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Viking_Rolf;268617530
-CAN-B25D18EA3E7B;Viking Ryurik;Mariya Ulyanova/Petergof;viking ryurik;vikingryurik;viking ryurik;;;1975;125.0;16.7;196;Viking River Cruises;Sankt Petersburg;;Sowjetunion → Russland;;268617530
+CAN-B25D18EA3E7B;Viking Ryurik;Mariya Ulyanova|Petergof;viking ryurik;vikingryurik;viking ryurik;;;1975;125.0;16.7;196;Viking River Cruises;Sankt Petersburg;;Sowjetunion → Russland;;268617530
 CAN-EE39F9618B3C;Viking Sigrun;;viking sigrun;vikingsigrun;viking sigrun;07002109;;2019;135.0;11.45;190;Viking River Cruises;Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Viking_Sigrun;268617530
 CAN-BC95A5528931;Viking Sigyn;;viking sigyn;vikingsigyn;viking sigyn;07002115;;2019;135.0;11.45;190;Viking River Cruises;Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Viking_Sigyn;268617530
 CAN-504A0789612F;Viking Sineus;Mikhail Lomonosov;viking sineus;vikingsineus;viking sineus;;7823994;1979;125.0;16.7;360;Viking Ukraina;Cherson;UA;Sowjetunion → Russland → Ukraine;;268617530
@@ -743,7 +743,7 @@ CAN-EFD575F42055;Viking Vidar;;viking vidar;vikingvidar;viking vidar;07002019;;2
 CAN-A32EE29D08A3;Viking Vilhjalm;;viking vilhjalm;vikingvilhjalm;viking vilhjalm;07002034;;2016;135.0;11.45;190;Viking River Cruises;Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Viking_Vilhjalm;268617530
 CAN-1F3F6FE7531F;Viking Vili;;viking vili;vikingvili;viking vili;07002026;;2015;135.0;11.45;190;Viking River Cruises;Basel;CH;Schweiz;https://de.wikipedia.org/wiki/Viking_Vili;268617530
 CAN-DAA677D53DF2;Viktoria;;viktoria;viktoria;viktoria;09948008;;2004;127.7;11.4;180;Nicko Cruises;Valletta;MT;Malta;https://de.wikipedia.org/wiki/Viktoria_(Schiff,_2004);268617530
-CAN-8C8D9D18F8BB;Viktoriya;A. S. Griboyedov/I. I. Shishkin;viktoriya;viktoriya;viktoriya;;;1958;80.22;14.0;180;MWK;Moskau;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Viktoriya_(Schiff,_1958);268617530
+CAN-8C8D9D18F8BB;Viktoriya;A. S. Griboyedov|I. I. Shishkin;viktoriya;viktoriya;viktoriya;;;1958;80.22;14.0;180;MWK;Moskau;;Sowjetunion → Russland;https://de.wikipedia.org/wiki/Viktoriya_(Schiff,_1958);268617530
 CAN-58D5BF3FA71E;Viola;J. Henry Dunant;viola;viola;viola;02322387;;1996;96.3;11.4;122;Rijfers Nautical Management ( Phoenix Reisen );Valletta;MT;Malta;;268617530
 CAN-731AE336C093;Virginia;;virginia;virginia;virginia;02207430;;1965;67.51;8.98;138;Trans River Line;Rotterdam;NL;Niederlande;;268617530
 CAN-84F1F5FE1A77;Vissarion Belinskiy;;vissarion belinskiy;vissarionbelinskiy;vissarion belinskiy;;8031378;1980;125.0;16.7;293;Vodohod;Sankt Petersburg;;Sowjetunion → Russland;;268617530
@@ -760,7 +760,7 @@ CAN-580A7CAFE286;Vivaldi;;vivaldi;vivaldi;vivaldi;01823464;;2009;110.0;11.4;176;
 CAN-51E7BE45AC37;Vladimir Mayakovskiy;;vladimir mayakovskiy;vladimirmayakovskiy;vladimir mayakovskiy;;7706677;1978;125.0;;196;Kama One Shipping;Perm;;Sowjetunion → Russland;;268617530
 CAN-7FD0C135126B;Volga;;volga;volga;volga;42000003;;1970;105.9;16.1;140;UDP;Ismajil;UA;Sowjetunion → Ukraine;https://de.wikipedia.org/wiki/Volga_(Schiff,_1970);268617530
 CAN-E01820E61802;Volga Drim;Komarno;volga drim;volgadrim;volga drim;;;1959;96.27;14.98;312;Alandia Cruises;Moskau;;Sowjetunion → Russland;;268617530
-CAN-34B157C8353B;Volga Star;Akademik Viktor Glushkov/Akademik Glushkov, Igor Stravinskiy;volga star;volgastar;volga star;;8326008;1983;129.1;16.7;240;Compass Kreuzfahrten;Rostow am Don;UA;Sowjetunion → Ukraine → Russland;;268617530
+CAN-34B157C8353B;Volga Star;Akademik Viktor Glushkov|Akademik Glushkov, Igor Stravinskiy;volga star;volgastar;volga star;;8326008;1983;129.1;16.7;240;Compass Kreuzfahrten;Rostow am Don;UA;Sowjetunion → Ukraine → Russland;;268617530
 CAN-80E186BE004B;Wilhelm Tham;;wilhelm tham;wilhelmtham;wilhelm tham;;5389671;1912;29.48;6.73;50;Strömma Kanalbolaget;Stockholm;SE;Schweden;;268617530
 CAN-FA0F02132535;William Shakespeare;;william shakespeare;williamshakespeare;william shakespeare;02335914;;2014;110.0;11.45;152;Select Voyages AG;Arnheim;NL;Niederlande;;268617530
 CAN-9B25CD30E442;William Wordsworth;;william wordsworth;williamwordsworth;william wordsworth;07002098;;2018;135.0;11.45;176;Scylla (Rivieratravel);Basel;CH;Schweiz;;268617530
