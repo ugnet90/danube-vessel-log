@@ -26,13 +26,20 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "rejected",
     "vessel_id": "",
     "vessel_match": {
       "status": "unmatched",
       "matched_by": "",
       "candidate_count": 0
     },
-    "review_notes": ""
+    "review_notes": "",
+    "review": {
+      "reviewed": true,
+      "reviewed_at": "2026-07-23T09:54:11.426Z",
+      "vessel_id": "",
+      "decision": "rejected",
+      "notes": ""
+    }
   }
 }
