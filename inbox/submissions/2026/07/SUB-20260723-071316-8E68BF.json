@@ -1,0 +1,70 @@
+{
+  "schema_version": 10,
+  "submission_id": "SUB-20260723-071316-8E68BF",
+  "uploaded_at": "2026-07-23T07:13:16.741Z",
+  "captured_at": "2026-07-23T07:12:59.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "location_id",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich"
+  },
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "Travelmarvel Capella",
+  "notes": "",
+  "photo_lat": null,
+  "photo_lon": null,
+  "photos": [
+    {
+      "photo_id": "PHOTO-2682F5D98C964BC49CB557D429D6CB47",
+      "path": "inbox/photos/2026/07/PHOTO-2682F5D98C964BC49CB557D429D6CB47.jpg",
+      "filename": "PHOTO-2682F5D98C964BC49CB557D429D6CB47.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 407247,
+      "sequence": 1
+    },
+    {
+      "photo_id": "PHOTO-DBE910096EEF4414803D6B6201948064",
+      "path": "inbox/photos/2026/07/PHOTO-DBE910096EEF4414803D6B6201948064.jpg",
+      "filename": "PHOTO-DBE910096EEF4414803D6B6201948064.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 443038,
+      "sequence": 2
+    },
+    {
+      "photo_id": "PHOTO-660D1F61A4C4491C97147B4835AEB8A1",
+      "path": "inbox/photos/2026/07/PHOTO-660D1F61A4C4491C97147B4835AEB8A1.jpg",
+      "filename": "PHOTO-660D1F61A4C4491C97147B4835AEB8A1.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 556770,
+      "sequence": 3
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "TRAVELMARVELCAPELLA"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
