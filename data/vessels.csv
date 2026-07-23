@@ -1,6 +1,6 @@
 vessel_id;name;former_names;mmsi;imo;eni;callsign;ship_type;ship_subtype;operator;cruise_brand;flag;status;year_built;length_m;width_m;json_path;updated_at
 VES-000000;Testschiff;Test;;;02336090;;PASSENGER;RIVER_CRUISE;Emerald Waterways;;MT;active;2015;135;11.45;data/vessels/VES-000000.json;2026-07-23T04:25:25.555Z
 VES-000001;Testschiff;;;;;;;;;;;unknown;;;;data/vessels/VES-000001.json;
-VES-000100;ss beatrice;River Beatrice;;;02329007;;PASSENGER;RIVER_CRUISE;Uniworld River Cruises;;NL;unknown;2007;131;11.4;data/vessels/VES-000100.json;2026-07-23T18:43:19.340Z
+VES-000100;ss beatrice;River Beatrice;;;02329007;;PASSENGER;RIVER_CRUISE;Uniworld River Cruises;;NL;active;2007;131;11.4;data/vessels/VES-000100.json;2026-07-23T18:43:50.575Z
 VES-000101;Travelmarvel Capella;;;;;;UNKNOWN;UNKNOWN;;;;unknown;;;;data/vessels/VES-000101.json;2026-07-23T07:14:59.689Z
 VES-000102;AmaStella;;;;07002031;;PASSENGER;RIVER_CRUISE;AMA Waterways;;CH;active;2016;135;11.45;data/vessels/VES-000102.json;2026-07-23T13:59:39.471Z
