@@ -3,4 +3,4 @@ VES-000000;Testschiff;Test;;;02336090;;PASSENGER;RIVER_CRUISE;Emerald Waterways;
 VES-000001;Testschiff;;;;;;;;;;;unknown;;;;data/vessels/VES-000001.json;
 VES-000100;ss beatrice;;;;;;UNKNOWN;UNKNOWN;;;;unknown;;;;data/vessels/VES-000100.json;2026-07-23T09:51:25.351Z
 VES-000101;Travelmarvel Capella;;;;;;UNKNOWN;UNKNOWN;;;;unknown;;;;data/vessels/VES-000101.json;2026-07-23T07:14:59.689Z
-VES-000102;AmaStella;;;;;;UNKNOWN;UNKNOWN;;;;unknown;;;;data/vessels/VES-000102.json;2026-07-23T13:41:08.398Z
+VES-000102;AmaStella;;;;07002031;;PASSENGER;RIVER_CRUISE;AMA Waterways;;CH;unknown;2016;135;11.45;data/vessels/VES-000102.json;2026-07-23T13:59:10.327Z

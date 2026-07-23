@@ -6,29 +6,29 @@
     "former_names": [],
     "mmsi": "",
     "imo": "",
-    "eni": "",
+    "eni": "07002031",
     "call_sign": ""
   },
   "classification": {
-    "ship_type": "UNKNOWN",
-    "ship_subtype": "UNKNOWN",
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
     "status": "unknown",
-    "flag": ""
+    "flag": "CH"
   },
   "technical": {
-    "year_built": null,
+    "year_built": 2016,
     "shipyard": "",
-    "length_m": null,
-    "width_m": null,
+    "length_m": 135,
+    "width_m": 11.45,
     "draft_m": null,
-    "passengers": null
+    "passengers": 164
   },
   "operations": {
-    "operator": "",
+    "operator": "AMA Waterways",
     "owner": "",
     "manager": "",
     "cruise_brand": "",
-    "home_port": ""
+    "home_port": "Basel"
   },
   "name_history": [],
   "identifiers_history": [],
@@ -38,8 +38,19 @@
       "provider": "Wikipedia",
       "title": "Kandidatenkatalog: AmaStella",
       "url": "https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen",
-      "notes": "Nachträglich mit CAN-920BDFFE61E2 verknüpft. Es wurden keine Stammdaten automatisch überschrieben.",
-      "fields_used": [],
+      "notes": "Nachträglich mit CAN-920BDFFE61E2 verknüpft. Fehlende Stammdaten wurden aus dem Kandidatenkatalog übernommen.",
+      "fields_used": [
+        "identity.eni",
+        "classification.ship_type",
+        "classification.ship_subtype",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
       "retrieved_at": "",
       "verified_at": "",
       "added_at": "2026-07-23T13:41:08.398Z",
@@ -62,7 +73,7 @@
     "environment": "production",
     "created_at": "2026-07-23T09:59:11.059Z",
     "created_from_submission_id": "SUB-20260719-160723-D3BF9E",
-    "updated_at": "2026-07-23T13:41:08.398Z",
+    "updated_at": "2026-07-23T13:59:10.327Z",
     "updated_by": "web-ui",
     "linked_candidate_ids": [
       "CAN-920BDFFE61E2"
@@ -80,6 +91,92 @@
             "field": "sources",
             "old_value": 0,
             "new_value": 1
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-07-23T13:59:10.327Z",
+        "changed_by": "web-ui",
+        "summary": "10 fehlende Felder aus Kandidat CAN-920BDFFE61E2 übernommen",
+        "changed_fields": [
+          "identity.eni",
+          "classification.ship_type",
+          "classification.ship_subtype",
+          "classification.flag",
+          "technical.year_built",
+          "technical.length_m",
+          "technical.width_m",
+          "technical.passengers",
+          "operations.operator",
+          "operations.home_port",
+          "sources.fields_used"
+        ],
+        "changes": [
+          {
+            "field": "identity.eni",
+            "old_value": "",
+            "new_value": "07002031"
+          },
+          {
+            "field": "classification.ship_type",
+            "old_value": "UNKNOWN",
+            "new_value": "PASSENGER"
+          },
+          {
+            "field": "classification.ship_subtype",
+            "old_value": "UNKNOWN",
+            "new_value": "RIVER_CRUISE"
+          },
+          {
+            "field": "classification.flag",
+            "old_value": "",
+            "new_value": "CH"
+          },
+          {
+            "field": "technical.year_built",
+            "old_value": null,
+            "new_value": 2016
+          },
+          {
+            "field": "technical.length_m",
+            "old_value": null,
+            "new_value": 135
+          },
+          {
+            "field": "technical.width_m",
+            "old_value": null,
+            "new_value": 11.45
+          },
+          {
+            "field": "technical.passengers",
+            "old_value": null,
+            "new_value": 164
+          },
+          {
+            "field": "operations.operator",
+            "old_value": "",
+            "new_value": "AMA Waterways"
+          },
+          {
+            "field": "operations.home_port",
+            "old_value": "",
+            "new_value": "Basel"
+          },
+          {
+            "field": "sources.fields_used",
+            "old_value": [],
+            "new_value": [
+              "identity.eni",
+              "classification.ship_type",
+              "classification.ship_subtype",
+              "classification.flag",
+              "technical.year_built",
+              "technical.length_m",
+              "technical.width_m",
+              "technical.passengers",
+              "operations.operator",
+              "operations.home_port"
+            ]
           }
         ]
       }
