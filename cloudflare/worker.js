@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.10.4
- * Updated: 2026-07-22
+ * Version: 0.10.5
+ * Updated: 2026-07-23
  */
 
 const API_VERSION = "2022-11-28";
@@ -3240,408 +3240,302 @@ async function handleVesselIdSuggestion(request, env) {
   });
 }
 
-async function handleVesselNameSuggestions(
-  request,
-  env
-) {
-  const authError =
-    checkManagementKey(request, env);
+async function handleVesselNameSuggestions(request, env) {
+  const authError = checkManagementKey(request, env);
+  if (authError) return authError;
 
-  if (authError) {
-    return authError;
+  const url = new URL(request.url);
+  const name = String(url.searchParams.get("name") ?? "").trim();
+  const excludeVesselId = String(
+    url.searchParams.get("exclude_vessel_id") ?? ""
+  ).trim();
+
+  if (
+    excludeVesselId &&
+    !VESSEL_ID_PATTERN.test(excludeVesselId)
+  ) {
+    return jsonResponse({
+      ok: false,
+      error: "exclude_vessel_id ist ungültig."
+    }, 400);
   }
-
-  const url =
-    new URL(request.url);
-
-  const name =
-    String(
-      url.searchParams.get("name") ??
-      ""
-    ).trim();
 
   if (name.length < 2) {
     return jsonResponse({
       ok: true,
       query: name,
+      exclude_vessel_id: excludeVesselId,
       existing_vessels: [],
       catalog_candidates: []
     });
   }
 
-  const vesselsResult =
-    await loadVessels(env);
+  const [vesselsResult, candidatesResult] = await Promise.all([
+    loadVessels(env),
+    loadVesselCandidates(env)
+  ]);
 
   if (!vesselsResult.ok) {
     return jsonResponse({
       ok: false,
-      error:
-        vesselsResult.error
+      error: vesselsResult.error
     }, 502);
   }
-
-  const candidatesResult =
-    await loadVesselCandidates(env);
 
   if (!candidatesResult.ok) {
     return jsonResponse({
       ok: false,
-      error:
-        candidatesResult.error
+      error: candidatesResult.error
     }, candidatesResult.status ?? 502);
   }
 
+  const searchableVessels = excludeVesselId
+    ? vesselsResult.vessels.filter(
+        vessel => vessel.vessel_id !== excludeVesselId
+      )
+    : vesselsResult.vessels;
+
   return jsonResponse({
     ok: true,
-
-    query:
+    query: name,
+    exclude_vessel_id: excludeVesselId,
+    existing_vessels: findExistingVesselNameSuggestions(
       name,
-
-    existing_vessels:
-      findExistingVesselNameSuggestions(
-        name,
-        vesselsResult.vessels
-      ),
-
-    catalog_candidates:
-      matchVesselCatalogByName(
-        name,
-        candidatesResult.candidates
-      )
+      searchableVessels
+    ),
+    catalog_candidates: matchVesselCatalogByName(
+      name,
+      candidatesResult.candidates
+    )
   });
 }
 
-async function handleLinkVesselCandidate(
-  request,
-  env
-) {
-  const authError =
-    checkManagementKey(request, env);
-
-  if (authError) {
-    return authError;
-  }
+async function handleLinkVesselCandidate(request, env) {
+  const authError = checkManagementKey(request, env);
+  if (authError) return authError;
 
   let input;
 
   try {
-    input =
-      await request.json();
+    input = await request.json();
   } catch {
     return jsonResponse({
       ok: false,
-      error:
-        "Der Anfrageinhalt ist kein gültiges JSON."
+      error: "Der Anfrageinhalt ist kein gültiges JSON."
     }, 400);
   }
 
-  const vesselId =
-    String(
-      input?.vessel_id ?? ""
-    ).trim();
+  const vesselId = String(input?.vessel_id ?? "").trim();
+  const candidateId = String(input?.candidate_id ?? "").trim();
+  const submissionId = String(input?.submission_id ?? "").trim();
 
-  const candidateId =
-    String(
-      input?.candidate_id ?? ""
-    ).trim();
-
-  const submissionId =
-    String(
-      input?.submission_id ?? ""
-    ).trim();
-
-  if (
-    !VESSEL_ID_PATTERN.test(
-      vesselId
-    )
-  ) {
+  if (!VESSEL_ID_PATTERN.test(vesselId)) {
     return jsonResponse({
       ok: false,
-      error:
-        "vessel_id fehlt oder ist ungültig."
+      error: "vessel_id fehlt oder ist ungültig."
     }, 400);
   }
 
-  if (
-    !/^CAN-[A-F0-9]{12}$/.test(
-      candidateId
-    )
-  ) {
+  if (!/^CAN-[A-F0-9]{12}$/.test(candidateId)) {
     return jsonResponse({
       ok: false,
-      error:
-        "candidate_id fehlt oder ist ungültig."
+      error: "candidate_id fehlt oder ist ungültig."
     }, 400);
   }
 
-  const submissionPath =
-    buildSubmissionPath(
-      submissionId
-    );
+  const submissionPath = submissionId
+    ? buildSubmissionPath(submissionId)
+    : "";
 
-  if (!submissionPath) {
+  if (submissionId && !submissionPath) {
     return jsonResponse({
       ok: false,
-      error:
-        "submission_id fehlt oder ist ungültig."
+      error: "submission_id ist ungültig."
     }, 400);
   }
 
-  const [
-    vesselResult,
-    candidatesResult,
-    submissionFile
-  ] = await Promise.all([
-    loadCanonicalVessel(
-      env,
-      vesselId
-    ),
-
-    loadVesselCandidates(
-      env
-    ),
-
-    readGitHubFile({
-      env,
-      path:
-        submissionPath
-    })
-  ]);
+  const [vesselResult, candidatesResult, submissionFile] =
+    await Promise.all([
+      loadCanonicalVessel(env, vesselId),
+      loadVesselCandidates(env),
+      submissionPath
+        ? readGitHubFile({ env, path: submissionPath })
+        : Promise.resolve(null)
+    ]);
 
   if (!vesselResult.ok) {
     return jsonResponse({
       ok: false,
-      error:
-        vesselResult.error
-    }, vesselResult.status === 404
-      ? 404
-      : 502);
+      error: vesselResult.error
+    }, vesselResult.status === 404 ? 404 : 502);
   }
 
   if (!candidatesResult.ok) {
     return jsonResponse({
       ok: false,
-      error:
-        candidatesResult.error
+      error: candidatesResult.error
     }, candidatesResult.status ?? 502);
   }
 
-  if (!submissionFile.ok) {
+  if (submissionPath && !submissionFile?.ok) {
     return jsonResponse({
       ok: false,
-      error:
-        "Die zugehörige Sichtung konnte nicht geladen werden."
-    }, submissionFile.status === 404
-      ? 404
-      : 502);
+      error: "Die zugehörige Sichtung konnte nicht geladen werden."
+    }, submissionFile?.status === 404 ? 404 : 502);
   }
 
-  const candidate =
-    candidatesResult.candidates.find(
-      item =>
-        item.candidate_id ===
-        candidateId
-    ) ?? null;
+  const candidate = candidatesResult.candidates.find(
+    item => item.candidate_id === candidateId
+  ) ?? null;
 
   if (!candidate) {
     return jsonResponse({
       ok: false,
-      error:
-        `${candidateId} wurde im Kandidatenkatalog nicht gefunden.`
+      error: `${candidateId} wurde im Kandidatenkatalog nicht gefunden.`
     }, 404);
   }
 
-  let submission;
+  let submission = null;
 
-  try {
-    submission = JSON.parse(
-      String(
-        submissionFile.content ?? ""
-      ).replace(/^\uFEFF/, "")
-    );
-  } catch {
-    return jsonResponse({
-      ok: false,
-      error:
-        "Die Sichtung enthält ungültiges JSON."
-    }, 500);
+  if (submissionFile) {
+    try {
+      submission = JSON.parse(
+        String(submissionFile.content ?? "").replace(/^\uFEFF/, "")
+      );
+    } catch {
+      return jsonResponse({
+        ok: false,
+        error: "Die Sichtung enthält ungültiges JSON."
+      }, 500);
+    }
+
+    const reviewedVesselId =
+      submission.workflow?.review?.vessel_id ?? "";
+
+    if (reviewedVesselId !== vesselId) {
+      return jsonResponse({
+        ok: false,
+        error: `Die Sichtung ist nicht mit ${vesselId} verknüpft.`
+      }, 409);
+    }
   }
 
-  const reviewedVesselId =
-    submission.workflow
-      ?.review
-      ?.vessel_id ?? "";
-
-  if (
-    reviewedVesselId !==
-    vesselId
-  ) {
-    return jsonResponse({
-      ok: false,
-      error:
-        `Die Sichtung ist nicht mit ${vesselId} verknüpft.`
-    }, 409);
-  }
-
-  const vessel =
-    vesselResult.vessel;
-
+  const vessel = vesselResult.vessel;
   const vesselNames = [
     vessel.identity?.name,
-
     ...(
-      Array.isArray(
-        vessel.identity?.former_names
-      )
+      Array.isArray(vessel.identity?.former_names)
         ? vessel.identity.former_names
         : []
     )
   ];
 
-  const nameMatch =
-    findBestVesselNameMatch(
-      buildVesselNameKeys(
-        candidate.name
-      ),
-      vesselNames
-    );
+  const nameMatch = findBestVesselNameMatch(
+    buildVesselNameKeys(candidate.name),
+    vesselNames
+  );
 
-  const eniMatch =
-    Boolean(
-      candidate.eni &&
-      vessel.identity?.eni &&
-      candidate.eni ===
-        vessel.identity.eni
-    );
+  const eniMatch = Boolean(
+    candidate.eni &&
+    vessel.identity?.eni &&
+    candidate.eni === vessel.identity.eni
+  );
 
-  const imoMatch =
-    Boolean(
-      candidate.imo &&
-      vessel.identity?.imo &&
-      candidate.imo ===
-        vessel.identity.imo
-    );
+  const imoMatch = Boolean(
+    candidate.imo &&
+    vessel.identity?.imo &&
+    candidate.imo === vessel.identity.imo
+  );
 
   if (
-    nameMatch.score <
-      VESSEL_CANDIDATE_MIN_SCORE &&
+    nameMatch.score < VESSEL_CANDIDATE_MIN_SCORE &&
     !eniMatch &&
     !imoMatch
   ) {
     return jsonResponse({
       ok: false,
       error:
-        "Der Kandidat stimmt weder beim Namen noch bei ENI oder IMO ausreichend mit dem Schiff überein."
+        "Der Kandidat stimmt weder beim Namen noch bei ENI oder IMO " +
+        "ausreichend mit dem Schiff überein."
     }, 409);
   }
 
-  const linkedAt =
-    new Date().toISOString();
+  const linkedAt = new Date().toISOString();
+  const sourceAdded = applyCandidateOrigin({
+    vessel,
+    candidate,
+    createdAt: linkedAt,
+    createdFrom: false
+  });
 
-  const sourceAdded =
-    applyCandidateOrigin({
-      vessel,
-      candidate,
-      createdAt:
-        linkedAt,
-      createdFrom:
-        false
+  const extraFiles = [];
+
+  if (submission) {
+    if (
+      !submission.workflow ||
+      typeof submission.workflow !== "object"
+    ) {
+      submission.workflow = {};
+    }
+
+    if (
+      !submission.workflow.review ||
+      typeof submission.workflow.review !== "object"
+    ) {
+      submission.workflow.review = {};
+    }
+
+    submission.workflow.review.candidate_id = candidateId;
+    submission.workflow.review.candidate_linked_at = linkedAt;
+
+    extraFiles.push({
+      path: submissionPath,
+      content: JSON.stringify(submission, null, 2) + "\n",
+      encoding: "utf-8"
     });
-
-  if (
-    !submission.workflow ||
-    typeof submission.workflow !==
-      "object"
-  ) {
-    submission.workflow = {};
   }
 
-  if (
-    !submission.workflow.review ||
-    typeof submission.workflow.review !==
-      "object"
-  ) {
-    submission.workflow.review = {};
+  if (!sourceAdded && extraFiles.length === 0) {
+    return jsonResponse({
+      ok: true,
+      message: `${vesselId} ist bereits mit ${candidateId} verknüpft.`,
+      vessel_id: vesselId,
+      candidate_id: candidateId,
+      submission_id: submissionId,
+      source_added: false,
+      commit_sha: null
+    });
   }
 
-  submission.workflow.review.candidate_id =
-    candidateId;
-
-  submission.workflow.review
-    .candidate_linked_at =
-      linkedAt;
-
-  const saveResult =
-    await saveCanonicalVesselAndIndex({
-      env,
-      vesselResult,
-      vessel,
-      updatedAt:
-        linkedAt,
-
-      message:
-        `${vesselId} mit ${candidateId} verknüpft`,
-
-      extraFiles: [
-        {
-          path:
-            submissionPath,
-
-          content:
-            JSON.stringify(
-              submission,
-              null,
-              2
-            ) + "\n",
-
-          encoding:
-            "utf-8"
-        }
-      ]
-    });
+  const saveResult = await saveCanonicalVesselAndIndex({
+    env,
+    vesselResult,
+    vessel,
+    updatedAt: linkedAt,
+    message: `${vesselId} mit ${candidateId} verknüpft`,
+    extraFiles
+  });
 
   if (!saveResult.ok) {
     return jsonResponse({
       ok: false,
-      error:
-        saveResult.error,
-      github_step:
-        saveResult.step ?? null,
-      github_status:
-        saveResult.status ?? null,
-      github_response:
-        saveResult.body ?? null
+      error: saveResult.error,
+      github_step: saveResult.step ?? null,
+      github_status: saveResult.status ?? null,
+      github_response: saveResult.body ?? null
     }, 502);
   }
 
   return jsonResponse({
     ok: true,
-
-    message:
-      sourceAdded
-        ? (
-            `${candidateId} wurde mit ` +
-            `${vesselId} verknüpft.`
-          )
-        : (
-            `${vesselId} war bereits mit ` +
-            `${candidateId} verknüpft.`
-          ),
-
-    vessel_id:
-      vesselId,
-
-    candidate_id:
-      candidateId,
-
-    submission_id:
-      submissionId,
-
-    source_added:
-      sourceAdded,
-
-    commit_sha:
-      saveResult.commitSha
+    message: sourceAdded
+      ? `${candidateId} wurde mit ${vesselId} verknüpft.`
+      : `${vesselId} war bereits mit ${candidateId} verknüpft.`,
+    vessel_id: vesselId,
+    candidate_id: candidateId,
+    submission_id: submissionId,
+    source_added: sourceAdded,
+    commit_sha: saveResult.commitSha
   });
 }
 
