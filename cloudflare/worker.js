@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.10.7
+ * Version: 0.10.8
  * Updated: 2026-07-23
  */
 
@@ -3538,7 +3538,7 @@ async function handleLinkVesselCandidate(request, env) {
     ok: true,
     message: appliedFieldCount > 0
       ? `${candidateId} wurde mit ${vesselId} verknüpft. ` +
-        `${appliedFieldCount} fehlende Stammdatenfelder wurden übernommen.`
+        `${appliedFieldCount} Stammdatenfelder wurden übernommen oder vereinheitlicht.`
       : candidateResult.source_added
         ? `${candidateId} wurde mit ${vesselId} verknüpft.`
         : `${vesselId} war bereits mit ${candidateId} verknüpft.`,
@@ -5784,6 +5784,26 @@ function applyCandidateOrigin({
     addField("operations.operator", candidate.operator);
     addField("operations.home_port", candidate.home_port);
   } else {
+    const currentName = String(vessel.identity.name ?? "").trim();
+    const candidateName = String(candidate.name ?? "").trim();
+
+    const sameNormalizedName =
+      currentName &&
+      candidateName &&
+      buildVesselNameKeys(currentName).name_key ===
+        buildVesselNameKeys(candidateName).name_key;
+
+    if (sameNormalizedName && currentName !== candidateName) {
+      vessel.identity.name = candidateName;
+      fieldsUsed.push("identity.name");
+
+      fieldChanges.push({
+        field: "identity.name",
+        old_value: currentName,
+        new_value: candidateName
+      });
+    }
+
     const currentFormerNames = Array.isArray(vessel.identity.former_names)
       ? vessel.identity.former_names
       : [];
@@ -5898,9 +5918,9 @@ function applyCandidateOrigin({
     ? `Vorbelegung aus ${candidate.candidate_id}.`
     : fieldsUsed.length > 0
       ? `Nachträglich mit ${candidate.candidate_id} verknüpft. ` +
-        "Fehlende Stammdaten wurden aus dem Kandidatenkatalog übernommen."
+        "Stammdaten wurden aus dem Kandidatenkatalog übernommen oder vereinheitlicht."
       : `Nachträglich mit ${candidate.candidate_id} verknüpft. ` +
-        "Es waren keine fehlenden Stammdaten zu übernehmen.";
+        "Es waren keine Stammdaten zu übernehmen oder zu vereinheitlichen.";
 
   let sourceAdded = false;
   let sourceUpdated = false;
@@ -5995,10 +6015,10 @@ function applyCandidateOrigin({
       const fieldCount = fieldChanges.length;
       const summary = sourceAdded && fieldCount > 0
         ? `Mit Kandidat ${candidate.candidate_id} verknüpft und ` +
-          `${fieldCount} fehlende Felder übernommen`
+          `${fieldCount} Katalogfelder übernommen`
         : sourceAdded
           ? `Mit Kandidat ${candidate.candidate_id} verknüpft`
-          : `${fieldCount} fehlende Felder aus Kandidat ` +
+          : `${fieldCount} Katalogfelder aus Kandidat ` +
             `${candidate.candidate_id} übernommen`;
 
       vessel.audit.change_history.push({
