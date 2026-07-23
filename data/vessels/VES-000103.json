@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000103",
+  "identity": {
+    "name": "A-Rosa Riva",
+    "former_names": [],
+    "mmsi": "",
+    "imo": "8979295",
+    "eni": "04802780",
+    "call_sign": ""
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "DE"
+  },
+  "technical": {
+    "year_built": 2004,
+    "shipyard": "",
+    "length_m": 124.5,
+    "width_m": 14.4,
+    "draft_m": null,
+    "passengers": 242
+  },
+  "operations": {
+    "operator": "A-ROSA Flussschiff",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": "Rostock"
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [
+    {
+      "source_id": "SRC-FCC1EB8B4C25",
+      "provider": "Wikipedia",
+      "title": "Kandidatenkatalog: A-Rosa Riva",
+      "url": "https://de.wikipedia.org/wiki/A-Rosa_Riva",
+      "notes": "Vorbelegung aus CAN-1989310A9291.",
+      "fields_used": [
+        "identity.name",
+        "identity.eni",
+        "identity.imo",
+        "classification.ship_type",
+        "classification.ship_subtype",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "retrieved_at": "",
+      "verified_at": "",
+      "added_at": "2026-07-23T19:07:26.363Z",
+      "added_by": "candidate-catalog",
+      "candidate_id": "CAN-1989310A9291",
+      "source_revision_id": "268617530"
+    }
+  ],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-5F48A7B1B6424C60BB50639B619E67D3",
+    "primary_submission_id": "SUB-20260719-153937-710675"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-07-23T19:07:26.363Z",
+    "created_from_submission_id": "SUB-20260719-153937-710675",
+    "updated_at": "2026-07-23T19:07:26.363Z",
+    "updated_by": "web-ui",
+    "created_from_candidate_id": "CAN-1989310A9291",
+    "candidate_source_revision_id": "268617530"
+  }
+}
