@@ -1,14 +1,13 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.10.2
-// Updated: 2026-07-22
+// Version: 0.10.5
+// Updated: 2026-07-23
 
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
   const byId = id => document.getElementById(id);
-  const reference =
-    window.VesselReference;  
+  const reference = window.VesselReference;
 
   const workerUrl = String(
     window.VesselConfig?.workerUrl ?? ""
@@ -27,29 +26,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const reloadButton = byId("reloadButton");
   const pageStatus = byId("pageStatus");
   const content = byId("vesselContent");
-  
+
   const editCard = byId("vesselEditCard");
   const editForm = byId("vesselEditForm");
+  const editName = byId("editName");
   const saveEditButton = byId("saveEditButton");
   const cancelEditButton = byId("cancelEditButton");
-  
-  const addSourceButton =
-    byId("addSourceButton");
-  
-  const sourceForm =
-    byId("sourceForm");
-  
-  const saveSourceButton =
-    byId("saveSourceButton");
-  
-  const cancelSourceButton =
-    byId("cancelSourceButton");
+  const editNameMatchPanel = byId("editNameMatchPanel");
+  const editNameMatchStatus = byId("editNameMatchStatus");
+  const editNameMatchCount = byId("editNameMatchCount");
+  const editExistingNameMatches = byId("editExistingNameMatches");
+  const editCatalogNameMatches = byId("editCatalogNameMatches");
+
+  const addSourceButton = byId("addSourceButton");
+  const sourceForm = byId("sourceForm");
+  const saveSourceButton = byId("saveSourceButton");
+  const cancelSourceButton = byId("cancelSourceButton");
   
   let currentVessel = null;
   let editModeActive = false;
   let sourceFormActive = false;
   let editingSourceId = "";
   let referenceReady = false;
+  let editNameSearchToken = 0;
+  let editNameSearchTimer = null;
 
   function value(input, suffix = "") {
     return (
@@ -513,7 +513,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   
     return result;
-  } 
+  }
+
+  async function getManagementRequest(endpoint) {
+    const headers = {};
+    const suppliedApiKey = apiKey.value.trim();
+
+    if (suppliedApiKey) {
+      headers["X-API-Key"] = suppliedApiKey;
+    }
+
+    const response = await fetch(
+      `${workerUrl}${endpoint}`,
+      { headers }
+    );
+
+    let result = {};
+
+    try {
+      result = await response.json();
+    } catch {
+      result = {};
+    }
+
+    if (!response.ok || result.ok !== true) {
+      throw new Error(
+        result.error ||
+        `Der Worker antwortete mit HTTP ${response.status}.`
+      );
+    }
+
+    return result;
+  }
 
   function resetSourceForm() {
     editingSourceId = "";
@@ -1185,7 +1216,362 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
   }
   
+  function getLinkedCandidateIds() {
+    const sources = Array.isArray(currentVessel?.sources)
+      ? currentVessel.sources
+      : [];
+
+    const audit = currentVessel?.audit || {};
+    const candidateIds = [
+      audit.created_from_candidate_id,
+      ...(Array.isArray(audit.linked_candidate_ids)
+        ? audit.linked_candidate_ids
+        : []),
+      ...sources.map(source => source?.candidate_id)
+    ];
+
+    return new Set(
+      candidateIds
+        .map(candidateId => String(candidateId ?? "").trim())
+        .filter(candidateId => /^CAN-[A-F0-9]{12}$/.test(candidateId))
+    );
+  }
+
+  function candidateConfidenceLabel(scoreValue) {
+    const score = Number(scoreValue) || 0;
+    const percentage = Math.round(score * 100);
+
+    if (score >= 0.98) {
+      return `sehr hoch · ${percentage} %`;
+    }
+
+    if (score >= 0.92) {
+      return `hoch · ${percentage} %`;
+    }
+
+    return `möglich · ${percentage} %`;
+  }
+
+  function createNameMatchMetaItem(labelText, valueText) {
+    if (
+      valueText === null ||
+      valueText === undefined ||
+      String(valueText).trim() === ""
+    ) {
+      return null;
+    }
+
+    const item = document.createElement("div");
+    const label = document.createElement("span");
+    const content = document.createElement("strong");
+
+    label.textContent = `${labelText}:`;
+    content.textContent = String(valueText);
+    item.append(label, content);
+
+    return item;
+  }
+
+  function createNameMatchCard({
+    title,
+    identifier,
+    score,
+    metadata,
+    sourceUrl = "",
+    actionLabel,
+    onAction
+  }) {
+    const card = document.createElement("article");
+    card.className = "edit-name-match-card";
+
+    const header = document.createElement("div");
+    header.className = "edit-name-match-card-header";
+
+    const heading = document.createElement("div");
+    const name = document.createElement("h5");
+    const id = document.createElement("span");
+    const confidence = document.createElement("span");
+
+    name.textContent = title;
+    id.className = "edit-name-match-id";
+    id.textContent = identifier;
+    confidence.className = "edit-name-match-confidence";
+    confidence.textContent = candidateConfidenceLabel(score);
+
+    heading.append(name, id);
+    header.append(heading, confidence);
+    card.append(header);
+
+    const metadataContainer = document.createElement("div");
+    metadataContainer.className = "edit-name-match-meta";
+
+    for (const [label, metadataValue] of metadata) {
+      const item = createNameMatchMetaItem(label, metadataValue);
+      if (item) metadataContainer.append(item);
+    }
+
+    if (metadataContainer.childElementCount > 0) {
+      card.append(metadataContainer);
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "edit-name-match-actions";
+
+    const normalizedSourceUrl = safeUrl(sourceUrl);
+
+    if (normalizedSourceUrl) {
+      const sourceLink = document.createElement("a");
+      sourceLink.className = "edit-name-match-source";
+      sourceLink.href = normalizedSourceUrl;
+      sourceLink.target = "_blank";
+      sourceLink.rel = "noopener noreferrer";
+      sourceLink.textContent = "Quelle öffnen";
+      actions.append(sourceLink);
+    }
+
+    const actionButton = document.createElement("button");
+    actionButton.type = "button";
+    actionButton.className = "primary-button";
+    actionButton.textContent = actionLabel;
+    actionButton.addEventListener("click", () => onAction(actionButton));
+    actions.append(actionButton);
+
+    card.append(actions);
+    return card;
+  }
+
+  function clearEditNameMatches() {
+    editNameSearchToken += 1;
+
+    if (editNameSearchTimer) {
+      clearTimeout(editNameSearchTimer);
+      editNameSearchTimer = null;
+    }
+
+    editExistingNameMatches.replaceChildren();
+    editCatalogNameMatches.replaceChildren();
+    editNameMatchStatus.textContent = "";
+    editNameMatchCount.textContent = "0";
+    editNameMatchPanel.classList.add("hidden");
+  }
+
+  async function linkVesselCandidate(candidate, button) {
+    const candidateId = String(candidate?.candidate_id ?? "").trim();
+
+    if (!/^CAN-[A-F0-9]{12}$/.test(candidateId)) {
+      pageStatus.className = "page-status error";
+      pageStatus.textContent = "Der Katalogtreffer besitzt keine gültige Kandidaten-ID.";
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `Soll ${candidateId} – ${candidate.name} mit ${vesselId} verknüpft werden? ` +
+      "Bestehende Stammdaten werden dabei nicht überschrieben."
+    );
+
+    if (!confirmed) return;
+
+    const originalButtonText = button.textContent;
+    button.disabled = true;
+    button.textContent = "Wird verknüpft …";
+    pageStatus.className = "page-status";
+    pageStatus.textContent = "";
+
+    try {
+      const result = await postManagementRequest(
+        "/vessel-candidate-link",
+        {
+          vessel_id: vesselId,
+          candidate_id: candidateId
+        }
+      );
+
+      await load();
+      populateEditForm(currentVessel);
+      scheduleEditNameSearch();
+
+      pageStatus.className = "page-status success";
+      pageStatus.textContent = result.message;
+    } catch (error) {
+      pageStatus.className = "page-status error";
+      pageStatus.textContent = error instanceof Error
+        ? error.message
+        : String(error);
+
+      button.disabled = false;
+      button.textContent = originalButtonText;
+    }
+  }
+
+  function renderEditNameMatches(result) {
+    const linkedCandidateIds = getLinkedCandidateIds();
+    const existingMatches = Array.isArray(result?.existing_vessels)
+      ? result.existing_vessels
+      : [];
+
+    const allCatalogMatches = Array.isArray(result?.catalog_candidates)
+      ? result.catalog_candidates
+      : [];
+
+    const catalogMatches = allCatalogMatches.filter(
+      candidate => !linkedCandidateIds.has(candidate.candidate_id)
+    );
+
+    const linkedMatches = allCatalogMatches.filter(
+      candidate => linkedCandidateIds.has(candidate.candidate_id)
+    );
+
+    editExistingNameMatches.replaceChildren();
+    editCatalogNameMatches.replaceChildren();
+
+    const matchCount = existingMatches.length + catalogMatches.length;
+    editNameMatchCount.textContent = String(matchCount);
+
+    if (matchCount === 0) {
+      if (linkedMatches.length > 0) {
+        editNameMatchStatus.textContent =
+          `Der passende Katalogeintrag ${linkedMatches[0].candidate_id} ` +
+          "ist bereits mit diesem Schiff verknüpft.";
+        editNameMatchPanel.classList.remove("hidden");
+      } else {
+        editNameMatchPanel.classList.add("hidden");
+      }
+
+      return;
+    }
+
+    editNameMatchStatus.textContent =
+      `${existingMatches.length} ähnliche vorhandene ` +
+      `${existingMatches.length === 1 ? "Schiff" : "Schiffe"} und ` +
+      `${catalogMatches.length} ` +
+      `${catalogMatches.length === 1 ? "Katalogtreffer" : "Katalogtreffer"}.`;
+
+    if (existingMatches.length > 0) {
+      const heading = document.createElement("div");
+      heading.className = "edit-name-match-group-title";
+      heading.textContent = "Bereits vorhandene Schiffe";
+      editExistingNameMatches.append(heading);
+
+      for (const match of existingMatches) {
+        editExistingNameMatches.append(
+          createNameMatchCard({
+            title: match.name || match.vessel_id,
+            identifier: match.vessel_id,
+            score: match.score,
+            metadata: [
+              ["ENI", match.eni],
+              ["IMO", match.imo],
+              ["Betreiber", match.operator],
+              [
+                "Flagge",
+                match.flag ? reference.flagLabel(match.flag) : ""
+              ]
+            ],
+            actionLabel: "Schiff öffnen",
+            onAction: () => {
+              window.location.href =
+                `vessel.html?id=${encodeURIComponent(match.vessel_id)}`;
+            }
+          })
+        );
+      }
+    }
+
+    if (catalogMatches.length > 0) {
+      const heading = document.createElement("div");
+      heading.className = "edit-name-match-group-title";
+      heading.textContent = "Kandidatenkatalog";
+      editCatalogNameMatches.append(heading);
+
+      for (const candidate of catalogMatches) {
+        const dimensions = [
+          candidate.length_m ? `${candidate.length_m} m` : "",
+          candidate.width_m ? `${candidate.width_m} m` : ""
+        ]
+          .filter(Boolean)
+          .join(" × ");
+
+        editCatalogNameMatches.append(
+          createNameMatchCard({
+            title: candidate.name || candidate.candidate_id,
+            identifier: candidate.candidate_id,
+            score: candidate.score,
+            metadata: [
+              ["ENI", candidate.eni],
+              ["IMO", candidate.imo],
+              ["Baujahr", candidate.year_built],
+              ["Maße", dimensions],
+              ["Passagiere", candidate.passengers],
+              ["Betreiber", candidate.operator],
+              ["Heimathafen", candidate.home_port],
+              [
+                "Flagge",
+                candidate.flag ? reference.flagLabel(candidate.flag) : ""
+              ]
+            ],
+            sourceUrl: candidate.article_url,
+            actionLabel: "Mit diesem Kandidaten verknüpfen",
+            onAction: button => linkVesselCandidate(candidate, button)
+          })
+        );
+      }
+    }
+
+    editNameMatchPanel.classList.remove("hidden");
+  }
+
+  async function requestEditNameMatches() {
+    const name = editName.value.trim();
+
+    if (!editModeActive || !workerUrl || name.length < 2) {
+      clearEditNameMatches();
+      return;
+    }
+
+    const token = ++editNameSearchToken;
+    editNameMatchPanel.classList.remove("hidden");
+    editNameMatchStatus.textContent =
+      "Vorhandene Schiffe und Katalogeinträge werden gesucht …";
+    editNameMatchCount.textContent = "…";
+    editExistingNameMatches.replaceChildren();
+    editCatalogNameMatches.replaceChildren();
+
+    try {
+      const endpoint =
+        `/vessel-name-suggestions?name=${encodeURIComponent(name)}` +
+        `&exclude_vessel_id=${encodeURIComponent(vesselId)}`;
+
+      const result = await getManagementRequest(endpoint);
+      if (token !== editNameSearchToken) return;
+
+      renderEditNameMatches(result);
+    } catch (error) {
+      if (token !== editNameSearchToken) return;
+
+      editNameMatchStatus.textContent = error instanceof Error
+        ? error.message
+        : String(error);
+      editNameMatchCount.textContent = "!";
+      editExistingNameMatches.replaceChildren();
+      editCatalogNameMatches.replaceChildren();
+      editNameMatchPanel.classList.remove("hidden");
+    }
+  }
+
+  function scheduleEditNameSearch() {
+    if (editNameSearchTimer) {
+      clearTimeout(editNameSearchTimer);
+    }
+
+    editNameSearchTimer = setTimeout(() => {
+      editNameSearchTimer = null;
+      requestEditNameMatches();
+    }, 400);
+  }
+
   function populateEditForm(vessel) {
+    clearEditNameMatches();
+
     const identity =
       vessel?.identity || {};
   
@@ -1318,34 +1704,28 @@ document.addEventListener("DOMContentLoaded", () => {
   
   function setEditMode(enabled) {
     editModeActive = Boolean(enabled);
-  
-    editCard.classList.toggle(
-      "hidden",
-      !editModeActive
-    );
-  
-    editButton.textContent =
-      editModeActive
-        ? "Bearbeitung geöffnet"
-        : "Bearbeiten";
-  
-    editButton.disabled =
-      editModeActive ||
-      !currentVessel;
-  
-    reloadButton.disabled =
-      editModeActive;
-  
-    if (editModeActive) {
-      editCard.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-  
-      byId("editName").focus();
+
+    editCard.classList.toggle("hidden", !editModeActive);
+    editButton.textContent = editModeActive
+      ? "Bearbeitung geöffnet"
+      : "Bearbeiten";
+    editButton.disabled = editModeActive || !currentVessel;
+    reloadButton.disabled = editModeActive;
+
+    if (!editModeActive) {
+      clearEditNameMatches();
+      return;
     }
+
+    editCard.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+    editName.focus();
+    scheduleEditNameSearch();
   }
-  
+
   function buildVesselUpdatePayload() {
     return {
       vessel_id: vesselId,
@@ -2657,20 +3037,30 @@ document.addEventListener("DOMContentLoaded", () => {
       saveVesselUpdates();
     }
   );
+
+  editName.addEventListener("input", scheduleEditNameSearch);
+
+  editName.addEventListener("blur", () => {
+    if (editNameSearchTimer) {
+      clearTimeout(editNameSearchTimer);
+      editNameSearchTimer = null;
+    }
+
+    requestEditNameMatches();
+  });
   
   reloadButton.addEventListener(
     "click",
     load
   );
   
-  apiKey.addEventListener(
-    "change",
-    () => {
-      if (!editModeActive) {
-        load();
-      }
+  apiKey.addEventListener("change", () => {
+    if (editModeActive) {
+      requestEditNameMatches();
+    } else {
+      load();
     }
-  );
+  });
 
   byId("editShipType")
     .addEventListener(
