@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "importer_version": "0.10.3",
+  "generated_at": "2026-07-23T07:54:01Z",
+  "source_revision_id": 268617530,
+  "source_row_count": 775,
+  "candidate_count": 773,
+  "merged_duplicate_row_count": 2,
+  "duplicate_field_conflicts": [
+    {
+      "candidate_id": "CAN-4A9950AA17C9",
+      "field": "technical.length_m",
+      "first_value": 82.5,
+      "other_value": 82.0,
+      "source_row_number": 495
+    },
+    {
+      "candidate_id": "CAN-4A9950AA17C9",
+      "field": "technical.passengers",
+      "first_value": 82,
+      "other_value": 89,
+      "source_row_number": 495
+    },
+    {
+      "candidate_id": "CAN-4A9950AA17C9",
+      "field": "operations.operator",
+      "first_value": "Swiss Excellence River Cruise",
+      "other_value": "Reisebüro Mittelthurgau",
+      "source_row_number": 495
+    }
+  ],
+  "identifier_collisions": [
+    {
+      "identifier_type": "eni",
+      "identifier": "07001828",
+      "candidates": [
+        {
+          "candidate_id": "CAN-7CD1A6FE21F7",
+          "name": "Amadagio"
+        },
+        {
+          "candidate_id": "CAN-D6C28E4C74F3",
+          "name": "Lady Cristina"
+        }
+      ]
+    },
+    {
+      "identifier_type": "eni",
+      "identifier": "02329183",
+      "candidates": [
+        {
+          "candidate_id": "CAN-370D079BF25D",
+          "name": "AmaDante"
+        },
+        {
+          "candidate_id": "CAN-33DEC1E018B0",
+          "name": "AmaMagna"
+        }
+      ]
+    },
+    {
+      "identifier_type": "eni",
+      "identifier": "04801620",
+      "candidates": [
+        {
+          "candidate_id": "CAN-CB3F0CC8755B",
+          "name": "Amadeus Classic"
+        },
+        {
+          "candidate_id": "CAN-2E5214567C7D",
+          "name": "Dutch Grace"
+        }
+      ]
+    },
+    {
+      "identifier_type": "eni",
+      "identifier": "07001746",
+      "candidates": [
+        {
+          "candidate_id": "CAN-1805C86185CC",
+          "name": "Compass Empress"
+        },
+        {
+          "candidate_id": "CAN-20F610609A4B",
+          "name": "River Empress"
+        }
+      ]
+    },
+    {
+      "identifier_type": "eni",
+      "identifier": "02324591",
+      "candidates": [
+        {
+          "candidate_id": "CAN-49B58B3BA9DF",
+          "name": "Crucestar"
+        },
+        {
+          "candidate_id": "CAN-FCA89B3F7F89",
+          "name": "Regina Rheni"
+        }
+      ]
+    },
+    {
+      "identifier_type": "eni",
+      "identifier": "04812710",
+      "candidates": [
+        {
+          "candidate_id": "CAN-AD530D1CD7DA",
+          "name": "Crystal Ravel"
+        },
+        {
+          "candidate_id": "CAN-80B2B7623CD6",
+          "name": "Riverside Ravel"
+        }
+      ]
+    },
+    {
+      "identifier_type": "eni",
+      "identifier": "04804700",
+      "candidates": [
+        {
+          "candidate_id": "CAN-2F6D6B530B02",
+          "name": "Rhein Symphonie"
+        },
+        {
+          "candidate_id": "CAN-623B72D9C126",
+          "name": "Viking Helvetia"
+        }
+      ]
+    },
+    {
+      "identifier_type": "eni",
+      "identifier": "09948012",
+      "candidates": [
+        {
+          "candidate_id": "CAN-BF252725A335",
+          "name": "River Sapphire"
+        },
+        {
+          "candidate_id": "CAN-CB6E00D169F3",
+          "name": "Travelmarvel Sapphire"
+        }
+      ]
+    },
+    {
+      "identifier_type": "eni",
+      "identifier": "02334836",
+      "candidates": [
+        {
+          "candidate_id": "CAN-9D89F81D85F5",
+          "name": "River Splendor"
+        },
+        {
+          "candidate_id": "CAN-7D13A44EDCD6",
+          "name": "Swiss Splendor"
+        }
+      ]
+    },
+    {
+      "identifier_type": "eni",
+      "identifier": "04804640",
+      "candidates": [
+        {
+          "candidate_id": "CAN-A417D17BAE30",
+          "name": "Select Explorer"
+        },
+        {
+          "candidate_id": "CAN-F581E2091C49",
+          "name": "VistaExplorer"
+        }
+      ]
+    },
+    {
+      "identifier_type": "imo",
+      "identifier": "8707692",
+      "candidates": [
+        {
+          "candidate_id": "CAN-C8C97CB0BFEA",
+          "name": "Dnieper Star"
+        },
+        {
+          "candidate_id": "CAN-137EA97B360C",
+          "name": "Lunnaya Sonata"
+        }
+      ]
+    }
+  ]
+}
