@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.10.6
+ * Version: 0.10.7
  * Updated: 2026-07-23
  */
 
@@ -3507,6 +3507,8 @@ async function handleLinkVesselCandidate(request, env) {
       source_added: false,
       source_updated: false,
       fields_applied: [],
+      vessel,
+      path: vesselResult.path,
       commit_sha: null
     });
   }
@@ -3546,6 +3548,8 @@ async function handleLinkVesselCandidate(request, env) {
     source_added: candidateResult.source_added,
     source_updated: candidateResult.source_updated,
     fields_applied: candidateResult.fields_applied,
+    vessel,
+    path: vesselResult.path,
     commit_sha: saveResult.commitSha
   });
 }
