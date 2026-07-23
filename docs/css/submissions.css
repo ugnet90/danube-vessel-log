@@ -1,3 +1,10 @@
+/*
+ * Danube Vessel Log
+ * File: docs/css/submissions.css
+ * Version: 0.10.3
+ * Updated: 2026-07-23
+ */
+
 :root {
   color-scheme: light;
 }
@@ -527,6 +534,143 @@ button:disabled {
   padding: 8px 12px;
 }
 
+.catalog-candidate-panel {
+  padding: 16px;
+  margin-bottom: 18px;
+  border: 1px solid #b9c9db;
+  border-radius: 9px;
+  background: #f7faff;
+}
+
+.catalog-candidate-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.catalog-candidate-header h3 {
+  margin: 0 0 5px;
+}
+
+.catalog-candidate-header p {
+  margin: 0;
+  color: #5f6b76;
+  line-height: 1.4;
+}
+
+.catalog-candidate-count {
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.catalog-candidate-list {
+  display: grid;
+  gap: 12px;
+}
+
+.catalog-candidate-card {
+  padding: 14px;
+  border: 1px solid #d8e0e8;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.catalog-candidate-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.catalog-candidate-card h4 {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+}
+
+.catalog-candidate-id {
+  color: #6b7280;
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.catalog-confidence {
+  flex: 0 0 auto;
+  padding: 5px 8px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 750;
+}
+
+.catalog-confidence-very_high {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.catalog-confidence-high {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.catalog-confidence-possible {
+  background: #fff3cd;
+  color: #664d03;
+}
+
+.catalog-candidate-meta {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 7px 18px;
+  margin-top: 13px;
+}
+
+.catalog-candidate-meta > div {
+  display: flex;
+  gap: 6px;
+  min-width: 0;
+}
+
+.catalog-meta-label {
+  color: #6b7280;
+}
+
+.catalog-candidate-meta strong {
+  overflow-wrap: anywhere;
+}
+
+.catalog-candidate-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #edf0f2;
+}
+
+.catalog-source-link {
+  color: #2563eb;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.new-vessel-candidate-notice {
+  padding: 11px 13px;
+  margin-bottom: 16px;
+  border: 1px solid #b8cdf6;
+  border-radius: 8px;
+  background: #eaf1ff;
+  color: #1d4ed8;
+  font-weight: 650;
+}
+
 .vessel-create-panel {
   padding: 18px;
   margin-bottom: 18px;
@@ -587,6 +731,21 @@ button:disabled {
 }
 
 @media (max-width: 700px) {
+  .catalog-candidate-header,
+  .catalog-candidate-card-header,
+  .catalog-candidate-actions {
+    flex-direction: column;
+  }
+
+  .catalog-candidate-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-candidate-actions,
+  .catalog-candidate-actions button {
+    width: 100%;
+  }
+  
   .create-form-grid {
     grid-template-columns: 1fr;
   }
