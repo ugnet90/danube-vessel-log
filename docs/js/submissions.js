@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/submissions.js
-// Version: 0.10.1
+// Version: 0.10.3
 // Updated: 2026-07-22
 
 "use strict";
@@ -46,6 +46,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const vesselEnvironmentBadge = byId("vesselEnvironmentBadge");
   const vesselCandidatePanel = byId("vesselCandidatePanel");
   const vesselCandidates = byId("vesselCandidates");
+    const catalogCandidatePanel =
+    byId("catalogCandidatePanel");
+
+  const catalogCandidateCount =
+    byId("catalogCandidateCount");
+
+  const catalogCandidates =
+    byId("catalogCandidates");
   const vesselError = byId("vesselError");
   const vesselContent = byId("vesselContent");
   const vesselName = byId("vesselName");
@@ -79,6 +87,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const openVesselCreateButton = byId("openVesselCreateButton");
   const vesselCreatePanel = byId("vesselCreatePanel");
   const cancelVesselCreateButton = byId("cancelVesselCreateButton");
+    const newVesselCandidateId =
+    byId("newVesselCandidateId");
+
+  const newVesselCandidateNotice =
+    byId(
+      "newVesselCandidateNotice"
+    );
   const newVesselEnvironment = byId("newVesselEnvironment");
   const newVesselId = byId("newVesselId");
   const newVesselName = byId("newVesselName");
@@ -293,6 +308,16 @@ document.addEventListener("DOMContentLoaded", () => {
       {}
     );
   }
+
+  function getCatalogCandidates(
+    submission
+  ) {
+    return Array.isArray(
+      submission?.catalog_candidates
+    )
+      ? submission.catalog_candidates
+      : [];
+  }  
 
   function getReview(submission) {
     return (
@@ -629,6 +654,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function resetVesselCreateForm() {
+    newVesselCandidateId.value =
+      "";
+
+    newVesselCandidateNotice
+      .textContent = "";
+
+    newVesselCandidateNotice
+      .classList.add("hidden");    
     newVesselEnvironment.value = "production";
     newVesselId.value = "";
     newVesselName.value =
@@ -749,8 +782,106 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       newVesselName.focus();
       newVesselName.select();
-    });
+    });    
   }
+
+  function openVesselCreateFromCandidate(
+    candidate
+  ) {
+    /*
+     * Die vorhandene Funktion kümmert
+     * sich weiterhin um Öffnen,
+     * Zurücksetzen und ID-Vorschlag.
+     */
+    openVesselCreateForm();
+
+    newVesselCandidateId.value =
+      candidate.candidate_id ?? "";
+
+    newVesselCandidateNotice
+      .textContent =
+        (
+          `Vorbelegung aus ` +
+          `${candidate.candidate_id}: ` +
+          `${candidate.name}`
+        );
+
+    newVesselCandidateNotice
+      .classList.remove("hidden");
+
+    newVesselName.value =
+      candidate.name ?? "";
+
+    newVesselFormerNames.value =
+      Array.isArray(
+        candidate.former_names
+      )
+        ? candidate
+            .former_names
+            .join("\n")
+        : "";
+
+    newVesselMmsi.value =
+      candidate.mmsi ?? "";
+
+    newVesselImo.value =
+      candidate.imo ?? "";
+
+    newVesselEni.value =
+      reference.normalizeEni(
+        candidate.eni ?? ""
+      );
+
+    newVesselCallSign.value =
+      "";
+
+    populateNewVesselShipTypes(
+      candidate.ship_type ||
+      "PASSENGER"
+    );
+
+    populateNewVesselShipSubtypes(
+      newVesselShipType.value,
+      candidate.ship_subtype ||
+      "RIVER_CRUISE"
+    );
+
+    populateNewVesselFlags(
+      candidate.flag ?? ""
+    );
+
+    /*
+     * Wikipedia-Liste sagt nicht
+     * zuverlässig, ob das Schiff noch
+     * aktiv ist.
+     */
+    newVesselStatus.value =
+      "unknown";
+
+    newVesselYearBuilt.value =
+      candidate.year_built ?? "";
+
+    newVesselLength.value =
+      candidate.length_m ?? "";
+
+    newVesselWidth.value =
+      candidate.width_m ?? "";
+
+    newVesselPassengers.value =
+      candidate.passengers ?? "";
+
+    newVesselOperator.value =
+      candidate.operator ?? "";
+
+    newVesselHomePort.value =
+      candidate.home_port ?? "";
+
+    vesselCreatePanel
+      .scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+  }  
 
   function parseFormerNames(value) {
     return [
@@ -765,9 +896,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function buildNewVesselPayload() {
     return {
-      environment: newVesselEnvironment.value,
       submission_id:
-        selectedSubmission?.submission_id ?? "",
+        selectedSubmission
+          ?.submission_id ?? "",
+    
+      candidate_id:
+        newVesselCandidateId
+          .value
+          .trim(),
+    
+      environment:
+        newVesselEnvironment.value, 
       review_notes: reviewNotes.value.trim(),
       name: newVesselName.value.trim(),
       former_names:
@@ -921,6 +1060,290 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
   }
+
+  function catalogConfidenceLabel(
+    candidate
+  ) {
+    const percentage =
+      Math.round(
+        Number(
+          candidate?.score ?? 0
+        ) * 100
+      );
+
+    const label =
+      candidate?.confidence ===
+        "very_high"
+        ? "sehr hohe Übereinstimmung"
+        : candidate?.confidence ===
+            "high"
+          ? "hohe Übereinstimmung"
+          : "mögliche Übereinstimmung";
+
+    return (
+      `${label} · ${percentage} %`
+    );
+  }
+
+  function createCatalogMetaItem(
+    label,
+    value
+  ) {
+    if (
+      value === null ||
+      value === undefined ||
+      String(value).trim() === ""
+    ) {
+      return null;
+    }
+
+    const item =
+      document.createElement("div");
+
+    const term =
+      document.createElement("span");
+
+    term.className =
+      "catalog-meta-label";
+
+    term.textContent =
+      `${label}:`;
+
+    const content =
+      document.createElement("strong");
+
+    content.textContent =
+      String(value);
+
+    item.append(
+      term,
+      content
+    );
+
+    return item;
+  }
+
+  function renderCatalogCandidates(
+    candidates
+  ) {
+    const normalizedCandidates =
+      Array.isArray(candidates)
+        ? candidates
+        : [];
+
+    catalogCandidates
+      .replaceChildren();
+
+    catalogCandidateCount
+      .textContent =
+        String(
+          normalizedCandidates.length
+        );
+
+    if (
+      normalizedCandidates.length ===
+      0
+    ) {
+      catalogCandidatePanel
+        .classList.add("hidden");
+
+      return;
+    }
+
+    for (
+      const candidate
+      of normalizedCandidates
+    ) {
+      const card =
+        document.createElement(
+          "article"
+        );
+
+      card.className =
+        "catalog-candidate-card";
+
+      const header =
+        document.createElement("div");
+
+      header.className =
+        "catalog-candidate-card-header";
+
+      const heading =
+        document.createElement("div");
+
+      const title =
+        document.createElement("h4");
+
+      title.textContent =
+        candidate.name ||
+        candidate.candidate_id;
+
+      const candidateId =
+        document.createElement("span");
+
+      candidateId.className =
+        "catalog-candidate-id";
+
+      candidateId.textContent =
+        candidate.candidate_id;
+
+      heading.append(
+        title,
+        candidateId
+      );
+
+      const confidence =
+        document.createElement("span");
+
+      confidence.className =
+        `catalog-confidence ` +
+        `catalog-confidence-` +
+        `${
+          candidate.confidence ||
+          "possible"
+        }`;
+
+      confidence.textContent =
+        catalogConfidenceLabel(
+          candidate
+        );
+
+      header.append(
+        heading,
+        confidence
+      );
+
+      card.append(header);
+
+      const metadata =
+        document.createElement("div");
+
+      metadata.className =
+        "catalog-candidate-meta";
+
+      const dimensions = [
+        candidate.length_m
+          ? `${candidate.length_m} m`
+          : "",
+
+        candidate.width_m
+          ? `${candidate.width_m} m`
+          : ""
+      ]
+        .filter(Boolean)
+        .join(" × ");
+
+      const metadataItems = [
+        createCatalogMetaItem(
+          "ENI",
+          candidate.eni
+        ),
+
+        createCatalogMetaItem(
+          "IMO",
+          candidate.imo
+        ),
+
+        createCatalogMetaItem(
+          "Baujahr",
+          candidate.year_built
+        ),
+
+        createCatalogMetaItem(
+          "Maße",
+          dimensions
+        ),
+
+        createCatalogMetaItem(
+          "Passagiere",
+          candidate.passengers
+        ),
+
+        createCatalogMetaItem(
+          "Betreiber",
+          candidate.operator
+        ),
+
+        createCatalogMetaItem(
+          "Heimathafen",
+          candidate.home_port
+        ),
+
+        createCatalogMetaItem(
+          "Flagge",
+          candidate.flag
+            ? reference.flagLabel(
+                candidate.flag
+              )
+            : ""
+        )
+      ].filter(Boolean);
+
+      metadata.append(
+        ...metadataItems
+      );
+
+      card.append(metadata);
+
+      const footer =
+        document.createElement("div");
+
+      footer.className =
+        "catalog-candidate-actions";
+
+      if (candidate.article_url) {
+        const sourceLink =
+          document.createElement("a");
+
+        sourceLink.href =
+          candidate.article_url;
+
+        sourceLink.target =
+          "_blank";
+
+        sourceLink.rel =
+          "noopener noreferrer";
+
+        sourceLink.className =
+          "catalog-source-link";
+
+        sourceLink.textContent =
+          "Wikipedia öffnen";
+
+        footer.append(sourceLink);
+      }
+
+      const useButton =
+        document.createElement("button");
+
+      useButton.type = "button";
+
+      useButton.className =
+        "primary-button compact-button";
+
+      useButton.textContent =
+        "Daten in Neuanlage übernehmen";
+
+      useButton.addEventListener(
+        "click",
+        () => {
+          openVesselCreateFromCandidate(
+            candidate
+          );
+        }
+      );
+
+      footer.append(useButton);
+      card.append(footer);
+
+      catalogCandidates.append(
+        card
+      );
+    }
+
+    catalogCandidatePanel
+      .classList.remove("hidden");
+  }  
 
   function renderCandidateButtons(vesselIds) {
     vesselCandidates.replaceChildren();
@@ -1249,6 +1672,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderDetail() {
+    renderCatalogCandidates([]);
+    
     if (!selectedSubmission) {
       emptyState.classList.remove("hidden");
       detailContent.classList.add("hidden");
@@ -1357,7 +1782,16 @@ document.addEventListener("DOMContentLoaded", () => {
     renderPhoto();
     renderList();
     updateReviewButtons();
-    renderVesselContext(submission);
+    
+    renderCatalogCandidates(
+      getCatalogCandidates(
+        submission
+      )
+    );
+    
+    renderVesselContext(
+      submission
+    );
   }
 
   function selectSubmission(submissionId) {
