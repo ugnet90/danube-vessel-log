@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.10.2
+ * Version: 0.10.3
  * Updated: 2026-07-22
  */
 
@@ -13,6 +13,16 @@ const BRANCH = "main";
 const LOCATIONS_PATH = "data/locations.csv";
 const VESSELS_PATH = "data/vessels.csv";
 const VESSELS_DIRECTORY = "data/vessels";
+const VESSEL_CANDIDATES_PATH =
+  "data/vessel_candidates.csv";
+
+const VESSEL_CANDIDATE_MATCH_LIMIT = 5;
+
+const VESSEL_CANDIDATE_MIN_SCORE =
+  0.82;
+
+const EXISTING_VESSEL_MIN_SCORE =
+  0.86;
 const REFERENCE_FLAGS_PATH =
   "docs/data/reference/flags.json";
 
@@ -3215,6 +3225,59 @@ async function handleCreateVessel(request, env) {
     }, 400);
   }
 
+  const candidateId =
+    typeof input?.candidate_id ===
+      "string"
+      ? input.candidate_id.trim()
+      : "";
+
+  if (
+    candidateId &&
+    !/^CAN-[A-F0-9]{12}$/.test(
+      candidateId
+    )
+  ) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "candidate_id ist ungültig."
+    }, 400);
+  }
+
+  let selectedCandidate = null;
+
+  if (candidateId) {
+    const candidatesResult =
+      await loadVesselCandidates(
+        env
+      );
+
+    if (!candidatesResult.ok) {
+      return jsonResponse({
+        ok: false,
+        error:
+          candidatesResult.error
+      }, candidatesResult.status ?? 502);
+    }
+
+    selectedCandidate =
+      candidatesResult
+        .candidates
+        .find(
+          candidate =>
+            candidate.candidate_id ===
+            candidateId
+        ) ?? null;
+
+    if (!selectedCandidate) {
+      return jsonResponse({
+        ok: false,
+        error:
+          `${candidateId} wurde im Kandidatenkatalog nicht gefunden.`
+      }, 404);
+    }
+  }  
+
   const vesselsFile = await readGitHubFile({
     env,
     path: VESSELS_PATH
@@ -3323,6 +3386,15 @@ async function handleCreateVessel(request, env) {
         ? primaryPhoto.photo_id
         : ""
   });
+
+  if (selectedCandidate) {
+    applyCandidateOrigin({
+      vessel,
+      candidate:
+        selectedCandidate,
+      createdAt
+    });
+  }  
 
   const indexRow = buildVesselIndexRow({
     vessel,
@@ -5142,6 +5214,165 @@ function buildCanonicalVessel({
   };
 }
 
+function applyCandidateOrigin({
+  vessel,
+  candidate,
+  createdAt
+}) {
+  const fieldsUsed = [];
+
+  const addField = (
+    path,
+    value
+  ) => {
+    if (
+      value !== null &&
+      value !== undefined &&
+      String(value).trim() !== ""
+    ) {
+      fieldsUsed.push(path);
+    }
+  };
+
+  addField(
+    "identity.name",
+    candidate.name
+  );
+
+  if (
+    Array.isArray(
+      candidate.former_names
+    ) &&
+    candidate.former_names.length > 0
+  ) {
+    fieldsUsed.push(
+      "identity.former_names"
+    );
+  }
+
+  addField(
+    "identity.eni",
+    candidate.eni
+  );
+
+  addField(
+    "identity.imo",
+    candidate.imo
+  );
+
+  fieldsUsed.push(
+    "classification.ship_type",
+    "classification.ship_subtype"
+  );
+
+  addField(
+    "classification.flag",
+    candidate.flag
+  );
+
+  addField(
+    "technical.year_built",
+    candidate.year_built
+  );
+
+  addField(
+    "technical.length_m",
+    candidate.length_m
+  );
+
+  addField(
+    "technical.width_m",
+    candidate.width_m
+  );
+
+  addField(
+    "technical.passengers",
+    candidate.passengers
+  );
+
+  addField(
+    "operations.operator",
+    candidate.operator
+  );
+
+  addField(
+    "operations.home_port",
+    candidate.home_port
+  );
+
+  const sourceUrl =
+    candidate.article_url ||
+    (
+      "https://de.wikipedia.org/wiki/" +
+      "Liste_von_Flusskreuzfahrtschiffen"
+    );
+
+  vessel.sources = [
+    ...(
+      Array.isArray(vessel.sources)
+        ? vessel.sources
+        : []
+    ),
+
+    {
+      source_id:
+        createVesselSourceId(),
+
+      provider:
+        "Wikipedia",
+
+      title:
+        `Kandidatenkatalog: ` +
+        `${candidate.name}`,
+
+      url:
+        sourceUrl,
+
+      notes:
+        (
+          `Vorbelegung aus ` +
+          `${candidate.candidate_id}.`
+        ),
+
+      fields_used:
+        fieldsUsed,
+
+      retrieved_at: "",
+
+      verified_at: "",
+
+      added_at:
+        createdAt,
+
+      added_by:
+        "candidate-catalog",
+
+      candidate_id:
+        candidate.candidate_id,
+
+      source_revision_id:
+        candidate
+          .source_revision_id ?? ""
+    }
+  ];
+
+  if (
+    !vessel.audit ||
+    typeof vessel.audit !== "object"
+  ) {
+    vessel.audit = {};
+  }
+
+  vessel.audit
+    .created_from_candidate_id =
+      candidate.candidate_id;
+
+  vessel.audit
+    .candidate_source_revision_id =
+      candidate
+        .source_revision_id ?? "";
+}
+
 function buildVesselIndexRow({ vessel, path, updatedAt }) {
   return {
     vessel_id: vessel.vessel_id,
@@ -5276,6 +5507,28 @@ async function handleReviewSubmissionsList(request, env) {
     }, 502);
   }
 
+    /*
+   * Der Kandidatenkatalog ist für die
+   * Review-Funktion hilfreich, darf aber
+   * bei einem Ladefehler nicht die gesamte
+   * Sichtungsverwaltung blockieren.
+   */
+  const candidateCatalogResult =
+    await loadVesselCandidates(
+      env
+    );
+
+  const vesselCatalog =
+    candidateCatalogResult.ok
+      ? candidateCatalogResult
+          .candidates
+      : [];
+
+  const candidateCatalogWarning =
+    candidateCatalogResult.ok
+      ? ""
+      : candidateCatalogResult.error;
+
   const pathsResult = await listSubmissionPaths(env);
 
   if (!pathsResult.ok) {
@@ -5343,6 +5596,16 @@ async function handleReviewSubmissionsList(request, env) {
             vesselsResult.vessels
           )
         : storedAutomaticMatch;
+
+    const catalogCandidates =
+      workflowStatus === "new"
+        ? matchVesselCatalogByName(
+            submission
+              .vessel_name_entered,
+
+            vesselCatalog
+          )
+        : [];    
 
     const photoRecords =
       Array.isArray(submission.photos)
@@ -5424,6 +5687,9 @@ async function handleReviewSubmissionsList(request, env) {
 
       automatic_match: automaticMatch,
 
+      catalog_candidates:
+        catalogCandidates,      
+
       review:
         submission.workflow?.review ?? {
           reviewed: false,
@@ -5456,8 +5722,19 @@ async function handleReviewSubmissionsList(request, env) {
 
   return jsonResponse({
     ok: true,
-    status_filter: requestedStatus,
-    count: submissions.length,
+  
+    status_filter:
+      requestedStatus,
+  
+    count:
+      submissions.length,
+  
+    candidate_catalog_count:
+      vesselCatalog.length,
+  
+    candidate_catalog_warning:
+      candidateCatalogWarning,
+  
     submissions
   });
 }
@@ -6239,82 +6516,210 @@ async function resolveVessel(input, env) {
   };
 }
 
-function matchVesselByName(enteredNameValue, vessels) {
+function matchVesselByName(
+  enteredNameValue,
+  vessels
+) {
   const enteredName =
-    typeof enteredNameValue === "string"
+    typeof enteredNameValue ===
+      "string"
       ? enteredNameValue.trim()
       : "";
 
-  const normalizedEnteredName =
-    normalizeVesselName(enteredName);
+  const enteredKeys =
+    buildVesselNameKeys(
+      enteredName
+    );
 
-  if (!enteredName) {
+  if (!enteredKeys.compact) {
     return normalizeVesselMatch({
-      normalized_input: normalizedEnteredName
+      normalized_input:
+        enteredKeys.name_key
     });
   }
 
-  const matches = [];
+  const exactMatches = [];
+  const similarMatches = [];
 
-  for (const vessel of Array.isArray(vessels) ? vessels : []) {
-    if (normalizeVesselName(vessel.name) === normalizedEnteredName) {
-      matches.push({
-        vessel,
-        matched_by: "name",
-        matched_value: vessel.name
-      });
+  for (
+    const vessel
+    of Array.isArray(vessels)
+      ? vessels
+      : []
+  ) {
+    const formerNames =
+      String(
+        vessel.former_names ??
+        ""
+      )
+        .split("|")
+        .map(value =>
+          value.trim()
+        )
+        .filter(Boolean);
 
-      continue;
-    }
+    const bestMatch =
+      findBestVesselNameMatch(
+        enteredKeys,
+        [
+          vessel.name,
+          ...formerNames
+        ]
+      );
 
-    const formerNames = String(vessel.former_names ?? "")
-      .split("|")
-      .map(value => value.trim())
-      .filter(Boolean);
+    const matchRecord = {
+      vessel,
+      score:
+        bestMatch.score,
+      matched_by:
+        bestMatch.matched_by,
+      matched_value:
+        bestMatch.matched_value
+    };
 
-    const matchedFormerName = formerNames.find(
-      name => normalizeVesselName(name) === normalizedEnteredName
-    );
-
-    if (matchedFormerName) {
-      matches.push({
-        vessel,
-        matched_by: "former_name",
-        matched_value: matchedFormerName
-      });
+    if (
+      bestMatch.score >= 0.99
+    ) {
+      exactMatches.push(
+        matchRecord
+      );
+    } else if (
+      bestMatch.score >=
+      EXISTING_VESSEL_MIN_SCORE
+    ) {
+      similarMatches.push(
+        matchRecord
+      );
     }
   }
 
-  if (matches.length === 1) {
+  exactMatches.sort(
+    (left, right) =>
+      right.score -
+      left.score
+  );
+
+  if (
+    exactMatches.length === 1
+  ) {
+    const match =
+      exactMatches[0];
+
     return normalizeVesselMatch({
       status: "matched",
-      vessel_id: matches[0].vessel.vessel_id,
-      matched_by: matches[0].matched_by,
-      matched_value: matches[0].matched_value,
-      normalized_input: normalizedEnteredName,
+
+      vessel_id:
+        match.vessel.vessel_id,
+
+      matched_by:
+        match.matched_by,
+
+      matched_value:
+        match.matched_value,
+
+      normalized_input:
+        enteredKeys.name_key,
+
       candidate_count: 1,
+
       candidate_ids: [
-        matches[0].vessel.vessel_id
+        match.vessel.vessel_id
       ]
     });
   }
 
-  if (matches.length > 1) {
+  if (
+    exactMatches.length > 1
+  ) {
     return normalizeVesselMatch({
       status: "ambiguous",
+
       vessel_id: "",
-      matched_by: "name",
-      matched_value: enteredName,
-      normalized_input: normalizedEnteredName,
-      candidate_count: matches.length,
-      candidate_ids: matches.map(
-        match => match.vessel.vessel_id
+
+      matched_by:
+        "normalized_name",
+
+      matched_value:
+        enteredName,
+
+      normalized_input:
+        enteredKeys.name_key,
+
+      candidate_count:
+        exactMatches.length,
+
+      candidate_ids:
+        exactMatches.map(
+          match =>
+            match.vessel.vessel_id
+        )
+    });
+  }
+
+  similarMatches.sort(
+    (left, right) =>
+      right.score -
+        left.score ||
+      left.vessel.vessel_id
+        .localeCompare(
+          right.vessel.vessel_id
+        )
+  );
+
+  const bestScore =
+    similarMatches[0]?.score ??
+    0;
+
+  const suggestedMatches =
+    similarMatches
+      .filter(
+        match =>
+          match.score >=
+          Math.max(
+            EXISTING_VESSEL_MIN_SCORE,
+            bestScore - 0.08
+          )
       )
+      .slice(
+        0,
+        VESSEL_CANDIDATE_MATCH_LIMIT
+      );
+
+  if (
+    suggestedMatches.length > 0
+  ) {
+    return normalizeVesselMatch({
+      /*
+       * Ähnliche Namen werden niemals
+       * automatisch bestätigt.
+       */
+      status: "ambiguous",
+
+      vessel_id: "",
+
+      matched_by:
+        "name_similarity",
+
+      matched_value:
+        enteredName,
+
+      normalized_input:
+        enteredKeys.name_key,
+
+      candidate_count:
+        suggestedMatches.length,
+
+      candidate_ids:
+        suggestedMatches.map(
+          match =>
+            match.vessel.vessel_id
+        )
     });
   }
 
   return normalizeVesselMatch({
-    normalized_input: normalizedEnteredName
+    normalized_input:
+      enteredKeys.name_key
   });
 }
 
@@ -6365,6 +6770,313 @@ function normalizeVesselMatch(value) {
         ? source.normalized_input
         : ""
   };
+}
+
+async function loadVesselCandidates(
+  env
+) {
+  const file =
+    await readGitHubFile({
+      env,
+      path:
+        VESSEL_CANDIDATES_PATH
+    });
+
+  if (!file.ok) {
+    return {
+      ok: false,
+
+      status:
+        file.status ?? 502,
+
+      error:
+        "data/vessel_candidates.csv konnte nicht geladen werden."
+    };
+  }
+
+  try {
+    return {
+      ok: true,
+
+      candidates:
+        parseVesselCandidatesCsv(
+          file.content
+        )
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      status: 500,
+
+      error:
+        error instanceof Error
+          ? error.message
+          : (
+              "Der Kandidatenkatalog konnte nicht verarbeitet werden."
+            )
+    };
+  }
+}
+
+function parseVesselCandidatesCsv(
+  csvText
+) {
+  const lines =
+    String(csvText ?? "")
+      .replace(/^\uFEFF/, "")
+      .split(/\r?\n/)
+      .filter(
+        line =>
+          line.trim() !== ""
+      );
+
+  if (lines.length < 1) {
+    throw new Error(
+      "vessel_candidates.csv ist leer."
+    );
+  }
+
+  const headers =
+    lines[0]
+      .split(";")
+      .map(value =>
+        value.trim()
+      );
+
+  const requiredHeaders = [
+    "candidate_id",
+    "name",
+    "former_names",
+    "name_key",
+    "name_key_compact",
+    "name_key_without_prefix",
+    "eni",
+    "imo",
+    "year_built",
+    "length_m",
+    "width_m",
+    "passengers",
+    "operator",
+    "home_port",
+    "flag",
+    "article_url",
+    "source_revision_id"
+  ];
+
+  for (
+    const requiredHeader
+    of requiredHeaders
+  ) {
+    if (
+      !headers.includes(
+        requiredHeader
+      )
+    ) {
+      throw new Error(
+        `vessel_candidates.csv: ` +
+        `Spalte ${requiredHeader} fehlt.`
+      );
+    }
+  }
+
+  const candidates = [];
+  const seenIds = new Set();
+
+  for (
+    const line
+    of lines.slice(1)
+  ) {
+    const values =
+      line.split(";");
+
+    const row = {};
+
+    headers.forEach(
+      (header, index) => {
+        row[header] =
+          String(
+            values[index] ?? ""
+          ).trim();
+      }
+    );
+
+    if (
+      !/^CAN-[A-F0-9]{12}$/.test(
+        row.candidate_id
+      ) ||
+      !row.name
+    ) {
+      continue;
+    }
+
+    if (
+      seenIds.has(
+        row.candidate_id
+      )
+    ) {
+      throw new Error(
+        `Kandidaten-ID ` +
+        `${row.candidate_id} ist doppelt vorhanden.`
+      );
+    }
+
+    seenIds.add(
+      row.candidate_id
+    );
+
+    candidates.push({
+      ...row,
+
+      former_names:
+        String(
+          row.former_names ?? ""
+        )
+          .split("|")
+          .map(value =>
+            value.trim()
+          )
+          .filter(Boolean)
+    });
+  }
+
+  return candidates;
+}
+
+function matchVesselCatalogByName(
+  enteredNameValue,
+  candidates
+) {
+  const enteredName =
+    typeof enteredNameValue ===
+      "string"
+      ? enteredNameValue.trim()
+      : "";
+
+  const enteredKeys =
+    buildVesselNameKeys(
+      enteredName
+    );
+
+  if (!enteredKeys.compact) {
+    return [];
+  }
+
+  const results = [];
+
+  for (
+    const candidate
+    of Array.isArray(candidates)
+      ? candidates
+      : []
+  ) {
+    const bestMatch =
+      findBestVesselNameMatch(
+        enteredKeys,
+        [
+          candidate.name,
+
+          ...(
+            Array.isArray(
+              candidate.former_names
+            )
+              ? candidate.former_names
+              : []
+          )
+        ]
+      );
+
+    if (
+      bestMatch.score <
+      VESSEL_CANDIDATE_MIN_SCORE
+    ) {
+      continue;
+    }
+
+    results.push({
+      candidate_id:
+        candidate.candidate_id,
+
+      name:
+        candidate.name,
+
+      former_names:
+        candidate.former_names,
+
+      score:
+        Number(
+          bestMatch.score
+            .toFixed(4)
+        ),
+
+      confidence:
+        vesselMatchConfidence(
+          bestMatch.score
+        ),
+
+      matched_by:
+        bestMatch.matched_by,
+
+      matched_value:
+        bestMatch.matched_value,
+
+      eni:
+        candidate.eni ?? "",
+
+      imo:
+        candidate.imo ?? "",
+
+      mmsi: "",
+
+      year_built:
+        candidate.year_built ?? "",
+
+      length_m:
+        candidate.length_m ?? "",
+
+      width_m:
+        candidate.width_m ?? "",
+
+      passengers:
+        candidate.passengers ?? "",
+
+      operator:
+        candidate.operator ?? "",
+
+      home_port:
+        candidate.home_port ?? "",
+
+      flag:
+        candidate.flag ?? "",
+
+      ship_type:
+        "PASSENGER",
+
+      ship_subtype:
+        "RIVER_CRUISE",
+
+      article_url:
+        candidate.article_url ?? "",
+
+      source_revision_id:
+        candidate
+          .source_revision_id ?? ""
+    });
+  }
+
+  return results
+    .sort(
+      (left, right) =>
+        right.score -
+          left.score ||
+        left.name.localeCompare(
+          right.name,
+          "de"
+        )
+    )
+    .slice(
+      0,
+      VESSEL_CANDIDATE_MATCH_LIMIT
+    );
 }
 
 async function loadVessels(env) {
@@ -6674,12 +7386,348 @@ async function loadCanonicalVessel(
   };
 }
 
+const VESSEL_NAME_PREFIXES =
+  new Set([
+    "ms",
+    "ss",
+    "mv",
+    "my",
+    "ps",
+    "mps"
+  ]);
+
+function buildVesselNameKeys(value) {
+  const text =
+    String(value ?? "")
+      .trim()
+      .toLowerCase()
+      .replace(/ß/g, "ss")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+  let tokens =
+    text.match(/[a-z0-9]+/g) ?? [];
+
+  /*
+   * Präfixe wie:
+   * S. S. / S S / SS
+   * M. S. / M/S / MS
+   * werden vereinheitlicht.
+   */
+  if (
+    tokens.length >= 3 &&
+    VESSEL_NAME_PREFIXES.has(
+      tokens.slice(0, 3).join("")
+    )
+  ) {
+    tokens = [
+      tokens.slice(0, 3).join(""),
+      ...tokens.slice(3)
+    ];
+  } else if (
+    tokens.length >= 2 &&
+    VESSEL_NAME_PREFIXES.has(
+      tokens.slice(0, 2).join("")
+    )
+  ) {
+    tokens = [
+      tokens.slice(0, 2).join(""),
+      ...tokens.slice(2)
+    ];
+  }
+
+  const nameKey =
+    tokens.join(" ");
+
+  const compact =
+    tokens.join("");
+
+  const withoutPrefix =
+    tokens.length > 0 &&
+    VESSEL_NAME_PREFIXES.has(
+      tokens[0]
+    )
+      ? tokens.slice(1).join(" ")
+      : nameKey;
+
+  return {
+    name_key:
+      nameKey,
+
+    compact,
+
+    without_prefix:
+      withoutPrefix,
+
+    without_prefix_compact:
+      withoutPrefix.replace(
+        /\s+/g,
+        ""
+      )
+  };
+}
+
 function normalizeVesselName(value) {
-  return String(value)
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toUpperCase()
-    .replace(/[^A-Z0-9]/g, "");
+  return buildVesselNameKeys(
+    value
+  ).compact;
+}
+
+function levenshteinDistance(
+  leftValue,
+  rightValue
+) {
+  const left =
+    String(leftValue ?? "");
+
+  const right =
+    String(rightValue ?? "");
+
+  if (left === right) {
+    return 0;
+  }
+
+  if (!left) {
+    return right.length;
+  }
+
+  if (!right) {
+    return left.length;
+  }
+
+  let previousRow =
+    Array.from(
+      {
+        length:
+          right.length + 1
+      },
+      (_, index) => index
+    );
+
+  for (
+    let leftIndex = 1;
+    leftIndex <= left.length;
+    leftIndex += 1
+  ) {
+    const currentRow = [
+      leftIndex
+    ];
+
+    for (
+      let rightIndex = 1;
+      rightIndex <= right.length;
+      rightIndex += 1
+    ) {
+      const substitutionCost =
+        left[
+          leftIndex - 1
+        ] ===
+        right[
+          rightIndex - 1
+        ]
+          ? 0
+          : 1;
+
+      currentRow[rightIndex] =
+        Math.min(
+          currentRow[
+            rightIndex - 1
+          ] + 1,
+
+          previousRow[
+            rightIndex
+          ] + 1,
+
+          previousRow[
+            rightIndex - 1
+          ] +
+            substitutionCost
+        );
+    }
+
+    previousRow =
+      currentRow;
+  }
+
+  return previousRow[
+    right.length
+  ];
+}
+
+function normalizedNameSimilarity(
+  leftValue,
+  rightValue
+) {
+  const left =
+    String(leftValue ?? "");
+
+  const right =
+    String(rightValue ?? "");
+
+  const maximumLength =
+    Math.max(
+      left.length,
+      right.length
+    );
+
+  if (maximumLength === 0) {
+    return 1;
+  }
+
+  return (
+    1 -
+    (
+      levenshteinDistance(
+        left,
+        right
+      ) /
+      maximumLength
+    )
+  );
+}
+
+function scoreVesselNameVariant(
+  enteredKeys,
+  candidateName
+) {
+  const candidateKeys =
+    buildVesselNameKeys(
+      candidateName
+    );
+
+  if (
+    !enteredKeys.compact ||
+    !candidateKeys.compact
+  ) {
+    return {
+      score: 0,
+      matched_by: ""
+    };
+  }
+
+  if (
+    enteredKeys.name_key ===
+    candidateKeys.name_key
+  ) {
+    return {
+      score: 1,
+      matched_by:
+        "normalized_name"
+    };
+  }
+
+  if (
+    enteredKeys.compact ===
+    candidateKeys.compact
+  ) {
+    return {
+      score: 0.99,
+      matched_by:
+        "compact_name"
+    };
+  }
+
+  if (
+    enteredKeys.without_prefix &&
+    candidateKeys.without_prefix &&
+    enteredKeys.without_prefix ===
+      candidateKeys.without_prefix
+  ) {
+    return {
+      score: 0.94,
+      matched_by:
+        "name_without_prefix"
+    };
+  }
+
+  const compactScore =
+    normalizedNameSimilarity(
+      enteredKeys.compact,
+      candidateKeys.compact
+    );
+
+  const withoutPrefixScore =
+    enteredKeys
+      .without_prefix_compact
+      .length >= 4 &&
+    candidateKeys
+      .without_prefix_compact
+      .length >= 4
+      ? normalizedNameSimilarity(
+          enteredKeys
+            .without_prefix_compact,
+
+          candidateKeys
+            .without_prefix_compact
+        )
+      : 0;
+
+  return {
+    score:
+      Math.max(
+        compactScore,
+        withoutPrefixScore
+      ),
+
+    matched_by:
+      "name_similarity"
+  };
+}
+
+function findBestVesselNameMatch(
+  enteredKeys,
+  names
+) {
+  let bestMatch = {
+    score: 0,
+    matched_by: "",
+    matched_value: ""
+  };
+
+  for (
+    const name
+    of Array.isArray(names)
+      ? names
+      : []
+  ) {
+    const cleanName =
+      String(name ?? "").trim();
+
+    if (!cleanName) {
+      continue;
+    }
+
+    const result =
+      scoreVesselNameVariant(
+        enteredKeys,
+        cleanName
+      );
+
+    if (
+      result.score >
+      bestMatch.score
+    ) {
+      bestMatch = {
+        ...result,
+        matched_value:
+          cleanName
+      };
+    }
+  }
+
+  return bestMatch;
+}
+
+function vesselMatchConfidence(score) {
+  if (score >= 0.98) {
+    return "very_high";
+  }
+
+  if (score >= 0.92) {
+    return "high";
+  }
+
+  return "possible";
 }
 
 function checkManagementKey(request, env) {
