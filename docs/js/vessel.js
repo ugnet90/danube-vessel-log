@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.10.5
+// Version: 0.10.6
 // Updated: 2026-07-23
 
 "use strict";
@@ -1366,7 +1366,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const confirmed = window.confirm(
       `Soll ${candidateId} – ${candidate.name} mit ${vesselId} verknüpft werden? ` +
-      "Bestehende Stammdaten werden dabei nicht überschrieben."
+      "Bereits befüllte Stammdaten bleiben unverändert. Leere oder noch nicht " +
+      "klassifizierte Felder werden aus dem Kandidatenkatalog übernommen."
     );
 
     if (!confirmed) return;
@@ -1424,27 +1425,22 @@ document.addEventListener("DOMContentLoaded", () => {
     editExistingNameMatches.replaceChildren();
     editCatalogNameMatches.replaceChildren();
 
-    const matchCount = existingMatches.length + catalogMatches.length;
+    const matchCount =
+      existingMatches.length + catalogMatches.length + linkedMatches.length;
+
     editNameMatchCount.textContent = String(matchCount);
 
     if (matchCount === 0) {
-      if (linkedMatches.length > 0) {
-        editNameMatchStatus.textContent =
-          `Der passende Katalogeintrag ${linkedMatches[0].candidate_id} ` +
-          "ist bereits mit diesem Schiff verknüpft.";
-        editNameMatchPanel.classList.remove("hidden");
-      } else {
-        editNameMatchPanel.classList.add("hidden");
-      }
-
+      editNameMatchPanel.classList.add("hidden");
       return;
     }
 
-    editNameMatchStatus.textContent =
-      `${existingMatches.length} ähnliche vorhandene ` +
-      `${existingMatches.length === 1 ? "Schiff" : "Schiffe"} und ` +
-      `${catalogMatches.length} ` +
-      `${catalogMatches.length === 1 ? "Katalogtreffer" : "Katalogtreffer"}.`;
+    editNameMatchStatus.textContent = linkedMatches.length > 0
+      ? "Der passende Katalogeintrag ist bereits verknüpft. Fehlende " +
+        "Stammdaten können daraus übernommen werden."
+      : `${existingMatches.length} ähnliche vorhandene ` +
+        `${existingMatches.length === 1 ? "Schiff" : "Schiffe"} und ` +
+        `${catalogMatches.length} Katalogtreffer.`;
 
     if (existingMatches.length > 0) {
       const heading = document.createElement("div");
@@ -1472,6 +1468,46 @@ document.addEventListener("DOMContentLoaded", () => {
               window.location.href =
                 `vessel.html?id=${encodeURIComponent(match.vessel_id)}`;
             }
+          })
+        );
+      }
+    }
+
+    if (linkedMatches.length > 0) {
+      const heading = document.createElement("div");
+      heading.className = "edit-name-match-group-title";
+      heading.textContent = "Bereits verknüpfter Kandidat";
+      editCatalogNameMatches.append(heading);
+
+      for (const candidate of linkedMatches) {
+        const dimensions = [
+          candidate.length_m ? `${candidate.length_m} m` : "",
+          candidate.width_m ? `${candidate.width_m} m` : ""
+        ]
+          .filter(Boolean)
+          .join(" × ");
+
+        editCatalogNameMatches.append(
+          createNameMatchCard({
+            title: candidate.name || candidate.candidate_id,
+            identifier: candidate.candidate_id,
+            score: candidate.score,
+            metadata: [
+              ["ENI", candidate.eni],
+              ["IMO", candidate.imo],
+              ["Baujahr", candidate.year_built],
+              ["Maße", dimensions],
+              ["Passagiere", candidate.passengers],
+              ["Betreiber", candidate.operator],
+              ["Heimathafen", candidate.home_port],
+              [
+                "Flagge",
+                candidate.flag ? reference.flagLabel(candidate.flag) : ""
+              ]
+            ],
+            sourceUrl: candidate.article_url,
+            actionLabel: "Fehlende Felder übernehmen",
+            onAction: button => linkVesselCandidate(candidate, button)
           })
         );
       }
