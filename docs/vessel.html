@@ -2,8 +2,8 @@
 <!--
   Danube Vessel Log
   File: docs/vessel.html
-  Version: 0.10.1
-  Updated: 2026-07-22
+  Version: 0.10.5
+  Updated: 2026-07-23
 -->
 <html lang="de">
 <head>
@@ -165,6 +165,36 @@
                   maxlength="40"
                 >
               </label>
+            </div>
+
+            <div
+              id="editNameMatchPanel"
+              class="edit-name-match-panel hidden"
+              aria-live="polite"
+            >
+              <div class="edit-name-match-header">
+                <div>
+                  <h4>Namensabgleich</h4>
+                  <p id="editNameMatchStatus"></p>
+                </div>
+
+                <span
+                  id="editNameMatchCount"
+                  class="edit-name-match-count"
+                >
+                  0
+                </span>
+              </div>
+
+              <div
+                id="editExistingNameMatches"
+                class="edit-name-match-list"
+              ></div>
+
+              <div
+                id="editCatalogNameMatches"
+                class="edit-name-match-list"
+              ></div>
             </div>
           </section>
     
