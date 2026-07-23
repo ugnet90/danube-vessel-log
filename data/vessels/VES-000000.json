@@ -8,12 +8,12 @@
     ],
     "mmsi": "",
     "imo": "",
-    "eni": "ENI 02336090",
+    "eni": "02336090",
     "call_sign": ""
   },
   "classification": {
-    "ship_type": "Flusskreuzfahrtschiff",
-    "ship_subtype": "",
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
     "status": "active",
     "flag": "MT"
   },
@@ -74,7 +74,7 @@
     "environment": "test",
     "created_at": "",
     "created_from_submission_id": "",
-    "updated_at": "2026-07-23T03:40:11.244Z",
+    "updated_at": "2026-07-23T03:40:50.007Z",
     "updated_by": "web-ui",
     "change_history": [
       {
@@ -205,6 +205,32 @@
             "field": "sources",
             "old_value": "Wikipedia · Liste von Flusskreuzfahrtschiffen · https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen · geprüft",
             "new_value": "Wikipedia · Liste von Flusskreuzfahrtschiffen · https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen · Felder: identity.eni, classification.ship_type, classification.flag, technical.year_built, technical.length_m, technical.width_m, technical.passengers, operations.operator, operations.home_port · geprüft"
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-07-23T03:40:50.007Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "identity.eni",
+          "classification.ship_type",
+          "classification.ship_subtype"
+        ],
+        "changes": [
+          {
+            "field": "identity.eni",
+            "old_value": "ENI 02336090",
+            "new_value": "02336090"
+          },
+          {
+            "field": "classification.ship_type",
+            "old_value": "Flusskreuzfahrtschiff",
+            "new_value": "PASSENGER"
+          },
+          {
+            "field": "classification.ship_subtype",
+            "old_value": "",
+            "new_value": "RIVER_CRUISE"
           }
         ]
       }
