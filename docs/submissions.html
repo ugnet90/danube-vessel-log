@@ -1,8 +1,8 @@
 <!--
   Danube Vessel Log
   File: docs/submissions.html
-  Version: 0.10.3
-  Updated: 2026-07-22
+  Version: 0.10.4
+  Updated: 2026-07-23
 -->
 
 <!DOCTYPE html>
@@ -179,8 +179,40 @@
               <div class="create-form-grid">
                 <div class="form-field create-form-wide">
                   <label for="newVesselName">Name *</label>
-                  <input id="newVesselName" type="text" maxlength="150" autocomplete="off">
+                
+                  <input
+                    id="newVesselName"
+                    type="text"
+                    maxlength="150"
+                    autocomplete="off"
+                  >
                 </div>
+                
+                <section
+                  id="newVesselNameMatchPanel"
+                  class="catalog-candidate-panel create-form-wide hidden"
+                >
+                  <header class="catalog-candidate-header">
+                    <div>
+                      <h3>Treffer zum eingegebenen Namen</h3>
+                
+                      <p id="newVesselNameMatchStatus">
+                        Der Name wird mit vorhandenen Schiffen und dem
+                        Kandidatenkatalog verglichen.
+                      </p>
+                    </div>
+                  </header>
+                
+                  <div
+                    id="newVesselExistingMatches"
+                    class="catalog-candidate-list"
+                  ></div>
+                
+                  <div
+                    id="newVesselCatalogMatches"
+                    class="catalog-candidate-list"
+                  ></div>
+                </section>
                 <div class="form-field create-form-wide">
                   <label for="newVesselFormerNames">Frühere Namen</label>
                   <textarea id="newVesselFormerNames" placeholder="Ein Name pro Zeile"></textarea>
