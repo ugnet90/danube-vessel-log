@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000104",
+  "identity": {
+    "name": "TUI Isla",
+    "former_names": [
+      "TUI Allegra",
+      "Melodia",
+      "Excellence Allegra"
+    ],
+    "mmsi": "",
+    "imo": "",
+    "eni": "04809190",
+    "call_sign": ""
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "MT"
+  },
+  "technical": {
+    "year_built": 2010,
+    "shipyard": "",
+    "length_m": 135,
+    "width_m": 11.45,
+    "draft_m": null,
+    "passengers": 155
+  },
+  "operations": {
+    "operator": "TUI Cruises",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": "Valletta"
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [
+    {
+      "source_id": "SRC-38BE60577574",
+      "provider": "Wikipedia",
+      "title": "Kandidatenkatalog: TUI Isla",
+      "url": "https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen",
+      "notes": "Vorbelegung aus CAN-4C8EA0A0A753.",
+      "fields_used": [
+        "identity.name",
+        "identity.former_names",
+        "identity.eni",
+        "classification.ship_type",
+        "classification.ship_subtype",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "retrieved_at": "",
+      "verified_at": "",
+      "added_at": "2026-07-23T19:24:28.438Z",
+      "added_by": "candidate-catalog",
+      "candidate_id": "CAN-4C8EA0A0A753",
+      "source_revision_id": "268617530"
+    }
+  ],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-9947C002C8D44AE0B2740FE47B7A4B12",
+    "primary_submission_id": "SUB-20260723-191829-3BB171"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-07-23T19:24:28.438Z",
+    "created_from_submission_id": "SUB-20260723-191829-3BB171",
+    "updated_at": "2026-07-23T19:24:28.438Z",
+    "updated_by": "web-ui",
+    "created_from_candidate_id": "CAN-4C8EA0A0A753",
+    "candidate_source_revision_id": "268617530"
+  }
+}
