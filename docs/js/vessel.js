@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.10.6
+// Version: 0.10.7
 // Updated: 2026-07-23
 
 "use strict";
@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cancelSourceButton = byId("cancelSourceButton");
   
   let currentVessel = null;
+  let currentPayload = null;
   let editModeActive = false;
   let sourceFormActive = false;
   let editingSourceId = "";
@@ -1387,8 +1388,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       );
 
-      await load();
-      populateEditForm(currentVessel);
+      if (
+        result.vessel &&
+        typeof result.vessel === "object" &&
+        currentPayload
+      ) {
+        render({
+          ...currentPayload,
+          vessel: result.vessel,
+          path: result.path || currentPayload.path || ""
+        });
+
+        populateEditForm(currentVessel);
+      } else {
+        await load();
+        populateEditForm(currentVessel);
+      }
+
       scheduleEditNameSearch();
 
       pageStatus.className = "page-status success";
@@ -2715,7 +2731,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function render(payload) {
     const vessel =
       payload.vessel || {};
-  
+
+    currentPayload = payload;
     currentVessel = vessel;
     
     editButton.disabled = false;
