@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.10.7
+// Version: 0.10.8
 // Updated: 2026-07-23
 
 "use strict";
@@ -1368,7 +1368,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const confirmed = window.confirm(
       `Soll ${candidateId} – ${candidate.name} mit ${vesselId} verknüpft werden? ` +
       "Bereits befüllte Stammdaten bleiben unverändert. Leere oder noch nicht " +
-      "klassifizierte Felder werden aus dem Kandidatenkatalog übernommen."
+      "klassifizierte Felder werden übernommen; eine nur anders formatierte " +
+      "Namensschreibweise wird auf die Katalogschreibweise vereinheitlicht."
     );
 
     if (!confirmed) return;
@@ -1522,7 +1523,7 @@ document.addEventListener("DOMContentLoaded", () => {
               ]
             ],
             sourceUrl: candidate.article_url,
-            actionLabel: "Fehlende Felder übernehmen",
+            actionLabel: "Katalogdaten übernehmen",
             onAction: button => linkVesselCandidate(candidate, button)
           })
         );
