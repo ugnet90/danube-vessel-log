@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000105",
+  "identity": {
+    "name": "AmaMora",
+    "former_names": [],
+    "mmsi": "",
+    "imo": "",
+    "eni": "07002112",
+    "call_sign": ""
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "CH"
+  },
+  "technical": {
+    "year_built": 2019,
+    "shipyard": "",
+    "length_m": 135,
+    "width_m": 11.45,
+    "draft_m": null,
+    "passengers": 156
+  },
+  "operations": {
+    "operator": "AMA Waterways",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": "Basel"
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [
+    {
+      "source_id": "SRC-714680392FF2",
+      "provider": "Wikipedia",
+      "title": "Kandidatenkatalog: AmaMora",
+      "url": "https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen",
+      "notes": "Vorbelegung aus CAN-4C8D180B74D2.",
+      "fields_used": [
+        "identity.name",
+        "identity.eni",
+        "classification.ship_type",
+        "classification.ship_subtype",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "retrieved_at": "",
+      "verified_at": "",
+      "added_at": "2026-07-23T19:25:15.489Z",
+      "added_by": "candidate-catalog",
+      "candidate_id": "CAN-4C8D180B74D2",
+      "source_revision_id": "268617530"
+    }
+  ],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-530E1F4DA1344C16A987785BDF03FF2D",
+    "primary_submission_id": "SUB-20260723-191503-F07681"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-07-23T19:25:15.489Z",
+    "created_from_submission_id": "SUB-20260723-191503-F07681",
+    "updated_at": "2026-07-23T19:25:15.489Z",
+    "updated_by": "web-ui",
+    "created_from_candidate_id": "CAN-4C8D180B74D2",
+    "candidate_source_revision_id": "268617530"
+  }
+}
