@@ -1,7 +1,7 @@
 <!--
   Danube Vessel Log
   File: docs/submissions.html
-  Version: 0.10.1
+  Version: 0.10.3
   Updated: 2026-07-22
 -->
 
@@ -114,6 +114,34 @@
               <div id="vesselCandidates" class="candidate-buttons"></div>
             </div>
 
+            <section
+              id="catalogCandidatePanel"
+              class="catalog-candidate-panel hidden"
+            >
+              <header class="catalog-candidate-header">
+                <div>
+                  <h3>Mögliche Katalogtreffer</h3>
+            
+                  <p>
+                    Diese Schiffe sind noch nicht als VES-Datensatz angelegt.
+                    Die Angaben stammen aus dem importierten Kandidatenkatalog.
+                  </p>
+                </div>
+            
+                <span
+                  id="catalogCandidateCount"
+                  class="catalog-candidate-count"
+                >
+                  0
+                </span>
+              </header>
+            
+              <div
+                id="catalogCandidates"
+                class="catalog-candidate-list"
+              ></div>
+            </section>
+            
             <section id="vesselCreatePanel" class="vessel-create-panel hidden">
               <header class="vessel-create-header">
                 <div>
@@ -122,6 +150,17 @@
                 </div>
                 <button id="cancelVesselCreateButton" class="secondary-button" type="button">Abbrechen</button>
               </header>
+
+              <input
+                id="newVesselCandidateId"
+                type="hidden"
+                value=""
+              >
+              
+              <div
+                id="newVesselCandidateNotice"
+                class="new-vessel-candidate-notice hidden"
+              ></div>              
 
               <div class="create-form-grid create-form-grid-small">
                 <div class="form-field">
