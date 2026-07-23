@@ -26,7 +26,7 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "rejected",
     "auto": {
       "vessel_match": {
         "status": "ambiguous",
@@ -40,11 +40,10 @@
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
-      "reviewed_by": "",
+      "reviewed": true,
+      "reviewed_at": "2026-07-23T09:53:49.345Z",
       "vessel_id": "",
-      "decision": "",
+      "decision": "rejected",
       "notes": ""
     }
   }
