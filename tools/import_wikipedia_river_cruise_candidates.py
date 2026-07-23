@@ -963,7 +963,6 @@ def csv_value(
     return (
         clean_text(value)
         .replace(";", ",")
-        .replace("|", "/")
     )
 
 
