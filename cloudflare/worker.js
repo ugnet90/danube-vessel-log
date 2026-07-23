@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.10.5
+ * Version: 0.10.6
  * Updated: 2026-07-23
  */
 
@@ -3461,7 +3461,7 @@ async function handleLinkVesselCandidate(request, env) {
   }
 
   const linkedAt = new Date().toISOString();
-  const sourceAdded = applyCandidateOrigin({
+  const candidateResult = applyCandidateOrigin({
     vessel,
     candidate,
     createdAt: linkedAt,
@@ -3495,14 +3495,18 @@ async function handleLinkVesselCandidate(request, env) {
     });
   }
 
-  if (!sourceAdded && extraFiles.length === 0) {
+  if (!candidateResult.changed && extraFiles.length === 0) {
     return jsonResponse({
       ok: true,
-      message: `${vesselId} ist bereits mit ${candidateId} verknüpft.`,
+      message:
+        `${vesselId} ist bereits mit ${candidateId} verknüpft. ` +
+        "Es waren keine fehlenden Stammdaten zu übernehmen.",
       vessel_id: vesselId,
       candidate_id: candidateId,
       submission_id: submissionId,
       source_added: false,
+      source_updated: false,
+      fields_applied: [],
       commit_sha: null
     });
   }
@@ -3526,15 +3530,22 @@ async function handleLinkVesselCandidate(request, env) {
     }, 502);
   }
 
+  const appliedFieldCount = candidateResult.fields_applied.length;
+
   return jsonResponse({
     ok: true,
-    message: sourceAdded
-      ? `${candidateId} wurde mit ${vesselId} verknüpft.`
-      : `${vesselId} war bereits mit ${candidateId} verknüpft.`,
+    message: appliedFieldCount > 0
+      ? `${candidateId} wurde mit ${vesselId} verknüpft. ` +
+        `${appliedFieldCount} fehlende Stammdatenfelder wurden übernommen.`
+      : candidateResult.source_added
+        ? `${candidateId} wurde mit ${vesselId} verknüpft.`
+        : `${vesselId} war bereits mit ${candidateId} verknüpft.`,
     vessel_id: vesselId,
     candidate_id: candidateId,
     submission_id: submissionId,
-    source_added: sourceAdded,
+    source_added: candidateResult.source_added,
+    source_updated: candidateResult.source_updated,
+    fields_applied: candidateResult.fields_applied,
     commit_sha: saveResult.commitSha
   });
 }
@@ -5652,34 +5663,39 @@ function buildCanonicalVessel({
   };
 }
 
+function candidateNumber(value, integer = false) {
+  if (value === null || value === undefined || value === "") {
+    return null;
+  }
+
+  const number = Number(String(value).replace(",", "."));
+
+  if (!Number.isFinite(number)) {
+    return null;
+  }
+
+  return integer ? Math.trunc(number) : number;
+}
+
 function applyCandidateOrigin({
   vessel,
   candidate,
   createdAt,
   createdFrom = true
 }) {
-  const currentSources =
-    Array.isArray(vessel.sources)
-      ? vessel.sources
-      : [];
+  const currentSources = Array.isArray(vessel.sources)
+    ? vessel.sources
+    : [];
 
-  const alreadyLinked =
-    currentSources.some(
-      source =>
-        source?.candidate_id ===
-        candidate.candidate_id
-    );
+  const sourceIndex = currentSources.findIndex(
+    source => source?.candidate_id === candidate.candidate_id
+  );
 
-  if (alreadyLinked) {
-    return false;
-  }
-
+  const sourceAlreadyExists = sourceIndex >= 0;
   const fieldsUsed = [];
+  const fieldChanges = [];
 
-  const addField = (
-    path,
-    value
-  ) => {
+  const addField = (path, value) => {
     if (
       value !== null &&
       value !== undefined &&
@@ -5689,219 +5705,323 @@ function applyCandidateOrigin({
     }
   };
 
-  /*
-   * Bei einer Neuanlage wurden diese Werte
-   * tatsächlich aus dem Kandidaten übernommen.
-   *
-   * Bei einer nachträglichen Verknüpfung werden
-   * keine Stammdaten automatisch verändert;
-   * daher bleibt fields_used dort leer.
-   */
-  if (createdFrom) {
-    addField(
-      "identity.name",
-      candidate.name
-    );
-
-    if (
-      Array.isArray(
-        candidate.former_names
-      ) &&
-      candidate.former_names.length > 0
-    ) {
-      fieldsUsed.push(
-        "identity.former_names"
-      );
+  const isMissing = (value, unknownIsMissing = false) => {
+    if (value === null || value === undefined || value === "") {
+      return true;
     }
 
-    addField(
-      "identity.eni",
-      candidate.eni
-    );
+    return unknownIsMissing &&
+      String(value).trim().toUpperCase() === "UNKNOWN";
+  };
 
-    addField(
-      "identity.imo",
-      candidate.imo
-    );
+  const applyMissingField = ({
+    path,
+    target,
+    key,
+    candidateValue,
+    unknownIsMissing = false
+  }) => {
+    if (isMissing(candidateValue)) {
+      return;
+    }
 
+    const oldValue = target[key];
+
+    if (!isMissing(oldValue, unknownIsMissing)) {
+      return;
+    }
+
+    target[key] = candidateValue;
+    fieldsUsed.push(path);
+    fieldChanges.push({
+      field: path,
+      old_value: oldValue ?? null,
+      new_value: candidateValue
+    });
+  };
+
+  if (!vessel.identity || typeof vessel.identity !== "object") {
+    vessel.identity = {};
+  }
+
+  if (!vessel.classification || typeof vessel.classification !== "object") {
+    vessel.classification = {};
+  }
+
+  if (!vessel.technical || typeof vessel.technical !== "object") {
+    vessel.technical = {};
+  }
+
+  if (!vessel.operations || typeof vessel.operations !== "object") {
+    vessel.operations = {};
+  }
+
+  if (createdFrom) {
+    addField("identity.name", candidate.name);
+
+    if (
+      Array.isArray(candidate.former_names) &&
+      candidate.former_names.length > 0
+    ) {
+      fieldsUsed.push("identity.former_names");
+    }
+
+    addField("identity.eni", candidate.eni);
+    addField("identity.imo", candidate.imo);
     fieldsUsed.push(
       "classification.ship_type",
       "classification.ship_subtype"
     );
+    addField("classification.flag", candidate.flag);
+    addField("technical.year_built", candidate.year_built);
+    addField("technical.length_m", candidate.length_m);
+    addField("technical.width_m", candidate.width_m);
+    addField("technical.passengers", candidate.passengers);
+    addField("operations.operator", candidate.operator);
+    addField("operations.home_port", candidate.home_port);
+  } else {
+    const currentFormerNames = Array.isArray(vessel.identity.former_names)
+      ? vessel.identity.former_names
+      : [];
 
-    addField(
-      "classification.flag",
-      candidate.flag
-    );
+    const candidateFormerNames = Array.isArray(candidate.former_names)
+      ? candidate.former_names
+      : [];
 
-    addField(
-      "technical.year_built",
-      candidate.year_built
-    );
+    const mergedFormerNames = [...new Set([
+      ...currentFormerNames,
+      ...candidateFormerNames
+    ].map(name => String(name ?? "").trim()).filter(Boolean))];
 
-    addField(
-      "technical.length_m",
-      candidate.length_m
-    );
+    if (mergedFormerNames.length > currentFormerNames.length) {
+      vessel.identity.former_names = mergedFormerNames;
+      fieldsUsed.push("identity.former_names");
+      fieldChanges.push({
+        field: "identity.former_names",
+        old_value: currentFormerNames,
+        new_value: mergedFormerNames
+      });
+    }
 
-    addField(
-      "technical.width_m",
-      candidate.width_m
-    );
+    applyMissingField({
+      path: "identity.eni",
+      target: vessel.identity,
+      key: "eni",
+      candidateValue: candidate.eni
+    });
 
-    addField(
-      "technical.passengers",
-      candidate.passengers
-    );
+    applyMissingField({
+      path: "identity.imo",
+      target: vessel.identity,
+      key: "imo",
+      candidateValue: candidate.imo
+    });
 
-    addField(
-      "operations.operator",
-      candidate.operator
-    );
+    applyMissingField({
+      path: "classification.ship_type",
+      target: vessel.classification,
+      key: "ship_type",
+      candidateValue: candidate.ship_type || "PASSENGER",
+      unknownIsMissing: true
+    });
 
-    addField(
-      "operations.home_port",
-      candidate.home_port
-    );
+    const candidateShipType = candidate.ship_type || "PASSENGER";
+
+    if (vessel.classification.ship_type === candidateShipType) {
+      applyMissingField({
+        path: "classification.ship_subtype",
+        target: vessel.classification,
+        key: "ship_subtype",
+        candidateValue: candidate.ship_subtype || "RIVER_CRUISE",
+        unknownIsMissing: true
+      });
+    }
+
+    applyMissingField({
+      path: "classification.flag",
+      target: vessel.classification,
+      key: "flag",
+      candidateValue: candidate.flag
+    });
+
+    applyMissingField({
+      path: "technical.year_built",
+      target: vessel.technical,
+      key: "year_built",
+      candidateValue: candidateNumber(candidate.year_built, true)
+    });
+
+    applyMissingField({
+      path: "technical.length_m",
+      target: vessel.technical,
+      key: "length_m",
+      candidateValue: candidateNumber(candidate.length_m)
+    });
+
+    applyMissingField({
+      path: "technical.width_m",
+      target: vessel.technical,
+      key: "width_m",
+      candidateValue: candidateNumber(candidate.width_m)
+    });
+
+    applyMissingField({
+      path: "technical.passengers",
+      target: vessel.technical,
+      key: "passengers",
+      candidateValue: candidateNumber(candidate.passengers, true)
+    });
+
+    applyMissingField({
+      path: "operations.operator",
+      target: vessel.operations,
+      key: "operator",
+      candidateValue: candidate.operator
+    });
+
+    applyMissingField({
+      path: "operations.home_port",
+      target: vessel.operations,
+      key: "home_port",
+      candidateValue: candidate.home_port
+    });
   }
 
-  const sourceUrl =
-    candidate.article_url ||
-    (
-      "https://de.wikipedia.org/wiki/" +
-      "Liste_von_Flusskreuzfahrtschiffen"
+  const sourceUrl = candidate.article_url ||
+    "https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen";
+
+  const sourceNote = createdFrom
+    ? `Vorbelegung aus ${candidate.candidate_id}.`
+    : fieldsUsed.length > 0
+      ? `Nachträglich mit ${candidate.candidate_id} verknüpft. ` +
+        "Fehlende Stammdaten wurden aus dem Kandidatenkatalog übernommen."
+      : `Nachträglich mit ${candidate.candidate_id} verknüpft. ` +
+        "Es waren keine fehlenden Stammdaten zu übernehmen.";
+
+  let sourceAdded = false;
+  let sourceUpdated = false;
+  let sourceFieldsChange = null;
+
+  if (!sourceAlreadyExists) {
+    vessel.sources = [
+      ...currentSources,
+      {
+        source_id: createVesselSourceId(),
+        provider: "Wikipedia",
+        title: `Kandidatenkatalog: ${candidate.name}`,
+        url: sourceUrl,
+        notes: sourceNote,
+        fields_used: fieldsUsed,
+        retrieved_at: "",
+        verified_at: "",
+        added_at: createdAt,
+        added_by: "candidate-catalog",
+        candidate_id: candidate.candidate_id,
+        source_revision_id: candidate.source_revision_id ?? ""
+      }
+    ];
+
+    sourceAdded = true;
+  } else if (!createdFrom && fieldsUsed.length > 0) {
+    const existingSource = currentSources[sourceIndex];
+    const oldFieldsUsed = Array.isArray(existingSource.fields_used)
+      ? existingSource.fields_used
+      : [];
+
+    const mergedFieldsUsed = [...new Set([
+      ...oldFieldsUsed,
+      ...fieldsUsed
+    ])];
+
+    const updatedSource = {
+      ...existingSource,
+      notes: sourceNote,
+      fields_used: mergedFieldsUsed,
+      source_revision_id:
+        candidate.source_revision_id ?? existingSource.source_revision_id ?? ""
+    };
+
+    vessel.sources = currentSources.map((source, index) =>
+      index === sourceIndex ? updatedSource : source
     );
 
-  vessel.sources = [
-    ...(
-      Array.isArray(vessel.sources)
-        ? vessel.sources
-        : []
-    ),
+    sourceUpdated = true;
+    sourceFieldsChange = {
+      field: "sources.fields_used",
+      old_value: oldFieldsUsed,
+      new_value: mergedFieldsUsed
+    };
+  } else {
+    vessel.sources = currentSources;
+  }
 
-    {
-      source_id:
-        createVesselSourceId(),
-
-      provider:
-        "Wikipedia",
-
-      title:
-        `Kandidatenkatalog: ` +
-        `${candidate.name}`,
-
-      url:
-        sourceUrl,
-
-      notes:
-        createdFrom
-          ? (
-              `Vorbelegung aus ` +
-              `${candidate.candidate_id}.`
-            )
-          : (
-              `Nachträglich mit ` +
-              `${candidate.candidate_id} verknüpft. ` +
-              `Es wurden keine Stammdaten automatisch überschrieben.`
-            ),
-
-      fields_used:
-        fieldsUsed,
-
-      retrieved_at: "",
-
-      verified_at: "",
-
-      added_at:
-        createdAt,
-
-      added_by:
-        "candidate-catalog",
-
-      candidate_id:
-        candidate.candidate_id,
-
-      source_revision_id:
-        candidate
-          .source_revision_id ?? ""
-    }
-  ];
-
-  if (
-    !vessel.audit ||
-    typeof vessel.audit !== "object"
-  ) {
+  if (!vessel.audit || typeof vessel.audit !== "object") {
     vessel.audit = {};
   }
 
   if (createdFrom) {
-    vessel.audit
-      .created_from_candidate_id =
-        candidate.candidate_id;
+    vessel.audit.created_from_candidate_id = candidate.candidate_id;
   } else {
-    const linkedCandidateIds =
-      Array.isArray(
-        vessel.audit.linked_candidate_ids
-      )
-        ? vessel.audit.linked_candidate_ids
-        : [];
+    const linkedCandidateIds = Array.isArray(vessel.audit.linked_candidate_ids)
+      ? vessel.audit.linked_candidate_ids
+      : [];
 
-    vessel.audit.linked_candidate_ids = [
-      ...new Set([
-        ...linkedCandidateIds,
-        candidate.candidate_id
-      ])
-    ];
+    vessel.audit.linked_candidate_ids = [...new Set([
+      ...linkedCandidateIds,
+      candidate.candidate_id
+    ])];
 
-    if (
-      !Array.isArray(
-        vessel.audit.change_history
-      )
-    ) {
-      vessel.audit.change_history = [];
+    const changes = [...fieldChanges];
+
+    if (sourceAdded) {
+      changes.push({
+        field: "sources",
+        old_value: currentSources.length,
+        new_value: currentSources.length + 1
+      });
+    } else if (sourceFieldsChange) {
+      changes.push(sourceFieldsChange);
     }
 
-    vessel.audit.change_history.push({
-      changed_at:
-        createdAt,
+    if (changes.length > 0) {
+      if (!Array.isArray(vessel.audit.change_history)) {
+        vessel.audit.change_history = [];
+      }
 
-      changed_by:
-        "web-ui",
+      const fieldCount = fieldChanges.length;
+      const summary = sourceAdded && fieldCount > 0
+        ? `Mit Kandidat ${candidate.candidate_id} verknüpft und ` +
+          `${fieldCount} fehlende Felder übernommen`
+        : sourceAdded
+          ? `Mit Kandidat ${candidate.candidate_id} verknüpft`
+          : `${fieldCount} fehlende Felder aus Kandidat ` +
+            `${candidate.candidate_id} übernommen`;
 
-      summary:
-        `Mit Kandidat ${candidate.candidate_id} verknüpft`,
+      vessel.audit.change_history.push({
+        changed_at: createdAt,
+        changed_by: "web-ui",
+        summary,
+        changed_fields: changes.map(change => change.field),
+        changes
+      });
+    }
 
-      changed_fields: [
-        "sources"
-      ],
-
-      changes: [
-        {
-          field:
-            "sources",
-
-          old_value:
-            currentSources.length,
-
-          new_value:
-            currentSources.length + 1
-        }
-      ]
-    });
-
-    vessel.audit.updated_at =
-      createdAt;
-
-    vessel.audit.updated_by =
-      "web-ui";
+    if (changes.length > 0) {
+      vessel.audit.updated_at = createdAt;
+      vessel.audit.updated_by = "web-ui";
+    }
   }
 
-  vessel.audit
-    .candidate_source_revision_id =
-      candidate
-        .source_revision_id ?? "";
+  vessel.audit.candidate_source_revision_id =
+    candidate.source_revision_id ?? "";
 
-  return true;
+  return {
+    changed: sourceAdded || sourceUpdated || fieldChanges.length > 0,
+    source_added: sourceAdded,
+    source_updated: sourceUpdated,
+    fields_applied: fieldChanges.map(change => change.field),
+    changes: fieldChanges
+  };
 }
 
 function buildVesselIndexRow({ vessel, path, updatedAt }) {
