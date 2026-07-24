@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.11.1
+ * Version: 0.11.2
  * Updated: 2026-07-24
  */
 
@@ -29,12 +29,37 @@ const VESSEL_NAME_SUGGESTION_MIN_SCORE =
 const AISSTREAM_URL =
   "wss://stream.aisstream.io/v0/stream";
 
-const AIS_LINZ_TEST_BOUNDING_BOXES = [
-  [
-    [48.20, 14.05],
-    [48.38, 14.60]
-  ]
-];
+const AIS_TEST_AREAS = {
+  linz: {
+    label: "Linz",
+    bounding_boxes: [
+      [
+        [48.20, 14.05],
+        [48.38, 14.60]
+      ]
+    ]
+  },
+
+  rotterdam: {
+    label: "Rotterdam",
+    bounding_boxes: [
+      [
+        [51.80, 3.90],
+        [52.10, 4.65]
+      ]
+    ]
+  },
+
+  world: {
+    label: "Weltweit",
+    bounding_boxes: [
+      [
+        [-90, -180],
+        [90, 180]
+      ]
+    ]
+  }
+};
 
 const AIS_LIVE_MESSAGE_TYPES = [
   "PositionReport",
@@ -537,6 +562,18 @@ function handleAisLiveWebSocket(request, env) {
         )
       : 300;
 
+    const requestedArea =
+      String(input?.area ?? "linz")
+        .trim()
+        .toLowerCase();
+
+    const area =
+      AIS_TEST_AREAS[requestedArea] ??
+      AIS_TEST_AREAS.linz;
+
+    const useMessageFilter =
+      input?.use_message_filter !== false;
+    
     streamStarted = true;
 
     sendToBrowser({
@@ -575,11 +612,19 @@ function handleAisLiveWebSocket(request, env) {
         connectionTimer = null;
       }
 
-      socket.send(JSON.stringify({
+      const subscription = {
         APIKey: aisStreamApiKey,
-        BoundingBoxes: AIS_LINZ_TEST_BOUNDING_BOXES,
-        FilterMessageTypes: AIS_LIVE_MESSAGE_TYPES
-      }));
+        BoundingBoxes: area.bounding_boxes
+      };
+
+      if (useMessageFilter) {
+        subscription.FilterMessageTypes =
+          AIS_LIVE_MESSAGE_TYPES;
+      }
+
+      socket.send(
+        JSON.stringify(subscription)
+      );
 
       sessionTimer = setTimeout(() => {
         if (aisSocket === socket) {
@@ -591,10 +636,17 @@ function handleAisLiveWebSocket(request, env) {
         type: "status",
         status: "subscribed",
         message:
-          "AISStream-Abonnement für den Linzer Testbereich ist aktiv.",
+          `Subscription für ${area.label} wurde an AISStream gesendet.`,
         duration_seconds: durationSeconds,
-        bounding_boxes: AIS_LINZ_TEST_BOUNDING_BOXES,
-        message_types: AIS_LIVE_MESSAGE_TYPES
+        area: requestedArea,
+        area_label: area.label,
+        bounding_boxes: area.bounding_boxes,
+        message_types:
+          useMessageFilter
+            ? AIS_LIVE_MESSAGE_TYPES
+            : [],
+        message_filter_active:
+          useMessageFilter
       });
     });
 
