@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<!--
+  Danube Vessel Log
+  File: docs/ais_live.html
+  Version: 0.11.3
+  Updated: 2026-07-24
+-->
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+  <title>AIS-Liveempfang Linz</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/ais_live.css">
+</head>
+<body>
+  <div class="site-nav-shell" data-site-nav></div>
+
+  <main class="ais-live-page">
+    <header class="ais-live-header">
+      <div>
+        <h1>AIS-Liveempfang Linz</h1>
+
+        <p>
+          Manueller Empfangstest über AISStream. Die empfangenen
+          Daten werden in dieser Version nicht gespeichert.
+        </p>
+      </div>
+
+      <a class="secondary-button" href="dashboard.html">
+        Zum Dashboard
+      </a>
+    </header>
+
+    <section class="control-card">
+      <div class="control-grid">
+        <div class="form-field">
+          <label for="apiKey">API-Schlüssel</label>
+
+          <input
+            id="apiKey"
+            type="password"
+            autocomplete="off"
+            placeholder="Wert des Cloudflare-Secrets API_KEY"
+          >
+        </div>
+
+        <div class="form-field">
+          <label for="testArea">Empfangsbereich</label>
+
+          <select id="testArea">
+            <option value="linz" selected>Linz</option>
+            <option value="rotterdam">Rotterdam</option>
+            <option value="world">Weltweit</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="messageFilter">Nachrichtenfilter</label>
+
+          <select id="messageFilter">
+            <option value="filtered" selected>
+              Position und Stammdaten
+            </option>
+            <option value="all">Alle AIS-Meldungstypen</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="durationSeconds">Testdauer</label>
+
+          <select id="durationSeconds">
+            <option value="120">2 Minuten</option>
+            <option value="300" selected>5 Minuten</option>
+            <option value="600">10 Minuten</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="control-actions">
+        <button id="startButton" class="primary-button" type="button">
+          AIS-Empfang starten
+        </button>
+
+        <button
+          id="stopButton"
+          class="secondary-button"
+          type="button"
+          disabled
+        >
+          Beenden
+        </button>
+
+        <button id="clearButton" class="secondary-button" type="button">
+          Liste leeren
+        </button>
+      </div>
+    </section>
+
+    <section class="status-grid" aria-label="Empfangsstatus">
+      <article class="status-card">
+        <span>Status</span>
+        <strong id="connectionStatus">Nicht verbunden</strong>
+      </article>
+
+      <article class="status-card">
+        <span>Nachrichten</span>
+        <strong id="messageCount">0</strong>
+      </article>
+
+      <article class="status-card">
+        <span>Schiffe</span>
+        <strong id="vesselCount">0</strong>
+      </article>
+
+      <article class="status-card">
+        <span>Sender gesamt</span>
+        <strong id="senderCount">0</strong>
+      </article>
+
+      <article class="status-card">
+        <span>Restzeit</span>
+        <strong id="remainingTime">–</strong>
+      </article>
+    </section>
+
+    <div
+      id="statusMessage"
+      class="status-message"
+      aria-live="polite"
+    ></div>
+
+    <section class="info-card">
+      <h2>Testbereich und Positionsquellen</h2>
+
+      <p>
+        Die Meldungsposition stammt direkt aus dem AIS-Telegramm.
+        Die Metadatenposition wird von AISStream ergänzt und kann
+        eine letzte bekannte Position sein. Keine der beiden Angaben
+        bezeichnet automatisch den Standort des empfangenden Funkgeräts.
+      </p>
+
+      <code id="boundingBoxText">wird beim Start geladen</code>
+    </section>
+
+    <section class="message-type-card">
+      <header class="vessel-card-header">
+        <div>
+          <h2>Meldungstypen</h2>
+          <p>Statistik aller während der Sitzung empfangenen Nachrichten.</p>
+        </div>
+      </header>
+
+      <div id="messageTypeEmpty" class="empty-state">
+        Noch keine AIS-Meldung empfangen.
+      </div>
+
+      <div id="messageTypeWrapper" class="table-wrapper hidden">
+        <table class="message-type-table">
+          <thead>
+            <tr>
+              <th>Meldungstyp</th>
+              <th>Anzahl</th>
+            </tr>
+          </thead>
+          <tbody id="messageTypeRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="vessel-card">
+      <header class="vessel-card-header">
+        <div>
+          <h2>Empfangene AIS-Sender</h2>
+
+          <p>
+            Schiffe, Basisstationen, Navigationszeichen und sonstige
+            AIS-Sender werden getrennt klassifiziert.
+          </p>
+        </div>
+      </header>
+
+      <div id="emptyState" class="empty-state">
+        Noch keine AIS-Meldung empfangen.
+      </div>
+
+      <div id="tableWrapper" class="table-wrapper hidden">
+        <table class="ais-table">
+          <thead>
+            <tr>
+              <th>Kategorie</th>
+              <th>Name</th>
+              <th>MMSI</th>
+              <th>Letzte Meldung</th>
+              <th>SOG</th>
+              <th>COG</th>
+              <th>Heading</th>
+              <th>Meldungsposition</th>
+              <th>Metadatenposition</th>
+              <th>Meldungstypen</th>
+              <th>Rohdaten</th>
+            </tr>
+          </thead>
+
+          <tbody id="vesselRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="diagnostic-card">
+      <h2>Diagnose</h2>
+
+      <div id="diagnosticLog" class="diagnostic-log">
+        Noch keine Ereignisse.
+      </div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/site_map.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/ais_live.js"></script>
+</body>
+</html>
