@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.11.3
+ * Version: 0.12.0
  * Updated: 2026-07-24
  */
 
