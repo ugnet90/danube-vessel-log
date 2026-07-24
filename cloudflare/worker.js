@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.11.2
+ * Version: 0.11.3
  * Updated: 2026-07-24
  */
 
@@ -68,6 +68,16 @@ const AIS_LIVE_MESSAGE_TYPES = [
   "ShipStaticData",
   "StaticDataReport"
 ];
+
+const AIS_VESSEL_MESSAGE_TYPES = new Set([
+  ...AIS_LIVE_MESSAGE_TYPES,
+  "LongRangeAisBroadcastMessage"
+]);
+
+const AIS_BASE_STATION_MESSAGE_TYPES = new Set([
+  "BaseStationReport",
+  "GnssBroadcastBinaryMessage"
+]);
 
 const AIS_LIVE_MIN_DURATION_SECONDS = 30;
 const AIS_LIVE_MAX_DURATION_SECONDS = 600;
@@ -822,28 +832,38 @@ function normalizeAisStreamMessage(payload) {
   const reportB = body?.ReportB ?? {};
   const dimension = body?.Dimension ?? reportB?.Dimension ?? {};
 
-  const mmsi = normalizeAisIdentifier(
+  const mmsi = normalizeAisMmsi(
     metadata?.MMSI,
     body?.UserID
   );
+
+  const messagePosition = {
+    latitude: firstFiniteAisNumber(body?.Latitude),
+    longitude: firstFiniteAisNumber(body?.Longitude)
+  };
+
+  const metadataPosition = {
+    latitude: firstFiniteAisNumber(
+      metadata?.latitude,
+      metadata?.Latitude
+    ),
+    longitude: firstFiniteAisNumber(
+      metadata?.longitude,
+      metadata?.Longitude
+    )
+  };
+
+  const latitude =
+    messagePosition.latitude ?? metadataPosition.latitude;
+
+  const longitude =
+    messagePosition.longitude ?? metadataPosition.longitude;
 
   const name = cleanAisText(
     metadata?.ShipName ??
     body?.Name ??
     reportA?.Name ??
     ""
-  );
-
-  const latitude = firstFiniteAisNumber(
-    body?.Latitude,
-    metadata?.latitude,
-    metadata?.Latitude
-  );
-
-  const longitude = firstFiniteAisNumber(
-    body?.Longitude,
-    metadata?.longitude,
-    metadata?.Longitude
   );
 
   const lengthM = sumPositiveAisDimensions(
@@ -858,9 +878,18 @@ function normalizeAisStreamMessage(payload) {
 
   return {
     message_type: messageType,
+    sender_class: classifyAisSender(messageType, mmsi),
     received_at: new Date().toISOString(),
-    ais_time: cleanAisText(metadata?.time_utc ?? ""),
+    ais_time: cleanAisText(
+      metadata?.time_utc ??
+      metadata?.TimeUTC ??
+      ""
+    ),
     mmsi,
+    raw_user_id: firstFiniteAisNumber(
+      body?.UserID,
+      metadata?.MMSI
+    ),
     name,
     imo: normalizeAisIdentifier(body?.ImoNumber),
     call_sign: cleanAisText(
@@ -870,6 +899,8 @@ function normalizeAisStreamMessage(payload) {
     ),
     latitude,
     longitude,
+    message_position: messagePosition,
+    metadata_position: metadataPosition,
     sog: firstFiniteAisNumber(body?.Sog),
     cog: normalizeAisCourse(body?.Cog),
     true_heading: normalizeAisHeading(body?.TrueHeading),
@@ -881,8 +912,81 @@ function normalizeAisStreamMessage(payload) {
     width_m: widthM,
     draft_m:
       firstFiniteAisNumber(body?.MaximumStaticDraught),
-    destination: cleanAisText(body?.Destination ?? "")
+    destination: cleanAisText(body?.Destination ?? ""),
+    diagnostics: {
+      message_id: firstFiniteAisNumber(body?.MessageID),
+      repeat_indicator:
+        firstFiniteAisNumber(body?.RepeatIndicator),
+      valid:
+        typeof body?.Valid === "boolean"
+          ? body.Valid
+          : null,
+      position_accuracy:
+        typeof body?.PositionAccuracy === "boolean"
+          ? body.PositionAccuracy
+          : null,
+      fix_type: firstFiniteAisNumber(body?.FixType),
+      raim:
+        typeof body?.Raim === "boolean"
+          ? body.Raim
+          : null,
+      long_range_enable:
+        typeof body?.LongRangeEnable === "boolean"
+          ? body.LongRangeEnable
+          : null,
+      communication_state:
+        firstFiniteAisNumber(body?.CommunicationState),
+      utc: buildAisUtcParts(body)
+    },
+    raw_payload: payload
   };
+}
+
+function classifyAisSender(messageType, mmsi) {
+  if (AIS_VESSEL_MESSAGE_TYPES.has(messageType)) {
+    return "vessel";
+  }
+
+  if (AIS_BASE_STATION_MESSAGE_TYPES.has(messageType)) {
+    return "base_station";
+  }
+
+  if (messageType === "AidsToNavigationReport") {
+    return "aid_to_navigation";
+  }
+
+  if (messageType === "StandardSearchAndRescueAircraftReport") {
+    return "sar_aircraft";
+  }
+
+  if (mmsi.startsWith("00")) {
+    return "base_station";
+  }
+
+  if (mmsi.startsWith("99")) {
+    return "aid_to_navigation";
+  }
+
+  if (mmsi.startsWith("111")) {
+    return "sar_aircraft";
+  }
+
+  return "other";
+}
+
+function buildAisUtcParts(body) {
+  const utc = {
+    year: firstFiniteAisNumber(body?.UtcYear),
+    month: firstFiniteAisNumber(body?.UtcMonth),
+    day: firstFiniteAisNumber(body?.UtcDay),
+    hour: firstFiniteAisNumber(body?.UtcHour),
+    minute: firstFiniteAisNumber(body?.UtcMinute),
+    second: firstFiniteAisNumber(body?.UtcSecond)
+  };
+
+  return Object.values(utc).some(value => value !== null)
+    ? utc
+    : null;
 }
 
 function cleanAisText(value) {
@@ -890,6 +994,22 @@ function cleanAisText(value) {
     .replace(/@+$/g, "")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function normalizeAisMmsi(...values) {
+  for (const value of values) {
+    const digits = String(value ?? "").replace(/\D/g, "");
+
+    if (
+      digits &&
+      Number(digits) > 0 &&
+      digits.length <= 9
+    ) {
+      return digits.padStart(9, "0");
+    }
+  }
+
+  return "";
 }
 
 function normalizeAisIdentifier(...values) {
