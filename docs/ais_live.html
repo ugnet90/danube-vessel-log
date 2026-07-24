@@ -2,7 +2,7 @@
 <!--
   Danube Vessel Log
   File: docs/ais_live.html
-  Version: 0.11.0
+  Version: 0.11.2
   Updated: 2026-07-24
 -->
 <html lang="de">
@@ -53,6 +53,42 @@
           >
         </div>
 
+        <div class="form-field">
+          <label for="testArea">
+            Empfangsbereich
+          </label>
+        
+          <select id="testArea">
+            <option value="linz" selected>
+              Linz
+            </option>
+        
+            <option value="rotterdam">
+              Rotterdam
+            </option>
+        
+            <option value="world">
+              Weltweit
+            </option>
+          </select>
+        </div>
+        
+        <div class="form-field">
+          <label for="messageFilter">
+            Nachrichtenfilter
+          </label>
+        
+          <select id="messageFilter">
+            <option value="filtered" selected>
+              Position und Stammdaten
+            </option>
+        
+            <option value="all">
+              Alle AIS-Meldungstypen
+            </option>
+          </select>
+        </div>
+        
         <div class="form-field">
           <label for="durationSeconds">
             Testdauer
