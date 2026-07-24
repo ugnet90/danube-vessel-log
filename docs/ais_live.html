@@ -2,7 +2,7 @@
 <!--
   Danube Vessel Log
   File: docs/ais_live.html
-  Version: 0.11.2
+  Version: 0.11.3
   Updated: 2026-07-24
 -->
 <html lang="de">
@@ -30,10 +30,7 @@
         </p>
       </div>
 
-      <a
-        class="secondary-button"
-        href="dashboard.html"
-      >
+      <a class="secondary-button" href="dashboard.html">
         Zum Dashboard
       </a>
     </header>
@@ -41,9 +38,7 @@
     <section class="control-card">
       <div class="control-grid">
         <div class="form-field">
-          <label for="apiKey">
-            API-Schlüssel
-          </label>
+          <label for="apiKey">API-Schlüssel</label>
 
           <input
             id="apiKey"
@@ -54,71 +49,39 @@
         </div>
 
         <div class="form-field">
-          <label for="testArea">
-            Empfangsbereich
-          </label>
-        
+          <label for="testArea">Empfangsbereich</label>
+
           <select id="testArea">
-            <option value="linz" selected>
-              Linz
-            </option>
-        
-            <option value="rotterdam">
-              Rotterdam
-            </option>
-        
-            <option value="world">
-              Weltweit
-            </option>
+            <option value="linz" selected>Linz</option>
+            <option value="rotterdam">Rotterdam</option>
+            <option value="world">Weltweit</option>
           </select>
         </div>
-        
+
         <div class="form-field">
-          <label for="messageFilter">
-            Nachrichtenfilter
-          </label>
-        
+          <label for="messageFilter">Nachrichtenfilter</label>
+
           <select id="messageFilter">
             <option value="filtered" selected>
               Position und Stammdaten
             </option>
-        
-            <option value="all">
-              Alle AIS-Meldungstypen
-            </option>
+            <option value="all">Alle AIS-Meldungstypen</option>
           </select>
         </div>
-        
+
         <div class="form-field">
-          <label for="durationSeconds">
-            Testdauer
-          </label>
+          <label for="durationSeconds">Testdauer</label>
 
           <select id="durationSeconds">
-            <option value="120">
-              2 Minuten
-            </option>
-
-            <option
-              value="300"
-              selected
-            >
-              5 Minuten
-            </option>
-
-            <option value="600">
-              10 Minuten
-            </option>
+            <option value="120">2 Minuten</option>
+            <option value="300" selected>5 Minuten</option>
+            <option value="600">10 Minuten</option>
           </select>
         </div>
       </div>
 
       <div class="control-actions">
-        <button
-          id="startButton"
-          class="primary-button"
-          type="button"
-        >
+        <button id="startButton" class="primary-button" type="button">
           AIS-Empfang starten
         </button>
 
@@ -131,25 +94,16 @@
           Beenden
         </button>
 
-        <button
-          id="clearButton"
-          class="secondary-button"
-          type="button"
-        >
+        <button id="clearButton" class="secondary-button" type="button">
           Liste leeren
         </button>
       </div>
     </section>
 
-    <section
-      class="status-grid"
-      aria-label="Empfangsstatus"
-    >
+    <section class="status-grid" aria-label="Empfangsstatus">
       <article class="status-card">
         <span>Status</span>
-        <strong id="connectionStatus">
-          Nicht verbunden
-        </strong>
+        <strong id="connectionStatus">Nicht verbunden</strong>
       </article>
 
       <article class="status-card">
@@ -160,6 +114,11 @@
       <article class="status-card">
         <span>Schiffe</span>
         <strong id="vesselCount">0</strong>
+      </article>
+
+      <article class="status-card">
+        <span>Sender gesamt</span>
+        <strong id="senderCount">0</strong>
       </article>
 
       <article class="status-card">
@@ -175,53 +134,74 @@
     ></div>
 
     <section class="info-card">
-      <h2>Testbereich</h2>
+      <h2>Testbereich und Positionsquellen</h2>
 
       <p>
-        Der erste Test umfasst einen breiten Korridor um Linz.
-        Nach dem Empfangstest wird dieser anhand der tatsächlichen
-        AIS-Abdeckung präzisiert und in Donauabschnitte unterteilt.
+        Die Meldungsposition stammt direkt aus dem AIS-Telegramm.
+        Die Metadatenposition wird von AISStream ergänzt und kann
+        eine letzte bekannte Position sein. Keine der beiden Angaben
+        bezeichnet automatisch den Standort des empfangenden Funkgeräts.
       </p>
 
-      <code id="boundingBoxText">
-        wird beim Start geladen
-      </code>
+      <code id="boundingBoxText">wird beim Start geladen</code>
+    </section>
+
+    <section class="message-type-card">
+      <header class="vessel-card-header">
+        <div>
+          <h2>Meldungstypen</h2>
+          <p>Statistik aller während der Sitzung empfangenen Nachrichten.</p>
+        </div>
+      </header>
+
+      <div id="messageTypeEmpty" class="empty-state">
+        Noch keine AIS-Meldung empfangen.
+      </div>
+
+      <div id="messageTypeWrapper" class="table-wrapper hidden">
+        <table class="message-type-table">
+          <thead>
+            <tr>
+              <th>Meldungstyp</th>
+              <th>Anzahl</th>
+            </tr>
+          </thead>
+          <tbody id="messageTypeRows"></tbody>
+        </table>
+      </div>
     </section>
 
     <section class="vessel-card">
       <header class="vessel-card-header">
         <div>
-          <h2>Empfangene Schiffe</h2>
+          <h2>Empfangene AIS-Sender</h2>
 
           <p>
-            Die Liste wird nach der zuletzt empfangenen Meldung
-            sortiert.
+            Schiffe, Basisstationen, Navigationszeichen und sonstige
+            AIS-Sender werden getrennt klassifiziert.
           </p>
         </div>
       </header>
 
-      <div
-        id="emptyState"
-        class="empty-state"
-      >
+      <div id="emptyState" class="empty-state">
         Noch keine AIS-Meldung empfangen.
       </div>
 
-      <div
-        id="tableWrapper"
-        class="table-wrapper hidden"
-      >
+      <div id="tableWrapper" class="table-wrapper hidden">
         <table class="ais-table">
           <thead>
             <tr>
+              <th>Kategorie</th>
               <th>Name</th>
               <th>MMSI</th>
               <th>Letzte Meldung</th>
               <th>SOG</th>
               <th>COG</th>
               <th>Heading</th>
-              <th>Position</th>
+              <th>Meldungsposition</th>
+              <th>Metadatenposition</th>
               <th>Meldungstypen</th>
+              <th>Rohdaten</th>
             </tr>
           </thead>
 
@@ -233,10 +213,7 @@
     <section class="diagnostic-card">
       <h2>Diagnose</h2>
 
-      <div
-        id="diagnosticLog"
-        class="diagnostic-log"
-      >
+      <div id="diagnosticLog" class="diagnostic-log">
         Noch keine Ereignisse.
       </div>
     </section>
