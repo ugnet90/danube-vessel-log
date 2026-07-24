@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.11.0
+ * Version: 0.11.1
  * Updated: 2026-07-24
  */
 
@@ -547,6 +547,7 @@ function handleAisLiveWebSocket(request, env) {
     });
 
     const socket = new WebSocket(AISSTREAM_URL);
+    socket.binaryType = "arraybuffer";
     aisSocket = socket;
 
     connectionTimer = setTimeout(() => {
@@ -597,18 +598,38 @@ function handleAisLiveWebSocket(request, env) {
       });
     });
 
-    socket.addEventListener("message", event => {
+    socket.addEventListener("message", async event => {
       if (aisSocket !== socket) return;
+
+      let messageText;
+
+      try {
+        messageText = await decodeWebSocketText(event.data);
+      } catch (error) {
+        sendToBrowser({
+          type: "warning",
+          warning:
+            "AISStream-Nachricht konnte nicht dekodiert werden: " +
+            (
+              error instanceof Error
+                ? error.message
+                : String(error)
+            )
+        });
+
+        return;
+      }
 
       let payload;
 
       try {
-        payload = JSON.parse(String(event.data ?? ""));
+        payload = JSON.parse(messageText);
       } catch {
         sendToBrowser({
           type: "warning",
-          warning: "AISStream lieferte eine nicht lesbare Nachricht."
+          warning: "AISStream lieferte kein gültiges JSON."
         });
+
         return;
       }
 
@@ -617,6 +638,7 @@ function handleAisLiveWebSocket(request, env) {
           type: "error",
           error: String(payload.error ?? payload.Error)
         });
+
         return;
       }
 
@@ -708,6 +730,36 @@ function handleAisLiveWebSocket(request, env) {
     status: 101,
     webSocket: client
   });
+}
+
+async function decodeWebSocketText(data) {
+  if (typeof data === "string") {
+    return data;
+  }
+
+  if (data instanceof Blob) {
+    return data.text();
+  }
+
+  if (data instanceof ArrayBuffer) {
+    return new TextDecoder().decode(data);
+  }
+
+  if (ArrayBuffer.isView(data)) {
+    return new TextDecoder().decode(
+      new Uint8Array(
+        data.buffer,
+        data.byteOffset,
+        data.byteLength
+      )
+    );
+  }
+
+  throw new Error(
+    `Unbekannter WebSocket-Datentyp: ${
+      Object.prototype.toString.call(data)
+    }`
+  );
 }
 
 function normalizeAisStreamMessage(payload) {
