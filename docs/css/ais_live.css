@@ -1,12 +1,12 @@
 /*
  * Danube Vessel Log
  * File: docs/css/ais_live.css
- * Version: 0.11.0
+ * Version: 0.11.3
  * Updated: 2026-07-24
  */
 
 .ais-live-page {
-  width: min(1280px, 100%);
+  width: min(1600px, 100%);
   margin: 0 auto;
   padding: 22px 20px 40px;
 }
@@ -32,18 +32,18 @@
 .control-card,
 .status-card,
 .info-card,
+.message-type-card,
 .vessel-card,
 .diagnostic-card {
   border: 1px solid #d9e0e7;
   border-radius: 12px;
   background: #fff;
-  box-shadow:
-    0 3px 12px
-    rgba(0, 0, 0, 0.04);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
 }
 
 .control-card,
 .info-card,
+.message-type-card,
 .vessel-card,
 .diagnostic-card {
   padding: 18px;
@@ -52,9 +52,7 @@
 
 .control-grid {
   display: grid;
-  grid-template-columns:
-    minmax(260px, 1fr)
-    minmax(180px, 260px);
+  grid-template-columns: minmax(260px, 1fr) minmax(180px, 260px);
   gap: 16px;
 }
 
@@ -67,8 +65,7 @@
 
 .status-grid {
   display: grid;
-  grid-template-columns:
-    repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 14px;
 }
@@ -107,6 +104,7 @@
 }
 
 .info-card h2,
+.message-type-card h2,
 .vessel-card h2,
 .diagnostic-card h2 {
   margin: 0 0 10px;
@@ -135,14 +133,17 @@
   overflow-x: auto;
 }
 
-.ais-table {
+.ais-table,
+.message-type-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
 }
 
 .ais-table th,
-.ais-table td {
+.ais-table td,
+.message-type-table th,
+.message-type-table td {
   padding: 10px 9px;
   border-bottom: 1px solid #e7ecf1;
   text-align: left;
@@ -150,12 +151,14 @@
   white-space: nowrap;
 }
 
-.ais-table th {
+.ais-table th,
+.message-type-table th {
   color: #52606d;
   font-size: 0.8rem;
 }
 
-.ais-table td:first-child,
+.ais-table td:nth-child(2),
+.ais-table td:nth-child(10),
 .ais-table td:last-child {
   white-space: normal;
 }
@@ -165,11 +168,77 @@
   text-decoration: none;
 }
 
+.message-type-table {
+  max-width: 640px;
+}
+
+.message-type-table th:last-child,
+.message-type-table td:last-child {
+  width: 110px;
+  text-align: right;
+}
+
 .table-subline {
   display: block;
   margin-top: 4px;
   color: #6b7280;
   font-size: 0.78rem;
+}
+
+.sender-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #edf2f7;
+  color: #46515c;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.sender-vessel {
+  background: #eaf7ef;
+  color: #067647;
+}
+
+.sender-base_station {
+  background: #eef4ff;
+  color: #1849a9;
+}
+
+.sender-aid_to_navigation {
+  background: #fff4e5;
+  color: #93370d;
+}
+
+.sender-sar_aircraft {
+  background: #f4ebff;
+  color: #6941c6;
+}
+
+.raw-toggle-button {
+  padding: 5px 9px;
+  font-size: 0.8rem;
+}
+
+.raw-detail-row td {
+  padding: 0 9px 14px;
+  background: #f8fafc;
+  white-space: normal;
+}
+
+.raw-json {
+  max-height: 420px;
+  margin: 0;
+  padding: 14px;
+  border-radius: 8px;
+  background: #17212b;
+  color: #dce6ef;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  overflow: auto;
 }
 
 .empty-state {
@@ -187,21 +256,22 @@
   border-radius: 8px;
   background: #17212b;
   color: #dce6ef;
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Consolas,
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
   font-size: 0.82rem;
   line-height: 1.5;
   white-space: pre-wrap;
   overflow: auto;
 }
 
+@media (max-width: 1100px) {
+  .status-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 850px) {
   .status-grid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
