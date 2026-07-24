@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/ais_live.js
-// Version: 0.11.0
+// Version: 0.11.2
 // Updated: 2026-07-24
 
 "use strict";
@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
     .replace(/\/+$/, "");
 
   const apiKey = byId("apiKey");
+  const testArea = byId("testArea");
+  const messageFilter = byId("messageFilter");
   const durationSeconds = byId("durationSeconds");
   const startButton = byId("startButton");
   const stopButton = byId("stopButton");
@@ -596,7 +598,9 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     addDiagnostic(
-      "Verbindung zum Worker wird gestartet."
+      `Verbindung zum Worker wird gestartet · ` +
+      `Bereich: ${testArea.options[testArea.selectedIndex].text} · ` +
+      `Filter: ${messageFilter.options[messageFilter.selectedIndex].text}.`
     );
 
     startButton.disabled = true;
@@ -612,12 +616,12 @@ document.addEventListener("DOMContentLoaded", () => {
         socket.send(
           JSON.stringify({
             action: "start",
-            api_key:
-              apiKey.value.trim(),
+            api_key: apiKey.value.trim(),
+            area: testArea.value,
+            use_message_filter:
+              messageFilter.value !== "all",
             duration_seconds:
-              Number(
-                durationSeconds.value
-              )
+              Number(durationSeconds.value)
           })
         );
       }
