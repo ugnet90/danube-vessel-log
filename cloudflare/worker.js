@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.10.8
- * Updated: 2026-07-23
+ * Version: 0.11.0
+ * Updated: 2026-07-24
  */
 
 const API_VERSION = "2022-11-28";
@@ -25,6 +25,27 @@ const EXISTING_VESSEL_MIN_SCORE =
   0.86;
 const VESSEL_NAME_SUGGESTION_MIN_SCORE =
   0.82;
+
+const AISSTREAM_URL =
+  "wss://stream.aisstream.io/v0/stream";
+
+const AIS_LINZ_TEST_BOUNDING_BOXES = [
+  [
+    [48.20, 14.05],
+    [48.38, 14.60]
+  ]
+];
+
+const AIS_LIVE_MESSAGE_TYPES = [
+  "PositionReport",
+  "StandardClassBPositionReport",
+  "ExtendedClassBPositionReport",
+  "ShipStaticData",
+  "StaticDataReport"
+];
+
+const AIS_LIVE_MIN_DURATION_SECONDS = 30;
+const AIS_LIVE_MAX_DURATION_SECONDS = 600;
 const REFERENCE_FLAGS_PATH =
   "docs/data/reference/flags.json";
 
@@ -79,6 +100,18 @@ export default {
       });
     }
 
+    if (request.method === "GET" && url.pathname === "/ais-live") {
+      try {
+        return handleAisLiveWebSocket(request, env);
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error: "Unbehandelter Fehler beim Start des AIS-Liveempfangs.",
+          exception: error instanceof Error ? error.message : String(error)
+        }, 500);
+      }
+    }
+    
     if (request.method === "GET" && url.pathname === "/vessels") {
       try {
         return await handleVesselsList(request, env);
@@ -388,6 +421,446 @@ export default {
     );
   }
 };
+
+function handleAisLiveWebSocket(request, env) {
+  const upgradeHeader = request.headers.get("Upgrade") ?? "";
+
+  if (upgradeHeader.toLowerCase() !== "websocket") {
+    return jsonResponse({
+      ok: false,
+      error: "Für /ais-live ist eine WebSocket-Verbindung erforderlich."
+    }, 426);
+  }
+
+  const pair = new WebSocketPair();
+  const client = pair[0];
+  const server = pair[1];
+
+  server.accept();
+
+  let aisSocket = null;
+  let connectionTimer = null;
+  let sessionTimer = null;
+  let streamStarted = false;
+
+  const sendToBrowser = message => {
+    if (server.readyState !== WebSocket.OPEN) return;
+    server.send(JSON.stringify(message));
+  };
+
+  const clearTimers = () => {
+    if (connectionTimer) {
+      clearTimeout(connectionTimer);
+      connectionTimer = null;
+    }
+
+    if (sessionTimer) {
+      clearTimeout(sessionTimer);
+      sessionTimer = null;
+    }
+  };
+
+  const closeAisSocket = (code = 1000, reason = "") => {
+    const socket = aisSocket;
+    aisSocket = null;
+    streamStarted = false;
+    clearTimers();
+
+    if (socket && socket.readyState < WebSocket.CLOSING) {
+      socket.close(code, reason.slice(0, 120));
+    }
+  };
+
+  const stopStream = reason => {
+    closeAisSocket(1000, reason);
+
+    sendToBrowser({
+      type: "status",
+      status: "stopped",
+      message: reason || "AIS-Liveempfang beendet."
+    });
+  };
+
+  const startStream = input => {
+    if (streamStarted || aisSocket) {
+      sendToBrowser({
+        type: "error",
+        error: "Der AIS-Liveempfang läuft bereits."
+      });
+      return;
+    }
+
+    const configuredAccessKey =
+      typeof env.API_KEY === "string" ? env.API_KEY.trim() : "";
+
+    if (!configuredAccessKey) {
+      sendToBrowser({
+        type: "error",
+        error:
+          "Für AIS-Live muss in Cloudflare zusätzlich das Secret API_KEY gesetzt sein."
+      });
+      return;
+    }
+
+    const suppliedAccessKey = String(input?.api_key ?? "").trim();
+
+    if (suppliedAccessKey !== configuredAccessKey) {
+      sendToBrowser({
+        type: "error",
+        error: "Nicht autorisiert."
+      });
+      return;
+    }
+
+    const aisStreamApiKey =
+      typeof env.AISSTREAM_API_KEY === "string"
+        ? env.AISSTREAM_API_KEY.trim()
+        : "";
+
+    if (!aisStreamApiKey) {
+      sendToBrowser({
+        type: "error",
+        error: "Das Cloudflare-Secret AISSTREAM_API_KEY fehlt."
+      });
+      return;
+    }
+
+    const requestedDuration = Number(input?.duration_seconds);
+
+    const durationSeconds = Number.isFinite(requestedDuration)
+      ? Math.min(
+          Math.max(
+            Math.round(requestedDuration),
+            AIS_LIVE_MIN_DURATION_SECONDS
+          ),
+          AIS_LIVE_MAX_DURATION_SECONDS
+        )
+      : 300;
+
+    streamStarted = true;
+
+    sendToBrowser({
+      type: "status",
+      status: "connecting_aisstream",
+      message: "Verbindung zu AISStream wird aufgebaut …",
+      duration_seconds: durationSeconds
+    });
+
+    const socket = new WebSocket(AISSTREAM_URL);
+    aisSocket = socket;
+
+    connectionTimer = setTimeout(() => {
+      if (
+        aisSocket === socket &&
+        socket.readyState !== WebSocket.OPEN
+      ) {
+        closeAisSocket(
+          1013,
+          "AISStream-Verbindungsaufbau dauerte zu lange"
+        );
+
+        sendToBrowser({
+          type: "error",
+          error: "AISStream konnte nicht rechtzeitig verbunden werden."
+        });
+      }
+    }, 10000);
+
+    socket.addEventListener("open", () => {
+      if (aisSocket !== socket) return;
+
+      if (connectionTimer) {
+        clearTimeout(connectionTimer);
+        connectionTimer = null;
+      }
+
+      socket.send(JSON.stringify({
+        APIKey: aisStreamApiKey,
+        BoundingBoxes: AIS_LINZ_TEST_BOUNDING_BOXES,
+        FilterMessageTypes: AIS_LIVE_MESSAGE_TYPES
+      }));
+
+      sessionTimer = setTimeout(() => {
+        if (aisSocket === socket) {
+          stopStream("Zeitlimit des Live-Tests erreicht.");
+        }
+      }, durationSeconds * 1000);
+
+      sendToBrowser({
+        type: "status",
+        status: "subscribed",
+        message:
+          "AISStream-Abonnement für den Linzer Testbereich ist aktiv.",
+        duration_seconds: durationSeconds,
+        bounding_boxes: AIS_LINZ_TEST_BOUNDING_BOXES,
+        message_types: AIS_LIVE_MESSAGE_TYPES
+      });
+    });
+
+    socket.addEventListener("message", event => {
+      if (aisSocket !== socket) return;
+
+      let payload;
+
+      try {
+        payload = JSON.parse(String(event.data ?? ""));
+      } catch {
+        sendToBrowser({
+          type: "warning",
+          warning: "AISStream lieferte eine nicht lesbare Nachricht."
+        });
+        return;
+      }
+
+      if (payload?.error || payload?.Error) {
+        sendToBrowser({
+          type: "error",
+          error: String(payload.error ?? payload.Error)
+        });
+        return;
+      }
+
+      sendToBrowser({
+        type: "ais_message",
+        vessel: normalizeAisStreamMessage(payload)
+      });
+    });
+
+    socket.addEventListener("close", event => {
+      if (aisSocket !== socket) return;
+
+      aisSocket = null;
+      streamStarted = false;
+      clearTimers();
+
+      sendToBrowser({
+        type: "status",
+        status: "aisstream_closed",
+        message: event.reason
+          ? `AISStream-Verbindung beendet: ${event.reason}`
+          : "AISStream-Verbindung wurde beendet.",
+        close_code: event.code
+      });
+    });
+
+    socket.addEventListener("error", () => {
+      if (aisSocket !== socket) return;
+
+      sendToBrowser({
+        type: "error",
+        error: "Fehler in der Verbindung zu AISStream."
+      });
+    });
+  };
+
+  server.addEventListener("message", event => {
+    let input;
+
+    try {
+      input = JSON.parse(String(event.data ?? ""));
+    } catch {
+      sendToBrowser({
+        type: "error",
+        error: "Die Browser-Nachricht enthält kein gültiges JSON."
+      });
+      return;
+    }
+
+    if (input?.action === "start") {
+      startStream(input);
+      return;
+    }
+
+    if (input?.action === "stop") {
+      stopStream("AIS-Liveempfang manuell beendet.");
+      return;
+    }
+
+    if (input?.action === "ping") {
+      sendToBrowser({
+        type: "pong",
+        received_at: new Date().toISOString()
+      });
+      return;
+    }
+
+    sendToBrowser({
+      type: "error",
+      error: "Unbekannte AIS-Live-Aktion."
+    });
+  });
+
+  server.addEventListener("close", () => {
+    closeAisSocket(1000, "Browser-Verbindung beendet");
+  });
+
+  server.addEventListener("error", () => {
+    closeAisSocket(1011, "Browser-WebSocket-Fehler");
+  });
+
+  sendToBrowser({
+    type: "status",
+    status: "worker_connected",
+    message: "WebSocket zum Danube-Vessel-Worker ist verbunden."
+  });
+
+  return new Response(null, {
+    status: 101,
+    webSocket: client
+  });
+}
+
+function normalizeAisStreamMessage(payload) {
+  const messageType = String(payload?.MessageType ?? "").trim();
+  const metadata = payload?.MetaData ?? payload?.Metadata ?? {};
+  const body = payload?.Message?.[messageType] ?? {};
+  const reportA = body?.ReportA ?? {};
+  const reportB = body?.ReportB ?? {};
+  const dimension = body?.Dimension ?? reportB?.Dimension ?? {};
+
+  const mmsi = normalizeAisIdentifier(
+    metadata?.MMSI,
+    body?.UserID
+  );
+
+  const name = cleanAisText(
+    metadata?.ShipName ??
+    body?.Name ??
+    reportA?.Name ??
+    ""
+  );
+
+  const latitude = firstFiniteAisNumber(
+    body?.Latitude,
+    metadata?.latitude,
+    metadata?.Latitude
+  );
+
+  const longitude = firstFiniteAisNumber(
+    body?.Longitude,
+    metadata?.longitude,
+    metadata?.Longitude
+  );
+
+  const lengthM = sumPositiveAisDimensions(
+    dimension?.A,
+    dimension?.B
+  );
+
+  const widthM = sumPositiveAisDimensions(
+    dimension?.C,
+    dimension?.D
+  );
+
+  return {
+    message_type: messageType,
+    received_at: new Date().toISOString(),
+    ais_time: cleanAisText(metadata?.time_utc ?? ""),
+    mmsi,
+    name,
+    imo: normalizeAisIdentifier(body?.ImoNumber),
+    call_sign: cleanAisText(
+      body?.CallSign ??
+      reportB?.CallSign ??
+      ""
+    ),
+    latitude,
+    longitude,
+    sog: firstFiniteAisNumber(body?.Sog),
+    cog: normalizeAisCourse(body?.Cog),
+    true_heading: normalizeAisHeading(body?.TrueHeading),
+    navigation_status:
+      firstFiniteAisNumber(body?.NavigationalStatus),
+    ship_type:
+      firstFiniteAisNumber(body?.Type, reportB?.ShipType),
+    length_m: lengthM,
+    width_m: widthM,
+    draft_m:
+      firstFiniteAisNumber(body?.MaximumStaticDraught),
+    destination: cleanAisText(body?.Destination ?? "")
+  };
+}
+
+function cleanAisText(value) {
+  return String(value ?? "")
+    .replace(/@+$/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function normalizeAisIdentifier(...values) {
+  for (const value of values) {
+    const digits = String(value ?? "").replace(/\D/g, "");
+
+    if (digits && Number(digits) > 0) {
+      return digits;
+    }
+  }
+
+  return "";
+}
+
+function firstFiniteAisNumber(...values) {
+  for (const value of values) {
+    if (
+      value === null ||
+      value === undefined ||
+      value === ""
+    ) {
+      continue;
+    }
+
+    const number = Number(value);
+
+    if (Number.isFinite(number)) {
+      return number;
+    }
+  }
+
+  return null;
+}
+
+function normalizeAisCourse(value) {
+  const number = firstFiniteAisNumber(value);
+
+  return (
+    number !== null &&
+    number >= 0 &&
+    number < 360
+  )
+    ? number
+    : null;
+}
+
+function normalizeAisHeading(value) {
+  const number = firstFiniteAisNumber(value);
+
+  return (
+    number !== null &&
+    number >= 0 &&
+    number <= 359
+  )
+    ? number
+    : null;
+}
+
+function sumPositiveAisDimensions(
+  firstValue,
+  secondValue
+) {
+  const first = firstFiniteAisNumber(firstValue);
+  const second = firstFiniteAisNumber(secondValue);
+
+  if (first === null && second === null) {
+    return null;
+  }
+
+  const total =
+    Math.max(first ?? 0, 0) +
+    Math.max(second ?? 0, 0);
+
+  return total > 0 ? total : null;
+}
 
 /**
  * Bisheriger Endpunkt für reine JSON-Submissions.
