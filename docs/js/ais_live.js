@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/ais_live.js
-// Version: 0.12.2
+// Version: 0.12.3
 // Updated: 2026-07-25
 
 "use strict";
@@ -361,7 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startStream() {
     if (!workerUrl) { setStatus("error", "In docs/js/config.js ist keine Worker-URL konfiguriert."); return; }
-    if (!elements.apiKey.value.trim()) { setStatus("error", "Bitte den Wert des Cloudflare-Secrets API_KEY eingeben."); elements.apiKey.focus(); return; }
+    if (!elements.apiKey.value.trim()) { setStatus("error", "Bitte den Wert des Cloudflare-Secrets AIS_LIVE_ACCESS_KEY eingeben."); elements.apiKey.focus(); return; }
     closeSocket(); setStatus("connecting_worker", "WebSocket zum Worker wird aufgebaut …");
     addDiagnostic(`Verbindung wird gestartet · Bereich: ${elements.testArea.options[elements.testArea.selectedIndex].text} · Filter: ${elements.messageFilter.options[elements.messageFilter.selectedIndex].text}.`);
     elements.startButton.disabled = true; elements.stopButton.disabled = false;
