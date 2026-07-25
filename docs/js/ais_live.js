@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/ais_live.js
-// Version: 0.12.0
-// Updated: 2026-07-24
+// Version: 0.12.1
+// Updated: 2026-07-25
 
 "use strict";
 
@@ -94,7 +94,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function mergeSender(previous = {}, update = {}) {
     const next = { ...previous };
-    for (const [key, value] of Object.entries(update)) if (visible(value)) next[key] = value;
+    for (const [key, value] of Object.entries(update)) {
+      if (!visible(value)) continue;
+      if (["message_position", "metadata_position"].includes(key) && !hasPosition(value)) continue;
+      next[key] = value;
+    }
     const previousClass = previous.sender_class ?? "other";
     const updateClass = update.sender_class ?? "other";
     if ((senderClassPriority[previousClass] ?? 0) > (senderClassPriority[updateClass] ?? 0)) next.sender_class = previousClass;
@@ -208,11 +212,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = decoder.decode(sender);
     const senderName = data.vessel.name || "Unbekannter Sender";
     elements.inspectorTitle.textContent = senderName;
-    elements.inspectorSubtitle.textContent = `${data.general.senderClassLabel} · MMSI ${data.general.mmsi || "–"} · ${data.message.type}`;
+    elements.inspectorSubtitle.textContent = `${data.general.senderClassLabel} · MMSI ${data.general.mmsi || "–"} · Meldungstypen: ${data.message.observedTypes.join(", ") || data.message.type}`;
 
     setFields(elements.generalFields, [
-      { label: "Meldungstyp", value: data.message.type },
-      { label: "Bedeutung", value: data.message.title },
+      { label: "Letzte Meldung", value: data.message.type },
+      { label: "Bedeutung der letzten Meldung", value: data.message.title },
+      { label: "Beobachtete Meldungstypen", value: data.message.observedTypes.join(", ") || data.message.type },
       { label: "AIS-Nachrichten-ID", value: data.message.messageId ?? data.message.ids },
       { label: "Meldungsgruppe", value: data.message.group },
       { label: "Senderklasse", value: data.general.senderClassLabel },
