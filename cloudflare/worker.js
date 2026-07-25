@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.12.0
- * Updated: 2026-07-24
+ * Version: 0.12.2
+ * Updated: 2026-07-25
  */
 
 const API_VERSION = "2022-11-28";
@@ -29,45 +29,71 @@ const VESSEL_NAME_SUGGESTION_MIN_SCORE =
 const AISSTREAM_URL =
   "wss://stream.aisstream.io/v0/stream";
 
-const AIS_TEST_AREAS = {
-  linz: {
-    label: "Linz",
-    bounding_boxes: [
-      [
-        [48.20, 14.05],
-        [48.38, 14.60]
+const AIS_LIVE_CONFIG = {
+  default_area: "linz",
+  default_filter: "filtered",
+  default_duration_seconds: 300,
+
+  durations: [
+    { value: 60, label: "1 Minute" },
+    { value: 120, label: "2 Minuten" },
+    { value: 300, label: "5 Minuten" },
+    { value: 600, label: "10 Minuten" }
+  ],
+
+  areas: {
+    linz: {
+      label: "Linz",
+      bounding_boxes: [
+        [
+          [48.20, 14.05],
+          [48.38, 14.60]
+        ]
       ]
-    ]
+    },
+
+    rotterdam: {
+      label: "Rotterdam",
+      bounding_boxes: [
+        [
+          [51.80, 3.90],
+          [52.10, 4.65]
+        ]
+      ]
+    },
+
+    world: {
+      label: "Weltweit",
+      bounding_boxes: [
+        [
+          [-90, -180],
+          [90, 180]
+        ]
+      ]
+    }
   },
 
-  rotterdam: {
-    label: "Rotterdam",
-    bounding_boxes: [
-      [
-        [51.80, 3.90],
-        [52.10, 4.65]
+  filters: {
+    filtered: {
+      label: "Position und Stammdaten",
+      message_types: [
+        "PositionReport",
+        "StandardClassBPositionReport",
+        "ExtendedClassBPositionReport",
+        "ShipStaticData",
+        "StaticDataReport"
       ]
-    ]
-  },
+    },
 
-  world: {
-    label: "Weltweit",
-    bounding_boxes: [
-      [
-        [-90, -180],
-        [90, 180]
-      ]
-    ]
+    all: {
+      label: "Alle AIS-Meldungstypen",
+      message_types: []
+    }
   }
 };
 
-const AIS_LIVE_MESSAGE_TYPES = [
-  "PositionReport",
-  "StandardClassBPositionReport",
-  "ExtendedClassBPositionReport",
-  "ShipStaticData",
-  "StaticDataReport"
-];
+const AIS_TEST_AREAS = AIS_LIVE_CONFIG.areas;
+const AIS_LIVE_MESSAGE_TYPES = AIS_LIVE_CONFIG.filters.filtered.message_types;
 
 const AIS_VESSEL_MESSAGE_TYPES = new Set([
   ...AIS_LIVE_MESSAGE_TYPES,
@@ -132,6 +158,24 @@ export default {
         ok: true,
         service: "danube-vessel-api",
         message: "Worker ist erreichbar."
+      });
+    }
+
+    if (request.method === "GET" && url.pathname === "/ais-live-config") {
+      return jsonResponse({
+        ok: true,
+        default_area: AIS_LIVE_CONFIG.default_area,
+        default_filter: AIS_LIVE_CONFIG.default_filter,
+        default_duration_seconds: AIS_LIVE_CONFIG.default_duration_seconds,
+        durations: AIS_LIVE_CONFIG.durations,
+        areas: Object.entries(AIS_LIVE_CONFIG.areas).map(([value, area]) => ({
+          value,
+          label: area.label
+        })),
+        filters: Object.entries(AIS_LIVE_CONFIG.filters).map(([value, filter]) => ({
+          value,
+          label: filter.label
+        }))
       });
     }
 
@@ -573,16 +617,24 @@ function handleAisLiveWebSocket(request, env) {
       : 300;
 
     const requestedArea =
-      String(input?.area ?? "linz")
+      String(input?.area ?? AIS_LIVE_CONFIG.default_area)
         .trim()
         .toLowerCase();
 
     const area =
       AIS_TEST_AREAS[requestedArea] ??
-      AIS_TEST_AREAS.linz;
+      AIS_TEST_AREAS[AIS_LIVE_CONFIG.default_area];
 
-    const useMessageFilter =
-      input?.use_message_filter !== false;
+    const requestedFilter =
+      String(input?.message_filter ?? AIS_LIVE_CONFIG.default_filter)
+        .trim()
+        .toLowerCase();
+
+    const filter =
+      AIS_LIVE_CONFIG.filters[requestedFilter] ??
+      AIS_LIVE_CONFIG.filters[AIS_LIVE_CONFIG.default_filter];
+
+    const useMessageFilter = filter.message_types.length > 0;
     
     streamStarted = true;
 
@@ -629,7 +681,7 @@ function handleAisLiveWebSocket(request, env) {
 
       if (useMessageFilter) {
         subscription.FilterMessageTypes =
-          AIS_LIVE_MESSAGE_TYPES;
+          filter.message_types;
       }
 
       socket.send(
@@ -651,12 +703,10 @@ function handleAisLiveWebSocket(request, env) {
         area: requestedArea,
         area_label: area.label,
         bounding_boxes: area.bounding_boxes,
-        message_types:
-          useMessageFilter
-            ? AIS_LIVE_MESSAGE_TYPES
-            : [],
-        message_filter_active:
-          useMessageFilter
+        message_filter: requestedFilter,
+        message_filter_label: filter.label,
+        message_types: filter.message_types,
+        message_filter_active: useMessageFilter
       });
     });
 
