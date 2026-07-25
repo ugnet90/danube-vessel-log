@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/submissions.js
-// Version: 0.10.4
-// Updated: 2026-07-23
+// Version: 0.12.4
+// Updated: 2026-07-25
 
 "use strict";
 
@@ -97,25 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const newVesselEnvironment = byId("newVesselEnvironment");
   const newVesselId = byId("newVesselId");
   const newVesselName = byId("newVesselName");
-    const newVesselNameMatchPanel =
-    byId(
-      "newVesselNameMatchPanel"
-    );
-
-  const newVesselNameMatchStatus =
-    byId(
-      "newVesselNameMatchStatus"
-    );
-
-  const newVesselExistingMatches =
-    byId(
-      "newVesselExistingMatches"
-    );
-
-  const newVesselCatalogMatches =
-    byId(
-      "newVesselCatalogMatches"
-    );
   const newVesselFormerNames = byId("newVesselFormerNames");
   const newVesselMmsi = byId("newVesselMmsi");
   const newVesselImo = byId("newVesselImo");
@@ -263,8 +244,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let vesselCreateBusy = false;
   let vesselSuggestionToken = 0;
   let referenceReady = false;
-  let vesselNameSearchToken = 0;
-  let vesselNameSearchTimer = null;
 
   const vesselCache = new Map();
 
@@ -438,58 +417,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return count === 1
       ? "1 Quelle"
       : `${count} Quellen`;
-  }
-
-    async function postManagementJson(
-    path,
-    payload
-  ) {
-    const headers = {
-      "Content-Type":
-        "application/json"
-    };
-
-    const suppliedApiKey =
-      apiKeyInput.value.trim();
-
-    if (suppliedApiKey) {
-      headers["X-API-Key"] =
-        suppliedApiKey;
-    }
-
-    const response =
-      await fetch(
-        `${workerUrl}${path}`,
-        {
-          method: "POST",
-          headers,
-          body:
-            JSON.stringify(
-              payload
-            )
-        }
-      );
-
-    let data = {};
-
-    try {
-      data =
-        await response.json();
-    } catch {
-      data = {};
-    }
-
-    if (
-      !response.ok ||
-      data.ok !== true
-    ) {
-      throw new Error(
-        data.error ||
-        `Der Worker antwortete mit HTTP ${response.status}.`
-      );
-    }
-
-    return data;
   }
 
   function setListStatus(text) {
@@ -694,450 +621,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-    function clearNewVesselNameMatches() {
-    vesselNameSearchToken += 1;
-
-    if (vesselNameSearchTimer) {
-      clearTimeout(
-        vesselNameSearchTimer
-      );
-
-      vesselNameSearchTimer = null;
-    }
-
-    newVesselExistingMatches
-      .replaceChildren();
-
-    newVesselCatalogMatches
-      .replaceChildren();
-
-    newVesselNameMatchStatus
-      .textContent = "";
-
-    newVesselNameMatchPanel
-      .classList.add("hidden");
-  }
-
-  function useExistingVesselSuggestion(
-    match
-  ) {
-    const matchedVesselId =
-      String(
-        match?.vessel_id ?? ""
-      ).trim();
-
-    if (
-      !vesselIdPattern.test(
-        matchedVesselId
-      )
-    ) {
-      return;
-    }
-
-    vesselCreatePanel
-      .classList.add("hidden");
-
-    correctionPanel
-      .classList.remove("hidden");
-
-    correctedVesselId.value =
-      matchedVesselId;
-
-    loadVessel(
-      matchedVesselId
-    );
-
-    showReviewResult(
-      "success",
-      `${matchedVesselId} wurde als vorhandenes Schiff ausgewählt. ` +
-      `Kontrolliere den Datensatz und speichere anschließend die Zuordnung.`
-    );
-
-    correctionPanel
-      .scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
-      });
-  }
-
-  function createNameSuggestionCard({
-    title,
-    idText,
-    confidenceText,
-    metadata,
-    buttonText,
-    onSelect
-  }) {
-    const card =
-      document.createElement(
-        "article"
-      );
-
-    card.className =
-      "catalog-candidate-card";
-
-    const header =
-      document.createElement("div");
-
-    header.className =
-      "catalog-candidate-card-header";
-
-    const heading =
-      document.createElement("div");
-
-    const name =
-      document.createElement("h4");
-
-    name.textContent =
-      title;
-
-    const identifier =
-      document.createElement("span");
-
-    identifier.className =
-      "catalog-candidate-id";
-
-    identifier.textContent =
-      idText;
-
-    heading.append(
-      name,
-      identifier
-    );
-
-    const confidence =
-      document.createElement("span");
-
-    confidence.className =
-      "catalog-confidence catalog-confidence-high";
-
-    confidence.textContent =
-      confidenceText;
-
-    header.append(
-      heading,
-      confidence
-    );
-
-    card.append(header);
-
-    const metadataContainer =
-      document.createElement("div");
-
-    metadataContainer.className =
-      "catalog-candidate-meta";
-
-    for (
-      const [label, value]
-      of metadata
-    ) {
-      const item =
-        createCatalogMetaItem(
-          label,
-          value
-        );
-
-      if (item) {
-        metadataContainer.append(
-          item
-        );
-      }
-    }
-
-    if (
-      metadataContainer
-        .childElementCount > 0
-    ) {
-      card.append(
-        metadataContainer
-      );
-    }
-
-    const actions =
-      document.createElement("div");
-
-    actions.className =
-      "catalog-candidate-actions";
-
-    const button =
-      document.createElement("button");
-
-    button.type = "button";
-
-    button.className =
-      "primary-button compact-button";
-
-    button.textContent =
-      buttonText;
-
-    button.addEventListener(
-      "click",
-      onSelect
-    );
-
-    actions.append(button);
-    card.append(actions);
-
-    return card;
-  }
-
-  function renderNewVesselNameMatches(
-    responseData
-  ) {
-    const existingMatches =
-      Array.isArray(
-        responseData
-          ?.existing_vessels
-      )
-        ? responseData
-            .existing_vessels
-        : [];
-
-    const catalogMatches =
-      Array.isArray(
-        responseData
-          ?.catalog_candidates
-      )
-        ? responseData
-            .catalog_candidates
-        : [];
-
-    newVesselExistingMatches
-      .replaceChildren();
-
-    newVesselCatalogMatches
-      .replaceChildren();
-
-    if (
-      existingMatches.length === 0 &&
-      catalogMatches.length === 0
-    ) {
-      newVesselNameMatchPanel
-        .classList.add("hidden");
-
-      return;
-    }
-
-    newVesselNameMatchStatus
-      .textContent =
-        (
-          `${existingMatches.length} vorhandene ` +
-          `${existingMatches.length === 1
-            ? "Übereinstimmung"
-            : "Übereinstimmungen"} und ` +
-          `${catalogMatches.length} ` +
-          `${catalogMatches.length === 1
-            ? "Katalogtreffer"
-            : "Katalogtreffer"} gefunden.`
-        );
-
-    for (
-      const match
-      of existingMatches
-    ) {
-      const percentage =
-        Math.round(
-          Number(
-            match.score ?? 0
-          ) * 100
-        );
-
-      newVesselExistingMatches.append(
-        createNameSuggestionCard({
-          title:
-            match.name ||
-            match.vessel_id,
-
-          idText:
-            match.vessel_id,
-
-          confidenceText:
-            `vorhandenes Schiff · ${percentage} %`,
-
-          metadata: [
-            [
-              "ENI",
-              match.eni
-            ],
-            [
-              "IMO",
-              match.imo
-            ],
-            [
-              "Betreiber",
-              match.operator
-            ],
-            [
-              "Flagge",
-              match.flag
-                ? reference.flagLabel(
-                    match.flag
-                  )
-                : ""
-            ]
-          ],
-
-          buttonText:
-            "Vorhandenes Schiff verwenden",
-
-          onSelect:
-            () =>
-              useExistingVesselSuggestion(
-                match
-              )
-        })
-      );
-    }
-
-    for (
-      const candidate
-      of catalogMatches
-    ) {
-      const percentage =
-        Math.round(
-          Number(
-            candidate.score ?? 0
-          ) * 100
-        );
-
-      newVesselCatalogMatches.append(
-        createNameSuggestionCard({
-          title:
-            candidate.name ||
-            candidate.candidate_id,
-
-          idText:
-            candidate.candidate_id,
-
-          confidenceText:
-            `Katalogtreffer · ${percentage} %`,
-
-          metadata: [
-            [
-              "ENI",
-              candidate.eni
-            ],
-            [
-              "IMO",
-              candidate.imo
-            ],
-            [
-              "Baujahr",
-              candidate.year_built
-            ],
-            [
-              "Betreiber",
-              candidate.operator
-            ]
-          ],
-
-          buttonText:
-            "Daten übernehmen",
-
-          onSelect:
-            () =>
-              openVesselCreateFromCandidate(
-                candidate
-              )
-        })
-      );
-    }
-
-    newVesselNameMatchPanel
-      .classList.remove("hidden");
-  }
-
-  async function requestVesselNameMatches() {
-    const name =
-      newVesselName
-        .value
-        .trim();
-
-    if (
-      !workerUrl ||
-      name.length < 2
-    ) {
-      clearNewVesselNameMatches();
-      return;
-    }
-
-    const token =
-      ++vesselNameSearchToken;
-
-    newVesselNameMatchPanel
-      .classList.remove("hidden");
-
-    newVesselNameMatchStatus
-      .textContent =
-        "Vorhandene Schiffe und Kandidaten werden gesucht …";
-
-    try {
-      const response =
-        await window.VesselApi.request({
-          workerUrl,
-
-          path:
-            `/vessel-name-suggestions?name=` +
-            `${encodeURIComponent(name)}`,
-
-          apiKey:
-            apiKeyInput.value
-        });
-
-      if (
-        token !==
-        vesselNameSearchToken
-      ) {
-        return;
-      }
-
-      renderNewVesselNameMatches(
-        response.data
-      );
-    } catch (error) {
-      if (
-        token !==
-        vesselNameSearchToken
-      ) {
-        return;
-      }
-
-      newVesselNameMatchPanel
-        .classList.remove("hidden");
-
-      newVesselNameMatchStatus
-        .textContent =
-          error instanceof Error
-            ? error.message
-            : String(error);
-
-      newVesselExistingMatches
-        .replaceChildren();
-
-      newVesselCatalogMatches
-        .replaceChildren();
-    }
-  }
-
-  function scheduleVesselNameSearch() {
-    if (vesselNameSearchTimer) {
-      clearTimeout(
-        vesselNameSearchTimer
-      );
-    }
-
-    vesselNameSearchTimer =
-      setTimeout(
-        () => {
-          vesselNameSearchTimer =
-            null;
-
-          requestVesselNameMatches();
-        },
-        400
-      );
-  }
-
   function showVesselCreateResult(type, text) {
     vesselCreateResult.className =
       `review-result ${type}`;
@@ -1178,9 +661,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .textContent = "";
 
     newVesselCandidateNotice
-      .classList.add("hidden");  
-    clearNewVesselNameMatches();
-    
+      .classList.add("hidden");    
     newVesselEnvironment.value = "production";
     newVesselId.value = "";
     newVesselName.value =
@@ -1293,7 +774,6 @@ document.addEventListener("DOMContentLoaded", () => {
     vesselCreatePanel.classList.remove("hidden");
     correctionPanel.classList.add("hidden");
     requestVesselIdSuggestion();
-    scheduleVesselNameSearch();
 
     requestAnimationFrame(() => {
       vesselCreatePanel.scrollIntoView({
@@ -1305,9 +785,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });    
   }
 
-  function applyCatalogCandidateToForm(
+  function openVesselCreateFromCandidate(
     candidate
   ) {
+    /*
+     * Die vorhandene Funktion kümmert
+     * sich weiterhin um Öffnen,
+     * Zurücksetzen und ID-Vorschlag.
+     */
+    openVesselCreateForm();
+
     newVesselCandidateId.value =
       candidate.candidate_id ?? "";
 
@@ -1363,6 +850,11 @@ document.addEventListener("DOMContentLoaded", () => {
       candidate.flag ?? ""
     );
 
+    /*
+     * Wikipedia-Liste sagt nicht
+     * zuverlässig, ob das Schiff noch
+     * aktiv ist.
+     */
     newVesselStatus.value =
       "unknown";
 
@@ -1384,39 +876,12 @@ document.addEventListener("DOMContentLoaded", () => {
     newVesselHomePort.value =
       candidate.home_port ?? "";
 
-    clearNewVesselNameMatches();
-
     vesselCreatePanel
       .scrollIntoView({
         behavior: "smooth",
         block: "start"
       });
-  }
-
-  function openVesselCreateFromCandidate(
-    candidate
-  ) {
-    const formWasHidden =
-      vesselCreatePanel
-        .classList
-        .contains("hidden");
-
-    if (formWasHidden) {
-      openVesselCreateForm();
-    }
-
-    if (
-      vesselCreatePanel
-        .classList
-        .contains("hidden")
-    ) {
-      return;
-    }
-
-    applyCatalogCandidateToForm(
-      candidate
-    );
-  }
+  }  
 
   function parseFormerNames(value) {
     return [
@@ -1545,18 +1010,18 @@ document.addEventListener("DOMContentLoaded", () => {
       vesselCache.set(createdVesselId, response.data);
       vesselCreatePanel.classList.add("hidden");
 
-      statusFilter.value = "reviewed";
-      selectedSubmission = {
-        ...selectedSubmission,
-        submission_id: selectedSubmissionId
-      };
+      statusFilter.value = "new";
+      selectedSubmission = null;
 
       await loadSubmissions({
-        preserveSelection: true
+        preserveSelection: false
       });
 
-      vesselStatus.textContent =
-        `${createdVesselId} wurde angelegt und mit der Sichtung verknüpft.`;
+      setListStatus(
+        `${createdVesselId} wurde angelegt und mit der Sichtung verknüpft. ` +
+        `${submissions.length} offene Sichtung` +
+        `${submissions.length === 1 ? "" : "en"} verbleibend.`
+      );
     } catch (error) {
       showVesselCreateResult(
         "error",
@@ -1656,76 +1121,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     return item;
-  }
-
-    async function linkExistingVesselToCandidate(
-    candidate,
-    button
-  ) {
-    const assignedVesselId =
-      getAssignedVesselId(
-        selectedSubmission
-      );
-
-    if (
-      !vesselIdPattern.test(
-        assignedVesselId
-      )
-    ) {
-      showReviewResult(
-        "error",
-        "Der Sichtung ist kein gültiges Schiff zugeordnet."
-      );
-
-      return;
-    }
-
-    const originalText =
-      button.textContent;
-
-    button.disabled = true;
-
-    button.textContent =
-      "Wird verknüpft …";
-
-    try {
-      const result =
-        await postManagementJson(
-          "/vessel-candidate-link",
-          {
-            vessel_id:
-              assignedVesselId,
-
-            candidate_id:
-              candidate.candidate_id,
-
-            submission_id:
-              selectedSubmission
-                ?.submission_id ?? ""
-          }
-        );
-
-      vesselCache.clear();
-
-      await loadSubmissions({
-        preserveSelection: true
-      });
-
-      vesselStatus.textContent =
-        result.message;
-    } catch (error) {
-      showReviewResult(
-        "error",
-        error instanceof Error
-          ? error.message
-          : String(error)
-      );
-
-      button.disabled = false;
-
-      button.textContent =
-        originalText;
-    }
   }
 
   function renderCatalogCandidates(
@@ -1918,16 +1313,6 @@ document.addEventListener("DOMContentLoaded", () => {
         footer.append(sourceLink);
       }
 
-      const workflowStatus =
-        getWorkflowStatus(
-          selectedSubmission
-        );
-
-      const assignedVesselId =
-        getAssignedVesselId(
-          selectedSubmission
-        );
-
       const useButton =
         document.createElement("button");
 
@@ -1936,45 +1321,17 @@ document.addEventListener("DOMContentLoaded", () => {
       useButton.className =
         "primary-button compact-button";
 
-      if (
-        workflowStatus === "new"
-      ) {
-        useButton.textContent =
-          "Daten in Neuanlage übernehmen";
+      useButton.textContent =
+        "Daten in Neuanlage übernehmen";
 
-        useButton.addEventListener(
-          "click",
-          () => {
-            openVesselCreateFromCandidate(
-              candidate
-            );
-          }
-        );
-      } else if (
-        workflowStatus === "reviewed" &&
-        vesselIdPattern.test(
-          assignedVesselId
-        )
-      ) {
-        useButton.textContent =
-          `Mit ${assignedVesselId} verknüpfen`;
-
-        useButton.addEventListener(
-          "click",
-          () => {
-            linkExistingVesselToCandidate(
-              candidate,
-              useButton
-            );
-          }
-        );
-      } else {
-        useButton.textContent =
-          "Nicht verfügbar";
-
-        useButton.disabled =
-          true;
-      }
+      useButton.addEventListener(
+        "click",
+        () => {
+          openVesselCreateFromCandidate(
+            candidate
+          );
+        }
+      );
 
       footer.append(useButton);
       card.append(footer);
@@ -2541,6 +1898,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       vesselCache.clear();
+      statusFilter.value = "new";
 
       await loadSubmissions({
         preserveSelection: false
@@ -2686,49 +2044,6 @@ document.addEventListener("DOMContentLoaded", () => {
   newVesselEnvironment.addEventListener("change", () => {
     requestVesselIdSuggestion();
   });
-
-    newVesselName.addEventListener(
-    "input",
-    () => {
-      /*
-       * Wird der Name nach einer Kandidatenübernahme
-       * manuell geändert, muss die Kandidatenverknüpfung
-       * erneut bestätigt werden.
-       */
-      if (
-        newVesselCandidateId
-          .value
-          .trim()
-      ) {
-        newVesselCandidateId.value =
-          "";
-
-        newVesselCandidateNotice
-          .textContent = "";
-
-        newVesselCandidateNotice
-          .classList.add("hidden");
-      }
-
-      scheduleVesselNameSearch();
-    }
-  );
-
-  newVesselName.addEventListener(
-    "blur",
-    () => {
-      if (vesselNameSearchTimer) {
-        clearTimeout(
-          vesselNameSearchTimer
-        );
-
-        vesselNameSearchTimer =
-          null;
-      }
-
-      requestVesselNameMatches();
-    }
-  );
 
   newVesselShipType.addEventListener(
     "change",
