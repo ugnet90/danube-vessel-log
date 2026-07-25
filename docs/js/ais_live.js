@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/ais_live.js
-// Version: 0.12.1
+// Version: 0.12.2
 // Updated: 2026-07-25
 
 "use strict";
@@ -25,6 +25,31 @@ document.addEventListener("DOMContentLoaded", () => {
     rawKeyList: byId("rawKeyList"), rawJson: byId("rawJson"), copyRawButton: byId("copyRawButton"),
     downloadRawButton: byId("downloadRawButton"), copyStatus: byId("copyStatus")
   };
+
+  function populateSelect(select, items, selectedValue) {
+    select.replaceChildren(...items.map(item => {
+      const option = document.createElement("option");
+      option.value = String(item.value);
+      option.textContent = String(item.label);
+      option.selected = String(item.value) === String(selectedValue);
+      return option;
+    }));
+    select.disabled = false;
+  }
+
+  async function loadLiveConfig() {
+    if (!workerUrl) throw new Error("In docs/js/config.js ist keine Worker-URL konfiguriert.");
+    const response = await fetch(`${workerUrl}/ais-live-config`, { cache: "no-store" });
+    const config = await response.json();
+    if (!response.ok || config?.ok !== true) throw new Error(config?.error || `HTTP ${response.status}`);
+
+    populateSelect(elements.testArea, config.areas ?? [], config.default_area);
+    populateSelect(elements.messageFilter, config.filters ?? [], config.default_filter);
+    populateSelect(elements.durationSeconds, config.durations ?? [], config.default_duration_seconds);
+    elements.startButton.disabled = false;
+  }
+
+  elements.startButton.disabled = true;
 
   let socket = null;
   let receivedMessageCount = 0;
@@ -383,4 +408,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   renderMessageTypes(); renderSenders(); setStatus("disconnected");
+
+  loadLiveConfig().catch(error => {
+    const message = `AIS-Live-Konfiguration konnte nicht geladen werden: ${error instanceof Error ? error.message : String(error)}`;
+    setStatus("error", message);
+    addDiagnostic(message);
+  });
 });

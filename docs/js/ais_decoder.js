@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/ais_decoder.js
-// Version: 0.12.1
+// Version: 0.12.2
 // Updated: 2026-07-25
 
 "use strict";
@@ -125,8 +125,13 @@ window.AisDecoder = (() => {
     return { type: type || "UnknownMessage", ids: known.ids, title: known.title, group: known.group, messageId };
   };
 
+  const normalizeShipTypeCode = (...values) => {
+    const number = firstFinite(...values);
+    return number !== null && number > 0 ? number : null;
+  };
+
   const lookupShipType = code => {
-    const number = firstFinite(code);
+    const number = normalizeShipTypeCode(code);
     if (number === null) return "Nicht verfügbar";
     if (ref.shipTypes[number]) return ref.shipTypes[number];
     const decade = Math.floor(number / 10) * 10;
@@ -191,7 +196,7 @@ window.AisDecoder = (() => {
     const navStatusCode = firstFinite(body.NavigationalStatus, sender?.navigation_status);
     const specialCode = firstFinite(body.SpecialManoeuvreIndicator);
     const epfdCode = firstFinite(body.FixType, body.PositionFixType, sender?.diagnostics?.fix_type);
-    const shipTypeCode = firstFinite(sender?.ship_type, shipStatic.Type, reportB.ShipType, extendedClassB.Type, body.Type, body.ShipType);
+    const shipTypeCode = normalizeShipTypeCode(sender?.ship_type, shipStatic.Type, reportB.ShipType, extendedClassB.Type, body.Type, body.ShipType);
     const observedTypes = [...new Set(sender?.message_types ?? entries.map(entry => entry.type))].filter(Boolean).sort();
 
     return {
