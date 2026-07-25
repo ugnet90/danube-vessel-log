@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.12.2
+ * Version: 0.12.3
  * Updated: 2026-07-25
  */
 
@@ -570,13 +570,15 @@ function handleAisLiveWebSocket(request, env) {
     }
 
     const configuredAccessKey =
-      typeof env.API_KEY === "string" ? env.API_KEY.trim() : "";
+      typeof env.AIS_LIVE_ACCESS_KEY === "string"
+        ? env.AIS_LIVE_ACCESS_KEY.trim()
+        : "";
 
     if (!configuredAccessKey) {
       sendToBrowser({
         type: "error",
         error:
-          "Für AIS-Live muss in Cloudflare zusätzlich das Secret API_KEY gesetzt sein."
+          "Für AIS-Live muss in Cloudflare das Secret AIS_LIVE_ACCESS_KEY gesetzt sein."
       });
       return;
     }
@@ -9313,8 +9315,8 @@ function vesselMatchConfidence(score) {
 
 function checkManagementKey(request, env) {
   const configuredKey =
-    typeof env.API_KEY === "string"
-      ? env.API_KEY.trim()
+    typeof env.MANAGEMENT_API_KEY === "string"
+      ? env.MANAGEMENT_API_KEY.trim()
       : "";
 
   if (!configuredKey) {
