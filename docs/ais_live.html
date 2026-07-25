@@ -2,7 +2,7 @@
 <!--
   Danube Vessel Log
   File: docs/ais_live.html
-  Version: 0.12.1
+  Version: 0.12.2
   Updated: 2026-07-25
 -->
 <html lang="de">
@@ -11,7 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AIS Live Inspector</title>
   <link rel="stylesheet" href="css/common.css">
-  <link rel="stylesheet" href="css/ais_live.css?v=0.12.1">
+  <link rel="stylesheet" href="css/ais_live.css?v=0.12.2">
 </head>
 <body>
   <div class="site-nav-shell" data-site-nav></div>
@@ -33,25 +33,20 @@
         </div>
         <div class="form-field">
           <label for="testArea">Empfangsbereich</label>
-          <select id="testArea">
-            <option value="linz" selected>Linz</option>
-            <option value="rotterdam">Rotterdam</option>
-            <option value="world">Weltweit</option>
+          <select id="testArea" disabled>
+            <option>Konfiguration wird geladen …</option>
           </select>
         </div>
         <div class="form-field">
           <label for="messageFilter">Nachrichtenfilter</label>
-          <select id="messageFilter">
-            <option value="filtered" selected>Position und Stammdaten</option>
-            <option value="all">Alle AIS-Meldungstypen</option>
+          <select id="messageFilter" disabled>
+            <option>Konfiguration wird geladen …</option>
           </select>
         </div>
         <div class="form-field">
           <label for="durationSeconds">Testdauer</label>
-          <select id="durationSeconds">
-            <option value="120">2 Minuten</option>
-            <option value="300" selected>5 Minuten</option>
-            <option value="600">10 Minuten</option>
+          <select id="durationSeconds" disabled>
+            <option>Konfiguration wird geladen …</option>
           </select>
         </div>
       </div>
@@ -159,8 +154,8 @@
   <script src="js/config.js"></script>
   <script src="js/site_map.js"></script>
   <script src="js/nav.js"></script>
-  <script src="js/ais_reference.js?v=0.12.1"></script>
-  <script src="js/ais_decoder.js?v=0.12.1"></script>
-  <script src="js/ais_live.js?v=0.12.1"></script>
+  <script src="js/ais_reference.js?v=0.12.2"></script>
+  <script src="js/ais_decoder.js?v=0.12.2"></script>
+  <script src="js/ais_live.js?v=0.12.2"></script>
 </body>
 </html>
