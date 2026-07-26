@@ -19,8 +19,15 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "rejected",
     "vessel_id": "",
-    "review_notes": ""
+    "review_notes": "",
+    "review": {
+      "reviewed": true,
+      "reviewed_at": "2026-07-26T16:33:42.599Z",
+      "vessel_id": "",
+      "decision": "rejected",
+      "notes": ""
+    }
   }
 }
