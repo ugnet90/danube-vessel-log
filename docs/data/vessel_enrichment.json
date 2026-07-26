@@ -1,25 +1,571 @@
 {
   "schema_version": 1,
-  "status": "not_built",
-  "generated_at": "",
+  "generated_at": "2026-07-26T16:52:10.381279Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
     "license": "CC0",
     "url": "https://www.wikidata.org/"
   },
-  "mode": "placeholder",
-  "field_labels": {},
+  "mode": "online",
+  "field_labels": {
+    "identity.mmsi": "MMSI",
+    "identity.imo": "IMO",
+    "identity.eni": "ENI",
+    "identity.call_sign": "Rufzeichen",
+    "classification.ship_type": "Schiffstyp",
+    "classification.ship_subtype": "Untertyp",
+    "classification.flag": "Flagge",
+    "classification.status": "Status",
+    "technical.year_built": "Baujahr",
+    "technical.shipyard": "Werft",
+    "technical.length_m": "Länge",
+    "technical.width_m": "Breite",
+    "technical.draft_m": "Tiefgang",
+    "technical.passengers": "Passagiere",
+    "operations.operator": "Betreiber",
+    "operations.owner": "Eigentümer",
+    "operations.manager": "Manager",
+    "operations.cruise_brand": "Marke",
+    "operations.home_port": "Heimathafen"
+  },
   "summary": {
-    "vessels_total": 0,
-    "vessels_incomplete": 0,
+    "vessels_total": 9,
+    "vessels_incomplete": 9,
     "vessels_complete": 0,
     "candidate_matches": 0,
     "matched_no_new_data": 0,
-    "low_confidence": 0,
-    "no_match": 0,
-    "lookup_errors": 0,
+    "low_confidence": 1,
+    "no_match": 1,
+    "lookup_errors": 7,
     "suggestions_total": 0
   },
-  "vessels": []
+  "vessels": [
+    {
+      "vessel_id": "VES-000000",
+      "name": "Testschiff",
+      "environment": "test",
+      "json_path": "data/vessels/VES-000000.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 8,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "lookup_error",
+        "error": "Abruf fehlgeschlagen: https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fitem+%3FmatchedBy+WHERE+%7B+%7B+%3Fitem+wdt%3AP5910+%2202336090%22+.+BIND%28%22identity.eni%22+AS+%3FmatchedBy%29+%7D+%7D+LIMIT+20&format=json: HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)",
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000001",
+      "name": "Testschiff",
+      "environment": "test",
+      "json_path": "data/vessels/VES-000001.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.eni",
+          "label": "ENI"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "classification.ship_type",
+          "label": "Schiffstyp"
+        },
+        {
+          "field": "classification.ship_subtype",
+          "label": "Untertyp"
+        },
+        {
+          "field": "classification.flag",
+          "label": "Flagge"
+        },
+        {
+          "field": "classification.status",
+          "label": "Status"
+        },
+        {
+          "field": "technical.year_built",
+          "label": "Baujahr"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.length_m",
+          "label": "Länge"
+        },
+        {
+          "field": "technical.width_m",
+          "label": "Breite"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "technical.passengers",
+          "label": "Passagiere"
+        },
+        {
+          "field": "operations.operator",
+          "label": "Betreiber"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        },
+        {
+          "field": "operations.home_port",
+          "label": "Heimathafen"
+        }
+      ],
+      "missing_count": 19,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "no_match",
+        "error": "",
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000100",
+      "name": "S. S. Beatrice",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000100.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 8,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "lookup_error",
+        "error": "Abruf fehlgeschlagen: https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fitem+%3FmatchedBy+WHERE+%7B+%7B+%3Fitem+wdt%3AP5910+%2202329007%22+.+BIND%28%22identity.eni%22+AS+%3FmatchedBy%29+%7D+%7D+LIMIT+20&format=json: HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)",
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000101",
+      "name": "Travelmarvel Capella",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000101.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.eni",
+          "label": "ENI"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "classification.flag",
+          "label": "Flagge"
+        },
+        {
+          "field": "classification.status",
+          "label": "Status"
+        },
+        {
+          "field": "technical.year_built",
+          "label": "Baujahr"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.length_m",
+          "label": "Länge"
+        },
+        {
+          "field": "technical.width_m",
+          "label": "Breite"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "technical.passengers",
+          "label": "Passagiere"
+        },
+        {
+          "field": "operations.operator",
+          "label": "Betreiber"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        },
+        {
+          "field": "operations.home_port",
+          "label": "Heimathafen"
+        }
+      ],
+      "missing_count": 17,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "low_confidence",
+        "error": "",
+        "candidates": [
+          {
+            "qid": "Q132731411",
+            "label": "Travelmarvel Capella (ship, 2021)",
+            "description": "Wikimedia-Kategorie",
+            "url": "https://www.wikidata.org/wiki/Q132731411",
+            "score": 0.795,
+            "confidence": "low",
+            "matched_by": [
+              "name_partial"
+            ],
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Wikimedia-Kategorie"
+            ],
+            "suggestions": [],
+            "revision_id": 2317821351
+          }
+        ]
+      }
+    },
+    {
+      "vessel_id": "VES-000102",
+      "name": "AmaStella",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000102.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 8,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "lookup_error",
+        "error": "Abruf fehlgeschlagen: https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fitem+%3FmatchedBy+WHERE+%7B+%7B+%3Fitem+wdt%3AP5910+%2207002031%22+.+BIND%28%22identity.eni%22+AS+%3FmatchedBy%29+%7D+%7D+LIMIT+20&format=json: HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)",
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000103",
+      "name": "A-Rosa Riva",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000103.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 7,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "lookup_error",
+        "error": "Abruf fehlgeschlagen: https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fitem+%3FmatchedBy+WHERE+%7B+%7B+%3Fitem+wdt%3AP458+%228979295%22+.+BIND%28%22identity.imo%22+AS+%3FmatchedBy%29+%7D+UNION+%7B+%3Fitem+wdt%3AP5910+%2204802780%22+.+BIND%28%22identity.eni%22+AS+%3FmatchedBy%29+%7D+%7D+LIMIT+20&format=json: HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)",
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000104",
+      "name": "TUI Isla",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000104.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 8,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "lookup_error",
+        "error": "Abruf fehlgeschlagen: https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fitem+%3FmatchedBy+WHERE+%7B+%7B+%3Fitem+wdt%3AP5910+%2204809190%22+.+BIND%28%22identity.eni%22+AS+%3FmatchedBy%29+%7D+%7D+LIMIT+20&format=json: HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)",
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000105",
+      "name": "AmaMora",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000105.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 8,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "lookup_error",
+        "error": "Abruf fehlgeschlagen: https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fitem+%3FmatchedBy+WHERE+%7B+%7B+%3Fitem+wdt%3AP5910+%2207002112%22+.+BIND%28%22identity.eni%22+AS+%3FmatchedBy%29+%7D+%7D+LIMIT+20&format=json: HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)",
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000106",
+      "name": "TUI Skyla",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000106.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "classification.status",
+          "label": "Status"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 9,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "lookup_error",
+        "error": "Abruf fehlgeschlagen: https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fitem+%3FmatchedBy+WHERE+%7B+%7B+%3Fitem+wdt%3AP5910+%2265000001%22+.+BIND%28%22identity.eni%22+AS+%3FmatchedBy%29+%7D+%7D+LIMIT+20&format=json: HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)",
+        "candidates": []
+      }
+    }
+  ]
 }
