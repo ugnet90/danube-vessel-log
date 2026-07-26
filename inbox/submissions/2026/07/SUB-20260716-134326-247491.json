@@ -10,8 +10,15 @@
   "notes": "Erste Test-Submission",
   "photos": [],
   "workflow": {
-    "status": "new",
+    "status": "rejected",
     "vessel_id": "",
-    "review_notes": ""
+    "review_notes": "",
+    "review": {
+      "reviewed": true,
+      "reviewed_at": "2026-07-26T16:33:57.375Z",
+      "vessel_id": "",
+      "decision": "rejected",
+      "notes": ""
+    }
   }
 }
