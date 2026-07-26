@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-26T16:52:10.381279Z",
+  "generated_at": "2026-07-26T16:56:07.916337Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -36,8 +36,8 @@
     "candidate_matches": 0,
     "matched_no_new_data": 0,
     "low_confidence": 1,
-    "no_match": 1,
-    "lookup_errors": 7,
+    "no_match": 2,
+    "lookup_errors": 6,
     "suggestions_total": 0
   },
   "vessels": [
@@ -83,8 +83,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Abruf fehlgeschlagen: https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fitem+%3FmatchedBy+WHERE+%7B+%7B+%3Fitem+wdt%3AP5910+%2202336090%22+.+BIND%28%22identity.eni%22+AS+%3FmatchedBy%29+%7D+%7D+LIMIT+20&format=json: HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)",
+        "status": "no_match",
+        "error": "",
         "candidates": []
       }
     },
