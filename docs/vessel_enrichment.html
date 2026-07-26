@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!--
+  Danube Vessel Log
+  File: docs/vessel_enrichment.html
+  Version: 0.13.0
+  Updated: 2026-07-26
+-->
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datenanreicherung</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/vessel_enrichment.css">
+</head>
+<body>
+  <div class="site-nav-shell" data-site-nav></div>
+
+  <main class="enrichment-page">
+    <header class="page-header">
+      <div>
+        <h1>Datenanreicherung</h1>
+        <p>Fehlende Schiffsstammdaten und automatisch ermittelte Wikidata-Vorschläge. Es werden keine Schiffsdaten automatisch verändert.</p>
+      </div>
+      <div class="header-actions">
+        <a class="secondary-button" href="vessels.html">Zu den Schiffen</a>
+        <button id="reloadButton" class="primary-button" type="button">Report neu laden</button>
+      </div>
+    </header>
+
+    <section class="notice-card">
+      <strong>Prüfprinzip:</strong>
+      <span>Ein Vorschlag ist erst nach manueller Prüfung zu übernehmen. Eindeutige Kennungen werden höher bewertet als reine Namenstreffer.</span>
+    </section>
+
+    <div id="pageStatus" class="page-status" aria-live="polite"></div>
+
+    <section id="summaryGrid" class="summary-grid hidden" aria-label="Zusammenfassung">
+      <article><span>Schiffe</span><strong id="totalCount">0</strong></article>
+      <article><span>Unvollständig</span><strong id="incompleteCount">0</strong></article>
+      <article><span>Kandidaten</span><strong id="candidateCount">0</strong></article>
+      <article><span>Vorschläge</span><strong id="suggestionCount">0</strong></article>
+      <article><span>Ohne Treffer</span><strong id="noMatchCount">0</strong></article>
+      <article><span>Abruffehler</span><strong id="errorCount">0</strong></article>
+    </section>
+
+    <section id="controlsCard" class="controls-card hidden">
+      <div class="controls-grid">
+        <label>
+          <span>Suche</span>
+          <input id="searchInput" type="search" placeholder="Vessel-ID oder Schiffsname">
+        </label>
+
+        <label>
+          <span>Umgebung</span>
+          <select id="environmentFilter">
+            <option value="production" selected>Produktion</option>
+            <option value="test">Test</option>
+            <option value="all">Alle</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Trefferstatus</span>
+          <select id="statusFilter">
+            <option value="all">Alle unvollständigen</option>
+            <option value="candidate">Kandidat mit Vorschlägen</option>
+            <option value="matched_no_new_data">Treffer ohne neue Daten</option>
+            <option value="low_confidence">Unsicherer Treffer</option>
+            <option value="no_match">Kein Treffer</option>
+            <option value="lookup_error">Abruffehler</option>
+            <option value="complete">Vollständig</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Fehlendes Feld</span>
+          <select id="fieldFilter">
+            <option value="all">Alle Felder</option>
+          </select>
+        </label>
+      </div>
+      <div class="control-footer">
+        <span id="resultCount">0 Schiffe</span>
+        <button id="resetButton" class="secondary-button" type="button">Filter zurücksetzen</button>
+      </div>
+    </section>
+
+    <section id="reportCard" class="report-card hidden">
+      <div id="emptyState" class="empty-state hidden">Keine passenden Schiffe gefunden.</div>
+      <div id="tableWrapper" class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Vessel-ID</th>
+              <th>Name</th>
+              <th>Fehlend</th>
+              <th>Wikidata</th>
+              <th>Vorschläge</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="reportRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="detailCard" class="detail-card hidden">
+      <div class="detail-heading">
+        <div>
+          <h2 id="detailTitle">Vorschläge</h2>
+          <p id="detailSubtitle"></p>
+        </div>
+        <button id="closeDetailButton" class="secondary-button" type="button">Schließen</button>
+      </div>
+
+      <div id="candidateTabs" class="candidate-tabs"></div>
+      <div id="candidateInfo" class="candidate-info"></div>
+      <div id="suggestionList" class="suggestion-list"></div>
+
+      <div class="detail-actions">
+        <a id="openVesselButton" class="primary-button" href="vessels.html">Schiff öffnen und bearbeiten</a>
+        <a id="openWikidataButton" class="secondary-button hidden" href="#" target="_blank" rel="noopener noreferrer">Wikidata öffnen</a>
+      </div>
+    </section>
+
+    <footer id="reportMeta" class="report-meta hidden"></footer>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/site_map.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vessel_enrichment.js"></script>
+</body>
+</html>
