@@ -1,0 +1,58 @@
+name: Build vessel enrichment
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 4 * * 1"
+  push:
+    paths:
+      - "data/vessels.csv"
+      - "data/vessels/**.json"
+      - "tools/build_vessel_enrichment.py"
+      - ".github/workflows/build-vessel-enrichment.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: vessel-enrichment
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Interne Tests
+        run: python tools/build_vessel_enrichment.py --self-test
+
+      - name: Anreicherungsreport erstellen
+        env:
+          WIKIDATA_USER_AGENT: >-
+            DanubeVesselLog/0.13.0
+            (personal vessel database; GitHub Actions)
+          WIKIDATA_DELAY_SECONDS: "0.25"
+          WIKIDATA_MAX_CANDIDATES: "5"
+        run: python tools/build_vessel_enrichment.py
+
+      - name: Report einchecken
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/vessel_enrichment.json
+          if git diff --cached --quiet; then
+            echo "Keine Änderung am Anreicherungsreport."
+          else
+            git commit -m "Anreicherungsreport aktualisiert"
+            git push
+          fi
