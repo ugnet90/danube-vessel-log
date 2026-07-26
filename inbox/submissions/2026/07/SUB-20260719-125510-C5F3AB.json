@@ -21,8 +21,15 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "reviewed",
     "vessel_id": "",
-    "review_notes": ""
+    "review_notes": "",
+    "review": {
+      "reviewed": true,
+      "reviewed_at": "2026-07-26T16:32:15.614Z",
+      "vessel_id": "VES-000106",
+      "decision": "created",
+      "notes": ""
+    }
   }
 }
