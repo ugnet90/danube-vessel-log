@@ -7,7 +7,7 @@ on:
   push:
     paths:
       - "data/vessels.csv"
-      - "data/vessels/**.json"
+      - "data/vessels/**"
       - "tools/build_vessel_enrichment.py"
       - ".github/workflows/build-vessel-enrichment.yml"
 
@@ -39,7 +39,7 @@ jobs:
       - name: Anreicherungsreport erstellen
         env:
           WIKIDATA_USER_AGENT: >-
-            DanubeVesselLog/0.13.2
+            DanubeVesselLog/0.13.7
             (https://github.com/${{ github.repository }}; vessel enrichment)
           WIKIDATA_DELAY_SECONDS: "0.75"
           WIKIDATA_MAX_CANDIDATES: "5"
