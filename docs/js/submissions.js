@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/submissions.js
-// Version: 0.13.6
+// Version: 0.13.7
 // Updated: 2026-07-27
 
 "use strict";
@@ -21,6 +21,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusFilter = byId("statusFilter");
   const listStatus = byId("listStatus");
   const submissionList = byId("submissionList");
+
+  const nextStepPanel =
+    byId("nextStepPanel");
+
+  const nextStepTitle =
+    byId("nextStepTitle");
+
+  const nextStepText =
+    byId("nextStepText");
+
+  const nextStepVesselLink =
+    byId("nextStepVesselLink");
+
+  const nextStepEnrichmentLink =
+    byId("nextStepEnrichmentLink");
   const emptyState = byId("emptyState");
   const detailContent = byId("detailContent");
   const detailTitle = byId("detailTitle");
@@ -79,8 +94,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const vesselManager = byId("vesselManager");
   const vesselCruiseBrand = byId("vesselCruiseBrand");
   const vesselHomePort = byId("vesselHomePort");
-  const vesselEnrichmentStatus = byId("vesselEnrichmentStatus");
-  const vesselEnrichmentDate = byId("vesselEnrichmentDate");
+  const vesselEnrichmentStatus =
+    byId("vesselEnrichmentStatus");
+
+  const vesselEnrichmentDate =
+    byId("vesselEnrichmentDate");
+
+  const vesselEnrichmentLink =
+    byId("vesselEnrichmentLink");
   const vesselSourceCount = byId("vesselSourceCount");
   const vesselUpdatedAt = byId("vesselUpdatedAt");
 
@@ -240,6 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedVesselId = "";
   let reviewCandidateVesselId = "";
   let vesselLoadToken = 0;
+  let enrichmentLoadToken = 0;
   let reviewBusy = false;
   let vesselCreateBusy = false;
   let vesselSuggestionToken = 0;
@@ -292,6 +314,32 @@ document.addEventListener("DOMContentLoaded", () => {
     failed: "Fehler",
     unknown: "unbekannt"
   };
+  
+  const enrichmentReportStatusLabels = {
+    candidate:
+      "Wikidata-Kandidat mit Vorschlägen",
+
+    matched_no_new_data:
+      "Wikidata-Treffer ohne neue Daten",
+
+    low_confidence:
+      "Unsicherer Wikidata-Treffer",
+
+    no_match:
+      "Kein Wikidata-Treffer",
+
+    lookup_error:
+      "Fehler bei der Wikidata-Abfrage",
+
+    not_needed:
+      "Keine Anreicherung erforderlich",
+
+    offline:
+      "Nur Fehlstellenreport",
+
+    pending:
+      "Noch nicht geprüft"
+  };  
 
   function getWorkflowStatus(submission) {
     return (
@@ -436,6 +484,196 @@ document.addEventListener("DOMContentLoaded", () => {
 
     reviewResult.textContent = "";
   }
+
+  function enrichmentPageUrl(
+    vesselIdValue
+  ) {
+    const normalizedVesselId =
+      String(
+        vesselIdValue ?? ""
+      ).trim();
+
+    return vesselIdPattern.test(
+      normalizedVesselId
+    )
+      ? (
+          "vessel_enrichment.html?" +
+          "vessel_id=" +
+          encodeURIComponent(
+            normalizedVesselId
+          )
+        )
+      : "vessel_enrichment.html";
+  }
+
+  function showNextStep(
+    vesselIdValue,
+    message
+  ) {
+    const normalizedVesselId =
+      String(
+        vesselIdValue ?? ""
+      ).trim();
+
+    if (
+      !vesselIdPattern.test(
+        normalizedVesselId
+      )
+    ) {
+      nextStepPanel.classList.add(
+        "hidden"
+      );
+
+      return;
+    }
+
+    nextStepTitle.textContent =
+      `${normalizedVesselId} wurde ` +
+      "der Sichtung zugeordnet.";
+
+    nextStepText.textContent =
+      message ||
+      (
+        "Die Anreicherungsseite prüft den aktuellen " +
+        "Report. Ist der neue Report noch nicht fertig, " +
+        "wird er dort automatisch erneut geladen."
+      );
+
+    nextStepVesselLink.href =
+      "vessel.html?id=" +
+      encodeURIComponent(
+        normalizedVesselId
+      );
+
+    nextStepEnrichmentLink.href =
+      enrichmentPageUrl(
+        normalizedVesselId
+      );
+
+    nextStepPanel.classList.remove(
+      "hidden"
+    );
+
+    nextStepPanel.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest"
+    });
+  }
+
+  function hideNextStep() {
+    nextStepPanel.classList.add(
+      "hidden"
+    );
+  }
+
+  async function loadEnrichmentReportState(
+    vesselIdValue
+  ) {
+    const normalizedVesselId =
+      String(
+        vesselIdValue ?? ""
+      ).trim();
+
+    const token =
+      ++enrichmentLoadToken;
+
+    vesselEnrichmentLink.href =
+      enrichmentPageUrl(
+        normalizedVesselId
+      );
+
+    vesselEnrichmentLink.classList.remove(
+      "hidden"
+    );
+
+    vesselEnrichmentStatus.textContent =
+      "Report wird geprüft …";
+
+    vesselEnrichmentDate.textContent =
+      "—";
+
+    try {
+      const response = await fetch(
+        "data/vessel_enrichment.json?" +
+        `ts=${Date.now()}`,
+        {
+          cache: "no-store"
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `HTTP ${response.status}`
+        );
+      }
+
+      const report =
+        await response.json();
+
+      if (
+        token !== enrichmentLoadToken
+      ) {
+        return;
+      }
+
+      const reportVessels =
+        Array.isArray(report?.vessels)
+          ? report.vessels
+          : [];
+
+      const entry =
+        reportVessels.find(
+          vessel =>
+            vessel?.vessel_id ===
+            normalizedVesselId
+        ) ?? null;
+
+      vesselEnrichmentDate.textContent =
+        formatDateTime(
+          report?.generated_at
+        );
+
+      if (!entry) {
+        vesselEnrichmentStatus.textContent =
+          "Neuer Report wird vorbereitet";
+
+        vesselEnrichmentLink.textContent =
+          "Anreicherung öffnen";
+
+        return;
+      }
+
+      const lookupStatus =
+        entry?.lookup?.status ??
+        "pending";
+
+      vesselEnrichmentStatus.textContent =
+        enrichmentReportStatusLabels[
+          lookupStatus
+        ] ??
+        lookupStatus;
+
+      vesselEnrichmentLink.textContent =
+        lookupStatus === "candidate"
+          ? "Anreicherung prüfen"
+          : "Anreicherung anzeigen";
+    } catch {
+      if (
+        token !== enrichmentLoadToken
+      ) {
+        return;
+      }
+
+      vesselEnrichmentStatus.textContent =
+        "Report derzeit nicht erreichbar";
+
+      vesselEnrichmentDate.textContent =
+        "—";
+
+      vesselEnrichmentLink.textContent =
+        "Anreicherung öffnen";
+    }
+  }  
 
   function getPhotos(submission) {
     if (Array.isArray(submission?.photos)) {
@@ -1030,6 +1268,16 @@ document.addEventListener("DOMContentLoaded", () => {
         `${submissions.length} offene Sichtung` +
         `${submissions.length === 1 ? "" : "en"} verbleibend.`
       );
+
+      showNextStep(
+        createdVesselId,
+        (
+          "Das Schiff wurde angelegt. Der " +
+          "Anreicherungsworkflow wurde durch die " +
+          "Änderung der Schiffsstammdaten angestoßen."
+        )
+      );
+      
     } catch (error) {
       showVesselCreateResult(
         "error",
@@ -1044,6 +1292,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function resetVesselPanel() {
     vesselLoadToken += 1;
+    enrichmentLoadToken += 1;
     vesselSuggestionToken += 1;
     selectedVesselId = "";
     reviewCandidateVesselId = "";
@@ -1056,6 +1305,15 @@ document.addEventListener("DOMContentLoaded", () => {
     vesselError.classList.add("hidden");
     vesselError.textContent = "";
     vesselContent.classList.add("hidden");
+    vesselEnrichmentStatus.textContent =
+      "";
+
+    vesselEnrichmentDate.textContent =
+      "";
+
+    vesselEnrichmentLink.classList.add(
+      "hidden"
+    );    
     vesselCreatePanel.classList.add("hidden");
     clearVesselCreateResult();
   }
@@ -1459,10 +1717,24 @@ document.addEventListener("DOMContentLoaded", () => {
       formatValue(operations.home_port);
 
     vesselEnrichmentStatus.textContent =
-      enrichmentStatusLabels[enrichment.status] ??
-      formatValue(enrichment.status);
+      "Report wird geprüft …";
+
     vesselEnrichmentDate.textContent =
-      formatDateTime(enrichment.last_run_at);
+      "—";
+
+    vesselEnrichmentLink.href =
+      enrichmentPageUrl(
+        vessel.vessel_id
+      );
+
+    vesselEnrichmentLink.classList.remove(
+      "hidden"
+    );
+
+    loadEnrichmentReportState(
+      vessel.vessel_id
+    );
+    
     vesselSourceCount.textContent =
       formatSourceCount(vessel.sources);
     vesselUpdatedAt.textContent =
@@ -1895,20 +2167,68 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    const reviewedSubmission =
+      selectedSubmission;
+
+    const automaticMatch =
+      getAutomaticMatch(
+        reviewedSubmission
+      );
+
     clearReviewResult();
     reviewBusy = true;
     updateReviewButtons();
 
     try {
-      await window.VesselApi.reviewSubmission({
-        workerUrl,
-        apiKey: apiKeyInput.value,
-        submissionId:
-          selectedSubmission.submission_id,
-        decision,
-        vesselId: reviewedVesselId,
-        notes: reviewNotes.value.trim()
-      });
+      const response =
+        await window.VesselApi
+          .reviewSubmission({
+            workerUrl,
+
+            apiKey:
+              apiKeyInput.value,
+
+            submissionId:
+              reviewedSubmission
+                .submission_id,
+
+            decision,
+
+            vesselId:
+              reviewedVesselId,
+
+            notes:
+              reviewNotes.value.trim()
+          });
+
+      let completedVesselId =
+        String(
+          response.data?.vessel_id ??
+          ""
+        ).trim();
+
+      if (
+        !vesselIdPattern.test(
+          completedVesselId
+        ) &&
+        decision === "corrected"
+      ) {
+        completedVesselId =
+          reviewedVesselId;
+      }
+
+      if (
+        !vesselIdPattern.test(
+          completedVesselId
+        ) &&
+        decision === "confirmed"
+      ) {
+        completedVesselId =
+          String(
+            automaticMatch.vessel_id ??
+            ""
+          ).trim();
+      }
 
       showReviewResult(
         "success",
@@ -1921,6 +2241,25 @@ document.addEventListener("DOMContentLoaded", () => {
       await loadSubmissions({
         preserveSelection: false
       });
+
+      if (
+        decision !== "rejected" &&
+        vesselIdPattern.test(
+          completedVesselId
+        )
+      ) {
+        showNextStep(
+          completedVesselId,
+          (
+            "Die Sichtung wurde zugeordnet. " +
+            "Die Anreicherungsseite zeigt den " +
+            "aktuellen Report und wartet bei " +
+            "Bedarf automatisch auf dessen Aktualisierung."
+          )
+        );
+      } else {
+        hideNextStep();
+      }
     } catch (error) {
       showReviewResult(
         "error",
