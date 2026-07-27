@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/css/vessel.css
- * Version: 0.10.5
- * Updated: 2026-07-23
+ * Version: 0.13.4
+ * Updated: 2026-07-27
  */
 
 .vessel-page {
@@ -764,6 +764,36 @@ dd {
   flex-wrap: wrap;
 }
 
+.vessel-navigation {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vessel-nav-button {
+  display: grid;
+  place-items: center;
+  min-width: 42px;
+  min-height: 38px;
+  padding: 7px 10px;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.vessel-position {
+  min-width: 68px;
+  color: #52606d;
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.vessel-nav-button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
 .vessel-edit-card {
   border-color: #b8cdf6;
   box-shadow:
@@ -1026,6 +1056,19 @@ dd {
 
   .vessel-actions button,
   .edit-actions button {
+    flex: 1 1 auto;
+  }
+
+  .vessel-navigation {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .vessel-navigation .vessel-nav-button {
+    flex: 0 0 46px;
+  }
+
+  .vessel-position {
     flex: 1 1 auto;
   }
 
