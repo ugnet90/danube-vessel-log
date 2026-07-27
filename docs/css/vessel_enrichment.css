@@ -1,4 +1,4 @@
-/* Danube Vessel Log · vessel_enrichment.css · Version 0.13.0 */
+/* Danube Vessel Log · vessel_enrichment.css · Version 0.13.2 */
 
 .enrichment-page {
   width: min(1500px, calc(100% - 32px));
@@ -303,5 +303,107 @@
 
   .suggestion-row {
     grid-template-columns: 1fr;
+  }
+}
+
+.candidate-review-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  background: #eff6ff;
+}
+
+.candidate-confirmation {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.candidate-confirmation input {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  flex: 0 0 auto;
+}
+
+.selection-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.suggestion-row.selectable {
+  cursor: pointer;
+}
+
+.suggestion-row.selectable:has(input:checked) {
+  border-color: #60a5fa;
+  background: #eff6ff;
+}
+
+.suggestion-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.suggestion-choice input {
+  width: 18px;
+  height: 18px;
+  margin: 1px 0 0;
+  flex: 0 0 auto;
+}
+
+.apply-status {
+  min-height: 22px;
+  margin-top: 12px;
+  color: #475569;
+}
+
+.apply-status.error {
+  color: #b91c1c;
+}
+
+.apply-status.success {
+  color: #166534;
+}
+
+.danger-button {
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  background: #fff;
+  color: #b91c1c;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.danger-button:hover:not(:disabled) {
+  background: #fef2f2;
+}
+
+.danger-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@media (max-width: 700px) {
+  .candidate-review-panel {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .selection-actions {
+    justify-content: flex-start;
   }
 }
