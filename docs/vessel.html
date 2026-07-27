@@ -2,8 +2,8 @@
 <!--
   Danube Vessel Log
   File: docs/vessel.html
-  Version: 0.10.5
-  Updated: 2026-07-23
+  Version: 0.13.4
+  Updated: 2026-07-27
 -->
 <html lang="de">
 <head>
@@ -32,6 +32,41 @@
         <p id="vesselSubtitle"></p>
       </div>
       <div class="vessel-actions">
+        <div
+          class="vessel-navigation"
+          aria-label="Zwischen Schiffen blättern"
+        >
+          <button
+            id="previousVesselButton"
+            class="secondary-button vessel-nav-button"
+            type="button"
+            aria-label="Vorheriges Schiff"
+            title="Kein vorheriges Schiff"
+            disabled
+          >
+            ←
+          </button>
+
+          <span
+            id="vesselPosition"
+            class="vessel-position"
+            aria-live="polite"
+          >
+            – / –
+          </span>
+
+          <button
+            id="nextVesselButton"
+            class="secondary-button vessel-nav-button"
+            type="button"
+            aria-label="Nächstes Schiff"
+            title="Kein nächstes Schiff"
+            disabled
+          >
+            →
+          </button>
+        </div>
+
         <button
           id="editButton"
           class="primary-button"
