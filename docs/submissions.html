@@ -1,8 +1,8 @@
 <!--
   Danube Vessel Log
   File: docs/submissions.html
-  Version: 0.12.4
-  Updated: 2026-07-25
+  Version: 0.13.6
+  Updated: 2026-07-27
 -->
 
 <!DOCTYPE html>
@@ -245,13 +245,26 @@
                   </select>
                 </div>
                 <div class="form-field">
-                  <label for="newVesselStatus">Status</label>
-                  <select id="newVesselStatus">
-                    <option value="unknown">Unbekannt</option>
-                    <option value="active">Aktiv</option>
-                    <option value="inactive">Inaktiv</option>
-                    <option value="scrapped">Verschrottet</option>
+                  <label for="newVesselStatus">
+                    Status
+                  </label>
+
+                  <select
+                    id="newVesselStatus"
+                    aria-describedby="newVesselStatusHelp"
+                  >
+                    <option value="active">
+                      Aktiv
+                    </option>
                   </select>
+
+                  <small
+                    id="newVesselStatusHelp"
+                    class="field-help"
+                  >
+                    Eine bestätigte Sichtung ist ein
+                    Aktivitätsnachweis.
+                  </small>
                 </div>
 
                 <div class="form-field">
@@ -413,6 +426,6 @@
   <script src="js/nav.js"></script>
   <script src="js/api.js"></script>
   <script src="js/vessel_reference.js"></script>
-  <script src="js/submissions.js?v=0.12.4"></script>
+  <script src="js/submissions.js?v=0.13.6"></script>
 </body>
 </html>
