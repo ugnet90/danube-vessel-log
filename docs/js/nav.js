@@ -1,10 +1,45 @@
+// Danube Vessel Log
+// File: docs/js/nav.js
+// Version: 0.13.8
+// Updated: 2026-07-27
+
 "use strict";
 
 (function () {
   function currentPageId() {
-    const file = window.location.pathname.split("/").pop() || "submissions.html";
-    if (file === "vessels.html" || file === "vessel.html") return "vessels";
-    return "submissions";
+    const file =
+      window.location.pathname
+        .split("/")
+        .pop() ||
+      "submissions.html";
+  
+    /*
+     * Die Detailseite gehört zum
+     * Navigationsbereich „Schiffe“.
+     */
+    if (file === "vessel.html") {
+      return "vessels";
+    }
+  
+    const navigation =
+      Array.isArray(
+        window.VesselSite?.navigation
+      )
+        ? window.VesselSite.navigation
+        : [];
+  
+    const matchingItem =
+      navigation.find(item => {
+        const itemFile =
+          String(item?.href ?? "")
+            .split(/[?#]/)[0]
+            .split("/")
+            .pop();
+  
+        return itemFile === file;
+      });
+  
+    return matchingItem?.id ?? "";
   }
 
   function renderNavigation() {
