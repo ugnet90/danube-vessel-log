@@ -1,13 +1,16 @@
 // Danube Vessel Log
 // File: docs/js/vessel_reference.js
-// Version: 0.10.1
-// Updated: 2026-07-22
+// Version: 0.13.3
+// Updated: 2026-07-27
 
 "use strict";
 
 (() => {
   const REFERENCE_BASE_PATH =
     "data/reference";
+
+  const FLAG_IMAGE_BASE_URL =
+    "https://flagcdn.com";  
 
   const state = {
     loadPromise: null,
@@ -621,6 +624,10 @@
         );
 
         state.loaded = true;
+
+        enhanceFlagRendering(
+          document
+        );        
       })();
 
     try {
@@ -834,17 +841,24 @@
     );
   }
 
-  function flagEmoji(code) {
+  function normalizeFlagCode(code) {
     const normalized =
       String(code ?? "")
         .trim()
         .toUpperCase();
 
-    if (
-      !/^[A-Z]{2}$/.test(
-        normalized
-      )
-    ) {
+    return /^[A-Z]{2}$/.test(
+      normalized
+    )
+      ? normalized
+      : "";
+  }
+
+  function flagEmoji(code) {
+    const normalized =
+      normalizeFlagCode(code);
+
+    if (!normalized) {
       return "";
     }
 
@@ -860,13 +874,19 @@
   function flagLabel(code) {
     ensureLoaded();
 
-    const normalized =
+    const raw =
       String(code ?? "")
-        .trim()
-        .toUpperCase();
+        .trim();
+
+    if (!raw) {
+      return "–";
+    }
+
+    const normalized =
+      normalizeFlagCode(raw);
 
     if (!normalized) {
-      return "–";
+      return raw;
     }
 
     const country =
@@ -874,19 +894,336 @@
         normalized
       );
 
-    const emoji =
-      flagEmoji(normalized);
+    return country
+      ? `${country.name} (${normalized})`
+      : normalized;
+  }
 
-    if (country) {
-      return (
-        `${emoji} ${country.name} ` +
-        `(${normalized})`
-      );
+  function flagImageUrl(code) {
+    const normalized =
+      normalizeFlagCode(code);
+
+    return normalized
+      ? `${FLAG_IMAGE_BASE_URL}/` +
+        `${normalized.toLowerCase()}.svg`
+      : "";
+  }
+
+  function createFlagElement(
+    code,
+    options = {}
+  ) {
+    ensureLoaded();
+
+    const raw =
+      String(code ?? "")
+        .trim();
+
+    const normalized =
+      normalizeFlagCode(raw);
+
+    const wrapper =
+      document.createElement("span");
+
+    wrapper.className =
+      "vessel-flag-display";
+
+    wrapper.style.display =
+      "inline-flex";
+
+    wrapper.style.alignItems =
+      "center";
+
+    wrapper.style.gap =
+      "0.4em";
+
+    wrapper.style.verticalAlign =
+      "middle";
+
+    if (!normalized) {
+      wrapper.textContent =
+        raw || "–";
+
+      return wrapper;
     }
 
-    return (
-      `${emoji ? `${emoji} ` : ""}` +
-      normalized
+    const country =
+      state.flagByCode.get(
+        normalized
+      );
+
+    const image =
+      document.createElement("img");
+
+    image.className =
+      "vessel-flag-image";
+
+    image.src =
+      flagImageUrl(normalized);
+
+    image.alt = country
+      ? `Flagge ${country.name}`
+      : `Flagge ${normalized}`;
+
+    image.width = 20;
+    image.loading = "lazy";
+    image.decoding = "async";
+
+    image.referrerPolicy =
+      "no-referrer";
+
+    image.style.display =
+      "block";
+
+    image.style.width =
+      "20px";
+
+    image.style.height =
+      "auto";
+
+    image.style.maxHeight =
+      "15px";
+
+    image.style.border =
+      "1px solid rgba(0, 0, 0, 0.18)";
+
+    image.style.borderRadius =
+      "1px";
+
+    image.addEventListener(
+      "error",
+      () => image.remove(),
+      { once: true }
+    );
+
+    const text =
+      document.createElement("span");
+
+    text.textContent =
+      options.showLabel === false
+        ? normalized
+        : flagLabel(normalized);
+
+    wrapper.append(
+      image,
+      text
+    );
+
+    return wrapper;
+  }
+
+  function renderFlag(
+    target,
+    code,
+    options = {}
+  ) {
+    ensureLoaded();
+
+    const element =
+      typeof target === "string"
+        ? document.getElementById(
+            target
+          )
+        : target;
+
+    if (!(element instanceof Element)) {
+      return false;
+    }
+
+    const normalized =
+      normalizeFlagCode(code);
+
+    element.replaceChildren(
+      createFlagElement(
+        code,
+        options
+      )
+    );
+
+    if (normalized) {
+      element.dataset.flagRenderedCode =
+        normalized;
+    } else {
+      delete element.dataset
+        .flagRenderedCode;
+    }
+
+    return true;
+  }
+
+  function flagCodeFromText(value) {
+    const text =
+      String(value ?? "")
+        .trim();
+
+    const codeOnly =
+      normalizeFlagCode(text);
+
+    if (codeOnly) {
+      return codeOnly;
+    }
+
+    return normalizeFlagCode(
+      text.match(
+        /\(([A-Z]{2})\)\s*$/
+      )?.[1]
+    );
+  }
+
+  function isFlagDisplayTarget(
+    element
+  ) {
+    if (!(element instanceof Element)) {
+      return false;
+    }
+
+    if (
+      element.id === "flag" ||
+      element.id === "vesselFlag" ||
+      element.hasAttribute(
+        "data-vessel-flag"
+      )
+    ) {
+      return true;
+    }
+
+    const label =
+      element.previousElementSibling
+        ?.textContent
+        ?.trim()
+        .replace(/:$/, "")
+        .toLocaleLowerCase("de-AT");
+
+    return label === "flagge";
+  }
+
+  function enhanceFlagElement(
+    element
+  ) {
+    if (
+      !state.loaded ||
+      !isFlagDisplayTarget(element) ||
+      element.tagName === "OPTION"
+    ) {
+      return;
+    }
+
+    const code =
+      element.dataset.flagCode ||
+      flagCodeFromText(
+        element.textContent
+      );
+
+    if (!code) {
+      return;
+    }
+
+    const existingImage =
+      element.querySelector(
+        ".vessel-flag-image"
+      );
+
+    if (
+      existingImage &&
+      element.dataset
+        .flagRenderedCode === code
+    ) {
+      return;
+    }
+
+    renderFlag(
+      element,
+      code
+    );
+  }
+
+  function enhanceFlagRendering(
+    root = document
+  ) {
+    if (!state.loaded) {
+      return;
+    }
+
+    if (root instanceof Element) {
+      enhanceFlagElement(root);
+    }
+
+    const scope =
+      root instanceof Document ||
+      root instanceof Element
+        ? root
+        : document;
+
+    for (
+      const element
+      of scope.querySelectorAll(
+        "#flag, #vesselFlag, " +
+        "[data-vessel-flag], " +
+        ".catalog-candidate-meta strong, " +
+        ".edit-name-match-meta strong"
+      )
+    ) {
+      enhanceFlagElement(element);
+    }
+  }
+
+  const flagObserver =
+    new MutationObserver(
+      mutations => {
+        if (!state.loaded) {
+          return;
+        }
+
+        for (
+          const mutation
+          of mutations
+        ) {
+          if (
+            mutation.type ===
+            "characterData"
+          ) {
+            enhanceFlagElement(
+              mutation.target
+                .parentElement
+            );
+
+            continue;
+          }
+
+          for (
+            const addedNode
+            of mutation.addedNodes
+          ) {
+            if (
+              addedNode instanceof
+              Element
+            ) {
+              enhanceFlagRendering(
+                addedNode
+              );
+            }
+          }
+
+          if (
+            mutation.target instanceof
+            Element
+          ) {
+            enhanceFlagElement(
+              mutation.target
+            );
+          }
+        }
+      }
+    );
+
+  if (document.documentElement) {
+    flagObserver.observe(
+      document.documentElement,
+      {
+        childList: true,
+        characterData: true,
+        subtree: true
+      }
     );
   }
 
@@ -986,6 +1323,10 @@
       shipSubtypeLabel,
       flagEmoji,
       flagLabel,
+      flagImageUrl,
+      createFlagElement,
+      renderFlag,
+      enhanceFlagRendering,
 
       sourceProviderLabel,
       sourceFieldLabel,
