@@ -1,4 +1,4 @@
-/* Danube Vessel Log · vessel_enrichment.js · Version 0.13.2 */
+/* Danube Vessel Log · vessel_enrichment.js · Version 0.13.7 */
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -35,6 +35,33 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedVessel = null;
   let selectedCandidateIndex = 0;
   let requestRunning = false;
+
+  const vesselIdPattern =
+    /^VES-\d{6}$/;
+
+  let requestedVesselId =
+    new URLSearchParams(
+      window.location.search
+    )
+      .get("vessel_id")
+      ?.trim() || "";
+
+  if (
+    !vesselIdPattern.test(
+      requestedVesselId
+    )
+  ) {
+    requestedVesselId = "";
+  }
+
+  let targetedReloadTimer = null;
+  let targetedReloadAttempts = 0;
+
+  const TARGETED_RELOAD_INTERVAL_MS =
+    15 * 1000;
+
+  const TARGETED_RELOAD_MAX_ATTEMPTS =
+    20;
 
   const statusLabels = {
     candidate: "Kandidat mit Vorschlägen",
@@ -177,6 +204,137 @@ document.addEventListener("DOMContentLoaded", () => {
       return true;
     });
   }
+  
+  function clearTargetedReload() {
+    if (targetedReloadTimer) {
+      clearTimeout(
+        targetedReloadTimer
+      );
+
+      targetedReloadTimer = null;
+    }
+  }
+
+  function clearRequestedVessel() {
+    requestedVesselId = "";
+    targetedReloadAttempts = 0;
+    clearTargetedReload();
+
+    const url =
+      new URL(
+        window.location.href
+      );
+
+    url.searchParams.delete(
+      "vessel_id"
+    );
+
+    window.history.replaceState(
+      {},
+      "",
+      url.href
+    );
+  }
+
+  function scheduleTargetedReload() {
+    clearTargetedReload();
+
+    if (
+      !requestedVesselId ||
+      targetedReloadAttempts >=
+        TARGETED_RELOAD_MAX_ATTEMPTS
+    ) {
+      if (requestedVesselId) {
+        setStatus(
+          `${requestedVesselId} ist nach ` +
+          "mehreren Prüfungen noch nicht im " +
+          "aktuellen Report enthalten. Prüfe den " +
+          "Workflow „Build vessel enrichment“.",
+          true
+        );
+      }
+
+      return;
+    }
+
+    targetedReloadTimer =
+      setTimeout(
+        () => {
+          targetedReloadTimer = null;
+          targetedReloadAttempts += 1;
+
+          loadReport({
+            automatic: true
+          });
+        },
+        TARGETED_RELOAD_INTERVAL_MS
+      );
+  }
+
+  function focusRequestedVessel() {
+    if (
+      !requestedVesselId ||
+      !report
+    ) {
+      return false;
+    }
+
+    const vessels =
+      Array.isArray(report.vessels)
+        ? report.vessels
+        : [];
+
+    const vessel =
+      vessels.find(
+        item =>
+          item?.vessel_id ===
+          requestedVesselId
+      ) ?? null;
+
+    searchInput.value =
+      requestedVesselId;
+
+    environmentFilter.value =
+      "all";
+
+    fieldFilter.value =
+      "all";
+
+    if (!vessel) {
+      statusFilter.value =
+        "all";
+
+      renderRows();
+
+      setStatus(
+        `${requestedVesselId} ist im aktuellen ` +
+        "Report noch nicht enthalten. Der Report " +
+        "wird automatisch erneut geprüft."
+      );
+
+      scheduleTargetedReload();
+
+      return false;
+    }
+
+    clearTargetedReload();
+    targetedReloadAttempts = 0;
+
+    statusFilter.value =
+      vessel.missing_count === 0
+        ? "complete"
+        : "all";
+
+    renderRows();
+    showDetails(vessel);
+
+    setStatus(
+      `${requestedVesselId} wurde im Report vom ` +
+      `${formatDateTime(report.generated_at)} gefunden.`
+    );
+
+    return true;
+  }
 
   function createChip(label) {
     const chip = document.createElement("span");
@@ -193,7 +351,18 @@ document.addEventListener("DOMContentLoaded", () => {
     byId("tableWrapper").classList.toggle("hidden", vessels.length === 0);
 
     for (const vessel of vessels) {
-      const row = document.createElement("tr");
+      const row =
+        document.createElement("tr");
+
+      if (
+        requestedVesselId &&
+        vessel.vessel_id ===
+          requestedVesselId
+      ) {
+        row.classList.add(
+          "target-vessel-row"
+        );
+      }
       const idCell = document.createElement("td");
       const idLink = document.createElement("a");
       idLink.href = `vessel.html?id=${encodeURIComponent(vessel.vessel_id)}`;
@@ -504,40 +673,127 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  async function loadReport() {
+  async function loadReport({
+    automatic = false
+  } = {}) {
     reloadButton.disabled = true;
-    setStatus("Anreicherungsreport wird geladen …");
-    detailCard.classList.add("hidden");
+
+    setStatus(
+      automatic
+        ? "Aktualisierter Anreicherungsreport wird geprüft …"
+        : "Anreicherungsreport wird geladen …"
+    );
+
+    if (!requestedVesselId) {
+      detailCard.classList.add(
+        "hidden"
+      );
+    }
+
     try {
-      const response = await fetch(`data/vessel_enrichment.json?ts=${Date.now()}`, { cache: "no-store" });
-      if (!response.ok) throw new Error(`Report konnte nicht geladen werden (HTTP ${response.status}).`);
-      const payload = await response.json();
-      if (!payload || !Array.isArray(payload.vessels)) throw new Error("Der Report hat nicht das erwartete Format.");
+      const response = await fetch(
+        "data/vessel_enrichment.json?" +
+        `ts=${Date.now()}`,
+        {
+          cache: "no-store"
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "Report konnte nicht geladen werden " +
+          `(HTTP ${response.status}).`
+        );
+      }
+
+      const payload =
+        await response.json();
+
+      if (
+        !payload ||
+        !Array.isArray(
+          payload.vessels
+        )
+      ) {
+        throw new Error(
+          "Der Report hat nicht das erwartete Format."
+        );
+      }
+
       report = payload;
+
       populateFieldFilter();
       renderSummary();
-      renderRows();
-      if (payload.status === "not_built" || !payload.generated_at) {
-        setStatus("Noch kein Anreicherungsreport vorhanden. Starte in GitHub Actions den Workflow „Build vessel enrichment“.", true);
+
+      if (requestedVesselId) {
+        focusRequestedVessel();
       } else {
-        setStatus(`Report vom ${formatDateTime(payload.generated_at)} geladen.`);
+        renderRows();
+
+        if (
+          payload.status ===
+            "not_built" ||
+          !payload.generated_at
+        ) {
+          setStatus(
+            "Noch kein Anreicherungsreport vorhanden. " +
+            "Starte in GitHub Actions den Workflow " +
+            "„Build vessel enrichment“.",
+            true
+          );
+        } else {
+          setStatus(
+            `Report vom ${
+              formatDateTime(
+                payload.generated_at
+              )
+            } geladen.`
+          );
+        }
       }
     } catch (error) {
       report = null;
-      setStatus(error instanceof Error ? error.message : String(error), true);
+
+      setStatus(
+        error instanceof Error
+          ? error.message
+          : String(error),
+        true
+      );
+
+      if (requestedVesselId) {
+        scheduleTargetedReload();
+      }
     } finally {
       reloadButton.disabled = false;
     }
   }
 
-  reloadButton.addEventListener("click", loadReport);
-  resetButton.addEventListener("click", () => {
-    searchInput.value = "";
-    environmentFilter.value = "production";
-    statusFilter.value = "all";
-    fieldFilter.value = "all";
-    renderRows();
-  });
+  reloadButton.addEventListener(
+    "click",
+    () => {
+      targetedReloadAttempts = 0;
+      loadReport();
+    }
+  );
+  resetButton.addEventListener(
+    "click",
+    () => {
+      clearRequestedVessel();
+
+      searchInput.value = "";
+      environmentFilter.value =
+        "production";
+      statusFilter.value = "all";
+      fieldFilter.value = "all";
+
+      detailCard.classList.add(
+        "hidden"
+      );
+
+      renderRows();
+    }
+  );
   closeDetailButton.addEventListener("click", () => detailCard.classList.add("hidden"));
   candidateConfirmed.addEventListener("change", updateApplyButton);
   selectAllButton.addEventListener("click", () => {
@@ -550,8 +806,28 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   applyButton.addEventListener("click", applySelectedSuggestions);
   rejectCandidateButton.addEventListener("click", rejectCurrentCandidate);
-  for (const control of [searchInput, environmentFilter, statusFilter, fieldFilter]) {
-    control.addEventListener(control === searchInput ? "input" : "change", renderRows);
+  for (
+    const control
+    of [
+      searchInput,
+      environmentFilter,
+      statusFilter,
+      fieldFilter
+    ]
+  ) {
+    control.addEventListener(
+      control === searchInput
+        ? "input"
+        : "change",
+
+      () => {
+        if (requestedVesselId) {
+          clearRequestedVessel();
+        }
+
+        renderRows();
+      }
+    );
   }
 
   loadReport();
