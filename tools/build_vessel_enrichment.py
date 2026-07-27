@@ -33,11 +33,15 @@ WIKIDATA_API = "https://www.wikidata.org/w/api.php"
 WIKIDATA_SPARQL = "https://query.wikidata.org/sparql"
 USER_AGENT = os.environ.get(
     "WIKIDATA_USER_AGENT",
-    "DanubeVesselLog/0.13.0 (personal vessel database; GitHub Actions)",
+    "DanubeVesselLog/0.13.1 (personal vessel database; GitHub Actions)",
 )
-REQUEST_DELAY = float(os.environ.get("WIKIDATA_DELAY_SECONDS", "0.20"))
+REQUEST_DELAY = float(os.environ.get("WIKIDATA_DELAY_SECONDS", "0.75"))
 REQUEST_TIMEOUT = int(os.environ.get("WIKIDATA_TIMEOUT_SECONDS", "35"))
 MAX_CANDIDATES = int(os.environ.get("WIKIDATA_MAX_CANDIDATES", "5"))
+WDQS_RETRIES = int(os.environ.get("WIKIDATA_WDQS_RETRIES", "1"))
+
+ENTITY_CACHE: dict[str, dict[str, Any]] = {}
+SEARCH_CACHE: dict[str, list[str]] = {}
 
 # Wikidata properties used by this first enrichment provider.
 P_INSTANCE_OF = "P31"
@@ -150,6 +154,14 @@ class LookupErrorWithContext(RuntimeError):
     pass
 
 
+class RateLimitedError(LookupErrorWithContext):
+    def __init__(self, service: str, retry_after: float | None = None):
+        self.service = service
+        self.retry_after = retry_after
+        suffix = f"; erneuter Versuch frühestens nach {retry_after:g} Sekunden" if retry_after else ""
+        super().__init__(f"{service} hat die Anfrage mit HTTP 429 begrenzt{suffix}.")
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -239,73 +251,167 @@ def load_vessels() -> list[VesselRecord]:
     return records
 
 
-def request_json(url: str, *, accept: str = "application/json") -> Any:
-    request = urllib.request.Request(
-        url,
-        headers={"User-Agent": USER_AGENT, "Accept": accept},
-    )
+def _retry_after_seconds(headers: Any) -> float | None:
+    raw = headers.get("Retry-After") if headers is not None else None
+    if raw is None:
+        return None
+    try:
+        return max(0.0, float(raw))
+    except (TypeError, ValueError):
+        return None
+
+
+def request_json(
+    url: str,
+    *,
+    accept: str = "application/json",
+    data: bytes | None = None,
+    retries: int = 4,
+    service: str = "Wikidata",
+) -> Any:
+    headers = {"User-Agent": USER_AGENT, "Accept": accept}
+    if data is not None:
+        headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
     last_error: Exception | None = None
-    for attempt in range(4):
+
+    for attempt in range(max(1, retries)):
+        request = urllib.request.Request(url, data=data, headers=headers)
         try:
             with urllib.request.urlopen(request, timeout=REQUEST_TIMEOUT) as response:
-                return json.loads(response.read().decode("utf-8"))
-        except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, json.JSONDecodeError) as exc:
+                payload = json.loads(response.read().decode("utf-8"))
+            if isinstance(payload, dict) and isinstance(payload.get("error"), dict):
+                error = payload["error"]
+                code = str(error.get("code") or "api_error")
+                info = str(error.get("info") or code)
+                if code == "maxlag" and attempt + 1 < max(1, retries):
+                    time.sleep(2.0 * (attempt + 1))
+                    continue
+                raise LookupErrorWithContext(f"{service}: {code}: {info}")
+            return payload
+        except urllib.error.HTTPError as exc:
             last_error = exc
-            if attempt == 3:
-                break
-            time.sleep(1.5 * (attempt + 1))
-    raise LookupErrorWithContext(f"Abruf fehlgeschlagen: {url}: {last_error}")
+            if exc.code == 429:
+                retry_after = _retry_after_seconds(exc.headers)
+                if attempt + 1 < max(1, retries):
+                    wait = retry_after if retry_after is not None else 5.0 * (attempt + 1)
+                    time.sleep(min(max(wait, 1.0), 30.0))
+                    continue
+                raise RateLimitedError(service, retry_after) from exc
+            if 500 <= exc.code < 600 and attempt + 1 < max(1, retries):
+                time.sleep(2.0 * (attempt + 1))
+                continue
+            raise LookupErrorWithContext(f"{service}: HTTP {exc.code}.") from exc
+        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+            last_error = exc
+            if attempt + 1 < max(1, retries):
+                time.sleep(1.5 * (attempt + 1))
+                continue
+            break
+
+    raise LookupErrorWithContext(f"{service}: Abruf fehlgeschlagen: {last_error}")
 
 
-def sparql_exact_matches(vessel: dict[str, Any]) -> dict[str, list[str]]:
-    identity = vessel.get("identity") if isinstance(vessel.get("identity"), dict) else {}
-    pairs = [
-        (P_IMO, str(identity.get("imo") or "").strip(), "identity.imo"),
-        (P_MMSI, str(identity.get("mmsi") or "").strip(), "identity.mmsi"),
-        (P_ENI, str(identity.get("eni") or "").strip(), "identity.eni"),
-    ]
-    blocks = []
-    for prop, value, matched_by in pairs:
-        if not value:
-            continue
-        escaped = value.replace("\\", "\\\\").replace('"', '\\"')
-        blocks.append(
-            f'{{ ?item wdt:{prop} "{escaped}" . BIND("{matched_by}" AS ?matchedBy) }}'
+def _sparql_literal(value: str) -> str:
+    return value.replace("\\", "\\\\").replace('"', '\\"')
+
+
+def batch_exact_matches(
+    records: list[VesselRecord],
+) -> tuple[dict[str, dict[str, list[str]]], list[str]]:
+    matches: dict[str, dict[str, list[str]]] = {record.vessel_id: {} for record in records}
+    clauses: list[str] = []
+
+    for record in records:
+        identity = record.vessel.get("identity") if isinstance(record.vessel.get("identity"), dict) else {}
+        pairs = [
+            (P_IMO, str(identity.get("imo") or "").strip(), "identity.imo"),
+            (P_MMSI, str(identity.get("mmsi") or "").strip(), "identity.mmsi"),
+            (P_ENI, str(identity.get("eni") or "").strip(), "identity.eni"),
+        ]
+        for prop, value, matched_by in pairs:
+            if not value:
+                continue
+            clauses.append(
+                "{ "
+                f'?item wdt:{prop} "{_sparql_literal(value)}" . '
+                f'BIND("{_sparql_literal(record.vessel_id)}" AS ?vesselId) '
+                f'BIND("{matched_by}" AS ?matchedBy) '
+                "}"
+            )
+
+    if not clauses:
+        return matches, []
+
+    warnings: list[str] = []
+    for clause_batch in chunked(clauses, 80):
+        query = (
+            "SELECT DISTINCT ?item ?vesselId ?matchedBy WHERE { "
+            + " UNION ".join(clause_batch)
+            + " } LIMIT 1000"
         )
-    if not blocks:
-        return {}
-    query = "SELECT DISTINCT ?item ?matchedBy WHERE { " + " UNION ".join(blocks) + " } LIMIT 20"
-    url = WIKIDATA_SPARQL + "?" + urllib.parse.urlencode({"query": query, "format": "json"})
-    payload = request_json(url, accept="application/sparql-results+json")
-    matches: dict[str, list[str]] = {}
-    for binding in payload.get("results", {}).get("bindings", []):
-        uri = str(binding.get("item", {}).get("value") or "")
-        qid = uri.rsplit("/", 1)[-1]
-        matched_by = str(binding.get("matchedBy", {}).get("value") or "identifier")
-        if re.fullmatch(r"Q\d+", qid):
-            matches.setdefault(qid, []).append(matched_by)
-    return matches
+        body = urllib.parse.urlencode({"query": query, "format": "json"}).encode("utf-8")
+        try:
+            payload = request_json(
+                WIKIDATA_SPARQL,
+                accept="application/sparql-results+json",
+                data=body,
+                retries=WDQS_RETRIES,
+                service="Wikidata Query Service",
+            )
+        except RateLimitedError:
+            warnings.append(
+                "Die Suche nach eindeutigen Kennungen über den Wikidata Query Service war "
+                "vorübergehend nicht verfügbar. Die Namens- und Alias-Suche wurde trotzdem fortgesetzt."
+            )
+            break
+        except LookupErrorWithContext as exc:
+            warnings.append(
+                "Die Suche nach eindeutigen Kennungen über den Wikidata Query Service wurde übersprungen: "
+                f"{exc}"
+            )
+            break
+
+        for binding in payload.get("results", {}).get("bindings", []):
+            uri = str(binding.get("item", {}).get("value") or "")
+            qid = uri.rsplit("/", 1)[-1]
+            vessel_id = str(binding.get("vesselId", {}).get("value") or "")
+            matched_by = str(binding.get("matchedBy", {}).get("value") or "identifier")
+            if vessel_id in matches and re.fullmatch(r"Q\d+", qid):
+                matches[vessel_id].setdefault(qid, []).append(matched_by)
+
+    return matches, list(dict.fromkeys(warnings))
 
 
 def search_name(name: str) -> list[str]:
-    if not name.strip():
+    cleaned = name.strip()
+    if not cleaned:
         return []
+    cache_key = cleaned.casefold()
+    if cache_key in SEARCH_CACHE:
+        return list(SEARCH_CACHE[cache_key])
     params = {
         "action": "wbsearchentities",
-        "search": name,
+        "search": cleaned,
         "language": "de",
         "uselang": "de",
         "type": "item",
         "limit": str(max(8, MAX_CANDIDATES * 2)),
         "format": "json",
         "origin": "*",
+        "maxlag": "5",
     }
-    payload = request_json(WIKIDATA_API + "?" + urllib.parse.urlencode(params))
-    return [
+    payload = request_json(
+        WIKIDATA_API + "?" + urllib.parse.urlencode(params),
+        retries=4,
+        service="Wikidata Action API",
+    )
+    result = [
         str(item.get("id"))
         for item in payload.get("search", [])
         if re.fullmatch(r"Q\d+", str(item.get("id") or ""))
     ]
+    SEARCH_CACHE[cache_key] = result
+    return list(result)
 
 
 def chunked(values: list[str], size: int) -> Iterable[list[str]]:
@@ -315,8 +421,8 @@ def chunked(values: list[str], size: int) -> Iterable[list[str]]:
 
 def get_entities(qids: Iterable[str]) -> dict[str, dict[str, Any]]:
     ordered = list(dict.fromkeys(qid for qid in qids if re.fullmatch(r"Q\d+", qid)))
-    entities: dict[str, dict[str, Any]] = {}
-    for batch in chunked(ordered, 50):
+    missing = [qid for qid in ordered if qid not in ENTITY_CACHE]
+    for batch in chunked(missing, 50):
         params = {
             "action": "wbgetentities",
             "ids": "|".join(batch),
@@ -325,13 +431,18 @@ def get_entities(qids: Iterable[str]) -> dict[str, dict[str, Any]]:
             "languagefallback": "1",
             "format": "json",
             "origin": "*",
+            "maxlag": "5",
         }
-        payload = request_json(WIKIDATA_API + "?" + urllib.parse.urlencode(params))
+        payload = request_json(
+            WIKIDATA_API + "?" + urllib.parse.urlencode(params),
+            retries=4,
+            service="Wikidata Action API",
+        )
         for qid, entity in payload.get("entities", {}).items():
             if isinstance(entity, dict) and not entity.get("missing"):
-                entities[qid] = entity
+                ENTITY_CACHE[qid] = entity
         time.sleep(REQUEST_DELAY)
-    return entities
+    return {qid: ENTITY_CACHE[qid] for qid in ordered if qid in ENTITY_CACHE}
 
 
 def claim_statements(entity: dict[str, Any], prop: str) -> list[dict[str, Any]]:
@@ -685,7 +796,21 @@ def build_candidate_reports(
     return candidates[:MAX_CANDIDATES]
 
 
-def build_record(record: VesselRecord, offline: bool) -> dict[str, Any]:
+def search_vessel_names(vessel: dict[str, Any], fallback_name: str) -> list[str]:
+    identity = vessel.get("identity") if isinstance(vessel.get("identity"), dict) else {}
+    names = [str(identity.get("name") or fallback_name).strip()]
+    former_names = identity.get("former_names")
+    if isinstance(former_names, list):
+        names.extend(str(item).strip() for item in former_names)
+    return list(dict.fromkeys(name for name in names if name))
+
+
+def build_record(
+    record: VesselRecord,
+    offline: bool,
+    exact: dict[str, list[str]] | None = None,
+    shared_warnings: list[str] | None = None,
+) -> dict[str, Any]:
     vessel = record.vessel
     identity = vessel.get("identity") if isinstance(vessel.get("identity"), dict) else {}
     audit = vessel.get("audit") if isinstance(vessel.get("audit"), dict) else {}
@@ -705,6 +830,7 @@ def build_record(record: VesselRecord, offline: bool) -> dict[str, Any]:
             "provider": "wikidata",
             "status": "not_needed" if not missing else ("offline" if offline else "pending"),
             "error": "",
+            "warnings": list(shared_warnings or []),
             "candidates": [],
         },
     }
@@ -712,10 +838,12 @@ def build_record(record: VesselRecord, offline: bool) -> dict[str, Any]:
         return item
 
     try:
-        exact = sparql_exact_matches(vessel)
-        name = str(identity.get("name") or record.index.get("name") or "").strip()
-        search_qids = search_name(name)
-        candidates = build_candidate_reports(vessel, exact, search_qids)
+        fallback_name = str(identity.get("name") or record.index.get("name") or "").strip()
+        search_qids: list[str] = []
+        for name in search_vessel_names(vessel, fallback_name):
+            search_qids.extend(search_name(name))
+            time.sleep(REQUEST_DELAY)
+        candidates = build_candidate_reports(vessel, exact or {}, list(dict.fromkeys(search_qids)))
         best = candidates[0] if candidates else None
         if best and best["score"] >= 0.82:
             status = "candidate" if best["suggestions"] else "matched_no_new_data"
@@ -727,6 +855,7 @@ def build_record(record: VesselRecord, offline: bool) -> dict[str, Any]:
             "provider": "wikidata",
             "status": status,
             "error": "",
+            "warnings": list(shared_warnings or []),
             "candidates": candidates,
         }
     except Exception as exc:  # Keep the report usable if one lookup fails.
@@ -734,6 +863,7 @@ def build_record(record: VesselRecord, offline: bool) -> dict[str, Any]:
             "provider": "wikidata",
             "status": "lookup_error",
             "error": str(exc),
+            "warnings": list(shared_warnings or []),
             "candidates": [],
         }
     time.sleep(REQUEST_DELAY)
@@ -741,10 +871,23 @@ def build_record(record: VesselRecord, offline: bool) -> dict[str, Any]:
 
 
 def build_report(records: list[VesselRecord], offline: bool) -> dict[str, Any]:
+    if offline:
+        exact_by_vessel: dict[str, dict[str, list[str]]] = {}
+        report_warnings: list[str] = []
+    else:
+        exact_by_vessel, report_warnings = batch_exact_matches(records)
+
     vessels = []
     for position, record in enumerate(records, start=1):
         print(f"[{position}/{len(records)}] {record.vessel_id}", flush=True)
-        vessels.append(build_record(record, offline))
+        vessels.append(
+            build_record(
+                record,
+                offline,
+                exact_by_vessel.get(record.vessel_id, {}),
+                report_warnings,
+            )
+        )
 
     summary = {
         "vessels_total": len(vessels),
@@ -762,15 +905,17 @@ def build_report(records: list[VesselRecord], offline: bool) -> dict[str, Any]:
         ),
     }
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "generated_at": utc_now(),
         "provider": {
             "id": "wikidata",
             "label": "Wikidata",
             "license": "CC0",
             "url": "https://www.wikidata.org/",
+            "strategy": "Action API with optional batched Query Service identifier lookup",
         },
         "mode": "offline" if offline else "online",
+        "warnings": report_warnings,
         "field_labels": FIELD_LABELS,
         "summary": summary,
         "vessels": vessels,
