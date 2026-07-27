@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/submissions.js
-// Version: 0.12.4
-// Updated: 2026-07-25
+// Version: 0.13.6
+// Updated: 2026-07-27
 
 "use strict";
 
@@ -682,7 +682,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     
     populateNewVesselFlags("");
-    newVesselStatus.value = "unknown";
+    newVesselStatus.value = "active";
     newVesselYearBuilt.value = "";
     newVesselShipyard.value = "";
     newVesselLength.value = "";
@@ -851,12 +851,11 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     /*
-     * Wikipedia-Liste sagt nicht
-     * zuverlässig, ob das Schiff noch
-     * aktiv ist.
+     * Die bestätigte eigene Sichtung ist
+     * ein Aktivitätsnachweis.
      */
     newVesselStatus.value =
-      "unknown";
+      "active";
 
     newVesselYearBuilt.value =
       candidate.year_built ?? "";
@@ -920,9 +919,18 @@ document.addEventListener("DOMContentLoaded", () => {
       call_sign: newVesselCallSign.value.trim(),
       ship_type: newVesselShipType.value.trim(),
       ship_subtype: newVesselShipSubtype.value.trim(),
-      flag: newVesselFlag.value.trim(),
-      status: newVesselStatus.value,
-      year_built: newVesselYearBuilt.value,
+      flag:
+        newVesselFlag.value.trim(),
+
+      /*
+       * Ein aus einer Sichtung angelegtes
+       * Schiff ist zwingend aktiv.
+       */
+      status:
+        "active",
+
+      year_built:
+        newVesselYearBuilt.value,
       shipyard: newVesselShipyard.value.trim(),
       length_m: newVesselLength.value,
       width_m: newVesselWidth.value,
@@ -1487,14 +1495,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const automaticMatch =
-      getAutomaticMatch(selectedSubmission);
+      getAutomaticMatch(
+        selectedSubmission
+      );
+
+    const activationNotice =
+      classification.status === "active"
+        ? ""
+        : " Die bestätigte Sichtung setzt den Status auf „Aktiv“.";
 
     vesselStatus.textContent =
-      automaticMatch.status === "ambiguous" &&
-      reviewCandidateVesselId === vessel.vessel_id
-        ? `${vessel.vessel_id} ist ausgewählt. ` +
-          `Mit „Auswahl bestätigen“ wird die Zuordnung gespeichert.`
-        : "Kanonischer Stammdatensatz geladen.";
+      (
+        automaticMatch.status === "ambiguous" &&
+        reviewCandidateVesselId === vessel.vessel_id
+          ? `${vessel.vessel_id} ist ausgewählt. ` +
+            `Mit „Auswahl bestätigen“ wird die Zuordnung gespeichert.`
+          : "Kanonischer Stammdatensatz geladen."
+      ) +
+      activationNotice;
     vesselError.classList.add("hidden");
     vesselContent.classList.remove("hidden");
     updateCandidateSelection();
