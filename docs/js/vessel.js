@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.10.8
-// Updated: 2026-07-23
+// Version: 0.13.4
+// Updated: 2026-07-27
 
 "use strict";
 
@@ -22,6 +22,16 @@ document.addEventListener("DOMContentLoaded", () => {
     ?.trim() || "";
 
   const apiKey = byId("apiKey");
+
+  const previousVesselButton =
+    byId("previousVesselButton");
+
+  const nextVesselButton =
+    byId("nextVesselButton");
+
+  const vesselPosition =
+    byId("vesselPosition");
+
   const editButton = byId("editButton");
   const reloadButton = byId("reloadButton");
   const pageStatus = byId("pageStatus");
@@ -45,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   let currentVessel = null;
   let currentPayload = null;
+  let vesselNavigation = [];
   let editModeActive = false;
   let sourceFormActive = false;
   let editingSourceId = "";
@@ -547,6 +558,164 @@ document.addEventListener("DOMContentLoaded", () => {
     return result;
   }
 
+  function updateVesselNavigation() {
+    const currentIndex =
+      vesselNavigation.findIndex(
+        vessel =>
+          vessel.vessel_id === vesselId
+      );
+
+    const previousVessel =
+      currentIndex > 0
+        ? vesselNavigation[
+            currentIndex - 1
+          ]
+        : null;
+
+    const nextVessel =
+      currentIndex >= 0 &&
+      currentIndex <
+        vesselNavigation.length - 1
+        ? vesselNavigation[
+            currentIndex + 1
+          ]
+        : null;
+
+    const navigationBlocked =
+      editModeActive ||
+      sourceFormActive;
+
+    previousVesselButton.disabled =
+      navigationBlocked ||
+      !previousVessel;
+
+    nextVesselButton.disabled =
+      navigationBlocked ||
+      !nextVessel;
+
+    previousVesselButton.dataset.vesselId =
+      previousVessel?.vessel_id ?? "";
+
+    nextVesselButton.dataset.vesselId =
+      nextVessel?.vessel_id ?? "";
+
+    const previousLabel = previousVessel
+      ? `Vorheriges Schiff: ${
+          previousVessel.name ||
+          previousVessel.vessel_id
+        }`
+      : "Kein vorheriges Schiff";
+
+    const nextLabel = nextVessel
+      ? `Nächstes Schiff: ${
+          nextVessel.name ||
+          nextVessel.vessel_id
+        }`
+      : "Kein nächstes Schiff";
+
+    previousVesselButton.title =
+      previousLabel;
+
+    previousVesselButton.setAttribute(
+      "aria-label",
+      previousLabel
+    );
+
+    nextVesselButton.title =
+      nextLabel;
+
+    nextVesselButton.setAttribute(
+      "aria-label",
+      nextLabel
+    );
+
+    vesselPosition.textContent =
+      currentIndex >= 0
+        ? `${currentIndex + 1} / ${
+            vesselNavigation.length
+          }`
+        : "– / –";
+  }
+
+  async function loadVesselNavigation() {
+    vesselNavigation = [];
+    updateVesselNavigation();
+
+    try {
+      const result =
+        await getManagementRequest(
+          "/vessels"
+        );
+
+      vesselNavigation = (
+        Array.isArray(result.vessels)
+          ? result.vessels
+          : []
+      )
+        .filter(vessel =>
+          /^VES-\d{6}$/.test(
+            String(
+              vessel?.vessel_id ?? ""
+            ).trim()
+          )
+        )
+        .map(vessel => ({
+          vessel_id:
+            String(
+              vessel.vessel_id
+            ).trim(),
+
+          name:
+            String(
+              vessel.name ?? ""
+            ).trim()
+        }))
+        .sort(
+          (left, right) =>
+            left.vessel_id.localeCompare(
+              right.vessel_id
+            )
+        );
+    } catch (error) {
+      vesselNavigation = [];
+
+      console.warn(
+        "Die Schiffsnavigation konnte " +
+        "nicht geladen werden.",
+        error
+      );
+    }
+
+    updateVesselNavigation();
+  }
+
+  function openVessel(vesselIdToOpen) {
+    const targetId =
+      String(
+        vesselIdToOpen ?? ""
+      ).trim();
+
+    if (
+      editModeActive ||
+      sourceFormActive ||
+      !/^VES-\d{6}$/.test(targetId)
+    ) {
+      return;
+    }
+
+    const targetUrl =
+      new URL(window.location.href);
+
+    targetUrl.searchParams.set(
+      "id",
+      targetId
+    );
+
+    window.location.assign(
+      targetUrl.href
+    );
+  }  
+
   function resetSourceForm() {
     editingSourceId = "";
   
@@ -618,6 +787,8 @@ document.addEventListener("DOMContentLoaded", () => {
   ) {
     sourceFormActive =
       Boolean(enabled);
+
+    updateVesselNavigation();
   
     sourceForm.classList.toggle(
       "hidden",
@@ -1764,6 +1935,8 @@ document.addEventListener("DOMContentLoaded", () => {
       : "Bearbeiten";
     editButton.disabled = editModeActive || !currentVessel;
     reloadButton.disabled = editModeActive;
+
+    updateVesselNavigation();
 
     if (!editModeActive) {
       clearEditNameMatches();
@@ -3013,6 +3186,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       render(response.data);
 
+      await loadVesselNavigation();
+
       pageStatus.textContent = "";
     } catch (error) {
       pageStatus.className =
@@ -3102,6 +3277,79 @@ document.addEventListener("DOMContentLoaded", () => {
 
     requestEditNameMatches();
   });
+
+  previousVesselButton.addEventListener(
+    "click",
+    () => {
+      openVessel(
+        previousVesselButton.dataset
+          .vesselId
+      );
+    }
+  );
+
+  nextVesselButton.addEventListener(
+    "click",
+    () => {
+      openVessel(
+        nextVesselButton.dataset
+          .vesselId
+      );
+    }
+  );
+
+  document.addEventListener(
+    "keydown",
+    event => {
+      if (
+        event.defaultPrevented ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.shiftKey ||
+        editModeActive ||
+        sourceFormActive
+      ) {
+        return;
+      }
+
+      const target = event.target;
+
+      if (
+        target instanceof Element &&
+        target.closest(
+          "input, textarea, select, " +
+          "button, a, [contenteditable]"
+        )
+      ) {
+        return;
+      }
+
+      if (
+        event.key === "ArrowLeft" &&
+        !previousVesselButton.disabled
+      ) {
+        event.preventDefault();
+
+        openVessel(
+          previousVesselButton.dataset
+            .vesselId
+        );
+      }
+
+      if (
+        event.key === "ArrowRight" &&
+        !nextVesselButton.disabled
+      ) {
+        event.preventDefault();
+
+        openVessel(
+          nextVesselButton.dataset
+            .vesselId
+        );
+      }
+    }
+  );
   
   reloadButton.addEventListener(
     "click",
@@ -3143,6 +3391,8 @@ document.addEventListener("DOMContentLoaded", () => {
   async function initialize() {
     reloadButton.disabled = true;
     addSourceButton.disabled = true;
+    previousVesselButton.disabled = true;
+    nextVesselButton.disabled = true;
   
     pageStatus.className =
       "page-status";
