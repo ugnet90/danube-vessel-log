@@ -16,7 +16,7 @@
     "ship_type": "PASSENGER",
     "ship_subtype": "RIVER_CRUISE",
     "status": "unknown",
-    "flag": ""
+    "flag": "MT"
   },
   "technical": {
     "year_built": 2010,
@@ -41,7 +41,7 @@
       "provider": "Wikipedia",
       "title": "Kandidatenkatalog: TUI Skyla",
       "url": "https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen",
-      "notes": "Vorbelegung aus CAN-AF7DB2400DEB.",
+      "notes": "Nachträglich mit CAN-AF7DB2400DEB verknüpft. Stammdaten wurden aus dem Kandidatenkatalog übernommen oder vereinheitlicht.",
       "fields_used": [
         "identity.name",
         "identity.former_names",
@@ -78,10 +78,61 @@
     "environment": "production",
     "created_at": "2026-07-26T16:32:15.614Z",
     "created_from_submission_id": "SUB-20260719-125510-C5F3AB",
-    "updated_at": "2026-07-27T09:13:29.314Z",
+    "updated_at": "2026-07-27T09:38:11.078Z",
     "updated_by": "web-ui",
     "created_from_candidate_id": "CAN-AF7DB2400DEB",
     "candidate_source_revision_id": "268617530",
-    "change_history": []
+    "change_history": [
+      {
+        "changed_at": "2026-07-27T09:38:11.078Z",
+        "changed_by": "web-ui",
+        "summary": "1 Katalogfelder aus Kandidat CAN-AF7DB2400DEB übernommen",
+        "changed_fields": [
+          "classification.flag",
+          "sources.fields_used"
+        ],
+        "changes": [
+          {
+            "field": "classification.flag",
+            "old_value": "",
+            "new_value": "MT"
+          },
+          {
+            "field": "sources.fields_used",
+            "old_value": [
+              "identity.name",
+              "identity.former_names",
+              "identity.eni",
+              "classification.ship_type",
+              "classification.ship_subtype",
+              "classification.flag",
+              "technical.year_built",
+              "technical.length_m",
+              "technical.width_m",
+              "technical.passengers",
+              "operations.operator",
+              "operations.home_port"
+            ],
+            "new_value": [
+              "identity.name",
+              "identity.former_names",
+              "identity.eni",
+              "classification.ship_type",
+              "classification.ship_subtype",
+              "classification.flag",
+              "technical.year_built",
+              "technical.length_m",
+              "technical.width_m",
+              "technical.passengers",
+              "operations.operator",
+              "operations.home_port"
+            ]
+          }
+        ]
+      }
+    ],
+    "linked_candidate_ids": [
+      "CAN-AF7DB2400DEB"
+    ]
   }
 }
