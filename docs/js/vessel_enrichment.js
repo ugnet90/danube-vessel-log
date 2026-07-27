@@ -1,4 +1,4 @@
-/* Danube Vessel Log · vessel_enrichment.js · Version 0.13.0 */
+/* Danube Vessel Log · vessel_enrichment.js · Version 0.13.1 */
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -94,12 +94,15 @@ document.addEventListener("DOMContentLoaded", () => {
     byId("controlsCard").classList.remove("hidden");
     byId("reportCard").classList.remove("hidden");
     byId("reportMeta").classList.remove("hidden");
-    byId("reportMeta").textContent = [
+    const metaParts = [
       `Erstellt: ${formatDateTime(report?.generated_at)}`,
       `Quelle: ${report?.provider?.label ?? "–"}`,
       `Lizenz: ${report?.provider?.license ?? "–"}`,
       `Modus: ${report?.mode === "offline" ? "nur Fehlstellen" : "Wikidata-Abfrage"}`
-    ].join(" · ");
+    ];
+    const warnings = Array.isArray(report?.warnings) ? report.warnings : [];
+    if (warnings.length) metaParts.push(`Hinweis: ${warnings.join(" ")}`);
+    byId("reportMeta").textContent = metaParts.join(" · ");
   }
 
   function filteredVessels() {
