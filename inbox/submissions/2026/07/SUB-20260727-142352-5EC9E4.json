@@ -1,0 +1,70 @@
+{
+  "schema_version": 10,
+  "submission_id": "SUB-20260727-142352-5EC9E4",
+  "uploaded_at": "2026-07-27T14:23:52.711Z",
+  "captured_at": "2026-07-27T14:23:36.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich"
+  },
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "AmaReina",
+  "notes": "",
+  "photo_lat": 48.30742,
+  "photo_lon": 14.28564166666667,
+  "photos": [
+    {
+      "photo_id": "PHOTO-50D2BF550A3C47C89EC6FA1E225C9E57",
+      "path": "inbox/photos/2026/07/PHOTO-50D2BF550A3C47C89EC6FA1E225C9E57.jpg",
+      "filename": "PHOTO-50D2BF550A3C47C89EC6FA1E225C9E57.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 309221,
+      "sequence": 1
+    },
+    {
+      "photo_id": "PHOTO-128DB3F662BE47BB8E47365746B4B79F",
+      "path": "inbox/photos/2026/07/PHOTO-128DB3F662BE47BB8E47365746B4B79F.jpg",
+      "filename": "PHOTO-128DB3F662BE47BB8E47365746B4B79F.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 352832,
+      "sequence": 2
+    },
+    {
+      "photo_id": "PHOTO-192DA1556CF24E54AD9F858CB69ACB4C",
+      "path": "inbox/photos/2026/07/PHOTO-192DA1556CF24E54AD9F858CB69ACB4C.jpg",
+      "filename": "PHOTO-192DA1556CF24E54AD9F858CB69ACB4C.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 321707,
+      "sequence": 3
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "amareina"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
