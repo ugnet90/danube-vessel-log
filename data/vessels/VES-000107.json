@@ -4,10 +4,10 @@
   "identity": {
     "name": "A-Rosa Flora",
     "former_names": [],
-    "mmsi": "",
+    "mmsi": "211621310",
     "imo": "",
     "eni": "04810970",
-    "call_sign": ""
+    "call_sign": "DMBD"
   },
   "classification": {
     "ship_type": "PASSENGER",
@@ -17,15 +17,15 @@
   },
   "technical": {
     "year_built": 2014,
-    "shipyard": "",
+    "shipyard": "Neptun Werft",
     "length_m": 135,
     "width_m": 11.4,
-    "draft_m": null,
+    "draft_m": 2,
     "passengers": 183
   },
   "operations": {
     "operator": "A-ROSA Flussschiff",
-    "owner": "",
+    "owner": "A-ROSA Flussschiff",
     "manager": "",
     "cruise_brand": "",
     "home_port": "Rostock"
@@ -58,12 +58,37 @@
       "added_by": "candidate-catalog",
       "candidate_id": "CAN-0705978DBD47",
       "source_revision_id": "268617530"
+    },
+    {
+      "source_id": "SRC-D49685B453AF",
+      "provider": "Wikidata",
+      "title": "Wikidata: A-Rosa Flora",
+      "url": "https://www.wikidata.org/wiki/Q15260465",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "identity.mmsi",
+        "identity.call_sign",
+        "technical.shipyard",
+        "technical.draft_m",
+        "operations.owner"
+      ],
+      "retrieved_at": "2026-07-27T11:34:15.779752Z",
+      "verified_at": "2026-07-27T11:37:21.568Z",
+      "added_at": "2026-07-27T11:37:21.568Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2406997780
     }
   ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q15260465",
+      "rejected_qids": [],
+      "accepted_at": "2026-07-27T11:37:21.568Z",
+      "last_reviewed_at": "2026-07-27T11:37:21.568Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-B974FFA0782C480585E3B7459A62F997",
@@ -75,9 +100,56 @@
     "environment": "production",
     "created_at": "2026-07-27T10:42:47.677Z",
     "created_from_submission_id": "SUB-20260727-104146-96C97B",
-    "updated_at": "2026-07-27T10:43:18.712Z",
-    "updated_by": "web-ui-primary-photo",
+    "updated_at": "2026-07-27T11:37:21.568Z",
+    "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-0705978DBD47",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-07-27T11:37:21.568Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "5 Wikidata-Felder aus Q15260465 übernommen",
+        "changed_fields": [
+          "identity.mmsi",
+          "identity.call_sign",
+          "technical.shipyard",
+          "technical.draft_m",
+          "operations.owner",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "identity.mmsi",
+            "old_value": "",
+            "new_value": "211621310"
+          },
+          {
+            "field": "identity.call_sign",
+            "old_value": "",
+            "new_value": "DMBD"
+          },
+          {
+            "field": "technical.shipyard",
+            "old_value": "",
+            "new_value": "Neptun Werft"
+          },
+          {
+            "field": "technical.draft_m",
+            "old_value": null,
+            "new_value": 2
+          },
+          {
+            "field": "operations.owner",
+            "old_value": "",
+            "new_value": "A-ROSA Flussschiff"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q15260465"
+          }
+        ]
+      }
+    ]
   }
 }
