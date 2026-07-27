@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-07-27T11:34:15.779752Z",
+  "generated_at": "2026-07-27T11:38:11.738959Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 10,
     "vessels_incomplete": 10,
     "vessels_complete": 0,
-    "candidate_matches": 1,
-    "matched_no_new_data": 3,
+    "candidate_matches": 0,
+    "matched_no_new_data": 4,
     "low_confidence": 1,
     "no_match": 5,
     "lookup_errors": 0,
-    "suggestions_total": 5
+    "suggestions_total": 0
   },
   "vessels": [
     {
@@ -911,28 +911,8 @@
       "json_path": "data/vessels/VES-000107.json",
       "missing_fields": [
         {
-          "field": "identity.mmsi",
-          "label": "MMSI"
-        },
-        {
           "field": "identity.imo",
           "label": "IMO"
-        },
-        {
-          "field": "identity.call_sign",
-          "label": "Rufzeichen"
-        },
-        {
-          "field": "technical.shipyard",
-          "label": "Werft"
-        },
-        {
-          "field": "technical.draft_m",
-          "label": "Tiefgang"
-        },
-        {
-          "field": "operations.owner",
-          "label": "Eigentümer"
         },
         {
           "field": "operations.manager",
@@ -943,13 +923,13 @@
           "label": "Marke"
         }
       ],
-      "missing_count": 8,
+      "missing_count": 3,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
-        "accepted_qid": "",
+        "accepted_qid": "Q15260465",
         "rejected_qids": [],
         "candidates": [
           {
@@ -960,9 +940,9 @@
             "score": 1.0,
             "confidence": "very_high",
             "matched_by": [
-              "identity.eni"
+              "manual_confirmation"
             ],
-            "manually_confirmed": false,
+            "manually_confirmed": true,
             "identifiers": {
               "mmsi": [
                 "211621310"
@@ -978,68 +958,7 @@
             "instance_of": [
               "Motorschiff"
             ],
-            "suggestions": [
-              {
-                "field": "identity.mmsi",
-                "field_label": "MMSI",
-                "value": "211621310",
-                "display_value": "211621310",
-                "property": "P587",
-                "property_label": "MMSI",
-                "property_url": "https://www.wikidata.org/wiki/Property:P587",
-                "source_url": "https://www.wikidata.org/wiki/Q15260465",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "identity.call_sign",
-                "field_label": "Rufzeichen",
-                "value": "DMBD",
-                "display_value": "DMBD",
-                "property": "P2317",
-                "property_label": "call sign",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2317",
-                "source_url": "https://www.wikidata.org/wiki/Q15260465",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Neptun Werft",
-                "display_value": "Neptun Werft",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q15260465",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 2.0,
-                "display_value": 2.0,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q15260465",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "A-ROSA Flussschiff",
-                "display_value": "A-ROSA Flussschiff",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q15260465",
-                "confidence": 1.0,
-                "apply_supported": true
-              }
-            ],
+            "suggestions": [],
             "revision_id": 2406997780
           }
         ]
