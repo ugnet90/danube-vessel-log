@@ -33,7 +33,7 @@ WIKIDATA_API = "https://www.wikidata.org/w/api.php"
 WIKIDATA_SPARQL = "https://query.wikidata.org/sparql"
 USER_AGENT = os.environ.get(
     "WIKIDATA_USER_AGENT",
-    "DanubeVesselLog/0.13.1 (personal vessel database; GitHub Actions)",
+    "DanubeVesselLog/0.13.2 (personal vessel database; GitHub Actions)",
 )
 REQUEST_DELAY = float(os.environ.get("WIKIDATA_DELAY_SECONDS", "0.75"))
 REQUEST_TIMEOUT = int(os.environ.get("WIKIDATA_TIMEOUT_SECONDS", "35"))
@@ -701,13 +701,43 @@ def identifiers(entity: dict[str, Any]) -> dict[str, list[str]]:
     }
 
 
+def wikidata_decisions(vessel: dict[str, Any]) -> tuple[str, set[str]]:
+    enrichment = vessel.get("enrichment")
+    if not isinstance(enrichment, dict):
+        return "", set()
+
+    wikidata = enrichment.get("wikidata")
+    if not isinstance(wikidata, dict):
+        return "", set()
+
+    accepted_qid = str(wikidata.get("accepted_qid") or "").strip()
+    if not re.fullmatch(r"Q\d+", accepted_qid):
+        accepted_qid = ""
+
+    rejected_qids = {
+        str(value).strip()
+        for value in wikidata.get("rejected_qids", [])
+        if re.fullmatch(r"Q\d+", str(value).strip())
+    }
+
+    if accepted_qid:
+        rejected_qids.discard(accepted_qid)
+
+    return accepted_qid, rejected_qids
+
+
 def score_candidate(
     vessel: dict[str, Any],
     entity: dict[str, Any],
     exact_matches: list[str],
     name_search_rank: int | None,
+    manually_confirmed: bool = False,
 ) -> tuple[float, list[str]]:
     matched_by = list(dict.fromkeys(exact_matches))
+
+    if manually_confirmed:
+        return 1.0, ["manual_confirmation"]
+
     identity = vessel.get("identity") if isinstance(vessel.get("identity"), dict) else {}
     candidate_ids = identifiers(entity)
 
@@ -757,7 +787,15 @@ def build_candidate_reports(
     exact: dict[str, list[str]],
     search_qids: list[str],
 ) -> list[dict[str, Any]]:
-    qids = list(dict.fromkeys([*exact.keys(), *search_qids]))
+    accepted_qid, rejected_qids = wikidata_decisions(vessel)
+    qids = list(
+        dict.fromkeys(
+            [accepted_qid, *exact.keys(), *search_qids]
+            if accepted_qid
+            else [*exact.keys(), *search_qids]
+        )
+    )
+    qids = [qid for qid in qids if qid and qid not in rejected_qids]
     entities = get_entities(qids)
     referenced_qids = collect_referenced_qids(entities)
     referenced = get_entities(referenced_qids) if referenced_qids else {}
@@ -770,6 +808,7 @@ def build_candidate_reports(
             entity,
             exact.get(qid, []),
             search_rank.get(qid),
+            manually_confirmed=(qid == accepted_qid),
         )
         if score < 0.65:
             continue
@@ -783,6 +822,7 @@ def build_candidate_reports(
                 "score": round(score, 3),
                 "confidence": confidence_label(score),
                 "matched_by": matched_by,
+                "manually_confirmed": qid == accepted_qid,
                 "identifiers": identifiers(entity),
                 "instance_of": [
                     entity_label(referenced.get(item_qid, {}), item_qid)
@@ -819,6 +859,8 @@ def build_record(
         for path in REPORT_FIELDS
         if is_missing(path, current_value(vessel, path))
     ]
+    accepted_qid, rejected_qids = wikidata_decisions(vessel)
+
     item: dict[str, Any] = {
         "vessel_id": record.vessel_id,
         "name": str(identity.get("name") or record.index.get("name") or record.vessel_id),
@@ -831,6 +873,8 @@ def build_record(
             "status": "not_needed" if not missing else ("offline" if offline else "pending"),
             "error": "",
             "warnings": list(shared_warnings or []),
+            "accepted_qid": accepted_qid,
+            "rejected_qids": sorted(rejected_qids),
             "candidates": [],
         },
     }
@@ -856,6 +900,8 @@ def build_record(
             "status": status,
             "error": "",
             "warnings": list(shared_warnings or []),
+            "accepted_qid": accepted_qid,
+            "rejected_qids": sorted(rejected_qids),
             "candidates": candidates,
         }
     except Exception as exc:  # Keep the report usable if one lookup fails.
@@ -864,6 +910,8 @@ def build_record(
             "status": "lookup_error",
             "error": str(exc),
             "warnings": list(shared_warnings or []),
+            "accepted_qid": accepted_qid,
+            "rejected_qids": sorted(rejected_qids),
             "candidates": [],
         }
     time.sleep(REQUEST_DELAY)
@@ -905,14 +953,14 @@ def build_report(records: list[VesselRecord], offline: bool) -> dict[str, Any]:
         ),
     }
     return {
-        "schema_version": 2,
+        "schema_version": 3,
         "generated_at": utc_now(),
         "provider": {
             "id": "wikidata",
             "label": "Wikidata",
             "license": "CC0",
             "url": "https://www.wikidata.org/",
-            "strategy": "Action API with optional batched Query Service identifier lookup",
+            "strategy": "Action API with optional batched Query Service identifier lookup and manual candidate decisions",
         },
         "mode": "offline" if offline else "online",
         "warnings": report_warnings,
@@ -943,6 +991,25 @@ def self_test() -> None:
         }
     }
     assert quantity_value(quantity_entity, P_LENGTH) == 135.0
+    accepted, rejected = wikidata_decisions({
+        "enrichment": {
+            "wikidata": {
+                "accepted_qid": "Q123",
+                "rejected_qids": ["Q123", "Q456", "invalid"],
+            }
+        }
+    })
+    assert accepted == "Q123"
+    assert rejected == {"Q456"}
+    manual_score, manual_match = score_candidate(
+        {"identity": {"name": "Test"}},
+        {},
+        [],
+        None,
+        manually_confirmed=True,
+    )
+    assert manual_score == 1.0
+    assert manual_match == ["manual_confirmation"]
     print("Self-test OK")
 
 
