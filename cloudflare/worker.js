@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.13.2
+ * Version: 0.13.6
  * Updated: 2026-07-27
  */
 
@@ -5158,6 +5158,14 @@ async function handleCreateVessel(request, env) {
     }
   }
 
+  if (submission) {
+    /*
+     * Eine bestätigte eigene Sichtung ist
+     * ein belastbarer Aktivitätsnachweis.
+     */
+    validation.data.status = "active";
+  }
+
   const primaryPhoto =
     Array.isArray(submission?.photos)
       ? submission.photos[0] ?? null
@@ -7956,28 +7964,183 @@ async function handleSubmissionReview(request, env) {
         return jsonResponse(review, 400);
     }
     
-    applyReview(submission, input, review);
+    applyReview(
+      submission,
+      input,
+      review
+    );
 
-    const update = await updateGitHubFile({
+    const reviewedAt =
+      submission.workflow
+        ?.review
+        ?.reviewed_at ||
+      new Date().toISOString();
+
+    if (
+      review.decision !==
+      "rejected"
+    ) {
+      const vesselResult =
+        review.vessel_result;
+
+      if (
+        !vesselResult?.ok ||
+        !vesselResult.vessel
+      ) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Der zugeordnete Schiffsstammdatensatz " +
+            "konnte nicht für den Aktivitätsnachweis geladen werden."
+        }, 500);
+      }
+
+      const activation =
+        activateObservedVessel({
+          vessel:
+            vesselResult.vessel,
+
+          submissionId,
+
+          capturedAt:
+            submission.captured_at ?? "",
+
+          reviewedAt
+        });
+
+      if (activation.changed) {
+        const saveResult =
+          await saveCanonicalVesselAndIndex({
+            env,
+
+            vesselResult,
+
+            vessel:
+              vesselResult.vessel,
+
+            updatedAt:
+              reviewedAt,
+
+            message:
+              `Sichtung ${submissionId}: ` +
+              `${review.vessel_id} auf aktiv gesetzt`,
+
+            extraFiles: [
+              {
+                path,
+
+                content:
+                  JSON.stringify(
+                    submission,
+                    null,
+                    2
+                  ) + "\n",
+
+                encoding:
+                  "utf-8"
+              }
+            ]
+          });
+
+        if (!saveResult.ok) {
+          return jsonResponse({
+            ok: false,
+
+            error:
+              saveResult.error,
+
+            github_step:
+              saveResult.step ?? null,
+
+            github_status:
+              saveResult.status ?? null,
+
+            github_response:
+              saveResult.body ?? null
+          }, 502);
+        }
+
+        return jsonResponse({
+          ok: true,
+
+          submission_id:
+            submissionId,
+
+          decision:
+            review.decision,
+
+          vessel_id:
+            review.vessel_id,
+
+          vessel_status:
+            "active",
+
+          status_changed:
+            true,
+
+          previous_status:
+            activation.previous_status,
+
+          path,
+
+          commit:
+            saveResult.commitSha
+        });
+      }
+    }
+
+    const update =
+      await updateGitHubFile({
         env,
         path,
-        content: JSON.stringify(submission, null, 2),
-        sha: file.sha,
-        message: `Review ${submissionId}: ${review.decision}`
-    });
+
+        content:
+          JSON.stringify(
+            submission,
+            null,
+            2
+          ) + "\n",
+
+        sha:
+          file.sha,
+
+        message:
+          `Review ${submissionId}: ` +
+          `${review.decision}`
+      });
 
     if (!update.ok) {
-        return jsonResponse(update, update.status ?? 500);
+      return jsonResponse(
+        update,
+        update.status ?? 500
+      );
     }
 
     return jsonResponse({
       ok: true,
-      submission_id: submissionId,
-      decision: review.decision,
-      path,
-      commit: update.commit_sha ?? null
-    });
 
+      submission_id:
+        submissionId,
+
+      decision:
+        review.decision,
+
+      vessel_id:
+        review.vessel_id,
+
+      vessel_status:
+        review.decision === "rejected"
+          ? ""
+          : "active",
+
+      status_changed:
+        false,
+
+      path,
+
+      commit:
+        update.commit_sha ?? null
+    });
 }
 
 function buildSubmission({
@@ -8168,7 +8331,94 @@ async function validateReviewInput(input, submission, env) {
   return {
     ok: true,
     decision,
-    vessel_id: reviewedVesselId
+    vessel_id: reviewedVesselId,
+    vessel_result: vesselResult
+  };
+}
+
+function activateObservedVessel({
+  vessel,
+  submissionId,
+  capturedAt,
+  reviewedAt
+}) {
+  if (
+    !vessel.classification ||
+    typeof vessel.classification !== "object" ||
+    Array.isArray(vessel.classification)
+  ) {
+    vessel.classification = {};
+  }
+
+  const previousStatus =
+    typeof vessel.classification.status === "string"
+      ? vessel.classification.status.trim()
+      : "";
+
+  if (previousStatus === "active") {
+    return {
+      changed: false,
+      previous_status: "active"
+    };
+  }
+
+  vessel.classification.status =
+    "active";
+
+  if (
+    !vessel.audit ||
+    typeof vessel.audit !== "object" ||
+    Array.isArray(vessel.audit)
+  ) {
+    vessel.audit = {};
+  }
+
+  if (
+    !Array.isArray(
+      vessel.audit.change_history
+    )
+  ) {
+    vessel.audit.change_history = [];
+  }
+
+  vessel.audit.change_history.push({
+    changed_at: reviewedAt,
+    changed_by: "submission-review",
+
+    summary:
+      `Status durch bestätigte Sichtung ${submissionId} ` +
+      "auf aktiv gesetzt.",
+
+    changed_fields: [
+      "classification.status"
+    ],
+
+    changes: [
+      {
+        field: "classification.status",
+        old_value:
+          previousStatus || "unknown",
+        new_value: "active"
+      }
+    ],
+
+    submission_id:
+      submissionId,
+
+    observed_at:
+      capturedAt || ""
+  });
+
+  vessel.audit.updated_at =
+    reviewedAt;
+
+  vessel.audit.updated_by =
+    "submission-review";
+
+  return {
+    changed: true,
+    previous_status:
+      previousStatus || "unknown"
   };
 }
 
