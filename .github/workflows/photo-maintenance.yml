@@ -73,7 +73,7 @@ jobs:
           fi
 
           python tools/audit_optimize_photos.py \
-            --photos-dir photos \
+            --photos-dir inbox/photos \
             --report-dir photo-maintenance-report \
             --mode "$SCRIPT_MODE" \
             --max-file-kb "${{ inputs.max_file_kb }}" \
@@ -105,7 +105,7 @@ jobs:
         id: push_changes
         shell: bash
         run: |
-          if git diff --quiet -- photos; then
+          if git diff --quiet -- inbox/photos; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "Keine Bilddatei musste geändert werden." \
               >> "$GITHUB_STEP_SUMMARY"
@@ -123,7 +123,7 @@ jobs:
             "41898282+github-actions[bot]@users.noreply.github.com"
 
           git switch -c "$BRANCH"
-          git add photos
+          git add inbox/photos
 
           git commit \
             -m "Optimize oversized vessel photos"
