@@ -1,12 +1,12 @@
 {
-  "schema_version": 2,
-  "generated_at": "2026-07-27T05:35:57.756076Z",
+  "schema_version": 3,
+  "generated_at": "2026-07-27T06:02:58.776317Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
     "license": "CC0",
     "url": "https://www.wikidata.org/",
-    "strategy": "Action API with optional batched Query Service identifier lookup"
+    "strategy": "Action API with optional batched Query Service identifier lookup and manual candidate decisions"
   },
   "mode": "online",
   "warnings": [],
@@ -88,6 +88,8 @@
         "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
         "candidates": [
           {
             "qid": "Q27318",
@@ -99,6 +101,7 @@
             "matched_by": [
               "name"
             ],
+            "manually_confirmed": false,
             "identifiers": {
               "mmsi": [],
               "imo": [],
@@ -121,6 +124,7 @@
             "matched_by": [
               "name"
             ],
+            "manually_confirmed": false,
             "identifiers": {
               "mmsi": [],
               "imo": [],
@@ -144,6 +148,7 @@
             "matched_by": [
               "name"
             ],
+            "manually_confirmed": false,
             "identifiers": {
               "mmsi": [],
               "imo": [],
@@ -164,6 +169,7 @@
             "matched_by": [
               "name"
             ],
+            "manually_confirmed": false,
             "identifiers": {
               "mmsi": [],
               "imo": [],
@@ -186,6 +192,7 @@
             "matched_by": [
               "name"
             ],
+            "manually_confirmed": false,
             "identifiers": {
               "mmsi": [],
               "imo": [],
@@ -290,6 +297,8 @@
         "status": "no_match",
         "error": "",
         "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
         "candidates": []
       }
     },
@@ -338,6 +347,8 @@
         "status": "no_match",
         "error": "",
         "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
         "candidates": []
       }
     },
@@ -422,6 +433,8 @@
         "status": "low_confidence",
         "error": "",
         "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
         "candidates": [
           {
             "qid": "Q132731411",
@@ -433,6 +446,7 @@
             "matched_by": [
               "name_partial"
             ],
+            "manually_confirmed": false,
             "identifiers": {
               "mmsi": [],
               "imo": [],
@@ -493,6 +507,8 @@
         "status": "no_match",
         "error": "",
         "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
         "candidates": []
       }
     },
@@ -537,6 +553,8 @@
         "status": "candidate",
         "error": "",
         "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
         "candidates": [
           {
             "qid": "Q277910",
@@ -546,9 +564,10 @@
             "score": 1.0,
             "confidence": "very_high",
             "matched_by": [
-              "identity.imo",
-              "identity.eni"
+              "identity.eni",
+              "identity.imo"
             ],
+            "manually_confirmed": false,
             "identifiers": {
               "mmsi": [
                 "211160710"
@@ -678,6 +697,8 @@
         "status": "candidate",
         "error": "",
         "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
         "candidates": [
           {
             "qid": "Q43448989",
@@ -689,6 +710,7 @@
             "matched_by": [
               "name"
             ],
+            "manually_confirmed": false,
             "identifiers": {
               "mmsi": [],
               "imo": [],
@@ -750,6 +772,7 @@
             "matched_by": [
               "name"
             ],
+            "manually_confirmed": false,
             "identifiers": {
               "mmsi": [],
               "imo": [],
@@ -772,6 +795,7 @@
             "matched_by": [
               "name"
             ],
+            "manually_confirmed": false,
             "identifiers": {
               "mmsi": [],
               "imo": [
@@ -847,6 +871,7 @@
             "matched_by": [
               "name"
             ],
+            "manually_confirmed": false,
             "identifiers": {
               "mmsi": [],
               "imo": [],
@@ -882,6 +907,7 @@
             "matched_by": [
               "name"
             ],
+            "manually_confirmed": false,
             "identifiers": {
               "mmsi": [],
               "imo": [],
@@ -942,6 +968,8 @@
         "status": "no_match",
         "error": "",
         "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
         "candidates": []
       }
     },
@@ -994,6 +1022,8 @@
         "status": "no_match",
         "error": "",
         "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
         "candidates": []
       }
     }
