@@ -15,7 +15,7 @@
   "classification": {
     "ship_type": "PASSENGER",
     "ship_subtype": "RIVER_CRUISE",
-    "status": "unknown",
+    "status": "active",
     "flag": "MT"
   },
   "technical": {
@@ -78,7 +78,7 @@
     "environment": "production",
     "created_at": "2026-07-26T16:32:15.614Z",
     "created_from_submission_id": "SUB-20260719-125510-C5F3AB",
-    "updated_at": "2026-07-27T09:38:11.078Z",
+    "updated_at": "2026-07-27T09:38:47.362Z",
     "updated_by": "web-ui",
     "created_from_candidate_id": "CAN-AF7DB2400DEB",
     "candidate_source_revision_id": "268617530",
@@ -127,6 +127,20 @@
               "operations.operator",
               "operations.home_port"
             ]
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-07-27T09:38:47.362Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "classification.status"
+        ],
+        "changes": [
+          {
+            "field": "classification.status",
+            "old_value": "unknown",
+            "new_value": "active"
           }
         ]
       }
