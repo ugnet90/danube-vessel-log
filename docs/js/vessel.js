@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.13.4
+// Version: 0.13.5
 // Updated: 2026-07-27
 
 "use strict";
@@ -1056,6 +1056,15 @@ document.addEventListener("DOMContentLoaded", () => {
   
       return valueToFormat.join(", ");
     }
+
+    if (
+      fieldPath ===
+      "classification.flag"
+    ) {
+      return reference.flagLabel(
+        valueToFormat
+      );
+    }    
   
     if (
       fieldPath ===
