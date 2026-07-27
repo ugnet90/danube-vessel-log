@@ -55,5 +55,29 @@ jobs:
             echo "Keine Änderung am Anreicherungsreport."
           else
             git commit -m "Anreicherungsreport aktualisiert"
-            git push
+            for ATTEMPT in 1 2 3 4 5
+            do
+              echo "Push-Versuch $ATTEMPT von 5"
+            
+              git fetch origin main
+            
+              if ! git rebase origin/main
+              then
+                echo "Der lokale Report-Commit konnte nicht auf den aktuellen main-Stand gesetzt werden."
+                git rebase --abort || true
+                exit 1
+              fi
+            
+              if git push origin HEAD:main
+              then
+                echo "Push erfolgreich."
+                exit 0
+              fi
+            
+              echo "main wurde erneut verändert; neuer Versuch folgt."
+              sleep $((ATTEMPT * 2))
+            done
+            
+            echo "Push war nach fünf Versuchen weiterhin nicht möglich."
+            exit 1
           fi
