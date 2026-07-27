@@ -1,4 +1,4 @@
-/* Danube Vessel Log · vessel_enrichment.css · Version 0.13.2 */
+/* Danube Vessel Log · vessel_enrichment.css · Version 0.13.7 */
 
 .enrichment-page {
   width: min(1500px, calc(100% - 32px));
@@ -142,6 +142,16 @@
 
 .report-card tbody tr:hover {
   background: #f8fafc;
+}
+
+.report-card tbody tr.target-vessel-row {
+  background: #eff6ff;
+  box-shadow:
+    inset 4px 0 0 #2563eb;
+}
+
+.report-card tbody tr.target-vessel-row:hover {
+  background: #dbeafe;
 }
 
 .field-chips,
