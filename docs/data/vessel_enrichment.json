@@ -1,13 +1,15 @@
 {
-  "schema_version": 1,
-  "generated_at": "2026-07-27T05:26:11.783045Z",
+  "schema_version": 2,
+  "generated_at": "2026-07-27T05:27:39.100962Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
     "license": "CC0",
-    "url": "https://www.wikidata.org/"
+    "url": "https://www.wikidata.org/",
+    "strategy": "Action API with optional batched Query Service identifier lookup"
   },
   "mode": "online",
+  "warnings": [],
   "field_labels": {
     "identity.mmsi": "MMSI",
     "identity.imo": "IMO",
@@ -33,12 +35,12 @@
     "vessels_total": 9,
     "vessels_incomplete": 9,
     "vessels_complete": 0,
-    "candidate_matches": 1,
-    "matched_no_new_data": 0,
-    "low_confidence": 2,
-    "no_match": 6,
+    "candidate_matches": 2,
+    "matched_no_new_data": 1,
+    "low_confidence": 1,
+    "no_match": 5,
     "lookup_errors": 0,
-    "suggestions_total": 5
+    "suggestions_total": 8
   },
   "vessels": [
     {
@@ -83,9 +85,120 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
+        "status": "matched_no_new_data",
         "error": "",
-        "candidates": []
+        "warnings": [],
+        "candidates": [
+          {
+            "qid": "Q27318",
+            "label": "Test",
+            "description": "schriftlicher Leistungsnachweis",
+            "url": "https://www.wikidata.org/wiki/Q27318",
+            "score": 0.96,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Art von Test"
+            ],
+            "suggestions": [],
+            "revision_id": 2516840723
+          },
+          {
+            "qid": "Q4115189",
+            "label": "Wikidata-Spielwiese",
+            "description": "Eine Spielwiese zum Testen von Funktionen. Fühle dich frei alles mögliche zu verändern. Füge aber bitte nur Links zu Benutzerseiten hinzu.",
+            "url": "https://www.wikidata.org/wiki/Q4115189",
+            "score": 0.955,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Wikidata-interne Sache",
+              "Mensch"
+            ],
+            "suggestions": [],
+            "revision_id": 2523199170
+          },
+          {
+            "qid": "Q1003030",
+            "label": "Test",
+            "description": "methodischer Versuch über Eigenschaften oder Leistung",
+            "url": "https://www.wikidata.org/wiki/Q1003030",
+            "score": 0.95,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [],
+            "suggestions": [],
+            "revision_id": 2522396625
+          },
+          {
+            "qid": "Q37315170",
+            "label": "Test",
+            "description": "Familienname",
+            "url": "https://www.wikidata.org/wiki/Q37315170",
+            "score": 0.94,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Familienname"
+            ],
+            "suggestions": [],
+            "revision_id": 2258522162
+          },
+          {
+            "qid": "Q9357563",
+            "label": "Test",
+            "description": "Polish rock band",
+            "url": "https://www.wikidata.org/wiki/Q9357563",
+            "score": 0.92,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Musikgruppe"
+            ],
+            "suggestions": [],
+            "revision_id": 2521817540
+          }
+        ]
       }
     },
     {
@@ -176,6 +289,7 @@
         "provider": "wikidata",
         "status": "no_match",
         "error": "",
+        "warnings": [],
         "candidates": []
       }
     },
@@ -223,6 +337,7 @@
         "provider": "wikidata",
         "status": "no_match",
         "error": "",
+        "warnings": [],
         "candidates": []
       }
     },
@@ -306,6 +421,7 @@
         "provider": "wikidata",
         "status": "low_confidence",
         "error": "",
+        "warnings": [],
         "candidates": [
           {
             "qid": "Q132731411",
@@ -376,6 +492,7 @@
         "provider": "wikidata",
         "status": "no_match",
         "error": "",
+        "warnings": [],
         "candidates": []
       }
     },
@@ -419,6 +536,7 @@
         "provider": "wikidata",
         "status": "candidate",
         "error": "",
+        "warnings": [],
         "candidates": [
           {
             "qid": "Q277910",
@@ -428,8 +546,8 @@
             "score": 1.0,
             "confidence": "very_high",
             "matched_by": [
-              "identity.eni",
-              "identity.imo"
+              "identity.imo",
+              "identity.eni"
             ],
             "identifiers": {
               "mmsi": [
@@ -557,18 +675,80 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "low_confidence",
+        "status": "candidate",
         "error": "",
+        "warnings": [],
         "candidates": [
           {
-            "qid": "Q99492992",
-            "label": "Tui Island",
-            "description": "Insel in der Region West Coast auf der Südinsel von Neuseeland",
-            "url": "https://www.wikidata.org/wiki/Q99492992",
-            "score": 0.8,
-            "confidence": "low",
+            "qid": "Q43448989",
+            "label": "Excellence Allegra",
+            "description": "Kabinenfahrgastschiff",
+            "url": "https://www.wikidata.org/wiki/Q43448989",
+            "score": 0.955,
+            "confidence": "high",
             "matched_by": [
-              "name_partial"
+              "name"
+            ],
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": [
+                "9HA2731"
+              ]
+            },
+            "instance_of": [
+              "Flusskreuzfahrtschiff"
+            ],
+            "suggestions": [
+              {
+                "field": "identity.call_sign",
+                "field_label": "Rufzeichen",
+                "value": "9HA2731",
+                "display_value": "9HA2731",
+                "property": "P2317",
+                "property_label": "call sign",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2317",
+                "source_url": "https://www.wikidata.org/wiki/Q43448989",
+                "confidence": 0.955,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.draft_m",
+                "field_label": "Tiefgang",
+                "value": 1.5,
+                "display_value": 1.5,
+                "property": "P2262",
+                "property_label": "draft",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
+                "source_url": "https://www.wikidata.org/wiki/Q43448989",
+                "confidence": 0.955,
+                "apply_supported": true
+              },
+              {
+                "field": "operations.owner",
+                "field_label": "Eigentümer",
+                "value": "Premicon",
+                "display_value": "Premicon",
+                "property": "P127",
+                "property_label": "owned by",
+                "property_url": "https://www.wikidata.org/wiki/Property:P127",
+                "source_url": "https://www.wikidata.org/wiki/Q43448989",
+                "confidence": 0.955,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2301941389
+          },
+          {
+            "qid": "Q37508635",
+            "label": "Melodia",
+            "description": "Familienname",
+            "url": "https://www.wikidata.org/wiki/Q37508635",
+            "score": 0.95,
+            "confidence": "high",
+            "matched_by": [
+              "name"
             ],
             "identifiers": {
               "mmsi": [],
@@ -577,10 +757,142 @@
               "call_sign": []
             },
             "instance_of": [
-              "Insel"
+              "Familienname"
             ],
             "suggestions": [],
-            "revision_id": 2136359382
+            "revision_id": 2260713877
+          },
+          {
+            "qid": "Q24027026",
+            "label": "Melodia",
+            "description": "merchant ship built in 2013",
+            "url": "https://www.wikidata.org/wiki/Q24027026",
+            "score": 0.95,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "identifiers": {
+              "mmsi": [],
+              "imo": [
+                "9607813"
+              ],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Handelsschiff",
+              "Brigantine",
+              "Massengutfrachter"
+            ],
+            "suggestions": [
+              {
+                "field": "identity.imo",
+                "field_label": "IMO",
+                "value": "9607813",
+                "display_value": "9607813",
+                "property": "P458",
+                "property_label": "IMO ship number",
+                "property_url": "https://www.wikidata.org/wiki/Property:P458",
+                "source_url": "https://www.wikidata.org/wiki/Q24027026",
+                "confidence": 0.95,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.shipyard",
+                "field_label": "Werft",
+                "value": "Japan Marine United",
+                "display_value": "Japan Marine United",
+                "property": "P176",
+                "property_label": "manufacturer",
+                "property_url": "https://www.wikidata.org/wiki/Property:P176",
+                "source_url": "https://www.wikidata.org/wiki/Q24027026",
+                "confidence": 0.95,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.draft_m",
+                "field_label": "Tiefgang",
+                "value": 14.38,
+                "display_value": 14.38,
+                "property": "P2262",
+                "property_label": "draft",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
+                "source_url": "https://www.wikidata.org/wiki/Q24027026",
+                "confidence": 0.95,
+                "apply_supported": true
+              },
+              {
+                "field": "operations.owner",
+                "field_label": "Eigentümer",
+                "value": "Evan Timothy",
+                "display_value": "Evan Timothy",
+                "property": "P127",
+                "property_label": "owned by",
+                "property_url": "https://www.wikidata.org/wiki/Property:P127",
+                "source_url": "https://www.wikidata.org/wiki/Q24027026",
+                "confidence": 0.95,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2457854035
+          },
+          {
+            "qid": "Q1636655",
+            "label": "Melodija",
+            "description": "russisches Plattenlabel",
+            "url": "https://www.wikidata.org/wiki/Q1636655",
+            "score": 0.945,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Plattenlabel"
+            ],
+            "suggestions": [
+              {
+                "field": "operations.owner",
+                "field_label": "Eigentümer",
+                "value": "Q119855371",
+                "display_value": "Q119855371",
+                "property": "P127",
+                "property_label": "owned by",
+                "property_url": "https://www.wikidata.org/wiki/Property:P127",
+                "source_url": "https://www.wikidata.org/wiki/Q1636655",
+                "confidence": 0.945,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2476406174
+          },
+          {
+            "qid": "Q3854281",
+            "label": "Melodia",
+            "description": "Album von The Vines",
+            "url": "https://www.wikidata.org/wiki/Q3854281",
+            "score": 0.94,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Album"
+            ],
+            "suggestions": [],
+            "revision_id": 2504473602
           }
         ]
       }
@@ -629,6 +941,7 @@
         "provider": "wikidata",
         "status": "no_match",
         "error": "",
+        "warnings": [],
         "candidates": []
       }
     },
@@ -680,6 +993,7 @@
         "provider": "wikidata",
         "status": "no_match",
         "error": "",
+        "warnings": [],
         "candidates": []
       }
     }
