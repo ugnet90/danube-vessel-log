@@ -1,0 +1,173 @@
+name: Foto-Wartung
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Nur prüfen oder Optimierung als Pull Request vorbereiten"
+        required: true
+        default: report
+        type: choice
+        options:
+          - report
+          - optimize_pr
+
+      max_file_kb:
+        description: "Dateien über dieser Größe sind Kandidaten (KB)"
+        required: true
+        default: "1000"
+        type: string
+
+      max_dimension:
+        description: "Maximale Breite oder Höhe in Pixeln"
+        required: true
+        default: "1600"
+        type: string
+
+      jpeg_quality:
+        description: "JPEG-Qualität (1 bis 95)"
+        required: true
+        default: "82"
+        type: string
+
+      min_savings_percent:
+        description: "Mindest-Ersparnis ohne Größenänderung (%)"
+        required: true
+        default: "5"
+        type: string
+
+
+permissions:
+  contents: write
+  pull-requests: write
+
+
+jobs:
+  photo-maintenance:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository laden
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Python einrichten
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Pillow installieren
+        run: |
+          python -m pip install \
+            --disable-pip-version-check \
+            "Pillow>=11,<13"
+
+      - name: Fotos prüfen oder optimieren
+        shell: bash
+        run: |
+          if [ "${{ inputs.mode }}" = "optimize_pr" ]; then
+            SCRIPT_MODE="optimize"
+          else
+            SCRIPT_MODE="report"
+          fi
+
+          python tools/audit_optimize_photos.py \
+            --photos-dir photos \
+            --report-dir photo-maintenance-report \
+            --mode "$SCRIPT_MODE" \
+            --max-file-kb "${{ inputs.max_file_kb }}" \
+            --max-dimension "${{ inputs.max_dimension }}" \
+            --jpeg-quality "${{ inputs.jpeg_quality }}" \
+            --webp-quality "${{ inputs.jpeg_quality }}" \
+            --min-savings-percent "${{ inputs.min_savings_percent }}"
+
+      - name: Bericht in der Zusammenfassung anzeigen
+        if: always()
+        shell: bash
+        run: |
+          if [ -f photo-maintenance-report/photo_report.md ]; then
+            cat photo-maintenance-report/photo_report.md \
+              >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Vollständigen Bericht bereitstellen
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: foto-wartungsbericht-${{ github.run_id }}-${{ github.run_attempt }}
+          path: photo-maintenance-report/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Optimierte Fotos in eigenen Branch schreiben
+        if: inputs.mode == 'optimize_pr'
+        id: push_changes
+        shell: bash
+        run: |
+          if git diff --quiet -- photos; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Keine Bilddatei musste geändert werden." \
+              >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          BRANCH="photo-maintenance/run-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+
+          git config \
+            user.name \
+            "github-actions[bot]"
+
+          git config \
+            user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git switch -c "$BRANCH"
+          git add photos
+
+          git commit \
+            -m "Optimize oversized vessel photos"
+
+          git push \
+            --set-upstream \
+            origin \
+            "$BRANCH"
+
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+
+          echo \
+            "Optimierte Fotos wurden in Branch \`$BRANCH\` geschrieben." \
+            >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Pull Request anlegen
+        if: >
+          inputs.mode == 'optimize_pr' &&
+          steps.push_changes.outputs.changed == 'true'
+        id: create_pr
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ steps.push_changes.outputs.branch }}
+        shell: bash
+        run: |
+          gh pr create \
+            --base "${{ github.event.repository.default_branch }}" \
+            --head "$BRANCH" \
+            --title "Übergroße Schiffsfotos optimieren" \
+            --body-file photo-maintenance-report/photo_report.md
+
+      - name: Hinweis bei gesperrter PR-Erstellung
+        if: >
+          inputs.mode == 'optimize_pr' &&
+          steps.push_changes.outputs.changed == 'true' &&
+          steps.create_pr.outcome == 'failure'
+        shell: bash
+        run: |
+          echo \
+            "Der Branch wurde erstellt, aber GitHub Actions durfte keinen Pull Request anlegen." \
+            >> "$GITHUB_STEP_SUMMARY"
+
+          echo \
+            "Bitte den angegebenen Branch manuell mit dem Hauptbranch vergleichen." \
+            >> "$GITHUB_STEP_SUMMARY"
