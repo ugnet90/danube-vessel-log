@@ -2,8 +2,8 @@
 <!--
   Danube Vessel Log
   File: docs/vessel_enrichment.html
-  Version: 0.13.1
-  Updated: 2026-07-26
+  Version: 0.13.2
+  Updated: 2026-07-27
 -->
 <html lang="de">
 <head>
@@ -20,7 +20,7 @@
     <header class="page-header">
       <div>
         <h1>Datenanreicherung</h1>
-        <p>Fehlende Schiffsstammdaten und automatisch ermittelte Wikidata-Vorschläge. Es werden keine Schiffsdaten automatisch verändert.</p>
+        <p>Fehlende Schiffsstammdaten und automatisch ermittelte Wikidata-Vorschläge prüfen, übernehmen oder als unpassend verwerfen.</p>
       </div>
       <div class="header-actions">
         <a class="secondary-button" href="vessels.html">Zu den Schiffen</a>
@@ -30,7 +30,7 @@
 
     <section class="notice-card">
       <strong>Prüfprinzip:</strong>
-      <span>Ein Vorschlag ist erst nach manueller Prüfung zu übernehmen. Eindeutige Kennungen werden höher bewertet als reine Namenstreffer.</span>
+      <span>Die Prozentzahl ist nur eine technische Trefferbewertung und keine Identitätsbestätigung. Vor der Übernahme muss der konkrete Wikidata-Eintrag ausdrücklich bestätigt werden.</span>
     </section>
 
     <div id="pageStatus" class="page-status" aria-live="polite"></div>
@@ -116,10 +116,25 @@
 
       <div id="candidateTabs" class="candidate-tabs"></div>
       <div id="candidateInfo" class="candidate-info"></div>
+
+      <div id="candidateReviewPanel" class="candidate-review-panel hidden">
+        <label class="candidate-confirmation">
+          <input id="candidateConfirmed" type="checkbox">
+          <span id="candidateConfirmationText">Ich bestätige, dass dieser Wikidata-Eintrag zum ausgewählten Schiff gehört.</span>
+        </label>
+        <div class="selection-actions">
+          <button id="selectAllButton" class="secondary-button" type="button">Alle Felder auswählen</button>
+          <button id="clearSelectionButton" class="secondary-button" type="button">Auswahl löschen</button>
+        </div>
+      </div>
+
       <div id="suggestionList" class="suggestion-list"></div>
+      <div id="applyStatus" class="apply-status" aria-live="polite"></div>
 
       <div class="detail-actions">
-        <a id="openVesselButton" class="primary-button" href="vessels.html">Schiff öffnen und bearbeiten</a>
+        <button id="applyButton" class="primary-button" type="button" disabled>Ausgewählte Werte übernehmen</button>
+        <button id="rejectCandidateButton" class="danger-button" type="button">Kandidat ist falsch</button>
+        <a id="openVesselButton" class="secondary-button" href="vessels.html">Schiff öffnen</a>
         <a id="openWikidataButton" class="secondary-button hidden" href="#" target="_blank" rel="noopener noreferrer">Wikidata öffnen</a>
       </div>
     </section>
@@ -130,6 +145,7 @@
   <script src="js/config.js"></script>
   <script src="js/site_map.js"></script>
   <script src="js/nav.js"></script>
-  <script src="js/vessel_enrichment.js?v=0.13.1"></script>
+  <script src="js/api.js"></script>
+  <script src="js/vessel_enrichment.js?v=0.13.2"></script>
 </body>
 </html>
