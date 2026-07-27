@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-07-27T09:36:14.182245Z",
+  "generated_at": "2026-07-27T09:39:39.912265Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -873,14 +873,6 @@
           "label": "Rufzeichen"
         },
         {
-          "field": "classification.flag",
-          "label": "Flagge"
-        },
-        {
-          "field": "classification.status",
-          "label": "Status"
-        },
-        {
           "field": "technical.shipyard",
           "label": "Werft"
         },
@@ -901,7 +893,7 @@
           "label": "Marke"
         }
       ],
-      "missing_count": 10,
+      "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
         "status": "no_match",
