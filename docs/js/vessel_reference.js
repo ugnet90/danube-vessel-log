@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel_reference.js
-// Version: 0.13.3
+// Version: 0.13.5
 // Updated: 2026-07-27
 
 "use strict";
@@ -1077,6 +1077,23 @@
       return false;
     }
 
+    /*
+     * Formularelemente dürfen niemals
+     * durch eine SVG-Ausgabe ersetzt werden.
+     */
+    if (
+      element.matches(
+        "select, option, input, " +
+        "textarea, button"
+      )
+    ) {
+      return false;
+    }
+
+    /*
+     * Eindeutig gekennzeichnete
+     * reine Ausgabefelder.
+     */
     if (
       element.id === "flag" ||
       element.id === "vesselFlag" ||
@@ -1085,6 +1102,20 @@
       )
     ) {
       return true;
+    }
+
+    /*
+     * Die indirekte Erkennung wird nur
+     * bei typischen Textelementen erlaubt.
+     */
+    if (
+      ![
+        "DD",
+        "STRONG",
+        "SPAN"
+      ].includes(element.tagName)
+    ) {
+      return false;
     }
 
     const label =
@@ -1102,8 +1133,7 @@
   ) {
     if (
       !state.loaded ||
-      !isFlagDisplayTarget(element) ||
-      element.tagName === "OPTION"
+      !isFlagDisplayTarget(element)
     ) {
       return;
     }
