@@ -1,0 +1,54 @@
+{
+  "schema_version": 10,
+  "submission_id": "SUB-20260727-143120-E74E5E",
+  "uploaded_at": "2026-07-27T14:31:20.290Z",
+  "captured_at": "2026-07-27T14:31:05.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich"
+  },
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "AmaMora",
+  "notes": "",
+  "photo_lat": 48.308095,
+  "photo_lon": 14.28517166666667,
+  "photos": [
+    {
+      "photo_id": "PHOTO-E480C7C1032842C3BB2263E96B2F1BBE",
+      "path": "inbox/photos/2026/07/PHOTO-E480C7C1032842C3BB2263E96B2F1BBE.jpg",
+      "filename": "PHOTO-E480C7C1032842C3BB2263E96B2F1BBE.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 242612,
+      "sequence": 1
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000105",
+        "matched_by": "normalized_name",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000105"
+        ],
+        "matched_value": "AmaMora",
+        "normalized_input": "amamora"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
