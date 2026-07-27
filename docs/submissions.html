@@ -1,7 +1,7 @@
 <!--
   Danube Vessel Log
   File: docs/submissions.html
-  Version: 0.13.6
+  Version: 0.13.7
   Updated: 2026-07-27
 -->
 
@@ -29,6 +29,38 @@
       <div class="form-field">
         <label for="apiKey">API-Schlüssel</label>
         <input id="apiKey" type="password" placeholder="Optional" autocomplete="off">
+      </div>
+    </section>
+
+    <section
+      id="nextStepPanel"
+      class="connection-card hidden"
+      aria-live="polite"
+    >
+      <strong id="nextStepTitle">
+        Schiff wurde zugeordnet
+      </strong>
+
+      <p id="nextStepText">
+        Der nächste Arbeitsschritt kann geöffnet werden.
+      </p>
+
+      <div class="review-actions">
+        <a
+          id="nextStepVesselLink"
+          class="secondary-button"
+          href="vessels.html"
+        >
+          Schiff öffnen
+        </a>
+
+        <a
+          id="nextStepEnrichmentLink"
+          class="primary-button"
+          href="vessel_enrichment.html"
+        >
+          Anreicherung prüfen
+        </a>
       </div>
     </section>
 
@@ -383,10 +415,36 @@
               </section>
 
               <dl class="vessel-footer-grid">
-                <div><dt>Anreicherung</dt><dd id="vesselEnrichmentStatus"></dd></div>
-                <div><dt>Letzter Lauf</dt><dd id="vesselEnrichmentDate"></dd></div>
-                <div><dt>Quellen</dt><dd id="vesselSourceCount"></dd></div>
-                <div><dt>Letzte Änderung</dt><dd id="vesselUpdatedAt"></dd></div>
+                <div>
+                  <dt>Anreicherung</dt>
+
+                  <dd>
+                    <span id="vesselEnrichmentStatus"></span>
+
+                    <a
+                      id="vesselEnrichmentLink"
+                      class="secondary-button compact-button hidden"
+                      href="vessel_enrichment.html"
+                    >
+                      Anreicherung öffnen
+                    </a>
+                  </dd>
+                </div>
+
+                <div>
+                  <dt>Report erstellt</dt>
+                  <dd id="vesselEnrichmentDate"></dd>
+                </div>
+
+                <div>
+                  <dt>Quellen</dt>
+                  <dd id="vesselSourceCount"></dd>
+                </div>
+
+                <div>
+                  <dt>Letzte Änderung</dt>
+                  <dd id="vesselUpdatedAt"></dd>
+                </div>
               </dl>
             </div>
           </section>
@@ -426,6 +484,6 @@
   <script src="js/nav.js"></script>
   <script src="js/api.js"></script>
   <script src="js/vessel_reference.js"></script>
-  <script src="js/submissions.js?v=0.13.6"></script>
+  <script src="js/submissions.js?v=0.13.7"></script>
 </body>
 </html>
