@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-26T16:56:07.916337Z",
+  "generated_at": "2026-07-27T05:26:11.783045Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -33,12 +33,12 @@
     "vessels_total": 9,
     "vessels_incomplete": 9,
     "vessels_complete": 0,
-    "candidate_matches": 0,
+    "candidate_matches": 1,
     "matched_no_new_data": 0,
-    "low_confidence": 1,
-    "no_match": 2,
-    "lookup_errors": 6,
-    "suggestions_total": 0
+    "low_confidence": 2,
+    "no_match": 6,
+    "lookup_errors": 0,
+    "suggestions_total": 5
   },
   "vessels": [
     {
@@ -221,8 +221,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Abruf fehlgeschlagen: https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fitem+%3FmatchedBy+WHERE+%7B+%7B+%3Fitem+wdt%3AP5910+%2202329007%22+.+BIND%28%22identity.eni%22+AS+%3FmatchedBy%29+%7D+%7D+LIMIT+20&format=json: HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)",
+        "status": "no_match",
+        "error": "",
         "candidates": []
       }
     },
@@ -374,8 +374,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Abruf fehlgeschlagen: https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fitem+%3FmatchedBy+WHERE+%7B+%7B+%3Fitem+wdt%3AP5910+%2207002031%22+.+BIND%28%22identity.eni%22+AS+%3FmatchedBy%29+%7D+%7D+LIMIT+20&format=json: HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)",
+        "status": "no_match",
+        "error": "",
         "candidates": []
       }
     },
@@ -417,9 +417,102 @@
       "missing_count": 7,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Abruf fehlgeschlagen: https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fitem+%3FmatchedBy+WHERE+%7B+%7B+%3Fitem+wdt%3AP458+%228979295%22+.+BIND%28%22identity.imo%22+AS+%3FmatchedBy%29+%7D+UNION+%7B+%3Fitem+wdt%3AP5910+%2204802780%22+.+BIND%28%22identity.eni%22+AS+%3FmatchedBy%29+%7D+%7D+LIMIT+20&format=json: HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)",
-        "candidates": []
+        "status": "candidate",
+        "error": "",
+        "candidates": [
+          {
+            "qid": "Q277910",
+            "label": "A-Rosa Riva",
+            "description": "Flusskreuzfahrtschiff",
+            "url": "https://www.wikidata.org/wiki/Q277910",
+            "score": 1.0,
+            "confidence": "very_high",
+            "matched_by": [
+              "identity.eni",
+              "identity.imo"
+            ],
+            "identifiers": {
+              "mmsi": [
+                "211160710"
+              ],
+              "imo": [
+                "8979295"
+              ],
+              "eni": [
+                "04802780"
+              ],
+              "call_sign": [
+                "DA4157"
+              ]
+            },
+            "instance_of": [
+              "Schiff"
+            ],
+            "suggestions": [
+              {
+                "field": "identity.mmsi",
+                "field_label": "MMSI",
+                "value": "211160710",
+                "display_value": "211160710",
+                "property": "P587",
+                "property_label": "MMSI",
+                "property_url": "https://www.wikidata.org/wiki/Property:P587",
+                "source_url": "https://www.wikidata.org/wiki/Q277910",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "identity.call_sign",
+                "field_label": "Rufzeichen",
+                "value": "DA4157",
+                "display_value": "DA4157",
+                "property": "P2317",
+                "property_label": "call sign",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2317",
+                "source_url": "https://www.wikidata.org/wiki/Q277910",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.shipyard",
+                "field_label": "Werft",
+                "value": "Neptun Werft",
+                "display_value": "Neptun Werft",
+                "property": "P176",
+                "property_label": "manufacturer",
+                "property_url": "https://www.wikidata.org/wiki/Property:P176",
+                "source_url": "https://www.wikidata.org/wiki/Q277910",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.draft_m",
+                "field_label": "Tiefgang",
+                "value": 1.87,
+                "display_value": 1.87,
+                "property": "P2262",
+                "property_label": "draft",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
+                "source_url": "https://www.wikidata.org/wiki/Q277910",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "operations.owner",
+                "field_label": "Eigentümer",
+                "value": "A-ROSA Flussschiff",
+                "display_value": "A-ROSA Flussschiff",
+                "property": "P127",
+                "property_label": "owned by",
+                "property_url": "https://www.wikidata.org/wiki/Property:P127",
+                "source_url": "https://www.wikidata.org/wiki/Q277910",
+                "confidence": 1.0,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2469916710
+          }
+        ]
       }
     },
     {
@@ -464,9 +557,32 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Abruf fehlgeschlagen: https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fitem+%3FmatchedBy+WHERE+%7B+%7B+%3Fitem+wdt%3AP5910+%2204809190%22+.+BIND%28%22identity.eni%22+AS+%3FmatchedBy%29+%7D+%7D+LIMIT+20&format=json: HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)",
-        "candidates": []
+        "status": "low_confidence",
+        "error": "",
+        "candidates": [
+          {
+            "qid": "Q99492992",
+            "label": "Tui Island",
+            "description": "Insel in der Region West Coast auf der Südinsel von Neuseeland",
+            "url": "https://www.wikidata.org/wiki/Q99492992",
+            "score": 0.8,
+            "confidence": "low",
+            "matched_by": [
+              "name_partial"
+            ],
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Insel"
+            ],
+            "suggestions": [],
+            "revision_id": 2136359382
+          }
+        ]
       }
     },
     {
@@ -511,8 +627,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Abruf fehlgeschlagen: https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fitem+%3FmatchedBy+WHERE+%7B+%7B+%3Fitem+wdt%3AP5910+%2207002112%22+.+BIND%28%22identity.eni%22+AS+%3FmatchedBy%29+%7D+%7D+LIMIT+20&format=json: HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)",
+        "status": "no_match",
+        "error": "",
         "candidates": []
       }
     },
@@ -562,8 +678,8 @@
       "missing_count": 9,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Abruf fehlgeschlagen: https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fitem+%3FmatchedBy+WHERE+%7B+%7B+%3Fitem+wdt%3AP5910+%2265000001%22+.+BIND%28%22identity.eni%22+AS+%3FmatchedBy%29+%7D+%7D+LIMIT+20&format=json: HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)",
+        "status": "no_match",
+        "error": "",
         "candidates": []
       }
     }
