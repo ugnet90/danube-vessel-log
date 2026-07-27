@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.12.3
- * Updated: 2026-07-25
+ * Version: 0.13.2
+ * Updated: 2026-07-27
  */
 
 const API_VERSION = "2022-11-28";
@@ -121,6 +121,23 @@ const REFERENCE_CACHE_TTL_MS =
 
 let vesselReferenceCache = null;
 const VESSEL_ID_PATTERN = /^VES-\d{6}$/;
+
+const VESSEL_ENRICHMENT_FIELDS = Object.freeze({
+  "identity.mmsi": { section: "identity", key: "mmsi", type: "mmsi" },
+  "identity.imo": { section: "identity", key: "imo", type: "imo" },
+  "identity.eni": { section: "identity", key: "eni", type: "eni" },
+  "identity.call_sign": { section: "identity", key: "call_sign", type: "text", max: 40 },
+  "classification.flag": { section: "classification", key: "flag", type: "flag" },
+  "technical.year_built": { section: "technical", key: "year_built", type: "integer", min: 1800, max: 2200 },
+  "technical.shipyard": { section: "technical", key: "shipyard", type: "text", max: 200 },
+  "technical.length_m": { section: "technical", key: "length_m", type: "number", min: 0, max: 1000 },
+  "technical.width_m": { section: "technical", key: "width_m", type: "number", min: 0, max: 200 },
+  "technical.draft_m": { section: "technical", key: "draft_m", type: "number", min: 0, max: 50 },
+  "technical.passengers": { section: "technical", key: "passengers", type: "integer", min: 0, max: 10000 },
+  "operations.operator": { section: "operations", key: "operator", type: "index_text", max: 200 },
+  "operations.owner": { section: "operations", key: "owner", type: "text", max: 200 },
+  "operations.home_port": { section: "operations", key: "home_port", type: "text", max: 150 }
+});
 const VESSEL_INDEX_HEADERS = [
   "vessel_id",
   "name",
@@ -350,6 +367,32 @@ export default {
           ok: false,
           error:
             "Unbehandelter Fehler beim Aktualisieren des Schiffes.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          stack:
+            error instanceof Error
+              ? error.stack
+              : null
+        }, 500);
+      }
+    }
+
+    if (
+      request.method === "POST" &&
+      url.pathname === "/vessel-enrichment-review"
+    ) {
+      try {
+        return await handleVesselEnrichmentReview(
+          request,
+          env
+        );
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler bei der Prüfung der Datenanreicherung.",
           exception:
             error instanceof Error
               ? error.message
@@ -2882,6 +2925,547 @@ async function handleUpdateVessel(
     vessel,
     commit_sha:
       commitResult.commitSha
+  });
+}
+
+function ensureVesselObjectSection(vessel, section) {
+  if (
+    !vessel[section] ||
+    typeof vessel[section] !== "object" ||
+    Array.isArray(vessel[section])
+  ) {
+    vessel[section] = {};
+  }
+
+  return vessel[section];
+}
+
+function vesselEnrichmentValueMissing(value) {
+  return (
+    value === null ||
+    value === undefined ||
+    (typeof value === "string" && value.trim() === "")
+  );
+}
+
+function normalizeVesselEnrichmentValue(field, value) {
+  const definition = VESSEL_ENRICHMENT_FIELDS[field];
+
+  if (!definition) {
+    return {
+      ok: false,
+      error: `Das Anreicherungsfeld ${field} ist nicht zulässig.`
+    };
+  }
+
+  if (definition.type === "mmsi") {
+    const normalized = String(value ?? "").trim();
+    return /^\d{9}$/.test(normalized)
+      ? { ok: true, value: normalized }
+      : { ok: false, error: "Die vorgeschlagene MMSI muss aus neun Ziffern bestehen." };
+  }
+
+  if (definition.type === "imo") {
+    const normalized = String(value ?? "")
+      .trim()
+      .replace(/^IMO\s*/i, "");
+
+    return /^\d{7}$/.test(normalized)
+      ? { ok: true, value: normalized }
+      : { ok: false, error: "Die vorgeschlagene IMO muss aus sieben Ziffern bestehen." };
+  }
+
+  if (definition.type === "eni") {
+    const normalized = normalizeEniValue(value);
+    return normalized.ok
+      ? normalized
+      : { ok: false, error: "Die vorgeschlagene ENI muss aus acht Ziffern bestehen." };
+  }
+
+  if (definition.type === "flag") {
+    const normalized = String(value ?? "").trim().toUpperCase();
+    return /^[A-Z]{2}$/.test(normalized)
+      ? { ok: true, value: normalized }
+      : { ok: false, error: "Das vorgeschlagene Flaggenkürzel ist ungültig." };
+  }
+
+  if (definition.type === "integer") {
+    const parsed = parseOptionalInteger(
+      value,
+      definition.min,
+      definition.max === 2200
+        ? new Date().getUTCFullYear() + 1
+        : definition.max
+    );
+
+    return parsed.ok && parsed.value !== null
+      ? parsed
+      : { ok: false, error: `Der vorgeschlagene Wert für ${field} ist ungültig.` };
+  }
+
+  if (definition.type === "number") {
+    const parsed = parseOptionalNumber(
+      value,
+      definition.min,
+      definition.max
+    );
+
+    return parsed.ok && parsed.value !== null
+      ? parsed
+      : { ok: false, error: `Der vorgeschlagene Wert für ${field} ist ungültig.` };
+  }
+
+  const normalized = definition.type === "index_text"
+    ? normalizeIndexText(value, definition.max)
+    : normalizeFreeText(value, definition.max);
+
+  if (!normalized) {
+    return {
+      ok: false,
+      error: `Der vorgeschlagene Wert für ${field} ist leer.`
+    };
+  }
+
+  if (definition.type === "index_text" && /[;\r\n|]/.test(normalized)) {
+    return {
+      ok: false,
+      error: `Der vorgeschlagene Wert für ${field} enthält ein unzulässiges Trennzeichen.`
+    };
+  }
+
+  return { ok: true, value: normalized };
+}
+
+function ensureWikidataEnrichmentDecision(vessel) {
+  if (
+    !vessel.enrichment ||
+    typeof vessel.enrichment !== "object" ||
+    Array.isArray(vessel.enrichment)
+  ) {
+    vessel.enrichment = {};
+  }
+
+  if (
+    !vessel.enrichment.wikidata ||
+    typeof vessel.enrichment.wikidata !== "object" ||
+    Array.isArray(vessel.enrichment.wikidata)
+  ) {
+    vessel.enrichment.wikidata = {};
+  }
+
+  const decision = vessel.enrichment.wikidata;
+
+  decision.accepted_qid =
+    typeof decision.accepted_qid === "string"
+      ? decision.accepted_qid.trim()
+      : "";
+
+  decision.rejected_qids = [
+    ...new Set(
+      Array.isArray(decision.rejected_qids)
+        ? decision.rejected_qids
+            .map(value => String(value ?? "").trim())
+            .filter(value => /^Q\d+$/.test(value))
+        : []
+    )
+  ];
+
+  return decision;
+}
+
+function appendVesselEnrichmentAudit({
+  vessel,
+  updatedAt,
+  summary,
+  changes
+}) {
+  if (
+    !vessel.audit ||
+    typeof vessel.audit !== "object" ||
+    Array.isArray(vessel.audit)
+  ) {
+    vessel.audit = {};
+  }
+
+  if (!Array.isArray(vessel.audit.change_history)) {
+    vessel.audit.change_history = [];
+  }
+
+  vessel.audit.change_history.push({
+    changed_at: updatedAt,
+    changed_by: "vessel-enrichment",
+    summary,
+    changed_fields: changes.map(change => change.field),
+    changes
+  });
+
+  vessel.audit.updated_at = updatedAt;
+  vessel.audit.updated_by = "vessel-enrichment";
+}
+
+async function handleVesselEnrichmentReview(request, env) {
+  const authError = checkManagementKey(request, env);
+  if (authError) return authError;
+
+  let input;
+
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error: "Der Anfrageinhalt ist kein gültiges JSON."
+    }, 400);
+  }
+
+  const action = typeof input?.action === "string"
+    ? input.action.trim()
+    : "";
+
+  if (!["apply", "reject"].includes(action)) {
+    return jsonResponse({
+      ok: false,
+      error: "action muss apply oder reject sein."
+    }, 400);
+  }
+
+  const vesselId = typeof input?.vessel_id === "string"
+    ? input.vessel_id.trim()
+    : "";
+
+  if (!VESSEL_ID_PATTERN.test(vesselId)) {
+    return jsonResponse({
+      ok: false,
+      error: "vessel_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  const qid = typeof input?.candidate?.qid === "string"
+    ? input.candidate.qid.trim()
+    : "";
+
+  if (!/^Q\d+$/.test(qid)) {
+    return jsonResponse({
+      ok: false,
+      error: "Die Wikidata-QID fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  const candidateLabel = normalizeFreeText(
+    input?.candidate?.label,
+    150
+  ) || qid;
+
+  const revisionIdRaw = Number(input?.candidate?.revision_id);
+  const revisionId = Number.isInteger(revisionIdRaw) && revisionIdRaw > 0
+    ? revisionIdRaw
+    : null;
+
+  const vesselResult = await loadCanonicalVessel(env, vesselId);
+
+  if (!vesselResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: vesselResult.error,
+      vessel_id: vesselId
+    }, vesselResult.status === 404 ? 404 : 502);
+  }
+
+  const vessel = vesselResult.vessel;
+  const decision = ensureWikidataEnrichmentDecision(vessel);
+  const updatedAt = new Date().toISOString();
+  const changes = [];
+
+  if (action === "reject") {
+    const previousRejected = [...decision.rejected_qids];
+    const previousAccepted = decision.accepted_qid;
+
+    decision.rejected_qids = [
+      ...new Set([...decision.rejected_qids, qid])
+    ];
+
+    if (decision.accepted_qid === qid) {
+      decision.accepted_qid = "";
+      decision.accepted_at = "";
+    }
+
+    decision.last_reviewed_at = updatedAt;
+
+    if (JSON.stringify(previousRejected) !== JSON.stringify(decision.rejected_qids)) {
+      changes.push({
+        field: "enrichment.wikidata.rejected_qids",
+        old_value: previousRejected,
+        new_value: decision.rejected_qids
+      });
+    }
+
+    if (previousAccepted !== decision.accepted_qid) {
+      changes.push({
+        field: "enrichment.wikidata.accepted_qid",
+        old_value: previousAccepted,
+        new_value: decision.accepted_qid
+      });
+    }
+
+    if (changes.length === 0) {
+      return jsonResponse({
+        ok: true,
+        message: `${qid} war bereits als unpassend markiert.`,
+        vessel_id: vesselId,
+        qid,
+        action,
+        changed_fields: []
+      });
+    }
+
+    appendVesselEnrichmentAudit({
+      vessel,
+      updatedAt,
+      summary: `Wikidata-Kandidat ${qid} als unpassend markiert`,
+      changes
+    });
+
+    const saveResult = await saveCanonicalVesselAndIndex({
+      env,
+      vesselResult,
+      vessel,
+      updatedAt,
+      message: `Wikidata-Kandidat ${qid} für ${vesselId} verworfen`
+    });
+
+    if (!saveResult.ok) {
+      return jsonResponse({
+        ok: false,
+        error: saveResult.error,
+        github_step: saveResult.step ?? null,
+        github_status: saveResult.status ?? null,
+        github_response: saveResult.body ?? null
+      }, 502);
+    }
+
+    return jsonResponse({
+      ok: true,
+      message: `${candidateLabel} wurde für ${vesselId} als unpassend markiert.`,
+      vessel_id: vesselId,
+      qid,
+      action,
+      changed_fields: changes.map(change => change.field),
+      commit_sha: saveResult.commitSha
+    });
+  }
+
+  const requestedSuggestions = Array.isArray(input?.suggestions)
+    ? input.suggestions
+    : [];
+
+  if (requestedSuggestions.length === 0 || requestedSuggestions.length > 20) {
+    return jsonResponse({
+      ok: false,
+      error: "Es muss mindestens ein und dürfen höchstens 20 Felder übernommen werden."
+    }, 400);
+  }
+
+  const seenFields = new Set();
+  const normalizedSuggestions = [];
+
+  for (const requested of requestedSuggestions) {
+    const field = typeof requested?.field === "string"
+      ? requested.field.trim()
+      : "";
+
+    if (!VESSEL_ENRICHMENT_FIELDS[field]) {
+      return jsonResponse({
+        ok: false,
+        error: `Das Anreicherungsfeld ${field || "(leer)"} ist nicht zulässig.`
+      }, 400);
+    }
+
+    if (seenFields.has(field)) {
+      return jsonResponse({
+        ok: false,
+        error: `Das Feld ${field} wurde mehrfach übermittelt.`
+      }, 400);
+    }
+
+    seenFields.add(field);
+
+    const normalized = normalizeVesselEnrichmentValue(
+      field,
+      requested?.value
+    );
+
+    if (!normalized.ok) {
+      return jsonResponse({
+        ok: false,
+        error: normalized.error
+      }, 400);
+    }
+
+    normalizedSuggestions.push({
+      field,
+      value: normalized.value,
+      property: /^P\d+$/.test(String(requested?.property ?? "").trim())
+        ? String(requested.property).trim()
+        : ""
+    });
+  }
+
+  const appliedFields = [];
+  const skippedFields = [];
+
+  for (const suggestion of normalizedSuggestions) {
+    const definition = VESSEL_ENRICHMENT_FIELDS[suggestion.field];
+    const target = ensureVesselObjectSection(vessel, definition.section);
+    const oldValue = target[definition.key];
+
+    if (!vesselEnrichmentValueMissing(oldValue)) {
+      skippedFields.push({
+        field: suggestion.field,
+        reason: "bereits befüllt",
+        existing_value: oldValue
+      });
+      continue;
+    }
+
+    target[definition.key] = suggestion.value;
+    appliedFields.push(suggestion.field);
+    changes.push({
+      field: suggestion.field,
+      old_value: oldValue ?? null,
+      new_value: suggestion.value
+    });
+  }
+
+  const previousAccepted = decision.accepted_qid;
+  const previousRejected = [...decision.rejected_qids];
+  decision.accepted_qid = qid;
+  decision.accepted_at = updatedAt;
+  decision.last_reviewed_at = updatedAt;
+  decision.rejected_qids = decision.rejected_qids.filter(value => value !== qid);
+
+  if (previousAccepted !== qid) {
+    changes.push({
+      field: "enrichment.wikidata.accepted_qid",
+      old_value: previousAccepted,
+      new_value: qid
+    });
+  }
+
+  if (JSON.stringify(previousRejected) !== JSON.stringify(decision.rejected_qids)) {
+    changes.push({
+      field: "enrichment.wikidata.rejected_qids",
+      old_value: previousRejected,
+      new_value: decision.rejected_qids
+    });
+  }
+
+  if (appliedFields.length === 0 && changes.length === 0) {
+    return jsonResponse({
+      ok: true,
+      message: "Es waren keine neuen Werte zu übernehmen.",
+      vessel_id: vesselId,
+      qid,
+      action,
+      applied_fields: [],
+      skipped_fields: skippedFields
+    });
+  }
+
+  if (appliedFields.length > 0) {
+    const sourceUrl = `https://www.wikidata.org/wiki/${qid}`;
+    const sources = Array.isArray(vessel.sources)
+      ? vessel.sources
+      : [];
+    const sourceIndex = sources.findIndex(source =>
+      String(source?.url ?? "").trim().toLowerCase() === sourceUrl.toLowerCase()
+    );
+    const reportGeneratedAt = normalizeFreeText(
+      input?.report_generated_at,
+      60
+    );
+
+    if (sourceIndex >= 0) {
+      const existingSource = sources[sourceIndex];
+      const previousFieldsUsed = Array.isArray(existingSource.fields_used)
+        ? existingSource.fields_used
+        : [];
+      const mergedFieldsUsed = [...new Set([
+        ...previousFieldsUsed,
+        ...appliedFields
+      ])];
+
+      vessel.sources = sources.map((source, index) =>
+        index === sourceIndex
+          ? {
+              ...source,
+              provider: "Wikidata",
+              title: `Wikidata: ${candidateLabel}`,
+              notes: "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+              fields_used: mergedFieldsUsed,
+              retrieved_at: reportGeneratedAt || existingSource.retrieved_at || "",
+              verified_at: updatedAt,
+              source_revision_id: revisionId ?? existingSource.source_revision_id ?? "",
+              updated_at: updatedAt,
+              updated_by: "vessel-enrichment"
+            }
+          : source
+      );
+    } else {
+      vessel.sources = [
+        ...sources,
+        {
+          source_id: createVesselSourceId(),
+          provider: "Wikidata",
+          title: `Wikidata: ${candidateLabel}`,
+          url: sourceUrl,
+          notes: "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+          fields_used: appliedFields,
+          retrieved_at: reportGeneratedAt || "",
+          verified_at: updatedAt,
+          added_at: updatedAt,
+          added_by: "vessel-enrichment",
+          source_revision_id: revisionId ?? ""
+        }
+      ];
+    }
+  }
+
+  appendVesselEnrichmentAudit({
+    vessel,
+    updatedAt,
+    summary: `${appliedFields.length} Wikidata-Feld${appliedFields.length === 1 ? "" : "er"} aus ${qid} übernommen`,
+    changes
+  });
+
+  const saveResult = await saveCanonicalVesselAndIndex({
+    env,
+    vesselResult,
+    vessel,
+    updatedAt,
+    message: `Wikidata-Daten für ${vesselId} übernommen`
+  });
+
+  if (!saveResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: saveResult.error,
+      github_step: saveResult.step ?? null,
+      github_status: saveResult.status ?? null,
+      github_response: saveResult.body ?? null
+    }, 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+    message: `${appliedFields.length} Feld${appliedFields.length === 1 ? "" : "er"} wurde${appliedFields.length === 1 ? "" : "n"} übernommen.`,
+    vessel_id: vesselId,
+    qid,
+    action,
+    applied_fields: appliedFields,
+    skipped_fields: skippedFields,
+    changed_fields: changes.map(change => change.field),
+    vessel,
+    commit_sha: saveResult.commitSha
   });
 }
 
