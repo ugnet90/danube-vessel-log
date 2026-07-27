@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-07-27T06:12:10.064934Z",
+  "generated_at": "2026-07-27T06:13:05.284358Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 9,
     "vessels_incomplete": 9,
     "vessels_complete": 0,
-    "candidate_matches": 1,
-    "matched_no_new_data": 2,
+    "candidate_matches": 0,
+    "matched_no_new_data": 3,
     "low_confidence": 1,
     "no_match": 5,
     "lookup_errors": 0,
-    "suggestions_total": 3
+    "suggestions_total": 0
   },
   "vessels": [
     {
@@ -612,74 +612,14 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
         "accepted_qid": "",
-        "rejected_qids": [],
+        "rejected_qids": [
+          "Q43448989"
+        ],
         "candidates": [
-          {
-            "qid": "Q43448989",
-            "label": "Excellence Allegra",
-            "description": "Kabinenfahrgastschiff",
-            "url": "https://www.wikidata.org/wiki/Q43448989",
-            "score": 0.955,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": [
-                "9HA2731"
-              ]
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.call_sign",
-                "field_label": "Rufzeichen",
-                "value": "9HA2731",
-                "display_value": "9HA2731",
-                "property": "P2317",
-                "property_label": "call sign",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2317",
-                "source_url": "https://www.wikidata.org/wiki/Q43448989",
-                "confidence": 0.955,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 1.5,
-                "display_value": 1.5,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q43448989",
-                "confidence": 0.955,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Premicon",
-                "display_value": "Premicon",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q43448989",
-                "confidence": 0.955,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2301941389
-          },
           {
             "qid": "Q37508635",
             "label": "Melodia",
@@ -837,6 +777,29 @@
             ],
             "suggestions": [],
             "revision_id": 2504473602
+          },
+          {
+            "qid": "Q101524075",
+            "label": "Melodia",
+            "description": "US record label; imprint of Melodia Record Co.",
+            "url": "https://www.wikidata.org/wiki/Q101524075",
+            "score": 0.935,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Plattenlabel"
+            ],
+            "suggestions": [],
+            "revision_id": 1706619579
           }
         ]
       }
