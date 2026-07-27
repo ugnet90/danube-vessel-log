@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-07-27T07:48:44.551829Z",
+  "generated_at": "2026-07-27T09:14:16.567108Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -873,6 +873,10 @@
           "label": "Rufzeichen"
         },
         {
+          "field": "classification.flag",
+          "label": "Flagge"
+        },
+        {
           "field": "classification.status",
           "label": "Status"
         },
@@ -897,7 +901,7 @@
           "label": "Marke"
         }
       ],
-      "missing_count": 9,
+      "missing_count": 10,
       "lookup": {
         "provider": "wikidata",
         "status": "no_match",
