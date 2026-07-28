@@ -1,0 +1,61 @@
+{
+  "schema_version": 10,
+  "submission_id": "SUB-20260728-051640-FEEE8E",
+  "uploaded_at": "2026-07-28T05:16:40.743Z",
+  "captured_at": "2026-07-28T05:16:19.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich"
+  },
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "S. S. Maria Theresa ",
+  "notes": "",
+  "photo_lat": 48.30948833333333,
+  "photo_lon": 14.28462833333333,
+  "photos": [
+    {
+      "photo_id": "PHOTO-698F73187A4F4A6AB400177DA216A05E",
+      "path": "inbox/photos/2026/07/PHOTO-698F73187A4F4A6AB400177DA216A05E.jpg",
+      "filename": "PHOTO-698F73187A4F4A6AB400177DA216A05E.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 315227,
+      "sequence": 1
+    },
+    {
+      "photo_id": "PHOTO-11D05BA7A5A34F9693CF46D2EBEFA244",
+      "path": "inbox/photos/2026/07/PHOTO-11D05BA7A5A34F9693CF46D2EBEFA244.jpg",
+      "filename": "PHOTO-11D05BA7A5A34F9693CF46D2EBEFA244.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 354057,
+      "sequence": 2
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "ss maria theresa"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
