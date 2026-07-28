@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+  Danube Vessel Log
+  File: docs/index.html
+  Version: 0.14.0
+  Updated: 2026-07-28
+-->
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    http-equiv="refresh"
+    content="0; url=dashboard.html"
+  >
+
+  <title>Danube Vessel Log</title>
+
+  <script>
+    "use strict";
+
+    const target =
+      "dashboard.html" +
+      window.location.search +
+      window.location.hash;
+
+    window.location.replace(target);
+  </script>
+</head>
+
+<body>
+  <p>
+    Weiter zur
+    <a href="dashboard.html">
+      Startseite des Danube Vessel Log
+    </a>.
+  </p>
+</body>
+</html>
