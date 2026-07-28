@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/submissions.js
-// Version: 0.13.7
-// Updated: 2026-07-27
+// Version: 0.13.10
+// Updated: 2026-07-28
 
 "use strict";
 
@@ -263,6 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let vesselLoadToken = 0;
   let enrichmentLoadToken = 0;
   let reviewBusy = false;
+  let vesselCreateActive = false;
   let vesselCreateBusy = false;
   let vesselSuggestionToken = 0;
   let referenceReady = false;
@@ -871,22 +872,67 @@ document.addEventListener("DOMContentLoaded", () => {
     vesselCreateResult.textContent = "";
   }
 
-  function setVesselCreateBusy(isBusy) {
-    vesselCreateBusy = isBusy;
+  function updateVesselCreateEntryButtons() {
+    const creationAllowed =
+      Boolean(selectedSubmission) &&
+      getWorkflowStatus(
+        selectedSubmission
+      ) === "new";
 
-    for (const control of vesselCreatePanel.querySelectorAll(
-      "input, select, textarea, button"
-    )) {
-      control.disabled = isBusy;
+    const entryDisabled =
+      vesselCreateActive ||
+      vesselCreateBusy ||
+      !creationAllowed;
+
+    /*
+     * Allgemeiner Einstieg:
+     * „Neues Schiff anlegen“
+     */
+    openVesselCreateButton.disabled =
+      entryDisabled;
+
+    /*
+     * Alle dynamisch erzeugten Einstiege:
+     * „Daten in Neuanlage übernehmen“
+     */
+    for (
+      const button
+      of catalogCandidates.querySelectorAll(
+        "[data-vessel-create-candidate]"
+      )
+    ) {
+      button.disabled =
+        entryDisabled;
+    }
+  }
+
+  function setVesselCreateActive(
+    isActive
+  ) {
+    vesselCreateActive =
+      Boolean(isActive);
+
+    updateVesselCreateEntryButtons();
+  }
+
+  function setVesselCreateBusy(isBusy) {
+    vesselCreateBusy =
+      Boolean(isBusy);
+
+    for (
+      const control
+      of vesselCreatePanel.querySelectorAll(
+        "input, select, textarea, button"
+      )
+    ) {
+      control.disabled =
+        vesselCreateBusy;
     }
 
-    openVesselCreateButton.disabled =
-      isBusy ||
-      !selectedSubmission ||
-      getWorkflowStatus(selectedSubmission) !== "new";
+    updateVesselCreateEntryButtons();
 
     saveVesselCreateButton.textContent =
-      isBusy
+      vesselCreateBusy
         ? "Schiff wird angelegt …"
         : "Schiff anlegen und Sichtung zuordnen";
   }
@@ -997,20 +1043,47 @@ document.addEventListener("DOMContentLoaded", () => {
         "error",
         "Die Referenzdaten wurden noch nicht geladen."
       );
-    
-      return;
+
+      return false;
     }
-    
+
     if (
       !selectedSubmission ||
-      getWorkflowStatus(selectedSubmission) !== "new"
+      getWorkflowStatus(
+        selectedSubmission
+      ) !== "new"
     ) {
-      return;
+      return false;
+    }
+
+    /*
+     * Ein bereits geöffnetes oder gerade
+     * gespeichertes Formular darf nicht
+     * nochmals geöffnet werden.
+     */
+    if (
+      vesselCreateActive ||
+      vesselCreateBusy
+    ) {
+      return false;
     }
 
     resetVesselCreateForm();
-    vesselCreatePanel.classList.remove("hidden");
-    correctionPanel.classList.add("hidden");
+
+    vesselCreatePanel.classList.remove(
+      "hidden"
+    );
+
+    correctionPanel.classList.add(
+      "hidden"
+    );
+
+    /*
+     * Ab jetzt werden die beiden oberen
+     * Einstiegsmöglichkeiten gesperrt.
+     */
+    setVesselCreateActive(true);
+
     requestVesselIdSuggestion();
 
     requestAnimationFrame(() => {
@@ -1018,20 +1091,24 @@ document.addEventListener("DOMContentLoaded", () => {
         behavior: "smooth",
         block: "start"
       });
+
       newVesselName.focus();
       newVesselName.select();
-    });    
+    });
+
+    return true;
   }
 
   function openVesselCreateFromCandidate(
     candidate
   ) {
     /*
-     * Die vorhandene Funktion kümmert
-     * sich weiterhin um Öffnen,
-     * Zurücksetzen und ID-Vorschlag.
+     * Keine zweite Vorbelegung zulassen,
+     * solange bereits ein Formular offen ist.
      */
-    openVesselCreateForm();
+    if (!openVesselCreateForm()) {
+      return;
+    }
 
     newVesselCandidateId.value =
       candidate.candidate_id ?? "";
@@ -1259,6 +1336,13 @@ document.addEventListener("DOMContentLoaded", () => {
       statusFilter.value = "new";
       selectedSubmission = null;
 
+      /*
+       * Die Neuanlage ist abgeschlossen.
+       * Der nächste Datensatz darf wieder
+       * eine neue Anlage starten.
+       */
+      setVesselCreateActive(false);
+
       await loadSubmissions({
         preserveSelection: false
       });
@@ -1292,8 +1376,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function resetVesselPanel() {
     vesselLoadToken += 1;
-    enrichmentLoadToken += 1;
     vesselSuggestionToken += 1;
+
+    vesselCreateActive = false;
+    enrichmentLoadToken += 1;
     selectedVesselId = "";
     reviewCandidateVesselId = "";
     vesselStatus.textContent = "";
@@ -1314,8 +1400,12 @@ document.addEventListener("DOMContentLoaded", () => {
     vesselEnrichmentLink.classList.add(
       "hidden"
     );    
-    vesselCreatePanel.classList.add("hidden");
+    vesselCreatePanel.classList.add(
+      "hidden"
+    );
+
     clearVesselCreateResult();
+    updateVesselCreateEntryButtons();
   }
 
   function updateCandidateSelection() {
@@ -1587,6 +1677,18 @@ document.addEventListener("DOMContentLoaded", () => {
       useButton.className =
         "primary-button compact-button";
 
+      /*
+       * Kennzeichnung für die zentrale
+       * Sperrung während einer Neuanlage.
+       */
+      useButton.dataset
+        .vesselCreateCandidate =
+          "true";
+
+      useButton.disabled =
+        vesselCreateActive ||
+        vesselCreateBusy;
+
       useButton.textContent =
         "Daten in Neuanlage übernehmen";
 
@@ -1609,7 +1711,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     catalogCandidatePanel
       .classList.remove("hidden");
-  }  
+
+    updateVesselCreateEntryButtons();
+  }
 
   function renderCandidateButtons(vesselIds) {
     vesselCandidates.replaceChildren();
@@ -2392,11 +2496,28 @@ document.addEventListener("DOMContentLoaded", () => {
     openVesselCreateForm();
   });
 
-  cancelVesselCreateButton.addEventListener("click", () => {
-    vesselSuggestionToken += 1;
-    vesselCreatePanel.classList.add("hidden");
-    clearVesselCreateResult();
-  });
+  cancelVesselCreateButton.addEventListener(
+    "click",
+    () => {
+      if (vesselCreateBusy) {
+        return;
+      }
+
+      vesselSuggestionToken += 1;
+
+      vesselCreatePanel.classList.add(
+        "hidden"
+      );
+
+      clearVesselCreateResult();
+
+      /*
+       * Die beiden Einstiegsmöglichkeiten
+       * werden wieder freigegeben.
+       */
+      setVesselCreateActive(false);
+    }
+  );
 
   newVesselEnvironment.addEventListener("change", () => {
     requestVesselIdSuggestion();
