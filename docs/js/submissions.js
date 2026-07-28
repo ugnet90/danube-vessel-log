@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/submissions.js
-// Version: 0.13.10
+// Version: 0.14.2
 // Updated: 2026-07-28
 
 "use strict";
@@ -49,6 +49,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const noPhotoMessage = byId("noPhotoMessage");
   const capturedAt = byId("capturedAt");
   const locationText = byId("locationText");
+
+  const berthText =
+    byId("berthText");
+
+  const berthOverviewWrap =
+    byId("berthOverviewWrap");
+
   const movementText = byId("movementText");
   const directionText = byId("directionText");
   const enteredName = byId("enteredName");
@@ -432,6 +439,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return String(value);
   }
+
+  function formatBerth(
+    berth,
+    movement = "unknown"
+  ) {
+    const source =
+      berth &&
+      typeof berth === "object"
+        ? berth
+        : {};
+
+    const status =
+      String(
+        source.status ?? ""
+      ).trim();
+
+    if (status === "matched") {
+      return (
+        source.short_name ||
+        source.name ||
+        source.id ||
+        "Ausgewählte Anlegestelle"
+      );
+    }
+
+    if (status === "unlisted") {
+      return (
+        source.name ||
+        "Andere, nicht gelistete Anlegestelle"
+      );
+    }
+
+    if (status === "not_applicable") {
+      return "Keine Anlegestelle";
+    }
+
+    if (status === "unknown") {
+      return "Anlegestelle unbekannt";
+    }
+
+    /*
+     * Rückwärtskompatibilität für
+     * ältere API-Antworten.
+     */
+    return movement === "moving"
+      ? "Keine Anlegestelle"
+      : "Anlegestelle unbekannt";
+  }
+
+  function berthDetails(berth) {
+    if (
+      !berth ||
+      typeof berth !== "object" ||
+      berth.status !== "matched"
+    ) {
+      return "";
+    }
+
+    return [
+      berth.river_km_text,
+      berth.facility_type,
+      berth.mooring_order
+    ]
+      .filter(Boolean)
+      .join(" · ");
+  }  
 
   function formatList(value) {
     if (!Array.isArray(value) || value.length === 0) {
@@ -2108,6 +2181,29 @@ document.addEventListener("DOMContentLoaded", () => {
       locationParts.length > 0
         ? locationParts.join(", ")
         : "—";
+
+    berthText.textContent =
+      formatBerth(
+        submission.berth,
+        submission.movement
+      );
+
+    berthText.title =
+      berthDetails(
+        submission.berth
+      );
+
+    const showBerthOverview =
+      submission.location?.id ===
+        "LOC-001" ||
+      submission.berth
+        ?.location_id ===
+        "LOC-001";
+
+    berthOverviewWrap.classList.toggle(
+      "hidden",
+      !showBerthOverview
+    );
 
     movementText.textContent =
       movementLabels[submission.movement] ??
