@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.13.9
- * Updated: 2026-07-27
+ * Version: 0.14.1
+ * Updated: 2026-07-28
  */
 
 const API_VERSION = "2022-11-28";
@@ -11,6 +11,7 @@ const MAX_PHOTOS_PER_SUBMISSION = 10;
 const VESSEL_DETAIL_SUBMISSION_SCAN_LIMIT = 100;
 const BRANCH = "main";
 const LOCATIONS_PATH = "data/locations.csv";
+const BERTHS_PATH = "data/berths.csv";
 const VESSELS_PATH = "data/vessels.csv";
 const VESSELS_DIRECTORY = "data/vessels";
 const VESSEL_COUNTERS_PATH = "data/counters.json";
@@ -177,6 +178,21 @@ export default {
         service: "danube-vessel-api",
         message: "Worker ist erreichbar."
       });
+    }
+
+    if (request.method === "GET" && url.pathname === "/berths") {
+      try {
+        return await handleBerthsList(request, env);
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error: "Unbehandelter Fehler beim Laden der Anlegestellen.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error)
+        }, 500);
+      }
     }
 
     if (request.method === "GET" && url.pathname === "/ais-live-config") {
@@ -1292,7 +1308,25 @@ async function createJsonSubmission(request, env) {
     locationResult.location ? "matched" : "unknown";
   
   input.location_matched_by =
-    locationResult.matched_by ?? "";  
+    locationResult.matched_by ?? "";
+
+  const berthResult = await resolveBerth({
+    input,
+    location: locationResult.location,
+    env
+  });
+
+  if (!berthResult.ok) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: berthResult.error
+      },
+      berthResult.status ?? 502
+    );
+  }
+
+  input.berth = berthResult.berth;
 
   const vesselMatchResult = await resolveVessel(input, env);
   
@@ -1642,6 +1676,24 @@ async function createPhotoSubmission(request, env) {
 
   input.location_matched_by =
     locationResult.matched_by ?? "";
+
+  const berthResult = await resolveBerth({
+    input,
+    location: locationResult.location,
+    env
+  });
+
+  if (!berthResult.ok) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: berthResult.error
+      },
+      berthResult.status ?? 502
+    );
+  }
+
+  input.berth = berthResult.berth;
 
   const vesselMatchResult =
     await resolveVessel(input, env);
@@ -2105,6 +2157,11 @@ async function loadVesselSightings({
               municipality: "",
               country: ""
             },
+
+      berth: normalizeSubmissionBerth(
+        submission.berth,
+        submission.movement ?? "unknown"
+      ),
 
       movement:
         typeof submission.movement ===
@@ -8620,6 +8677,11 @@ async function handleReviewSubmissionsList(request, env) {
           submission.location?.country ?? ""
       },
 
+      berth: normalizeSubmissionBerth(
+        submission.berth,
+        submission.movement ?? "unknown"
+      ),
+
       movement:
         submission.movement ?? "unknown",
 
@@ -9051,7 +9113,7 @@ function buildSubmission({
   photos
 }) {
   return {
-    schema_version: 10,
+    schema_version: 11,
     submission_id: submissionId,
     uploaded_at: uploadedAt.toISOString(),
     captured_at: capturedAt.toISOString(),
@@ -9086,6 +9148,10 @@ function buildSubmission({
           ? input.location_country
           : ""
     },
+    berth: normalizeSubmissionBerth(
+      input.berth,
+      input.movement ?? "unknown"
+    ),
     movement: input.movement ?? "unknown",
     direction: input.direction ?? "unknown",
     vessel_name_entered:
@@ -9430,7 +9496,547 @@ function validateMetadata(input) {
     return "photo_lon ist ungültig.";
   }
 
+  const allowedBerthStatuses = [
+    "matched",
+    "unknown",
+    "not_applicable",
+    "unlisted"
+  ];
+
+  if (
+    input.berth_status !== undefined &&
+    !allowedBerthStatuses.includes(
+      String(input.berth_status).trim()
+    )
+  ) {
+    return "berth_status ist ungültig.";
+  }
+
+  if (
+    input.berth_id !== undefined &&
+    String(input.berth_id).trim() !== "" &&
+    !/^BER-\d{6}$/.test(
+      String(input.berth_id).trim()
+    )
+  ) {
+    return "berth_id muss dem Format BER-000001 entsprechen.";
+  }
+
+  if (
+    String(input.berth_status ?? "").trim() === "matched" &&
+    !/^BER-\d{6}$/.test(
+      String(input.berth_id ?? "").trim()
+    )
+  ) {
+    return "Bei berth_status matched ist eine gültige berth_id erforderlich.";
+  }
+
+  if (
+    input.berth_name_entered !== undefined &&
+    typeof input.berth_name_entered !== "string"
+  ) {
+    return "berth_name_entered muss Text sein.";
+  }
+
+  if (
+    typeof input.berth_name_entered === "string" &&
+    input.berth_name_entered.length > 150
+  ) {
+    return "berth_name_entered darf höchstens 150 Zeichen enthalten.";
+  }
+
   return null;
+}
+
+function parseCsvBoolean(value) {
+  return ["1", "true", "yes", "ja", "x"]
+    .includes(
+      String(value ?? "")
+        .trim()
+        .toLowerCase()
+    );
+}
+
+function normalizeSubmissionBerth(
+  berth,
+  movement = "unknown"
+) {
+  const fallbackStatus =
+    movement === "moving"
+      ? "not_applicable"
+      : "unknown";
+
+  const source =
+    berth && typeof berth === "object"
+      ? berth
+      : {};
+
+  const allowedStatuses = new Set([
+    "matched",
+    "unknown",
+    "not_applicable",
+    "unlisted"
+  ]);
+
+  const status = allowedStatuses.has(
+    String(source.status ?? "").trim()
+  )
+    ? String(source.status).trim()
+    : fallbackStatus;
+
+  const numberOrNull = value => {
+    if (
+      value === null ||
+      value === undefined ||
+      value === ""
+    ) {
+      return null;
+    }
+
+    const number = Number(
+      String(value).replace(",", ".")
+    );
+
+    return Number.isFinite(number)
+      ? number
+      : null;
+  };
+
+  const integerOrNull = value => {
+    const number = numberOrNull(value);
+
+    return Number.isInteger(number)
+      ? number
+      : null;
+  };
+
+  return {
+    status,
+    matched_by:
+      typeof source.matched_by === "string"
+        ? source.matched_by
+        : "",
+    id:
+      typeof source.id === "string"
+        ? source.id
+        : "",
+    name:
+      typeof source.name === "string"
+        ? source.name
+        : "",
+    short_name:
+      typeof source.short_name === "string"
+        ? source.short_name
+        : "",
+    station_number:
+      typeof source.station_number === "string"
+        ? source.station_number
+        : "",
+    location_id:
+      typeof source.location_id === "string"
+        ? source.location_id
+        : "",
+    municipality:
+      typeof source.municipality === "string"
+        ? source.municipality
+        : "",
+    country:
+      typeof source.country === "string"
+        ? source.country
+        : "",
+    river:
+      typeof source.river === "string"
+        ? source.river
+        : "",
+    bank:
+      typeof source.bank === "string"
+        ? source.bank
+        : "",
+    relative_to_reference:
+      typeof source.relative_to_reference === "string"
+        ? source.relative_to_reference
+        : "",
+    river_km:
+      numberOrNull(source.river_km),
+    river_km_text:
+      typeof source.river_km_text === "string"
+        ? source.river_km_text
+        : "",
+    facility_type:
+      typeof source.facility_type === "string"
+        ? source.facility_type
+        : "",
+    mooring_order:
+      typeof source.mooring_order === "string"
+        ? source.mooring_order
+        : "",
+    entry_count:
+      integerOrNull(source.entry_count),
+    entry_height:
+      typeof source.entry_height === "string"
+        ? source.entry_height
+        : "",
+    latitude:
+      numberOrNull(source.latitude),
+    longitude:
+      numberOrNull(source.longitude),
+    address:
+      typeof source.address === "string"
+        ? source.address
+        : "",
+    access_type:
+      typeof source.access_type === "string"
+        ? source.access_type
+        : "",
+    source_url:
+      typeof source.source_url === "string"
+        ? source.source_url
+        : "",
+    source_checked_at:
+      typeof source.source_checked_at === "string"
+        ? source.source_checked_at
+        : ""
+  };
+}
+
+async function loadBerths(env) {
+  const file = await readGitHubFile({
+    env,
+    path: BERTHS_PATH
+  });
+
+  if (!file.ok) {
+    return {
+      ok: false,
+      status: file.status ?? 502,
+      error:
+        "data/berths.csv konnte nicht aus GitHub geladen werden."
+    };
+  }
+
+  try {
+    return {
+      ok: true,
+      berths: parseBerthsCsv(file.content)
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      status: 500,
+      error:
+        error instanceof Error
+          ? error.message
+          : "data/berths.csv konnte nicht verarbeitet werden."
+    };
+  }
+}
+
+function parseBerthsCsv(csvText) {
+  const lines = String(csvText ?? "")
+    .replace(/^\uFEFF/, "")
+    .split(/\r?\n/)
+    .filter(line => line.trim() !== "");
+
+  if (lines.length < 2) {
+    throw new Error(
+      "berths.csv enthält keine Anlegestellen."
+    );
+  }
+
+  const headers = lines[0]
+    .split(";")
+    .map(value => value.trim());
+
+  const requiredHeaders = [
+    "berth_id",
+    "location_id",
+    "public_name",
+    "active"
+  ];
+
+  for (const header of requiredHeaders) {
+    if (!headers.includes(header)) {
+      throw new Error(
+        `berths.csv: Spalte ${header} fehlt.`
+      );
+    }
+  }
+
+  const berths = [];
+
+  for (const line of lines.slice(1)) {
+    const values = line.split(";");
+    const row = {};
+
+    headers.forEach((header, index) => {
+      row[header] =
+        String(values[index] ?? "").trim();
+    });
+
+    if (
+      !/^BER-\d{6}$/.test(row.berth_id) ||
+      !/^LOC-\d{3,}$/.test(row.location_id) ||
+      !row.public_name
+    ) {
+      continue;
+    }
+
+    const riverKm = parseCoordinate(
+      row.river_km
+    );
+
+    const latitude = parseCoordinate(
+      row.latitude
+    );
+
+    const longitude = parseCoordinate(
+      row.longitude
+    );
+
+    const entryCount = Number(
+      row.entry_count
+    );
+
+    const displayOrder = Number(
+      row.display_order
+    );
+
+    berths.push({
+      ...row,
+      river_km: riverKm,
+      latitude,
+      longitude,
+      entry_count:
+        Number.isInteger(entryCount)
+          ? entryCount
+          : null,
+      display_order:
+        Number.isFinite(displayOrder)
+          ? displayOrder
+          : 9999,
+      active: parseCsvBoolean(row.active)
+    });
+  }
+
+  return berths.sort(
+    (left, right) =>
+      left.display_order -
+        right.display_order ||
+      left.public_name.localeCompare(
+        right.public_name,
+        "de"
+      )
+  );
+}
+
+async function handleBerthsList(request, env) {
+  const url = new URL(request.url);
+
+  const locationId = String(
+    url.searchParams.get("location_id") ?? ""
+  ).trim();
+
+  if (
+    locationId &&
+    !/^LOC-\d{3,}$/.test(locationId)
+  ) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "location_id muss dem Format LOC-001 entsprechen."
+    }, 400);
+  }
+
+  const result = await loadBerths(env);
+
+  if (!result.ok) {
+    return jsonResponse({
+      ok: false,
+      error: result.error
+    }, result.status ?? 502);
+  }
+
+  const berths = result.berths.filter(
+    berth =>
+      berth.active &&
+      (
+        !locationId ||
+        berth.location_id === locationId
+      )
+  );
+
+  return jsonResponse({
+    ok: true,
+    location_id: locationId,
+    count: berths.length,
+    berths
+  });
+}
+
+async function resolveBerth({
+  input,
+  location,
+  env
+}) {
+  const enteredId = String(
+    input.berth_id ?? ""
+  ).trim();
+
+  const enteredName = String(
+    input.berth_name_entered ?? ""
+  ).trim();
+
+  let status = String(
+    input.berth_status ?? ""
+  ).trim();
+
+  if (!status) {
+    if (enteredId) {
+      status = "matched";
+    } else {
+      status =
+        input.movement === "moving"
+          ? "not_applicable"
+          : "unknown";
+    }
+  }
+
+  if (status === "not_applicable") {
+    return {
+      ok: true,
+      berth: normalizeSubmissionBerth(
+        {
+          status,
+          matched_by: "selection"
+        },
+        input.movement
+      )
+    };
+  }
+
+  if (status === "unknown") {
+    return {
+      ok: true,
+      berth: normalizeSubmissionBerth(
+        {
+          status,
+          matched_by: "selection",
+          location_id:
+            location?.location_id ?? ""
+        },
+        input.movement
+      )
+    };
+  }
+
+  if (status === "unlisted") {
+    return {
+      ok: true,
+      berth: normalizeSubmissionBerth(
+        {
+          status,
+          matched_by: "manual_text",
+          name:
+            enteredName ||
+            "Andere, nicht gelistete Anlegestelle",
+          location_id:
+            location?.location_id ?? "",
+          municipality:
+            location?.municipality ?? "",
+          country:
+            location?.country ?? ""
+        },
+        input.movement
+      )
+    };
+  }
+
+  const berthsResult = await loadBerths(env);
+
+  if (!berthsResult.ok) {
+    return berthsResult;
+  }
+
+  const berth = berthsResult.berths.find(
+    item =>
+      item.berth_id === enteredId &&
+      item.active
+  );
+
+  if (!berth) {
+    return {
+      ok: false,
+      status: 400,
+      error:
+        `Die Anlegestelle ${enteredId || "(leer)"} ist nicht vorhanden oder inaktiv.`
+    };
+  }
+
+  if (
+    location?.location_id &&
+    berth.location_id &&
+    berth.location_id !==
+      location.location_id
+  ) {
+    return {
+      ok: false,
+      status: 409,
+      error:
+        `${berth.public_name} gehört nicht zum ermittelten Aufnahmeort ${location.location_id}.`
+    };
+  }
+
+  return {
+    ok: true,
+    berth: normalizeSubmissionBerth(
+      {
+        status: "matched",
+        matched_by: "berth_id",
+        id: berth.berth_id,
+        name: berth.public_name,
+        short_name: berth.short_name,
+        station_number:
+          berth.station_number,
+        location_id:
+          berth.location_id,
+        municipality:
+          berth.municipality,
+        country:
+          berth.country,
+        river:
+          berth.river,
+        bank:
+          berth.bank,
+        relative_to_reference:
+          berth.relative_to_reference,
+        river_km:
+          berth.river_km,
+        river_km_text:
+          berth.river_km_text,
+        facility_type:
+          berth.facility_type,
+        mooring_order:
+          berth.mooring_order,
+        entry_count:
+          berth.entry_count,
+        entry_height:
+          berth.entry_height,
+        latitude:
+          berth.latitude,
+        longitude:
+          berth.longitude,
+        address:
+          berth.address,
+        access_type:
+          berth.access_type,
+        source_url:
+          berth.source_url,
+        source_checked_at:
+          berth.source_checked_at
+      },
+      input.movement
+    )
+  };
 }
 
 async function resolveLocation(input, env) {
