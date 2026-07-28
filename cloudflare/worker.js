@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.1
+ * Version: 0.14.3
  * Updated: 2026-07-28
  */
 
@@ -12,6 +12,7 @@ const VESSEL_DETAIL_SUBMISSION_SCAN_LIMIT = 100;
 const BRANCH = "main";
 const LOCATIONS_PATH = "data/locations.csv";
 const BERTHS_PATH = "data/berths.csv";
+const VESSEL_PHOTOS_DIRECTORY = "data/vessel_photos";
 const VESSELS_PATH = "data/vessels.csv";
 const VESSELS_DIRECTORY = "data/vessels";
 const VESSEL_COUNTERS_PATH = "data/counters.json";
@@ -561,6 +562,22 @@ export default {
       url.pathname === "/submission-photo"
     ) {
       return createPhotoSubmission(request, env);
+    }
+
+    if (
+      request.method === "POST" &&
+      url.pathname === "/photo-attachment"
+    ) {
+      try {
+        return await handlePhotoAttachment(request, env);
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error: "Unbehandelter Fehler beim Ergänzen der Fotos.",
+          exception: error instanceof Error ? error.message : String(error),
+          stack: error instanceof Error ? error.stack : null
+        }, 500);
+      }
     }
 
     if (
@@ -1872,6 +1889,217 @@ async function createPhotoSubmission(request, env) {
     },
     201
   );
+}
+
+
+function createVesselPhotosPath(vesselId) {
+  return `${VESSEL_PHOTOS_DIRECTORY}/${vesselId}.json`;
+}
+
+function validateAttachmentTarget(input) {
+  const targetType = String(input?.target_type ?? "").trim();
+  const submissionId = String(input?.submission_id ?? "").trim();
+  const vesselId = String(input?.vessel_id ?? "").trim();
+
+  if (!new Set(["submission", "vessel"]).has(targetType)) {
+    return { ok: false, error: "target_type muss submission oder vessel sein." };
+  }
+
+  if (targetType === "submission" && !/^SUB-[A-Z0-9-]{8,80}$/.test(submissionId)) {
+    return { ok: false, error: "submission_id fehlt oder ist ungültig." };
+  }
+
+  if (targetType === "vessel" && !VESSEL_ID_PATTERN.test(vesselId)) {
+    return { ok: false, error: "vessel_id fehlt oder ist ungültig." };
+  }
+
+  return { ok: true, targetType, submissionId, vesselId };
+}
+
+async function readAttachmentPhotos(form) {
+  const photoEntries = [...form.getAll("photo"), ...form.getAll("photos")];
+  const multipartPhotos = photoEntries.filter(value => value instanceof File && value.size > 0);
+  const photosBase64Raw = form.get("photos_base64");
+  const base64Photos = [];
+
+  if (typeof photosBase64Raw === "string" && photosBase64Raw.trim()) {
+    const values = photosBase64Raw.split(/\r?\n/).map(value => value.trim()).filter(Boolean);
+
+    for (let index = 0; index < values.length; index += 1) {
+      let encoded = values[index];
+      const commaIndex = encoded.indexOf(",");
+      if (encoded.startsWith("data:") && commaIndex >= 0) encoded = encoded.slice(commaIndex + 1);
+
+      let binary;
+      try { binary = atob(encoded); }
+      catch { return { ok: false, status: 400, error: `Foto ${index + 1} enthält kein gültiges Base64.` }; }
+
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+      base64Photos.push(new File([bytes], `shortcut-photo-${String(index + 1).padStart(2, "0")}.jpg`, { type: "image/jpeg" }));
+    }
+  }
+
+  const photos = base64Photos.length > 0 ? base64Photos : multipartPhotos;
+
+  if (photos.length === 0) return { ok: false, status: 400, error: "Es wurde kein gültiges Foto übermittelt." };
+  if (photos.length > MAX_PHOTOS_PER_SUBMISSION) return { ok: false, status: 413, error: `Pro Upload sind höchstens ${MAX_PHOTOS_PER_SUBMISSION} Fotos erlaubt.` };
+
+  for (let index = 0; index < photos.length; index += 1) {
+    const photo = photos[index];
+    if (!new Set(["image/jpeg", "image/jpg"]).has(photo.type)) return { ok: false, status: 415, error: `Foto ${index + 1}: Nur JPEG ist erlaubt.` };
+    if (photo.size < 1) return { ok: false, status: 400, error: `Foto ${index + 1} ist leer.` };
+    if (photo.size > MAX_PHOTO_BYTES) return { ok: false, status: 413, error: `Foto ${index + 1} ist größer als 8 MB.` };
+  }
+
+  return { ok: true, photos, base64Count: base64Photos.length, multipartCount: multipartPhotos.length };
+}
+
+async function findSubmissionFile(env, submissionId) {
+  const pathsResult = await listSubmissionPaths(env);
+  if (!pathsResult.ok) return pathsResult;
+
+  const suffix = `/${submissionId}.json`;
+  const path = pathsResult.paths.find(item => item.endsWith(suffix));
+  if (!path) return { ok: false, status: 404, error: `Die Sichtung ${submissionId} wurde nicht gefunden.` };
+
+  const file = await readGitHubFile({ env, path });
+  if (!file.ok) return { ok: false, status: file.status ?? 502, error: `Die Sichtung ${submissionId} konnte nicht gelesen werden.` };
+
+  try {
+    return { ok: true, path, submission: JSON.parse(String(file.content ?? "").replace(/^\uFEFF/, "")) };
+  } catch {
+    return { ok: false, status: 500, error: `Die Sichtung ${submissionId} enthält ungültiges JSON.` };
+  }
+}
+
+async function loadDirectVesselPhotos(env, vesselId) {
+  const path = createVesselPhotosPath(vesselId);
+  const file = await readGitHubFile({ env, path });
+
+  if (!file.ok && file.status === 404) {
+    return { ok: true, path, document: { schema_version: 1, vessel_id: vesselId, photos: [], updated_at: "" } };
+  }
+  if (!file.ok) return { ok: false, status: file.status ?? 502, error: `Direkte Fotos für ${vesselId} konnten nicht gelesen werden.` };
+
+  try {
+    const document = JSON.parse(String(file.content ?? "").replace(/^\uFEFF/, ""));
+    if (!Array.isArray(document.photos)) document.photos = [];
+    return { ok: true, path, document };
+  } catch {
+    return { ok: false, status: 500, error: `Die Datei ${path} enthält ungültiges JSON.` };
+  }
+}
+
+async function handlePhotoAttachment(request, env) {
+  const authError = checkUploadKey(request, env);
+  if (authError) return authError;
+
+  const contentType = request.headers.get("Content-Type") ?? "";
+  if (!contentType.toLowerCase().includes("multipart/form-data")) {
+    return jsonResponse({ ok: false, error: "Content-Type muss multipart/form-data sein." }, 415);
+  }
+
+  let form;
+  try { form = await request.formData(); }
+  catch { return jsonResponse({ ok: false, error: "Die Formulardaten konnten nicht gelesen werden." }, 400); }
+
+  const metadataRaw = form.get("metadata");
+  if (typeof metadataRaw !== "string") return jsonResponse({ ok: false, error: "Das Formularfeld metadata fehlt." }, 400);
+
+  let input;
+  try { input = JSON.parse(metadataRaw); }
+  catch { return jsonResponse({ ok: false, error: "metadata enthält kein gültiges JSON." }, 400); }
+
+  const target = validateAttachmentTarget(input);
+  if (!target.ok) return jsonResponse({ ok: false, error: target.error }, 400);
+
+  const photoResult = await readAttachmentPhotos(form);
+  if (!photoResult.ok) return jsonResponse({ ok: false, error: photoResult.error }, photoResult.status);
+
+  const uploadedAt = new Date();
+  let capturedAt = new Date(input.captured_at ?? uploadedAt.toISOString());
+  if (Number.isNaN(capturedAt.getTime())) capturedAt = uploadedAt;
+
+  let submissionFile = null;
+  let vesselPhotosFile = null;
+
+  if (target.targetType === "submission") {
+    submissionFile = await findSubmissionFile(env, target.submissionId);
+    if (!submissionFile.ok) return jsonResponse({ ok: false, error: submissionFile.error }, submissionFile.status ?? 502);
+    const submissionCapturedAt = new Date(submissionFile.submission.captured_at ?? "");
+    if (!input.captured_at && !Number.isNaN(submissionCapturedAt.getTime())) capturedAt = submissionCapturedAt;
+  } else {
+    const vesselResult = await loadCanonicalVessel(env, target.vesselId);
+    if (!vesselResult.ok) return jsonResponse({ ok: false, error: vesselResult.error }, vesselResult.status === 404 ? 404 : 502);
+    vesselPhotosFile = await loadDirectVesselPhotos(env, target.vesselId);
+    if (!vesselPhotosFile.ok) return jsonResponse({ ok: false, error: vesselPhotosFile.error }, vesselPhotosFile.status ?? 502);
+  }
+
+  const year = String(capturedAt.getUTCFullYear());
+  const month = String(capturedAt.getUTCMonth() + 1).padStart(2, "0");
+  const originalFilenames = Array.isArray(input.original_filenames) ? input.original_filenames : [];
+  const records = [];
+  const files = [];
+
+  for (let index = 0; index < photoResult.photos.length; index += 1) {
+    const photo = photoResult.photos[index];
+    const photoId = createPhotoId();
+    const path = `inbox/photos/${year}/${month}/${photoId}.jpg`;
+    const bytes = await photo.arrayBuffer();
+    const originalFilename = (typeof originalFilenames[index] === "string" ? originalFilenames[index].trim() : "") || photo.name || "";
+
+    records.push({
+      photo_id: photoId,
+      path,
+      filename: `${photoId}.jpg`,
+      original_filename: originalFilename,
+      mime_type: "image/jpeg",
+      size_bytes: bytes.byteLength,
+      sequence: index + 1,
+      captured_at: capturedAt.toISOString(),
+      added_at: uploadedAt.toISOString(),
+      source: target.targetType === "submission" ? "submission_supplement" : "direct_vessel_upload",
+      notes: String(input.notes ?? "").trim()
+    });
+
+    files.push({ path, content: arrayBufferToBase64(bytes), encoding: "base64" });
+  }
+
+  if (target.targetType === "submission") {
+    const existing = Array.isArray(submissionFile.submission.photos) ? submissionFile.submission.photos : [];
+    submissionFile.submission.photos = [...existing, ...records.map((record, index) => ({ ...record, sequence: existing.length + index + 1 }))];
+    submissionFile.submission.photo_count = submissionFile.submission.photos.length;
+    submissionFile.submission.updated_at = uploadedAt.toISOString();
+    files.push({ path: submissionFile.path, content: JSON.stringify(submissionFile.submission, null, 2) + "\n", encoding: "utf-8" });
+  } else {
+    vesselPhotosFile.document.schema_version = 1;
+    vesselPhotosFile.document.vessel_id = target.vesselId;
+    vesselPhotosFile.document.photos = [...vesselPhotosFile.document.photos, ...records];
+    vesselPhotosFile.document.updated_at = uploadedAt.toISOString();
+    files.push({ path: vesselPhotosFile.path, content: JSON.stringify(vesselPhotosFile.document, null, 2) + "\n", encoding: "utf-8" });
+  }
+
+  const commitResult = await createAtomicGitHubCommit({
+    env,
+    message: target.targetType === "submission"
+      ? `${records.length} Foto(s) zu ${target.submissionId} ergänzt`
+      : `${records.length} Foto(s) zu ${target.vesselId} ergänzt`,
+    files
+  });
+
+  if (!commitResult.ok) return jsonResponse({ ok: false, error: "Die ergänzenden Fotos konnten nicht gespeichert werden.", github_step: commitResult.step, github_status: commitResult.status, github_response: commitResult.body }, 502);
+
+  return jsonResponse({
+    ok: true,
+    message: `${records.length} Foto(s) wurden ergänzt.`,
+    target_type: target.targetType,
+    submission_id: target.submissionId || "",
+    vessel_id: target.vesselId || "",
+    photo_count: records.length,
+    photos: records.map(record => ({ photo_id: record.photo_id, photo_path: record.path, original_filename: record.original_filename, size_bytes: record.size_bytes })),
+    commit_sha: commitResult.commitSha
+  }, 201);
 }
 
 
