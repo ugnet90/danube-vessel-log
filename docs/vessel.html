@@ -2,7 +2,7 @@
 <!--
   Danube Vessel Log
   File: docs/vessel.html
-  Version: 0.13.4
+  Version: 0.13.9
   Updated: 2026-07-27
 -->
 <html lang="de">
@@ -11,7 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Schiff</title>
   <link rel="stylesheet" href="css/common.css">
-  <link rel="stylesheet" href="css/vessel.css">
+  <link rel="stylesheet" href="css/vessel.css?v=0.13.9">
 </head>
 <body>
   <div class="site-nav-shell" data-site-nav></div>
@@ -846,6 +846,105 @@
           <h3>Notizen</h3>
           <p id="notes"></p>
         </div>
+
+        <section
+          class="danger-zone"
+          aria-labelledby="deleteVesselHeading"
+        >
+          <div>
+            <h3 id="deleteVesselHeading">
+              Gefahrenbereich
+            </h3>
+
+            <p>
+              Das Schiff kann einschließlich aller zugeordneten
+              Sichtungen und Fotos aus dem aktuellen Projektstand
+              gelöscht werden. Der Kandidatenkatalog bleibt erhalten.
+            </p>
+          </div>
+
+          <button
+            id="prepareDeleteButton"
+            class="danger-button"
+            type="button"
+            disabled
+          >
+            Vollständige Löschung vorbereiten
+          </button>
+
+          <div
+            id="deleteVesselPanel"
+            class="delete-vessel-panel hidden"
+          >
+            <h4>Löschvorschau</h4>
+
+            <dl class="delete-preview-grid">
+              <div>
+                <dt>Schiff</dt>
+                <dd id="deletePreviewVessel">–</dd>
+              </div>
+
+              <div>
+                <dt>Sichtungen</dt>
+                <dd id="deletePreviewSubmissions">0</dd>
+              </div>
+
+              <div>
+                <dt>Fotos</dt>
+                <dd id="deletePreviewPhotos">0</dd>
+              </div>
+
+              <div>
+                <dt>Fehlende Fotodateien</dt>
+                <dd id="deletePreviewMissingPhotos">0</dd>
+              </div>
+            </dl>
+
+            <p class="delete-warning">
+              Diese Aktion kann über die Weboberfläche nicht
+              rückgängig gemacht werden.
+            </p>
+
+            <label class="delete-confirmation-field">
+              <span>
+                Zur Bestätigung exakt eingeben:
+                <strong id="deleteConfirmationExpected"></strong>
+              </span>
+
+              <input
+                id="deleteConfirmationInput"
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+              >
+            </label>
+
+            <div class="delete-actions">
+              <button
+                id="cancelDeleteButton"
+                class="secondary-button"
+                type="button"
+              >
+                Abbrechen
+              </button>
+
+              <button
+                id="confirmDeleteButton"
+                class="danger-button"
+                type="button"
+                disabled
+              >
+                Schiff endgültig löschen
+              </button>
+            </div>
+
+            <div
+              id="deleteVesselStatus"
+              class="delete-vessel-status"
+              aria-live="polite"
+            ></div>
+          </div>
+        </section>
       </section>
       
       <section class="detail-card">
@@ -881,6 +980,6 @@
   <script src="js/nav.js"></script>
   <script src="js/api.js"></script>
   <script src="js/vessel_reference.js"></script>
-  <script src="js/vessel.js"></script>
+  <script src="js/vessel.js?v=0.13.9"></script>
 </body>
 </html>
