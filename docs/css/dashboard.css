@@ -1,0 +1,389 @@
+/*
+ * Danube Vessel Log
+ * File: docs/css/dashboard.css
+ * Version: 0.14.0
+ * Updated: 2026-07-28
+ */
+
+.dashboard-page {
+  width: min(
+    1400px,
+    calc(100% - 32px)
+  );
+  margin: 0 auto;
+  padding: 28px 0 48px;
+}
+
+.dashboard-header,
+.dashboard-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.dashboard-header {
+  margin-bottom: 18px;
+}
+
+.dashboard-header h1,
+.dashboard-card-header h2 {
+  margin: 0;
+}
+
+.dashboard-header p,
+.dashboard-card-header p {
+  margin: 6px 0 0;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+.dashboard-page .primary-button,
+.dashboard-page .secondary-button {
+  display: inline-flex;
+  width: auto;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.dashboard-connection-card,
+.dashboard-card,
+.dashboard-metric-card {
+  border: 1px solid #d9e0e7;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow:
+    0 3px 12px
+    rgb(15 23 42 / 5%);
+}
+
+.dashboard-connection-card {
+  margin-bottom: 14px;
+  padding: 14px 18px 0;
+}
+
+.dashboard-key-field {
+  max-width: 360px;
+}
+
+.dashboard-page-status {
+  min-height: 28px;
+  margin-bottom: 12px;
+  color: #52606d;
+}
+
+.dashboard-page-status.success {
+  color: #067647;
+}
+
+.dashboard-page-status.warning {
+  color: #9a6700;
+}
+
+.dashboard-page-status.error {
+  color: #b42318;
+}
+
+.dashboard-summary {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.dashboard-metric-card {
+  display: flex;
+  min-height: 142px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 19px;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color 120ms ease,
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.dashboard-metric-card:hover,
+.dashboard-metric-card:focus-visible {
+  border-color: #8fb1f4;
+  outline: 0;
+  box-shadow:
+    0 7px 20px
+    rgb(37 99 235 / 12%);
+  transform: translateY(-1px);
+}
+
+.dashboard-metric-label {
+  color: #52606d;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.dashboard-metric-value {
+  margin-top: 7px;
+  color: #17212b;
+  font-size: 2.15rem;
+  line-height: 1;
+}
+
+.dashboard-metric-card small {
+  margin-top: 9px;
+  color: #7b8794;
+  line-height: 1.35;
+}
+
+.dashboard-main-grid {
+  display: grid;
+  grid-template-columns:
+    minmax(300px, 0.9fr)
+    minmax(420px, 1.4fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.dashboard-card {
+  padding: 20px;
+}
+
+.dashboard-card-header {
+  margin-bottom: 16px;
+}
+
+.dashboard-small-button {
+  flex: 0 0 auto;
+  padding: 8px 11px;
+  font-size: 0.88rem;
+}
+
+.dashboard-task-list,
+.dashboard-vessel-list {
+  display: grid;
+  gap: 9px;
+}
+
+.dashboard-task-item,
+.dashboard-vessel-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 14px;
+  border: 1px solid #e2e8ef;
+  border-radius: 10px;
+  background: #f8fafc;
+  color: inherit;
+  text-decoration: none;
+}
+
+.dashboard-task-item:hover,
+.dashboard-task-item:focus-visible,
+.dashboard-vessel-row:hover,
+.dashboard-vessel-row:focus-visible {
+  border-color: #9ab7ef;
+  background: #f4f7ff;
+  outline: 0;
+}
+
+.dashboard-task-item.warning {
+  border-color: #f1d38a;
+  background: #fffbeb;
+}
+
+.dashboard-task-item.error {
+  border-color: #efb6b2;
+  background: #fff7f6;
+}
+
+.dashboard-task-text,
+.dashboard-vessel-main,
+.dashboard-vessel-meta {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.dashboard-task-text span,
+.dashboard-vessel-main span {
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+.dashboard-task-count {
+  display: grid;
+  min-width: 34px;
+  min-height: 30px;
+  place-items: center;
+  flex: 0 0 auto;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #e7efff;
+  color: #1d4ed8;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.dashboard-vessel-meta {
+  align-items: flex-end;
+  flex: 0 0 auto;
+  color: #64748b;
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+.dashboard-vessel-status {
+  display: inline-flex;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #334155;
+  font-weight: 700;
+}
+
+.dashboard-vessel-status.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.dashboard-vessel-status.inactive,
+.dashboard-vessel-status.unknown {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.dashboard-vessel-status.scrapped {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.dashboard-vessel-meta > span:last-child {
+  margin-top: 5px;
+}
+
+.dashboard-empty-state {
+  padding: 20px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  color: #64748b;
+  text-align: center;
+}
+
+.dashboard-system-card {
+  margin-top: 16px;
+}
+
+.dashboard-system-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  border: 1px solid #e2e8ef;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.dashboard-system-grid > div {
+  padding: 14px;
+  border-right: 1px solid #e2e8ef;
+}
+
+.dashboard-system-grid > div:last-child {
+  border-right: 0;
+}
+
+.dashboard-system-grid dt {
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.dashboard-system-grid dd {
+  margin: 5px 0 0;
+  color: #1f2933;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1000px) {
+  .dashboard-summary {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-system-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-system-grid > div:nth-child(2) {
+    border-right: 0;
+  }
+
+  .dashboard-system-grid > div:nth-child(-n + 2) {
+    border-bottom: 1px solid #e2e8ef;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-page {
+    width: min(
+      100% - 20px,
+      1400px
+    );
+    padding-top: 18px;
+  }
+
+  .dashboard-header,
+  .dashboard-card-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .dashboard-header button,
+  .dashboard-small-button {
+    width: 100%;
+  }
+
+  .dashboard-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-metric-card {
+    min-height: 118px;
+  }
+
+  .dashboard-vessel-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dashboard-vessel-meta {
+    width: 100%;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .dashboard-system-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-system-grid > div,
+  .dashboard-system-grid > div:nth-child(2),
+  .dashboard-system-grid > div:nth-child(-n + 2) {
+    border-right: 0;
+    border-bottom: 1px solid #e2e8ef;
+  }
+
+  .dashboard-system-grid > div:last-child {
+    border-bottom: 0;
+  }
+}
