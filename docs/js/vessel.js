@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.13.5
+// Version: 0.13.9
 // Updated: 2026-07-27
 
 "use strict";
@@ -52,6 +52,39 @@ document.addEventListener("DOMContentLoaded", () => {
   const sourceForm = byId("sourceForm");
   const saveSourceButton = byId("saveSourceButton");
   const cancelSourceButton = byId("cancelSourceButton");
+
+    const prepareDeleteButton =
+    byId("prepareDeleteButton");
+
+  const deleteVesselPanel =
+    byId("deleteVesselPanel");
+
+  const deletePreviewVessel =
+    byId("deletePreviewVessel");
+
+  const deletePreviewSubmissions =
+    byId("deletePreviewSubmissions");
+
+  const deletePreviewPhotos =
+    byId("deletePreviewPhotos");
+
+  const deletePreviewMissingPhotos =
+    byId("deletePreviewMissingPhotos");
+
+  const deleteConfirmationExpected =
+    byId("deleteConfirmationExpected");
+
+  const deleteConfirmationInput =
+    byId("deleteConfirmationInput");
+
+  const cancelDeleteButton =
+    byId("cancelDeleteButton");
+
+  const confirmDeleteButton =
+    byId("confirmDeleteButton");
+
+  const deleteVesselStatus =
+    byId("deleteVesselStatus");
   
   let currentVessel = null;
   let currentPayload = null;
@@ -62,7 +95,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let referenceReady = false;
   let editNameSearchToken = 0;
   let editNameSearchTimer = null;
-
+  let deletePanelActive = false;
+  let deleteBusy = false;
+  let deletePreview = null;
+  
   function value(input, suffix = "") {
     return (
       input === null ||
@@ -583,7 +619,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const navigationBlocked =
       editModeActive ||
-      sourceFormActive;
+      sourceFormActive ||
+      deletePanelActive ||
+      deleteBusy;
+
+    prepareDeleteButton.disabled =
+      navigationBlocked ||
+      !currentVessel;
 
     previousVesselButton.disabled =
       navigationBlocked ||
@@ -698,6 +740,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (
       editModeActive ||
       sourceFormActive ||
+      deletePanelActive ||
+      deleteBusy ||
       !/^VES-\d{6}$/.test(targetId)
     ) {
       return;
@@ -714,6 +758,287 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.assign(
       targetUrl.href
     );
+  }  
+
+  function updateDeleteConfirmation() {
+    const expected =
+      deletePreview?.confirmation_text ?? "";
+
+    confirmDeleteButton.disabled =
+      deleteBusy ||
+      !expected ||
+      deleteConfirmationInput
+        .value
+        .trim() !== expected;
+  }
+
+  function setDeleteBusy(busy) {
+    deleteBusy = Boolean(busy);
+
+    deleteConfirmationInput.disabled =
+      deleteBusy;
+
+    cancelDeleteButton.disabled =
+      deleteBusy;
+
+    confirmDeleteButton.textContent =
+      deleteBusy
+        ? "Schiff wird gelöscht …"
+        : "Schiff endgültig löschen";
+
+    editButton.disabled =
+      deleteBusy ||
+      deletePanelActive ||
+      editModeActive ||
+      !currentVessel;
+
+    addSourceButton.disabled =
+      deleteBusy ||
+      deletePanelActive ||
+      sourceFormActive ||
+      !currentVessel ||
+      !referenceReady;
+
+    reloadButton.disabled =
+      deleteBusy ||
+      deletePanelActive ||
+      editModeActive;
+
+    updateVesselNavigation();
+    updateDeleteConfirmation();
+  }
+
+  function closeDeletePanel() {
+    if (deleteBusy) return;
+
+    deletePanelActive = false;
+    deletePreview = null;
+
+    deleteConfirmationInput.value = "";
+    deleteConfirmationInput.disabled = false;
+
+    deleteVesselStatus.className =
+      "delete-vessel-status";
+
+    deleteVesselStatus.textContent = "";
+
+    deleteVesselPanel.classList.add(
+      "hidden"
+    );
+
+    editButton.disabled =
+      editModeActive ||
+      !currentVessel;
+
+    addSourceButton.disabled =
+      sourceFormActive ||
+      !currentVessel ||
+      !referenceReady;
+
+    reloadButton.disabled =
+      editModeActive;
+
+    updateVesselNavigation();
+    updateDeleteConfirmation();
+  }
+
+  async function loadDeletePreview() {
+    if (
+      !currentVessel ||
+      editModeActive ||
+      sourceFormActive ||
+      deleteBusy
+    ) {
+      return;
+    }
+
+    deletePanelActive = true;
+    deletePreview = null;
+
+    deleteVesselPanel.classList.remove(
+      "hidden"
+    );
+
+    deletePreviewVessel.textContent =
+      `${vesselId} – ${
+        currentVessel.identity?.name ||
+        vesselId
+      }`;
+
+    deletePreviewSubmissions.textContent =
+      "…";
+
+    deletePreviewPhotos.textContent =
+      "…";
+
+    deletePreviewMissingPhotos.textContent =
+      "…";
+
+    deleteConfirmationExpected.textContent =
+      `${vesselId} LÖSCHEN`;
+
+    deleteConfirmationInput.value = "";
+
+    deleteVesselStatus.className =
+      "delete-vessel-status";
+
+    deleteVesselStatus.textContent =
+      "Löschumfang wird ermittelt …";
+
+    editButton.disabled = true;
+    addSourceButton.disabled = true;
+    reloadButton.disabled = true;
+
+    updateVesselNavigation();
+    updateDeleteConfirmation();
+
+    deleteVesselPanel.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest"
+    });
+
+    try {
+      const result =
+        await getManagementRequest(
+          "/vessel-delete-preview?" +
+          "vessel_id=" +
+          encodeURIComponent(vesselId)
+        );
+
+      deletePreview = result;
+
+      deletePreviewVessel.textContent =
+        `${result.vessel_id} – ${
+          result.vessel_name ||
+          result.vessel_id
+        }`;
+
+      deletePreviewSubmissions.textContent =
+        String(
+          result.submission_count ?? 0
+        );
+
+      deletePreviewPhotos.textContent =
+        String(
+          result.photo_count ?? 0
+        );
+
+      deletePreviewMissingPhotos.textContent =
+        String(
+          result.missing_photo_count ?? 0
+        );
+
+      deleteConfirmationExpected.textContent =
+        result.confirmation_text;
+
+      deleteVesselStatus.textContent =
+        result.counters_will_be_created
+          ? (
+              "Die Löschvorschau ist bereit. " +
+              "data/counters.json wird beim Löschen automatisch angelegt."
+            )
+          : "Die Löschvorschau ist bereit.";
+
+      deleteConfirmationInput.focus();
+    } catch (error) {
+      deletePreview = null;
+
+      deleteVesselStatus.className =
+        "delete-vessel-status error";
+
+      deleteVesselStatus.textContent =
+        error instanceof Error
+          ? error.message
+          : String(error);
+    }
+
+    updateDeleteConfirmation();
+  }
+
+  async function deleteVesselCompletely() {
+    const expected =
+      deletePreview?.confirmation_text ?? "";
+
+    if (
+      !expected ||
+      deleteConfirmationInput
+        .value
+        .trim() !== expected ||
+      deleteBusy
+    ) {
+      updateDeleteConfirmation();
+      return;
+    }
+
+    const finalConfirmation =
+      window.confirm(
+        `${vesselId} einschließlich aller zugeordneten ` +
+        "Sichtungen und Fotos endgültig löschen?"
+      );
+
+    if (!finalConfirmation) return;
+
+    setDeleteBusy(true);
+
+    deleteVesselStatus.className =
+      "delete-vessel-status";
+
+    deleteVesselStatus.textContent =
+      "Schiff, Sichtungen und Fotos werden atomar gelöscht …";
+
+    let deletionSucceeded = false;
+
+    try {
+      const result =
+        await postManagementRequest(
+          "/vessel-delete",
+          {
+            vessel_id: vesselId,
+            confirmation: expected
+          }
+        );
+
+      deletionSucceeded = true;
+
+      deleteVesselStatus.className =
+        "delete-vessel-status success";
+
+      deleteVesselStatus.textContent =
+        `${result.message} ` +
+        `${result.deleted_submission_count} Sichtung` +
+        `${result.deleted_submission_count === 1 ? "" : "en"} und ` +
+        `${result.deleted_photo_count} Foto` +
+        `${result.deleted_photo_count === 1 ? "" : "s"} wurden entfernt.`;
+
+      pageStatus.className =
+        "page-status success";
+
+      pageStatus.textContent =
+        "Das Schiff wurde gelöscht. Die Schiffsliste wird geöffnet …";
+
+      content.classList.add("hidden");
+
+      window.setTimeout(
+        () => {
+          window.location.assign(
+            "vessels.html"
+          );
+        },
+        900
+      );
+    } catch (error) {
+      deleteVesselStatus.className =
+        "delete-vessel-status error";
+
+      deleteVesselStatus.textContent =
+        error instanceof Error
+          ? error.message
+          : String(error);
+    } finally {
+      if (!deletionSucceeded) {
+        setDeleteBusy(false);
+      }
+    }
   }  
 
   function resetSourceForm() {
@@ -2918,6 +3243,8 @@ document.addEventListener("DOMContentLoaded", () => {
     currentPayload = payload;
     currentVessel = vessel;
     
+    updateVesselNavigation();    
+    
     editButton.disabled = false;
     
     addSourceButton.disabled =
@@ -3174,8 +3501,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    closeDeletePanel();
+
     reloadButton.disabled = true;
     editButton.disabled = true;
+    prepareDeleteButton.disabled = true;
+    nextVesselButton.disabled = true;    
     
     pageStatus.className =
       "page-status";
@@ -3215,6 +3546,26 @@ document.addEventListener("DOMContentLoaded", () => {
         !currentVessel;
     }
   }
+
+  prepareDeleteButton.addEventListener(
+    "click",
+    loadDeletePreview
+  );
+
+  cancelDeleteButton.addEventListener(
+    "click",
+    closeDeletePanel
+  );
+
+  deleteConfirmationInput.addEventListener(
+    "input",
+    updateDeleteConfirmation
+  );
+
+  confirmDeleteButton.addEventListener(
+    "click",
+    deleteVesselCompletely
+  );  
 
   addSourceButton.addEventListener(
     "click",
@@ -3317,7 +3668,9 @@ document.addEventListener("DOMContentLoaded", () => {
         event.metaKey ||
         event.shiftKey ||
         editModeActive ||
-        sourceFormActive
+        sourceFormActive ||
+        deletePanelActive ||
+        deleteBusy
       ) {
         return;
       }
@@ -3366,6 +3719,10 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   
   apiKey.addEventListener("change", () => {
+    if (deletePanelActive) {
+      closeDeletePanel();
+    }
+
     if (editModeActive) {
       requestEditNameMatches();
     } else {
