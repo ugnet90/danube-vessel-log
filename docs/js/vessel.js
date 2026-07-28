@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.13.9
-// Updated: 2026-07-27
+// Version: 0.14.2
+// Updated: 2026-07-28
 
 "use strict";
 
@@ -179,6 +179,44 @@ document.addEventListener("DOMContentLoaded", () => {
       .filter(Boolean)
       .join(", ") || "–";
   }
+
+  function berthLabel(
+    berth,
+    movement = "unknown"
+  ) {
+    const source =
+      berth &&
+      typeof berth === "object"
+        ? berth
+        : {};
+
+    switch (source.status) {
+      case "matched":
+        return (
+          source.short_name ||
+          source.name ||
+          source.id ||
+          "Anlegestelle ausgewählt"
+        );
+
+      case "unlisted":
+        return (
+          source.name ||
+          "Andere Anlegestelle"
+        );
+
+      case "not_applicable":
+        return "keine Anlegestelle";
+
+      case "unknown":
+        return "Anlegestelle unbekannt";
+
+      default:
+        return movement === "moving"
+          ? "keine Anlegestelle"
+          : "Anlegestelle unbekannt";
+    }
+  }  
 
   function safeUrl(valueText) {
     try {
@@ -3082,8 +3120,19 @@ document.addEventListener("DOMContentLoaded", () => {
         item.append(header);
 
         const metadata = [
-          movementLabel(sighting.movement),
-          directionLabel(sighting.direction),
+          movementLabel(
+            sighting.movement
+          ),
+
+          directionLabel(
+            sighting.direction
+          ),
+
+          berthLabel(
+            sighting.berth,
+            sighting.movement
+          ),
+
           sighting.submission_id
         ]
           .filter(Boolean)
