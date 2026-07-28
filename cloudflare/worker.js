@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.13.6
+ * Version: 0.13.9
  * Updated: 2026-07-27
  */
 
@@ -13,6 +13,7 @@ const BRANCH = "main";
 const LOCATIONS_PATH = "data/locations.csv";
 const VESSELS_PATH = "data/vessels.csv";
 const VESSELS_DIRECTORY = "data/vessels";
+const VESSEL_COUNTERS_PATH = "data/counters.json";
 const VESSEL_CANDIDATES_PATH =
   "data/vessel_candidates.csv";
 
@@ -240,6 +241,32 @@ export default {
 
     if (
       request.method === "GET" &&
+      url.pathname === "/vessel-delete-preview"
+    ) {
+      try {
+        return await handleVesselDeletePreview(
+          request,
+          env
+        );
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler bei der Löschvorschau.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          stack:
+            error instanceof Error
+              ? error.stack
+              : null
+        }, 500);
+      }
+    }    
+
+    if (
+      request.method === "GET" &&
       url.pathname === "/vessel-id-suggestion"
     ) {
       try {
@@ -378,6 +405,32 @@ export default {
         }, 500);
       }
     }
+
+    if (
+      request.method === "POST" &&
+      url.pathname === "/vessel-delete"
+    ) {
+      try {
+        return await handleDeleteVessel(
+          request,
+          env
+        );
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler beim vollständigen Löschen des Schiffes.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          stack:
+            error instanceof Error
+              ? error.stack
+              : null
+        }, 500);
+      }
+    }    
 
     if (
       request.method === "POST" &&
@@ -2203,6 +2256,573 @@ async function loadVesselSightings({
         candidatePaths.length
     }
   };
+}
+
+function isSafeVesselPhotoPath(path) {
+  const normalized =
+    String(path ?? "").trim();
+
+  if (
+    !normalized ||
+    normalized.startsWith("/") ||
+    normalized.includes("..") ||
+    normalized.includes("//")
+  ) {
+    return false;
+  }
+
+  if (
+    !/^[A-Za-z0-9._/-]+$/.test(
+      normalized
+    )
+  ) {
+    return false;
+  }
+
+  return (
+    normalized.startsWith(
+      "inbox/photos/"
+    ) ||
+    normalized.startsWith(
+      "photos/"
+    )
+  ) &&
+    /\.jpe?g$/i.test(normalized);
+}
+
+function collectSubmissionPhotoPaths(
+  submission
+) {
+  const paths = [];
+
+  if (Array.isArray(submission?.photos)) {
+    for (const photo of submission.photos) {
+      const path =
+        typeof photo?.path === "string"
+          ? photo.path.trim()
+          : "";
+
+      if (path) {
+        paths.push(path);
+      }
+    }
+  }
+
+  const legacyPhotoPath =
+    typeof submission?.photo_path ===
+      "string"
+      ? submission.photo_path.trim()
+      : "";
+
+  if (legacyPhotoPath) {
+    paths.push(legacyPhotoPath);
+  }
+
+  return [...new Set(paths)];
+}
+
+async function buildVesselDeletionPlan({
+  env,
+  vesselId,
+  vesselResult,
+  vessels
+}) {
+  const pathsResult =
+    await listSubmissionPaths(env);
+
+  if (!pathsResult.ok) {
+    return {
+      ok: false,
+      status: pathsResult.status ?? 502,
+      error:
+        pathsResult.error ??
+        "Die Submission-Dateien konnten nicht aufgelistet werden."
+    };
+  }
+
+  const existingBlobPaths =
+    new Set(
+      pathsResult.blob_paths ?? []
+    );
+
+  const submissionPaths =
+    [...pathsResult.paths].sort();
+
+  const matchedSubmissions = [];
+  const photoPaths = new Set();
+  const missingPhotoPaths = new Set();
+
+  const batchSize = 20;
+
+  for (
+    let offset = 0;
+    offset < submissionPaths.length;
+    offset += batchSize
+  ) {
+    const batch =
+      submissionPaths.slice(
+        offset,
+        offset + batchSize
+      );
+
+    const files =
+      await Promise.all(
+        batch.map(path =>
+          readGitHubFile({
+            env,
+            path
+          })
+        )
+      );
+
+    for (
+      let index = 0;
+      index < files.length;
+      index += 1
+    ) {
+      const file = files[index];
+      const path = batch[index];
+
+      if (!file.ok) {
+        return {
+          ok: false,
+          status: file.status ?? 502,
+          error:
+            `Die Submission ${path} konnte nicht gelesen werden.`
+        };
+      }
+
+      let submission;
+
+      try {
+        submission = JSON.parse(
+          String(file.content ?? "")
+            .replace(/^\uFEFF/, "")
+        );
+      } catch (error) {
+        return {
+          ok: false,
+          status: 500,
+          error:
+            `Die Submission ${path} enthält ungültiges JSON: ` +
+            (
+              error instanceof Error
+                ? error.message
+                : String(error)
+            )
+        };
+      }
+
+      const workflowStatus =
+        submission.workflow?.status ??
+        "new";
+
+      const reviewedVesselId =
+        submission.workflow
+          ?.review
+          ?.vessel_id ?? "";
+
+      if (
+        workflowStatus !== "reviewed" ||
+        reviewedVesselId !== vesselId
+      ) {
+        continue;
+      }
+
+      const referencedPhotoPaths =
+        collectSubmissionPhotoPaths(
+          submission
+        );
+
+      for (
+        const photoPath
+        of referencedPhotoPaths
+      ) {
+        if (
+          !isSafeVesselPhotoPath(
+            photoPath
+          )
+        ) {
+          return {
+            ok: false,
+            status: 409,
+            error:
+              `Die Submission ${path} enthält einen nicht sicher löschbaren Fotopfad: ${photoPath}`
+          };
+        }
+
+        if (
+          existingBlobPaths.has(
+            photoPath
+          )
+        ) {
+          photoPaths.add(photoPath);
+        } else {
+          missingPhotoPaths.add(
+            photoPath
+          );
+        }
+      }
+
+      matchedSubmissions.push({
+        submission_id:
+          submission.submission_id ?? "",
+        captured_at:
+          submission.captured_at ?? "",
+        path,
+        photo_count:
+          referencedPhotoPaths.length
+      });
+    }
+  }
+
+  const countersResult =
+    await loadVesselCounters({
+      env,
+      vessels
+    });
+
+  if (!countersResult.ok) {
+    return countersResult;
+  }
+
+  return {
+    ok: true,
+    vessel_id: vesselId,
+
+    vessel_name:
+      vesselResult.vessel
+        ?.identity
+        ?.name ||
+      vesselId,
+
+    vessel_path:
+      vesselResult.path,
+
+    submission_paths:
+      matchedSubmissions.map(
+        item => item.path
+      ),
+
+    photo_paths:
+      [...photoPaths].sort(),
+
+    missing_photo_paths:
+      [...missingPhotoPaths].sort(),
+
+    counters:
+      countersResult.counters,
+
+    counters_will_be_created:
+      !countersResult.exists,
+
+    scanned_submission_count:
+      submissionPaths.length,
+
+    confirmation_text:
+      `${vesselId} LÖSCHEN`
+  };
+}
+
+async function loadVesselDeletionContext(
+  env,
+  vesselId
+) {
+  if (!VESSEL_ID_PATTERN.test(vesselId)) {
+    return {
+      ok: false,
+      status: 400,
+      error:
+        "vessel_id fehlt oder ist ungültig."
+    };
+  }
+
+  const vesselsResult =
+    await loadVessels(env);
+
+  if (!vesselsResult.ok) {
+    return {
+      ok: false,
+      status: 502,
+      error: vesselsResult.error
+    };
+  }
+
+  const vesselResult =
+    await loadCanonicalVessel(
+      env,
+      vesselId,
+      vesselsResult.vessels
+    );
+
+  if (!vesselResult.ok) {
+    return {
+      ok: false,
+      status:
+        vesselResult.status ?? 502,
+      error:
+        vesselResult.error
+    };
+  }
+
+  const plan =
+    await buildVesselDeletionPlan({
+      env,
+      vesselId,
+      vesselResult,
+      vessels:
+        vesselsResult.vessels
+    });
+
+  if (!plan.ok) {
+    return plan;
+  }
+
+  return {
+    ok: true,
+    vessels:
+      vesselsResult.vessels,
+    vesselResult,
+    plan
+  };
+}
+
+async function handleVesselDeletePreview(
+  request,
+  env
+) {
+  const authError =
+    checkManagementKey(request, env);
+
+  if (authError) return authError;
+
+  const url = new URL(request.url);
+
+  const vesselId = String(
+    url.searchParams.get(
+      "vessel_id"
+    ) ?? ""
+  ).trim();
+
+  const context =
+    await loadVesselDeletionContext(
+      env,
+      vesselId
+    );
+
+  if (!context.ok) {
+    return jsonResponse({
+      ok: false,
+      error: context.error
+    }, context.status ?? 502);
+  }
+
+  const plan = context.plan;
+
+  return jsonResponse({
+    ok: true,
+    vessel_id:
+      plan.vessel_id,
+    vessel_name:
+      plan.vessel_name,
+    vessel_path:
+      plan.vessel_path,
+
+    submission_count:
+      plan.submission_paths.length,
+
+    photo_count:
+      plan.photo_paths.length,
+
+    missing_photo_count:
+      plan.missing_photo_paths.length,
+
+    scanned_submission_count:
+      plan.scanned_submission_count,
+
+    confirmation_text:
+      plan.confirmation_text,
+
+    counters_will_be_created:
+      plan.counters_will_be_created
+  });
+}
+
+async function handleDeleteVessel(
+  request,
+  env
+) {
+  const authError =
+    checkManagementKey(request, env);
+
+  if (authError) return authError;
+
+  let input;
+
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Der Anfrageinhalt ist kein gültiges JSON."
+    }, 400);
+  }
+
+  const vesselId = String(
+    input?.vessel_id ?? ""
+  ).trim();
+
+  const confirmation = String(
+    input?.confirmation ?? ""
+  ).trim();
+
+  if (!VESSEL_ID_PATTERN.test(vesselId)) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "vessel_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  const expectedConfirmation =
+    `${vesselId} LÖSCHEN`;
+
+  if (
+    confirmation !==
+    expectedConfirmation
+  ) {
+    return jsonResponse({
+      ok: false,
+      error:
+        `Zur Bestätigung muss exakt „${expectedConfirmation}“ eingegeben werden.`
+    }, 400);
+  }
+
+  const context =
+    await loadVesselDeletionContext(
+      env,
+      vesselId
+    );
+
+  if (!context.ok) {
+    return jsonResponse({
+      ok: false,
+      error: context.error
+    }, context.status ?? 502);
+  }
+
+  const {
+    vessels,
+    vesselResult,
+    plan
+  } = context;
+
+  const remainingVessels =
+    vessels
+      .filter(vessel =>
+        vessel.vessel_id !==
+        vesselId
+      )
+      .sort(
+        (left, right) =>
+          left.vessel_id.localeCompare(
+            right.vessel_id
+          )
+      );
+
+  if (
+    remainingVessels.length !==
+    vessels.length - 1
+  ) {
+    return jsonResponse({
+      ok: false,
+      error:
+        `${vesselId} konnte nicht eindeutig aus data/vessels.csv entfernt werden.`
+    }, 409);
+  }
+
+  const deletePaths = [
+    vesselResult.path,
+    ...plan.submission_paths,
+    ...plan.photo_paths
+  ];
+
+  const files = [
+    {
+      path: VESSELS_PATH,
+      content:
+        serializeVesselsCsv(
+          remainingVessels
+        ),
+      encoding: "utf-8"
+    },
+    {
+      path: VESSEL_COUNTERS_PATH,
+      content:
+        serializeVesselCounters(
+          plan.counters
+        ),
+      encoding: "utf-8"
+    },
+
+    ...[
+      ...new Set(deletePaths)
+    ].map(path => ({
+      path,
+      delete: true
+    }))
+  ];
+
+  const commitResult =
+    await createAtomicGitHubCommit({
+      env,
+      message:
+        `${vesselId} vollständig gelöscht`,
+      files
+    });
+
+  if (!commitResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Das Schiff und seine zugeordneten Dateien konnten nicht atomar gelöscht werden.",
+      github_step:
+        commitResult.step ?? null,
+      github_status:
+        commitResult.status ?? null,
+      github_response:
+        commitResult.body ?? null
+    }, commitResult.status === 422
+      ? 409
+      : 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+
+    message:
+      `${vesselId} wurde vollständig aus dem aktuellen Projektstand gelöscht.`,
+
+    vessel_id: vesselId,
+    vessel_name:
+      plan.vessel_name,
+
+    deleted_submission_count:
+      plan.submission_paths.length,
+
+    deleted_photo_count:
+      plan.photo_paths.length,
+
+    missing_photo_count:
+      plan.missing_photo_paths.length,
+
+    counters_created:
+      plan.counters_will_be_created,
+
+    commit_sha:
+      commitResult.commitSha
+  });
 }
 
 async function handleVesselPrimaryPhoto(
@@ -4531,20 +5151,29 @@ async function saveCanonicalVesselAndIndex({
   };
 }
 
-async function handleVesselIdSuggestion(request, env) {
+async function handleVesselIdSuggestion(
+  request,
+  env
+) {
   const url = new URL(request.url);
-  const environment = normalizeVesselEnvironment(
-    url.searchParams.get("environment")
-  );
+
+  const environment =
+    normalizeVesselEnvironment(
+      url.searchParams.get(
+        "environment"
+      )
+    );
 
   if (!environment) {
     return jsonResponse({
       ok: false,
-      error: "environment muss production oder test sein."
+      error:
+        "environment muss production oder test sein."
     }, 400);
   }
 
-  const vesselsResult = await loadVessels(env);
+  const vesselsResult =
+    await loadVessels(env);
 
   if (!vesselsResult.ok) {
     return jsonResponse({
@@ -4553,11 +5182,29 @@ async function handleVesselIdSuggestion(request, env) {
     }, 502);
   }
 
-  const suggestion = await findAvailableVesselId({
-    env,
-    vessels: vesselsResult.vessels,
-    environment
-  });
+  const countersResult =
+    await loadVesselCounters({
+      env,
+      vessels:
+        vesselsResult.vessels
+    });
+
+  if (!countersResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: countersResult.error
+    }, countersResult.status ?? 502);
+  }
+
+  const suggestion =
+    await findAvailableVesselId({
+      env,
+      vessels:
+        vesselsResult.vessels,
+      environment,
+      counters:
+        countersResult.counters
+    });
 
   if (!suggestion.ok) {
     return jsonResponse({
@@ -4569,7 +5216,12 @@ async function handleVesselIdSuggestion(request, env) {
   return jsonResponse({
     ok: true,
     environment,
-    vessel_id: suggestion.vessel_id
+    vessel_id:
+      suggestion.vessel_id,
+    counter_source:
+      countersResult.exists
+        ? "stored"
+        : "derived"
   });
 }
 
@@ -5091,11 +5743,28 @@ async function handleCreateVessel(request, env) {
     }
   }
 
-  const suggestion = await findAvailableVesselId({
-    env,
-    vessels,
-    environment: validation.data.environment
-  });
+  const countersResult =
+    await loadVesselCounters({
+      env,
+      vessels
+    });
+
+  if (!countersResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: countersResult.error
+    }, countersResult.status ?? 502);
+  }
+
+  const suggestion =
+    await findAvailableVesselId({
+      env,
+      vessels,
+      environment:
+        validation.data.environment,
+      counters:
+        countersResult.counters
+    });
 
   if (!suggestion.ok) {
     return jsonResponse({
@@ -5211,7 +5880,18 @@ async function handleCreateVessel(request, env) {
     },
     {
       path: VESSELS_PATH,
-      content: serializeVesselsCsv(updatedVessels),
+      content:
+        serializeVesselsCsv(
+          updatedVessels
+        ),
+      encoding: "utf-8"
+    },
+    {
+      path: VESSEL_COUNTERS_PATH,
+      content:
+        serializeVesselCounters(
+          suggestion.counters
+        ),
       encoding: "utf-8"
     }
   ];
@@ -6871,17 +7551,223 @@ function parseOptionalInteger(value, minimum, maximum) {
   };
 }
 
+function deriveVesselCounters(vessels) {
+  const numbers = vessels
+    .map(vessel =>
+      parseVesselIdNumber(
+        vessel.vessel_id
+      )
+    )
+    .filter(Number.isInteger);
+
+  const testNumbers = numbers.filter(
+    number =>
+      number >= 0 &&
+      number <= 99
+  );
+
+  const productionNumbers =
+    numbers.filter(
+      number =>
+        number >= 100 &&
+        number <= 999999
+    );
+
+  return {
+    schema_version: 1,
+
+    next_test_vessel_number:
+      testNumbers.length
+        ? Math.max(...testNumbers) + 1
+        : 0,
+
+    next_production_vessel_number:
+      productionNumbers.length
+        ? Math.max(...productionNumbers) + 1
+        : 100
+  };
+}
+
+function normalizeVesselCounters(
+  input,
+  vessels
+) {
+  if (
+    !input ||
+    typeof input !== "object" ||
+    Array.isArray(input)
+  ) {
+    throw new Error(
+      "data/counters.json muss ein JSON-Objekt enthalten."
+    );
+  }
+
+  const derived =
+    deriveVesselCounters(vessels);
+
+  const nextTest = Number(
+    input.next_test_vessel_number
+  );
+
+  const nextProduction = Number(
+    input.next_production_vessel_number
+  );
+
+  if (
+    !Number.isInteger(nextTest) ||
+    nextTest < 0 ||
+    nextTest > 100
+  ) {
+    throw new Error(
+      "data/counters.json: next_test_vessel_number muss zwischen 0 und 100 liegen."
+    );
+  }
+
+  if (
+    !Number.isInteger(nextProduction) ||
+    nextProduction < 100 ||
+    nextProduction > 1000000
+  ) {
+    throw new Error(
+      "data/counters.json: next_production_vessel_number muss zwischen 100 und 1000000 liegen."
+    );
+  }
+
+  return {
+    schema_version: 1,
+
+    next_test_vessel_number:
+      Math.max(
+        nextTest,
+        derived.next_test_vessel_number
+      ),
+
+    next_production_vessel_number:
+      Math.max(
+        nextProduction,
+        derived.next_production_vessel_number
+      )
+  };
+}
+
+function serializeVesselCounters(
+  counters
+) {
+  return JSON.stringify(
+    {
+      schema_version: 1,
+
+      next_test_vessel_number:
+        counters
+          .next_test_vessel_number,
+
+      next_production_vessel_number:
+        counters
+          .next_production_vessel_number
+    },
+    null,
+    2
+  ) + "\n";
+}
+
+async function loadVesselCounters({
+  env,
+  vessels
+}) {
+  const file = await readGitHubFile({
+    env,
+    path: VESSEL_COUNTERS_PATH
+  });
+
+  if (file.status === 404) {
+    return {
+      ok: true,
+      exists: false,
+      counters:
+        deriveVesselCounters(vessels)
+    };
+  }
+
+  if (!file.ok) {
+    return {
+      ok: false,
+      status: file.status ?? 502,
+      error:
+        "data/counters.json konnte nicht gelesen werden."
+    };
+  }
+
+  let parsed;
+
+  try {
+    parsed = JSON.parse(
+      String(file.content ?? "")
+        .replace(/^\uFEFF/, "")
+    );
+  } catch (error) {
+    return {
+      ok: false,
+      status: 500,
+      error:
+        "data/counters.json enthält ungültiges JSON: " +
+        (
+          error instanceof Error
+            ? error.message
+            : String(error)
+        )
+    };
+  }
+
+  try {
+    return {
+      ok: true,
+      exists: true,
+      counters:
+        normalizeVesselCounters(
+          parsed,
+          vessels
+        )
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      status: 500,
+      error:
+        error instanceof Error
+          ? error.message
+          : String(error)
+    };
+  }
+}
+
 async function findAvailableVesselId({
   env,
   vessels,
-  environment
+  environment,
+  counters
 }) {
-  const startNumber = environment === "test" ? 0 : 100;
-  const endNumber = environment === "test" ? 99 : 999999;
+  const startNumber =
+    environment === "test"
+      ? 0
+      : 100;
+
+  const endNumber =
+    environment === "test"
+      ? 99
+      : 999999;
+
+  const counterField =
+    environment === "test"
+      ? "next_test_vessel_number"
+      : "next_production_vessel_number";
 
   const usedNumbers = new Set(
     vessels
-      .map(vessel => parseVesselIdNumber(vessel.vessel_id))
+      .map(vessel =>
+        parseVesselIdNumber(
+          vessel.vessel_id
+        )
+      )
       .filter(number =>
         number !== null &&
         number >= startNumber &&
@@ -6889,26 +7775,35 @@ async function findAvailableVesselId({
       )
   );
 
-  const maximumUsed =
-    usedNumbers.size > 0
-      ? Math.max(...usedNumbers)
-      : startNumber - 1;
-
   let candidateNumber = Math.max(
     startNumber,
-    maximumUsed + 1
+    Number(counters[counterField]) ||
+      startNumber
   );
 
   while (candidateNumber <= endNumber) {
     if (!usedNumbers.has(candidateNumber)) {
-      const vesselId = formatVesselId(candidateNumber);
-      const path = `${VESSELS_DIRECTORY}/${vesselId}.json`;
-      const file = await readGitHubFile({ env, path });
+      const vesselId =
+        formatVesselId(candidateNumber);
+
+      const path =
+        `${VESSELS_DIRECTORY}/${vesselId}.json`;
+
+      const file = await readGitHubFile({
+        env,
+        path
+      });
 
       if (file.status === 404) {
         return {
           ok: true,
-          vessel_id: vesselId
+          vessel_id: vesselId,
+
+          counters: {
+            ...counters,
+            [counterField]:
+              candidateNumber + 1
+          }
         };
       }
 
@@ -6928,6 +7823,7 @@ async function findAvailableVesselId({
   return {
     ok: false,
     status: 409,
+
     error:
       environment === "test"
         ? "Der reservierte Test-ID-Bereich VES-000000 bis VES-000099 ist voll."
@@ -7839,18 +8735,22 @@ async function listSubmissionPaths(env) {
     ? treeResult.body.tree
     : [];
 
-  const paths = tree
+  const blobPaths = tree
     .filter(entry =>
       entry?.type === "blob" &&
-      typeof entry.path === "string" &&
-      /^inbox\/submissions\/\d{4}\/\d{2}\/SUB-[A-Z0-9-]+\.json$/i
-        .test(entry.path)
+      typeof entry.path === "string"
     )
     .map(entry => entry.path);
 
+  const paths = blobPaths.filter(path =>
+    /^inbox\/submissions\/\d{4}\/\d{2}\/SUB-[A-Z0-9-]+\.json$/i
+      .test(path)
+  );
+
   return {
     ok: true,
-    paths
+    paths,
+    blob_paths: blobPaths
   };
 }
 
@@ -10287,22 +11187,35 @@ async function createAtomicGitHubCommit({
   const treeEntries = [];
 
   for (const file of files) {
-    const blobResult = await githubRequest(
-      `${baseUrl}/git/blobs`,
-      {
-        method: "POST",
-        headers,
-        body: JSON.stringify({
-          content: file.content,
-          encoding: file.encoding
-        })
-      }
-    );
+    if (file.delete === true) {
+      treeEntries.push({
+        path: file.path,
+        mode: "100644",
+        type: "blob",
+        sha: null
+      });
+
+      continue;
+    }
+
+    const blobResult =
+      await githubRequest(
+        `${baseUrl}/git/blobs`,
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify({
+            content: file.content,
+            encoding: file.encoding
+          })
+        }
+      );
 
     if (!blobResult.ok) {
       return {
         ...blobResult,
-        step: `create_blob:${file.path}`
+        step:
+          `create_blob:${file.path}`
       };
     }
 
