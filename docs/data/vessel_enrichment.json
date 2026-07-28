@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-07-28T05:30:32.774351Z",
+  "generated_at": "2026-07-28T06:24:20.430269Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,12 +32,12 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 12,
-    "vessels_incomplete": 12,
+    "vessels_total": 11,
+    "vessels_incomplete": 11,
     "vessels_complete": 0,
     "candidate_matches": 0,
     "matched_no_new_data": 4,
-    "low_confidence": 2,
+    "low_confidence": 1,
     "no_match": 6,
     "lookup_errors": 0,
     "suggestions_total": 0
@@ -1012,72 +1012,6 @@
         "accepted_qid": "",
         "rejected_qids": [],
         "candidates": []
-      }
-    },
-    {
-      "vessel_id": "VES-000109",
-      "name": "S.S. Maria Theresa",
-      "environment": "production",
-      "json_path": "data/vessels/VES-000109.json",
-      "missing_fields": [
-        {
-          "field": "identity.imo",
-          "label": "IMO"
-        },
-        {
-          "field": "technical.shipyard",
-          "label": "Werft"
-        },
-        {
-          "field": "technical.draft_m",
-          "label": "Tiefgang"
-        },
-        {
-          "field": "operations.owner",
-          "label": "Eigentümer"
-        },
-        {
-          "field": "operations.manager",
-          "label": "Manager"
-        },
-        {
-          "field": "operations.cruise_brand",
-          "label": "Marke"
-        }
-      ],
-      "missing_count": 6,
-      "lookup": {
-        "provider": "wikidata",
-        "status": "low_confidence",
-        "error": "",
-        "warnings": [],
-        "accepted_qid": "",
-        "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q132561870",
-            "label": "Kategorie:S.S. Maria Theresa (ship, 2015)",
-            "description": "Wikimedia-Kategorie",
-            "url": "https://www.wikidata.org/wiki/Q132561870",
-            "score": 0.795,
-            "confidence": "low",
-            "matched_by": [
-              "name_partial"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Wikimedia-Kategorie"
-            ],
-            "suggestions": [],
-            "revision_id": 2337098381
-          }
-        ]
       }
     }
   ]
