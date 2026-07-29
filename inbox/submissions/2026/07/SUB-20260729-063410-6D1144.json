@@ -1,0 +1,71 @@
+{
+  "schema_version": 11,
+  "submission_id": "SUB-20260729-063410-6D1144",
+  "uploaded_at": "2026-07-29T06:34:10.345Z",
+  "captured_at": "2026-07-29T06:33:51.000Z",
+  "location": {
+    "status": "unknown",
+    "matched_by": "",
+    "id": "",
+    "name": "",
+    "municipality": "",
+    "country": ""
+  },
+  "berth": {
+    "status": "unknown",
+    "matched_by": "selection",
+    "id": "",
+    "name": "",
+    "short_name": "",
+    "station_number": "",
+    "location_id": "",
+    "municipality": "",
+    "country": "",
+    "river": "",
+    "bank": "",
+    "relative_to_reference": "",
+    "river_km": null,
+    "river_km_text": "",
+    "facility_type": "",
+    "mooring_order": "",
+    "entry_count": null,
+    "entry_height": "",
+    "latitude": null,
+    "longitude": null,
+    "address": "",
+    "access_type": "",
+    "source_url": "",
+    "source_checked_at": ""
+  },
+  "movement": "unknown",
+  "direction": "unknown",
+  "vessel_name_entered": "Testschiff",
+  "notes": "",
+  "photo_lat": 48.53062499079326,
+  "photo_lon": 14.01583007562255,
+  "photos": [],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "ambiguous",
+        "vessel_id": "",
+        "matched_by": "normalized_name",
+        "candidate_count": 2,
+        "candidate_ids": [
+          "VES-000000",
+          "VES-000001"
+        ],
+        "matched_value": "Testschiff",
+        "normalized_input": "testschiff"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
