@@ -65,25 +65,25 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "reviewed",
     "auto": {
       "vessel_match": {
         "status": "matched",
         "vessel_id": "VES-000104",
         "matched_by": "normalized_name",
+        "matched_value": "TUI Isla",
         "candidate_count": 1,
         "candidate_ids": [
           "VES-000104"
         ],
-        "matched_value": "TUI Isla",
         "normalized_input": "tui isla"
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
-      "vessel_id": "",
-      "decision": "",
+      "reviewed": true,
+      "reviewed_at": "2026-07-30T17:33:00.999Z",
+      "vessel_id": "VES-000104",
+      "decision": "confirmed",
       "notes": ""
     }
   },
