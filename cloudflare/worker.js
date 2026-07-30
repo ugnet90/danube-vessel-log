@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.3
- * Updated: 2026-07-28
+ * Version: 0.14.4
+ * Updated: 2026-07-30
  */
 
 const API_VERSION = "2022-11-28";
@@ -1327,6 +1327,11 @@ async function createJsonSubmission(request, env) {
   input.location_matched_by =
     locationResult.matched_by ?? "";
 
+  input.location_distance_m =
+    Number.isFinite(locationResult.location?.distance_m)
+      ? locationResult.location.distance_m
+      : null;
+
   const berthResult = await resolveBerth({
     input,
     location: locationResult.location,
@@ -1387,7 +1392,12 @@ async function createJsonSubmission(request, env) {
       ok: true,
       message: "Submission wurde gespeichert.",
       submission_id: submissionId,
-      path
+      path,
+      vessel_name_entered: submission.vessel_name_entered,
+      location: submission.location,
+      berth: submission.berth,
+      observer_lat: submission.observer_lat,
+      observer_lon: submission.observer_lon
     },
     201
   );
@@ -1693,6 +1703,11 @@ async function createPhotoSubmission(request, env) {
 
   input.location_matched_by =
     locationResult.matched_by ?? "";
+
+  input.location_distance_m =
+    Number.isFinite(locationResult.location?.distance_m)
+      ? locationResult.location.distance_m
+      : null;
 
   const berthResult = await resolveBerth({
     input,
@@ -9340,8 +9355,24 @@ function buildSubmission({
   input,
   photos
 }) {
-  return {
-    schema_version: 11,
+  const normalizedPhotos =
+    Array.isArray(photos)
+      ? photos
+      : [];
+
+  const observerCoordinates =
+    getObserverCoordinates(input);
+
+  const vesselNameEntered =
+    normalizeEnteredVesselName(input);
+
+  const locationDistanceM =
+    Number.isFinite(input.location_distance_m)
+      ? Math.round(input.location_distance_m)
+      : null;
+
+  const submission = {
+    schema_version: 12,
     submission_id: submissionId,
     uploaded_at: uploadedAt.toISOString(),
     captured_at: capturedAt.toISOString(),
@@ -9350,31 +9381,33 @@ function buildSubmission({
         input.location_status === "matched"
           ? "matched"
           : "unknown",
-    
+
       matched_by:
         typeof input.location_matched_by === "string"
           ? input.location_matched_by
           : "",
-    
+
       id:
         typeof input.location_id === "string"
           ? input.location_id
           : "",
-    
+
       name:
         typeof input.location_name === "string"
           ? input.location_name
           : "",
-    
+
       municipality:
         typeof input.location_municipality === "string"
           ? input.location_municipality
           : "",
-    
+
       country:
         typeof input.location_country === "string"
           ? input.location_country
-          : ""
+          : "",
+
+      distance_m: locationDistanceM
     },
     berth: normalizeSubmissionBerth(
       input.berth,
@@ -9382,51 +9415,47 @@ function buildSubmission({
     ),
     movement: input.movement ?? "unknown",
     direction: input.direction ?? "unknown",
-    vessel_name_entered:
-      typeof input.vessel_name_entered === "string"
-        ? input.vessel_name_entered
-        : "",
+    vessel_name_entered: vesselNameEntered,
     notes:
       typeof input.notes === "string"
         ? input.notes
         : "",
-    
-    photo_lat: parseCoordinate(input.photo_lat),
-    
-    photo_lon: parseCoordinate(input.photo_lon),
-    
-    photos,
-    
+
+    observer_lat: observerCoordinates.latitude,
+    observer_lon: observerCoordinates.longitude,
+
+    photos: normalizedPhotos,
+
     workflow: {
       status: "new",
-    
+
       auto: {
         vessel_match: {
           status:
             input.vessel_match?.status ?? "unmatched",
-    
+
           vessel_id:
             input.vessel_match?.vessel_id ?? "",
-    
+
           matched_by:
             input.vessel_match?.matched_by ?? "",
-    
+
           candidate_count:
             input.vessel_match?.candidate_count ?? 0,
-          
+
           candidate_ids:
             Array.isArray(input.vessel_match?.candidate_ids)
               ? input.vessel_match.candidate_ids
               : [],
-          
+
           matched_value:
             input.vessel_match?.matched_value ?? "",
-          
+
           normalized_input:
             input.vessel_match?.normalized_input ?? ""
         }
       },
-    
+
       review: {
         reviewed: false,
         reviewed_at: "",
@@ -9436,6 +9465,25 @@ function buildSubmission({
       }
     }
   };
+
+  /*
+   * photo_lat/photo_lon sind nur bei tatsächlichen Fotos sinnvoll.
+   * Ältere Clients dürfen sie weiterhin senden; bei foto­losen
+   * Sichtungen werden sie ausschließlich als observer_* gespeichert.
+   */
+  if (normalizedPhotos.length > 0) {
+    submission.photo_lat =
+      parseCoordinate(
+        input.photo_lat ?? input.observer_lat
+      );
+
+    submission.photo_lon =
+      parseCoordinate(
+        input.photo_lon ?? input.observer_lon
+      );
+  }
+
+  return submission;
 }
 
 async function validateReviewInput(input, submission, env) {
@@ -9669,20 +9717,20 @@ function validateMetadata(input) {
   const hasValidLocationId =
     typeof input.location_id === "string" &&
     /^LOC-\d{3,}$/.test(input.location_id);
-  
-  const photoLat = parseCoordinate(input.photo_lat);
-  const photoLon = parseCoordinate(input.photo_lon);
-  
+
+  const observerCoordinates =
+    getObserverCoordinates(input);
+
   const hasValidCoordinates =
-    photoLat !== null &&
-    photoLon !== null &&
-    photoLat >= -90 &&
-    photoLat <= 90 &&
-    photoLon >= -180 &&
-    photoLon <= 180;
-  
+    observerCoordinates.latitude !== null &&
+    observerCoordinates.longitude !== null &&
+    observerCoordinates.latitude >= -90 &&
+    observerCoordinates.latitude <= 90 &&
+    observerCoordinates.longitude >= -180 &&
+    observerCoordinates.longitude <= 180;
+
   if (!hasValidLocationId && !hasValidCoordinates) {
-    return "Es fehlen eine gültige location_id oder gültige Fotokoordinaten.";
+    return "Es fehlen eine gültige location_id oder gültige Beobachtungskoordinaten.";
   }
 
   const allowedMovements = ["moving", "moored", "unknown"];
@@ -9710,18 +9758,27 @@ function validateMetadata(input) {
     return "notes muss Text sein.";
   }
   
-  if (
-    input.photo_lat !== undefined &&
-    Number.isNaN(Number(String(input.photo_lat).replace(",", ".")))
-  ) {
-    return "photo_lat ist ungültig.";
+  for (const [field, label] of [
+    ["observer_lat", "observer_lat"],
+    ["observer_lon", "observer_lon"],
+    ["photo_lat", "photo_lat"],
+    ["photo_lon", "photo_lon"]
+  ]) {
+    if (
+      input[field] !== undefined &&
+      Number.isNaN(
+        Number(String(input[field]).replace(",", "."))
+      )
+    ) {
+      return `${label} ist ungültig.`;
+    }
   }
-  
+
   if (
-    input.photo_lon !== undefined &&
-    Number.isNaN(Number(String(input.photo_lon).replace(",", ".")))
+    input.vessel_name_entered !== undefined &&
+    typeof input.vessel_name_entered !== "string"
   ) {
-    return "photo_lon ist ungültig.";
+    return "vessel_name_entered muss Text sein.";
   }
 
   const allowedBerthStatuses = [
@@ -10267,9 +10324,40 @@ async function resolveBerth({
   };
 }
 
+function getObserverCoordinates(input) {
+  return {
+    latitude: parseCoordinate(
+      input?.observer_lat ?? input?.photo_lat
+    ),
+    longitude: parseCoordinate(
+      input?.observer_lon ?? input?.photo_lon
+    )
+  };
+}
+
+function normalizeEnteredVesselName(input) {
+  const candidates = [
+    input?.vessel_name_entered,
+    input?.vessel_name,
+    input?.name
+  ];
+
+  for (const candidate of candidates) {
+    if (typeof candidate !== "string") continue;
+
+    const normalized = candidate.trim();
+
+    if (normalized) return normalized;
+  }
+
+  return "";
+}
+
 async function resolveLocation(input, env) {
-  const latitude = parseCoordinate(input.photo_lat);
-  const longitude = parseCoordinate(input.photo_lon);
+  const {
+    latitude,
+    longitude
+  } = getObserverCoordinates(input);
 
   const locationsResult = await loadLocations(env);
 
@@ -10278,7 +10366,7 @@ async function resolveLocation(input, env) {
   }
 
   /*
-   * Keine Fotokoordinaten vorhanden:
+   * Keine Beobachtungskoordinaten vorhanden:
    * Standort über die mitgelieferte location_id bestimmen.
    */
   if (latitude === null || longitude === null) {
@@ -10534,7 +10622,7 @@ async function resolveVessel(input, env) {
   return {
     ok: true,
     match: matchVesselByName(
-      input?.vessel_name_entered ?? "",
+      normalizeEnteredVesselName(input),
       vesselsResult.vessels
     )
   };
