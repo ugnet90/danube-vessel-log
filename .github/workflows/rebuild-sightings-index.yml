@@ -1,0 +1,47 @@
+# Danube Vessel Log
+# File: .github/workflows/rebuild-sightings-index.yml
+# Version: 1.0.0
+
+name: Sichtungsindex neu aufbauen
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rebuild-sightings-index
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository laden
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Sichtungsindex erzeugen
+        run: python tools/rebuild_sightings_index.py
+
+      - name: Änderungen speichern
+        shell: bash
+        run: |
+          if git diff --quiet -- data/sightings.json; then
+            echo "data/sightings.json ist bereits aktuell."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/sightings.json
+          git commit -m "Rebuild sightings index"
+          git push
