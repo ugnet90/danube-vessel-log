@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/css/submissions.css
- * Version: 0.10.3
- * Updated: 2026-07-23
+ * Version: 0.14.6
+ * Updated: 2026-07-30
  */
 
 :root {
@@ -126,7 +126,11 @@ body {
 }
 
 .submission-list {
-  max-height: 760px;
+  max-height: clamp(
+    760px,
+    calc(100vh - 240px),
+    1200px
+  );
   overflow-y: auto;
 }
 
