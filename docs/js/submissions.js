@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/submissions.js
-// Version: 0.14.2
-// Updated: 2026-07-28
+// Version: 0.14.5
+// Updated: 2026-07-30
 
 "use strict";
 
@@ -356,6 +356,15 @@ document.addEventListener("DOMContentLoaded", () => {
       "new"
     );
   }
+
+  function isTestSubmission(submission) {
+    return String(
+      submission?.vessel_name_entered ?? ""
+    )
+      .trim()
+      .toLowerCase()
+      .includes("test");
+  }  
 
   function getAutomaticMatch(submission) {
     return (
@@ -919,8 +928,13 @@ document.addEventListener("DOMContentLoaded", () => {
           ? submission.photo_count
           : getPhotos(submission).length;
 
+      const environmentPrefix =
+        isTestSubmission(submission)
+          ? "TEST · "
+          : "";
+      
       status.textContent =
-        `${workflowText} · ${matchText} · ` +
+        `${environmentPrefix}${workflowText} · ${matchText} · ` +
         formatPhotoCount(photoCount);
 
       button.append(title, meta, status);
@@ -1019,7 +1033,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     newVesselCandidateNotice
       .classList.add("hidden");    
-    newVesselEnvironment.value = "production";
+    newVesselEnvironment.value =
+      isTestSubmission(selectedSubmission)
+        ? "test"
+        : "production";
     newVesselId.value = "";
     newVesselName.value =
       selectedSubmission?.vessel_name_entered ?? "";
@@ -1920,9 +1937,13 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
     const environment =
-      typeof audit.environment === "string"
-        ? audit.environment.trim().toLowerCase()
-        : "";
+      isTestSubmission(selectedSubmission)
+        ? "test"
+        : (
+            typeof audit.environment === "string"
+              ? audit.environment.trim().toLowerCase()
+              : ""
+          );
 
     if (environment) {
       vesselEnvironmentBadge.textContent =
@@ -2048,11 +2069,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function renderVesselContext(submission) {
-    resetVesselPanel();
+function renderVesselContext(submission) {
+  resetVesselPanel();
 
-    const workflowStatus =
-      getWorkflowStatus(submission);
+  if (isTestSubmission(submission)) {
+    vesselEnvironmentBadge.textContent =
+      "TEST";
+
+    vesselEnvironmentBadge.className =
+      "environment-badge environment-test";
+  }
+
+  const workflowStatus =
+    getWorkflowStatus(submission);
     const assignedVesselId =
       getAssignedVesselId(submission);
     const candidates =
