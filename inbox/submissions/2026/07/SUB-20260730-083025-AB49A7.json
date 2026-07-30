@@ -1,0 +1,69 @@
+{
+  "schema_version": 12,
+  "submission_id": "SUB-20260730-083025-AB49A7",
+  "uploaded_at": "2026-07-30T08:30:25.817Z",
+  "captured_at": "2026-07-30T08:30:06.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "distance_m": 456
+  },
+  "berth": {
+    "status": "not_applicable",
+    "matched_by": "selection",
+    "id": "",
+    "name": "",
+    "short_name": "",
+    "station_number": "",
+    "location_id": "",
+    "municipality": "",
+    "country": "",
+    "river": "",
+    "bank": "",
+    "relative_to_reference": "",
+    "river_km": null,
+    "river_km_text": "",
+    "facility_type": "",
+    "mooring_order": "",
+    "entry_count": null,
+    "entry_height": "",
+    "latitude": null,
+    "longitude": null,
+    "address": "",
+    "access_type": "",
+    "source_url": "",
+    "source_checked_at": ""
+  },
+  "movement": "moving",
+  "direction": "downstream",
+  "vessel_name_entered": "Test OF 09 in Fahrt",
+  "notes": "",
+  "observer_lat": 48.30362529377368,
+  "observer_lon": 14.29009601864492,
+  "photos": [],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "test of 09 in fahrt"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
