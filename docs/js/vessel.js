@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.14.2
-// Updated: 2026-07-28
+// Version: 0.14.7
+// Updated: 2026-07-27
 
 "use strict";
 
@@ -179,44 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .filter(Boolean)
       .join(", ") || "–";
   }
-
-  function berthLabel(
-    berth,
-    movement = "unknown"
-  ) {
-    const source =
-      berth &&
-      typeof berth === "object"
-        ? berth
-        : {};
-
-    switch (source.status) {
-      case "matched":
-        return (
-          source.short_name ||
-          source.name ||
-          source.id ||
-          "Anlegestelle ausgewählt"
-        );
-
-      case "unlisted":
-        return (
-          source.name ||
-          "Andere Anlegestelle"
-        );
-
-      case "not_applicable":
-        return "keine Anlegestelle";
-
-      case "unknown":
-        return "Anlegestelle unbekannt";
-
-      default:
-        return movement === "moving"
-          ? "keine Anlegestelle"
-          : "Anlegestelle unbekannt";
-    }
-  }  
 
   function safeUrl(valueText) {
     try {
@@ -2684,8 +2646,14 @@ document.addEventListener("DOMContentLoaded", () => {
     image.classList.remove("hidden");
     placeholder.classList.add("hidden");
 
+    const sourceLabel =
+      primaryPhoto.source ===
+        "direct_vessel_upload"
+        ? "Zusätzliches Schiffsfoto"
+        : primaryPhoto.submission_id;
+
     caption.textContent = [
-      primaryPhoto.submission_id,
+      sourceLabel,
       formatDate(primaryPhoto.captured_at)
     ]
       .filter(Boolean)
@@ -2981,10 +2949,132 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
+  function renderDirectPhotos(
+    photos,
+    primaryPhoto
+  ) {
+    const gallery =
+      byId("directPhotosGallery");
+
+    const empty =
+      byId("directPhotosEmpty");
+
+    const normalizedPhotos =
+      Array.isArray(photos)
+        ? photos
+        : [];
+
+    const primaryPhotoId =
+      typeof primaryPhoto?.photo_id ===
+        "string"
+        ? primaryPhoto.photo_id
+        : "";
+
+    gallery.replaceChildren();
+
+    set(
+      "directPhotosCount",
+      String(normalizedPhotos.length)
+    );
+
+    for (const photo of normalizedPhotos) {
+      const photoUrl = safeUrl(
+        photo?.url ?? ""
+      );
+
+      if (!photoUrl) continue;
+
+      const photoCard =
+        document.createElement("div");
+
+      photoCard.className =
+        "sighting-photo-card";
+
+      const link =
+        document.createElement("a");
+
+      link.href = photoUrl;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.className =
+        "sighting-photo-link";
+      link.title =
+        photo.original_filename ||
+        "Foto öffnen";
+
+      const image =
+        document.createElement("img");
+
+      image.src = photoUrl;
+      image.alt =
+        photo.original_filename ||
+        "Zusätzliches Schiffsfoto";
+      image.loading = "lazy";
+
+      link.append(image);
+
+      const selectButton =
+        document.createElement("button");
+
+      selectButton.type = "button";
+      selectButton.className =
+        "primary-photo-button";
+
+      const isPrimaryPhoto =
+        Boolean(photo.photo_id) &&
+        photo.photo_id === primaryPhotoId;
+
+      if (isPrimaryPhoto) {
+        photoCard.classList.add(
+          "is-primary"
+        );
+
+        selectButton.textContent =
+          "Hauptfoto";
+        selectButton.disabled = true;
+      } else {
+        selectButton.textContent =
+          "Als Hauptfoto";
+        selectButton.disabled =
+          !photo.photo_id;
+
+        selectButton.addEventListener(
+          "click",
+          () => savePrimaryPhoto(
+            photo,
+            null,
+            selectButton
+          )
+        );
+      }
+
+      photoCard.append(
+        link,
+        selectButton
+      );
+
+      gallery.append(photoCard);
+    }
+
+    const hasPhotos =
+      gallery.childElementCount > 0;
+
+    gallery.classList.toggle(
+      "hidden",
+      !hasPhotos
+    );
+
+    empty.classList.toggle(
+      "hidden",
+      hasPhotos
+    );
+  }
+
   function renderSightings(
     sightings,
     sightingsMeta,
-    primaryPhoto
+    primaryPhoto,
+    directPhotos
   ) {
     const sightingsList =
       byId("sightingsList");
@@ -3034,7 +3124,10 @@ document.addEventListener("DOMContentLoaded", () => {
           sum +
           Number(sighting.photo_count || 0),
         0
-      );
+      ) +
+      (Array.isArray(directPhotos)
+        ? directPhotos.length
+        : 0);
 
     set(
       "summaryPhotos",
@@ -3120,19 +3213,8 @@ document.addEventListener("DOMContentLoaded", () => {
         item.append(header);
 
         const metadata = [
-          movementLabel(
-            sighting.movement
-          ),
-
-          directionLabel(
-            sighting.direction
-          ),
-
-          berthLabel(
-            sighting.berth,
-            sighting.movement
-          ),
-
+          movementLabel(sighting.movement),
+          directionLabel(sighting.direction),
           sighting.submission_id
         ]
           .filter(Boolean)
@@ -3525,10 +3607,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderSources(sources);
 
+    renderDirectPhotos(
+      payload.direct_photos,
+      payload.primary_photo
+    );
+
     renderSightings(
       payload.sightings,
       payload.sightings_meta,
-      payload.primary_photo
+      payload.primary_photo,
+      payload.direct_photos
     );
     
     renderChangeHistory(
