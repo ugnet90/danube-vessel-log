@@ -1,14 +1,21 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.9
+ * Version: 0.14.11
  * Updated: 2026-07-30
  */
 
 const API_VERSION = "2022-11-28";
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024; // 8 MB
 const MAX_PHOTOS_PER_SUBMISSION = 10;
-const VESSEL_DETAIL_SUBMISSION_SCAN_LIMIT = 100;
+/*
+ * Beim Laden einer Schiffsdetailseite werden zusätzlich zum Vessel-Index
+ * und Stammdatensatz auch Git-Ref, Git-Tree und die Datei für direkte Fotos
+ * abgerufen. Damit das Cloudflare-Limit externer Unteranfragen nicht
+ * überschritten wird, dürfen pro Aufruf höchstens 40 Submission-Dateien
+ * gelesen werden.
+ */
+const VESSEL_DETAIL_SUBMISSION_SCAN_LIMIT = 40;
 const BRANCH = "main";
 const LOCATIONS_PATH = "data/locations.csv";
 const BERTHS_PATH = "data/berths.csv";
