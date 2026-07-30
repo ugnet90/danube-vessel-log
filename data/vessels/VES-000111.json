@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000111",
+  "identity": {
+    "name": "TUI Maya",
+    "former_names": [
+      "TUI Melodia",
+      "Melodia",
+      "Excellence Melodia"
+    ],
+    "mmsi": "211524940",
+    "imo": "",
+    "eni": "04809200",
+    "call_sign": "DK5960"
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "MT"
+  },
+  "technical": {
+    "year_built": 2011,
+    "shipyard": "",
+    "length_m": 135,
+    "width_m": 11.45,
+    "draft_m": null,
+    "passengers": 155
+  },
+  "operations": {
+    "operator": "TUI Cruises",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": "Valletta"
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [
+    {
+      "source_id": "SRC-3C5353D20E6B",
+      "provider": "Wikipedia",
+      "title": "Kandidatenkatalog: TUI Maya",
+      "url": "https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen",
+      "notes": "Vorbelegung aus CAN-990FE9778DA8.",
+      "fields_used": [
+        "identity.name",
+        "identity.former_names",
+        "identity.eni",
+        "classification.ship_type",
+        "classification.ship_subtype",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "retrieved_at": "",
+      "verified_at": "",
+      "added_at": "2026-07-30T16:04:49.763Z",
+      "added_by": "candidate-catalog",
+      "candidate_id": "CAN-990FE9778DA8",
+      "source_revision_id": "268617530"
+    }
+  ],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-5975186D933F479383783A8B612CCF03",
+    "primary_submission_id": "SUB-20260730-144242-B1A40B"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-07-30T16:04:49.763Z",
+    "created_from_submission_id": "SUB-20260730-144242-B1A40B",
+    "updated_at": "2026-07-30T16:04:49.763Z",
+    "updated_by": "web-ui",
+    "created_from_candidate_id": "CAN-990FE9778DA8",
+    "candidate_source_revision_id": "268617530"
+  }
+}
