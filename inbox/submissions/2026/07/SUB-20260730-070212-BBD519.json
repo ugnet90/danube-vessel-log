@@ -1,0 +1,69 @@
+{
+  "schema_version": 12,
+  "submission_id": "SUB-20260730-070212-BBD519",
+  "uploaded_at": "2026-07-30T07:02:12.655Z",
+  "captured_at": "2026-07-30T07:02:00.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "distance_m": 456
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000004",
+    "name": "Schiffsanlegestelle Linz-Lentos",
+    "short_name": "Linz-Lentos Nr. 14",
+    "station_number": "14",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2134.92,
+    "river_km_text": "2134,9+20 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "2, max. Breite 32 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.308417,
+    "longitude": 14.28775,
+    "address": "Ernst-Koref-Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "Test neu",
+  "notes": "",
+  "observer_lat": 48.30362434582599,
+  "observer_lon": 14.29009456329277,
+  "photos": [],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "test neu"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
