@@ -1,0 +1,92 @@
+{
+  "schema_version": 12,
+  "submission_id": "SUB-20260730-135420-AE6197",
+  "uploaded_at": "2026-07-30T13:54:20.191Z",
+  "captured_at": "2026-07-30T13:54:02.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "distance_m": 456
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000001",
+    "name": "Schiffsanlegestelle Linz-Schloss",
+    "short_name": "Linz-Schloss Nr. 11",
+    "station_number": "11",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "upstream",
+    "river_km": 2135.3436,
+    "river_km_text": "2135,3+43,6 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 13 m",
+    "entry_count": 3,
+    "entry_height": "0,80 m oder 1,50 m",
+    "latitude": 48.306639,
+    "longitude": 14.282528,
+    "address": "Obere Donaulände, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "TUI isla",
+  "notes": "",
+  "observer_lat": 48.30362626959541,
+  "observer_lon": 14.29009453485222,
+  "photos": [
+    {
+      "photo_id": "PHOTO-5B970010045443DA9A2A47BBDD69DDB7",
+      "path": "inbox/photos/2026/07/PHOTO-5B970010045443DA9A2A47BBDD69DDB7.jpg",
+      "filename": "PHOTO-5B970010045443DA9A2A47BBDD69DDB7.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 486139,
+      "sequence": 1
+    },
+    {
+      "photo_id": "PHOTO-687AAC3FD7774A49BAE4667DECF71EDD",
+      "path": "inbox/photos/2026/07/PHOTO-687AAC3FD7774A49BAE4667DECF71EDD.jpg",
+      "filename": "PHOTO-687AAC3FD7774A49BAE4667DECF71EDD.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 485368,
+      "sequence": 2
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000104",
+        "matched_by": "normalized_name",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000104"
+        ],
+        "matched_value": "TUI Isla",
+        "normalized_input": "tui isla"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30362626959541,
+  "photo_lon": 14.29009453485222
+}
