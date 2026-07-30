@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/submissions.js
-// Version: 0.14.5
+// Version: 0.14.6
 // Updated: 2026-07-30
 
 "use strict";
@@ -47,8 +47,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const previousPhotoButton = byId("previousPhotoButton");
   const nextPhotoButton = byId("nextPhotoButton");
   const noPhotoMessage = byId("noPhotoMessage");
-  const capturedAt = byId("capturedAt");
-  const locationText = byId("locationText");
+  const capturedAtLabel =
+    byId("capturedAtLabel");
+  
+  const capturedAt =
+    byId("capturedAt");
+  
+  const locationTextLabel =
+    byId("locationTextLabel");
+  
+  const locationText =
+    byId("locationText");
 
   const berthText =
     byId("berthText");
@@ -2180,7 +2189,22 @@ function renderVesselContext(submission) {
     emptyState.classList.add("hidden");
     detailContent.classList.remove("hidden");
 
-    const submission = selectedSubmission;
+    const submission =
+      selectedSubmission;
+    
+    const hasPhotos =
+      getPhotos(submission).length > 0;
+    
+    capturedAtLabel.textContent =
+      hasPhotos
+        ? "Aufgenommen"
+        : "Gesichtet";
+    
+    locationTextLabel.textContent =
+      hasPhotos
+        ? "Aufnahmeort"
+        : "Beobachtungsort";
+    
     const workflowStatus =
       getWorkflowStatus(submission);
     const automaticMatch =
