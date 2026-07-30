@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.7
+ * Version: 0.14.9
  * Updated: 2026-07-30
  */
 
@@ -2127,6 +2127,75 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
       ...input,
       target_type: forcedTargetType
     };
+  }
+
+  /*
+   * Bei direkten Schiffsfotos genügt der eingegebene Schiffsname.
+   * Eine Vessel-ID bleibt weiterhin erlaubt, ist aber nicht erforderlich.
+   * Automatisch übernommen wird ausschließlich ein eindeutiger exakter
+   * Namens- oder früherer Namens-Treffer.
+   */
+  if (
+    input?.target_type === "vessel" &&
+    !VESSEL_ID_PATTERN.test(String(input?.vessel_id ?? "").trim())
+  ) {
+    const enteredName = normalizeEnteredVesselName(input);
+
+    if (!enteredName) {
+      return jsonResponse({
+        ok: false,
+        error:
+          "Schiffsname fehlt. Bitte vessel_name_entered übermitteln."
+      }, 400);
+    }
+
+    const vesselsResult = await loadVessels(env);
+
+    if (!vesselsResult.ok) {
+      return jsonResponse({
+        ok: false,
+        error: vesselsResult.error
+      }, 502);
+    }
+
+    const match = matchVesselByName(
+      enteredName,
+      vesselsResult.vessels
+    );
+
+    if (match.status === "matched" && match.vessel_id) {
+      input = {
+        ...input,
+        vessel_id: match.vessel_id
+      };
+    } else {
+      const candidateIds = Array.isArray(match.candidate_ids)
+        ? match.candidate_ids
+        : [];
+
+      const candidates = candidateIds
+        .map(vesselId =>
+          vesselsResult.vessels.find(
+            vessel => vessel.vessel_id === vesselId
+          ) ?? null
+        )
+        .filter(Boolean)
+        .map(vessel => ({
+          vessel_id: vessel.vessel_id,
+          name: vessel.name
+        }));
+
+      return jsonResponse({
+        ok: false,
+        error:
+          match.status === "ambiguous"
+            ? "Der Schiffsname ist nicht eindeutig. Es wurden keine Fotos gespeichert."
+            : "Kein bestehendes Schiff mit diesem Namen gefunden.",
+        vessel_name_entered: enteredName,
+        vessel_match: match,
+        candidates
+      }, match.status === "ambiguous" ? 409 : 404);
+    }
   }
 
   const target = validateAttachmentTarget(input);
@@ -8951,9 +9020,19 @@ async function handleReviewSubmissionsList(request, env) {
     url.searchParams.get("limit") ?? 50
   );
 
+  /*
+   * Neben den Submission-Dateien benötigt dieser Endpunkt weitere
+   * GitHub-Abfragen für Vessel-Index, Kandidatenkatalog, Branch und Baum.
+   * Deshalb werden pro Aufruf höchstens 40 Submission-Dateien gelesen.
+   */
+  const reviewReadLimit = 40;
+
   const limit = Number.isInteger(requestedLimit)
-    ? Math.min(Math.max(requestedLimit, 1), 100)
-    : 50;
+    ? Math.min(
+        Math.max(requestedLimit, 1),
+        reviewReadLimit
+      )
+    : reviewReadLimit;
 
   /*
    * Offene Sichtungen werden beim Laden immer gegen den aktuellen
