@@ -1,0 +1,69 @@
+{
+  "schema_version": 12,
+  "submission_id": "SUB-20260730-080420-487AEE",
+  "uploaded_at": "2026-07-30T08:04:20.262Z",
+  "captured_at": "2026-07-30T08:03:54.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "distance_m": 456
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000003",
+    "name": "Schiffsanlegestelle Linz-Hauptplatz",
+    "short_name": "Linz-Hauptplatz Nr. 13",
+    "station_number": "13",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2135.045,
+    "river_km_text": "2135,0+45 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 29 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.307722,
+    "longitude": 14.28625,
+    "address": "Dr. Ernst Koref Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "unknown",
+  "vessel_name_entered": "Test OF 03 Hauptplatz",
+  "notes": "",
+  "observer_lat": 48.30362520677406,
+  "observer_lon": 14.29009605075544,
+  "photos": [],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "test of 03 hauptplatz"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
