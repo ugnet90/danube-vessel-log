@@ -1,0 +1,99 @@
+{
+  "schema_version": 12,
+  "submission_id": "SUB-20260730-144242-B1A40B",
+  "uploaded_at": "2026-07-30T14:42:42.217Z",
+  "captured_at": "2026-07-30T14:42:22.000Z",
+  "location": {
+    "status": "unknown",
+    "matched_by": "",
+    "id": "",
+    "name": "",
+    "municipality": "",
+    "country": "",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000003",
+    "name": "Schiffsanlegestelle Linz-Hauptplatz",
+    "short_name": "Linz-Hauptplatz Nr. 13",
+    "station_number": "13",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2135.045,
+    "river_km_text": "2135,0+45 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 29 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.307722,
+    "longitude": 14.28625,
+    "address": "Dr. Ernst Koref Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "TUI Maya",
+  "notes": "",
+  "observer_lat": 48.38778008480479,
+  "observer_lon": 14.09005986346292,
+  "photos": [
+    {
+      "photo_id": "PHOTO-5975186D933F479383783A8B612CCF03",
+      "path": "inbox/photos/2026/07/PHOTO-5975186D933F479383783A8B612CCF03.jpg",
+      "filename": "PHOTO-5975186D933F479383783A8B612CCF03.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 450520,
+      "sequence": 1
+    },
+    {
+      "photo_id": "PHOTO-7A5091D623EE4BCEA893BBE539A0C141",
+      "path": "inbox/photos/2026/07/PHOTO-7A5091D623EE4BCEA893BBE539A0C141.jpg",
+      "filename": "PHOTO-7A5091D623EE4BCEA893BBE539A0C141.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 405631,
+      "sequence": 2
+    },
+    {
+      "photo_id": "PHOTO-6F897CDF1CEF498F9317B8A0CC2A72D8",
+      "path": "inbox/photos/2026/07/PHOTO-6F897CDF1CEF498F9317B8A0CC2A72D8.jpg",
+      "filename": "PHOTO-6F897CDF1CEF498F9317B8A0CC2A72D8.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 451758,
+      "sequence": 3
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "tui maya"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.38778008480479,
+  "photo_lon": 14.09005986346292
+}
