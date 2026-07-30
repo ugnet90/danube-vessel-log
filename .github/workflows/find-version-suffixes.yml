@@ -1,0 +1,55 @@
+# Danube Vessel Log
+# File: .github/workflows/find-version-suffixes.yml
+# Version: 1.0.0
+
+name: Versionssuffixe prüfen
+
+on:
+  workflow_dispatch:
+    inputs:
+      fail_on_findings:
+        description: "Workflow bei Funden als fehlgeschlagen markieren"
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    name: HTML-Dateien prüfen
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository laden
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Versionssuffixe suchen
+        shell: bash
+        run: |
+          EXTRA_ARGS=()
+          if [[ "${{ inputs.fail_on_findings }}" == "true" ]]; then
+            EXTRA_ARGS+=(--fail-on-findings)
+          fi
+
+          python tools/find_version_suffixes.py \
+            --root . \
+            --report version_suffix_report.txt \
+            --markdown-report version_suffix_report.md \
+            "${EXTRA_ARGS[@]}"
+
+      - name: Bericht hochladen
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-suffix-report
+          path: |
+            version_suffix_report.txt
+            version_suffix_report.md
+          if-no-files-found: error
