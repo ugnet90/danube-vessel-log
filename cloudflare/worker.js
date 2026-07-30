@@ -1,21 +1,14 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.12
+ * Version: 0.14.14
  * Updated: 2026-07-30
  */
 
 const API_VERSION = "2022-11-28";
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024; // 8 MB
 const MAX_PHOTOS_PER_SUBMISSION = 10;
-/*
- * Beim Laden einer Schiffsdetailseite werden zusätzlich zum Vessel-Index
- * und Stammdatensatz auch Git-Ref, Git-Tree und die Datei für direkte Fotos
- * abgerufen. Damit das Cloudflare-Limit externer Unteranfragen nicht
- * überschritten wird, dürfen pro Aufruf höchstens 40 Submission-Dateien
- * gelesen werden.
- */
-const VESSEL_DETAIL_SUBMISSION_SCAN_LIMIT = 20;
+const SIGHTINGS_PATH = "data/sightings.json";
 const BRANCH = "main";
 const LOCATIONS_PATH = "data/locations.csv";
 const BERTHS_PATH = "data/berths.csv";
@@ -2315,6 +2308,31 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
     });
   }
 
+  if (
+    target.targetType === "submission" &&
+    (submissionFile.submission.workflow?.status ?? "new") === "reviewed"
+  ) {
+    const sightingsResult = await loadSightingsDocument(env);
+
+    if (!sightingsResult.ok) {
+      return jsonResponse({
+        ok: false,
+        error: sightingsResult.error
+      }, sightingsResult.status ?? 502);
+    }
+
+    const updatedSightingsDocument = updateSightingsDocument({
+      document: sightingsResult.document,
+      submission: submissionFile.submission,
+      submissionPath: submissionFile.path,
+      updatedAt: uploadedAt.toISOString()
+    });
+
+    files.push(
+      createSightingsCommitFile(updatedSightingsDocument)
+    );
+  }
+
   const commitResult = await createAtomicGitHubCommit({
     env,
     message: target.targetType === "submission"
@@ -2477,291 +2495,305 @@ async function handleVesselDetail(request, env) {
   });
 }
 
+
+function createEmptySightingsDocument() {
+  return {
+    schema_version: 1,
+    updated_at: "",
+    sightings: []
+  };
+}
+
+function normalizeSightingsDocument(document) {
+  const normalized =
+    document && typeof document === "object"
+      ? document
+      : createEmptySightingsDocument();
+
+  normalized.schema_version = 1;
+  normalized.updated_at =
+    typeof normalized.updated_at === "string"
+      ? normalized.updated_at
+      : "";
+  normalized.sightings = Array.isArray(normalized.sightings)
+    ? normalized.sightings.filter(item => item && typeof item === "object")
+    : [];
+
+  return normalized;
+}
+
+async function loadSightingsDocument(env) {
+  const file = await readGitHubFile({
+    env,
+    path: SIGHTINGS_PATH
+  });
+
+  if (!file.ok && file.status === 404) {
+    return {
+      ok: true,
+      exists: false,
+      path: SIGHTINGS_PATH,
+      document: createEmptySightingsDocument()
+    };
+  }
+
+  if (!file.ok) {
+    return {
+      ok: false,
+      status: file.status ?? 502,
+      error: "data/sightings.json konnte nicht gelesen werden."
+    };
+  }
+
+  try {
+    const document = JSON.parse(
+      String(file.content ?? "").replace(/^\uFEFF/, "")
+    );
+
+    return {
+      ok: true,
+      exists: true,
+      path: SIGHTINGS_PATH,
+      document: normalizeSightingsDocument(document)
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      status: 500,
+      error:
+        "data/sightings.json enthält ungültiges JSON: " +
+        (error instanceof Error ? error.message : String(error))
+    };
+  }
+}
+
+function normalizeSightingPhotoRecord(photo, index) {
+  if (!photo || typeof photo !== "object") return null;
+
+  const path = String(photo.path ?? "").trim();
+  if (!path) return null;
+
+  return {
+    photo_id: String(photo.photo_id ?? "").trim(),
+    path,
+    filename: String(photo.filename ?? "").trim(),
+    original_filename: String(photo.original_filename ?? "").trim(),
+    mime_type: String(photo.mime_type ?? "image/jpeg").trim() || "image/jpeg",
+    size_bytes: Number.isFinite(photo.size_bytes) ? photo.size_bytes : null,
+    sequence: Number.isInteger(photo.sequence) ? photo.sequence : index + 1,
+    captured_at: String(photo.captured_at ?? "").trim(),
+    added_at: String(photo.added_at ?? "").trim(),
+    source: String(photo.source ?? "submission").trim() || "submission",
+    notes: String(photo.notes ?? "").trim()
+  };
+}
+
+function buildSightingRecord({ submission, submissionPath }) {
+  const workflowStatus = submission?.workflow?.status ?? "new";
+  const vesselId = String(
+    submission?.workflow?.review?.vessel_id ?? ""
+  ).trim();
+
+  if (workflowStatus !== "reviewed" || !VESSEL_ID_PATTERN.test(vesselId)) {
+    return null;
+  }
+
+  const photos = (Array.isArray(submission.photos) ? submission.photos : [])
+    .map(normalizeSightingPhotoRecord)
+    .filter(Boolean);
+
+  const observerLat = parseCoordinate(submission.observer_lat);
+  const observerLon = parseCoordinate(submission.observer_lon);
+  const photoLat = parseCoordinate(submission.photo_lat);
+  const photoLon = parseCoordinate(submission.photo_lon);
+
+  return {
+    submission_id: String(submission.submission_id ?? "").trim(),
+    submission_path: String(submissionPath ?? "").trim(),
+    vessel_id: vesselId,
+    captured_at: String(submission.captured_at ?? "").trim(),
+    uploaded_at: String(submission.uploaded_at ?? "").trim(),
+    reviewed_at: String(submission.workflow?.review?.reviewed_at ?? "").trim(),
+    vessel_name_entered: String(submission.vessel_name_entered ?? "").trim(),
+    location:
+      submission.location && typeof submission.location === "object"
+        ? {
+            status: String(submission.location.status ?? "unknown"),
+            matched_by: String(submission.location.matched_by ?? ""),
+            id: String(submission.location.id ?? ""),
+            name: String(submission.location.name ?? ""),
+            municipality: String(submission.location.municipality ?? ""),
+            country: String(submission.location.country ?? ""),
+            distance_m: Number.isFinite(submission.location.distance_m)
+              ? submission.location.distance_m
+              : null
+          }
+        : {
+            status: "unknown",
+            matched_by: "",
+            id: "",
+            name: "",
+            municipality: "",
+            country: "",
+            distance_m: null
+          },
+    berth: normalizeSubmissionBerth(
+      submission.berth,
+      submission.movement ?? "unknown"
+    ),
+    movement: String(submission.movement ?? "unknown"),
+    direction: String(submission.direction ?? "unknown"),
+    notes: String(submission.notes ?? ""),
+    observer_lat: observerLat,
+    observer_lon: observerLon,
+    photo_lat: photoLat,
+    photo_lon: photoLon,
+    review_decision: String(submission.workflow?.review?.decision ?? ""),
+    review_notes: String(submission.workflow?.review?.notes ?? ""),
+    photos,
+    updated_at:
+      String(submission.updated_at ?? "").trim() ||
+      String(submission.workflow?.review?.reviewed_at ?? "").trim() ||
+      String(submission.uploaded_at ?? "").trim()
+  };
+}
+
+function updateSightingsDocument({
+  document,
+  submission,
+  submissionPath,
+  updatedAt
+}) {
+  const normalized = normalizeSightingsDocument(document);
+  const submissionId = String(submission?.submission_id ?? "").trim();
+
+  normalized.sightings = normalized.sightings.filter(
+    item => String(item?.submission_id ?? "").trim() !== submissionId
+  );
+
+  const record = buildSightingRecord({ submission, submissionPath });
+  if (record) normalized.sightings.push(record);
+
+  normalized.sightings.sort((left, right) => {
+    const capturedCompare = String(right.captured_at ?? "")
+      .localeCompare(String(left.captured_at ?? ""));
+    return capturedCompare || String(left.submission_id ?? "")
+      .localeCompare(String(right.submission_id ?? ""));
+  });
+
+  normalized.updated_at = updatedAt;
+  return normalized;
+}
+
+function serializeSightingsDocument(document) {
+  return JSON.stringify(normalizeSightingsDocument(document), null, 2) + "\n";
+}
+
+function createSightingsCommitFile(document) {
+  return {
+    path: SIGHTINGS_PATH,
+    content: serializeSightingsDocument(document),
+    encoding: "utf-8"
+  };
+}
+
+function normalizeIndexedSightingForOutput(env, record) {
+  const photos = (Array.isArray(record?.photos) ? record.photos : [])
+    .map((photo, index) => {
+      const normalized = normalizeSightingPhotoRecord(photo, index);
+      if (!normalized) return null;
+      return {
+        ...normalized,
+        url: buildRawGitHubUrl(env, normalized.path)
+      };
+    })
+    .filter(Boolean);
+
+  return {
+    submission_id: String(record?.submission_id ?? ""),
+    captured_at: String(record?.captured_at ?? ""),
+    uploaded_at: String(record?.uploaded_at ?? ""),
+    vessel_name_entered: String(record?.vessel_name_entered ?? ""),
+    location:
+      record?.location && typeof record.location === "object"
+        ? {
+            id: record.location.id ?? "",
+            name: record.location.name ?? "",
+            municipality: record.location.municipality ?? "",
+            country: record.location.country ?? ""
+          }
+        : { id: "", name: "", municipality: "", country: "" },
+    berth: normalizeSubmissionBerth(record?.berth, record?.movement ?? "unknown"),
+    movement: String(record?.movement ?? "unknown"),
+    direction: String(record?.direction ?? "unknown"),
+    notes: String(record?.notes ?? ""),
+    review_decision: String(record?.review_decision ?? ""),
+    review_notes: String(record?.review_notes ?? ""),
+    photo_count: photos.length,
+    photos,
+    submission_path: String(record?.submission_path ?? "")
+  };
+}
+
 async function loadVesselSightings({
   env,
   vesselId,
   vessel
 }) {
-  const pathsResult =
-    await listSubmissionPaths(env);
+  const sightingsResult = await loadSightingsDocument(env);
 
-  if (!pathsResult.ok) {
-    return {
-      ok: false,
-      status:
-        pathsResult.status ?? 502,
-
-      error:
-        pathsResult.error ??
-        "Die Submission-Dateien konnten nicht aufgelistet werden."
-    };
+  if (!sightingsResult.ok) {
+    return sightingsResult;
   }
 
-  const allPaths = [
-    ...pathsResult.paths
-  ].sort(
-    (left, right) =>
-      right.localeCompare(left)
-  );
+  const indexedSightings = sightingsResult.document.sightings;
 
-  const candidatePaths =
-    allPaths.slice(
-      0,
-      VESSEL_DETAIL_SUBMISSION_SCAN_LIMIT
+  const sightings = indexedSightings
+    .filter(record => String(record?.vessel_id ?? "").trim() === vesselId)
+    .map(record => normalizeIndexedSightingForOutput(env, record))
+    .sort((left, right) =>
+      String(right.captured_at).localeCompare(String(left.captured_at))
     );
 
-  const loadedFiles =
-    await Promise.all(
-      candidatePaths.map(path =>
-        readGitHubFile({
-          env,
-          path
-        })
-      )
-    );
-
-  const sightings = [];
-
-  for (const file of loadedFiles) {
-    if (!file.ok) continue;
-
-    let submission;
-
-    try {
-      submission = JSON.parse(
-        String(file.content ?? "")
-          .replace(/^\uFEFF/, "")
-      );
-    } catch {
-      continue;
-    }
-
-    const workflowStatus =
-      submission.workflow?.status ??
-      "new";
-
-    const reviewedVesselId =
-      submission.workflow
-        ?.review
-        ?.vessel_id ?? "";
-
-    if (
-      workflowStatus !== "reviewed" ||
-      reviewedVesselId !== vesselId
-    ) {
-      continue;
-    }
-
-    const photos =
-      Array.isArray(submission.photos)
-        ? submission.photos
-            .filter(photo =>
-              photo &&
-              typeof photo.path ===
-                "string" &&
-              photo.path.trim() !== ""
-            )
-            .map(
-              (photo, index) => ({
-                photo_id:
-                  typeof photo.photo_id ===
-                    "string"
-                    ? photo.photo_id
-                    : "",
-
-                path: photo.path,
-
-                url:
-                  buildRawGitHubUrl(
-                    env,
-                    photo.path
-                  ),
-
-                original_filename:
-                  typeof photo
-                    .original_filename ===
-                    "string"
-                    ? photo.original_filename
-                    : "",
-
-                size_bytes:
-                  Number.isFinite(
-                    photo.size_bytes
-                  )
-                    ? photo.size_bytes
-                    : null,
-
-                sequence:
-                  Number.isInteger(
-                    photo.sequence
-                  )
-                    ? photo.sequence
-                    : index + 1
-              })
-            )
-        : [];
-
-    sightings.push({
-      submission_id:
-        typeof submission.submission_id ===
-          "string"
-          ? submission.submission_id
-          : "",
-
-      captured_at:
-        typeof submission.captured_at ===
-          "string"
-          ? submission.captured_at
-          : "",
-
-      uploaded_at:
-        typeof submission.uploaded_at ===
-          "string"
-          ? submission.uploaded_at
-          : "",
-
-      vessel_name_entered:
-        typeof submission
-          .vessel_name_entered ===
-          "string"
-          ? submission
-              .vessel_name_entered
-          : "",
-
-      location:
-        submission.location &&
-        typeof submission.location ===
-          "object"
-          ? {
-              id:
-                submission.location.id ??
-                "",
-
-              name:
-                submission.location.name ??
-                "",
-
-              municipality:
-                submission.location
-                  .municipality ?? "",
-
-              country:
-                submission.location
-                  .country ?? ""
-            }
-          : {
-              id: "",
-              name: "",
-              municipality: "",
-              country: ""
-            },
-
-      berth: normalizeSubmissionBerth(
-        submission.berth,
-        submission.movement ?? "unknown"
-      ),
-
-      movement:
-        typeof submission.movement ===
-          "string"
-          ? submission.movement
-          : "unknown",
-
-      direction:
-        typeof submission.direction ===
-          "string"
-          ? submission.direction
-          : "unknown",
-
-      notes:
-        typeof submission.notes ===
-          "string"
-          ? submission.notes
-          : "",
-
-      review_decision:
-        submission.workflow
-          ?.review
-          ?.decision ?? "",
-
-      review_notes:
-        submission.workflow
-          ?.review
-          ?.notes ?? "",
-
-      photo_count:
-        photos.length,
-
-      photos,
-
-      submission_path:
-        file.path
-    });
-  }
-
-  sightings.sort(
-    (left, right) =>
-      String(right.captured_at)
-        .localeCompare(
-          String(left.captured_at)
-        )
-  );
-
-  const directPhotosResult =
-    await loadDirectVesselPhotos(
-      env,
-      vesselId
-    );
+  const directPhotosResult = await loadDirectVesselPhotos(env, vesselId);
 
   if (!directPhotosResult.ok) {
     return {
       ok: false,
-      status:
-        directPhotosResult.status ?? 502,
-      error:
-        directPhotosResult.error
+      status: directPhotosResult.status ?? 502,
+      error: directPhotosResult.error
     };
   }
 
-  const directPhotos =
-    normalizeDirectVesselPhotos(
-      env,
-      directPhotosResult.document
-    );
+  const directPhotos = normalizeDirectVesselPhotos(
+    env,
+    directPhotosResult.document
+  );
 
   const primaryPhotoId =
-    typeof vessel.media
-      ?.primary_photo_id === "string"
+    typeof vessel.media?.primary_photo_id === "string"
       ? vessel.media.primary_photo_id
       : "";
 
   const primarySubmissionId =
-    typeof vessel.media
-      ?.primary_submission_id === "string"
-      ? vessel.media
-          .primary_submission_id
+    typeof vessel.media?.primary_submission_id === "string"
+      ? vessel.media.primary_submission_id
       : "";
 
   let primaryPhoto = null;
 
   if (primaryPhotoId) {
     for (const sighting of sightings) {
-      const photo =
-        sighting.photos.find(
-          item =>
-            item.photo_id ===
-            primaryPhotoId
-        );
+      const photo = sighting.photos.find(
+        item => item.photo_id === primaryPhotoId
+      );
 
       if (photo) {
         primaryPhoto = {
           ...photo,
-          submission_id:
-            sighting.submission_id,
-          captured_at:
-            sighting.captured_at
+          submission_id: sighting.submission_id,
+          captured_at: sighting.captured_at
         };
-
         break;
       }
     }
@@ -2776,95 +2808,53 @@ async function loadVesselSightings({
       primaryPhoto = {
         ...photo,
         submission_id: "",
-        captured_at:
-          photo.captured_at || photo.added_at
+        captured_at: photo.captured_at || photo.added_at
       };
     }
   }
 
-  if (
-    !primaryPhoto &&
-    primarySubmissionId
-  ) {
-    const primarySighting =
-      sightings.find(
-        sighting =>
-          sighting.submission_id ===
-          primarySubmissionId
-      );
+  if (!primaryPhoto && primarySubmissionId) {
+    const primarySighting = sightings.find(
+      sighting => sighting.submission_id === primarySubmissionId
+    );
 
-    if (
-      primarySighting?.photos[0]
-    ) {
+    if (primarySighting?.photos[0]) {
       primaryPhoto = {
         ...primarySighting.photos[0],
-
-        submission_id:
-          primarySighting
-            .submission_id,
-
-        captured_at:
-          primarySighting
-            .captured_at
+        submission_id: primarySighting.submission_id,
+        captured_at: primarySighting.captured_at
       };
     }
   }
 
-  if (
-    !primaryPhoto &&
-    sightings[0]?.photos[0]
-  ) {
+  if (!primaryPhoto && sightings[0]?.photos[0]) {
     primaryPhoto = {
       ...sightings[0].photos[0],
-
-      submission_id:
-        sightings[0].submission_id,
-
-      captured_at:
-        sightings[0].captured_at
+      submission_id: sightings[0].submission_id,
+      captured_at: sightings[0].captured_at
     };
   }
 
-  if (
-    !primaryPhoto &&
-    directPhotos[0]
-  ) {
+  if (!primaryPhoto && directPhotos[0]) {
     primaryPhoto = {
       ...directPhotos[0],
       submission_id: "",
-      captured_at:
-        directPhotos[0].captured_at ||
-        directPhotos[0].added_at
+      captured_at: directPhotos[0].captured_at || directPhotos[0].added_at
     };
   }
 
   return {
     ok: true,
-
-    primary_photo:
-      primaryPhoto,
-
-    direct_photos:
-      directPhotos,
-
+    primary_photo: primaryPhoto,
+    direct_photos: directPhotos,
     sightings,
-
     meta: {
-      total_submission_count:
-        allPaths.length,
-
-      scanned_count:
-        candidatePaths.length,
-
-      matched_count:
-        sightings.length,
-
-      direct_photo_count:
-        directPhotos.length,
-
-      truncated:
-        allPaths.length >
-        candidatePaths.length
+      total_submission_count: indexedSightings.length,
+      scanned_count: indexedSightings.length,
+      matched_count: sightings.length,
+      direct_photo_count: directPhotos.length,
+      truncated: false,
+      source: SIGHTINGS_PATH
     }
   };
 }
@@ -2938,171 +2928,58 @@ async function buildVesselDeletionPlan({
   vesselResult,
   vessels
 }) {
-  const pathsResult =
-    await listSubmissionPaths(env);
+  const pathsResult = await listSubmissionPaths(env);
 
   if (!pathsResult.ok) {
     return {
       ok: false,
       status: pathsResult.status ?? 502,
-      error:
-        pathsResult.error ??
-        "Die Submission-Dateien konnten nicht aufgelistet werden."
+      error: pathsResult.error ?? "Der GitHub-Dateibaum konnte nicht gelesen werden."
     };
   }
 
-  const existingBlobPaths =
-    new Set(
-      pathsResult.blob_paths ?? []
-    );
+  const sightingsResult = await loadSightingsDocument(env);
 
-  const submissionPaths =
-    [...pathsResult.paths].sort();
+  if (!sightingsResult.ok) {
+    return sightingsResult;
+  }
 
-  const matchedSubmissions = [];
+  const existingBlobPaths = new Set(pathsResult.blob_paths ?? []);
+  const matchedSightings = sightingsResult.document.sightings.filter(
+    record => String(record?.vessel_id ?? "").trim() === vesselId
+  );
+
   const photoPaths = new Set();
   const missingPhotoPaths = new Set();
+  const submissionPaths = [];
 
-  const batchSize = 20;
+  for (const sighting of matchedSightings) {
+    const submissionPath =
+      String(sighting?.submission_path ?? "").trim() ||
+      buildSubmissionPath(String(sighting?.submission_id ?? "").trim());
 
-  for (
-    let offset = 0;
-    offset < submissionPaths.length;
-    offset += batchSize
-  ) {
-    const batch =
-      submissionPaths.slice(
-        offset,
-        offset + batchSize
-      );
+    if (submissionPath) submissionPaths.push(submissionPath);
 
-    const files =
-      await Promise.all(
-        batch.map(path =>
-          readGitHubFile({
-            env,
-            path
-          })
-        )
-      );
-
-    for (
-      let index = 0;
-      index < files.length;
-      index += 1
-    ) {
-      const file = files[index];
-      const path = batch[index];
-
-      if (!file.ok) {
+    for (const photoPath of collectSubmissionPhotoPaths(sighting)) {
+      if (!isSafeVesselPhotoPath(photoPath)) {
         return {
           ok: false,
-          status: file.status ?? 502,
+          status: 409,
           error:
-            `Die Submission ${path} konnte nicht gelesen werden.`
+            `Der Sichtungsindex enthält einen nicht sicher löschbaren Fotopfad: ${photoPath}`
         };
       }
 
-      let submission;
-
-      try {
-        submission = JSON.parse(
-          String(file.content ?? "")
-            .replace(/^\uFEFF/, "")
-        );
-      } catch (error) {
-        return {
-          ok: false,
-          status: 500,
-          error:
-            `Die Submission ${path} enthält ungültiges JSON: ` +
-            (
-              error instanceof Error
-                ? error.message
-                : String(error)
-            )
-        };
-      }
-
-      const workflowStatus =
-        submission.workflow?.status ??
-        "new";
-
-      const reviewedVesselId =
-        submission.workflow
-          ?.review
-          ?.vessel_id ?? "";
-
-      if (
-        workflowStatus !== "reviewed" ||
-        reviewedVesselId !== vesselId
-      ) {
-        continue;
-      }
-
-      const referencedPhotoPaths =
-        collectSubmissionPhotoPaths(
-          submission
-        );
-
-      for (
-        const photoPath
-        of referencedPhotoPaths
-      ) {
-        if (
-          !isSafeVesselPhotoPath(
-            photoPath
-          )
-        ) {
-          return {
-            ok: false,
-            status: 409,
-            error:
-              `Die Submission ${path} enthält einen nicht sicher löschbaren Fotopfad: ${photoPath}`
-          };
-        }
-
-        if (
-          existingBlobPaths.has(
-            photoPath
-          )
-        ) {
-          photoPaths.add(photoPath);
-        } else {
-          missingPhotoPaths.add(
-            photoPath
-          );
-        }
-      }
-
-      matchedSubmissions.push({
-        submission_id:
-          submission.submission_id ?? "",
-        captured_at:
-          submission.captured_at ?? "",
-        path,
-        photo_count:
-          referencedPhotoPaths.length
-      });
+      if (existingBlobPaths.has(photoPath)) photoPaths.add(photoPath);
+      else missingPhotoPaths.add(photoPath);
     }
   }
 
-  const directPhotosResult =
-    await loadDirectVesselPhotos(
-      env,
-      vesselId
-    );
+  const directPhotosResult = await loadDirectVesselPhotos(env, vesselId);
 
-  if (!directPhotosResult.ok) {
-    return directPhotosResult;
-  }
+  if (!directPhotosResult.ok) return directPhotosResult;
 
-  const directPhotoPaths =
-    collectSubmissionPhotoPaths(
-      directPhotosResult.document
-    );
-
-  for (const photoPath of directPhotoPaths) {
+  for (const photoPath of collectSubmissionPhotoPaths(directPhotosResult.document)) {
     if (!isSafeVesselPhotoPath(photoPath)) {
       return {
         ok: false,
@@ -3112,63 +2989,27 @@ async function buildVesselDeletionPlan({
       };
     }
 
-    if (existingBlobPaths.has(photoPath)) {
-      photoPaths.add(photoPath);
-    } else {
-      missingPhotoPaths.add(photoPath);
-    }
+    if (existingBlobPaths.has(photoPath)) photoPaths.add(photoPath);
+    else missingPhotoPaths.add(photoPath);
   }
 
-  const countersResult =
-    await loadVesselCounters({
-      env,
-      vessels
-    });
-
-  if (!countersResult.ok) {
-    return countersResult;
-  }
+  const countersResult = await loadVesselCounters({ env, vessels });
+  if (!countersResult.ok) return countersResult;
 
   return {
     ok: true,
     vessel_id: vesselId,
-
-    vessel_name:
-      vesselResult.vessel
-        ?.identity
-        ?.name ||
-      vesselId,
-
-    vessel_path:
-      vesselResult.path,
-
-    vessel_photos_path:
-      directPhotosResult.exists
-        ? directPhotosResult.path
-        : "",
-
-    submission_paths:
-      matchedSubmissions.map(
-        item => item.path
-      ),
-
-    photo_paths:
-      [...photoPaths].sort(),
-
-    missing_photo_paths:
-      [...missingPhotoPaths].sort(),
-
-    counters:
-      countersResult.counters,
-
-    counters_will_be_created:
-      !countersResult.exists,
-
-    scanned_submission_count:
-      submissionPaths.length,
-
-    confirmation_text:
-      `${vesselId} LÖSCHEN`
+    vessel_name: vesselResult.vessel?.identity?.name || vesselId,
+    vessel_path: vesselResult.path,
+    vessel_photos_path: directPhotosResult.exists ? directPhotosResult.path : "",
+    submission_paths: [...new Set(submissionPaths)].sort(),
+    photo_paths: [...photoPaths].sort(),
+    missing_photo_paths: [...missingPhotoPaths].sort(),
+    sightings_document: sightingsResult.document,
+    counters: countersResult.counters,
+    counters_will_be_created: !countersResult.exists,
+    scanned_submission_count: sightingsResult.document.sightings.length,
+    confirmation_text: `${vesselId} LÖSCHEN`
   };
 }
 
@@ -3399,6 +3240,16 @@ async function handleDeleteVessel(
     ...plan.photo_paths
   ];
 
+  const remainingSightingsDocument = normalizeSightingsDocument(
+    plan.sightings_document
+  );
+
+  remainingSightingsDocument.sightings =
+    remainingSightingsDocument.sightings.filter(
+      record => String(record?.vessel_id ?? "").trim() !== vesselId
+    );
+  remainingSightingsDocument.updated_at = new Date().toISOString();
+
   const files = [
     {
       path: VESSELS_PATH,
@@ -3416,6 +3267,7 @@ async function handleDeleteVessel(
         ),
       encoding: "utf-8"
     },
+    createSightingsCommitFile(remainingSightingsDocument),
 
     ...[
       ...new Set(deletePaths)
@@ -6568,6 +6420,26 @@ async function handleCreateVessel(request, env) {
       content: JSON.stringify(submission, null, 2) + "\n",
       encoding: "utf-8"
     });
+
+    const sightingsResult = await loadSightingsDocument(env);
+
+    if (!sightingsResult.ok) {
+      return jsonResponse({
+        ok: false,
+        error: sightingsResult.error
+      }, sightingsResult.status ?? 502);
+    }
+
+    const updatedSightingsDocument = updateSightingsDocument({
+      document: sightingsResult.document,
+      submission,
+      submissionPath,
+      updatedAt: createdAt
+    });
+
+    commitFiles.push(
+      createSightingsCommitFile(updatedSightingsDocument)
+    );
   }
 
   const commitResult = await createAtomicGitHubCommit({
@@ -9544,11 +9416,31 @@ async function handleSubmissionReview(request, env) {
       review
     );
 
+    const sightingsResult = await loadSightingsDocument(env);
+
+    if (!sightingsResult.ok) {
+      return jsonResponse({
+        ok: false,
+        error: sightingsResult.error
+      }, sightingsResult.status ?? 502);
+    }
+
     const reviewedAt =
       submission.workflow
         ?.review
         ?.reviewed_at ||
       new Date().toISOString();
+
+    const updatedSightingsDocument = updateSightingsDocument({
+      document: sightingsResult.document,
+      submission,
+      submissionPath: path,
+      updatedAt: reviewedAt
+    });
+
+    const sightingsCommitFile = createSightingsCommitFile(
+      updatedSightingsDocument
+    );
 
     if (
       review.decision !==
@@ -9602,17 +9494,11 @@ async function handleSubmissionReview(request, env) {
             extraFiles: [
               {
                 path,
-
                 content:
-                  JSON.stringify(
-                    submission,
-                    null,
-                    2
-                  ) + "\n",
-
-                encoding:
-                  "utf-8"
-              }
+                  JSON.stringify(submission, null, 2) + "\n",
+                encoding: "utf-8"
+              },
+              sightingsCommitFile
             ]
           });
 
@@ -9663,57 +9549,38 @@ async function handleSubmissionReview(request, env) {
       }
     }
 
-    const update =
-      await updateGitHubFile({
-        env,
-        path,
-
-        content:
-          JSON.stringify(
-            submission,
-            null,
-            2
-          ) + "\n",
-
-        sha:
-          file.sha,
-
-        message:
-          `Review ${submissionId}: ` +
-          `${review.decision}`
-      });
+    const update = await createAtomicGitHubCommit({
+      env,
+      message: `Review ${submissionId}: ${review.decision}`,
+      files: [
+        {
+          path,
+          content: JSON.stringify(submission, null, 2) + "\n",
+          encoding: "utf-8"
+        },
+        sightingsCommitFile
+      ]
+    });
 
     if (!update.ok) {
-      return jsonResponse(
-        update,
-        update.status ?? 500
-      );
+      return jsonResponse({
+        ok: false,
+        error: "Submission und Sichtungsindex konnten nicht atomar gespeichert werden.",
+        github_step: update.step ?? null,
+        github_status: update.status ?? null,
+        github_response: update.body ?? null
+      }, 502);
     }
 
     return jsonResponse({
       ok: true,
-
-      submission_id:
-        submissionId,
-
-      decision:
-        review.decision,
-
-      vessel_id:
-        review.vessel_id,
-
-      vessel_status:
-        review.decision === "rejected"
-          ? ""
-          : "active",
-
-      status_changed:
-        false,
-
+      submission_id: submissionId,
+      decision: review.decision,
+      vessel_id: review.vessel_id,
+      vessel_status: review.decision === "rejected" ? "" : "active",
+      status_changed: false,
       path,
-
-      commit:
-        update.commit_sha ?? null
+      commit: update.commitSha ?? null
     });
 }
 
