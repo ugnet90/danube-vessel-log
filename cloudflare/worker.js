@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.11
+ * Version: 0.14.12
  * Updated: 2026-07-30
  */
 
@@ -15,7 +15,7 @@ const MAX_PHOTOS_PER_SUBMISSION = 10;
  * überschritten wird, dürfen pro Aufruf höchstens 40 Submission-Dateien
  * gelesen werden.
  */
-const VESSEL_DETAIL_SUBMISSION_SCAN_LIMIT = 40;
+const VESSEL_DETAIL_SUBMISSION_SCAN_LIMIT = 20;
 const BRANCH = "main";
 const LOCATIONS_PATH = "data/locations.csv";
 const BERTHS_PATH = "data/berths.csv";
@@ -2410,21 +2410,54 @@ async function handleVesselDetail(request, env) {
     }, vesselResult.status === 404 ? 404 : 502);
   }
 
-  const sightingsResult =
-    await loadVesselSightings({
-      env,
-      vesselId,
-      vessel: vesselResult.vessel
-    });
+  let sightingsResult;
 
+  try {
+    sightingsResult =
+      await loadVesselSightings({
+        env,
+        vesselId,
+        vessel: vesselResult.vessel
+      });
+  } catch (error) {
+    sightingsResult = {
+      ok: false,
+      status: 502,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Die Sichtungshistorie konnte nicht geladen werden."
+    };
+  }
+
+  /*
+   * Die Stammdaten eines Schiffes müssen auch dann erreichbar bleiben,
+   * wenn das Nachladen der Sichtungen oder direkten Fotos fehlschlägt.
+   * Dadurch blockiert ein Subrequest-Limit nicht mehr die gesamte
+   * Schiffsdetailseite.
+   */
   if (!sightingsResult.ok) {
     return jsonResponse({
-      ok: false,
-      error: sightingsResult.error,
+      ok: true,
       vessel_id: vesselId,
-      github_status:
-        sightingsResult.status ?? null
-    }, 502);
+      path: vesselResult.path,
+      index: vesselResult.index,
+      vessel: vesselResult.vessel,
+      primary_photo: null,
+      direct_photos: [],
+      sightings: [],
+      sightings_meta: {
+        total_submission_count: 0,
+        scanned_count: 0,
+        matched_count: 0,
+        direct_photo_count: 0,
+        truncated: false,
+        degraded: true,
+        load_error:
+          sightingsResult.error ??
+          "Die Sichtungshistorie konnte nicht geladen werden."
+      }
+    });
   }
 
   return jsonResponse({
