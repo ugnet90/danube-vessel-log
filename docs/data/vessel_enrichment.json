@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-07-30T16:05:50.337920Z",
+  "generated_at": "2026-07-31T13:28:16.292203Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,14 +32,14 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 13,
-    "vessels_incomplete": 13,
+    "vessels_total": 14,
+    "vessels_incomplete": 14,
     "vessels_complete": 0,
     "candidate_matches": 1,
     "matched_no_new_data": 4,
     "low_confidence": 2,
     "no_match": 6,
-    "lookup_errors": 0,
+    "lookup_errors": 1,
     "suggestions_total": 2
   },
   "vessels": [
@@ -136,7 +136,7 @@
               "Mensch"
             ],
             "suggestions": [],
-            "revision_id": 2524830366
+            "revision_id": 2525148981
           },
           {
             "qid": "Q1003030",
@@ -1331,6 +1331,88 @@
             "revision_id": 2504473602
           }
         ]
+      }
+    },
+    {
+      "vessel_id": "VES-000112",
+      "name": "S. s. Emilie",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000112.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.eni",
+          "label": "ENI"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "classification.flag",
+          "label": "Flagge"
+        },
+        {
+          "field": "technical.year_built",
+          "label": "Baujahr"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.length_m",
+          "label": "Länge"
+        },
+        {
+          "field": "technical.width_m",
+          "label": "Breite"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "technical.passengers",
+          "label": "Passagiere"
+        },
+        {
+          "field": "operations.operator",
+          "label": "Betreiber"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        },
+        {
+          "field": "operations.home_port",
+          "label": "Heimathafen"
+        }
+      ],
+      "missing_count": 16,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 6.3 seconds lagged.",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": []
       }
     }
   ]
