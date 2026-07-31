@@ -5,9 +5,11 @@ on:
   schedule:
     - cron: "17 4 * * 1"
   push:
+    branches:
+      - main
     paths:
       - "data/vessels.csv"
-      - "data/vessels/**"
+      - "data/vessels/**.json"
       - "tools/build_vessel_enrichment.py"
       - ".github/workflows/build-vessel-enrichment.yml"
 
@@ -33,51 +35,53 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Interne Tests
-        run: python tools/build_vessel_enrichment.py --self-test
-
-      - name: Anreicherungsreport erstellen
+      - name: Report auf aktuellem main erstellen und einchecken
         env:
           WIKIDATA_USER_AGENT: >-
-            DanubeVesselLog/0.13.7
+            DanubeVesselLog/0.14.15
             (https://github.com/${{ github.repository }}; vessel enrichment)
           WIKIDATA_DELAY_SECONDS: "0.75"
           WIKIDATA_MAX_CANDIDATES: "5"
           WIKIDATA_WDQS_RETRIES: "1"
-        run: python tools/build_vessel_enrichment.py
-
-      - name: Report einchecken
         run: |
+          set -euo pipefail
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/data/vessel_enrichment.json
-          if git diff --cached --quiet; then
-            echo "Keine Änderung am Anreicherungsreport."
-          else
+
+          for ATTEMPT in 1 2 3 4 5
+          do
+            echo "Versuch $ATTEMPT von 5"
+
+            # Nicht den bereits erzeugten Report auf einen neuen main-Stand
+            # rebasen. Stattdessen stets vom aktuellen main ausgehen und den
+            # abgeleiteten Report vollständig neu erzeugen.
+            git fetch origin main
+            git reset --hard origin/main
+
+            python tools/build_vessel_enrichment.py --self-test
+            python tools/build_vessel_enrichment.py
+
+            git add docs/data/vessel_enrichment.json
+
+            if git diff --cached --quiet
+            then
+              echo "Keine Änderung am Anreicherungsreport."
+              exit 0
+            fi
+
             git commit -m "Anreicherungsreport aktualisiert"
-            for ATTEMPT in 1 2 3 4 5
-            do
-              echo "Push-Versuch $ATTEMPT von 5"
-            
-              git fetch origin main
-            
-              if ! git rebase origin/main
-              then
-                echo "Der lokale Report-Commit konnte nicht auf den aktuellen main-Stand gesetzt werden."
-                git rebase --abort || true
-                exit 1
-              fi
-            
-              if git push origin HEAD:main
-              then
-                echo "Push erfolgreich."
-                exit 0
-              fi
-            
-              echo "main wurde erneut verändert; neuer Versuch folgt."
-              sleep $((ATTEMPT * 2))
-            done
-            
-            echo "Push war nach fünf Versuchen weiterhin nicht möglich."
-            exit 1
-          fi
+
+            if git push origin HEAD:main
+            then
+              echo "Push erfolgreich."
+              exit 0
+            fi
+
+            echo "main wurde während des Laufs erneut verändert."
+            echo "Der Report wird auf Basis des neuen main-Stands nochmals erzeugt."
+            sleep $((ATTEMPT * 2))
+          done
+
+          echo "Push war nach fünf vollständigen Neuaufbauten weiterhin nicht möglich."
+          exit 1
