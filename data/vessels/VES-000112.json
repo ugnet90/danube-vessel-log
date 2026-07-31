@@ -52,6 +52,22 @@
       "verified_at": "2026-07-31T13:46:33.681Z",
       "added_at": "2026-07-31T13:46:33.681Z",
       "added_by": "web-ui"
+    },
+    {
+      "source_id": "SRC-B01C3D00CFA8",
+      "provider": "Sonstige",
+      "title": "",
+      "url": "https://www.cruisemapper.com/ships/SS-Emilie-1471",
+      "notes": "",
+      "fields_used": [
+        "technical.width_m",
+        "operations.operator",
+        "operations.owner"
+      ],
+      "retrieved_at": "2026-07-31T13:53:31.429Z",
+      "verified_at": "2026-07-31T13:53:31.429Z",
+      "added_at": "2026-07-31T13:53:31.429Z",
+      "added_by": "web-ui"
     }
   ],
   "enrichment": {
@@ -68,7 +84,7 @@
     "environment": "production",
     "created_at": "2026-07-31T13:26:59.198Z",
     "created_from_submission_id": "SUB-20260731-132500-0C1CB7",
-    "updated_at": "2026-07-31T13:46:33.681Z",
+    "updated_at": "2026-07-31T13:53:31.429Z",
     "updated_by": "web-ui",
     "change_history": [
       {
@@ -83,6 +99,21 @@
             "field": "sources",
             "old_value": 0,
             "new_value": 1
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-07-31T13:53:31.429Z",
+        "changed_by": "web-ui",
+        "summary": "Quelle hinzugefügt: Sonstige",
+        "changed_fields": [
+          "sources"
+        ],
+        "changes": [
+          {
+            "field": "sources",
+            "old_value": 1,
+            "new_value": 2
           }
         ]
       }
