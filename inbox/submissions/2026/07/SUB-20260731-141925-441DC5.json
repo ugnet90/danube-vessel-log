@@ -1,0 +1,92 @@
+{
+  "schema_version": 12,
+  "submission_id": "SUB-20260731-141925-441DC5",
+  "uploaded_at": "2026-07-31T14:19:25.922Z",
+  "captured_at": "2026-07-31T14:19:02.000Z",
+  "location": {
+    "status": "unknown",
+    "matched_by": "",
+    "id": "",
+    "name": "",
+    "municipality": "",
+    "country": "",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000003",
+    "name": "Schiffsanlegestelle Linz-Hauptplatz",
+    "short_name": "Linz-Hauptplatz Nr. 13",
+    "station_number": "13",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2135.045,
+    "river_km_text": "2135,0+45 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 29 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.307722,
+    "longitude": 14.28625,
+    "address": "Dr. Ernst Koref Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "AmaMora",
+  "notes": "",
+  "observer_lat": 48.5306289532415,
+  "observer_lon": 14.01581207150911,
+  "photos": [
+    {
+      "photo_id": "PHOTO-41AE612CF42D4FE780BE3BC7A37A878F",
+      "path": "inbox/photos/2026/07/PHOTO-41AE612CF42D4FE780BE3BC7A37A878F.jpg",
+      "filename": "PHOTO-41AE612CF42D4FE780BE3BC7A37A878F.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 470945,
+      "sequence": 1
+    },
+    {
+      "photo_id": "PHOTO-2F3929C23383478F8D3580553B39761B",
+      "path": "inbox/photos/2026/07/PHOTO-2F3929C23383478F8D3580553B39761B.jpg",
+      "filename": "PHOTO-2F3929C23383478F8D3580553B39761B.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 430966,
+      "sequence": 2
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000105",
+        "matched_by": "normalized_name",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000105"
+        ],
+        "matched_value": "AmaMora",
+        "normalized_input": "amamora"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.5306289532415,
+  "photo_lon": 14.01581207150911
+}
