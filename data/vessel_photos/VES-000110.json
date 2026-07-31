@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000110",
+  "photos": [
+    {
+      "photo_id": "PHOTO-D28272BA6C5D4F07936A9D0339B7A9AB",
+      "path": "inbox/photos/2026/07/PHOTO-D28272BA6C5D4F07936A9D0339B7A9AB.jpg",
+      "filename": "PHOTO-D28272BA6C5D4F07936A9D0339B7A9AB.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 282429,
+      "sequence": 1,
+      "captured_at": "2026-07-28T13:23:51.000Z",
+      "added_at": "2026-07-31T13:20:06.998Z",
+      "source": "direct_vessel_upload",
+      "notes": ""
+    }
+  ],
+  "updated_at": "2026-07-31T13:20:06.998Z"
+}
