@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000112",
+  "photos": [
+    {
+      "photo_id": "PHOTO-8FBD46BE66FB48F8A091A9ED37C4308E",
+      "path": "inbox/photos/2026/07/PHOTO-8FBD46BE66FB48F8A091A9ED37C4308E.jpg",
+      "filename": "PHOTO-8FBD46BE66FB48F8A091A9ED37C4308E.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 540315,
+      "sequence": 1,
+      "captured_at": "2026-07-30T05:18:04.000Z",
+      "added_at": "2026-07-31T13:58:24.484Z",
+      "source": "direct_vessel_upload",
+      "notes": ""
+    },
+    {
+      "photo_id": "PHOTO-89E9B75432D2425CA9FABAAFB8A3AACD",
+      "path": "inbox/photos/2026/07/PHOTO-89E9B75432D2425CA9FABAAFB8A3AACD.jpg",
+      "filename": "PHOTO-89E9B75432D2425CA9FABAAFB8A3AACD.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 493543,
+      "sequence": 2,
+      "captured_at": "2026-07-30T05:18:04.000Z",
+      "added_at": "2026-07-31T13:58:24.484Z",
+      "source": "direct_vessel_upload",
+      "notes": ""
+    }
+  ],
+  "updated_at": "2026-07-31T13:58:24.484Z"
+}
