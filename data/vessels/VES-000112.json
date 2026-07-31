@@ -2,30 +2,30 @@
   "schema_version": 1,
   "vessel_id": "VES-000112",
   "identity": {
-    "name": "S. s. Emilie",
+    "name": "S. S. Emilie",
     "former_names": [],
-    "mmsi": "",
+    "mmsi": "269057154",
     "imo": "",
     "eni": "",
-    "call_sign": ""
+    "call_sign": "HE7154"
   },
   "classification": {
-    "ship_type": "UNKNOWN",
-    "ship_subtype": "UNKNOWN",
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
     "status": "active",
-    "flag": ""
+    "flag": "CH"
   },
   "technical": {
     "year_built": null,
     "shipyard": "",
-    "length_m": null,
-    "width_m": null,
-    "draft_m": null,
-    "passengers": null
+    "length_m": 135,
+    "width_m": 12,
+    "draft_m": 1,
+    "passengers": 154
   },
   "operations": {
-    "operator": "",
-    "owner": "",
+    "operator": "Uniworld River Cruises",
+    "owner": "(TravCorp) The Travel Corporation",
     "manager": "",
     "cruise_brand": "",
     "home_port": ""
@@ -84,7 +84,7 @@
     "environment": "production",
     "created_at": "2026-07-31T13:26:59.198Z",
     "created_from_submission_id": "SUB-20260731-132500-0C1CB7",
-    "updated_at": "2026-07-31T13:53:31.429Z",
+    "updated_at": "2026-07-31T13:53:50.358Z",
     "updated_by": "web-ui",
     "change_history": [
       {
@@ -114,6 +114,86 @@
             "field": "sources",
             "old_value": 1,
             "new_value": 2
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-07-31T13:53:50.358Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "identity.name",
+          "identity.mmsi",
+          "identity.call_sign",
+          "classification.ship_type",
+          "classification.ship_subtype",
+          "classification.flag",
+          "technical.length_m",
+          "technical.width_m",
+          "technical.draft_m",
+          "technical.passengers",
+          "operations.operator",
+          "operations.owner"
+        ],
+        "changes": [
+          {
+            "field": "identity.name",
+            "old_value": "S. s. Emilie",
+            "new_value": "S. S. Emilie"
+          },
+          {
+            "field": "identity.mmsi",
+            "old_value": "",
+            "new_value": "269057154"
+          },
+          {
+            "field": "identity.call_sign",
+            "old_value": "",
+            "new_value": "HE7154"
+          },
+          {
+            "field": "classification.ship_type",
+            "old_value": "UNKNOWN",
+            "new_value": "PASSENGER"
+          },
+          {
+            "field": "classification.ship_subtype",
+            "old_value": "UNKNOWN",
+            "new_value": "RIVER_CRUISE"
+          },
+          {
+            "field": "classification.flag",
+            "old_value": "",
+            "new_value": "CH"
+          },
+          {
+            "field": "technical.length_m",
+            "old_value": null,
+            "new_value": 135
+          },
+          {
+            "field": "technical.width_m",
+            "old_value": null,
+            "new_value": 12
+          },
+          {
+            "field": "technical.draft_m",
+            "old_value": null,
+            "new_value": 1
+          },
+          {
+            "field": "technical.passengers",
+            "old_value": null,
+            "new_value": 154
+          },
+          {
+            "field": "operations.operator",
+            "old_value": "",
+            "new_value": "Uniworld River Cruises"
+          },
+          {
+            "field": "operations.owner",
+            "old_value": "",
+            "new_value": "(TravCorp) The Travel Corporation"
           }
         ]
       }
