@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-07-31T13:28:16.292203Z",
+  "generated_at": "2026-07-31T13:36:44.229359Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 14,
     "vessels_incomplete": 14,
     "vessels_complete": 0,
-    "candidate_matches": 1,
+    "candidate_matches": 0,
     "matched_no_new_data": 4,
     "low_confidence": 2,
-    "no_match": 6,
+    "no_match": 7,
     "lookup_errors": 1,
-    "suggestions_total": 2
+    "suggestions_total": 0
   },
   "vessels": [
     {
@@ -85,127 +85,12 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1012: 5.0666666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q27318",
-            "label": "Test",
-            "description": "schriftlicher Leistungsnachweis",
-            "url": "https://www.wikidata.org/wiki/Q27318",
-            "score": 0.96,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Art von Test"
-            ],
-            "suggestions": [],
-            "revision_id": 2516840723
-          },
-          {
-            "qid": "Q4115189",
-            "label": "Wikidata-Spielwiese",
-            "description": "Eine Spielwiese zum Testen von Funktionen. Fühle dich frei alles mögliche zu verändern. Füge aber bitte nur Links zu Benutzerseiten hinzu.",
-            "url": "https://www.wikidata.org/wiki/Q4115189",
-            "score": 0.955,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Wikidata-interne Sache",
-              "Mensch"
-            ],
-            "suggestions": [],
-            "revision_id": 2525148981
-          },
-          {
-            "qid": "Q1003030",
-            "label": "Test",
-            "description": "methodischer Versuch über Eigenschaften oder Leistung",
-            "url": "https://www.wikidata.org/wiki/Q1003030",
-            "score": 0.95,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [],
-            "suggestions": [],
-            "revision_id": 2522396625
-          },
-          {
-            "qid": "Q37315170",
-            "label": "Test",
-            "description": "Familienname",
-            "url": "https://www.wikidata.org/wiki/Q37315170",
-            "score": 0.94,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Familienname"
-            ],
-            "suggestions": [],
-            "revision_id": 2258522162
-          },
-          {
-            "qid": "Q9357563",
-            "label": "Test",
-            "description": "Polish rock band",
-            "url": "https://www.wikidata.org/wiki/Q9357563",
-            "score": 0.92,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Musikgruppe"
-            ],
-            "suggestions": [],
-            "revision_id": 2521817540
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -1114,64 +999,14 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
         "accepted_qid": "",
-        "rejected_qids": [],
+        "rejected_qids": [
+          "Q43449030"
+        ],
         "candidates": [
-          {
-            "qid": "Q43449030",
-            "label": "Excellence Melodia",
-            "description": "Kabinenfahrgastschiff",
-            "url": "https://www.wikidata.org/wiki/Q43449030",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "identity.eni"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [
-                "04809200"
-              ],
-              "call_sign": [
-                "DK5960"
-              ]
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 1.5,
-                "display_value": 1.5,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q43449030",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Premicon",
-                "display_value": "Premicon",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q43449030",
-                "confidence": 1.0,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2264203324
-          },
           {
             "qid": "Q37508635",
             "label": "Melodia",
@@ -1329,6 +1164,29 @@
             ],
             "suggestions": [],
             "revision_id": 2504473602
+          },
+          {
+            "qid": "Q101524075",
+            "label": "Melodia",
+            "description": "US record label; imprint of Melodia Record Co.",
+            "url": "https://www.wikidata.org/wiki/Q101524075",
+            "score": 0.94,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Plattenlabel"
+            ],
+            "suggestions": [],
+            "revision_id": 1706619579
           }
         ]
       }
@@ -1407,8 +1265,8 @@
       "missing_count": 16,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 6.3 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
