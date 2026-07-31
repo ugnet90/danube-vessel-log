@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-07-31T13:36:44.229359Z",
+  "generated_at": "2026-07-31T13:42:44.475371Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -36,10 +36,10 @@
     "vessels_incomplete": 14,
     "vessels_complete": 0,
     "candidate_matches": 0,
-    "matched_no_new_data": 4,
-    "low_confidence": 2,
-    "no_match": 7,
-    "lookup_errors": 1,
+    "matched_no_new_data": 0,
+    "low_confidence": 0,
+    "no_match": 0,
+    "lookup_errors": 14,
     "suggestions_total": 0
   },
   "vessels": [
@@ -86,7 +86,7 @@
       "lookup": {
         "provider": "wikidata",
         "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1012: 5.0666666666667 seconds lagged.",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 5.9833333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -179,8 +179,8 @@
       "missing_count": 19,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 6.6666666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -229,8 +229,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 6.6666666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -315,36 +315,12 @@
       "missing_count": 17,
       "lookup": {
         "provider": "wikidata",
-        "status": "low_confidence",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 6.6666666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q132731411",
-            "label": "Travelmarvel Capella (ship, 2021)",
-            "description": "Wikimedia-Kategorie",
-            "url": "https://www.wikidata.org/wiki/Q132731411",
-            "score": 0.795,
-            "confidence": "low",
-            "matched_by": [
-              "name_partial"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Wikimedia-Kategorie"
-            ],
-            "suggestions": [],
-            "revision_id": 2317821351
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -389,8 +365,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 6.6666666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -415,44 +391,12 @@
       "missing_count": 2,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 6.6666666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "Q277910",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q277910",
-            "label": "A-Rosa Riva",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q277910",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "manual_confirmation"
-            ],
-            "manually_confirmed": true,
-            "identifiers": {
-              "mmsi": [
-                "211160710"
-              ],
-              "imo": [
-                "8979295"
-              ],
-              "eni": [
-                "04802780"
-              ],
-              "call_sign": [
-                "DA4157"
-              ]
-            },
-            "instance_of": [
-              "Schiff"
-            ],
-            "suggestions": [],
-            "revision_id": 2469916710
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -497,196 +441,14 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 7.1833333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
           "Q43448989"
         ],
-        "candidates": [
-          {
-            "qid": "Q37508635",
-            "label": "Melodia",
-            "description": "Familienname",
-            "url": "https://www.wikidata.org/wiki/Q37508635",
-            "score": 0.95,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Familienname"
-            ],
-            "suggestions": [],
-            "revision_id": 2260713877
-          },
-          {
-            "qid": "Q24027026",
-            "label": "Melodia",
-            "description": "merchant ship built in 2013",
-            "url": "https://www.wikidata.org/wiki/Q24027026",
-            "score": 0.95,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [
-                "9607813"
-              ],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Handelsschiff",
-              "Brigantine",
-              "Massengutfrachter"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.imo",
-                "field_label": "IMO",
-                "value": "9607813",
-                "display_value": "9607813",
-                "property": "P458",
-                "property_label": "IMO ship number",
-                "property_url": "https://www.wikidata.org/wiki/Property:P458",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.95,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Japan Marine United",
-                "display_value": "Japan Marine United",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.95,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 14.38,
-                "display_value": 14.38,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.95,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Evan Timothy",
-                "display_value": "Evan Timothy",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.95,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2457854035
-          },
-          {
-            "qid": "Q1636655",
-            "label": "Melodija",
-            "description": "russisches Plattenlabel",
-            "url": "https://www.wikidata.org/wiki/Q1636655",
-            "score": 0.945,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Plattenlabel"
-            ],
-            "suggestions": [
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Q119855371",
-                "display_value": "Q119855371",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q1636655",
-                "confidence": 0.945,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2476406174
-          },
-          {
-            "qid": "Q3854281",
-            "label": "Melodia",
-            "description": "Album von The Vines",
-            "url": "https://www.wikidata.org/wiki/Q3854281",
-            "score": 0.94,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Album"
-            ],
-            "suggestions": [],
-            "revision_id": 2504473602
-          },
-          {
-            "qid": "Q101524075",
-            "label": "Melodia",
-            "description": "US record label; imprint of Melodia Record Co.",
-            "url": "https://www.wikidata.org/wiki/Q101524075",
-            "score": 0.935,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Plattenlabel"
-            ],
-            "suggestions": [],
-            "revision_id": 1706619579
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -731,8 +493,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 7.1833333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -781,8 +543,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 7.1833333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -811,42 +573,12 @@
       "missing_count": 3,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 7.1833333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "Q15260465",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q15260465",
-            "label": "A-Rosa Flora",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q15260465",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "manual_confirmation"
-            ],
-            "manually_confirmed": true,
-            "identifiers": {
-              "mmsi": [
-                "211621310"
-              ],
-              "imo": [],
-              "eni": [
-                "04810970"
-              ],
-              "call_sign": [
-                "DMBD"
-              ]
-            },
-            "instance_of": [
-              "Motorschiff"
-            ],
-            "suggestions": [],
-            "revision_id": 2406997780
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -891,8 +623,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 7.7 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -933,36 +665,12 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "low_confidence",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 7.7 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q132561870",
-            "label": "Kategorie:S.S. Maria Theresa (ship, 2015)",
-            "description": "Wikimedia-Kategorie",
-            "url": "https://www.wikidata.org/wiki/Q132561870",
-            "score": 0.795,
-            "confidence": "low",
-            "matched_by": [
-              "name_partial"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Wikimedia-Kategorie"
-            ],
-            "suggestions": [],
-            "revision_id": 2337098381
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -999,196 +707,14 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 7.7 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
           "Q43449030"
         ],
-        "candidates": [
-          {
-            "qid": "Q37508635",
-            "label": "Melodia",
-            "description": "Familienname",
-            "url": "https://www.wikidata.org/wiki/Q37508635",
-            "score": 0.955,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Familienname"
-            ],
-            "suggestions": [],
-            "revision_id": 2260713877
-          },
-          {
-            "qid": "Q24027026",
-            "label": "Melodia",
-            "description": "merchant ship built in 2013",
-            "url": "https://www.wikidata.org/wiki/Q24027026",
-            "score": 0.955,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [
-                "9607813"
-              ],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Handelsschiff",
-              "Brigantine",
-              "Massengutfrachter"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.imo",
-                "field_label": "IMO",
-                "value": "9607813",
-                "display_value": "9607813",
-                "property": "P458",
-                "property_label": "IMO ship number",
-                "property_url": "https://www.wikidata.org/wiki/Property:P458",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.955,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Japan Marine United",
-                "display_value": "Japan Marine United",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.955,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 14.38,
-                "display_value": 14.38,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.955,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Evan Timothy",
-                "display_value": "Evan Timothy",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.955,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2457854035
-          },
-          {
-            "qid": "Q1636655",
-            "label": "Melodija",
-            "description": "russisches Plattenlabel",
-            "url": "https://www.wikidata.org/wiki/Q1636655",
-            "score": 0.95,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Plattenlabel"
-            ],
-            "suggestions": [
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Q119855371",
-                "display_value": "Q119855371",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q1636655",
-                "confidence": 0.95,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2476406174
-          },
-          {
-            "qid": "Q3854281",
-            "label": "Melodia",
-            "description": "Album von The Vines",
-            "url": "https://www.wikidata.org/wiki/Q3854281",
-            "score": 0.945,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Album"
-            ],
-            "suggestions": [],
-            "revision_id": 2504473602
-          },
-          {
-            "qid": "Q101524075",
-            "label": "Melodia",
-            "description": "US record label; imprint of Melodia Record Co.",
-            "url": "https://www.wikidata.org/wiki/Q101524075",
-            "score": 0.94,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Plattenlabel"
-            ],
-            "suggestions": [],
-            "revision_id": 1706619579
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -1265,8 +791,8 @@
       "missing_count": 16,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 7.7 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
