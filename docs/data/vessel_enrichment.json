@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-07-31T13:54:31.269290Z",
+  "generated_at": "2026-07-31T14:02:40.655938Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -136,7 +136,7 @@
               "Mensch"
             ],
             "suggestions": [],
-            "revision_id": 2525148981
+            "revision_id": 2525191456
           },
           {
             "qid": "Q1003030",
@@ -1342,14 +1342,10 @@
     },
     {
       "vessel_id": "VES-000112",
-      "name": "S. s. Emilie",
+      "name": "S. S. Emilie",
       "environment": "production",
       "json_path": "data/vessels/VES-000112.json",
       "missing_fields": [
-        {
-          "field": "identity.mmsi",
-          "label": "MMSI"
-        },
         {
           "field": "identity.imo",
           "label": "IMO"
@@ -1359,44 +1355,12 @@
           "label": "ENI"
         },
         {
-          "field": "identity.call_sign",
-          "label": "Rufzeichen"
-        },
-        {
-          "field": "classification.flag",
-          "label": "Flagge"
-        },
-        {
           "field": "technical.year_built",
           "label": "Baujahr"
         },
         {
           "field": "technical.shipyard",
           "label": "Werft"
-        },
-        {
-          "field": "technical.length_m",
-          "label": "Länge"
-        },
-        {
-          "field": "technical.width_m",
-          "label": "Breite"
-        },
-        {
-          "field": "technical.draft_m",
-          "label": "Tiefgang"
-        },
-        {
-          "field": "technical.passengers",
-          "label": "Passagiere"
-        },
-        {
-          "field": "operations.operator",
-          "label": "Betreiber"
-        },
-        {
-          "field": "operations.owner",
-          "label": "Eigentümer"
         },
         {
           "field": "operations.manager",
@@ -1411,7 +1375,7 @@
           "label": "Heimathafen"
         }
       ],
-      "missing_count": 16,
+      "missing_count": 7,
       "lookup": {
         "provider": "wikidata",
         "status": "no_match",
