@@ -32,7 +32,28 @@
   },
   "name_history": [],
   "identifiers_history": [],
-  "sources": [],
+  "sources": [
+    {
+      "source_id": "SRC-D75562EBB420",
+      "provider": "VesselFinder",
+      "title": "Reisedaten",
+      "url": "https://www.vesselfinder.com/de/vessels/details/269057780",
+      "notes": "",
+      "fields_used": [
+        "identity.mmsi",
+        "identity.eni",
+        "identity.call_sign",
+        "classification.ship_type",
+        "classification.flag",
+        "technical.length_m",
+        "technical.width_m"
+      ],
+      "retrieved_at": "2026-07-31T13:39:25.033Z",
+      "verified_at": "2026-07-31T13:39:25.033Z",
+      "added_at": "2026-07-31T13:39:25.033Z",
+      "added_by": "web-ui"
+    }
+  ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
@@ -47,7 +68,24 @@
     "environment": "production",
     "created_at": "2026-07-23T07:14:59.689Z",
     "created_from_submission_id": "SUB-20260723-071316-8E68BF",
-    "updated_at": "2026-07-23T07:14:59.689Z",
-    "updated_by": "web-ui"
+    "updated_at": "2026-07-31T13:39:25.033Z",
+    "updated_by": "web-ui",
+    "change_history": [
+      {
+        "changed_at": "2026-07-31T13:39:25.033Z",
+        "changed_by": "web-ui",
+        "summary": "Quelle hinzugefügt: VesselFinder – Reisedaten",
+        "changed_fields": [
+          "sources"
+        ],
+        "changes": [
+          {
+            "field": "sources",
+            "old_value": 0,
+            "new_value": 1
+          }
+        ]
+      }
+    ]
   }
 }
