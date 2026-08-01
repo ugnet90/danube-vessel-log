@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-01T18:01:36.734166Z",
+  "generated_at": "2026-08-01T18:02:37.482176Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 14,
     "vessels_incomplete": 14,
     "vessels_complete": 0,
-    "candidate_matches": 0,
-    "matched_no_new_data": 4,
+    "candidate_matches": 1,
+    "matched_no_new_data": 5,
     "low_confidence": 1,
-    "no_match": 4,
-    "lookup_errors": 5,
-    "suggestions_total": 0
+    "no_match": 7,
+    "lookup_errors": 0,
+    "suggestions_total": 3
   },
   "vessels": [
     {
@@ -85,12 +85,103 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 12.966666666667 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
-        "candidates": []
+        "candidates": [
+          {
+            "qid": "Q27318",
+            "label": "Test",
+            "description": "schriftlicher Leistungsnachweis",
+            "url": "https://www.wikidata.org/wiki/Q27318",
+            "score": 0.96,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Art von Test"
+            ],
+            "suggestions": [],
+            "revision_id": 2516840723
+          },
+          {
+            "qid": "Q1003030",
+            "label": "Test",
+            "description": "methodischer Versuch über Eigenschaften oder Leistung",
+            "url": "https://www.wikidata.org/wiki/Q1003030",
+            "score": 0.955,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [],
+            "suggestions": [],
+            "revision_id": 2522396625
+          },
+          {
+            "qid": "Q37315170",
+            "label": "Test",
+            "description": "Familienname",
+            "url": "https://www.wikidata.org/wiki/Q37315170",
+            "score": 0.945,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Familienname"
+            ],
+            "suggestions": [],
+            "revision_id": 2258522162
+          },
+          {
+            "qid": "Q9357563",
+            "label": "Test",
+            "description": "Polish rock band",
+            "url": "https://www.wikidata.org/wiki/Q9357563",
+            "score": 0.925,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Musikgruppe"
+            ],
+            "suggestions": [],
+            "revision_id": 2521817540
+          }
+        ]
       }
     },
     {
@@ -179,8 +270,8 @@
       "missing_count": 19,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 12.966666666667 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -229,8 +320,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 12.966666666667 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -287,12 +378,98 @@
       "missing_count": 10,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 12.966666666667 seconds lagged.",
+        "status": "candidate",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
-        "candidates": []
+        "candidates": [
+          {
+            "qid": "Q132731400",
+            "label": "ENI 02338951",
+            "description": "Kabinenschiff, Baujahr 2021",
+            "url": "https://www.wikidata.org/wiki/Q132731400",
+            "score": 1.0,
+            "confidence": "very_high",
+            "matched_by": [
+              "identity.eni"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [
+                "02338951"
+              ],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Flusskreuzfahrtschiff"
+            ],
+            "suggestions": [
+              {
+                "field": "technical.year_built",
+                "field_label": "Baujahr",
+                "value": 2021,
+                "display_value": 2021,
+                "property": "P729",
+                "property_label": "service entry",
+                "property_url": "https://www.wikidata.org/wiki/Property:P729",
+                "source_url": "https://www.wikidata.org/wiki/Q132731400",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.passengers",
+                "field_label": "Passagiere",
+                "value": 182,
+                "display_value": 182,
+                "property": "P1083",
+                "property_label": "maximum capacity",
+                "property_url": "https://www.wikidata.org/wiki/Property:P1083",
+                "source_url": "https://www.wikidata.org/wiki/Q132731400",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "operations.home_port",
+                "field_label": "Heimathafen",
+                "value": "Basel",
+                "display_value": "Basel",
+                "property": "P532",
+                "property_label": "port of registry",
+                "property_url": "https://www.wikidata.org/wiki/Property:P532",
+                "source_url": "https://www.wikidata.org/wiki/Q132731400",
+                "confidence": 1.0,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2317819764
+          },
+          {
+            "qid": "Q132731411",
+            "label": "Travelmarvel Capella (ship, 2021)",
+            "description": "Wikimedia-Kategorie",
+            "url": "https://www.wikidata.org/wiki/Q132731411",
+            "score": 0.795,
+            "confidence": "low",
+            "matched_by": [
+              "name_partial"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Wikimedia-Kategorie"
+            ],
+            "suggestions": [],
+            "revision_id": 2317821351
+          }
+        ]
       }
     },
     {
@@ -337,8 +514,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1016: 12.966666666667 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
