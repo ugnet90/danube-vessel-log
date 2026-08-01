@@ -1,3 +1,10 @@
+/*
+ * Danube Vessel Log
+ * File: docs/css/vessels.css
+ * Version: 0.14.16
+ * Updated: 2026-07-31
+ */
+
 .vessels-page {
   width: min(1400px, 100%);
   margin: 0 auto;
@@ -119,11 +126,54 @@
 }
 
 .vessels-table th {
+  padding: 0;
   background: #f8fafc;
   color: #486581;
   font-size: 0.85rem;
   letter-spacing: 0.02em;
   text-transform: uppercase;
+}
+
+.table-sort-button {
+  width: 100%;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  padding: 13px 14px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 750;
+  letter-spacing: inherit;
+  text-align: left;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.table-sort-button:hover,
+.table-sort-button:focus-visible,
+.vessels-table th.is-sorted .table-sort-button {
+  background: #eef4fb;
+  color: #1d4ed8;
+}
+
+.table-sort-button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: -2px;
+}
+
+.sort-indicator {
+  min-width: 1em;
+  color: #829ab1;
+  font-size: 0.98rem;
+  line-height: 1;
+}
+
+.vessels-table th.is-sorted .sort-indicator {
+  color: #1d4ed8;
 }
 
 .vessel-row {
