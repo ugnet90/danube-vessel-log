@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!--
+  Danube Vessel Log
+  File: docs/vessels.html
+  Version: 0.14.16
+  Updated: 2026-07-31
+-->
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -62,13 +68,13 @@
         <table class="vessels-table">
           <thead>
             <tr>
-              <th>Vessel-ID</th>
-              <th>Name</th>
-              <th>Typ</th>
-              <th>Betreiber</th>
-              <th>Flagge</th>
-              <th>Baujahr</th>
-              <th>Status</th>
+              <th data-sort-key="vessel_id" aria-sort="ascending"><button class="table-sort-button" type="button">Vessel-ID <span class="sort-indicator" aria-hidden="true">↑</span></button></th>
+              <th data-sort-key="name" aria-sort="none"><button class="table-sort-button" type="button">Name <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+              <th data-sort-key="ship_type" aria-sort="none"><button class="table-sort-button" type="button">Typ <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+              <th data-sort-key="operator" aria-sort="none"><button class="table-sort-button" type="button">Betreiber <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+              <th data-sort-key="flag" aria-sort="none"><button class="table-sort-button" type="button">Flagge <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+              <th data-sort-key="year_built" aria-sort="none"><button class="table-sort-button" type="button">Baujahr <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+              <th data-sort-key="status" aria-sort="none"><button class="table-sort-button" type="button">Status <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
             </tr>
           </thead>
           <tbody id="vesselRows"></tbody>
