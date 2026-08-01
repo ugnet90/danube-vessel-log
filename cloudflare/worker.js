@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.14
- * Updated: 2026-07-30
+ * Version: 0.14.16
+ * Updated: 2026-07-31
  */
 
 const API_VERSION = "2022-11-28";
@@ -396,6 +396,32 @@ export default {
         }, 500);
       }
     }    
+
+    if (
+      request.method === "POST" &&
+      url.pathname === "/vessel-photo-delete"
+    ) {
+      try {
+        return await handleDeleteVesselPhoto(
+          request,
+          env
+        );
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler beim Löschen des Fotos.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          stack:
+            error instanceof Error
+              ? error.stack
+              : null
+        }, 500);
+      }
+    }
 
     if (
       request.method === "POST" &&
@@ -2353,6 +2379,557 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
     photos: savedRecords.map(record => ({ photo_id: record.photo_id, photo_path: record.path, original_filename: record.original_filename, size_bytes: record.size_bytes })),
     commit_sha: commitResult.commitSha
   }, 201);
+}
+
+
+function isSafeManagedPhotoPath(value) {
+  const path = String(value ?? "").trim();
+
+  if (
+    !path ||
+    path.includes("..") ||
+    path.startsWith("/") ||
+    !/^[A-Za-z0-9._/-]+$/.test(path) ||
+    !/\.jpe?g$/i.test(path)
+  ) {
+    return false;
+  }
+
+  return (
+    path.startsWith("inbox/photos/") ||
+    path.startsWith("photos/")
+  );
+}
+
+function isSafeSubmissionPathForId(pathValue, submissionId) {
+  const path = String(pathValue ?? "").trim();
+
+  return (
+    /^inbox\/submissions\/\d{4}\/\d{2}\/SUB-[A-Z0-9-]{8,80}\.json$/.test(path) &&
+    path.endsWith(`/${submissionId}.json`)
+  );
+}
+
+async function loadSubmissionForPhotoDelete({
+  env,
+  submissionId,
+  submissionPath
+}) {
+  if (!isSafeSubmissionPathForId(submissionPath, submissionId)) {
+    return findSubmissionFile(env, submissionId);
+  }
+
+  const file = await readGitHubFile({
+    env,
+    path: submissionPath
+  });
+
+  if (!file.ok) {
+    return {
+      ok: false,
+      status: file.status ?? 502,
+      error:
+        `Die Sichtung ${submissionId} konnte nicht gelesen werden.`
+    };
+  }
+
+  try {
+    return {
+      ok: true,
+      path: submissionPath,
+      submission: JSON.parse(
+        String(file.content ?? "").replace(/^\uFEFF/, "")
+      )
+    };
+  } catch {
+    return {
+      ok: false,
+      status: 500,
+      error:
+        `Die Sichtung ${submissionId} enthält ungültiges JSON.`
+    };
+  }
+}
+
+function resequencePhotoRecords(photos) {
+  return (Array.isArray(photos) ? photos : [])
+    .map((photo, index) => ({
+      ...photo,
+      sequence: index + 1
+    }));
+}
+
+function findPhotoRecordIndex(photos, photoId, photoPath) {
+  const normalizedPhotoId = String(photoId ?? "").trim();
+  const normalizedPhotoPath = String(photoPath ?? "").trim();
+
+  return (Array.isArray(photos) ? photos : [])
+    .findIndex(photo => {
+      if (!photo || typeof photo !== "object") return false;
+
+      const existingId = String(photo.photo_id ?? "").trim();
+      const existingPath = String(photo.path ?? "").trim();
+
+      return (
+        (normalizedPhotoId && existingId === normalizedPhotoId) ||
+        (normalizedPhotoPath && existingPath === normalizedPhotoPath)
+      );
+    });
+}
+
+function findFallbackPrimaryPhoto({
+  sightingsDocument,
+  directPhotosDocument,
+  vesselId
+}) {
+  const sightings = (Array.isArray(sightingsDocument?.sightings)
+    ? sightingsDocument.sightings
+    : [])
+    .filter(item => String(item?.vessel_id ?? "").trim() === vesselId)
+    .sort((left, right) =>
+      String(right?.captured_at ?? "")
+        .localeCompare(String(left?.captured_at ?? ""))
+    );
+
+  for (const sighting of sightings) {
+    const photos = (Array.isArray(sighting?.photos)
+      ? sighting.photos
+      : [])
+      .filter(photo => photo && typeof photo === "object")
+      .sort((left, right) =>
+        Number(left?.sequence ?? 0) - Number(right?.sequence ?? 0)
+      );
+
+    for (const photo of photos) {
+      const photoId = String(photo?.photo_id ?? "").trim();
+      if (!photoId) continue;
+
+      return {
+        photo_id: photoId,
+        submission_id: String(sighting?.submission_id ?? "").trim()
+      };
+    }
+  }
+
+  const directPhotos = (Array.isArray(directPhotosDocument?.photos)
+    ? directPhotosDocument.photos
+    : [])
+    .filter(photo => photo && typeof photo === "object")
+    .sort((left, right) =>
+      String(right?.captured_at || right?.added_at || "")
+        .localeCompare(String(left?.captured_at || left?.added_at || ""))
+    );
+
+  for (const photo of directPhotos) {
+    const photoId = String(photo?.photo_id ?? "").trim();
+    if (!photoId) continue;
+
+    return {
+      photo_id: photoId,
+      submission_id: ""
+    };
+  }
+
+  return {
+    photo_id: "",
+    submission_id: ""
+  };
+}
+
+function applyDeletedPrimaryPhotoFallback({
+  vessel,
+  deletedPhotoId,
+  sightingsDocument,
+  directPhotosDocument,
+  vesselId,
+  changedAt
+}) {
+  const currentPrimaryPhotoId =
+    String(vessel?.media?.primary_photo_id ?? "").trim();
+
+  if (!deletedPhotoId || currentPrimaryPhotoId !== deletedPhotoId) {
+    return {
+      changed: false,
+      fallback: null
+    };
+  }
+
+  if (!vessel.media || typeof vessel.media !== "object") {
+    vessel.media = {};
+  }
+
+  const fallback = findFallbackPrimaryPhoto({
+    sightingsDocument,
+    directPhotosDocument,
+    vesselId
+  });
+
+  const previousSubmissionId =
+    String(vessel.media.primary_submission_id ?? "").trim();
+
+  vessel.media.primary_photo_id = fallback.photo_id;
+  vessel.media.primary_submission_id = fallback.submission_id;
+
+  if (!vessel.audit || typeof vessel.audit !== "object") {
+    vessel.audit = {};
+  }
+
+  if (!Array.isArray(vessel.audit.change_history)) {
+    vessel.audit.change_history = [];
+  }
+
+  vessel.audit.change_history.push({
+    changed_at: changedAt,
+    changed_by: "web-ui-photo-delete",
+    summary: fallback.photo_id
+      ? `Gelöschtes Hauptfoto ${deletedPhotoId} durch ${fallback.photo_id} ersetzt.`
+      : `Hauptfoto ${deletedPhotoId} gelöscht; kein Ersatzfoto vorhanden.`,
+    changed_fields: [
+      "media.primary_photo_id",
+      "media.primary_submission_id"
+    ],
+    changes: [
+      {
+        field: "media.primary_photo_id",
+        old_value: deletedPhotoId,
+        new_value: fallback.photo_id
+      },
+      {
+        field: "media.primary_submission_id",
+        old_value: previousSubmissionId,
+        new_value: fallback.submission_id
+      }
+    ]
+  });
+
+  vessel.audit.updated_at = changedAt;
+  vessel.audit.updated_by = "web-ui-photo-delete";
+
+  return {
+    changed: true,
+    fallback
+  };
+}
+
+async function handleDeleteVesselPhoto(request, env) {
+  const authError = checkManagementKey(request, env);
+  if (authError) return authError;
+
+  let input;
+
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error: "Der Request enthält kein gültiges JSON."
+    }, 400);
+  }
+
+  const vesselId = String(input?.vessel_id ?? "").trim();
+  const source = String(input?.source ?? "").trim();
+  const submissionId = String(input?.submission_id ?? "").trim();
+  const submissionPath = String(input?.submission_path ?? "").trim();
+  const photoId = String(input?.photo_id ?? "").trim();
+  const photoPath = String(input?.photo_path ?? "").trim();
+
+  if (!VESSEL_ID_PATTERN.test(vesselId)) {
+    return jsonResponse({
+      ok: false,
+      error: "vessel_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  if (!new Set(["sighting", "direct"]).has(source)) {
+    return jsonResponse({
+      ok: false,
+      error: "source muss sighting oder direct sein."
+    }, 400);
+  }
+
+  if (!photoId && !photoPath) {
+    return jsonResponse({
+      ok: false,
+      error: "photo_id oder photo_path ist erforderlich."
+    }, 400);
+  }
+
+  if (photoPath && !isSafeManagedPhotoPath(photoPath)) {
+    return jsonResponse({
+      ok: false,
+      error: "photo_path ist ungültig."
+    }, 400);
+  }
+
+  if (
+    source === "sighting" &&
+    !/^SUB-[A-Z0-9-]{8,80}$/.test(submissionId)
+  ) {
+    return jsonResponse({
+      ok: false,
+      error: "submission_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  const vesselResult = await loadCanonicalVessel(env, vesselId);
+
+  if (!vesselResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: vesselResult.error
+    }, vesselResult.status === 404 ? 404 : 502);
+  }
+
+  const deletedAt = new Date().toISOString();
+  const files = [];
+  let removedPhoto = null;
+  let sightingsResult = null;
+  let directPhotosResult = null;
+
+  if (source === "sighting") {
+    const submissionFile = await loadSubmissionForPhotoDelete({
+      env,
+      submissionId,
+      submissionPath
+    });
+
+    if (!submissionFile.ok) {
+      return jsonResponse({
+        ok: false,
+        error: submissionFile.error
+      }, submissionFile.status ?? 502);
+    }
+
+    const reviewedVesselId = String(
+      submissionFile.submission?.workflow?.review?.vessel_id ?? ""
+    ).trim();
+
+    if (
+      (submissionFile.submission?.workflow?.status ?? "new") !== "reviewed" ||
+      reviewedVesselId !== vesselId
+    ) {
+      return jsonResponse({
+        ok: false,
+        error:
+          "Die Sichtung ist nicht als bestätigte Sichtung dieses Schiffes verknüpft."
+      }, 409);
+    }
+
+    const existingPhotos = Array.isArray(submissionFile.submission.photos)
+      ? submissionFile.submission.photos
+      : [];
+
+    const photoIndex = findPhotoRecordIndex(
+      existingPhotos,
+      photoId,
+      photoPath
+    );
+
+    if (photoIndex < 0) {
+      return jsonResponse({
+        ok: false,
+        error: "Das Foto wurde in dieser Sichtung nicht gefunden."
+      }, 404);
+    }
+
+    removedPhoto = existingPhotos[photoIndex];
+
+    submissionFile.submission.photos = resequencePhotoRecords(
+      existingPhotos.filter((_, index) => index !== photoIndex)
+    );
+    submissionFile.submission.photo_count =
+      submissionFile.submission.photos.length;
+    submissionFile.submission.updated_at = deletedAt;
+
+    if (!Array.isArray(submissionFile.submission.photo_history)) {
+      submissionFile.submission.photo_history = [];
+    }
+
+    submissionFile.submission.photo_history.push({
+      action: "deleted",
+      deleted_at: deletedAt,
+      deleted_by: "web-ui",
+      photo: removedPhoto
+    });
+
+    files.push({
+      path: submissionFile.path,
+      content:
+        JSON.stringify(submissionFile.submission, null, 2) + "\n",
+      encoding: "utf-8"
+    });
+
+    sightingsResult = await loadSightingsDocument(env);
+
+    if (!sightingsResult.ok) {
+      return jsonResponse({
+        ok: false,
+        error: sightingsResult.error
+      }, sightingsResult.status ?? 502);
+    }
+
+    sightingsResult.document = updateSightingsDocument({
+      document: sightingsResult.document,
+      submission: submissionFile.submission,
+      submissionPath: submissionFile.path,
+      updatedAt: deletedAt
+    });
+
+    files.push(
+      createSightingsCommitFile(sightingsResult.document)
+    );
+  } else {
+    directPhotosResult = await loadDirectVesselPhotos(env, vesselId);
+
+    if (!directPhotosResult.ok) {
+      return jsonResponse({
+        ok: false,
+        error: directPhotosResult.error
+      }, directPhotosResult.status ?? 502);
+    }
+
+    const existingPhotos = Array.isArray(directPhotosResult.document.photos)
+      ? directPhotosResult.document.photos
+      : [];
+
+    const photoIndex = findPhotoRecordIndex(
+      existingPhotos,
+      photoId,
+      photoPath
+    );
+
+    if (photoIndex < 0) {
+      return jsonResponse({
+        ok: false,
+        error: "Das zusätzliche Schiffsfoto wurde nicht gefunden."
+      }, 404);
+    }
+
+    removedPhoto = existingPhotos[photoIndex];
+
+    directPhotosResult.document.photos = resequencePhotoRecords(
+      existingPhotos.filter((_, index) => index !== photoIndex)
+    );
+    directPhotosResult.document.updated_at = deletedAt;
+
+    if (!Array.isArray(directPhotosResult.document.photo_history)) {
+      directPhotosResult.document.photo_history = [];
+    }
+
+    directPhotosResult.document.photo_history.push({
+      action: "deleted",
+      deleted_at: deletedAt,
+      deleted_by: "web-ui",
+      photo: removedPhoto
+    });
+
+    files.push({
+      path: directPhotosResult.path,
+      content:
+        JSON.stringify(directPhotosResult.document, null, 2) + "\n",
+      encoding: "utf-8"
+    });
+  }
+
+  const removedPath = String(removedPhoto?.path ?? "").trim();
+
+  if (!isSafeManagedPhotoPath(removedPath)) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Der gespeicherte Fotopfad ist ungültig; das Foto wurde nicht gelöscht."
+    }, 409);
+  }
+
+  const removedPhotoId = String(removedPhoto?.photo_id ?? photoId).trim();
+  const isDeletedPrimary =
+    String(vesselResult.vessel?.media?.primary_photo_id ?? "").trim() ===
+    removedPhotoId;
+
+  let primaryFallback = null;
+
+  if (isDeletedPrimary) {
+    if (!sightingsResult) {
+      sightingsResult = await loadSightingsDocument(env);
+
+      if (!sightingsResult.ok) {
+        return jsonResponse({
+          ok: false,
+          error: sightingsResult.error
+        }, sightingsResult.status ?? 502);
+      }
+    }
+
+    if (!directPhotosResult) {
+      directPhotosResult = await loadDirectVesselPhotos(env, vesselId);
+
+      if (!directPhotosResult.ok) {
+        return jsonResponse({
+          ok: false,
+          error: directPhotosResult.error
+        }, directPhotosResult.status ?? 502);
+      }
+    }
+
+    const primaryResult = applyDeletedPrimaryPhotoFallback({
+      vessel: vesselResult.vessel,
+      deletedPhotoId: removedPhotoId,
+      sightingsDocument: sightingsResult.document,
+      directPhotosDocument: directPhotosResult.document,
+      vesselId,
+      changedAt: deletedAt
+    });
+
+    if (primaryResult.changed) {
+      primaryFallback = primaryResult.fallback;
+      files.push({
+        path: vesselResult.path,
+        content:
+          JSON.stringify(vesselResult.vessel, null, 2) + "\n",
+        encoding: "utf-8"
+      });
+    }
+  }
+
+  files.push({
+    path: removedPath,
+    delete: true
+  });
+
+  const commitResult = await createAtomicGitHubCommit({
+    env,
+    message:
+      source === "sighting"
+        ? `Foto ${removedPhotoId || removedPath} aus ${submissionId} gelöscht`
+        : `Foto ${removedPhotoId || removedPath} von ${vesselId} gelöscht`,
+    files
+  });
+
+  if (!commitResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: "Das Foto konnte nicht vollständig gelöscht werden.",
+      github_step: commitResult.step,
+      github_status: commitResult.status,
+      github_response: commitResult.body
+    }, 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+    message:
+      source === "sighting"
+        ? "Das Foto wurde gelöscht; die Sichtung bleibt erhalten."
+        : "Das zusätzliche Schiffsfoto wurde gelöscht.",
+    vessel_id: vesselId,
+    source,
+    submission_id: submissionId,
+    photo_id: removedPhotoId,
+    photo_path: removedPath,
+    was_primary_photo: isDeletedPrimary,
+    new_primary_photo_id: primaryFallback?.photo_id ?? "",
+    commit_sha: commitResult.commitSha
+  });
 }
 
 
