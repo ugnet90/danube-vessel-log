@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.14.16
-// Updated: 2026-07-31
+// Version: 0.14.17
+// Updated: 2026-08-01
 
 "use strict";
 
@@ -36,6 +36,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const reloadButton = byId("reloadButton");
   const pageStatus = byId("pageStatus");
   const content = byId("vesselContent");
+
+  const previousPhotoButton =
+    byId("previousPhotoButton");
+
+  const nextPhotoButton =
+    byId("nextPhotoButton");
+
+  const primaryPhotoPosition =
+    byId("primaryPhotoPosition");
 
   const editCard = byId("vesselEditCard");
   const editForm = byId("vesselEditForm");
@@ -89,6 +98,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentVessel = null;
   let currentPayload = null;
   let vesselNavigation = [];
+  let photoViewerItems = [];
+  let photoViewerIndex = -1;
   let editModeActive = false;
   let sourceFormActive = false;
   let editingSourceId = "";
@@ -2786,7 +2797,97 @@ document.addEventListener("DOMContentLoaded", () => {
     return actions;
   }
 
-  function renderPrimaryPhoto(primaryPhoto) {
+  function photoViewerKey(photo) {
+    const photoId =
+      typeof photo?.photo_id === "string"
+        ? photo.photo_id.trim()
+        : "";
+
+    const path =
+      typeof photo?.path === "string"
+        ? photo.path.trim()
+        : "";
+
+    const url = safeUrl(photo?.url ?? "");
+
+    return photoId || path || url;
+  }
+
+  function collectPhotoViewerItems({
+    primaryPhoto,
+    directPhotos,
+    sightings
+  }) {
+    const items = [];
+    const knownKeys = new Set();
+
+    const addPhoto = (
+      photo,
+      context = {}
+    ) => {
+      const url = safeUrl(photo?.url ?? "");
+      if (!url) return;
+
+      const normalized = {
+        ...photo,
+        url,
+        source:
+          photo?.source ||
+          context.source ||
+          "",
+        submission_id:
+          photo?.submission_id ||
+          context.submission_id ||
+          "",
+        captured_at:
+          photo?.captured_at ||
+          context.captured_at ||
+          ""
+      };
+
+      const key = photoViewerKey(normalized);
+      if (!key || knownKeys.has(key)) return;
+
+      knownKeys.add(key);
+      items.push(normalized);
+    };
+
+    addPhoto(primaryPhoto);
+
+    for (const photo of (
+      Array.isArray(directPhotos)
+        ? directPhotos
+        : []
+    )) {
+      addPhoto(photo, {
+        source: "direct_vessel_upload"
+      });
+    }
+
+    for (const sighting of (
+      Array.isArray(sightings)
+        ? sightings
+        : []
+    )) {
+      for (const photo of (
+        Array.isArray(sighting?.photos)
+          ? sighting.photos
+          : []
+      )) {
+        addPhoto(photo, {
+          source: "sighting",
+          submission_id:
+            sighting?.submission_id || "",
+          captured_at:
+            sighting?.captured_at || ""
+        });
+      }
+    }
+
+    return items;
+  }
+
+  function renderPhotoViewerCurrent() {
     const image = byId("primaryPhoto");
 
     const placeholder =
@@ -2795,41 +2896,123 @@ document.addEventListener("DOMContentLoaded", () => {
     const caption =
       byId("primaryPhotoCaption");
 
-    const photoUrl = safeUrl(
-      primaryPhoto?.url ?? ""
-    );
+    const photoCount =
+      photoViewerItems.length;
 
-    if (!photoUrl) {
+    if (
+      photoCount === 0 ||
+      photoViewerIndex < 0
+    ) {
       image.classList.add("hidden");
       image.removeAttribute("src");
       image.alt = "";
 
       placeholder.classList.remove("hidden");
       caption.textContent = "";
+      primaryPhotoPosition.textContent = "";
+
+      previousPhotoButton.classList.add("hidden");
+      nextPhotoButton.classList.add("hidden");
+      previousPhotoButton.disabled = true;
+      nextPhotoButton.disabled = true;
 
       return;
     }
 
-    image.src = photoUrl;
+    const currentPhoto =
+      photoViewerItems[photoViewerIndex];
 
+    image.src = currentPhoto.url;
     image.alt =
+      currentPhoto.original_filename ||
       `Foto von ${byId("vesselName").textContent}`;
 
     image.classList.remove("hidden");
     placeholder.classList.add("hidden");
 
     const sourceLabel =
-      primaryPhoto.source ===
+      currentPhoto.source ===
         "direct_vessel_upload"
         ? "Zusätzliches Schiffsfoto"
-        : primaryPhoto.submission_id;
+        : currentPhoto.submission_id ||
+          "Sichtungsfoto";
 
     caption.textContent = [
       sourceLabel,
-      formatDate(primaryPhoto.captured_at)
+      formatDate(currentPhoto.captured_at)
     ]
-      .filter(Boolean)
+      .filter(valueText =>
+        valueText && valueText !== "–"
+      )
       .join(" · ");
+
+    primaryPhotoPosition.textContent =
+      `${photoViewerIndex + 1} / ${photoCount}`;
+
+    const canNavigate = photoCount > 1;
+
+    previousPhotoButton.classList.toggle(
+      "hidden",
+      !canNavigate
+    );
+
+    nextPhotoButton.classList.toggle(
+      "hidden",
+      !canNavigate
+    );
+
+    previousPhotoButton.disabled =
+      !canNavigate;
+
+    nextPhotoButton.disabled =
+      !canNavigate;
+  }
+
+  function renderPrimaryPhotoViewer({
+    primaryPhoto,
+    directPhotos,
+    sightings
+  }) {
+    photoViewerItems =
+      collectPhotoViewerItems({
+        primaryPhoto,
+        directPhotos,
+        sightings
+      });
+
+    const primaryKey =
+      photoViewerKey(primaryPhoto);
+
+    const primaryIndex =
+      primaryKey
+        ? photoViewerItems.findIndex(
+            photo =>
+              photoViewerKey(photo) ===
+              primaryKey
+          )
+        : -1;
+
+    photoViewerIndex =
+      primaryIndex >= 0
+        ? primaryIndex
+        : photoViewerItems.length > 0
+          ? 0
+          : -1;
+
+    renderPhotoViewerCurrent();
+  }
+
+  function showRelativePhoto(offset) {
+    const photoCount =
+      photoViewerItems.length;
+
+    if (photoCount < 2) return;
+
+    photoViewerIndex =
+      (photoViewerIndex + offset + photoCount) %
+      photoCount;
+
+    renderPhotoViewerCurrent();
   }
 
   function renderSources(sources) {
@@ -3730,9 +3913,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     badge.textContent = "Testdatensatz";
 
-    renderPrimaryPhoto(
-      payload.primary_photo
-    );
+    renderPrimaryPhotoViewer({
+      primaryPhoto:
+        payload.primary_photo,
+      directPhotos:
+        payload.direct_photos,
+      sightings:
+        payload.sightings
+    });
 
     renderSources(sources);
 
@@ -3979,6 +4167,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   );
   
+  previousPhotoButton.addEventListener(
+    "click",
+    () => showRelativePhoto(-1)
+  );
+
+  nextPhotoButton.addEventListener(
+    "click",
+    () => showRelativePhoto(1)
+  );
+
   reloadButton.addEventListener(
     "click",
     load
