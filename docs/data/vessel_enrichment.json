@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-07-31T14:10:19.553477Z",
+  "generated_at": "2026-08-01T17:59:33.441810Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -115,35 +115,11 @@
             "revision_id": 2516840723
           },
           {
-            "qid": "Q4115189",
-            "label": "Wikidata-Spielwiese",
-            "description": "Eine Spielwiese zum Testen von Funktionen. Fühle dich frei alles mögliche zu verändern. Füge aber bitte nur Links zu Benutzerseiten hinzu.",
-            "url": "https://www.wikidata.org/wiki/Q4115189",
-            "score": 0.955,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Wikidata-interne Sache",
-              "Mensch"
-            ],
-            "suggestions": [],
-            "revision_id": 2525191456
-          },
-          {
             "qid": "Q1003030",
             "label": "Test",
             "description": "methodischer Versuch über Eigenschaften oder Leistung",
             "url": "https://www.wikidata.org/wiki/Q1003030",
-            "score": 0.95,
+            "score": 0.955,
             "confidence": "high",
             "matched_by": [
               "name"
@@ -164,7 +140,7 @@
             "label": "Test",
             "description": "Familienname",
             "url": "https://www.wikidata.org/wiki/Q37315170",
-            "score": 0.94,
+            "score": 0.945,
             "confidence": "high",
             "matched_by": [
               "name"
@@ -187,7 +163,7 @@
             "label": "Test",
             "description": "Polish rock band",
             "url": "https://www.wikidata.org/wiki/Q9357563",
-            "score": 0.92,
+            "score": 0.925,
             "confidence": "high",
             "matched_by": [
               "name"
