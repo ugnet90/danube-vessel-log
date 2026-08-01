@@ -2,8 +2,8 @@
 <!--
   Danube Vessel Log
   File: docs/vessel.html
-  Version: 0.14.10
-  Updated: 2026-07-30
+  Version: 0.14.17
+  Updated: 2026-08-01
 -->
 <html lang="de">
 <head>
@@ -437,20 +437,48 @@
     
       <section class="vessel-overview">
         <figure class="primary-photo-card">
-          <img
-            id="primaryPhoto"
-            class="primary-photo hidden"
-            alt=""
-          >
+          <div class="primary-photo-stage">
+            <button
+              id="previousPhotoButton"
+              class="primary-photo-navigation previous hidden"
+              type="button"
+              aria-label="Vorheriges Foto anzeigen"
+              title="Vorheriges Foto"
+            >
+              <span aria-hidden="true">‹</span>
+            </button>
 
-          <div
-            id="primaryPhotoPlaceholder"
-            class="primary-photo-placeholder"
-          >
-            Noch kein Foto verknüpft
+            <img
+              id="primaryPhoto"
+              class="primary-photo hidden"
+              alt=""
+            >
+
+            <div
+              id="primaryPhotoPlaceholder"
+              class="primary-photo-placeholder"
+            >
+              Noch kein Foto verknüpft
+            </div>
+
+            <button
+              id="nextPhotoButton"
+              class="primary-photo-navigation next hidden"
+              type="button"
+              aria-label="Nächstes Foto anzeigen"
+              title="Nächstes Foto"
+            >
+              <span aria-hidden="true">›</span>
+            </button>
           </div>
 
-          <figcaption id="primaryPhotoCaption"></figcaption>
+          <figcaption>
+            <span id="primaryPhotoCaption"></span>
+            <span
+              id="primaryPhotoPosition"
+              class="primary-photo-position"
+            ></span>
+          </figcaption>
         </figure>
 
         <section
