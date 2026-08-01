@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.14.7
-// Updated: 2026-07-27
+// Version: 0.14.16
+// Updated: 2026-07-31
 
 "use strict";
 
@@ -2614,6 +2614,178 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }  
 
+  async function deletePhoto(
+    photo,
+    sighting,
+    source,
+    button
+  ) {
+    const photoId =
+      typeof photo?.photo_id === "string"
+        ? photo.photo_id.trim()
+        : "";
+
+    const photoPath =
+      typeof photo?.path === "string"
+        ? photo.path.trim()
+        : "";
+
+    if (!photoId && !photoPath) {
+      pageStatus.className =
+        "page-status error";
+      pageStatus.textContent =
+        "Dieses Foto besitzt weder eine Photo-ID noch einen gültigen Pfad.";
+      return;
+    }
+
+    const isPrimaryPhoto =
+      Boolean(photoId) &&
+      photoId === String(
+        currentPayload?.primary_photo?.photo_id ?? ""
+      ).trim();
+
+    const confirmationLines = [
+      source === "sighting"
+        ? "Dieses einzelne Foto endgültig löschen? Die Sichtung selbst bleibt erhalten."
+        : "Dieses zusätzliche Schiffsfoto endgültig löschen?",
+      isPrimaryPhoto
+        ? "Das Foto ist derzeit das Hauptfoto. Nach dem Löschen wird automatisch ein anderes vorhandenes Foto gewählt."
+        : ""
+    ].filter(Boolean);
+
+    if (!window.confirm(confirmationLines.join("\n\n"))) {
+      return;
+    }
+
+    const originalButtonText = button.textContent;
+    button.disabled = true;
+    button.textContent = "Wird gelöscht …";
+
+    pageStatus.className = "page-status";
+    pageStatus.textContent = "Foto wird gelöscht …";
+
+    try {
+      const headers = {
+        "Content-Type": "application/json"
+      };
+
+      const suppliedApiKey = apiKey.value.trim();
+      if (suppliedApiKey) {
+        headers["X-API-Key"] = suppliedApiKey;
+      }
+
+      const response = await fetch(
+        `${workerUrl}/vessel-photo-delete`,
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify({
+            vessel_id: vesselId,
+            source,
+            submission_id:
+              typeof sighting?.submission_id === "string"
+                ? sighting.submission_id
+                : "",
+            submission_path:
+              typeof sighting?.submission_path === "string"
+                ? sighting.submission_path
+                : "",
+            photo_id: photoId,
+            photo_path: photoPath
+          })
+        }
+      );
+
+      let result = {};
+
+      try {
+        result = await response.json();
+      } catch {
+        result = {};
+      }
+
+      if (!response.ok || result.ok !== true) {
+        throw new Error(
+          result.error ||
+          `Der Worker antwortete mit HTTP ${response.status}.`
+        );
+      }
+
+      await load();
+
+      pageStatus.className =
+        "page-status success";
+      pageStatus.textContent =
+        result.message || "Das Foto wurde gelöscht.";
+    } catch (error) {
+      pageStatus.className =
+        "page-status error";
+      pageStatus.textContent =
+        error instanceof Error
+          ? error.message
+          : String(error);
+
+      button.disabled = false;
+      button.textContent = originalButtonText;
+    }
+  }
+
+  function createPhotoActionButtons({
+    photo,
+    sighting,
+    source,
+    primaryPhotoId
+  }) {
+    const actions = document.createElement("div");
+    actions.className = "photo-card-actions";
+
+    const selectButton = document.createElement("button");
+    selectButton.type = "button";
+    selectButton.className = "primary-photo-button";
+
+    const isPrimaryPhoto =
+      Boolean(photo?.photo_id) &&
+      photo.photo_id === primaryPhotoId;
+
+    if (isPrimaryPhoto) {
+      selectButton.textContent = "Hauptfoto";
+      selectButton.disabled = true;
+    } else {
+      selectButton.textContent = "Als Hauptfoto";
+      selectButton.disabled = !photo?.photo_id;
+      selectButton.addEventListener(
+        "click",
+        () => savePrimaryPhoto(
+          photo,
+          sighting,
+          selectButton
+        )
+      );
+    }
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "photo-delete-button";
+    deleteButton.textContent = "Foto löschen";
+    deleteButton.disabled = !photo?.photo_id && !photo?.path;
+    deleteButton.addEventListener(
+      "click",
+      () => deletePhoto(
+        photo,
+        sighting,
+        source,
+        deleteButton
+      )
+    );
+
+    actions.append(
+      selectButton,
+      deleteButton
+    );
+
+    return actions;
+  }
+
   function renderPrimaryPhoto(primaryPhoto) {
     const image = byId("primaryPhoto");
 
@@ -3013,13 +3185,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       link.append(image);
 
-      const selectButton =
-        document.createElement("button");
-
-      selectButton.type = "button";
-      selectButton.className =
-        "primary-photo-button";
-
       const isPrimaryPhoto =
         Boolean(photo.photo_id) &&
         photo.photo_id === primaryPhotoId;
@@ -3028,29 +3193,16 @@ document.addEventListener("DOMContentLoaded", () => {
         photoCard.classList.add(
           "is-primary"
         );
-
-        selectButton.textContent =
-          "Hauptfoto";
-        selectButton.disabled = true;
-      } else {
-        selectButton.textContent =
-          "Als Hauptfoto";
-        selectButton.disabled =
-          !photo.photo_id;
-
-        selectButton.addEventListener(
-          "click",
-          () => savePrimaryPhoto(
-            photo,
-            null,
-            selectButton
-          )
-        );
       }
 
       photoCard.append(
         link,
-        selectButton
+        createPhotoActionButtons({
+          photo,
+          sighting: null,
+          source: "direct",
+          primaryPhotoId
+        })
       );
 
       gallery.append(photoCard);
@@ -3290,47 +3442,24 @@ document.addEventListener("DOMContentLoaded", () => {
           
             link.append(image);
           
-            const selectButton =
-              document.createElement("button");
-          
-            selectButton.type = "button";
-          
-            selectButton.className =
-              "primary-photo-button";
-          
             const isPrimaryPhoto =
               Boolean(photo.photo_id) &&
               photo.photo_id === primaryPhotoId;
-          
+
             if (isPrimaryPhoto) {
               photoCard.classList.add(
                 "is-primary"
               );
-          
-              selectButton.textContent =
-                "Hauptfoto";
-          
-              selectButton.disabled = true;
-            } else {
-              selectButton.textContent =
-                "Als Hauptfoto";
-          
-              selectButton.disabled =
-                !photo.photo_id;
-          
-              selectButton.addEventListener(
-                "click",
-                () => savePrimaryPhoto(
-                  photo,
-                  sighting,
-                  selectButton
-                )
-              );
             }
-          
+
             photoCard.append(
               link,
-              selectButton
+              createPhotoActionButtons({
+                photo,
+                sighting,
+                source: "sighting",
+                primaryPhotoId
+              })
             );
           
             gallery.append(photoCard);

@@ -1,9 +1,13 @@
+// Danube Vessel Log
+// File: docs/js/vessels.js
+// Version: 0.14.16
+// Updated: 2026-07-31
+
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
   const byId = id => document.getElementById(id);
   const workerUrl = String(window.VesselConfig?.workerUrl ?? "").trim().replace(/\/+$/, "");
-
   const apiKey = byId("apiKey");
   const reloadButton = byId("reloadButton");
   const searchInput = byId("searchInput");
@@ -15,8 +19,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultCount = byId("resultCount");
   const listStatus = byId("listStatus");
   const emptyState = byId("emptyState");
+  const sortHeaders = [...document.querySelectorAll("[data-sort-key]")];
+  const collator = new Intl.Collator("de-AT", {
+    numeric: true,
+    sensitivity: "base"
+  });
 
   let vessels = [];
+  let sortKey = "vessel_id";
+  let sortDirection = 1;
 
   function normalize(value) {
     return String(value ?? "")
@@ -54,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const query = normalize(searchInput.value.trim());
     if (!query) return true;
-
     const haystack = normalize([
       vessel.vessel_id,
       vessel.name,
@@ -73,14 +83,72 @@ document.addEventListener("DOMContentLoaded", () => {
     return haystack.includes(query);
   }
 
+  function sortValue(vessel, key) {
+    if (key === "status") return labelStatus(vessel.status);
+    if (key === "year_built") {
+      const year = Number(vessel.year_built);
+      return Number.isFinite(year) && year > 0 ? year : null;
+    }
+    return String(vessel?.[key] ?? "").trim();
+  }
+
+  function compareVessels(left, right) {
+    const leftValue = sortValue(left, sortKey);
+    const rightValue = sortValue(right, sortKey);
+    const leftMissing = leftValue === null || leftValue === "";
+    const rightMissing = rightValue === null || rightValue === "";
+
+    if (leftMissing && rightMissing) return collator.compare(left.vessel_id, right.vessel_id);
+    if (leftMissing) return 1;
+    if (rightMissing) return -1;
+
+    let comparison;
+    if (sortKey === "year_built") {
+      comparison = leftValue - rightValue;
+    } else {
+      comparison = collator.compare(String(leftValue), String(rightValue));
+    }
+
+    if (comparison === 0 && sortKey !== "vessel_id") {
+      comparison = collator.compare(left.vessel_id, right.vessel_id);
+    }
+
+    return comparison * sortDirection;
+  }
+
+  function updateSortHeaders() {
+    for (const header of sortHeaders) {
+      const key = header.dataset.sortKey;
+      const active = key === sortKey;
+      header.setAttribute(
+        "aria-sort",
+        active
+          ? (sortDirection === 1 ? "ascending" : "descending")
+          : "none"
+      );
+      header.classList.toggle("is-sorted", active);
+      const indicator = header.querySelector(".sort-indicator");
+      if (indicator) indicator.textContent = active ? (sortDirection === 1 ? "↑" : "↓") : "↕";
+    }
+  }
+
+  function setSort(nextKey) {
+    if (nextKey === sortKey) sortDirection *= -1;
+    else {
+      sortKey = nextKey;
+      sortDirection = 1;
+    }
+    updateSortHeaders();
+    render();
+  }
+
   function openVessel(vesselId) {
     window.location.href = `vessel.html?id=${encodeURIComponent(vesselId)}`;
   }
 
   function render() {
-    const filtered = vessels.filter(matches);
+    const filtered = vessels.filter(matches).sort(compareVessels);
     vesselRows.replaceChildren();
-
     for (const vessel of filtered) {
       const row = document.createElement("tr");
       row.className = "vessel-row";
@@ -94,7 +162,6 @@ document.addEventListener("DOMContentLoaded", () => {
           openVessel(vessel.vessel_id);
         }
       });
-
       const idCell = document.createElement("td");
       const id = document.createElement("span");
       id.className = "vessel-id";
@@ -106,7 +173,6 @@ document.addEventListener("DOMContentLoaded", () => {
         badge.textContent = "Test";
         idCell.appendChild(badge);
       }
-
       const nameCell = document.createElement("td");
       const name = document.createElement("span");
       name.className = "vessel-name";
@@ -118,7 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
         former.textContent = `früher: ${vessel.former_names.split("|").join(", ")}`;
         nameCell.appendChild(former);
       }
-
       const values = [
         vessel.ship_type || "–",
         vessel.operator || "–",
@@ -134,7 +199,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }));
       vesselRows.appendChild(row);
     }
-
     resultCount.textContent = `${filtered.length} von ${vessels.length} Schiffen`;
     emptyState.classList.toggle("hidden", filtered.length !== 0);
   }
@@ -143,7 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
     reloadButton.disabled = true;
     listStatus.className = "list-status";
     listStatus.textContent = "Schiffsliste wird geladen …";
-
     try {
       const response = await window.VesselApi.getVessels({
         workerUrl,
@@ -151,6 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       vessels = Array.isArray(response.data?.vessels) ? response.data.vessels : [];
       refreshFilters();
+      updateSortHeaders();
       render();
       listStatus.textContent = "";
     } catch (error) {
@@ -168,6 +232,10 @@ document.addEventListener("DOMContentLoaded", () => {
   searchInput.addEventListener("input", render);
   for (const select of [typeFilter, flagFilter, statusFilter]) select.addEventListener("change", render);
   showTestData.addEventListener("change", () => { refreshFilters(); render(); });
+  for (const header of sortHeaders) {
+    header.querySelector("button")?.addEventListener("click", () => setSort(header.dataset.sortKey));
+  }
 
+  updateSortHeaders();
   load();
 });
