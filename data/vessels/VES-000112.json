@@ -60,6 +60,7 @@
       "url": "https://www.cruisemapper.com/ships/SS-Emilie-1471",
       "notes": "",
       "fields_used": [
+        "technical.year_built",
         "technical.width_m",
         "operations.operator",
         "operations.owner"
@@ -67,7 +68,9 @@
       "retrieved_at": "2026-07-31T13:53:31.429Z",
       "verified_at": "2026-07-31T13:53:31.429Z",
       "added_at": "2026-07-31T13:53:31.429Z",
-      "added_by": "web-ui"
+      "added_by": "web-ui",
+      "updated_at": "2026-08-01T17:58:29.720Z",
+      "updated_by": "web-ui"
     }
   ],
   "enrichment": {
@@ -85,7 +88,7 @@
     "environment": "production",
     "created_at": "2026-07-31T13:26:59.198Z",
     "created_from_submission_id": "SUB-20260731-132500-0C1CB7",
-    "updated_at": "2026-07-31T14:02:14.616Z",
+    "updated_at": "2026-08-01T17:58:29.720Z",
     "updated_by": "web-ui",
     "change_history": [
       {
@@ -223,6 +226,30 @@
               "classification.flag",
               "technical.length_m",
               "technical.draft_m"
+            ]
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-08-01T17:58:29.720Z",
+        "changed_by": "web-ui",
+        "summary": "Quelle bearbeitet: Sonstige",
+        "changed_fields": [
+          "sources.fields_used"
+        ],
+        "changes": [
+          {
+            "field": "sources.fields_used",
+            "old_value": [
+              "technical.width_m",
+              "operations.operator",
+              "operations.owner"
+            ],
+            "new_value": [
+              "technical.year_built",
+              "technical.width_m",
+              "operations.operator",
+              "operations.owner"
             ]
           }
         ]
