@@ -46,7 +46,7 @@
   "observer_lon": 14.29009604703275,
   "photos": [],
   "workflow": {
-    "status": "new",
+    "status": "rejected",
     "auto": {
       "vessel_match": {
         "status": "unmatched",
@@ -59,10 +59,10 @@
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
+      "reviewed": true,
+      "reviewed_at": "2026-08-05T04:31:11.056Z",
       "vessel_id": "",
-      "decision": "",
+      "decision": "rejected",
       "notes": ""
     }
   }
