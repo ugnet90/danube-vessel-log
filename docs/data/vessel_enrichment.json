@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-03T07:46:03.464475Z",
+  "generated_at": "2026-08-05T12:07:55.146700Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,15 +32,15 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 14,
-    "vessels_incomplete": 14,
+    "vessels_total": 15,
+    "vessels_incomplete": 15,
     "vessels_complete": 0,
-    "candidate_matches": 1,
+    "candidate_matches": 2,
     "matched_no_new_data": 5,
     "low_confidence": 1,
     "no_match": 7,
     "lookup_errors": 0,
-    "suggestions_total": 3
+    "suggestions_total": 6
   },
   "vessels": [
     {
@@ -1352,6 +1352,131 @@
         "accepted_qid": "",
         "rejected_qids": [],
         "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000113",
+      "name": "Vista Classica",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000113.json",
+      "missing_fields": [
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.eni",
+          "label": "ENI"
+        },
+        {
+          "field": "technical.year_built",
+          "label": "Baujahr"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "technical.passengers",
+          "label": "Passagiere"
+        },
+        {
+          "field": "operations.operator",
+          "label": "Betreiber"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        },
+        {
+          "field": "operations.home_port",
+          "label": "Heimathafen"
+        }
+      ],
+      "missing_count": 11,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "candidate",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": [
+          {
+            "qid": "Q1597558",
+            "label": "Amethyst Classic",
+            "description": "Flusskreuzfahrtschiff",
+            "url": "https://www.wikidata.org/wiki/Q1597558",
+            "score": 0.96,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": [
+                "LZG2223"
+              ]
+            },
+            "instance_of": [
+              "Schiff"
+            ],
+            "suggestions": [
+              {
+                "field": "technical.draft_m",
+                "field_label": "Tiefgang",
+                "value": 1.47,
+                "display_value": 1.47,
+                "property": "P2262",
+                "property_label": "draft",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
+                "source_url": "https://www.wikidata.org/wiki/Q1597558",
+                "confidence": 0.96,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.passengers",
+                "field_label": "Passagiere",
+                "value": 110,
+                "display_value": 110,
+                "property": "P1083",
+                "property_label": "maximum capacity",
+                "property_url": "https://www.wikidata.org/wiki/Property:P1083",
+                "source_url": "https://www.wikidata.org/wiki/Q1597558",
+                "confidence": 0.96,
+                "apply_supported": true
+              },
+              {
+                "field": "operations.home_port",
+                "field_label": "Heimathafen",
+                "value": "Russe",
+                "display_value": "Russe",
+                "property": "P504",
+                "property_label": "shipping port",
+                "property_url": "https://www.wikidata.org/wiki/Property:P504",
+                "source_url": "https://www.wikidata.org/wiki/Q1597558",
+                "confidence": 0.96,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2335149888
+          }
+        ]
       }
     }
   ]
