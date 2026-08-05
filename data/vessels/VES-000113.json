@@ -20,23 +20,47 @@
     "shipyard": "",
     "length_m": 107,
     "width_m": 12,
-    "draft_m": null,
-    "passengers": null
+    "draft_m": 1.47,
+    "passengers": 110
   },
   "operations": {
     "operator": "",
     "owner": "",
     "manager": "",
     "cruise_brand": "",
-    "home_port": ""
+    "home_port": "Russe"
   },
   "name_history": [],
   "identifiers_history": [],
-  "sources": [],
+  "sources": [
+    {
+      "source_id": "SRC-6B82F4C98366",
+      "provider": "Wikidata",
+      "title": "Wikidata: Amethyst Classic",
+      "url": "https://www.wikidata.org/wiki/Q1597558",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "technical.draft_m",
+        "technical.passengers",
+        "operations.home_port"
+      ],
+      "retrieved_at": "2026-08-05T12:07:55.146700Z",
+      "verified_at": "2026-08-05T12:14:08.529Z",
+      "added_at": "2026-08-05T12:14:08.529Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2335149888
+    }
+  ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q1597558",
+      "rejected_qids": [],
+      "accepted_at": "2026-08-05T12:14:08.529Z",
+      "last_reviewed_at": "2026-08-05T12:14:08.529Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-23E3358F6D3C4834A26F06B0316D7705",
@@ -47,7 +71,42 @@
     "environment": "production",
     "created_at": "2026-08-05T12:06:51.337Z",
     "created_from_submission_id": "SUB-20260805-115711-2C6744",
-    "updated_at": "2026-08-05T12:06:51.337Z",
-    "updated_by": "web-ui"
+    "updated_at": "2026-08-05T12:14:08.529Z",
+    "updated_by": "vessel-enrichment",
+    "change_history": [
+      {
+        "changed_at": "2026-08-05T12:14:08.529Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "3 Wikidata-Felder aus Q1597558 übernommen",
+        "changed_fields": [
+          "technical.draft_m",
+          "technical.passengers",
+          "operations.home_port",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "technical.draft_m",
+            "old_value": null,
+            "new_value": 1.47
+          },
+          {
+            "field": "technical.passengers",
+            "old_value": null,
+            "new_value": 110
+          },
+          {
+            "field": "operations.home_port",
+            "old_value": "",
+            "new_value": "Russe"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q1597558"
+          }
+        ]
+      }
+    ]
   }
 }
