@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-05T12:07:55.146700Z",
+  "generated_at": "2026-08-05T12:11:44.814917Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,15 +32,15 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 15,
-    "vessels_incomplete": 15,
+    "vessels_total": 17,
+    "vessels_incomplete": 17,
     "vessels_complete": 0,
-    "candidate_matches": 2,
+    "candidate_matches": 3,
     "matched_no_new_data": 5,
     "low_confidence": 1,
-    "no_match": 7,
+    "no_match": 8,
     "lookup_errors": 0,
-    "suggestions_total": 6
+    "suggestions_total": 7
   },
   "vessels": [
     {
@@ -1475,6 +1475,168 @@
               }
             ],
             "revision_id": 2335149888
+          }
+        ]
+      }
+    },
+    {
+      "vessel_id": "VES-000114",
+      "name": "Avalon Illumination",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000114.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 8,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "no_match",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000115",
+      "name": "Amadeus Cara",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000115.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 8,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "candidate",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": [
+          {
+            "qid": "Q131405286",
+            "label": "Amadeus Cara",
+            "description": "Flusskreuzfahrtschiff",
+            "url": "https://www.wikidata.org/wiki/Q131405286",
+            "score": 1.0,
+            "confidence": "very_high",
+            "matched_by": [
+              "identity.eni"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [
+                "02339509"
+              ],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Flusskreuzfahrtschiff"
+            ],
+            "suggestions": [
+              {
+                "field": "technical.shipyard",
+                "field_label": "Werft",
+                "value": "TeamCo Shipyard BV",
+                "display_value": "TeamCo Shipyard BV",
+                "property": "P176",
+                "property_label": "manufacturer",
+                "property_url": "https://www.wikidata.org/wiki/Property:P176",
+                "source_url": "https://www.wikidata.org/wiki/Q131405286",
+                "confidence": 1.0,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2356697391
+          },
+          {
+            "qid": "Q131405329",
+            "label": "Kategorie:Amadeus Cara (ship, 2022)",
+            "description": "Wikimedia-Kategorie",
+            "url": "https://www.wikidata.org/wiki/Q131405329",
+            "score": 0.795,
+            "confidence": "low",
+            "matched_by": [
+              "name_partial"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Wikimedia-Kategorie"
+            ],
+            "suggestions": [],
+            "revision_id": 2444401166
           }
         ]
       }
