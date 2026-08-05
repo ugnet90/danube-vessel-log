@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-05T12:11:44.814917Z",
+  "generated_at": "2026-08-05T12:13:58.628361Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 17,
     "vessels_incomplete": 17,
     "vessels_complete": 0,
-    "candidate_matches": 3,
-    "matched_no_new_data": 5,
+    "candidate_matches": 2,
+    "matched_no_new_data": 6,
     "low_confidence": 1,
     "no_match": 8,
     "lookup_errors": 0,
-    "suggestions_total": 7
+    "suggestions_total": 4
   },
   "vessels": [
     {
@@ -339,20 +339,12 @@
           "label": "IMO"
         },
         {
-          "field": "technical.year_built",
-          "label": "Baujahr"
-        },
-        {
           "field": "technical.shipyard",
           "label": "Werft"
         },
         {
           "field": "technical.draft_m",
           "label": "Tiefgang"
-        },
-        {
-          "field": "technical.passengers",
-          "label": "Passagiere"
         },
         {
           "field": "operations.operator",
@@ -369,19 +361,15 @@
         {
           "field": "operations.cruise_brand",
           "label": "Marke"
-        },
-        {
-          "field": "operations.home_port",
-          "label": "Heimathafen"
         }
       ],
-      "missing_count": 10,
+      "missing_count": 7,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
-        "accepted_qid": "",
+        "accepted_qid": "Q132731400",
         "rejected_qids": [],
         "candidates": [
           {
@@ -392,9 +380,9 @@
             "score": 1.0,
             "confidence": "very_high",
             "matched_by": [
-              "identity.eni"
+              "manual_confirmation"
             ],
-            "manually_confirmed": false,
+            "manually_confirmed": true,
             "identifiers": {
               "mmsi": [],
               "imo": [],
@@ -406,44 +394,7 @@
             "instance_of": [
               "Flusskreuzfahrtschiff"
             ],
-            "suggestions": [
-              {
-                "field": "technical.year_built",
-                "field_label": "Baujahr",
-                "value": 2021,
-                "display_value": 2021,
-                "property": "P729",
-                "property_label": "service entry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P729",
-                "source_url": "https://www.wikidata.org/wiki/Q132731400",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.passengers",
-                "field_label": "Passagiere",
-                "value": 182,
-                "display_value": 182,
-                "property": "P1083",
-                "property_label": "maximum capacity",
-                "property_url": "https://www.wikidata.org/wiki/Property:P1083",
-                "source_url": "https://www.wikidata.org/wiki/Q132731400",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.home_port",
-                "field_label": "Heimathafen",
-                "value": "Basel",
-                "display_value": "Basel",
-                "property": "P532",
-                "property_label": "port of registry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P532",
-                "source_url": "https://www.wikidata.org/wiki/Q132731400",
-                "confidence": 1.0,
-                "apply_supported": true
-              }
-            ],
+            "suggestions": [],
             "revision_id": 2317819764
           },
           {
