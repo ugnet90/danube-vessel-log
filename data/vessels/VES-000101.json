@@ -16,19 +16,19 @@
     "flag": "CH"
   },
   "technical": {
-    "year_built": null,
+    "year_built": 2021,
     "shipyard": "",
     "length_m": 135,
     "width_m": 12,
     "draft_m": null,
-    "passengers": null
+    "passengers": 182
   },
   "operations": {
     "operator": "",
     "owner": "",
     "manager": "",
     "cruise_brand": "",
-    "home_port": ""
+    "home_port": "Basel"
   },
   "name_history": [],
   "identifiers_history": [],
@@ -52,12 +52,35 @@
       "verified_at": "2026-07-31T13:39:25.033Z",
       "added_at": "2026-07-31T13:39:25.033Z",
       "added_by": "web-ui"
+    },
+    {
+      "source_id": "SRC-80B1E0EA635E",
+      "provider": "Wikidata",
+      "title": "Wikidata: ENI 02338951",
+      "url": "https://www.wikidata.org/wiki/Q132731400",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "technical.year_built",
+        "technical.passengers",
+        "operations.home_port"
+      ],
+      "retrieved_at": "2026-08-05T12:07:55.146700Z",
+      "verified_at": "2026-08-05T12:12:23.567Z",
+      "added_at": "2026-08-05T12:12:23.567Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2317819764
     }
   ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q132731400",
+      "rejected_qids": [],
+      "accepted_at": "2026-08-05T12:12:23.567Z",
+      "last_reviewed_at": "2026-08-05T12:12:23.567Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-2682F5D98C964BC49CB557D429D6CB47",
@@ -68,8 +91,8 @@
     "environment": "production",
     "created_at": "2026-07-23T07:14:59.689Z",
     "created_from_submission_id": "SUB-20260723-071316-8E68BF",
-    "updated_at": "2026-07-31T13:39:38.207Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-08-05T12:12:23.567Z",
+    "updated_by": "vessel-enrichment",
     "change_history": [
       {
         "changed_at": "2026-07-31T13:39:25.033Z",
@@ -145,6 +168,39 @@
             "field": "technical.width_m",
             "old_value": null,
             "new_value": 12
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-08-05T12:12:23.567Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "3 Wikidata-Felder aus Q132731400 übernommen",
+        "changed_fields": [
+          "technical.year_built",
+          "technical.passengers",
+          "operations.home_port",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "technical.year_built",
+            "old_value": null,
+            "new_value": 2021
+          },
+          {
+            "field": "technical.passengers",
+            "old_value": null,
+            "new_value": 182
+          },
+          {
+            "field": "operations.home_port",
+            "old_value": "",
+            "new_value": "Basel"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q132731400"
           }
         ]
       }
