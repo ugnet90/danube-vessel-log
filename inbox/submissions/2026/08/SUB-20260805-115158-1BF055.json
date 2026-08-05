@@ -1,0 +1,135 @@
+{
+  "schema_version": 12,
+  "submission_id": "SUB-20260805-115158-1BF055",
+  "uploaded_at": "2026-08-05T11:51:58.659Z",
+  "captured_at": "2026-08-05T11:51:33.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "distance_m": 374
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000004",
+    "name": "Schiffsanlegestelle Linz-Lentos",
+    "short_name": "Linz-Lentos Nr. 14",
+    "station_number": "14",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2134.92,
+    "river_km_text": "2134,9+20 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "2, max. Breite 32 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.308417,
+    "longitude": 14.28775,
+    "address": "Ernst-Koref-Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "Amadeus Cara",
+  "notes": "",
+  "observer_lat": 48.30982891051138,
+  "observer_lon": 14.28399968799042,
+  "photos": [
+    {
+      "photo_id": "PHOTO-7337EDB81A354E06867994D9B1CF65AE",
+      "path": "inbox/photos/2026/08/PHOTO-7337EDB81A354E06867994D9B1CF65AE.jpg",
+      "filename": "PHOTO-7337EDB81A354E06867994D9B1CF65AE.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 390309,
+      "sequence": 1
+    },
+    {
+      "photo_id": "PHOTO-6B22411697CD42559168990907AF2947",
+      "path": "inbox/photos/2026/08/PHOTO-6B22411697CD42559168990907AF2947.jpg",
+      "filename": "PHOTO-6B22411697CD42559168990907AF2947.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 350640,
+      "sequence": 2
+    },
+    {
+      "photo_id": "PHOTO-BE0F84AF4B9A483EBBB4CD405AD8D319",
+      "path": "inbox/photos/2026/08/PHOTO-BE0F84AF4B9A483EBBB4CD405AD8D319.jpg",
+      "filename": "PHOTO-BE0F84AF4B9A483EBBB4CD405AD8D319.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 307090,
+      "sequence": 3
+    },
+    {
+      "photo_id": "PHOTO-00328E112BAC4B7AB9C483090E431B7D",
+      "path": "inbox/photos/2026/08/PHOTO-00328E112BAC4B7AB9C483090E431B7D.jpg",
+      "filename": "PHOTO-00328E112BAC4B7AB9C483090E431B7D.jpg",
+      "original_filename": "shortcut-photo-04.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 376051,
+      "sequence": 4
+    },
+    {
+      "photo_id": "PHOTO-6CEBB82F593045E7A8EC34C9FEC4D77E",
+      "path": "inbox/photos/2026/08/PHOTO-6CEBB82F593045E7A8EC34C9FEC4D77E.jpg",
+      "filename": "PHOTO-6CEBB82F593045E7A8EC34C9FEC4D77E.jpg",
+      "original_filename": "shortcut-photo-05.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 313315,
+      "sequence": 5
+    },
+    {
+      "photo_id": "PHOTO-1BC00DDB4BDA4C679AFB1E49BEB1372D",
+      "path": "inbox/photos/2026/08/PHOTO-1BC00DDB4BDA4C679AFB1E49BEB1372D.jpg",
+      "filename": "PHOTO-1BC00DDB4BDA4C679AFB1E49BEB1372D.jpg",
+      "original_filename": "shortcut-photo-06.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 375533,
+      "sequence": 6
+    },
+    {
+      "photo_id": "PHOTO-2B6E65EDBE124FAB8D34F649A1821E71",
+      "path": "inbox/photos/2026/08/PHOTO-2B6E65EDBE124FAB8D34F649A1821E71.jpg",
+      "filename": "PHOTO-2B6E65EDBE124FAB8D34F649A1821E71.jpg",
+      "original_filename": "shortcut-photo-07.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 364510,
+      "sequence": 7
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "amadeus cara"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30982891051138,
+  "photo_lon": 14.28399968799042
+}
