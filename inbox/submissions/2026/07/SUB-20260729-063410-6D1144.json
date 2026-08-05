@@ -45,7 +45,7 @@
   "photo_lon": 14.01583007562255,
   "photos": [],
   "workflow": {
-    "status": "new",
+    "status": "rejected",
     "auto": {
       "vessel_match": {
         "status": "ambiguous",
@@ -61,10 +61,10 @@
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
+      "reviewed": true,
+      "reviewed_at": "2026-08-05T04:30:13.613Z",
       "vessel_id": "",
-      "decision": "",
+      "decision": "rejected",
       "notes": ""
     }
   }
