@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-05T12:13:58.628361Z",
+  "generated_at": "2026-08-05T12:15:58.795907Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 17,
     "vessels_incomplete": 17,
     "vessels_complete": 0,
-    "candidate_matches": 2,
-    "matched_no_new_data": 6,
+    "candidate_matches": 1,
+    "matched_no_new_data": 7,
     "low_confidence": 1,
     "no_match": 8,
     "lookup_errors": 0,
-    "suggestions_total": 4
+    "suggestions_total": 1
   },
   "vessels": [
     {
@@ -1328,14 +1328,6 @@
           "label": "Werft"
         },
         {
-          "field": "technical.draft_m",
-          "label": "Tiefgang"
-        },
-        {
-          "field": "technical.passengers",
-          "label": "Passagiere"
-        },
-        {
           "field": "operations.operator",
           "label": "Betreiber"
         },
@@ -1350,19 +1342,15 @@
         {
           "field": "operations.cruise_brand",
           "label": "Marke"
-        },
-        {
-          "field": "operations.home_port",
-          "label": "Heimathafen"
         }
       ],
-      "missing_count": 11,
+      "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
-        "accepted_qid": "",
+        "accepted_qid": "Q1597558",
         "rejected_qids": [],
         "candidates": [
           {
@@ -1370,12 +1358,12 @@
             "label": "Amethyst Classic",
             "description": "Flusskreuzfahrtschiff",
             "url": "https://www.wikidata.org/wiki/Q1597558",
-            "score": 0.96,
-            "confidence": "high",
+            "score": 1.0,
+            "confidence": "very_high",
             "matched_by": [
-              "name"
+              "manual_confirmation"
             ],
-            "manually_confirmed": false,
+            "manually_confirmed": true,
             "identifiers": {
               "mmsi": [],
               "imo": [],
@@ -1387,44 +1375,7 @@
             "instance_of": [
               "Schiff"
             ],
-            "suggestions": [
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 1.47,
-                "display_value": 1.47,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q1597558",
-                "confidence": 0.96,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.passengers",
-                "field_label": "Passagiere",
-                "value": 110,
-                "display_value": 110,
-                "property": "P1083",
-                "property_label": "maximum capacity",
-                "property_url": "https://www.wikidata.org/wiki/Property:P1083",
-                "source_url": "https://www.wikidata.org/wiki/Q1597558",
-                "confidence": 0.96,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.home_port",
-                "field_label": "Heimathafen",
-                "value": "Russe",
-                "display_value": "Russe",
-                "property": "P504",
-                "property_label": "shipping port",
-                "property_url": "https://www.wikidata.org/wiki/Property:P504",
-                "source_url": "https://www.wikidata.org/wiki/Q1597558",
-                "confidence": 0.96,
-                "apply_supported": true
-              }
-            ],
+            "suggestions": [],
             "revision_id": 2335149888
           }
         ]
