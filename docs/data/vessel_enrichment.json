@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-06T05:49:35.242679Z",
+  "generated_at": "2026-08-06T08:56:23.511980Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,15 +32,15 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 17,
-    "vessels_incomplete": 17,
+    "vessels_total": 18,
+    "vessels_incomplete": 18,
     "vessels_complete": 0,
-    "candidate_matches": 2,
+    "candidate_matches": 3,
     "matched_no_new_data": 7,
     "low_confidence": 0,
     "no_match": 8,
     "lookup_errors": 0,
-    "suggestions_total": 8
+    "suggestions_total": 9
   },
   "vessels": [
     {
@@ -1157,6 +1157,141 @@
         "accepted_qid": "Q131405286",
         "rejected_qids": [],
         "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000116",
+      "name": "France",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000116.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 8,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "candidate",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": [
+          {
+            "qid": "Q47774",
+            "label": "französische Fußballnationalmannschaft",
+            "description": "französische Fußballnationalmannschaft der Herren",
+            "url": "https://www.wikidata.org/wiki/Q47774",
+            "score": 0.93,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Männerfußballnationalmannschaft"
+            ],
+            "suggestions": [
+              {
+                "field": "operations.owner",
+                "field_label": "Eigentümer",
+                "value": "Fédération Française de Football",
+                "display_value": "Fédération Française de Football",
+                "property": "P127",
+                "property_label": "owned by",
+                "property_url": "https://www.wikidata.org/wiki/Property:P127",
+                "source_url": "https://www.wikidata.org/wiki/Q47774",
+                "confidence": 0.93,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2523987444
+          },
+          {
+            "qid": "Q49644",
+            "label": "France",
+            "description": "Linienschiff",
+            "url": "https://www.wikidata.org/wiki/Q49644",
+            "score": 0.92,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Großlinienschiff"
+            ],
+            "suggestions": [
+              {
+                "field": "technical.shipyard",
+                "field_label": "Werft",
+                "value": "Ateliers et Chantiers de la Loire",
+                "display_value": "Ateliers et Chantiers de la Loire",
+                "property": "P176",
+                "property_label": "manufacturer",
+                "property_url": "https://www.wikidata.org/wiki/Property:P176",
+                "source_url": "https://www.wikidata.org/wiki/Q49644",
+                "confidence": 0.92,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.draft_m",
+                "field_label": "Tiefgang",
+                "value": 9.0,
+                "display_value": 9.0,
+                "property": "P2262",
+                "property_label": "draft",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
+                "source_url": "https://www.wikidata.org/wiki/Q49644",
+                "confidence": 0.92,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2406574743
+          }
+        ]
       }
     }
   ]
