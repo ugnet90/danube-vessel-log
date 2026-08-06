@@ -56,25 +56,25 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "reviewed",
     "auto": {
       "vessel_match": {
         "status": "matched",
         "vessel_id": "VES-000105",
         "matched_by": "normalized_name",
+        "matched_value": "AmaMora",
         "candidate_count": 1,
         "candidate_ids": [
           "VES-000105"
         ],
-        "matched_value": "AmaMora",
         "normalized_input": "amamora"
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
-      "vessel_id": "",
-      "decision": "",
+      "reviewed": true,
+      "reviewed_at": "2026-08-06T14:48:32.692Z",
+      "vessel_id": "VES-000105",
+      "decision": "confirmed",
       "notes": ""
     }
   },
