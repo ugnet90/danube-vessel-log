@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-06T14:47:33.891Z",
+  "updated_at": "2026-08-06T14:48:11.292Z",
   "sightings": [
     {
       "submission_id": "SUB-20260806-142501-F59185",
@@ -165,6 +165,114 @@
         }
       ],
       "updated_at": "2026-08-06T14:47:33.891Z"
+    },
+    {
+      "submission_id": "SUB-20260806-142210-89B147",
+      "submission_path": "inbox/submissions/2026/08/SUB-20260806-142210-89B147.json",
+      "vessel_id": "VES-000118",
+      "captured_at": "2026-08-06T14:21:46.000Z",
+      "uploaded_at": "2026-08-06T14:22:10.514Z",
+      "reviewed_at": "2026-08-06T14:48:11.292Z",
+      "vessel_name_entered": "NickoVision",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 379
+      },
+      "berth": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13",
+        "location_id": "LOC-001",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "river": "Donau",
+        "bank": "right",
+        "relative_to_reference": "downstream",
+        "river_km": 2135.045,
+        "river_km_text": "2135,0+45 m",
+        "facility_type": "Rohrponton",
+        "mooring_order": "max. Breite 29 m",
+        "entry_count": 4,
+        "entry_height": "1,60 m",
+        "latitude": 48.307722,
+        "longitude": 14.28625,
+        "address": "Dr. Ernst Koref Promenade, 4020 Linz",
+        "access_type": "public",
+        "source_url": "https://maps.oberoesterreich.at/",
+        "source_checked_at": "2026-07-28"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "notes": "",
+      "observer_lat": 48.30987691981817,
+      "observer_lon": 14.28400972349374,
+      "photo_lat": 48.30987691981817,
+      "photo_lon": 14.28400972349374,
+      "review_decision": "created",
+      "review_notes": "",
+      "photos": [
+        {
+          "photo_id": "PHOTO-0A08C53A7FF54B39BFE80E16C2C2E49E",
+          "path": "inbox/photos/2026/08/PHOTO-0A08C53A7FF54B39BFE80E16C2C2E49E.jpg",
+          "filename": "PHOTO-0A08C53A7FF54B39BFE80E16C2C2E49E.jpg",
+          "original_filename": "shortcut-photo-01.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 398228,
+          "sequence": 1,
+          "captured_at": "",
+          "added_at": "",
+          "source": "submission",
+          "notes": ""
+        },
+        {
+          "photo_id": "PHOTO-F2A7EECE12694C6684DAB29662D52453",
+          "path": "inbox/photos/2026/08/PHOTO-F2A7EECE12694C6684DAB29662D52453.jpg",
+          "filename": "PHOTO-F2A7EECE12694C6684DAB29662D52453.jpg",
+          "original_filename": "shortcut-photo-02.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 432478,
+          "sequence": 2,
+          "captured_at": "",
+          "added_at": "",
+          "source": "submission",
+          "notes": ""
+        },
+        {
+          "photo_id": "PHOTO-6591382AB29D482FA83A46E89F4B3A73",
+          "path": "inbox/photos/2026/08/PHOTO-6591382AB29D482FA83A46E89F4B3A73.jpg",
+          "filename": "PHOTO-6591382AB29D482FA83A46E89F4B3A73.jpg",
+          "original_filename": "shortcut-photo-03.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 474820,
+          "sequence": 3,
+          "captured_at": "",
+          "added_at": "",
+          "source": "submission",
+          "notes": ""
+        },
+        {
+          "photo_id": "PHOTO-0701FF3B3DF546F0B7E1F49571CD3D1E",
+          "path": "inbox/photos/2026/08/PHOTO-0701FF3B3DF546F0B7E1F49571CD3D1E.jpg",
+          "filename": "PHOTO-0701FF3B3DF546F0B7E1F49571CD3D1E.jpg",
+          "original_filename": "shortcut-photo-04.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 421777,
+          "sequence": 4,
+          "captured_at": "",
+          "added_at": "",
+          "source": "submission",
+          "notes": ""
+        }
+      ],
+      "updated_at": "2026-08-06T14:48:11.292Z"
     },
     {
       "submission_id": "SUB-20260806-055454-CAA0E9",
