@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-06T08:56:23.511980Z",
+  "generated_at": "2026-08-06T09:05:18.575016Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -40,7 +40,7 @@
     "low_confidence": 0,
     "no_match": 8,
     "lookup_errors": 0,
-    "suggestions_total": 9
+    "suggestions_total": 10
   },
   "vessels": [
     {
@@ -1205,44 +1205,10 @@
         "error": "",
         "warnings": [],
         "accepted_qid": "",
-        "rejected_qids": [],
+        "rejected_qids": [
+          "Q47774"
+        ],
         "candidates": [
-          {
-            "qid": "Q47774",
-            "label": "französische Fußballnationalmannschaft",
-            "description": "französische Fußballnationalmannschaft der Herren",
-            "url": "https://www.wikidata.org/wiki/Q47774",
-            "score": 0.93,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Männerfußballnationalmannschaft"
-            ],
-            "suggestions": [
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Fédération Française de Football",
-                "display_value": "Fédération Française de Football",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q47774",
-                "confidence": 0.93,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2523987444
-          },
           {
             "qid": "Q49644",
             "label": "France",
