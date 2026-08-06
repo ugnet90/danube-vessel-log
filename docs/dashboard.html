@@ -2,8 +2,8 @@
 <!--
   Danube Vessel Log
   File: docs/dashboard.html
-  Version: 0.14.0
-  Updated: 2026-07-28
+  Version: 0.14.19
+  Updated: 2026-08-06
 -->
 <html lang="de">
 <head>
@@ -15,247 +15,82 @@
   <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
   <link rel="manifest" href="assets/favicon/site.webmanifest">
-<meta name="theme-color" content="#0647c7">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
+  <meta name="theme-color" content="#0647c7">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Übersicht · Danube Vessel Log</title>
-
-  <link
-    rel="stylesheet"
-    href="css/common.css"
-  >
-
-  <link
-    rel="stylesheet"
-    href="css/dashboard.css"
-  >
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/dashboard.css">
 </head>
-
 <body>
-  <div
-    class="site-nav-shell"
-    data-site-nav
-  ></div>
-
+  <div class="site-nav-shell" data-site-nav></div>
   <main class="dashboard-page">
     <header class="dashboard-header">
       <div>
         <h1>Übersicht</h1>
-
-        <p>
-          Schiffe, Sichtungen und offene
-          Arbeitsschritte im Überblick.
-        </p>
+        <p>Schiffe, Sichtungen und offene Arbeitsschritte im Überblick.</p>
       </div>
-
-      <button
-        id="reloadButton"
-        class="secondary-button"
-        type="button"
-      >
-        Neu laden
-      </button>
+      <button id="reloadButton" class="secondary-button" type="button">Neu laden</button>
     </header>
 
     <section class="dashboard-connection-card">
       <div class="form-field dashboard-key-field">
-        <label for="apiKey">
-          API-Schlüssel
-        </label>
-
-        <input
-          id="apiKey"
-          type="password"
-          placeholder="Optional"
-          autocomplete="off"
-        >
+        <label for="apiKey">API-Schlüssel</label>
+        <input id="apiKey" type="password" placeholder="Optional" autocomplete="off">
       </div>
     </section>
 
-    <div
-      id="pageStatus"
-      class="dashboard-page-status"
-      aria-live="polite"
-    >
-      Übersicht wird geladen …
-    </div>
+    <div id="pageStatus" class="dashboard-page-status" aria-live="polite">Übersicht wird geladen …</div>
 
-    <section
-      class="dashboard-summary"
-      aria-label="Kennzahlen"
-    >
-      <a
-        class="dashboard-metric-card"
-        href="vessels.html"
-      >
-        <span class="dashboard-metric-label">
-          Schiffe
-        </span>
-
-        <strong
-          id="vesselCount"
-          class="dashboard-metric-value"
-        >
-          –
-        </strong>
-
-        <small>
-          Produktive Datensätze
-        </small>
+    <section class="dashboard-summary" aria-label="Kennzahlen">
+      <a class="dashboard-metric-card" href="vessels.html">
+        <span id="vesselCountLabel" class="dashboard-metric-label">Schiffe</span>
+        <strong id="vesselCount" class="dashboard-metric-value">–</strong>
+        <small id="vesselCountDetail">Produktive Datensätze</small>
       </a>
 
-      <a
-        class="dashboard-metric-card"
-        href="vessels.html"
-      >
-        <span class="dashboard-metric-label">
-          Aktive Schiffe
-        </span>
-
-        <strong
-          id="activeVesselCount"
-          class="dashboard-metric-value"
-        >
-          –
-        </strong>
-
-        <small>
-          Status „Aktiv“
-        </small>
+      <a class="dashboard-metric-card" href="vessels.html">
+        <span id="activeVesselCountLabel" class="dashboard-metric-label">Aktive Schiffe</span>
+        <strong id="activeVesselCount" class="dashboard-metric-value">–</strong>
+        <small>Status „Aktiv“</small>
       </a>
 
-      <a
-        class="dashboard-metric-card"
-        href="submissions.html"
-      >
-        <span class="dashboard-metric-label">
-          Offene Sichtungen
-        </span>
-
-        <strong
-          id="openSubmissionCount"
-          class="dashboard-metric-value"
-        >
-          –
-        </strong>
-
-        <small>
-          Noch nicht bearbeitet
-        </small>
+      <a class="dashboard-metric-card" href="submissions.html">
+        <span id="openSubmissionCountLabel" class="dashboard-metric-label">Offene Sichtungen</span>
+        <strong id="openSubmissionCount" class="dashboard-metric-value">–</strong>
+        <small>Noch nicht bearbeitet</small>
       </a>
 
-      <a
-        class="dashboard-metric-card"
-        href="vessel_enrichment.html"
-      >
-        <span class="dashboard-metric-label">
-          Anreicherungsfälle
-        </span>
-
-        <strong
-          id="enrichmentActionCount"
-          class="dashboard-metric-value"
-        >
-          –
-        </strong>
-
-        <small>
-          Kandidaten, Unsicherheiten oder Fehler
-        </small>
+      <a class="dashboard-metric-card" href="vessel_enrichment.html">
+        <span id="enrichmentActionCountLabel" class="dashboard-metric-label">Anreicherungsfälle</span>
+        <strong id="enrichmentActionCount" class="dashboard-metric-value">–</strong>
+        <small id="enrichmentActionCountDetail">Kandidaten, Unsicherheiten oder Fehler</small>
       </a>
     </section>
 
     <div class="dashboard-main-grid">
       <section class="dashboard-card">
-        <header class="dashboard-card-header">
-          <div>
-            <h2>Nächste Aufgaben</h2>
-
-            <p>
-              Noch erforderliche Prüfungen.
-            </p>
-          </div>
-        </header>
-
-        <div
-          id="taskList"
-          class="dashboard-task-list"
-        ></div>
-
-        <div
-          id="noTasks"
-          class="dashboard-empty-state hidden"
-        >
-          Keine offenen Aufgaben.
-        </div>
+        <header class="dashboard-card-header"><div><h2>Nächste Aufgaben</h2><p>Noch erforderliche Prüfungen.</p></div></header>
+        <div id="taskList" class="dashboard-task-list"></div>
+        <div id="noTasks" class="dashboard-empty-state hidden">Keine offenen Aufgaben.</div>
       </section>
 
       <section class="dashboard-card">
         <header class="dashboard-card-header">
-          <div>
-            <h2>Zuletzt geänderte Schiffe</h2>
-
-            <p>
-              Die jüngsten Änderungen am Schiffsindex.
-            </p>
-          </div>
-
-          <a
-            class="secondary-button dashboard-small-button"
-            href="vessels.html"
-          >
-            Alle Schiffe
-          </a>
+          <div><h2>Zuletzt geänderte Schiffe</h2><p>Die jüngsten Änderungen am Schiffsindex.</p></div>
+          <a class="secondary-button dashboard-small-button" href="vessels.html">Alle Schiffe</a>
         </header>
-
-        <div
-          id="recentVesselList"
-          class="dashboard-vessel-list"
-        ></div>
-
-        <div
-          id="recentVesselEmpty"
-          class="dashboard-empty-state hidden"
-        >
-          Keine Schiffe vorhanden.
-        </div>
+        <div id="recentVesselList" class="dashboard-vessel-list"></div>
+        <div id="recentVesselEmpty" class="dashboard-empty-state hidden">Keine Schiffe vorhanden.</div>
       </section>
     </div>
 
     <section class="dashboard-card dashboard-system-card">
-      <header class="dashboard-card-header">
-        <div>
-          <h2>Systemstatus</h2>
-
-          <p>
-            Erreichbarkeit und Datenstand.
-          </p>
-        </div>
-      </header>
-
+      <header class="dashboard-card-header"><div><h2>Systemstatus</h2><p>Erreichbarkeit und Datenstand.</p></div></header>
       <dl class="dashboard-system-grid">
-        <div>
-          <dt>Worker</dt>
-          <dd id="workerState">wird geprüft …</dd>
-        </div>
-
-        <div>
-          <dt>Anreicherungsreport</dt>
-          <dd id="enrichmentState">wird geprüft …</dd>
-        </div>
-
-        <div>
-          <dt>Reportmodus</dt>
-          <dd id="reportMode">–</dd>
-        </div>
-
-        <div>
-          <dt>Dashboard geladen</dt>
-          <dd id="loadedAt">–</dd>
-        </div>
+        <div><dt>Worker</dt><dd id="workerState">wird geprüft …</dd></div>
+        <div><dt>Anreicherungsreport</dt><dd id="enrichmentState">wird geprüft …</dd></div>
+        <div><dt>Reportmodus</dt><dd id="reportMode">–</dd></div>
+        <div><dt>Dashboard geladen</dt><dd id="loadedAt">–</dd></div>
       </dl>
     </section>
   </main>
