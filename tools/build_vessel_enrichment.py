@@ -33,7 +33,7 @@ WIKIDATA_API = "https://www.wikidata.org/w/api.php"
 WIKIDATA_SPARQL = "https://query.wikidata.org/sparql"
 USER_AGENT = os.environ.get(
     "WIKIDATA_USER_AGENT",
-    "DanubeVesselLog/0.13.2 (personal vessel database; GitHub Actions)",
+    "DanubeVesselLog/0.14.18 (personal vessel database; GitHub Actions)",
 )
 REQUEST_DELAY = float(os.environ.get("WIKIDATA_DELAY_SECONDS", "0.75"))
 REQUEST_TIMEOUT = int(os.environ.get("WIKIDATA_TIMEOUT_SECONDS", "35"))
@@ -833,7 +833,17 @@ def build_candidate_reports(
             }
         )
     candidates.sort(key=lambda item: (-item["score"], item["label"].casefold()))
-    return candidates[:MAX_CANDIDATES]
+    return candidates
+
+
+def candidate_has_actionable_suggestions(candidate: dict[str, Any]) -> bool:
+    suggestions = candidate.get("suggestions")
+    if not isinstance(suggestions, list):
+        return False
+    return any(
+        isinstance(item, dict) and item.get("apply_supported") is not False
+        for item in suggestions
+    )
 
 
 def search_vessel_names(vessel: dict[str, Any], fallback_name: str) -> list[str]:
@@ -887,12 +897,23 @@ def build_record(
         for name in search_vessel_names(vessel, fallback_name):
             search_qids.extend(search_name(name))
             time.sleep(REQUEST_DELAY)
-        candidates = build_candidate_reports(vessel, exact or {}, list(dict.fromkeys(search_qids)))
+        all_candidates = build_candidate_reports(
+            vessel,
+            exact or {},
+            list(dict.fromkeys(search_qids)),
+        )
+        candidates = [
+            candidate
+            for candidate in all_candidates
+            if candidate_has_actionable_suggestions(candidate)
+        ][:MAX_CANDIDATES]
         best = candidates[0] if candidates else None
         if best and best["score"] >= 0.82:
-            status = "candidate" if best["suggestions"] else "matched_no_new_data"
+            status = "candidate"
         elif candidates:
             status = "low_confidence"
+        elif all_candidates:
+            status = "matched_no_new_data"
         else:
             status = "no_match"
         item["lookup"] = {
@@ -1010,6 +1031,13 @@ def self_test() -> None:
     )
     assert manual_score == 1.0
     assert manual_match == ["manual_confirmation"]
+    assert candidate_has_actionable_suggestions({
+        "suggestions": [{"field": "technical.year_built", "apply_supported": True}]
+    })
+    assert not candidate_has_actionable_suggestions({"suggestions": []})
+    assert not candidate_has_actionable_suggestions({
+        "suggestions": [{"field": "technical.year_built", "apply_supported": False}]
+    })
     print("Self-test OK")
 
 
