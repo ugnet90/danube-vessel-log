@@ -1,0 +1,117 @@
+{
+  "schema_version": 12,
+  "submission_id": "SUB-20260806-055454-CAA0E9",
+  "uploaded_at": "2026-08-06T05:54:54.699Z",
+  "captured_at": "2026-08-06T05:54:33.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "distance_m": 452
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000002",
+    "name": "Schiffsanlegestelle Linz-Nibelungen",
+    "short_name": "Linz-Nibelungen Nr. 12",
+    "station_number": "12",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "upstream",
+    "river_km": 2135.1955,
+    "river_km_text": "2135,2-4,5 m",
+    "facility_type": "Gitterkahn",
+    "mooring_order": "max. Breite 30 m",
+    "entry_count": 4,
+    "entry_height": "0,85 m, 1,50 m oder 2,10 m",
+    "latitude": 48.307028,
+    "longitude": 14.284278,
+    "address": "Obere Donaulände, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "France",
+  "notes": "",
+  "observer_lat": 48.3036545381275,
+  "observer_lon": 14.29007285209527,
+  "photos": [
+    {
+      "photo_id": "PHOTO-877BA295F958440F80881DC4B53500B3",
+      "path": "inbox/photos/2026/08/PHOTO-877BA295F958440F80881DC4B53500B3.jpg",
+      "filename": "PHOTO-877BA295F958440F80881DC4B53500B3.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 367437,
+      "sequence": 1
+    },
+    {
+      "photo_id": "PHOTO-057B3D5A9B1047368B1D67ABB1C9ABC3",
+      "path": "inbox/photos/2026/08/PHOTO-057B3D5A9B1047368B1D67ABB1C9ABC3.jpg",
+      "filename": "PHOTO-057B3D5A9B1047368B1D67ABB1C9ABC3.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 410995,
+      "sequence": 2
+    },
+    {
+      "photo_id": "PHOTO-7CC25E03CFF94BA5BC2099370DEAD976",
+      "path": "inbox/photos/2026/08/PHOTO-7CC25E03CFF94BA5BC2099370DEAD976.jpg",
+      "filename": "PHOTO-7CC25E03CFF94BA5BC2099370DEAD976.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 426520,
+      "sequence": 3
+    },
+    {
+      "photo_id": "PHOTO-A056BA620A3F4751AEB1A098C6BEC6E0",
+      "path": "inbox/photos/2026/08/PHOTO-A056BA620A3F4751AEB1A098C6BEC6E0.jpg",
+      "filename": "PHOTO-A056BA620A3F4751AEB1A098C6BEC6E0.jpg",
+      "original_filename": "shortcut-photo-04.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 363620,
+      "sequence": 4
+    },
+    {
+      "photo_id": "PHOTO-607F555D1F4A44C9BDAFB5752BFC0D33",
+      "path": "inbox/photos/2026/08/PHOTO-607F555D1F4A44C9BDAFB5752BFC0D33.jpg",
+      "filename": "PHOTO-607F555D1F4A44C9BDAFB5752BFC0D33.jpg",
+      "original_filename": "shortcut-photo-05.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 374461,
+      "sequence": 5
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "france"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.3036545381275,
+  "photo_lon": 14.29007285209527
+}
