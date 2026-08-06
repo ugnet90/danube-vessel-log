@@ -1,4 +1,4 @@
-/* Danube Vessel Log · vessel_enrichment.css · Version 0.13.7 */
+/* Danube Vessel Log · vessel_enrichment.css · Version 0.14.18 */
 
 .enrichment-page {
   width: min(1500px, calc(100% - 32px));
@@ -134,10 +134,57 @@
 }
 
 .report-card th {
+  padding: 0;
   color: #475569;
   font-size: 0.83rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
+}
+
+.report-card th.action-column {
+  padding: 11px 10px;
+}
+
+.table-sort-button {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  padding: 11px 10px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: inherit;
+  text-align: left;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.table-sort-button:hover,
+.table-sort-button:focus-visible,
+.report-card th.is-sorted .table-sort-button {
+  background: #eef4fb;
+  color: #1d4ed8;
+}
+
+.table-sort-button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: -2px;
+}
+
+.sort-indicator {
+  min-width: 1em;
+  color: #829ab1;
+  font-size: 0.98rem;
+  line-height: 1;
+}
+
+.report-card th.is-sorted .sort-indicator {
+  color: #1d4ed8;
 }
 
 .report-card tbody tr:hover {
@@ -146,8 +193,7 @@
 
 .report-card tbody tr.target-vessel-row {
   background: #eff6ff;
-  box-shadow:
-    inset 4px 0 0 #2563eb;
+  box-shadow: inset 4px 0 0 #2563eb;
 }
 
 .report-card tbody tr.target-vessel-row:hover {
