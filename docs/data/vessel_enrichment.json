@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-06T09:49:15.572374Z",
+  "generated_at": "2026-08-06T14:50:48.109160Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,15 +32,15 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 18,
-    "vessels_incomplete": 18,
+    "vessels_total": 20,
+    "vessels_incomplete": 20,
     "vessels_complete": 0,
-    "candidate_matches": 2,
+    "candidate_matches": 3,
     "matched_no_new_data": 8,
     "low_confidence": 0,
-    "no_match": 8,
+    "no_match": 9,
     "lookup_errors": 0,
-    "suggestions_total": 8
+    "suggestions_total": 15
   },
   "vessels": [
     {
@@ -1202,6 +1202,247 @@
           "Q49644"
         ],
         "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000117",
+      "name": "Viking Vilhjalm",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000117.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 8,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "no_match",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000118",
+      "name": "NickoVision",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000118.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.eni",
+          "label": "ENI"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "classification.flag",
+          "label": "Flagge"
+        },
+        {
+          "field": "technical.year_built",
+          "label": "Baujahr"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.length_m",
+          "label": "Länge"
+        },
+        {
+          "field": "technical.width_m",
+          "label": "Breite"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "technical.passengers",
+          "label": "Passagiere"
+        },
+        {
+          "field": "operations.operator",
+          "label": "Betreiber"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        },
+        {
+          "field": "operations.home_port",
+          "label": "Heimathafen"
+        }
+      ],
+      "missing_count": 16,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "candidate",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": [
+          {
+            "qid": "Q122413683",
+            "label": "NickoVISION",
+            "description": "Flusskreuzfahrtschiff von Nicko Cruises",
+            "url": "https://www.wikidata.org/wiki/Q122413683",
+            "score": 0.96,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Flusskreuzfahrtschiff"
+            ],
+            "suggestions": [
+              {
+                "field": "classification.flag",
+                "field_label": "Flagge",
+                "value": "CH",
+                "display_value": "Schweiz",
+                "property": "P8047",
+                "property_label": "country of registry",
+                "property_url": "https://www.wikidata.org/wiki/Property:P8047",
+                "source_url": "https://www.wikidata.org/wiki/Q122413683",
+                "confidence": 0.96,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.year_built",
+                "field_label": "Baujahr",
+                "value": 2018,
+                "display_value": 2018,
+                "property": "P729",
+                "property_label": "service entry",
+                "property_url": "https://www.wikidata.org/wiki/Property:P729",
+                "source_url": "https://www.wikidata.org/wiki/Q122413683",
+                "confidence": 0.96,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.shipyard",
+                "field_label": "Werft",
+                "value": "VAHALI",
+                "display_value": "VAHALI",
+                "property": "P176",
+                "property_label": "manufacturer",
+                "property_url": "https://www.wikidata.org/wiki/Property:P176",
+                "source_url": "https://www.wikidata.org/wiki/Q122413683",
+                "confidence": 0.96,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.length_m",
+                "field_label": "Länge",
+                "value": 135.0,
+                "display_value": 135.0,
+                "property": "P2043",
+                "property_label": "length",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2043",
+                "source_url": "https://www.wikidata.org/wiki/Q122413683",
+                "confidence": 0.96,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.passengers",
+                "field_label": "Passagiere",
+                "value": 220,
+                "display_value": 220,
+                "property": "P1083",
+                "property_label": "maximum capacity",
+                "property_url": "https://www.wikidata.org/wiki/Property:P1083",
+                "source_url": "https://www.wikidata.org/wiki/Q122413683",
+                "confidence": 0.96,
+                "apply_supported": true
+              },
+              {
+                "field": "operations.owner",
+                "field_label": "Eigentümer",
+                "value": "Scylla",
+                "display_value": "Scylla",
+                "property": "P127",
+                "property_label": "owned by",
+                "property_url": "https://www.wikidata.org/wiki/Property:P127",
+                "source_url": "https://www.wikidata.org/wiki/Q122413683",
+                "confidence": 0.96,
+                "apply_supported": true
+              },
+              {
+                "field": "operations.home_port",
+                "field_label": "Heimathafen",
+                "value": "Basel",
+                "display_value": "Basel",
+                "property": "P532",
+                "property_label": "port of registry",
+                "property_url": "https://www.wikidata.org/wiki/Property:P532",
+                "source_url": "https://www.wikidata.org/wiki/Q122413683",
+                "confidence": 0.96,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2446070260
+          }
+        ]
       }
     }
   ]
