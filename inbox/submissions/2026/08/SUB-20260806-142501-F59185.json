@@ -1,0 +1,81 @@
+{
+  "schema_version": 12,
+  "submission_id": "SUB-20260806-142501-F59185",
+  "uploaded_at": "2026-08-06T14:25:01.275Z",
+  "captured_at": "2026-08-06T14:24:07.000Z",
+  "location": {
+    "status": "unknown",
+    "matched_by": "",
+    "id": "",
+    "name": "",
+    "municipality": "",
+    "country": "",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000005",
+    "name": "Donaustation Linz 1 (Brucknerhaus)",
+    "short_name": "Linz 1 – Brucknerhaus",
+    "station_number": "1",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2134.52,
+    "river_km_text": "2134,6+10–2134,4+30",
+    "facility_type": "Tankkahn",
+    "mooring_order": "25 m",
+    "entry_count": 0,
+    "entry_height": "",
+    "latitude": null,
+    "longitude": null,
+    "address": "Untere Donaulände beim Brucknerhaus, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://www.donaustationen.at/fileadmin/user_upload/Donaustationen_Liste_2025.pdf",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "Viking Vilhjalm",
+  "notes": "",
+  "observer_lat": 48.31074823698669,
+  "observer_lon": 14.28110041962885,
+  "photos": [
+    {
+      "photo_id": "PHOTO-24644F9501774ED794291238D419657D",
+      "path": "inbox/photos/2026/08/PHOTO-24644F9501774ED794291238D419657D.jpg",
+      "filename": "PHOTO-24644F9501774ED794291238D419657D.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 286835,
+      "sequence": 1
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "viking vilhjalm"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.31074823698669,
+  "photo_lon": 14.28110041962885
+}
