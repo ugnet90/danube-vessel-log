@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-06T14:47:06.006Z",
+  "updated_at": "2026-08-06T14:47:33.891Z",
   "sightings": [
     {
       "submission_id": "SUB-20260806-142501-F59185",
@@ -70,6 +70,101 @@
         }
       ],
       "updated_at": "2026-08-06T14:47:06.006Z"
+    },
+    {
+      "submission_id": "SUB-20260806-142324-38E029",
+      "submission_path": "inbox/submissions/2026/08/SUB-20260806-142324-38E029.json",
+      "vessel_id": "VES-000110",
+      "captured_at": "2026-08-06T14:22:56.000Z",
+      "uploaded_at": "2026-08-06T14:23:24.443Z",
+      "reviewed_at": "2026-08-06T14:47:33.891Z",
+      "vessel_name_entered": "S. S. Maria Theresa",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 432
+      },
+      "berth": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13",
+        "location_id": "LOC-001",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "river": "Donau",
+        "bank": "right",
+        "relative_to_reference": "downstream",
+        "river_km": 2135.045,
+        "river_km_text": "2135,0+45 m",
+        "facility_type": "Rohrponton",
+        "mooring_order": "max. Breite 29 m",
+        "entry_count": 4,
+        "entry_height": "1,60 m",
+        "latitude": 48.307722,
+        "longitude": 14.28625,
+        "address": "Dr. Ernst Koref Promenade, 4020 Linz",
+        "access_type": "public",
+        "source_url": "https://maps.oberoesterreich.at/",
+        "source_checked_at": "2026-07-28"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "notes": "",
+      "observer_lat": 48.3102467787512,
+      "observer_lon": 14.28351869294686,
+      "photo_lat": 48.3102467787512,
+      "photo_lon": 14.28351869294686,
+      "review_decision": "confirmed",
+      "review_notes": "",
+      "photos": [
+        {
+          "photo_id": "PHOTO-AEA42081649940858F035E74A4825AA0",
+          "path": "inbox/photos/2026/08/PHOTO-AEA42081649940858F035E74A4825AA0.jpg",
+          "filename": "PHOTO-AEA42081649940858F035E74A4825AA0.jpg",
+          "original_filename": "shortcut-photo-01.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 463758,
+          "sequence": 1,
+          "captured_at": "",
+          "added_at": "",
+          "source": "submission",
+          "notes": ""
+        },
+        {
+          "photo_id": "PHOTO-4381BB07FA564620ABBFAFA9823CD3F0",
+          "path": "inbox/photos/2026/08/PHOTO-4381BB07FA564620ABBFAFA9823CD3F0.jpg",
+          "filename": "PHOTO-4381BB07FA564620ABBFAFA9823CD3F0.jpg",
+          "original_filename": "shortcut-photo-02.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 436275,
+          "sequence": 2,
+          "captured_at": "",
+          "added_at": "",
+          "source": "submission",
+          "notes": ""
+        },
+        {
+          "photo_id": "PHOTO-30A9F9ABC7CD423BA1BF7ACBA5C57D16",
+          "path": "inbox/photos/2026/08/PHOTO-30A9F9ABC7CD423BA1BF7ACBA5C57D16.jpg",
+          "filename": "PHOTO-30A9F9ABC7CD423BA1BF7ACBA5C57D16.jpg",
+          "original_filename": "shortcut-photo-03.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 448926,
+          "sequence": 3,
+          "captured_at": "",
+          "added_at": "",
+          "source": "submission",
+          "notes": ""
+        }
+      ],
+      "updated_at": "2026-08-06T14:47:33.891Z"
     },
     {
       "submission_id": "SUB-20260806-055454-CAA0E9",

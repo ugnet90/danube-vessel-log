@@ -74,25 +74,25 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "reviewed",
     "auto": {
       "vessel_match": {
         "status": "matched",
         "vessel_id": "VES-000110",
         "matched_by": "normalized_name",
+        "matched_value": "S.S. Maria Theresa",
         "candidate_count": 1,
         "candidate_ids": [
           "VES-000110"
         ],
-        "matched_value": "S.S. Maria Theresa",
         "normalized_input": "ss maria theresa"
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
-      "vessel_id": "",
-      "decision": "",
+      "reviewed": true,
+      "reviewed_at": "2026-08-06T14:47:33.891Z",
+      "vessel_id": "VES-000110",
+      "decision": "confirmed",
       "notes": ""
     }
   },
