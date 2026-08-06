@@ -1,4 +1,4 @@
-/* Danube Vessel Log · vessel_enrichment.js · Version 0.13.7 */
+/* Danube Vessel Log · vessel_enrichment.js · Version 0.14.18 */
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -26,6 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const rejectCandidateButton = byId("rejectCandidateButton");
   const openVesselButton = byId("openVesselButton");
   const openWikidataButton = byId("openWikidataButton");
+  const sortHeaders = [...document.querySelectorAll("[data-sort-key]")];
+  const collator = new Intl.Collator("de-AT", {
+    numeric: true,
+    sensitivity: "base"
+  });
 
   const workerUrl = String(window.VesselConfig?.workerUrl ?? "")
     .trim()
@@ -35,33 +40,20 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedVessel = null;
   let selectedCandidateIndex = 0;
   let requestRunning = false;
+  let sortKey = "vessel_id";
+  let sortDirection = 1;
 
-  const vesselIdPattern =
-    /^VES-\d{6}$/;
+  const vesselIdPattern = /^VES-\d{6}$/;
+  let requestedVesselId = new URLSearchParams(window.location.search)
+    .get("vessel_id")
+    ?.trim() || "";
 
-  let requestedVesselId =
-    new URLSearchParams(
-      window.location.search
-    )
-      .get("vessel_id")
-      ?.trim() || "";
-
-  if (
-    !vesselIdPattern.test(
-      requestedVesselId
-    )
-  ) {
-    requestedVesselId = "";
-  }
+  if (!vesselIdPattern.test(requestedVesselId)) requestedVesselId = "";
 
   let targetedReloadTimer = null;
   let targetedReloadAttempts = 0;
-
-  const TARGETED_RELOAD_INTERVAL_MS =
-    15 * 1000;
-
-  const TARGETED_RELOAD_MAX_ATTEMPTS =
-    20;
+  const TARGETED_RELOAD_INTERVAL_MS = 15 * 1000;
+  const TARGETED_RELOAD_MAX_ATTEMPTS = 20;
 
   const statusLabels = {
     candidate: "Kandidat mit Vorschlägen",
@@ -117,10 +109,20 @@ document.addEventListener("DOMContentLoaded", () => {
     return String(value ?? "");
   }
 
-  function candidatesOf(vessel) {
+  function rawCandidatesOf(vessel) {
     return Array.isArray(vessel?.lookup?.candidates)
       ? vessel.lookup.candidates
       : [];
+  }
+
+  function actionableSuggestions(candidate) {
+    return Array.isArray(candidate?.suggestions)
+      ? candidate.suggestions.filter(item => item && item.apply_supported !== false)
+      : [];
+  }
+
+  function candidatesOf(vessel) {
+    return rawCandidatesOf(vessel).filter(candidate => actionableSuggestions(candidate).length > 0);
   }
 
   function bestCandidate(vessel) {
@@ -128,9 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function suggestionsCount(vessel) {
-    return Array.isArray(bestCandidate(vessel)?.suggestions)
-      ? bestCandidate(vessel).suggestions.length
-      : 0;
+    return actionableSuggestions(bestCandidate(vessel)).length;
   }
 
   function currentCandidate() {
@@ -204,13 +204,65 @@ document.addEventListener("DOMContentLoaded", () => {
       return true;
     });
   }
-  
+
+  function sortValue(vessel, key) {
+    if (key === "missing_count") return Number(vessel.missing_count ?? 0);
+    if (key === "lookup_status") return statusLabels[vessel.lookup?.status] ?? vessel.lookup?.status ?? "";
+    if (key === "suggestions") return suggestionsCount(vessel);
+    return String(vessel?.[key] ?? "").trim();
+  }
+
+  function compareVessels(left, right) {
+    const leftValue = sortValue(left, sortKey);
+    const rightValue = sortValue(right, sortKey);
+    const leftMissing = leftValue === null || leftValue === "";
+    const rightMissing = rightValue === null || rightValue === "";
+
+    if (leftMissing && rightMissing) return collator.compare(left.vessel_id, right.vessel_id);
+    if (leftMissing) return 1;
+    if (rightMissing) return -1;
+
+    let comparison;
+    if (sortKey === "missing_count" || sortKey === "suggestions") {
+      comparison = Number(leftValue) - Number(rightValue);
+    } else {
+      comparison = collator.compare(String(leftValue), String(rightValue));
+    }
+
+    if (comparison === 0 && sortKey !== "vessel_id") {
+      comparison = collator.compare(left.vessel_id, right.vessel_id);
+    }
+
+    return comparison * sortDirection;
+  }
+
+  function updateSortHeaders() {
+    for (const header of sortHeaders) {
+      const key = header.dataset.sortKey;
+      const active = key === sortKey;
+      header.setAttribute(
+        "aria-sort",
+        active ? (sortDirection === 1 ? "ascending" : "descending") : "none"
+      );
+      header.classList.toggle("is-sorted", active);
+      const indicator = header.querySelector(".sort-indicator");
+      if (indicator) indicator.textContent = active ? (sortDirection === 1 ? "↑" : "↓") : "↕";
+    }
+  }
+
+  function setSort(nextKey) {
+    if (nextKey === sortKey) sortDirection *= -1;
+    else {
+      sortKey = nextKey;
+      sortDirection = 1;
+    }
+    updateSortHeaders();
+    renderRows();
+  }
+
   function clearTargetedReload() {
     if (targetedReloadTimer) {
-      clearTimeout(
-        targetedReloadTimer
-      );
-
+      clearTimeout(targetedReloadTimer);
       targetedReloadTimer = null;
     }
   }
@@ -220,119 +272,58 @@ document.addEventListener("DOMContentLoaded", () => {
     targetedReloadAttempts = 0;
     clearTargetedReload();
 
-    const url =
-      new URL(
-        window.location.href
-      );
-
-    url.searchParams.delete(
-      "vessel_id"
-    );
-
-    window.history.replaceState(
-      {},
-      "",
-      url.href
-    );
+    const url = new URL(window.location.href);
+    url.searchParams.delete("vessel_id");
+    window.history.replaceState({}, "", url.href);
   }
 
   function scheduleTargetedReload() {
     clearTargetedReload();
-
-    if (
-      !requestedVesselId ||
-      targetedReloadAttempts >=
-        TARGETED_RELOAD_MAX_ATTEMPTS
-    ) {
+    if (!requestedVesselId || targetedReloadAttempts >= TARGETED_RELOAD_MAX_ATTEMPTS) {
       if (requestedVesselId) {
         setStatus(
-          `${requestedVesselId} ist nach ` +
-          "mehreren Prüfungen noch nicht im " +
-          "aktuellen Report enthalten. Prüfe den " +
-          "Workflow „Build vessel enrichment“.",
+          `${requestedVesselId} ist nach mehreren Prüfungen noch nicht im aktuellen Report enthalten. ` +
+          "Prüfe den Workflow „Build vessel enrichment“.",
           true
         );
       }
-
       return;
     }
 
-    targetedReloadTimer =
-      setTimeout(
-        () => {
-          targetedReloadTimer = null;
-          targetedReloadAttempts += 1;
-
-          loadReport({
-            automatic: true
-          });
-        },
-        TARGETED_RELOAD_INTERVAL_MS
-      );
+    targetedReloadTimer = setTimeout(() => {
+      targetedReloadTimer = null;
+      targetedReloadAttempts += 1;
+      loadReport({ automatic: true });
+    }, TARGETED_RELOAD_INTERVAL_MS);
   }
 
   function focusRequestedVessel() {
-    if (
-      !requestedVesselId ||
-      !report
-    ) {
-      return false;
-    }
+    if (!requestedVesselId || !report) return false;
 
-    const vessels =
-      Array.isArray(report.vessels)
-        ? report.vessels
-        : [];
+    const vessels = Array.isArray(report.vessels) ? report.vessels : [];
+    const vessel = vessels.find(item => item?.vessel_id === requestedVesselId) ?? null;
 
-    const vessel =
-      vessels.find(
-        item =>
-          item?.vessel_id ===
-          requestedVesselId
-      ) ?? null;
-
-    searchInput.value =
-      requestedVesselId;
-
-    environmentFilter.value =
-      "all";
-
-    fieldFilter.value =
-      "all";
+    searchInput.value = requestedVesselId;
+    environmentFilter.value = "all";
+    fieldFilter.value = "all";
 
     if (!vessel) {
-      statusFilter.value =
-        "all";
-
+      statusFilter.value = "all";
       renderRows();
-
       setStatus(
-        `${requestedVesselId} ist im aktuellen ` +
-        "Report noch nicht enthalten. Der Report " +
-        "wird automatisch erneut geprüft."
+        `${requestedVesselId} ist im aktuellen Report noch nicht enthalten. ` +
+        "Der Report wird automatisch erneut geprüft."
       );
-
       scheduleTargetedReload();
-
       return false;
     }
 
     clearTargetedReload();
     targetedReloadAttempts = 0;
-
-    statusFilter.value =
-      vessel.missing_count === 0
-        ? "complete"
-        : "all";
-
+    statusFilter.value = vessel.missing_count === 0 ? "complete" : "all";
     renderRows();
     showDetails(vessel);
-
-    setStatus(
-      `${requestedVesselId} wurde im Report vom ` +
-      `${formatDateTime(report.generated_at)} gefunden.`
-    );
-
+    setStatus(`${requestedVesselId} wurde im Report vom ${formatDateTime(report.generated_at)} gefunden.`);
     return true;
   }
 
@@ -344,24 +335,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderRows() {
-    const vessels = filteredVessels();
+    const vessels = filteredVessels().sort(compareVessels);
     reportRows.replaceChildren();
     byId("resultCount").textContent = `${vessels.length} Schiff${vessels.length === 1 ? "" : "e"}`;
     emptyState.classList.toggle("hidden", vessels.length > 0);
     byId("tableWrapper").classList.toggle("hidden", vessels.length === 0);
 
     for (const vessel of vessels) {
-      const row =
-        document.createElement("tr");
-
-      if (
-        requestedVesselId &&
-        vessel.vessel_id ===
-          requestedVesselId
-      ) {
-        row.classList.add(
-          "target-vessel-row"
-        );
+      const row = document.createElement("tr");
+      if (requestedVesselId && vessel.vessel_id === requestedVesselId) {
+        row.classList.add("target-vessel-row");
       }
       const idCell = document.createElement("td");
       const idLink = document.createElement("a");
@@ -414,7 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function selectedSuggestions() {
     const candidate = currentCandidate();
     if (!candidate) return [];
-    const suggestions = Array.isArray(candidate.suggestions) ? candidate.suggestions : [];
+    const suggestions = actionableSuggestions(candidate);
     return [...suggestionList.querySelectorAll('input[type="checkbox"][data-suggestion-index]:checked')]
       .map(input => suggestions[Number(input.dataset.suggestionIndex)])
       .filter(Boolean);
@@ -451,12 +434,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!candidates.length) {
       const message = document.createElement("p");
-      message.textContent = selectedVessel?.lookup?.error || "Für dieses Schiff liegt kein Wikidata-Kandidat vor.";
+      message.textContent = selectedVessel?.lookup?.error || (
+        selectedVessel?.lookup?.status === "matched_no_new_data"
+          ? "Für dieses Schiff gibt es derzeit keine übernehmbaren Wikidata-Werte."
+          : "Für dieses Schiff liegt kein nutzbarer Wikidata-Kandidat vor."
+      );
       candidateInfo.append(message);
       applyButton.disabled = true;
       rejectCandidateButton.disabled = true;
       return;
     }
+
+    if (selectedCandidateIndex >= candidates.length) selectedCandidateIndex = 0;
 
     candidates.forEach((candidate, index) => {
       const tab = document.createElement("button");
@@ -487,7 +476,7 @@ document.addEventListener("DOMContentLoaded", () => {
     match.textContent = `Erkannt über: ${matchMethods.join(", ") || "Namenssuche"}`;
     candidateInfo.append(heading, description, confidence, match);
 
-    const suggestions = Array.isArray(candidate.suggestions) ? candidate.suggestions : [];
+    const suggestions = actionableSuggestions(candidate);
     if (!suggestions.length) {
       const message = document.createElement("div");
       message.className = "empty-state";
@@ -560,10 +549,11 @@ document.addEventListener("DOMContentLoaded", () => {
     candidate.matched_by = ["manual_confirmation"];
     selectedVessel.lookup.accepted_qid = candidate.qid;
     selectedVessel.lookup.rejected_qids = (selectedVessel.lookup.rejected_qids ?? []).filter(qid => qid !== candidate.qid);
+    const remainingCandidates = candidatesOf(selectedVessel);
     selectedVessel.lookup.status = selectedVessel.missing_count === 0
       ? "not_needed"
-      : candidate.suggestions.length > 0
-        ? "candidate"
+      : remainingCandidates.length > 0
+        ? (remainingCandidates[0].score >= 0.82 ? "candidate" : "low_confidence")
         : "matched_no_new_data";
     recalculateSummary();
     renderSummary();
@@ -573,13 +563,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateLocalAfterReject(candidate) {
-    const candidates = candidatesOf(selectedVessel).filter(item => item.qid !== candidate.qid);
-    selectedVessel.lookup.candidates = candidates;
+    const rawCandidates = rawCandidatesOf(selectedVessel).filter(item => item.qid !== candidate.qid);
+    selectedVessel.lookup.candidates = rawCandidates;
     selectedVessel.lookup.rejected_qids = [...new Set([...(selectedVessel.lookup.rejected_qids ?? []), candidate.qid])];
     if (selectedVessel.lookup.accepted_qid === candidate.qid) selectedVessel.lookup.accepted_qid = "";
-    selectedVessel.lookup.status = candidates.length
-      ? (candidates[0].score >= 0.82 ? (candidates[0].suggestions?.length ? "candidate" : "matched_no_new_data") : "low_confidence")
-      : "no_match";
+    const remainingCandidates = candidatesOf(selectedVessel);
+    selectedVessel.lookup.status = remainingCandidates.length
+      ? (remainingCandidates[0].score >= 0.82 ? "candidate" : "low_confidence")
+      : rawCandidates.length
+        ? "matched_no_new_data"
+        : "no_match";
     selectedCandidateIndex = 0;
     recalculateSummary();
     renderSummary();
@@ -673,162 +666,99 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  async function loadReport({
-    automatic = false
-  } = {}) {
+  async function loadReport({ automatic = false } = {}) {
     reloadButton.disabled = true;
-
     setStatus(
       automatic
         ? "Aktualisierter Anreicherungsreport wird geprüft …"
         : "Anreicherungsreport wird geladen …"
     );
 
-    if (!requestedVesselId) {
-      detailCard.classList.add(
-        "hidden"
-      );
-    }
+    if (!requestedVesselId) detailCard.classList.add("hidden");
 
     try {
-      const response = await fetch(
-        "data/vessel_enrichment.json?" +
-        `ts=${Date.now()}`,
-        {
-          cache: "no-store"
-        }
-      );
-
+      const response = await fetch(`data/vessel_enrichment.json?ts=${Date.now()}`, {
+        cache: "no-store"
+      });
       if (!response.ok) {
-        throw new Error(
-          "Report konnte nicht geladen werden " +
-          `(HTTP ${response.status}).`
-        );
+        throw new Error(`Report konnte nicht geladen werden (HTTP ${response.status}).`);
       }
 
-      const payload =
-        await response.json();
-
-      if (
-        !payload ||
-        !Array.isArray(
-          payload.vessels
-        )
-      ) {
-        throw new Error(
-          "Der Report hat nicht das erwartete Format."
-        );
+      const payload = await response.json();
+      if (!payload || !Array.isArray(payload.vessels)) {
+        throw new Error("Der Report hat nicht das erwartete Format.");
       }
 
       report = payload;
-
       populateFieldFilter();
       renderSummary();
+      updateSortHeaders();
 
       if (requestedVesselId) {
         focusRequestedVessel();
       } else {
         renderRows();
-
-        if (
-          payload.status ===
-            "not_built" ||
-          !payload.generated_at
-        ) {
+        if (payload.status === "not_built" || !payload.generated_at) {
           setStatus(
-            "Noch kein Anreicherungsreport vorhanden. " +
-            "Starte in GitHub Actions den Workflow " +
-            "„Build vessel enrichment“.",
+            "Noch kein Anreicherungsreport vorhanden. Starte in GitHub Actions den Workflow „Build vessel enrichment“.",
             true
           );
         } else {
-          setStatus(
-            `Report vom ${
-              formatDateTime(
-                payload.generated_at
-              )
-            } geladen.`
-          );
+          setStatus(`Report vom ${formatDateTime(payload.generated_at)} geladen.`);
         }
       }
     } catch (error) {
       report = null;
-
-      setStatus(
-        error instanceof Error
-          ? error.message
-          : String(error),
-        true
-      );
-
-      if (requestedVesselId) {
-        scheduleTargetedReload();
-      }
+      setStatus(error instanceof Error ? error.message : String(error), true);
+      if (requestedVesselId) scheduleTargetedReload();
     } finally {
       reloadButton.disabled = false;
     }
   }
 
-  reloadButton.addEventListener(
-    "click",
-    () => {
-      targetedReloadAttempts = 0;
-      loadReport();
-    }
-  );
-  resetButton.addEventListener(
-    "click",
-    () => {
-      clearRequestedVessel();
+  reloadButton.addEventListener("click", () => {
+    targetedReloadAttempts = 0;
+    loadReport();
+  });
 
-      searchInput.value = "";
-      environmentFilter.value =
-        "production";
-      statusFilter.value = "all";
-      fieldFilter.value = "all";
+  resetButton.addEventListener("click", () => {
+    clearRequestedVessel();
+    searchInput.value = "";
+    environmentFilter.value = "production";
+    statusFilter.value = "all";
+    fieldFilter.value = "all";
+    detailCard.classList.add("hidden");
+    renderRows();
+  });
 
-      detailCard.classList.add(
-        "hidden"
-      );
-
-      renderRows();
-    }
-  );
   closeDetailButton.addEventListener("click", () => detailCard.classList.add("hidden"));
   candidateConfirmed.addEventListener("change", updateApplyButton);
   selectAllButton.addEventListener("click", () => {
-    suggestionList.querySelectorAll('input[data-suggestion-index]:not(:disabled)').forEach(input => { input.checked = true; });
+    suggestionList.querySelectorAll('input[data-suggestion-index]:not(:disabled)').forEach(input => {
+      input.checked = true;
+    });
     updateApplyButton();
   });
   clearSelectionButton.addEventListener("click", () => {
-    suggestionList.querySelectorAll('input[data-suggestion-index]').forEach(input => { input.checked = false; });
+    suggestionList.querySelectorAll('input[data-suggestion-index]').forEach(input => {
+      input.checked = false;
+    });
     updateApplyButton();
   });
   applyButton.addEventListener("click", applySelectedSuggestions);
   rejectCandidateButton.addEventListener("click", rejectCurrentCandidate);
-  for (
-    const control
-    of [
-      searchInput,
-      environmentFilter,
-      statusFilter,
-      fieldFilter
-    ]
-  ) {
-    control.addEventListener(
-      control === searchInput
-        ? "input"
-        : "change",
 
-      () => {
-        if (requestedVesselId) {
-          clearRequestedVessel();
-        }
-
-        renderRows();
-      }
-    );
+  for (const header of sortHeaders) {
+    header.querySelector("button")?.addEventListener("click", () => setSort(header.dataset.sortKey));
   }
 
+  for (const control of [searchInput, environmentFilter, statusFilter, fieldFilter]) {
+    control.addEventListener(control === searchInput ? "input" : "change", () => {
+      if (requestedVesselId) clearRequestedVessel();
+      renderRows();
+    });
+  }
+
+  updateSortHeaders();
   loadReport();
 });
