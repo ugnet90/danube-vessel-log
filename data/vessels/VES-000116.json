@@ -72,9 +72,11 @@
         "classification.flag"
       ],
       "retrieved_at": "2026-08-06T09:43:46.825Z",
-      "verified_at": "",
+      "verified_at": "2026-08-06T09:44:00.407Z",
       "added_at": "2026-08-06T09:43:46.825Z",
-      "added_by": "web-ui"
+      "added_by": "web-ui",
+      "updated_at": "2026-08-06T09:44:00.407Z",
+      "updated_by": "web-ui"
     }
   ],
   "enrichment": {
@@ -99,7 +101,7 @@
     "environment": "production",
     "created_at": "2026-08-06T08:55:10.316Z",
     "created_from_submission_id": "SUB-20260806-055454-CAA0E9",
-    "updated_at": "2026-08-06T09:43:46.825Z",
+    "updated_at": "2026-08-06T09:44:00.407Z",
     "updated_by": "web-ui",
     "created_from_candidate_id": "CAN-5C00221B3BC3",
     "candidate_source_revision_id": "268617530",
@@ -153,6 +155,21 @@
             "field": "sources",
             "old_value": 1,
             "new_value": 2
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-08-06T09:44:00.407Z",
+        "changed_by": "web-ui",
+        "summary": "Quelle bearbeitet: VesselFinder",
+        "changed_fields": [
+          "sources.verified"
+        ],
+        "changes": [
+          {
+            "field": "sources.verified",
+            "old_value": false,
+            "new_value": true
           }
         ]
       }
