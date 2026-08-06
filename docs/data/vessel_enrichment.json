@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-06T09:05:18.575016Z",
+  "generated_at": "2026-08-06T09:13:20.450000Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 18,
     "vessels_incomplete": 18,
     "vessels_complete": 0,
-    "candidate_matches": 3,
-    "matched_no_new_data": 7,
+    "candidate_matches": 2,
+    "matched_no_new_data": 8,
     "low_confidence": 0,
     "no_match": 8,
     "lookup_errors": 0,
-    "suggestions_total": 10
+    "suggestions_total": 8
   },
   "vessels": [
     {
@@ -1201,63 +1201,15 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
-          "Q47774"
+          "Q47774",
+          "Q49644"
         ],
-        "candidates": [
-          {
-            "qid": "Q49644",
-            "label": "France",
-            "description": "Linienschiff",
-            "url": "https://www.wikidata.org/wiki/Q49644",
-            "score": 0.92,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Großlinienschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Ateliers et Chantiers de la Loire",
-                "display_value": "Ateliers et Chantiers de la Loire",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q49644",
-                "confidence": 0.92,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 9.0,
-                "display_value": 9.0,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q49644",
-                "confidence": 0.92,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2406574743
-          }
-        ]
+        "candidates": []
       }
     }
   ]
