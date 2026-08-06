@@ -2753,5 +2753,13 @@ function renderVesselContext(submission) {
     }
   }
   
-  initializeReferenceData();  
+  async function initializePage() {
+    await initializeReferenceData();
+
+    await loadSubmissions({
+      preserveSelection: false
+    });
+  }
+
+  initializePage();
 });
