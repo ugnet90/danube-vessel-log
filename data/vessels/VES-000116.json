@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000116",
+  "identity": {
+    "name": "France",
+    "former_names": [],
+    "mmsi": "",
+    "imo": "",
+    "eni": "01823029",
+    "call_sign": ""
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "FR"
+  },
+  "technical": {
+    "year_built": 2003,
+    "shipyard": "",
+    "length_m": 110,
+    "width_m": 11.4,
+    "draft_m": null,
+    "passengers": 160
+  },
+  "operations": {
+    "operator": "CroisiEurope",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": "Straßburg"
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [
+    {
+      "source_id": "SRC-AF584434884B",
+      "provider": "Wikipedia",
+      "title": "Kandidatenkatalog: France",
+      "url": "https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen",
+      "notes": "Vorbelegung aus CAN-5C00221B3BC3.",
+      "fields_used": [
+        "identity.name",
+        "identity.eni",
+        "classification.ship_type",
+        "classification.ship_subtype",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "retrieved_at": "",
+      "verified_at": "",
+      "added_at": "2026-08-06T08:55:10.316Z",
+      "added_by": "candidate-catalog",
+      "candidate_id": "CAN-5C00221B3BC3",
+      "source_revision_id": "268617530"
+    }
+  ],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-877BA295F958440F80881DC4B53500B3",
+    "primary_submission_id": "SUB-20260806-055454-CAA0E9"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-08-06T08:55:10.316Z",
+    "created_from_submission_id": "SUB-20260806-055454-CAA0E9",
+    "updated_at": "2026-08-06T08:55:10.316Z",
+    "updated_by": "web-ui",
+    "created_from_candidate_id": "CAN-5C00221B3BC3",
+    "candidate_source_revision_id": "268617530"
+  }
+}
