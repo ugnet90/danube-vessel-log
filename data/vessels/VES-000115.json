@@ -17,7 +17,7 @@
   },
   "technical": {
     "year_built": 2022,
-    "shipyard": "",
+    "shipyard": "TeamCo Shipyard BV",
     "length_m": 135,
     "width_m": 11.4,
     "draft_m": null,
@@ -58,12 +58,33 @@
       "added_by": "candidate-catalog",
       "candidate_id": "CAN-60D32FD89EA0",
       "source_revision_id": "268617530"
+    },
+    {
+      "source_id": "SRC-9AD015D51F9C",
+      "provider": "Wikidata",
+      "title": "Wikidata: Amadeus Cara",
+      "url": "https://www.wikidata.org/wiki/Q131405286",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "technical.shipyard"
+      ],
+      "retrieved_at": "2026-08-05T12:17:05.496365Z",
+      "verified_at": "2026-08-06T04:35:25.553Z",
+      "added_at": "2026-08-06T04:35:25.553Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2356697391
     }
   ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q131405286",
+      "rejected_qids": [],
+      "accepted_at": "2026-08-06T04:35:25.553Z",
+      "last_reviewed_at": "2026-08-06T04:35:25.553Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-7337EDB81A354E06867994D9B1CF65AE",
@@ -74,9 +95,32 @@
     "environment": "production",
     "created_at": "2026-08-05T12:10:25.767Z",
     "created_from_submission_id": "SUB-20260805-115158-1BF055",
-    "updated_at": "2026-08-05T12:10:25.767Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-08-06T04:35:25.553Z",
+    "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-60D32FD89EA0",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-08-06T04:35:25.553Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "1 Wikidata-Feld aus Q131405286 übernommen",
+        "changed_fields": [
+          "technical.shipyard",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "technical.shipyard",
+            "old_value": "",
+            "new_value": "TeamCo Shipyard BV"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q131405286"
+          }
+        ]
+      }
+    ]
   }
 }
