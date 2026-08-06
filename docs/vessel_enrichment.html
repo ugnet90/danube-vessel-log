@@ -2,8 +2,8 @@
 <!--
   Danube Vessel Log
   File: docs/vessel_enrichment.html
-  Version: 0.13.8
-  Updated: 2026-07-27
+  Version: 0.14.18
+  Updated: 2026-08-06
 -->
 <html lang="de">
 <head>
@@ -14,14 +14,11 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
-  <link rel="manifest" href="assets/favicon/site.webmanifest">  
+  <link rel="manifest" href="assets/favicon/site.webmanifest">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Datenanreicherung</title>
   <link rel="stylesheet" href="css/common.css">
-  <link
-    rel="stylesheet"
-    href="css/vessel_enrichment.css"
-  >
+  <link rel="stylesheet" href="css/vessel_enrichment.css">
 </head>
 <body>
   <div class="site-nav-shell" data-site-nav></div>
@@ -33,13 +30,7 @@
         <p>Fehlende Schiffsstammdaten und automatisch ermittelte Wikidata-Vorschläge prüfen, übernehmen oder als unpassend verwerfen.</p>
       </div>
       <div class="header-actions">
-        <button
-          id="reloadButton"
-          class="primary-button"
-          type="button"
-        >
-          Report neu laden
-        </button>
+        <button id="reloadButton" class="primary-button" type="button">Report neu laden</button>
       </div>
     </header>
 
@@ -107,12 +98,22 @@
         <table>
           <thead>
             <tr>
-              <th>Vessel-ID</th>
-              <th>Name</th>
-              <th>Fehlend</th>
-              <th>Wikidata</th>
-              <th>Vorschläge</th>
-              <th></th>
+              <th data-sort-key="vessel_id" aria-sort="ascending">
+                <button class="table-sort-button" type="button">Vessel-ID <span class="sort-indicator" aria-hidden="true">↑</span></button>
+              </th>
+              <th data-sort-key="name" aria-sort="none">
+                <button class="table-sort-button" type="button">Name <span class="sort-indicator" aria-hidden="true">↕</span></button>
+              </th>
+              <th data-sort-key="missing_count" aria-sort="none">
+                <button class="table-sort-button" type="button">Fehlend <span class="sort-indicator" aria-hidden="true">↕</span></button>
+              </th>
+              <th data-sort-key="lookup_status" aria-sort="none">
+                <button class="table-sort-button" type="button">Wikidata <span class="sort-indicator" aria-hidden="true">↕</span></button>
+              </th>
+              <th data-sort-key="suggestions" aria-sort="none">
+                <button class="table-sort-button" type="button">Vorschläge <span class="sort-indicator" aria-hidden="true">↕</span></button>
+              </th>
+              <th class="action-column" aria-label="Aktionen"></th>
             </tr>
           </thead>
           <tbody id="reportRows"></tbody>
