@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-05T12:17:05.496365Z",
+  "generated_at": "2026-08-06T04:36:56.420795Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 17,
     "vessels_incomplete": 17,
     "vessels_complete": 0,
-    "candidate_matches": 1,
-    "matched_no_new_data": 7,
+    "candidate_matches": 0,
+    "matched_no_new_data": 8,
     "low_confidence": 1,
     "no_match": 8,
     "lookup_errors": 0,
-    "suggestions_total": 1
+    "suggestions_total": 0
   },
   "vessels": [
     {
@@ -1450,10 +1450,6 @@
           "label": "Rufzeichen"
         },
         {
-          "field": "technical.shipyard",
-          "label": "Werft"
-        },
-        {
           "field": "technical.draft_m",
           "label": "Tiefgang"
         },
@@ -1470,13 +1466,13 @@
           "label": "Marke"
         }
       ],
-      "missing_count": 8,
+      "missing_count": 7,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
-        "accepted_qid": "",
+        "accepted_qid": "Q131405286",
         "rejected_qids": [],
         "candidates": [
           {
@@ -1487,9 +1483,9 @@
             "score": 1.0,
             "confidence": "very_high",
             "matched_by": [
-              "identity.eni"
+              "manual_confirmation"
             ],
-            "manually_confirmed": false,
+            "manually_confirmed": true,
             "identifiers": {
               "mmsi": [],
               "imo": [],
@@ -1501,20 +1497,7 @@
             "instance_of": [
               "Flusskreuzfahrtschiff"
             ],
-            "suggestions": [
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "TeamCo Shipyard BV",
-                "display_value": "TeamCo Shipyard BV",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q131405286",
-                "confidence": 1.0,
-                "apply_supported": true
-              }
-            ],
+            "suggestions": [],
             "revision_id": 2356697391
           },
           {
