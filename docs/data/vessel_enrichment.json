@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-06T04:36:56.420795Z",
+  "generated_at": "2026-08-06T05:49:35.242679Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 17,
     "vessels_incomplete": 17,
     "vessels_complete": 0,
-    "candidate_matches": 0,
-    "matched_no_new_data": 8,
-    "low_confidence": 1,
+    "candidate_matches": 2,
+    "matched_no_new_data": 7,
+    "low_confidence": 0,
     "no_match": 8,
     "lookup_errors": 0,
-    "suggestions_total": 0
+    "suggestions_total": 8
   },
   "vessels": [
     {
@@ -90,98 +90,7 @@
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q27318",
-            "label": "Test",
-            "description": "schriftlicher Leistungsnachweis",
-            "url": "https://www.wikidata.org/wiki/Q27318",
-            "score": 0.96,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Art von Test"
-            ],
-            "suggestions": [],
-            "revision_id": 2516840723
-          },
-          {
-            "qid": "Q1003030",
-            "label": "Test",
-            "description": "methodischer Versuch über Eigenschaften oder Leistung",
-            "url": "https://www.wikidata.org/wiki/Q1003030",
-            "score": 0.955,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [],
-            "suggestions": [],
-            "revision_id": 2522396625
-          },
-          {
-            "qid": "Q37315170",
-            "label": "Test",
-            "description": "Familienname",
-            "url": "https://www.wikidata.org/wiki/Q37315170",
-            "score": 0.945,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Familienname"
-            ],
-            "suggestions": [],
-            "revision_id": 2258522162
-          },
-          {
-            "qid": "Q9357563",
-            "label": "Test",
-            "description": "Polish rock band",
-            "url": "https://www.wikidata.org/wiki/Q9357563",
-            "score": 0.925,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Musikgruppe"
-            ],
-            "suggestions": [],
-            "revision_id": 2521817540
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -371,56 +280,7 @@
         "warnings": [],
         "accepted_qid": "Q132731400",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q132731400",
-            "label": "ENI 02338951",
-            "description": "Kabinenschiff, Baujahr 2021",
-            "url": "https://www.wikidata.org/wiki/Q132731400",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "manual_confirmation"
-            ],
-            "manually_confirmed": true,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [
-                "02338951"
-              ],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [],
-            "revision_id": 2317819764
-          },
-          {
-            "qid": "Q132731411",
-            "label": "Travelmarvel Capella (ship, 2021)",
-            "description": "Wikimedia-Kategorie",
-            "url": "https://www.wikidata.org/wiki/Q132731411",
-            "score": 0.795,
-            "confidence": "low",
-            "matched_by": [
-              "name_partial"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Wikimedia-Kategorie"
-            ],
-            "suggestions": [],
-            "revision_id": 2317821351
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -496,39 +356,7 @@
         "warnings": [],
         "accepted_qid": "Q277910",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q277910",
-            "label": "A-Rosa Riva",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q277910",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "manual_confirmation"
-            ],
-            "manually_confirmed": true,
-            "identifiers": {
-              "mmsi": [
-                "211160710"
-              ],
-              "imo": [
-                "8979295"
-              ],
-              "eni": [
-                "04802780"
-              ],
-              "call_sign": [
-                "DA4157"
-              ]
-            },
-            "instance_of": [
-              "Schiff"
-            ],
-            "suggestions": [],
-            "revision_id": 2469916710
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -573,7 +401,7 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
+        "status": "candidate",
         "error": "",
         "warnings": [],
         "accepted_qid": "",
@@ -581,29 +409,6 @@
           "Q43448989"
         ],
         "candidates": [
-          {
-            "qid": "Q37508635",
-            "label": "Melodia",
-            "description": "Familienname",
-            "url": "https://www.wikidata.org/wiki/Q37508635",
-            "score": 0.95,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Familienname"
-            ],
-            "suggestions": [],
-            "revision_id": 2260713877
-          },
           {
             "qid": "Q24027026",
             "label": "Melodia",
@@ -717,11 +522,11 @@
             "revision_id": 2476406174
           },
           {
-            "qid": "Q3854281",
+            "qid": "Q113563850",
             "label": "Melodia",
-            "description": "Album von The Vines",
-            "url": "https://www.wikidata.org/wiki/Q3854281",
-            "score": 0.94,
+            "description": "model of reel-to-reel audio tape recorder by Unitra ZRK",
+            "url": "https://www.wikidata.org/wiki/Q113563850",
+            "score": 0.92,
             "confidence": "high",
             "matched_by": [
               "name"
@@ -734,33 +539,23 @@
               "call_sign": []
             },
             "instance_of": [
-              "Album"
+              "model of reel-to-reel audio tape recorder"
             ],
-            "suggestions": [],
-            "revision_id": 2504473602
-          },
-          {
-            "qid": "Q101524075",
-            "label": "Melodia",
-            "description": "US record label; imprint of Melodia Record Co.",
-            "url": "https://www.wikidata.org/wiki/Q101524075",
-            "score": 0.935,
-            "confidence": "high",
-            "matched_by": [
-              "name"
+            "suggestions": [
+              {
+                "field": "technical.shipyard",
+                "field_label": "Werft",
+                "value": "Unitra ZRK",
+                "display_value": "Unitra ZRK",
+                "property": "P176",
+                "property_label": "manufacturer",
+                "property_url": "https://www.wikidata.org/wiki/Property:P176",
+                "source_url": "https://www.wikidata.org/wiki/Q113563850",
+                "confidence": 0.92,
+                "apply_supported": true
+              }
             ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Plattenlabel"
-            ],
-            "suggestions": [],
-            "revision_id": 1706619579
+            "revision_id": 1986640278
           }
         ]
       }
@@ -892,37 +687,7 @@
         "warnings": [],
         "accepted_qid": "Q15260465",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q15260465",
-            "label": "A-Rosa Flora",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q15260465",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "manual_confirmation"
-            ],
-            "manually_confirmed": true,
-            "identifiers": {
-              "mmsi": [
-                "211621310"
-              ],
-              "imo": [],
-              "eni": [
-                "04810970"
-              ],
-              "call_sign": [
-                "DMBD"
-              ]
-            },
-            "instance_of": [
-              "Motorschiff"
-            ],
-            "suggestions": [],
-            "revision_id": 2406997780
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -1009,36 +774,12 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "low_confidence",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q132561870",
-            "label": "Kategorie:S.S. Maria Theresa (ship, 2015)",
-            "description": "Wikimedia-Kategorie",
-            "url": "https://www.wikidata.org/wiki/Q132561870",
-            "score": 0.795,
-            "confidence": "low",
-            "matched_by": [
-              "name_partial"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Wikimedia-Kategorie"
-            ],
-            "suggestions": [],
-            "revision_id": 2337098381
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -1075,7 +816,7 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
+        "status": "candidate",
         "error": "",
         "warnings": [],
         "accepted_qid": "",
@@ -1083,29 +824,6 @@
           "Q43449030"
         ],
         "candidates": [
-          {
-            "qid": "Q37508635",
-            "label": "Melodia",
-            "description": "Familienname",
-            "url": "https://www.wikidata.org/wiki/Q37508635",
-            "score": 0.955,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Familienname"
-            ],
-            "suggestions": [],
-            "revision_id": 2260713877
-          },
           {
             "qid": "Q24027026",
             "label": "Melodia",
@@ -1219,11 +937,11 @@
             "revision_id": 2476406174
           },
           {
-            "qid": "Q3854281",
+            "qid": "Q113563850",
             "label": "Melodia",
-            "description": "Album von The Vines",
-            "url": "https://www.wikidata.org/wiki/Q3854281",
-            "score": 0.945,
+            "description": "model of reel-to-reel audio tape recorder by Unitra ZRK",
+            "url": "https://www.wikidata.org/wiki/Q113563850",
+            "score": 0.92,
             "confidence": "high",
             "matched_by": [
               "name"
@@ -1236,33 +954,23 @@
               "call_sign": []
             },
             "instance_of": [
-              "Album"
+              "model of reel-to-reel audio tape recorder"
             ],
-            "suggestions": [],
-            "revision_id": 2504473602
-          },
-          {
-            "qid": "Q101524075",
-            "label": "Melodia",
-            "description": "US record label; imprint of Melodia Record Co.",
-            "url": "https://www.wikidata.org/wiki/Q101524075",
-            "score": 0.94,
-            "confidence": "high",
-            "matched_by": [
-              "name"
+            "suggestions": [
+              {
+                "field": "technical.shipyard",
+                "field_label": "Werft",
+                "value": "Unitra ZRK",
+                "display_value": "Unitra ZRK",
+                "property": "P176",
+                "property_label": "manufacturer",
+                "property_url": "https://www.wikidata.org/wiki/Property:P176",
+                "source_url": "https://www.wikidata.org/wiki/Q113563850",
+                "confidence": 0.92,
+                "apply_supported": true
+              }
             ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Plattenlabel"
-            ],
-            "suggestions": [],
-            "revision_id": 1706619579
+            "revision_id": 1986640278
           }
         ]
       }
@@ -1352,33 +1060,7 @@
         "warnings": [],
         "accepted_qid": "Q1597558",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q1597558",
-            "label": "Amethyst Classic",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q1597558",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "manual_confirmation"
-            ],
-            "manually_confirmed": true,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": [
-                "LZG2223"
-              ]
-            },
-            "instance_of": [
-              "Schiff"
-            ],
-            "suggestions": [],
-            "revision_id": 2335149888
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -1474,56 +1156,7 @@
         "warnings": [],
         "accepted_qid": "Q131405286",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q131405286",
-            "label": "Amadeus Cara",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q131405286",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "manual_confirmation"
-            ],
-            "manually_confirmed": true,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [
-                "02339509"
-              ],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [],
-            "revision_id": 2356697391
-          },
-          {
-            "qid": "Q131405329",
-            "label": "Kategorie:Amadeus Cara (ship, 2022)",
-            "description": "Wikimedia-Kategorie",
-            "url": "https://www.wikidata.org/wiki/Q131405329",
-            "score": 0.795,
-            "confidence": "low",
-            "matched_by": [
-              "name_partial"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Wikimedia-Kategorie"
-            ],
-            "suggestions": [],
-            "revision_id": 2444401166
-          }
-        ]
+        "candidates": []
       }
     }
   ]
