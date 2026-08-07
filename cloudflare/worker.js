@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.16
- * Updated: 2026-07-31
+ * Version: 0.14.20
+ * Updated: 2026-08-07
  */
 
 const API_VERSION = "2022-11-28";
@@ -233,6 +233,28 @@ export default {
         return jsonResponse({
           ok: false,
           error: "Unbehandelter Fehler beim Laden der Schiffsliste.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error)
+        }, 500);
+      }
+    }
+
+    if (
+      request.method === "GET" &&
+      url.pathname === "/vessel-names"
+    ) {
+      try {
+        return await handleVesselNamesList(
+          request,
+          env
+        );
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler beim Laden der Schiffsnamen.",
           exception:
             error instanceof Error
               ? error.message
@@ -2957,6 +2979,110 @@ async function handleVesselsList(request, env) {
     .sort((left, right) =>
       left.vessel_id.localeCompare(right.vessel_id)
     );
+
+  return jsonResponse({
+    ok: true,
+    count: vessels.length,
+    vessels
+  });
+}
+
+async function handleVesselNamesList(
+  request,
+  env
+) {
+  const authError =
+    checkUploadKey(request, env);
+
+  if (authError) {
+    return authError;
+  }
+
+  const url =
+    new URL(request.url);
+
+  const includeTest =
+    ["1", "true", "yes"].includes(
+      String(
+        url.searchParams.get(
+          "include_test"
+        ) ?? ""
+      )
+        .trim()
+        .toLowerCase()
+    );
+
+  const result =
+    await loadVessels(env);
+
+  if (!result.ok) {
+    return jsonResponse({
+      ok: false,
+      error: result.error
+    }, 502);
+  }
+
+  const vessels =
+    result.vessels
+      .filter(vessel => {
+        const vesselId =
+          String(
+            vessel?.vessel_id ?? ""
+          ).trim();
+
+        const name =
+          String(
+            vessel?.name ?? ""
+          ).trim();
+
+        if (
+          !VESSEL_ID_PATTERN.test(
+            vesselId
+          ) ||
+          !name
+        ) {
+          return false;
+        }
+
+        if (includeTest) {
+          return true;
+        }
+
+        return (
+          parseVesselIdNumber(
+            vesselId
+          ) >= 100
+        );
+      })
+      .map(vessel => ({
+        vessel_id:
+          String(
+            vessel.vessel_id
+          ).trim(),
+
+        name:
+          String(
+            vessel.name
+          ).trim(),
+
+        status:
+          String(
+            vessel.status ?? ""
+          ).trim()
+      }))
+      .sort((left, right) =>
+        left.name.localeCompare(
+          right.name,
+          "de",
+          {
+            sensitivity: "base",
+            numeric: true
+          }
+        ) ||
+        left.vessel_id.localeCompare(
+          right.vessel_id
+        )
+      );
 
   return jsonResponse({
     ok: true,
