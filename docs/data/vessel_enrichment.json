@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-06T14:52:01.040715Z",
+  "generated_at": "2026-08-07T11:10:00.325790Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -40,7 +40,7 @@
     "low_confidence": 0,
     "no_match": 9,
     "lookup_errors": 0,
-    "suggestions_total": 15
+    "suggestions_total": 9
   },
   "vessels": [
     {
@@ -406,85 +406,10 @@
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
+          "Q24027026",
           "Q43448989"
         ],
         "candidates": [
-          {
-            "qid": "Q24027026",
-            "label": "Melodia",
-            "description": "merchant ship built in 2013",
-            "url": "https://www.wikidata.org/wiki/Q24027026",
-            "score": 0.95,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [
-                "9607813"
-              ],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Handelsschiff",
-              "Brigantine",
-              "Massengutfrachter"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.imo",
-                "field_label": "IMO",
-                "value": "9607813",
-                "display_value": "9607813",
-                "property": "P458",
-                "property_label": "IMO ship number",
-                "property_url": "https://www.wikidata.org/wiki/Property:P458",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.95,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Japan Marine United",
-                "display_value": "Japan Marine United",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.95,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 14.38,
-                "display_value": 14.38,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.95,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Evan Timothy",
-                "display_value": "Evan Timothy",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.95,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2457854035
-          },
           {
             "qid": "Q1636655",
             "label": "Melodija",
@@ -821,85 +746,10 @@
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
+          "Q24027026",
           "Q43449030"
         ],
         "candidates": [
-          {
-            "qid": "Q24027026",
-            "label": "Melodia",
-            "description": "merchant ship built in 2013",
-            "url": "https://www.wikidata.org/wiki/Q24027026",
-            "score": 0.955,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [
-                "9607813"
-              ],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Handelsschiff",
-              "Brigantine",
-              "Massengutfrachter"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.imo",
-                "field_label": "IMO",
-                "value": "9607813",
-                "display_value": "9607813",
-                "property": "P458",
-                "property_label": "IMO ship number",
-                "property_url": "https://www.wikidata.org/wiki/Property:P458",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.955,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Japan Marine United",
-                "display_value": "Japan Marine United",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.955,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 14.38,
-                "display_value": 14.38,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.955,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Evan Timothy",
-                "display_value": "Evan Timothy",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q24027026",
-                "confidence": 0.955,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2457854035
-          },
           {
             "qid": "Q1636655",
             "label": "Melodija",
