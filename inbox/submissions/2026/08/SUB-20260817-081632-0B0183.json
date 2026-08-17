@@ -56,25 +56,25 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "reviewed",
     "auto": {
       "vessel_match": {
         "status": "matched",
         "vessel_id": "VES-000112",
         "matched_by": "normalized_name",
+        "matched_value": "S. S. Emilie",
         "candidate_count": 1,
         "candidate_ids": [
           "VES-000112"
         ],
-        "matched_value": "S. S. Emilie",
         "normalized_input": "ss emilie"
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
-      "vessel_id": "",
-      "decision": "",
+      "reviewed": true,
+      "reviewed_at": "2026-08-17T10:13:51.671Z",
+      "vessel_id": "VES-000112",
+      "decision": "confirmed",
       "notes": ""
     }
   },
