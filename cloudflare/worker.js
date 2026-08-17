@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.20
- * Updated: 2026-08-07
+ * Version: 0.14.21
+ * Updated: 2026-08-17
  */
 
 const API_VERSION = "2022-11-28";
@@ -262,7 +262,6 @@ export default {
         }, 500);
       }
     }
-
     if (request.method === "GET" && url.pathname === "/vessel") {
       try {
         return await handleVesselDetail(request, env);
@@ -1422,7 +1421,7 @@ async function createJsonSubmission(request, env) {
         ok: false,
         error: vesselMatchResult.error
       },
-      502
+      vesselMatchResult.status ?? 502
     );
   }
   
@@ -1451,17 +1450,35 @@ async function createJsonSubmission(request, env) {
     return githubErrorResponse(result);
   }
 
+  const autoConfirmation =
+    await autoConfirmMatchedSubmission({
+      env,
+      submission,
+      submissionPath: path
+    });
+
   return jsonResponse(
     {
       ok: true,
-      message: "Submission wurde gespeichert.",
+      message:
+        autoConfirmation.confirmed
+          ? "Submission wurde gespeichert und automatisch zugeordnet."
+          : "Submission wurde gespeichert.",
       submission_id: submissionId,
       path,
       vessel_name_entered: submission.vessel_name_entered,
       location: submission.location,
       berth: submission.berth,
       observer_lat: submission.observer_lat,
-      observer_lon: submission.observer_lon
+      observer_lon: submission.observer_lon,
+      auto_confirmed:
+        autoConfirmation.confirmed === true,
+      vessel_id:
+        autoConfirmation.vessel_id ?? "",
+      auto_confirmation_error:
+        autoConfirmation.error ?? "",
+      auto_confirmation_commit:
+        autoConfirmation.commit ?? null
     },
     201
   );
@@ -1800,7 +1817,7 @@ async function createPhotoSubmission(request, env) {
         ok: false,
         error: vesselMatchResult.error
       },
-      502
+      vesselMatchResult.status ?? 502
     );
   }
 
@@ -1923,6 +1940,13 @@ async function createPhotoSubmission(request, env) {
     );
   }
 
+  const autoConfirmation =
+    await autoConfirmMatchedSubmission({
+      env,
+      submission,
+      submissionPath
+    });
+
   /*
    * photo_id und photo_path bleiben für bestehende Clients erhalten.
    * Sie enthalten das jeweils erste Foto.
@@ -1931,9 +1955,17 @@ async function createPhotoSubmission(request, env) {
     {
       ok: true,
       message:
-        photoRecords.length === 1
-          ? "Foto und Submission wurden gespeichert."
-          : `${photoRecords.length} Fotos und Submission wurden gespeichert.`,
+        autoConfirmation.confirmed
+          ? (
+              photoRecords.length === 1
+                ? "Foto und Submission wurden gespeichert und automatisch zugeordnet."
+                : `${photoRecords.length} Fotos und Submission wurden gespeichert und automatisch zugeordnet.`
+            )
+          : (
+              photoRecords.length === 1
+                ? "Foto und Submission wurden gespeichert."
+                : `${photoRecords.length} Fotos und Submission wurden gespeichert.`
+            ),
 
       submission_id: submissionId,
       submission_path: submissionPath,
@@ -1964,7 +1996,16 @@ async function createPhotoSubmission(request, env) {
         sequence: photo.sequence
       })),
 
-      commit_sha: commitResult.commitSha
+      commit_sha: commitResult.commitSha,
+
+      auto_confirmed:
+        autoConfirmation.confirmed === true,
+      vessel_id:
+        autoConfirmation.vessel_id ?? "",
+      auto_confirmation_error:
+        autoConfirmation.error ?? "",
+      auto_confirmation_commit:
+        autoConfirmation.commit ?? null
     },
     201
   );
@@ -2991,6 +3032,9 @@ async function handleVesselNamesList(
   request,
   env
 ) {
+  // Der iPhone-Kurzbefehl besitzt bereits den X-Upload-Key.
+  // Bewusst NICHT checkManagementKey(), damit dafür kein
+  // zusätzlicher Management-Schlüssel auf dem iPhone nötig ist.
   const authError =
     checkUploadKey(request, env);
 
@@ -10641,6 +10685,258 @@ function applyReview(submission, input, validatedReview) {
   return submission;
 }
 
+/**
+ * Bestätigt eine neue Sichtung automatisch, wenn der automatische
+ * Schiffsabgleich genau einen eindeutigen vorhandenen Vessel-Datensatz
+ * ergeben hat.
+ *
+ * Schlägt die automatische Bestätigung fehl, bleibt die bereits
+ * gespeicherte Submission bewusst offen. Sie kann dann weiterhin über
+ * submissions.html manuell geprüft werden.
+ */
+async function autoConfirmMatchedSubmission({
+  env,
+  submission,
+  submissionPath
+}) {
+  const match =
+    normalizeVesselMatch(
+      submission?.workflow
+        ?.auto
+        ?.vessel_match
+    );
+
+  if (
+    match.status !== "matched" ||
+    match.candidate_count !== 1 ||
+    !VESSEL_ID_PATTERN.test(
+      match.vessel_id
+    )
+  ) {
+    return {
+      attempted: false,
+      confirmed: false,
+      vessel_id: "",
+      error: "",
+      commit: null
+    };
+  }
+
+  const reviewInput = {
+    decision: "confirmed",
+    vessel_id:
+      match.vessel_id,
+    notes:
+      "Automatisch bestätigt: eindeutige Zuordnung."
+  };
+
+  const review =
+    await validateReviewInput(
+      reviewInput,
+      submission,
+      env
+    );
+
+  if (!review.ok) {
+    return {
+      attempted: true,
+      confirmed: false,
+      vessel_id:
+        match.vessel_id,
+      error:
+        review.error ??
+        "Die automatische Zuordnung konnte nicht validiert werden.",
+      commit: null
+    };
+  }
+
+  applyReview(
+    submission,
+    reviewInput,
+    review
+  );
+
+  const sightingsResult =
+    await loadSightingsDocument(
+      env
+    );
+
+  if (!sightingsResult.ok) {
+    return {
+      attempted: true,
+      confirmed: false,
+      vessel_id:
+        review.vessel_id,
+      error:
+        sightingsResult.error ??
+        "Der Sichtungsindex konnte nicht geladen werden.",
+      commit: null
+    };
+  }
+
+  const reviewedAt =
+    submission.workflow
+      ?.review
+      ?.reviewed_at ||
+    new Date().toISOString();
+
+  const updatedSightingsDocument =
+    updateSightingsDocument({
+      document:
+        sightingsResult.document,
+      submission,
+      submissionPath,
+      updatedAt:
+        reviewedAt
+    });
+
+  const sightingsCommitFile =
+    createSightingsCommitFile(
+      updatedSightingsDocument
+    );
+
+  const vesselResult =
+    review.vessel_result;
+
+  if (
+    !vesselResult?.ok ||
+    !vesselResult.vessel
+  ) {
+    return {
+      attempted: true,
+      confirmed: false,
+      vessel_id:
+        review.vessel_id,
+      error:
+        "Der zugeordnete Schiffsstammdatensatz konnte nicht für den Aktivitätsnachweis geladen werden.",
+      commit: null
+    };
+  }
+
+  const activation =
+    activateObservedVessel({
+      vessel:
+        vesselResult.vessel,
+      submissionId:
+        submission.submission_id,
+      capturedAt:
+        submission.captured_at ?? "",
+      reviewedAt
+    });
+
+  if (activation.changed) {
+    const saveResult =
+      await saveCanonicalVesselAndIndex({
+        env,
+        vesselResult,
+        vessel:
+          vesselResult.vessel,
+        updatedAt:
+          reviewedAt,
+        message:
+          `Sichtung ${submission.submission_id}: ` +
+          `${review.vessel_id} automatisch bestätigt und auf aktiv gesetzt`,
+        extraFiles: [
+          {
+            path:
+              submissionPath,
+            content:
+              JSON.stringify(
+                submission,
+                null,
+                2
+              ) + "\n",
+            encoding:
+              "utf-8"
+          },
+          sightingsCommitFile
+        ]
+      });
+
+    if (!saveResult.ok) {
+      return {
+        attempted: true,
+        confirmed: false,
+        vessel_id:
+          review.vessel_id,
+        error:
+          saveResult.error ??
+          "Die automatische Zuordnung konnte nicht gespeichert werden.",
+        github_step:
+          saveResult.step ?? null,
+        github_status:
+          saveResult.status ?? null,
+        commit: null
+      };
+    }
+
+    return {
+      attempted: true,
+      confirmed: true,
+      vessel_id:
+        review.vessel_id,
+      status_changed: true,
+      previous_status:
+        activation.previous_status,
+      commit:
+        saveResult.commitSha ?? null,
+      error: ""
+    };
+  }
+
+  const update =
+    await createAtomicGitHubCommit({
+      env,
+      message:
+        `Sichtung ${submission.submission_id}: ` +
+        `${review.vessel_id} automatisch bestätigt`,
+      files: [
+        {
+          path:
+            submissionPath,
+          content:
+            JSON.stringify(
+              submission,
+              null,
+              2
+            ) + "\n",
+          encoding:
+            "utf-8"
+        },
+        sightingsCommitFile
+      ]
+    });
+
+  if (!update.ok) {
+    return {
+      attempted: true,
+      confirmed: false,
+      vessel_id:
+        review.vessel_id,
+      error:
+        "Submission und Sichtungsindex konnten bei der automatischen Zuordnung nicht atomar gespeichert werden.",
+      github_step:
+        update.step ?? null,
+      github_status:
+        update.status ?? null,
+      commit: null
+    };
+  }
+
+  return {
+    attempted: true,
+    confirmed: true,
+    vessel_id:
+      review.vessel_id,
+    status_changed: false,
+    previous_status:
+      activation.previous_status,
+    commit:
+      update.commitSha ?? null,
+    error: ""
+  };
+}
+
 function validateMetadata(input) {
   if (!input || typeof input !== "object") {
     return "Die Metadaten fehlen.";
@@ -11552,18 +11848,89 @@ function decodeBase64Utf8(value) {
 }
 
 async function resolveVessel(input, env) {
-  const vesselsResult = await loadVessels(env);
+  const vesselsResult =
+    await loadVessels(env);
 
   if (!vesselsResult.ok) {
     return vesselsResult;
   }
 
+  const suppliedVesselId =
+    typeof input?.vessel_id === "string"
+      ? input.vessel_id.trim()
+      : "";
+
+  /*
+   * Ab 0.14.21 kann ein Kurzbefehl bei Auswahl eines bereits
+   * vorhandenen Schiffs dessen Vessel-ID mitsenden. Eine explizite
+   * Vessel-ID ist eindeutiger als ein erneuter Namensabgleich und
+   * hat deshalb Vorrang.
+   *
+   * Bestehende Kurzbefehle ohne vessel_id bleiben unverändert
+   * kompatibel und verwenden weiterhin die Namenszuordnung.
+   */
+  if (suppliedVesselId) {
+    if (
+      !VESSEL_ID_PATTERN.test(
+        suppliedVesselId
+      )
+    ) {
+      return {
+        ok: false,
+        status: 400,
+        error:
+          "vessel_id fehlt oder hat nicht das Format VES-000000."
+      };
+    }
+
+    const indexedVessel =
+      vesselsResult.vessels.find(
+        vessel =>
+          vessel.vessel_id ===
+          suppliedVesselId
+      );
+
+    if (!indexedVessel) {
+      return {
+        ok: false,
+        status: 404,
+        error:
+          `${suppliedVesselId} ist nicht im Schiffsindex vorhanden.`
+      };
+    }
+
+    return {
+      ok: true,
+      match:
+        normalizeVesselMatch({
+          status: "matched",
+          vessel_id:
+            suppliedVesselId,
+          matched_by:
+            "vessel_id",
+          matched_value:
+            indexedVessel.name ?? "",
+          candidate_count: 1,
+          candidate_ids: [
+            suppliedVesselId
+          ],
+          normalized_input:
+            normalizeVesselName(
+              indexedVessel.name ?? ""
+            )
+        })
+    };
+  }
+
   return {
     ok: true,
-    match: matchVesselByName(
-      normalizeEnteredVesselName(input),
-      vesselsResult.vessels
-    )
+    match:
+      matchVesselByName(
+        normalizeEnteredVesselName(
+          input
+        ),
+        vesselsResult.vessels
+      )
   };
 }
 
