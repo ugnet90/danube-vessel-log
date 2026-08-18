@@ -1,187 +1,104 @@
-# Danube Vessel Log – Version 0.14.21
+# Danube Vessel Log – Version 0.14.22
 
-**Stand:** 17.08.2026  
-**Basis:** Version 0.14.20
+Stand: 18.08.2026
 
 ## Zweck dieser Version
 
-Version 0.14.21 schließt den Ablauf für bereits bekannte Schiffe: Wenn der Worker bei einer neuen Sichtung genau **einen eindeutigen vorhandenen Vessel-Datensatz** erkennt, wird die Sichtung automatisch diesem Schiff zugeordnet. Die manuelle Schaltfläche **„Zuordnung bestätigen“** ist für solche eindeutigen Fälle nicht mehr erforderlich.
+Version 0.14.22 korrigiert zwei Punkte bei Sichtungen mit Foto(s):
 
-Mehrdeutige Treffer und nicht erkannte Schiffe bleiben weiterhin offen und werden wie bisher in `submissions.html` manuell geprüft.
+1. Wenn eine bekannte Anlegestelle gewählt wurde, soll deren `location_id` auch dann als Standort der Sichtung übernommen werden, wenn die Foto-/GPS-Koordinaten keiner bekannten Location zugeordnet werden konnten.
+2. Im iPhone-Kurzbefehl soll `captured_at` aus dem Aufnahmedatum des Fotos kommen und nicht aus dem Zeitpunkt des späteren Uploads. Ebenso sollen `photo_lat`/`photo_lon` aus den Fotodaten stammen und nicht aus dem aktuellen Standort beim Upload.
 
-Zusätzlich ist der Worker jetzt darauf vorbereitet, dass die iPhone-Kurzbefehle künftig bei der Auswahl eines bestehenden Schiffs direkt dessen `vessel_id` mitsenden. Eine explizit mitgesendete gültige Vessel-ID hat Vorrang vor dem Namensabgleich.
+## Geänderte Datei
 
-## Geänderte Dateien
+- `cloudflare/worker.js`
 
-```text
-cloudflare/worker.js
-```
+## Zusätzlich enthalten
 
-Es werden in dieser Version keine HTML-, CSS- oder sonstigen JavaScript-Dateien geändert.
+- `KURZBEFEHL_SCHIFFSSICHTUNG_MIT_FOTOS.md`
+- `COMMIT_MESSAGE.txt`
 
-## Änderungen im Detail
+## Worker-Änderung
 
-### 1. Automatische Bestätigung eindeutiger Schiffstreffer
-
-Eine neu hochgeladene Sichtung wird automatisch bestätigt, wenn der automatische Treffer gleichzeitig folgende Bedingungen erfüllt:
-
-- `workflow.auto.vessel_match.status == "matched"`
-- `candidate_count == 1`
-- `vessel_id` entspricht dem Format `VES-000000`
-- der zugehörige kanonische Vessel-Datensatz ist im Repository vorhanden und konsistent
+Der Worker übernimmt künftig bei einer bereits eindeutig gematchten Anlegestelle deren `location_id` als Fallback, wenn `location` zuvor unbekannt geblieben ist.
 
 Beispiel:
 
-```json
-{
-  "status": "matched",
-  "vessel_id": "VES-000112",
-  "matched_by": "normalized_name",
-  "candidate_count": 1,
-  "candidate_ids": ["VES-000112"]
-}
-```
+- Anlegestelle: `BER-000001` – Linz-Schloss Nr. 11
+- Anlegestelle verweist auf: `LOC-001`
+- Foto-GPS ist nicht vorhanden oder liegt außerhalb des Location-Radius
 
-Dieser Treffer wird ab 0.14.21 unmittelbar wie eine manuell bestätigte Zuordnung verarbeitet.
+Dann wird die Submission trotzdem mit der zugehörigen `LOC-001` als `location` gespeichert. `location.matched_by` wird in diesem Fall auf `berth_id` gesetzt.
 
-### 2. Submission-Workflow
+Bestehende Priorität bleibt erhalten:
 
-Bei erfolgreicher automatischer Bestätigung wird die Submission auf den bestehenden Review-Status umgestellt:
+1. Foto-/Beobachtungskoordinaten bzw. explizite `location_id`
+2. Fallback über die gematchte Anlegestelle
+3. sonst `location.status = unknown`
 
-```text
-workflow.status = reviewed
-workflow.review.reviewed = true
-workflow.review.decision = confirmed
-workflow.review.vessel_id = VES-……
-```
+Eine bereits per Koordinaten gefundene Location wird durch die Anlegestelle nicht überschrieben.
 
-Als Review-Notiz wird gespeichert:
+## Wichtige Trennung der Zeitstempel
 
-```text
-Automatisch bestätigt: eindeutige Zuordnung.
-```
+`uploaded_at` bleibt weiterhin der tatsächliche Zeitpunkt, zu dem die Sichtung an den Worker übertragen wurde.
 
-Die Sichtung erscheint dadurch nicht mehr unter den offenen Sichtungen.
+`captured_at` soll dagegen der tatsächliche Aufnahmezeitpunkt des Fotos sein.
 
-### 3. `data/sightings.json`
+Beispiel:
 
-Die automatisch bestätigte Sichtung wird über dieselbe bestehende Logik wie eine manuell bestätigte Sichtung in `data/sightings.json` eingetragen bzw. aktualisiert.
+- Foto aufgenommen: 17.08.2026 18:20
+- Upload: 18.08.2026 06:47
 
-Damit stehen die Sichtung und ihre Fotos unmittelbar für `vessel.html` zur Verfügung.
+Dann soll gelten:
 
-### 4. Aktivitätsstatus des Schiffs
+- `captured_at` = 17.08.2026 18:20
+- `uploaded_at` = 18.08.2026 06:47
 
-Die bestehende Aktivitätsregel bleibt vollständig erhalten:
+## iPhone-Kurzbefehl
 
-- ist das Schiff bereits `active`, bleibt der Status unverändert;
-- ist es `unknown`, `inactive` oder `scrapped`, wird es durch die bestätigte eigene Sichtung auf `active` gesetzt;
-- die Statusänderung wird mit Submission-ID und Sichtungszeitpunkt in der Historie dokumentiert.
+Die Änderung des Aufnahmezeitpunkts und der Foto-GPS-Daten erfolgt im Kurzbefehl **„Schiffsichtung mit Foto(s)“**. Der Worker kann das EXIF-Aufnahmedatum nicht aus den derzeit übertragenen Metadaten ableiten; der Kurzbefehl muss es vor dem Upload aus dem Originalfoto auslesen.
 
-Bei einer erforderlichen Statusänderung werden Vessel-JSON, `data/vessels.csv`, Submission und Sichtungsindex gemeinsam atomar gespeichert.
+Die genauen Schritte stehen in `KURZBEFEHL_SCHIFFSSICHTUNG_MIT_FOTOS.md`.
 
-### 5. Fehlerfall bei der automatischen Bestätigung
+## Installation Worker
 
-Der eigentliche Upload wird zuerst sicher gespeichert. Kann die nachfolgende automatische Bestätigung aus irgendeinem Grund nicht abgeschlossen werden, geht die Sichtung **nicht verloren**.
+1. ZIP entpacken.
+2. `cloudflare/worker.js` im Repository vollständig durch die Datei aus diesem Paket ersetzen.
+3. Committen.
+4. Cloudflare Worker wie bisher deployen.
+5. Danach den Kurzbefehl gemäß Anleitung anpassen.
 
-Sie bleibt dann offen und kann weiterhin manuell geprüft werden.
+## Testfälle
 
-Die Upload-Antwort enthält in diesem Fall `auto_confirmation_error` mit dem Grund.
-
-### 6. Neue Felder in der Upload-Antwort
-
-Sowohl `/submission` als auch `/submission-photo` liefern zusätzlich:
-
-```json
-{
-  "auto_confirmed": true,
-  "vessel_id": "VES-000112",
-  "auto_confirmation_error": "",
-  "auto_confirmation_commit": "..."
-}
-```
-
-Bei einer nicht automatisch bestätigten Sichtung ist `auto_confirmed` `false`.
-
-### 7. Direkte `vessel_id` aus dem iPhone-Kurzbefehl
-
-`resolveVessel()` akzeptiert ab 0.14.21 optional:
-
-```json
-{
-  "vessel_id": "VES-000112"
-}
-```
-
-Ist diese ID vorhanden und gültig, wird sie direkt gegen den Schiffsindex geprüft und als eindeutiger Treffer verwendet (`matched_by = "vessel_id"`).
-
-Fehlt `vessel_id`, bleibt der bisherige Namensabgleich unverändert aktiv. Die bereits funktionierende Namensauswahl im Kurzbefehl muss daher für den ersten Test dieser Worker-Version noch nicht weiter geändert werden.
-
-## Installation
-
-1. ZIP-Datei entpacken.
-2. Im Repository ausschließlich diese Datei ersetzen:
-
-```text
-cloudflare/worker.js
-```
-
-3. Änderung committen.
-4. Den Cloudflare Worker deployen bzw. den automatischen Deploy abwarten.
-
-## Commit-Kommentar
-
-```text
-Auto-confirm unambiguous vessel sightings
-```
-
-Der Commit-Kommentar liegt zusätzlich als `COMMIT_MESSAGE.txt` im Paket.
-
-## Test nach dem Deployment
-
-### Test A – vorhandenes Schiff, Sichtung mit Foto
-
-1. Den bereits umgebauten Kurzbefehl **„Schiffsichtung mit Foto(s)“** verwenden.
-2. Einen vorhandenen Schiffsnamen aus der dynamischen Liste auswählen.
-3. Eine Sichtung mit einem Foto hochladen.
-4. Upload-Antwort kontrollieren.
+### A – Foto mit EXIF-Aufnahmedatum und GPS
 
 Erwartet:
 
-```text
-auto_confirmed = true
-vessel_id = passende VES-……
-auto_confirmation_error = leer
-```
+- `captured_at` entspricht dem Foto-Aufnahmedatum.
+- `photo_lat`/`photo_lon` entsprechen dem Foto-GPS.
+- `uploaded_at` entspricht dem Uploadzeitpunkt.
+- `location` wird nach den Foto-Koordinaten bestimmt.
 
-Danach prüfen:
-
-- die neue Sichtung steht **nicht** unter „Offen“ in `submissions.html`;
-- `vessel.html` zeigt eine zusätzliche Sichtung;
-- die Fotoanzahl ist entsprechend erhöht;
-- das neue Foto ergänzt vorhandene Fotos und ersetzt sie nicht.
-
-### Test B – vorhandenes Schiff, Sichtung ohne Foto
-
-Dasselbe anschließend mit **„Schiffsichtung ohne Foto“** prüfen. Auch hier muss ein eindeutiger Treffer automatisch bestätigt und im Sichtungsindex erfasst werden.
-
-### Test C – neuer/unbekannter Name
-
-Einen Namen eingeben, der keinem vorhandenen Schiff eindeutig zugeordnet werden kann.
+### B – Foto mit Aufnahmedatum, aber ohne GPS; bekannte Anlegestelle gewählt
 
 Erwartet:
 
-```text
-auto_confirmed = false
-```
+- `captured_at` entspricht dem Foto-Aufnahmedatum.
+- `photo_lat`/`photo_lon` bleiben leer/null.
+- `location` wird aus `berth.location_id` übernommen.
+- `location.matched_by = "berth_id"`.
 
-Die Sichtung muss weiterhin unter „Offen“ erscheinen. Das ist beabsichtigt.
+### C – Foto ohne Aufnahmedatum
 
-## Noch nicht Bestandteil dieses Pakets
+Der Kurzbefehl soll nach dem tatsächlichen Aufnahmezeitpunkt fragen. Der Uploadzeitpunkt wird nicht automatisch als Aufnahmezeitpunkt verwendet.
 
-Der iPhone-Kurzbefehl sendet derzeit bei Auswahl eines vorhandenen Namens noch nicht dessen `vessel_id` mit. Das ist für den Funktionstest von 0.14.21 nicht erforderlich, weil der eindeutige Namensabgleich bereits funktioniert.
+## Rückfall
 
-Nach erfolgreichem Test von 0.14.21 kann der Kurzbefehl im nächsten Schritt so erweitert werden, dass Name **und** Vessel-ID aus dem Eintrag von `/vessel-names` übernommen werden. Der Worker ist dafür bereits vorbereitet.
+Falls die Worker-Änderung unerwartete Probleme verursacht, `cloudflare/worker.js` wieder durch Version 0.14.21 ersetzen und neu deployen.
 
-## Rückfall auf 0.14.20
+## Version
 
-Falls unerwartete Probleme auftreten, genügt es, `cloudflare/worker.js` wieder durch die vorherige Version 0.14.20 zu ersetzen und den Worker erneut zu deployen. Datenstrukturen werden durch 0.14.21 nicht inkompatibel geändert.
+`cloudflare/worker.js`
+
+- Version: `0.14.22`
+- Updated: `2026-08-18`
