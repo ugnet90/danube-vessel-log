@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-17T10:13:51.671Z",
+  "updated_at": "2026-08-18T03:45:50.972Z",
   "sightings": [
     {
       "submission_id": "SUB-20260817-100752-22C490",
@@ -136,22 +136,8 @@
       "photo_lon": 14.28998797320469,
       "review_decision": "confirmed",
       "review_notes": "",
-      "photos": [
-        {
-          "photo_id": "PHOTO-2F4C2CFB24B240AE93D6FFD78635F31F",
-          "path": "inbox/photos/2026/08/PHOTO-2F4C2CFB24B240AE93D6FFD78635F31F.jpg",
-          "filename": "PHOTO-2F4C2CFB24B240AE93D6FFD78635F31F.jpg",
-          "original_filename": "shortcut-photo-01.jpg",
-          "mime_type": "image/jpeg",
-          "size_bytes": 416121,
-          "sequence": 1,
-          "captured_at": "",
-          "added_at": "",
-          "source": "submission",
-          "notes": ""
-        }
-      ],
-      "updated_at": "2026-08-17T10:13:51.671Z"
+      "photos": [],
+      "updated_at": "2026-08-18T03:45:50.972Z"
     },
     {
       "submission_id": "SUB-20260806-142501-F59185",
