@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.21
- * Updated: 2026-08-17
+ * Version: 0.14.22
+ * Updated: 2026-08-18
  */
 
 const API_VERSION = "2022-11-28";
@@ -1413,6 +1413,23 @@ async function createJsonSubmission(request, env) {
 
   input.berth = berthResult.berth;
 
+  const berthLocationFallback =
+    await applyBerthLocationFallback({
+      input,
+      berth: berthResult.berth,
+      env
+    });
+
+  if (!berthLocationFallback.ok) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: berthLocationFallback.error
+      },
+      berthLocationFallback.status ?? 502
+    );
+  }
+
   const vesselMatchResult = await resolveVessel(input, env);
   
   if (!vesselMatchResult.ok) {
@@ -1807,6 +1824,23 @@ async function createPhotoSubmission(request, env) {
   }
 
   input.berth = berthResult.berth;
+
+  const berthLocationFallback =
+    await applyBerthLocationFallback({
+      input,
+      berth: berthResult.berth,
+      env
+    });
+
+  if (!berthLocationFallback.ok) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: berthLocationFallback.error
+      },
+      berthLocationFallback.status ?? 502
+    );
+  }
 
   const vesselMatchResult =
     await resolveVessel(input, env);
@@ -11557,6 +11591,59 @@ async function resolveBerth({
       input.movement
     )
   };
+}
+
+async function applyBerthLocationFallback({
+  input,
+  berth,
+  env
+}) {
+  if (input.location_status === "matched") {
+    return { ok: true };
+  }
+
+  const locationId = String(
+    berth?.location_id ?? ""
+  ).trim();
+
+  if (!/^LOC-\d{3,}$/.test(locationId)) {
+    return { ok: true };
+  }
+
+  const result = await resolveLocation(
+    { location_id: locationId },
+    env
+  );
+
+  if (!result.ok) {
+    return result;
+  }
+
+  const location = result.location;
+
+  if (!location) {
+    return { ok: true };
+  }
+
+  input.location_id =
+    location.location_id ?? locationId;
+
+  input.location_name =
+    location.public_name ??
+    location.name ??
+    "";
+
+  input.location_municipality =
+    location.municipality ?? "";
+
+  input.location_country =
+    location.country ?? "";
+
+  input.location_status = "matched";
+  input.location_matched_by = "berth_id";
+  input.location_distance_m = null;
+
+  return { ok: true };
 }
 
 function getObserverCoordinates(input) {
