@@ -3478,7 +3478,11 @@ function createSightingsCommitFile(document) {
   };
 }
 
-function normalizeIndexedSightingForOutput(env, record) {
+function normalizeIndexedSightingForOutput(
+  env,
+  record,
+  referenceLocations = []
+) {
   const photos = (Array.isArray(record?.photos) ? record.photos : [])
     .map((photo, index) => {
       const normalized = normalizeSightingPhotoRecord(photo, index);
@@ -3490,21 +3494,26 @@ function normalizeIndexedSightingForOutput(env, record) {
     })
     .filter(Boolean);
 
+  const normalizedBerth =
+    normalizeSubmissionBerth(
+      record?.berth,
+      record?.movement ?? "unknown"
+    );
+
+  const outputLocation =
+    locationWithBerthFallback({
+      location: record?.location,
+      berth: normalizedBerth,
+      locations: referenceLocations
+    });
+
   return {
     submission_id: String(record?.submission_id ?? ""),
     captured_at: String(record?.captured_at ?? ""),
     uploaded_at: String(record?.uploaded_at ?? ""),
     vessel_name_entered: String(record?.vessel_name_entered ?? ""),
-    location:
-      record?.location && typeof record.location === "object"
-        ? {
-            id: record.location.id ?? "",
-            name: record.location.name ?? "",
-            municipality: record.location.municipality ?? "",
-            country: record.location.country ?? ""
-          }
-        : { id: "", name: "", municipality: "", country: "" },
-    berth: normalizeSubmissionBerth(record?.berth, record?.movement ?? "unknown"),
+    location: outputLocation,
+    berth: normalizedBerth,
     movement: String(record?.movement ?? "unknown"),
     direction: String(record?.direction ?? "unknown"),
     notes: String(record?.notes ?? ""),
@@ -3529,9 +3538,29 @@ async function loadVesselSightings({
 
   const indexedSightings = sightingsResult.document.sightings;
 
+  /*
+   * Alte Sichtungen können eine bekannte Anlegestelle
+   * enthalten, obwohl location beim Upload leer blieb.
+   * Die Standortreferenz wird nur für die Ausgabe
+   * ergänzt; ein Ladefehler blockiert die Seite nicht.
+   */
+  const locationsResult =
+    await loadLocations(env);
+
+  const referenceLocations =
+    locationsResult.ok
+      ? locationsResult.locations
+      : [];
+
   const sightings = indexedSightings
     .filter(record => String(record?.vessel_id ?? "").trim() === vesselId)
-    .map(record => normalizeIndexedSightingForOutput(env, record))
+    .map(record =>
+      normalizeIndexedSightingForOutput(
+        env,
+        record,
+        referenceLocations
+      )
+    )
     .sort((left, right) =>
       String(right.captured_at).localeCompare(String(left.captured_at))
     );
@@ -9763,6 +9792,21 @@ async function handleReviewSubmissionsList(request, env) {
       ? ""
       : candidateCatalogResult.error;
 
+  /*
+   * Standortreferenz einmal pro Listenabruf laden.
+   * Damit können auch ältere Sichtungen mit
+   * leerer location, aber bekannter Anlegestelle,
+   * korrekt angezeigt werden. Ein Ladefehler darf
+   * die Review-Liste nicht blockieren.
+   */
+  const locationsResult =
+    await loadLocations(env);
+
+  const referenceLocations =
+    locationsResult.ok
+      ? locationsResult.locations
+      : [];
+
   const pathsResult = await listSubmissionPaths(env);
 
   if (!pathsResult.ok) {
@@ -9830,6 +9874,33 @@ async function handleReviewSubmissionsList(request, env) {
             vesselsResult.vessels
           )
         : storedAutomaticMatch;
+
+    const normalizedBerth =
+      normalizeSubmissionBerth(
+        submission.berth,
+        submission.movement ?? "unknown"
+      );
+
+    const outputLocation =
+      locationWithBerthFallback({
+        location: submission.location,
+        berth: normalizedBerth,
+        locations: referenceLocations
+      });
+
+    /*
+     * Bei bereits zugeordneten Sichtungen gibt es
+     * nichts mehr auszuwählen. Die gespeicherten
+     * Matchdaten bleiben erhalten; nur die Ausgabe
+     * unterdrückt die Kandidatenliste.
+     */
+    const outputAutomaticMatch =
+      workflowStatus === "reviewed"
+        ? {
+            ...automaticMatch,
+            candidate_ids: []
+          }
+        : automaticMatch;
 
     const reviewedVesselId =
       submission.workflow
@@ -9928,24 +9999,9 @@ async function handleReviewSubmissionsList(request, env) {
       workflow_status:
         workflowStatus,
 
-      location: {
-        id:
-          submission.location?.id ?? "",
+      location: outputLocation,
 
-        name:
-          submission.location?.name ?? "",
-
-        municipality:
-          submission.location?.municipality ?? "",
-
-        country:
-          submission.location?.country ?? ""
-      },
-
-      berth: normalizeSubmissionBerth(
-        submission.berth,
-        submission.movement ?? "unknown"
-      ),
+      berth: normalizedBerth,
 
       movement:
         submission.movement ?? "unknown",
@@ -9956,10 +10012,13 @@ async function handleReviewSubmissionsList(request, env) {
       vessel_name_entered:
         submission.vessel_name_entered ?? "",
 
-      automatic_match: automaticMatch,
+      automatic_match:
+        outputAutomaticMatch,
 
       catalog_candidates:
-        catalogCandidates,      
+        workflowStatus === "reviewed"
+          ? []
+          : catalogCandidates,
 
       review:
         submission.workflow?.review ?? {
@@ -11645,6 +11704,114 @@ async function applyBerthLocationFallback({
 
   return { ok: true };
 }
+
+
+function normalizeLocationForOutput(location) {
+  const source =
+    location &&
+    typeof location === "object" &&
+    !Array.isArray(location)
+      ? location
+      : {};
+
+  return {
+    id: String(
+      source.id ??
+      source.location_id ??
+      ""
+    ).trim(),
+
+    name: String(
+      source.name ??
+      source.public_name ??
+      ""
+    ).trim(),
+
+    municipality:
+      String(
+        source.municipality ?? ""
+      ).trim(),
+
+    country:
+      String(
+        source.country ?? ""
+      ).trim()
+  };
+}
+
+function locationWithBerthFallback({
+  location,
+  berth,
+  locations
+}) {
+  const normalized =
+    normalizeLocationForOutput(
+      location
+    );
+
+  if (
+    normalized.id ||
+    normalized.name
+  ) {
+    return normalized;
+  }
+
+  const locationId =
+    String(
+      berth?.location_id ?? ""
+    ).trim();
+
+  if (
+    !/^LOC-\d{3,}$/.test(
+      locationId
+    )
+  ) {
+    return normalized;
+  }
+
+  const referenceLocation =
+    (
+      Array.isArray(locations)
+        ? locations
+        : []
+    ).find(
+      item =>
+        item?.location_id ===
+        locationId
+    ) ?? null;
+
+  if (!referenceLocation) {
+    return normalized;
+  }
+
+  return {
+    id: locationId,
+
+    name:
+      String(
+        referenceLocation
+          .public_name ??
+        referenceLocation.name ??
+        ""
+      ).trim(),
+
+    municipality:
+      String(
+        referenceLocation
+          .municipality ??
+        berth?.municipality ??
+        ""
+      ).trim(),
+
+    country:
+      String(
+        referenceLocation.country ??
+        berth?.country ??
+        ""
+      ).trim()
+  };
+}
+
 
 function getObserverCoordinates(input) {
   return {
