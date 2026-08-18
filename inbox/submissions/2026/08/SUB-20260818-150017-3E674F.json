@@ -1,0 +1,71 @@
+{
+  "schema_version": 12,
+  "submission_id": "SUB-20260818-150017-3E674F",
+  "uploaded_at": "2026-08-18T15:00:17.428Z",
+  "captured_at": "2026-08-18T15:00:04.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000005",
+    "name": "Donaustation Linz 1 (Brucknerhaus)",
+    "short_name": "Linz 1 – Brucknerhaus",
+    "station_number": "1",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2134.52,
+    "river_km_text": "2134,6+10–2134,4+30",
+    "facility_type": "Tankkahn",
+    "mooring_order": "25 m",
+    "entry_count": 0,
+    "entry_height": "",
+    "latitude": null,
+    "longitude": null,
+    "address": "Untere Donaulände beim Brucknerhaus, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://www.donaustationen.at/fileadmin/user_upload/Donaustationen_Liste_2025.pdf",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "Amadeus Cara",
+  "notes": "",
+  "observer_lat": 48.47358894667907,
+  "observer_lon": 14.00215834767856,
+  "photos": [],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000115",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000115"
+        ],
+        "matched_value": "Amadeus Cara",
+        "normalized_input": "amadeuscara"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
