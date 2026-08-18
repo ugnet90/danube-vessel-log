@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.14.17
-// Updated: 2026-08-01
+// Version: 0.14.22
+// Updated: 2026-08-18
 
 "use strict";
 
@@ -189,6 +189,53 @@ document.addEventListener("DOMContentLoaded", () => {
     ]
       .filter(Boolean)
       .join(", ") || "–";
+  }
+
+  function berthLabel(berth) {
+    if (
+      !berth ||
+      typeof berth !== "object"
+    ) {
+      return "";
+    }
+
+    const status =
+      String(berth.status ?? "").trim();
+
+    if (status === "matched") {
+      return (
+        berth.short_name ||
+        berth.name ||
+        berth.id ||
+        ""
+      );
+    }
+
+    if (status === "unlisted") {
+      return berth.name || "";
+    }
+
+    return "";
+  }
+
+  function sightingPlaceLabel(sighting) {
+    const location =
+      locationLabel(
+        sighting?.location
+      );
+
+    const berth =
+      berthLabel(
+        sighting?.berth
+      );
+
+    if (location === "–") {
+      return berth || "–";
+    }
+
+    return berth
+      ? `${location} · ${berth}`
+      : location;
   }
 
   function safeUrl(valueText) {
@@ -3489,7 +3536,7 @@ document.addEventListener("DOMContentLoaded", () => {
     set(
       "summaryLastLocation",
       latest
-        ? locationLabel(latest.location)
+        ? sightingPlaceLabel(latest)
         : "–"
     );
 
@@ -3526,7 +3573,7 @@ document.addEventListener("DOMContentLoaded", () => {
           createTextElement(
             "p",
             "sighting-location",
-            locationLabel(sighting.location)
+            sightingPlaceLabel(sighting)
           )
         );
 
