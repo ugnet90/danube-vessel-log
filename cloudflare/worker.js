@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.22
+ * Version: 0.14.23
  * Updated: 2026-08-18
  */
 
@@ -1371,18 +1371,31 @@ async function createJsonSubmission(request, env) {
     );
   }
   
-  input.location_id = locationResult.location?.location_id ?? "";
+  input.location_id =
+    locationResult.location?.location_id ?? "";
+
+  const locationTextParts =
+    normalizeLocationTextParts({
+      name:
+        locationResult.location?.public_name ??
+        locationResult.location?.name ??
+        "",
+      municipality:
+        locationResult.location?.municipality ??
+        "",
+      country:
+        locationResult.location?.country ??
+        ""
+    });
 
   input.location_name =
-  locationResult.location?.public_name ??
-  locationResult.location?.name ??
-  "";
-  
+    locationTextParts.name;
+
   input.location_municipality =
-    locationResult.location?.municipality ?? "";
-  
+    locationTextParts.municipality;
+
   input.location_country =
-    locationResult.location?.country ?? "";
+    locationTextParts.country;
 
   input.location_status =
     locationResult.location ? "matched" : "unknown";
@@ -1783,16 +1796,28 @@ async function createPhotoSubmission(request, env) {
   input.location_id =
     locationResult.location?.location_id ?? "";
 
+  const locationTextParts =
+    normalizeLocationTextParts({
+      name:
+        locationResult.location?.public_name ??
+        locationResult.location?.name ??
+        "",
+      municipality:
+        locationResult.location?.municipality ??
+        "",
+      country:
+        locationResult.location?.country ??
+        ""
+    });
+
   input.location_name =
-    locationResult.location?.public_name ??
-    locationResult.location?.name ??
-    "";
+    locationTextParts.name;
 
   input.location_municipality =
-    locationResult.location?.municipality ?? "";
+    locationTextParts.municipality;
 
   input.location_country =
-    locationResult.location?.country ?? "";
+    locationTextParts.country;
 
   input.location_status =
     locationResult.location
@@ -11687,22 +11712,82 @@ async function applyBerthLocationFallback({
   input.location_id =
     location.location_id ?? locationId;
 
+  const locationTextParts =
+    normalizeLocationTextParts({
+      name:
+        location.public_name ??
+        location.name ??
+        "",
+      municipality:
+        location.municipality ?? "",
+      country:
+        location.country ?? ""
+    });
+
   input.location_name =
-    location.public_name ??
-    location.name ??
-    "";
+    locationTextParts.name;
 
   input.location_municipality =
-    location.municipality ?? "";
+    locationTextParts.municipality;
 
   input.location_country =
-    location.country ?? "";
+    locationTextParts.country;
 
   input.location_status = "matched";
   input.location_matched_by = "berth_id";
   input.location_distance_m = null;
 
   return { ok: true };
+}
+
+
+function normalizeLocationTextParts({
+  name,
+  municipality,
+  country
+}) {
+  const normalizedName =
+    String(name ?? "").trim();
+
+  let normalizedMunicipality =
+    String(municipality ?? "").trim();
+
+  let normalizedCountry =
+    String(country ?? "").trim();
+
+  const nameParts =
+    normalizedName
+      .split(",")
+      .map(part =>
+        part.trim().toLocaleLowerCase("de")
+      )
+      .filter(Boolean);
+
+  if (
+    normalizedMunicipality &&
+    nameParts.includes(
+      normalizedMunicipality
+        .toLocaleLowerCase("de")
+    )
+  ) {
+    normalizedMunicipality = "";
+  }
+
+  if (
+    normalizedCountry &&
+    nameParts.includes(
+      normalizedCountry
+        .toLocaleLowerCase("de")
+    )
+  ) {
+    normalizedCountry = "";
+  }
+
+  return {
+    name: normalizedName,
+    municipality: normalizedMunicipality,
+    country: normalizedCountry
+  };
 }
 
 
@@ -11714,6 +11799,18 @@ function normalizeLocationForOutput(location) {
       ? location
       : {};
 
+  const textParts =
+    normalizeLocationTextParts({
+      name:
+        source.name ??
+        source.public_name ??
+        "",
+      municipality:
+        source.municipality ?? "",
+      country:
+        source.country ?? ""
+    });
+
   return {
     id: String(
       source.id ??
@@ -11721,21 +11818,7 @@ function normalizeLocationForOutput(location) {
       ""
     ).trim(),
 
-    name: String(
-      source.name ??
-      source.public_name ??
-      ""
-    ).trim(),
-
-    municipality:
-      String(
-        source.municipality ?? ""
-      ).trim(),
-
-    country:
-      String(
-        source.country ?? ""
-      ).trim()
+    ...textParts
   };
 }
 
@@ -11784,32 +11867,26 @@ function locationWithBerthFallback({
     return normalized;
   }
 
-  return {
+  return normalizeLocationForOutput({
     id: locationId,
 
     name:
-      String(
-        referenceLocation
-          .public_name ??
-        referenceLocation.name ??
-        ""
-      ).trim(),
+      referenceLocation
+        .public_name ??
+      referenceLocation.name ??
+      "",
 
     municipality:
-      String(
-        referenceLocation
-          .municipality ??
-        berth?.municipality ??
-        ""
-      ).trim(),
+      referenceLocation
+        .municipality ??
+      berth?.municipality ??
+      "",
 
     country:
-      String(
-        referenceLocation.country ??
-        berth?.country ??
-        ""
-      ).trim()
-  };
+      referenceLocation.country ??
+      berth?.country ??
+      ""
+  });
 }
 
 
