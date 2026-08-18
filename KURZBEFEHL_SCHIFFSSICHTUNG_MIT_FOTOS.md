@@ -1,78 +1,113 @@
-# Kurzbefehl „Schiffsichtung mit Foto(s)“ – Fotodaten verwenden
+# Kurzbefehl „Schiffsichtung mit Foto(s)“ – Version 0.14.22
 
 ## Ziel
 
-Der Kurzbefehl soll für die Sichtung die Daten des Fotos verwenden, nicht Datum und GPS des späteren Uploads.
+Für eine Foto-Sichtung müssen Aufnahmezeit und Aufnahmeort aus den Fotodaten stammen – nicht vom späteren Zeitpunkt bzw. Standort des Uploads.
 
-## Bestehender Anfang
+Bei mehreren Fotos bestimmt das **erste ausgewählte Foto** die Metadaten der Sichtung.
+
+## Bestehender Anfang des Kurzbefehls
 
 Der Kurzbefehl enthält bereits sinngemäß:
 
-- `Erstes Objekt von Kurzbefehleingabe abrufen`
-- `Ort aus Objekt aus Liste abrufen`
-- `Aktuellen Ort abrufen`
-- `Breitengrad aus Aktueller Standort abrufen`
-- `Längengrad aus Aktueller Standort abrufen`
-- `Aktuelles Datum`
-- `Datum formatieren`
+1. `Erstes Objekt von Kurzbefehleingabe abrufen`
+2. `Ort aus Objekt aus Liste abrufen`
+3. `Aktuellen Ort abrufen`
+4. `Breitengrad aus Aktueller Standort abrufen`
+5. `Längengrad aus Aktueller Standort abrufen`
+6. `Aktuelles Datum`
+7. `Datum formatieren`
 
-## Änderung 1 – Foto-GPS statt aktuellem Standort
+## A. Aufnahmedatum aus dem Foto verwenden
 
-Die bereits vorhandene Aktion
+### 1. Erstes Foto beibehalten
 
-`Ort aus Objekt aus Liste abrufen`
+Die vorhandene Aktion
 
-liefert den im Foto gespeicherten Aufnahmeort.
+`Erstes Objekt von Kurzbefehleingabe abrufen`
 
-Die danach verwendeten Koordinaten sollen künftig aus diesem `Ort` stammen.
+bleibt bestehen.
 
-Die Aktionen
+### 2. Foto-Aufnahmedatum lesen
 
-- `Aktuellen Ort abrufen`
-- `Breitengrad aus Aktueller Standort abrufen`
-- `Längengrad aus Aktueller Standort abrufen`
+Direkt danach eine weitere Aktion zum Abrufen der Bilddetails einfügen bzw. die bestehende Detail-Aktion duplizieren.
 
-dürfen für `photo_lat`/`photo_lon` nicht mehr verwendet werden.
+Als Detail auswählen:
 
-Stattdessen:
+`Aufnahmedatum`
 
-1. `Breitengrad aus [Ort] abrufen`
-2. `Längengrad aus [Ort] abrufen`
-
-Diese beiden Werte bleiben die Variablen, die später im Metadata-JSON als `photo_lat` und `photo_lon` eingesetzt werden.
-
-Wenn das Foto keinen gespeicherten Ort besitzt, sollen die Koordinaten leer bleiben. Nicht auf den aktuellen Standort beim Upload zurückfallen.
-
-## Änderung 2 – Aufnahmedatum des Fotos
-
-Direkt nach `Erstes Objekt von Kurzbefehleingabe abrufen` eine weitere Bilddetail-Aktion einfügen bzw. die bestehende Detail-Aktion duplizieren:
-
-`Aufnahmedatum aus [Objekt aus Liste] abrufen`
+Quelle ist dasselbe **erste Objekt aus der Liste**.
 
 Das Ergebnis ist der tatsächliche Aufnahmezeitpunkt des ersten Fotos.
 
-Danach:
+### 3. Variable festlegen
 
-- Wenn `Aufnahmedatum` einen Wert hat: diesen Wert als `sighting_captured_at` verwenden.
-- Wenn kein Aufnahmedatum vorhanden ist: nach dem tatsächlichen Aufnahmezeitpunkt fragen und das Ergebnis als `sighting_captured_at` verwenden.
+Das Ergebnis als Variable festlegen, z. B.:
 
-Die bisherige Aktion `Aktuelles Datum` darf nicht mehr die Quelle für `captured_at` sein.
+`sighting_captured_at`
 
-Die vorhandene Aktion `Datum formatieren` bleibt erhalten, ihre Eingabe wird aber von `Aktuelles Datum` auf `sighting_captured_at` geändert.
+### 4. Bisheriges „Aktuelles Datum“ nicht mehr für captured_at verwenden
 
-Der formatierte Wert wird weiterhin im Metadata-JSON als `captured_at` verwendet.
+Die Aktion `Aktuelles Datum` darf nicht mehr die Eingabe für das später verwendete `Datum formatieren` sein.
 
-## Mehrere Fotos
+Die vorhandene Aktion `Datum formatieren` bleibt bestehen; nur ihre Eingabe wird auf
 
-Für eine Sichtung mit mehreren Fotos verwendet die Sichtung den Aufnahmezeitpunkt des **ersten ausgewählten Fotos**. Die Fotos gehören derselben Sichtung an.
+`sighting_captured_at`
 
-## Metadata-JSON
+geändert.
 
-Die vorhandene Struktur bleibt unverändert. Insbesondere:
+Die bisherigen Format-Einstellungen der Aktion bleiben unverändert.
+
+Damit wird das Format weiterhin so erzeugt, wie der Worker es bereits akzeptiert; nur der zugrunde liegende Zeitpunkt ist nun der Fotozeitpunkt.
+
+### 5. Falls kein Aufnahmedatum vorhanden ist
+
+Falls die Bilddetail-Aktion kein Aufnahmedatum liefert, nach Datum und Uhrzeit der tatsächlichen Sichtung fragen und dieses Ergebnis als `sighting_captured_at` verwenden.
+
+Nicht automatisch auf den Uploadzeitpunkt zurückfallen.
+
+## B. Foto-GPS statt aktuellem iPhone-Standort verwenden
+
+### 1. Vorhandenen Foto-Ort verwenden
+
+Die vorhandene Aktion
+
+`Ort aus Objekt aus Liste abrufen`
+
+liefert den im ersten Foto gespeicherten Ort.
+
+### 2. Aktuellen Standort nicht mehr als Foto-Ort verwenden
+
+Die folgenden Aktionen dürfen für eine Foto-Sichtung nicht mehr die Werte von `photo_lat` und `photo_lon` liefern:
+
+- `Aktuellen Ort abrufen`
+- `Breitengrad aus Aktueller Standort abrufen`
+- `Längengrad aus Aktueller Standort abrufen`
+
+### 3. Koordinaten aus dem Foto-Ort lesen
+
+Stattdessen:
+
+- `Breitengrad aus [Ort des Fotos] abrufen`
+- `Längengrad aus [Ort des Fotos] abrufen`
+
+Diese Ergebnisse werden weiterhin als die Variablen verwendet, die später im Metadata-JSON bei `photo_lat` und `photo_lon` eingesetzt werden.
+
+### 4. Foto ohne GPS
+
+Hat das Foto keinen gespeicherten Ort, sollen `photo_lat` und `photo_lon` leer bleiben.
+
+Nicht den aktuellen Standort beim Upload einsetzen.
+
+Eine ausgewählte bekannte Anlegestelle kann der Worker anschließend über deren `location_id` dem Aufnahmeort zuordnen.
+
+## C. Metadata-JSON
+
+Die Struktur bleibt grundsätzlich erhalten:
 
 ```json
 {
-  "captured_at":"[Formatiertes Datum]",
+  "captured_at":"[Formatiertes Foto-Aufnahmedatum]",
   "photo_lat":"[Breitengrad aus Foto-Ort]",
   "photo_lon":"[Längengrad aus Foto-Ort]",
   "movement":"[movement]",
@@ -86,11 +121,18 @@ Die vorhandene Struktur bleibt unverändert. Insbesondere:
 }
 ```
 
-## Kontrolle nach dem Test
+## D. Kontrolltest
 
-In der erzeugten Submission prüfen:
+Für ein Foto, das am **17.08.2026 um 07:07 Uhr** aufgenommen und erst am **18.08.2026** hochgeladen wird, muss gelten:
 
-- `uploaded_at` = Zeitpunkt des Uploads
-- `captured_at` = Aufnahmezeitpunkt des Fotos
-- `photo_lat` / `photo_lon` = Foto-GPS, nicht aktueller Handy-Standort
-- bei bekannter Anlegestelle ohne passende Foto-GPS-Zuordnung: `location.status = "matched"` und `location.matched_by = "berth_id"`
+- Website „Aufgenommen“: `17.08.2026, 07:07`
+- `uploaded_at`: 18.08.2026 zum tatsächlichen Uploadzeitpunkt
+- `captured_at`: 17.08.2026 entsprechend 07:07 Uhr lokaler Aufnahmezeit
+- `photo_lat` / `photo_lon`: Koordinaten des Fotos oder leer
+- niemals Koordinaten des aktuellen Upload-Standorts als Ersatz für Foto-GPS
+
+## E. Wichtig für alte Sichtungen
+
+Diese Shortcut-Änderung wirkt nur bei neuen Uploads.
+
+Bereits falsch gespeicherte `captured_at`-Werte müssen separat korrigiert werden, wenn der tatsächliche Aufnahmezeitpunkt bekannt ist.
