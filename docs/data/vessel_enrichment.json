@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-17T04:57:16.961405Z",
+  "generated_at": "2026-08-18T10:16:45.758921Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,13 +32,13 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 20,
-    "vessels_incomplete": 20,
+    "vessels_total": 21,
+    "vessels_incomplete": 21,
     "vessels_complete": 0,
     "candidate_matches": 3,
     "matched_no_new_data": 8,
     "low_confidence": 0,
-    "no_match": 9,
+    "no_match": 10,
     "lookup_errors": 0,
     "suggestions_total": 9
   },
@@ -1293,6 +1293,56 @@
             "revision_id": 2446070260
           }
         ]
+      }
+    },
+    {
+      "vessel_id": "VES-000119",
+      "name": "AmaSonata",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000119.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 8,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "no_match",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": []
       }
     }
   ]
