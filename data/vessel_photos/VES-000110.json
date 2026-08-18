@@ -14,7 +14,20 @@
       "added_at": "2026-07-31T13:20:06.998Z",
       "source": "direct_vessel_upload",
       "notes": ""
+    },
+    {
+      "photo_id": "PHOTO-02E16961A1DC4E86ABEE08CF8E30B926",
+      "path": "inbox/photos/2026/08/PHOTO-02E16961A1DC4E86ABEE08CF8E30B926.jpg",
+      "filename": "PHOTO-02E16961A1DC4E86ABEE08CF8E30B926.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 448926,
+      "sequence": 2,
+      "captured_at": "2026-08-06T14:14:24.000Z",
+      "added_at": "2026-08-18T18:21:48.958Z",
+      "source": "direct_vessel_upload",
+      "notes": ""
     }
   ],
-  "updated_at": "2026-07-31T13:20:06.998Z"
+  "updated_at": "2026-08-18T18:21:48.958Z"
 }
