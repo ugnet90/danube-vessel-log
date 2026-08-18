@@ -62,15 +62,6 @@
       "mime_type": "image/jpeg",
       "size_bytes": 436275,
       "sequence": 2
-    },
-    {
-      "photo_id": "PHOTO-30A9F9ABC7CD423BA1BF7ACBA5C57D16",
-      "path": "inbox/photos/2026/08/PHOTO-30A9F9ABC7CD423BA1BF7ACBA5C57D16.jpg",
-      "filename": "PHOTO-30A9F9ABC7CD423BA1BF7ACBA5C57D16.jpg",
-      "original_filename": "shortcut-photo-03.jpg",
-      "mime_type": "image/jpeg",
-      "size_bytes": 448926,
-      "sequence": 3
     }
   ],
   "workflow": {
@@ -97,5 +88,23 @@
     }
   },
   "photo_lat": 48.3102467787512,
-  "photo_lon": 14.28351869294686
+  "photo_lon": 14.28351869294686,
+  "photo_count": 2,
+  "updated_at": "2026-08-18T18:20:33.871Z",
+  "photo_history": [
+    {
+      "action": "deleted",
+      "deleted_at": "2026-08-18T18:20:33.871Z",
+      "deleted_by": "web-ui",
+      "photo": {
+        "photo_id": "PHOTO-30A9F9ABC7CD423BA1BF7ACBA5C57D16",
+        "path": "inbox/photos/2026/08/PHOTO-30A9F9ABC7CD423BA1BF7ACBA5C57D16.jpg",
+        "filename": "PHOTO-30A9F9ABC7CD423BA1BF7ACBA5C57D16.jpg",
+        "original_filename": "shortcut-photo-03.jpg",
+        "mime_type": "image/jpeg",
+        "size_bytes": 448926,
+        "sequence": 3
+      }
+    }
+  ]
 }
