@@ -1,0 +1,99 @@
+{
+  "schema_version": 12,
+  "submission_id": "SUB-20260818-101224-8E7288",
+  "uploaded_at": "2026-08-18T10:12:24.000Z",
+  "captured_at": "2026-08-18T05:02:25.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": 330
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000002",
+    "name": "Schiffsanlegestelle Linz-Nibelungen",
+    "short_name": "Linz-Nibelungen Nr. 12",
+    "station_number": "12",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "upstream",
+    "river_km": 2135.1955,
+    "river_km_text": "2135,2-4,5 m",
+    "facility_type": "Gitterkahn",
+    "mooring_order": "max. Breite 30 m",
+    "entry_count": 4,
+    "entry_height": "0,85 m, 1,50 m oder 2,10 m",
+    "latitude": 48.307028,
+    "longitude": 14.284278,
+    "address": "Obere Donaulände, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "AmaSonata",
+  "notes": "",
+  "observer_lat": 48.30918666666667,
+  "observer_lon": 14.283545,
+  "photos": [
+    {
+      "photo_id": "PHOTO-6F92B95D5D9A497AB0E706D30ECF29B7",
+      "path": "inbox/photos/2026/08/PHOTO-6F92B95D5D9A497AB0E706D30ECF29B7.jpg",
+      "filename": "PHOTO-6F92B95D5D9A497AB0E706D30ECF29B7.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 341248,
+      "sequence": 1
+    },
+    {
+      "photo_id": "PHOTO-89D6E3A9DAB940A3BA31C23CD916F136",
+      "path": "inbox/photos/2026/08/PHOTO-89D6E3A9DAB940A3BA31C23CD916F136.jpg",
+      "filename": "PHOTO-89D6E3A9DAB940A3BA31C23CD916F136.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 408207,
+      "sequence": 2
+    },
+    {
+      "photo_id": "PHOTO-49499A8EE16B44779E0AB0EEEC44CEF8",
+      "path": "inbox/photos/2026/08/PHOTO-49499A8EE16B44779E0AB0EEEC44CEF8.jpg",
+      "filename": "PHOTO-49499A8EE16B44779E0AB0EEEC44CEF8.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 474591,
+      "sequence": 3
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "amasonata"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30918666666667,
+  "photo_lon": 14.283545
+}
