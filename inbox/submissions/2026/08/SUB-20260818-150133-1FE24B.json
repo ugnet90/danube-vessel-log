@@ -46,7 +46,7 @@
   "observer_lon": 13.98597203346128,
   "photos": [],
   "workflow": {
-    "status": "new",
+    "status": "reviewed",
     "auto": {
       "vessel_match": {
         "status": "unmatched",
@@ -59,10 +59,10 @@
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
-      "vessel_id": "",
-      "decision": "",
+      "reviewed": true,
+      "reviewed_at": "2026-08-18T15:03:02.412Z",
+      "vessel_id": "VES-000120",
+      "decision": "created",
       "notes": ""
     }
   }
