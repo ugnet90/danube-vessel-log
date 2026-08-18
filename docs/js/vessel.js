@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.14.22
+// Version: 0.14.23
 // Updated: 2026-08-18
 
 "use strict";
@@ -182,13 +182,45 @@ document.addEventListener("DOMContentLoaded", () => {
       return "–";
     }
 
-    return [
-      location.name,
-      location.municipality,
-      location.country
-    ]
-      .filter(Boolean)
-      .join(", ") || "–";
+    const parts = [];
+
+    const addUniquePart = candidate => {
+      const valueText =
+        String(candidate ?? "").trim();
+
+      if (!valueText) return;
+
+      const normalizedCandidate =
+        valueText.toLocaleLowerCase("de");
+
+      const existingSegments =
+        parts
+          .flatMap(part =>
+            String(part)
+              .split(",")
+              .map(segment =>
+                segment
+                  .trim()
+                  .toLocaleLowerCase("de")
+              )
+          );
+
+      if (
+        existingSegments.includes(
+          normalizedCandidate
+        )
+      ) {
+        return;
+      }
+
+      parts.push(valueText);
+    };
+
+    addUniquePart(location.name);
+    addUniquePart(location.municipality);
+    addUniquePart(location.country);
+
+    return parts.join(", ") || "–";
   }
 
   function berthLabel(berth) {
@@ -236,6 +268,32 @@ document.addEventListener("DOMContentLoaded", () => {
     return berth
       ? `${location} · ${berth}`
       : location;
+  }
+
+  function sightingHeaderLabel(sighting) {
+    const location =
+      locationLabel(
+        sighting?.location
+      );
+
+    return [
+      location === "–" ? "" : location,
+      String(
+        sighting?.submission_id ?? ""
+      ).trim()
+    ]
+      .filter(Boolean)
+      .join(" · ") || "–";
+  }
+
+  function sightingMetadataLabel(sighting) {
+    return [
+      movementLabel(sighting?.movement),
+      directionLabel(sighting?.direction),
+      berthLabel(sighting?.berth)
+    ]
+      .filter(Boolean)
+      .join(" · ");
   }
 
   function safeUrl(valueText) {
@@ -3573,7 +3631,7 @@ document.addEventListener("DOMContentLoaded", () => {
           createTextElement(
             "p",
             "sighting-location",
-            sightingPlaceLabel(sighting)
+            sightingHeaderLabel(sighting)
           )
         );
 
@@ -3594,13 +3652,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         item.append(header);
 
-        const metadata = [
-          movementLabel(sighting.movement),
-          directionLabel(sighting.direction),
-          sighting.submission_id
-        ]
-          .filter(Boolean)
-          .join(" · ");
+        const metadata =
+          sightingMetadataLabel(
+            sighting
+          );
 
         item.append(
           createTextElement(
