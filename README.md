@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.27**  
+Aktuelle Version: **0.14.28**  
 Stand: **19.08.2026**
 
 ## 1. Projektzweck
@@ -905,3 +905,90 @@ Für Version 0.14.27 werden geprüft:
 
 - vollständige Projektbeschreibung
 - aktueller Stand: `0.14.27`
+
+
+## 32. Neu gezeichnete Linzer Standortpolygone (0.14.28)
+
+Version **0.14.28** ersetzt die fünf ersten Linzer Aufnahmebereiche vollständig durch eine neu gezeichnete Geometrie.
+
+Grund für die Änderung war die visuelle Kontrolle der bisherigen KML in Google Earth: Das bisherige Polygon `AREA-LINZ-NIBELUNGENBRUECKE` entsprach nicht der tatsächlichen Brückengeometrie. Dadurch konnte ein real auf der Nibelungenbrücke aufgenommenes Foto außerhalb des Brückenpolygons liegen.
+
+### 32.1 Nibelungenbrücke
+
+Die Nibelungenbrücke wird nun aus dem tatsächlichen OpenStreetMap-Brückenumriss `way 85676904` abgeleitet. Um normale GPS-Abweichungen des iPhones abzufangen, wird um den tatsächlichen Brückenumriss ein kleiner Toleranzbereich von ungefähr **7 Metern** verwendet.
+
+Die Brücke behält:
+
+`priority = 100`
+
+Dadurch gewinnt sie weiterhin gegenüber angrenzenden Uferbereichen mit Priorität 80.
+
+Der reale Testpunkt
+
+`48.307400 / 14.285275`
+
+liegt mit der neuen Geometrie innerhalb des Brückenbereichs.
+
+### 32.2 Obere und Untere Donaulände
+
+Die beiden südlichen Uferbereiche wurden als fotografische Aufenthaltskorridore neu gezeichnet:
+
+- `Obere Donaulände, Linz` westlich/stromaufwärts der Nibelungenbrücke;
+- `Untere Donaulände, Linz` östlich/stromabwärts der Nibelungenbrücke über den Bereich Lentos bis Brucknerhaus.
+
+Die Übergänge zur Brücke überlappen bewusst geringfügig mit dem Brückenpolygon. Wegen der höheren Brückenpriorität entsteht dadurch keine Mehrdeutigkeit.
+
+Der reale Testpunkt
+
+`48.307980 / 14.287803333333333`
+
+liegt weiterhin in `Untere Donaulände, Linz`.
+
+### 32.3 Nordufer
+
+Auch die beiden nördlichen Bereiche wurden neu aufgebaut:
+
+- `Donauufer Alt-Urfahr, Linz` westlich der Brücke;
+- `Urfahraner Donaulände, Linz` östlich der Brücke einschließlich Bereich Ars Electronica.
+
+Beide Polygone bleiben auf der Urfahraner Seite der Donau und besitzen weiterhin Priorität 80.
+
+### 32.4 Kontrolle in Google Earth
+
+Für die visuelle Prüfung werden zusätzlich außerhalb des produktiven Datenmodells KML/KMZ-Kontrollfiles erzeugt. In diesen Dateien ist **jeder Polygon-Eckpunkt ein eigenes Placemark** mit Punktnummer sowie Breiten- und Längengrad. Damit sind die Eckpunkte auch in Google Earth am PC und in der mobilen Google-Earth-App sichtbar.
+
+Die HTML-Karte ist für die Polygonprüfung am iPhone nicht erforderlich.
+
+### 32.5 Nach Einspielen von 0.14.28
+
+Nach dem Commit ist **kein Worker-Deployment erforderlich**, weil nur `data/location_areas.geojson` geändert wird.
+
+Für bereits gespeicherte automatisch ermittelte Standortdaten kann anschließend der vorhandene GitHub-Workflow
+
+`Rebuild location matches`
+
+erneut manuell gestartet werden.
+
+## 33. Technische Prüfung für 0.14.28
+
+Für Version 0.14.28 wurden geprüft:
+
+- `data/location_areas.geojson` als gültiges JSON;
+- alle fünf Polygone auf geometrische Gültigkeit;
+- der Testpunkt vom 18.08.2026 liegt im neuen Brückenpolygon;
+- der Testpunkt vom 19.08.2026 liegt in `Untere Donaulände`;
+- KML und KMZ enthalten alle Flächen und jeden Eckpunkt als eigenes Placemark;
+- ZIP-Integrität.
+
+## 34. Dateiversionen 0.14.28
+
+### data/location_areas.geojson
+
+- Version: `0.14.28`
+- Updated: `2026-08-19`
+- fünf Linzer Aufnahmebereiche vollständig neu gezeichnet
+
+### README.md
+
+- vollständige Projektbeschreibung
+- aktueller Stand: `0.14.28`
