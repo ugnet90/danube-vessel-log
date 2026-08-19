@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.26**  
+Aktuelle Version: **0.14.27**  
 Stand: **19.08.2026**
 
 ## 1. Projektzweck
@@ -645,13 +645,9 @@ Die Flächen dürfen sich überlappen. Die höhere Priorität entscheidet.
 
 Neue Standortauflösungen ab Deployment von Version 0.14.25 verwenden direkt die Polygonlogik.
 
-Bestehende Sichtungen und Fotos bleiben zunächst unverändert, können ab **Version 0.14.26** jedoch mit dem Wartungswerkzeug `tools/rebuild_location_matches.py` nachträglich anhand der aktuellen Polygon- und Radiuslogik neu berechnet werden.
+Das Wartungswerkzeug `tools/rebuild_location_matches.py` berücksichtigt ab **Version 0.14.27** die Qualität der vorhandenen Koordinaten. Historische Foto-Sichtungen ohne fotoindividuell verlässliche Metadaten werden nicht mehr künstlich auf präzise Polygone umklassifiziert. Bereits durch 0.14.26 erzeugte scheinbare Präzision wird bei solchen Legacy-Fällen auf die übergeordnete kanonische Location zurückgenommen.
 
-Automatisch ermittelte Datensätze mit:
-
-`matched_by = "coordinates"`
-
-oder leerem `matched_by` können damit auf den aktuellen Stand gebracht werden. Manuell gesetzte Standorte mit
+Neue fotoindividuelle Datensätze mit `metadata_version >= 1`, direkte Zusatzfotos und Sichtungen ohne Foto mit tatsächlichen `observer_*`-Koordinaten können dagegen anhand der aktuellen Polygon- und Radiuslogik neu berechnet werden. Manuell gesetzte Standorte mit
 
 `matched_by = "location_id"`
 
@@ -680,7 +676,7 @@ Bei unerwarteten Problemen kann `cloudflare/worker.js` auf Version 0.14.24 zurü
 
 `data/location_areas.geojson` kann dabei im Repository verbleiben, weil Version 0.14.24 diese Datei nicht liest.
 
-## 23. Dateiversionen dieses Pakets
+## 23. Dateiversionen in 0.14.25
 
 ### cloudflare/worker.js
 
@@ -776,7 +772,7 @@ Für Version 0.14.26 wurde:
 - der GitHub-Workflow `.github/workflows/rebuild_location_matches.yml` syntaktisch gegengeprüft;
 - das ZIP nach Erstellung mit `unzip -t` geprüft.
 
-## 26. Dateiversionen dieses Pakets
+## 26. Dateiversionen in 0.14.26
 
 ### tools/rebuild_location_matches.py
 
@@ -792,3 +788,120 @@ Für Version 0.14.26 wurde:
 
 - vollständige Projektbeschreibung
 - aktueller Stand: `0.14.26`
+
+
+## 27. Fotoindividuelle Metadaten bei Mehrfachsichtungen (0.14.27)
+
+Ab Version **0.14.27** kann `Schiffsichtung mit Foto(s)` zusätzlich das Array
+
+`photo_metadata`
+
+übermitteln. Es enthält exakt einen Eintrag pro hochgeladenem Foto und bleibt positionsgleich zur Foto-Reihenfolge.
+
+Je Foto werden unterstützt:
+
+- `captured_at`
+- `photo_lat`
+- `photo_lon`
+
+Der Worker speichert diese Werte im jeweiligen Element von `submission.photos` und ergänzt:
+
+- `metadata_version = 1`
+- den fotoindividuell aufgelösten `location`-Block
+
+Die Polygonauflösung wird serverseitig durchgeführt. Für eine Mehrfachsichtung werden `data/locations.csv` und `data/location_areas.geojson` nur einmal geladen; anschließend werden alle Foto-Koordinaten gegen denselben geladenen Standortkontext geprüft. Dadurch entstehen keine unnötigen GitHub-Subrequests pro Foto.
+
+### 27.1 Rückwärtskompatibler Sichtungsort
+
+Für bestehende Leseroutinen bleibt `submission.location` erhalten. Bei neuen fotoindividuellen Metadaten entspricht dieser Block zunächst dem ersten Foto mit individuellen Metadaten.
+
+Die eigentliche präzise Darstellung erfolgt jedoch anhand der Foto-Datensätze.
+
+### 27.2 Mehrere Aufnahmeorte in einer Sichtung
+
+Die Schiffsdetailseite ermittelt aus den aktuell vorhandenen Foto-Metadaten die eindeutigen Aufnahmeorte.
+
+- genau ein Ort: normale Anzeige dieses Ortes;
+- mehrere Orte: `Mehrere Aufnahmeorte: …`;
+- keine fotoindividuellen Daten: Rückfall auf den bisherigen Sichtungsort.
+
+Die Daten werden nicht nur als Mouseover angezeigt. Unter jedem neuen Foto stehen Aufnahmezeit und Aufnahmeort sichtbar, damit die Funktion auch am iPhone vollständig nutzbar ist.
+
+### 27.3 Foto-Löschung
+
+Beim Löschen eines Sichtungsfotos:
+
+1. wird das Foto aus `submission.photos` entfernt;
+2. werden die verbleibenden Fotos neu nummeriert;
+3. wird der rückwärtskompatible Submission-Ort auf das erste verbleibende Foto mit zuverlässigen Metadaten synchronisiert;
+4. wird `data/sightings.json` aus der geänderten Submission aktualisiert;
+5. bildet die Weboberfläche die Ortsüberschrift aus den verbleibenden Fotos neu.
+
+Dadurch verschwindet z. B. `Untere Donaulände, Linz` automatisch aus `Mehrere Aufnahmeorte`, sobald das letzte Foto dieses Aufnahmeortes gelöscht wurde.
+
+## 28. Korrektur der historischen Neuzuordnung aus 0.14.26
+
+Version 0.14.26 konnte ältere Foto-Sichtungen anhand von Koordinaten präzisieren, die historisch noch nicht zuverlässig fotoindividuell erfasst worden waren. Dadurch waren scheinbar exakte, aber fachlich falsche Zuordnungen möglich, z. B. `Donauufer Alt-Urfahr, Linz` für tatsächlich auf der Nibelungenbrücke aufgenommene Fotos.
+
+Version **0.14.27** korrigiert diese Strategie:
+
+- Foto-Sichtungen mit `uploaded_at` **vor dem 18.08.2026** und ohne `metadata_version >= 1` gelten als Legacy-Fälle, weil ihre damaligen Koordinaten noch nicht zuverlässig aus dem Foto stammen mussten;
+- wenn 0.14.26 bei einem solchen Legacy-Datensatz bereits `matched_by = "geo_area"` gesetzt hat, wird die scheinbare Präzision auf die übergeordnete kanonische Location zurückgenommen;
+- ab dem 18.08.2026 bleiben Sichtungen aus der 0.14.22-Kurzbefehl-Generation auf Sichtungsebene über die verlässlichen Koordinaten des ersten ausgewählten Fotos präzisierbar;
+- Sichtungen ohne Foto dürfen weiterhin über `observer_lat` / `observer_lon` neu berechnet werden;
+- direkte Zusatzfotos behalten ihre eigene GPS-basierte Standortauflösung;
+- neue Mehrfachfoto-Sichtungen mit `metadata_version = 1` werden fotoindividuell präzise neu berechnet.
+
+Für zurückgenommene historische Präzision verwendet das Wartungswerkzeug intern:
+
+`matched_by = "legacy_parent"`
+
+Damit bleibt nachvollziehbar, dass kein präziser historischer Polygon-Treffer behauptet wird.
+
+## 29. iPhone-Kurzbefehl für 0.14.27
+
+Die vollständige Anpassungsanleitung liegt unter:
+
+`docs/shortcuts/KURZBEFEHL_SCHIFFSSICHTUNG_MIT_FOTOS.md`
+
+Der bisherige Metadatenblock bleibt bestehen und wird um `photo_metadata` ergänzt. Fehlt dieses Array, bleibt der Worker rückwärtskompatibel.
+
+## 30. Technische Prüfung für 0.14.27
+
+Für Version 0.14.27 werden geprüft:
+
+- `cloudflare/worker.js` mit `node --check`;
+- `docs/js/vessel.js` mit `node --check`;
+- `tools/rebuild_location_matches.py` mit `python3 -m py_compile`;
+- GitHub-Workflow als YAML;
+- ZIP-Integrität mit `unzip -t`.
+
+## 31. Dateiversionen dieses Pakets
+
+### cloudflare/worker.js
+
+- Version: `0.14.27`
+- Updated: `2026-08-19`
+
+### docs/js/vessel.js
+
+- Version: `0.14.27`
+- Updated: `2026-08-19`
+
+### tools/rebuild_location_matches.py
+
+- Version: `0.14.27`
+- Updated: `2026-08-19`
+
+### .github/workflows/rebuild_location_matches.yml
+
+- manueller GitHub-Workflow zur sicheren Nachkorrektur der Standortdaten
+
+### docs/shortcuts/KURZBEFEHL_SCHIFFSSICHTUNG_MIT_FOTOS.md
+
+- vollständige Anleitung für fotoindividuelle Aufnahmezeit und GPS-Daten
+
+### README.md
+
+- vollständige Projektbeschreibung
+- aktueller Stand: `0.14.27`
