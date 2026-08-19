@@ -4,10 +4,10 @@
   "identity": {
     "name": "Emerald Destiny",
     "former_names": [],
-    "mmsi": "",
+    "mmsi": "248063000",
     "imo": "",
     "eni": "02336922",
-    "call_sign": ""
+    "call_sign": "HA4499"
   },
   "classification": {
     "ship_type": "PASSENGER",
@@ -74,9 +74,31 @@
     "environment": "production",
     "created_at": "2026-08-19T05:38:03.982Z",
     "created_from_submission_id": "SUB-20260819-050020-C178FB",
-    "updated_at": "2026-08-19T05:38:03.982Z",
+    "updated_at": "2026-08-19T05:54:53.327Z",
     "updated_by": "web-ui",
     "created_from_candidate_id": "CAN-ACFD2079D6EA",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-08-19T05:54:53.327Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "identity.mmsi",
+          "identity.call_sign"
+        ],
+        "changes": [
+          {
+            "field": "identity.mmsi",
+            "old_value": "",
+            "new_value": "248063000"
+          },
+          {
+            "field": "identity.call_sign",
+            "old_value": "",
+            "new_value": "HA4499"
+          }
+        ]
+      }
+    ]
   }
 }
