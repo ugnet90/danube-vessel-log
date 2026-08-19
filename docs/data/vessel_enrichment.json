@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-19T05:41:49.537786Z",
+  "generated_at": "2026-08-19T05:51:38.512467Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,15 +32,15 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 24,
-    "vessels_incomplete": 24,
+    "vessels_total": 25,
+    "vessels_incomplete": 25,
     "vessels_complete": 0,
-    "candidate_matches": 4,
-    "matched_no_new_data": 9,
+    "candidate_matches": 2,
+    "matched_no_new_data": 11,
     "low_confidence": 0,
-    "no_match": 11,
+    "no_match": 12,
     "lookup_errors": 0,
-    "suggestions_total": 10
+    "suggestions_total": 2
   },
   "vessels": [
     {
@@ -1111,56 +1111,16 @@
       "json_path": "data/vessels/VES-000118.json",
       "missing_fields": [
         {
-          "field": "identity.mmsi",
-          "label": "MMSI"
-        },
-        {
-          "field": "identity.imo",
-          "label": "IMO"
-        },
-        {
           "field": "identity.eni",
           "label": "ENI"
-        },
-        {
-          "field": "identity.call_sign",
-          "label": "Rufzeichen"
-        },
-        {
-          "field": "classification.flag",
-          "label": "Flagge"
-        },
-        {
-          "field": "technical.year_built",
-          "label": "Baujahr"
-        },
-        {
-          "field": "technical.shipyard",
-          "label": "Werft"
-        },
-        {
-          "field": "technical.length_m",
-          "label": "Länge"
-        },
-        {
-          "field": "technical.width_m",
-          "label": "Breite"
         },
         {
           "field": "technical.draft_m",
           "label": "Tiefgang"
         },
         {
-          "field": "technical.passengers",
-          "label": "Passagiere"
-        },
-        {
           "field": "operations.operator",
           "label": "Betreiber"
-        },
-        {
-          "field": "operations.owner",
-          "label": "Eigentümer"
         },
         {
           "field": "operations.manager",
@@ -1169,130 +1129,17 @@
         {
           "field": "operations.cruise_brand",
           "label": "Marke"
-        },
-        {
-          "field": "operations.home_port",
-          "label": "Heimathafen"
         }
       ],
-      "missing_count": 16,
+      "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
-        "accepted_qid": "",
+        "accepted_qid": "Q122413683",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q122413683",
-            "label": "NickoVISION",
-            "description": "Flusskreuzfahrtschiff von Nicko Cruises",
-            "url": "https://www.wikidata.org/wiki/Q122413683",
-            "score": 0.96,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "classification.flag",
-                "field_label": "Flagge",
-                "value": "CH",
-                "display_value": "Schweiz",
-                "property": "P8047",
-                "property_label": "country of registry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P8047",
-                "source_url": "https://www.wikidata.org/wiki/Q122413683",
-                "confidence": 0.96,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.year_built",
-                "field_label": "Baujahr",
-                "value": 2018,
-                "display_value": 2018,
-                "property": "P729",
-                "property_label": "service entry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P729",
-                "source_url": "https://www.wikidata.org/wiki/Q122413683",
-                "confidence": 0.96,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "VAHALI",
-                "display_value": "VAHALI",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q122413683",
-                "confidence": 0.96,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.length_m",
-                "field_label": "Länge",
-                "value": 135.0,
-                "display_value": 135.0,
-                "property": "P2043",
-                "property_label": "length",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2043",
-                "source_url": "https://www.wikidata.org/wiki/Q122413683",
-                "confidence": 0.96,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.passengers",
-                "field_label": "Passagiere",
-                "value": 220,
-                "display_value": 220,
-                "property": "P1083",
-                "property_label": "maximum capacity",
-                "property_url": "https://www.wikidata.org/wiki/Property:P1083",
-                "source_url": "https://www.wikidata.org/wiki/Q122413683",
-                "confidence": 0.96,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Scylla",
-                "display_value": "Scylla",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q122413683",
-                "confidence": 0.96,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.home_port",
-                "field_label": "Heimathafen",
-                "value": "Basel",
-                "display_value": "Basel",
-                "property": "P532",
-                "property_label": "port of registry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P532",
-                "source_url": "https://www.wikidata.org/wiki/Q122413683",
-                "confidence": 0.96,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2446070260
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -1414,10 +1261,6 @@
           "label": "Rufzeichen"
         },
         {
-          "field": "technical.shipyard",
-          "label": "Werft"
-        },
-        {
           "field": "technical.draft_m",
           "label": "Tiefgang"
         },
@@ -1434,52 +1277,15 @@
           "label": "Marke"
         }
       ],
-      "missing_count": 8,
+      "missing_count": 7,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
-        "accepted_qid": "",
+        "accepted_qid": "Q131429325",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q131429325",
-            "label": "AmaMagna",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q131429325",
-            "score": 0.96,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "VAHALI",
-                "display_value": "VAHALI",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q131429325",
-                "confidence": 0.96,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2293310921
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -1522,6 +1328,68 @@
         }
       ],
       "missing_count": 8,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "no_match",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000123",
+      "name": "APT Ostara",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000123.json",
+      "missing_fields": [
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.eni",
+          "label": "ENI"
+        },
+        {
+          "field": "technical.year_built",
+          "label": "Baujahr"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "technical.passengers",
+          "label": "Passagiere"
+        },
+        {
+          "field": "operations.operator",
+          "label": "Betreiber"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        },
+        {
+          "field": "operations.home_port",
+          "label": "Heimathafen"
+        }
+      ],
+      "missing_count": 11,
       "lookup": {
         "provider": "wikidata",
         "status": "no_match",
