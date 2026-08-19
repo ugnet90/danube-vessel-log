@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.14.23
-// Updated: 2026-08-18
+// Version: 0.14.24
+// Updated: 2026-08-19
 
 "use strict";
 
@@ -293,6 +293,32 @@ document.addEventListener("DOMContentLoaded", () => {
       berthLabel(sighting?.berth)
     ]
       .filter(Boolean)
+      .join(" · ");
+  }
+
+  function directPhotoMetadataLabel(photo) {
+    const captured =
+      dateTime(
+        photo?.captured_at ||
+        photo?.added_at ||
+        ""
+      );
+
+    const locationText =
+      locationLabel(photo?.location);
+
+    const locationDisplay =
+      locationText === "–"
+        ? "Aufnahmeort unbekannt"
+        : locationText;
+
+    return [
+      captured,
+      locationDisplay
+    ]
+      .filter(valueText =>
+        valueText && valueText !== "–"
+      )
       .join(" · ");
   }
 
@@ -3042,9 +3068,28 @@ document.addEventListener("DOMContentLoaded", () => {
         : currentPhoto.submission_id ||
           "Sichtungsfoto";
 
+    const currentPhotoDate =
+      currentPhoto.source ===
+        "direct_vessel_upload"
+        ? dateTime(
+            currentPhoto.captured_at ||
+            currentPhoto.added_at ||
+            ""
+          )
+        : formatDate(currentPhoto.captured_at);
+
+    const currentPhotoLocation =
+      currentPhoto.source ===
+        "direct_vessel_upload"
+        ? locationLabel(currentPhoto.location)
+        : "–";
+
     caption.textContent = [
       sourceLabel,
-      formatDate(currentPhoto.captured_at)
+      currentPhotoDate,
+      currentPhotoLocation !== "–"
+        ? currentPhotoLocation
+        : ""
     ]
       .filter(valueText =>
         valueText && valueText !== "–"
@@ -3483,8 +3528,32 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       }
 
+      const metadata =
+        createTextElement(
+          "p",
+          "sighting-meta",
+          directPhotoMetadataLabel(photo)
+        );
+
       photoCard.append(
         link,
+        metadata
+      );
+
+      if (
+        typeof photo?.notes === "string" &&
+        photo.notes.trim()
+      ) {
+        photoCard.append(
+          createTextElement(
+            "p",
+            "sighting-notes",
+            photo.notes.trim()
+          )
+        );
+      }
+
+      photoCard.append(
         createPhotoActionButtons({
           photo,
           sighting: null,
