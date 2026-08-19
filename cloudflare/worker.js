@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.25
+ * Version: 0.14.27
  * Updated: 2026-08-19
  */
 
@@ -1783,11 +1783,68 @@ async function createPhotoSubmission(request, env) {
     }
   }
 
+  const photoMetadataResult =
+    normalizePhotoMetadataInput(
+      input,
+      photos.length
+    );
+
+  if (!photoMetadataResult.ok) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: photoMetadataResult.error
+      },
+      400
+    );
+  }
+
+  const photoMetadataItems =
+    photoMetadataResult.items;
+
   const uploadedAt = new Date();
   const capturedAt = new Date(input.captured_at);
 
+  const locationContextResult =
+    await loadLocationMatchingContext(env);
+
+  if (!locationContextResult.ok) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: locationContextResult.error
+      },
+      502
+    );
+  }
+
+  /*
+   * Wenn der neue Mehrfachfoto-Client individuelle Fotometadaten sendet,
+   * wird der erste Foto-Datensatz zugleich als rückwärtskompatibler
+   * Sichtungs-/Submission-Ort verwendet. Die übrigen Fotos behalten
+   * trotzdem ihre eigenen Koordinaten und Aufnahmeorte.
+   */
+  const firstPhotoMetadata =
+    photoMetadataItems[0] ?? null;
+
+  const locationInput =
+    firstPhotoMetadata &&
+    firstPhotoMetadata.photo_lat !== null &&
+    firstPhotoMetadata.photo_lon !== null
+      ? {
+          ...input,
+          observer_lat: firstPhotoMetadata.photo_lat,
+          observer_lon: firstPhotoMetadata.photo_lon,
+          photo_lat: firstPhotoMetadata.photo_lat,
+          photo_lon: firstPhotoMetadata.photo_lon
+        }
+      : input;
+
   const locationResult =
-    await resolveLocation(input, env);
+    resolveLocationFromContext(
+      locationInput,
+      locationContextResult
+    );
 
   if (!locationResult.ok) {
     return jsonResponse(
@@ -1951,7 +2008,10 @@ async function createPhotoSubmission(request, env) {
       photo.name ||
       "";
 
-    photoRecords.push({
+    const individualMetadata =
+      photoMetadataItems[index] ?? null;
+
+    const photoRecord = {
       photo_id: photoId,
       path: photoPath,
       filename: `${photoId}.jpg`,
@@ -1959,7 +2019,35 @@ async function createPhotoSubmission(request, env) {
       mime_type: "image/jpeg",
       size_bytes: photoBytes.byteLength,
       sequence: index + 1
-    });
+    };
+
+    if (individualMetadata) {
+      photoRecord.metadata_version = 1;
+      photoRecord.captured_at =
+        individualMetadata.captured_at;
+      photoRecord.photo_lat =
+        individualMetadata.photo_lat;
+      photoRecord.photo_lon =
+        individualMetadata.photo_lon;
+
+      const individualLocationResult =
+        resolveLocationFromContext(
+          {
+            photo_lat:
+              individualMetadata.photo_lat,
+            photo_lon:
+              individualMetadata.photo_lon
+          },
+          locationContextResult
+        );
+
+      photoRecord.location =
+        buildResolvedLocationRecord(
+          individualLocationResult
+        );
+    }
+
+    photoRecords.push(photoRecord);
 
     commitFiles.push({
       path: photoPath,
@@ -2283,6 +2371,230 @@ function normalizeDirectVesselPhotos(env, document) {
     .sort((left, right) =>
       String(right.captured_at || right.added_at)
         .localeCompare(String(left.captured_at || left.added_at))
+    );
+}
+
+
+function normalizePhotoMetadataInput(input, photoCount) {
+  if (!Array.isArray(input?.photo_metadata)) {
+    return {
+      ok: true,
+      items: []
+    };
+  }
+
+  if (input.photo_metadata.length !== photoCount) {
+    return {
+      ok: false,
+      error:
+        "photo_metadata muss genau einen Eintrag pro Foto enthalten."
+    };
+  }
+
+  const items = [];
+
+  for (
+    let index = 0;
+    index < input.photo_metadata.length;
+    index += 1
+  ) {
+    const source = input.photo_metadata[index];
+
+    if (
+      !source ||
+      typeof source !== "object" ||
+      Array.isArray(source)
+    ) {
+      return {
+        ok: false,
+        error:
+          `photo_metadata[${index}] muss ein Objekt sein.`
+      };
+    }
+
+    const capturedAt =
+      typeof source.captured_at === "string"
+        ? source.captured_at.trim()
+        : "";
+
+    if (
+      !capturedAt ||
+      Number.isNaN(Date.parse(capturedAt))
+    ) {
+      return {
+        ok: false,
+        error:
+          `photo_metadata[${index}].captured_at fehlt oder ist ungültig.`
+      };
+    }
+
+    const photoLat =
+      parseCoordinate(source.photo_lat);
+
+    const photoLon =
+      parseCoordinate(source.photo_lon);
+
+    const hasLatitude =
+      photoLat !== null;
+
+    const hasLongitude =
+      photoLon !== null;
+
+    if (hasLatitude !== hasLongitude) {
+      return {
+        ok: false,
+        error:
+          `photo_metadata[${index}] muss photo_lat und photo_lon gemeinsam enthalten.`
+      };
+    }
+
+    if (
+      photoLat !== null &&
+      (photoLat < -90 || photoLat > 90)
+    ) {
+      return {
+        ok: false,
+        error:
+          `photo_metadata[${index}].photo_lat ist ungültig.`
+      };
+    }
+
+    if (
+      photoLon !== null &&
+      (photoLon < -180 || photoLon > 180)
+    ) {
+      return {
+        ok: false,
+        error:
+          `photo_metadata[${index}].photo_lon ist ungültig.`
+      };
+    }
+
+    items.push({
+      captured_at:
+        new Date(capturedAt).toISOString(),
+      photo_lat: photoLat,
+      photo_lon: photoLon
+    });
+  }
+
+  return {
+    ok: true,
+    items
+  };
+}
+
+function buildResolvedLocationRecord(locationResult) {
+  const location =
+    locationResult?.location ?? null;
+
+  if (!location) {
+    return {
+      status: "unknown",
+      matched_by: "",
+      id: "",
+      area_id: "",
+      name: "",
+      municipality: "",
+      country: "",
+      distance_m: null
+    };
+  }
+
+  const textParts =
+    normalizeLocationTextParts({
+      name:
+        location.public_name ??
+        location.name ??
+        "",
+      municipality:
+        location.municipality ?? "",
+      country:
+        location.country ?? ""
+    });
+
+  return {
+    status: "matched",
+    matched_by:
+      String(locationResult?.matched_by ?? ""),
+    id:
+      String(
+        location.location_id ??
+        location.id ??
+        ""
+      ).trim(),
+    area_id:
+      String(location.area_id ?? "").trim(),
+    name: textParts.name,
+    municipality: textParts.municipality,
+    country: textParts.country,
+    distance_m:
+      Number.isFinite(location.distance_m)
+        ? Math.round(location.distance_m)
+        : null
+  };
+}
+
+function syncSubmissionLocationFromRemainingPhotos(submission) {
+  const photos =
+    Array.isArray(submission?.photos)
+      ? submission.photos
+      : [];
+
+  const firstReliablePhoto =
+    photos.find(photo =>
+      Number(photo?.metadata_version ?? 0) >= 1 &&
+      photo?.location &&
+      typeof photo.location === "object"
+    ) ?? null;
+
+  if (!firstReliablePhoto) return;
+
+  submission.location = {
+    status:
+      firstReliablePhoto.location?.status === "matched"
+        ? "matched"
+        : "unknown",
+    matched_by:
+      String(
+        firstReliablePhoto.location?.matched_by ?? ""
+      ),
+    id:
+      String(
+        firstReliablePhoto.location?.id ?? ""
+      ),
+    area_id:
+      String(
+        firstReliablePhoto.location?.area_id ?? ""
+      ),
+    name:
+      String(
+        firstReliablePhoto.location?.name ?? ""
+      ),
+    municipality:
+      String(
+        firstReliablePhoto.location?.municipality ?? ""
+      ),
+    country:
+      String(
+        firstReliablePhoto.location?.country ?? ""
+      ),
+    distance_m:
+      Number.isFinite(
+        firstReliablePhoto.location?.distance_m
+      )
+        ? firstReliablePhoto.location.distance_m
+        : null
+  };
+
+  submission.photo_lat =
+    parseCoordinate(
+      firstReliablePhoto.photo_lat
+    );
+
+  submission.photo_lon =
+    parseCoordinate(
+      firstReliablePhoto.photo_lon
     );
 }
 
@@ -3002,6 +3314,11 @@ async function handleDeleteVesselPhoto(request, env) {
     );
     submissionFile.submission.photo_count =
       submissionFile.submission.photos.length;
+
+    syncSubmissionLocationFromRemainingPhotos(
+      submissionFile.submission
+    );
+
     submissionFile.submission.updated_at = deletedAt;
 
     if (!Array.isArray(submissionFile.submission.photo_history)) {
@@ -3531,7 +3848,29 @@ function normalizeSightingPhotoRecord(photo, index) {
     captured_at: String(photo.captured_at ?? "").trim(),
     added_at: String(photo.added_at ?? "").trim(),
     source: String(photo.source ?? "submission").trim() || "submission",
-    notes: String(photo.notes ?? "").trim()
+    notes: String(photo.notes ?? "").trim(),
+    metadata_version:
+      Number.isInteger(photo.metadata_version)
+        ? photo.metadata_version
+        : 0,
+    photo_lat: parseCoordinate(photo.photo_lat),
+    photo_lon: parseCoordinate(photo.photo_lon),
+    location:
+      photo.location && typeof photo.location === "object"
+        ? {
+            status: String(photo.location.status ?? "unknown"),
+            matched_by: String(photo.location.matched_by ?? ""),
+            id: String(photo.location.id ?? ""),
+            area_id: String(photo.location.area_id ?? ""),
+            name: String(photo.location.name ?? ""),
+            municipality: String(photo.location.municipality ?? ""),
+            country: String(photo.location.country ?? ""),
+            distance_m:
+              Number.isFinite(photo.location.distance_m)
+                ? photo.location.distance_m
+                : null
+          }
+        : null
   };
 }
 
@@ -10616,7 +10955,7 @@ function buildSubmission({
       : null;
 
   const submission = {
-    schema_version: 12,
+    schema_version: 13,
     submission_id: submissionId,
     uploaded_at: uploadedAt.toISOString(),
     captured_at: capturedAt.toISOString(),
@@ -12071,17 +12410,42 @@ function normalizeEnteredVesselName(input) {
   return "";
 }
 
-async function resolveLocation(input, env) {
+async function loadLocationMatchingContext(env) {
+  const locationsResult =
+    await loadLocations(env);
+
+  if (!locationsResult.ok) {
+    return locationsResult;
+  }
+
+  const locationAreasResult =
+    await loadLocationAreas(env);
+
+  return {
+    ok: true,
+    locations: locationsResult.locations,
+    areas:
+      locationAreasResult.ok
+        ? locationAreasResult.areas
+        : []
+  };
+}
+
+function resolveLocationFromContext(input, context) {
   const {
     latitude,
     longitude
   } = getObserverCoordinates(input);
 
-  const locationsResult = await loadLocations(env);
+  const locations =
+    Array.isArray(context?.locations)
+      ? context.locations
+      : [];
 
-  if (!locationsResult.ok) {
-    return locationsResult;
-  }
+  const locationAreas =
+    Array.isArray(context?.areas)
+      ? context.areas
+      : [];
 
   /*
    * Keine Beobachtungskoordinaten vorhanden:
@@ -12102,7 +12466,7 @@ async function resolveLocation(input, env) {
     }
 
     const locationById =
-      locationsResult.locations.find(
+      locations.find(
         location => location.location_id === enteredLocationId
       ) ?? null;
 
@@ -12113,9 +12477,6 @@ async function resolveLocation(input, env) {
     };
   }
 
-  /*
-   * Koordinaten 0/0 gelten in diesem Projekt als ungültig.
-   */
   if (latitude === 0 && longitude === 0) {
     return {
       ok: true,
@@ -12123,19 +12484,6 @@ async function resolveLocation(input, env) {
       matched_by: ""
     };
   }
-
-  /*
-   * Präzise Aufnahmebereiche werden vor den bisherigen Radien geprüft.
-   * Die GeoJSON-Datei ist bewusst eine Verfeinerung: Ist sie temporär
-   * nicht lesbar, bleibt die bisherige Radiuslogik als Rückfall erhalten.
-   */
-  const locationAreasResult =
-    await loadLocationAreas(env);
-
-  const locationAreas =
-    locationAreasResult.ok
-      ? locationAreasResult.areas
-      : [];
 
   const areaMatch =
     findLocationAreaMatch(
@@ -12146,7 +12494,7 @@ async function resolveLocation(input, env) {
 
   if (areaMatch) {
     const parentLocation =
-      locationsResult.locations.find(
+      locations.find(
         location =>
           location.location_id ===
           areaMatch.location_id
@@ -12183,12 +12531,6 @@ async function resolveLocation(input, env) {
     };
   }
 
-  /*
-   * Sobald für eine Location präzise Flächen vorhanden sind, wird ihr
-   * großzügiger Radius nicht mehr als Ersatz verwendet. So kann z. B.
-   * LOC-001 außerhalb der definierten Linzer Ufer-/Brückenbereiche nicht
-   * mehr fälschlich "Nibelungenbrücke" liefern.
-   */
   const areaManagedLocationIds =
     new Set(
       locationAreas.map(
@@ -12198,7 +12540,7 @@ async function resolveLocation(input, env) {
 
   let bestMatch = null;
 
-  for (const location of locationsResult.locations) {
+  for (const location of locations) {
     if (
       areaManagedLocationIds.has(
         location.location_id
@@ -12233,6 +12575,20 @@ async function resolveLocation(input, env) {
     location: bestMatch,
     matched_by: bestMatch ? "coordinates" : ""
   };
+}
+
+async function resolveLocation(input, env) {
+  const contextResult =
+    await loadLocationMatchingContext(env);
+
+  if (!contextResult.ok) {
+    return contextResult;
+  }
+
+  return resolveLocationFromContext(
+    input,
+    contextResult
+  );
 }
 
 async function loadLocationAreas(env) {
