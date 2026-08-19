@@ -13,30 +13,58 @@
     "ship_type": "UNKNOWN",
     "ship_subtype": "UNKNOWN",
     "status": "active",
-    "flag": ""
+    "flag": "CH"
   },
   "technical": {
-    "year_built": null,
-    "shipyard": "",
-    "length_m": null,
+    "year_built": 2018,
+    "shipyard": "VAHALI",
+    "length_m": 135,
     "width_m": null,
     "draft_m": null,
-    "passengers": null
+    "passengers": 220
   },
   "operations": {
     "operator": "",
-    "owner": "",
+    "owner": "Scylla",
     "manager": "",
     "cruise_brand": "",
-    "home_port": ""
+    "home_port": "Basel"
   },
   "name_history": [],
   "identifiers_history": [],
-  "sources": [],
+  "sources": [
+    {
+      "source_id": "SRC-457C6E5E6F97",
+      "provider": "Wikidata",
+      "title": "Wikidata: NickoVISION",
+      "url": "https://www.wikidata.org/wiki/Q122413683",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "classification.flag",
+        "technical.year_built",
+        "technical.shipyard",
+        "technical.length_m",
+        "technical.passengers",
+        "operations.owner",
+        "operations.home_port"
+      ],
+      "retrieved_at": "2026-08-19T05:41:49.537786Z",
+      "verified_at": "2026-08-19T05:47:27.153Z",
+      "added_at": "2026-08-19T05:47:27.153Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2446070260
+    }
+  ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q122413683",
+      "rejected_qids": [],
+      "accepted_at": "2026-08-19T05:47:27.153Z",
+      "last_reviewed_at": "2026-08-19T05:47:27.153Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-0A08C53A7FF54B39BFE80E16C2C2E49E",
@@ -47,7 +75,66 @@
     "environment": "production",
     "created_at": "2026-08-06T14:48:11.292Z",
     "created_from_submission_id": "SUB-20260806-142210-89B147",
-    "updated_at": "2026-08-06T14:48:11.292Z",
-    "updated_by": "web-ui"
+    "updated_at": "2026-08-19T05:47:27.153Z",
+    "updated_by": "vessel-enrichment",
+    "change_history": [
+      {
+        "changed_at": "2026-08-19T05:47:27.153Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "7 Wikidata-Felder aus Q122413683 übernommen",
+        "changed_fields": [
+          "classification.flag",
+          "technical.year_built",
+          "technical.shipyard",
+          "technical.length_m",
+          "technical.passengers",
+          "operations.owner",
+          "operations.home_port",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "classification.flag",
+            "old_value": "",
+            "new_value": "CH"
+          },
+          {
+            "field": "technical.year_built",
+            "old_value": null,
+            "new_value": 2018
+          },
+          {
+            "field": "technical.shipyard",
+            "old_value": "",
+            "new_value": "VAHALI"
+          },
+          {
+            "field": "technical.length_m",
+            "old_value": null,
+            "new_value": 135
+          },
+          {
+            "field": "technical.passengers",
+            "old_value": null,
+            "new_value": 220
+          },
+          {
+            "field": "operations.owner",
+            "old_value": "",
+            "new_value": "Scylla"
+          },
+          {
+            "field": "operations.home_port",
+            "old_value": "",
+            "new_value": "Basel"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q122413683"
+          }
+        ]
+      }
+    ]
   }
 }
