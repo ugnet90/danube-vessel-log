@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000123",
+  "identity": {
+    "name": "APT Ostara",
+    "former_names": [],
+    "mmsi": "269057077",
+    "imo": "",
+    "eni": "",
+    "call_sign": "HE7077"
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "CH"
+  },
+  "technical": {
+    "year_built": null,
+    "shipyard": "",
+    "length_m": 135,
+    "width_m": 12,
+    "draft_m": null,
+    "passengers": null
+  },
+  "operations": {
+    "operator": "",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": ""
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "",
+    "primary_submission_id": "SUB-20260819-045746-AA535E"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-08-19T05:41:52.709Z",
+    "created_from_submission_id": "SUB-20260819-045746-AA535E",
+    "updated_at": "2026-08-19T05:41:52.709Z",
+    "updated_by": "web-ui"
+  }
+}
