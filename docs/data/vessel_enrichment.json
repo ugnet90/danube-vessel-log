@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-19T06:23:17.820378Z",
+  "generated_at": "2026-08-19T06:25:50.495856Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -366,10 +366,6 @@
       "json_path": "data/vessels/VES-000104.json",
       "missing_fields": [
         {
-          "field": "identity.mmsi",
-          "label": "MMSI"
-        },
-        {
           "field": "identity.imo",
           "label": "IMO"
         },
@@ -378,16 +374,8 @@
           "label": "Rufzeichen"
         },
         {
-          "field": "technical.shipyard",
-          "label": "Werft"
-        },
-        {
           "field": "technical.draft_m",
           "label": "Tiefgang"
-        },
-        {
-          "field": "operations.owner",
-          "label": "Eigentümer"
         },
         {
           "field": "operations.manager",
@@ -398,7 +386,7 @@
           "label": "Marke"
         }
       ],
-      "missing_count": 8,
+      "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
         "status": "matched_no_new_data",
