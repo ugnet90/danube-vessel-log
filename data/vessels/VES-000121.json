@@ -4,8 +4,8 @@
   "identity": {
     "name": "AmaMagna",
     "former_names": [],
-    "mmsi": "",
-    "imo": "",
+    "mmsi": "269057657",
+    "imo": "HE7657",
     "eni": "02329183",
     "call_sign": ""
   },
@@ -95,8 +95,8 @@
     "environment": "production",
     "created_at": "2026-08-19T05:37:35.164Z",
     "created_from_submission_id": "SUB-20260819-052017-A072A4",
-    "updated_at": "2026-08-19T05:47:46.679Z",
-    "updated_by": "vessel-enrichment",
+    "updated_at": "2026-08-19T05:52:30.888Z",
+    "updated_by": "web-ui",
     "created_from_candidate_id": "CAN-33DEC1E018B0",
     "candidate_source_revision_id": "268617530",
     "change_history": [
@@ -118,6 +118,26 @@
             "field": "enrichment.wikidata.accepted_qid",
             "old_value": "",
             "new_value": "Q131429325"
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-08-19T05:52:30.888Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "identity.mmsi",
+          "identity.imo"
+        ],
+        "changes": [
+          {
+            "field": "identity.mmsi",
+            "old_value": "",
+            "new_value": "269057657"
+          },
+          {
+            "field": "identity.imo",
+            "old_value": "",
+            "new_value": "HE7657"
           }
         ]
       }
