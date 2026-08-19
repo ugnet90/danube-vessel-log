@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.25**  
+Aktuelle Version: **0.14.26**  
 Stand: **19.08.2026**
 
 ## 1. Projektzweck
@@ -643,15 +643,19 @@ Die Flächen dürfen sich überlappen. Die höhere Priorität entscheidet.
 
 ## 20. Rückwärtskompatibilität
 
-Bestehende Sichtungen und Fotos werden nicht nachträglich umklassifiziert.
+Neue Standortauflösungen ab Deployment von Version 0.14.25 verwenden direkt die Polygonlogik.
 
-Die neue Logik wirkt auf neue Standortauflösungen ab Deployment von Version 0.14.25.
+Bestehende Sichtungen und Fotos bleiben zunächst unverändert, können ab **Version 0.14.26** jedoch mit dem Wartungswerkzeug `tools/rebuild_location_matches.py` nachträglich anhand der aktuellen Polygon- und Radiuslogik neu berechnet werden.
 
-Vorhandene Datensätze mit:
+Automatisch ermittelte Datensätze mit:
 
 `matched_by = "coordinates"`
 
-bleiben unverändert.
+oder leerem `matched_by` können damit auf den aktuellen Stand gebracht werden. Manuell gesetzte Standorte mit
+
+`matched_by = "location_id"`
+
+werden vom Werkzeug nicht überschrieben.
 
 Neue Datensätze können zusätzlich enthalten:
 
@@ -693,3 +697,98 @@ Bei unerwarteten Problemen kann `cloudflare/worker.js` auf Version 0.14.24 zurü
 
 - vollständige Projektbeschreibung
 - aktueller Stand: `0.14.25`
+
+
+## 24. Nachträgliche Neuzuordnung bestehender Standortdaten (0.14.26)
+
+Mit Version **0.14.26** kommt ein Wartungswerkzeug hinzu:
+
+`tools/rebuild_location_matches.py`
+
+Zweck des Werkzeugs:
+
+- bestehende Sichtungen in `inbox/submissions/**` neu bewerten;
+- bestehende direkte Schiffsfotos in `data/vessel_photos/*.json` neu bewerten;
+- vorhandene Einträge in `data/sightings.json` konsistent nachziehen.
+
+Das Werkzeug verwendet dieselbe fachliche Logik wie die aktuelle Standortauflösung:
+
+1. Polygonbereiche aus `data/location_areas.geojson`
+2. Radius-Matching nur für Locations ohne definierte Polygonbereiche
+3. `unknown`, wenn weder Polygon noch zulässiger Radius passt
+
+### 24.1 Schutz manuell gesetzter Standorte
+
+Standorte mit
+
+`matched_by = "location_id"`
+
+werden bewusst **nicht** automatisch überschrieben.
+
+Damit werden nur automatisch ermittelte oder historisch unvollständig gespeicherte Standortangaben neu berechnet.
+
+### 24.2 Verwendung lokal
+
+Trockenlauf:
+
+`python tools/rebuild_location_matches.py`
+
+Tatsächliche Anwendung:
+
+`python tools/rebuild_location_matches.py --apply`
+
+### 24.3 Verwendung über GitHub Actions
+
+Zusätzlich enthält Version 0.14.26 den manuellen Workflow:
+
+`.github/workflows/rebuild_location_matches.yml`
+
+Er kann im GitHub-Repository über **Actions -> Rebuild location matches -> Run workflow** gestartet werden.
+
+Der Workflow:
+
+- checkt das Repository aus,
+- führt `python tools/rebuild_location_matches.py --apply` aus,
+- committet erkannte Änderungen automatisch,
+- pusht das Ergebnis zurück in den aktuellen Branch.
+
+Der automatische Commit-Kommentar des Workflows lautet:
+
+`Rebuild location matches`
+
+### 24.4 Typischer Anwendungsfall
+
+Beispiel: Historische Aufnahmen rund um das Lentos oder das Brucknerhaus wurden vor 0.14.25 mit dem alten großzügigen Radius noch als `Nibelungenbrücke, Linz` gespeichert.
+
+Nach Ausführung des Werkzeugs werden diese Datensätze – sofern ihre GPS-Koordinaten innerhalb des Polygons liegen – beispielsweise zu:
+
+- `Untere Donaulände, Linz`
+- `Urfahraner Donaulände, Linz`
+- `Donauufer Alt-Urfahr, Linz`
+
+umklassifiziert.
+
+## 25. Technische Prüfung für 0.14.26
+
+Für Version 0.14.26 wurde:
+
+- `tools/rebuild_location_matches.py` mit `python3 -m py_compile` geprüft;
+- der GitHub-Workflow `.github/workflows/rebuild_location_matches.yml` syntaktisch gegengeprüft;
+- das ZIP nach Erstellung mit `unzip -t` geprüft.
+
+## 26. Dateiversionen dieses Pakets
+
+### tools/rebuild_location_matches.py
+
+- Version: `0.14.26`
+- Updated: `2026-08-19`
+
+### .github/workflows/rebuild_location_matches.yml
+
+- manueller GitHub-Workflow zur nachträglichen Standort-Neuzuordnung
+- Stand: `2026-08-19`
+
+### README.md
+
+- vollständige Projektbeschreibung
+- aktueller Stand: `0.14.26`
