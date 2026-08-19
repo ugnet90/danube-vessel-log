@@ -1,0 +1,294 @@
+{
+  "type": "FeatureCollection",
+  "schema_version": 1,
+  "project": "Danube Vessel Log",
+  "version": "0.14.25",
+  "updated_at": "2026-08-19",
+  "description": "Präzise Aufnahmebereiche für GPS-basierte Standortauflösung. location_id bleibt die übergeordnete kanonische Location; area_id unterscheidet den konkreten Aufnahmebereich.",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "location_id": "LOC-001",
+        "name": "Nibelungenbrücke",
+        "public_name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "priority": 100,
+        "description": "Eigentliche Nibelungenbrücke einschließlich eines kleinen GPS-Toleranzbereichs an den Brückenköpfen."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14.2849476,
+              48.3100289
+            ],
+            [
+              14.2845366,
+              48.3098501
+            ],
+            [
+              14.2848002,
+              48.30625
+            ],
+            [
+              14.2852061,
+              48.3064299
+            ],
+            [
+              14.2849476,
+              48.3100289
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "location_id": "LOC-001",
+        "name": "Obere Donaulände",
+        "public_name": "Obere Donaulände, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "priority": 80,
+        "description": "Südliches Donauufer stromaufwärts/westlich der Nibelungenbrücke im zentralen Linzer Aufnahmebereich."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14.2847131,
+              48.306772
+            ],
+            [
+              14.2848096,
+              48.3057573
+            ],
+            [
+              14.2831796,
+              48.3052144
+            ],
+            [
+              14.2813437,
+              48.3055744
+            ],
+            [
+              14.2847131,
+              48.306772
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+        "location_id": "LOC-001",
+        "name": "Untere Donaulände",
+        "public_name": "Untere Donaulände, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "priority": 80,
+        "description": "Südliches Donauufer stromabwärts/östlich der Nibelungenbrücke bis in den Bereich Brucknerhaus."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14.2850788,
+              48.307107
+            ],
+            [
+              14.2865016,
+              48.3078799
+            ],
+            [
+              14.2880778,
+              48.3086227
+            ],
+            [
+              14.2896541,
+              48.3093655
+            ],
+            [
+              14.2912104,
+              48.310042
+            ],
+            [
+              14.2920936,
+              48.3106402
+            ],
+            [
+              14.2924997,
+              48.3109112
+            ],
+            [
+              14.2928862,
+              48.3104848
+            ],
+            [
+              14.2924892,
+              48.3091601
+            ],
+            [
+              14.2911683,
+              48.3089984
+            ],
+            [
+              14.2896318,
+              48.3083881
+            ],
+            [
+              14.2880556,
+              48.3076453
+            ],
+            [
+              14.2864793,
+              48.3069025
+            ],
+            [
+              14.2854557,
+              48.3060163
+            ],
+            [
+              14.2850788,
+              48.307107
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "location_id": "LOC-001",
+        "name": "Donauufer Alt-Urfahr",
+        "public_name": "Donauufer Alt-Urfahr, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "priority": 80,
+        "description": "Nördliches Donauufer westlich der Nibelungenbrücke im Bereich Alt-Urfahr."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14.2845366,
+              48.3098501
+            ],
+            [
+              14.2837808,
+              48.3096406
+            ],
+            [
+              14.2829557,
+              48.3094168
+            ],
+            [
+              14.2820184,
+              48.3091798
+            ],
+            [
+              14.2823361,
+              48.3102395
+            ],
+            [
+              14.283336,
+              48.3103239
+            ],
+            [
+              14.2841626,
+              48.3103722
+            ],
+            [
+              14.2849476,
+              48.3100289
+            ],
+            [
+              14.2845366,
+              48.3098501
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
+        "location_id": "LOC-001",
+        "name": "Urfahraner Donaulände",
+        "public_name": "Urfahraner Donaulände, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "priority": 80,
+        "description": "Nördliches Donauufer östlich der Nibelungenbrücke im Bereich Ars Electronica/Donaulände."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14.2849476,
+              48.3100289
+            ],
+            [
+              14.285654,
+              48.3102901
+            ],
+            [
+              14.2864577,
+              48.3106234
+            ],
+            [
+              14.2872302,
+              48.3110329
+            ],
+            [
+              14.2881446,
+              48.3115548
+            ],
+            [
+              14.2888148,
+              48.3119844
+            ],
+            [
+              14.2875364,
+              48.3122351
+            ],
+            [
+              14.2867128,
+              48.3118356
+            ],
+            [
+              14.2859205,
+              48.3113599
+            ],
+            [
+              14.2852304,
+              48.3108641
+            ],
+            [
+              14.2846938,
+              48.3103382
+            ],
+            [
+              14.2849476,
+              48.3100289
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
