@@ -2,7 +2,7 @@
 """
 Danube Vessel Log
 File: tools/rebuild_location_matches.py
-Version: 0.14.26
+Version: 0.14.27
 Updated: 2026-08-19
 
 Einmaliges bzw. wiederholbares Wartungswerkzeug zur nachträglichen
@@ -25,6 +25,7 @@ LOCATION_AREAS_PATH = ROOT / "data" / "location_areas.geojson"
 SUBMISSIONS_DIR = ROOT / "inbox" / "submissions"
 VESSEL_PHOTOS_DIR = ROOT / "data" / "vessel_photos"
 SIGHTINGS_PATH = ROOT / "data" / "sightings.json"
+LEGACY_PHOTO_GPS_CUTOFF = "2026-08-18T00:00:00Z"
 
 
 def parse_coordinate(value: Any) -> float | None:
@@ -269,6 +270,72 @@ def normalize_location_block(location: Any) -> dict[str, Any]:
     }
 
 
+def parent_location_record(location_id: str, locations: list[dict[str, Any]]) -> dict[str, Any]:
+    parent = next((item for item in locations if item["location_id"] == location_id), None)
+    if not parent:
+        return unknown_location()
+    return {
+        "status": "matched",
+        "matched_by": "legacy_parent",
+        "id": location_id,
+        "area_id": "",
+        "name": parent.get("public_name") or parent.get("name") or "",
+        "municipality": parent.get("municipality", ""),
+        "country": parent.get("country", ""),
+        "distance_m": None,
+    }
+
+
+def photo_has_reliable_metadata(photo: Any) -> bool:
+    if not isinstance(photo, dict):
+        return False
+    try:
+        metadata_version = int(photo.get("metadata_version", 0) or 0)
+    except (TypeError, ValueError):
+        metadata_version = 0
+    return (
+        metadata_version >= 1
+        and isinstance(photo.get("captured_at"), str)
+    )
+
+
+def is_legacy_photo_submission(document: dict[str, Any]) -> bool:
+    uploaded_at = str(document.get("uploaded_at", "")).strip()
+    if not uploaded_at:
+        return True
+    return uploaded_at < LEGACY_PHOTO_GPS_CUTOFF
+
+
+def submission_has_reliable_photo_metadata(document: dict[str, Any]) -> bool:
+    photos = document.get("photos") if isinstance(document.get("photos"), list) else []
+    return bool(photos) and all(photo_has_reliable_metadata(photo) for photo in photos)
+
+
+def rebuild_individual_photo(photo: dict[str, Any], locations: list[dict[str, Any]], areas: list[dict[str, Any]]) -> bool:
+    if not photo_has_reliable_metadata(photo):
+        return False
+    lat = parse_coordinate(photo.get("photo_lat"))
+    lon = parse_coordinate(photo.get("photo_lon"))
+    if lat is None or lon is None:
+        return False
+    new_location = resolve_location(lat, lon, locations, areas)
+    old_location = normalize_location_block(photo.get("location"))
+    if locations_equal(old_location, new_location):
+        return False
+    photo["location"] = new_location
+    return True
+
+
+def sync_submission_from_first_reliable_photo(document: dict[str, Any]) -> None:
+    photos = document.get("photos") if isinstance(document.get("photos"), list) else []
+    first = next((photo for photo in photos if photo_has_reliable_metadata(photo)), None)
+    if not first:
+        return
+    document["location"] = normalize_location_block(first.get("location"))
+    document["photo_lat"] = parse_coordinate(first.get("photo_lat"))
+    document["photo_lon"] = parse_coordinate(first.get("photo_lon"))
+
+
 def read_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
@@ -278,30 +345,72 @@ def write_json(path: Path, document: Any) -> None:
     path.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def rebuild_submission(path: Path, locations: list[dict[str, Any]], areas: list[dict[str, Any]], apply_changes: bool) -> tuple[bool, str]:
+def rebuild_submission(path: Path, locations: list[dict[str, Any]], areas: list[dict[str, Any]], apply_changes: bool) -> tuple[bool, str, dict[str, Any] | None]:
     document = read_json(path)
-    location_block = document.get("location")
-    if not should_rebuild(location_block):
-        return False, "manual"
+    photos = document.get("photos") if isinstance(document.get("photos"), list) else []
+    changed = False
+    notes: list[str] = []
 
-    lat = parse_coordinate(document.get("observer_lat"))
-    lon = parse_coordinate(document.get("observer_lon"))
-    if lat is None or lon is None:
-        lat = parse_coordinate(document.get("photo_lat"))
-        lon = parse_coordinate(document.get("photo_lon"))
+    if photos and submission_has_reliable_photo_metadata(document):
+        photo_changes = 0
+        for photo in photos:
+            if rebuild_individual_photo(photo, locations, areas):
+                photo_changes += 1
+        before = normalize_location_block(document.get("location"))
+        sync_submission_from_first_reliable_photo(document)
+        after = normalize_location_block(document.get("location"))
+        if photo_changes or not locations_equal(before, after):
+            changed = True
+            notes.append(f"{photo_changes} Foto-Standort(e) aktualisiert")
+    elif photos:
+        current = normalize_location_block(document.get("location"))
 
-    if lat is None or lon is None:
-        return False, "no_coordinates"
+        if is_legacy_photo_submission(document):
+            # Vor der 0.14.22-Kurzbefehl-Umstellung stammten photo_lat/photo_lon
+            # noch nicht zuverlässig aus dem Foto. Scheinbare Polygon-Präzision
+            # wird deshalb auf die übergeordnete kanonische Location zurückgenommen.
+            if current.get("matched_by") == "geo_area" and current.get("id"):
+                restored = parent_location_record(current["id"], locations)
+                if not locations_equal(current, restored):
+                    document["location"] = restored
+                    changed = True
+                    notes.append(f'Legacy-Präzision zurückgenommen: {current.get("name") or "<leer>"} -> {restored.get("name") or "<unknown>"}')
+        else:
+            # Ab 18.08.2026 liefert der 0.14.22-Kurzbefehl für die Sichtung
+            # bereits verlässliche GPS-Daten des ersten ausgewählten Fotos.
+            # Solche Sichtungen dürfen auf Sichtungsebene weiterhin präzise
+            # neu berechnet werden, auch wenn sie noch kein photo_metadata-Array haben.
+            lat = parse_coordinate(document.get("photo_lat"))
+            lon = parse_coordinate(document.get("photo_lon"))
+            if lat is not None and lon is not None and should_rebuild(document.get("location")):
+                new_location = resolve_location(lat, lon, locations, areas)
+                if not locations_equal(current, new_location):
+                    document["location"] = new_location
+                    changed = True
+                    notes.append(f'{current.get("name") or "<leer>"} -> {new_location.get("name") or "<unknown>"}')
+    else:
+        # Sichtungen ohne Foto verwenden observer_* als tatsächlichen
+        # Beobachterstandort und dürfen weiterhin neu berechnet werden.
+        if should_rebuild(document.get("location")):
+            lat = parse_coordinate(document.get("observer_lat"))
+            lon = parse_coordinate(document.get("observer_lon"))
+            if lat is not None and lon is not None:
+                new_location = resolve_location(lat, lon, locations, areas)
+                old_location = normalize_location_block(document.get("location"))
+                if not locations_equal(old_location, new_location):
+                    document["location"] = new_location
+                    changed = True
+                    notes.append(f'{old_location.get("name") or "<leer>"} -> {new_location.get("name") or "<unknown>"}')
 
-    new_location = resolve_location(lat, lon, locations, areas)
-    old_location = normalize_location_block(location_block)
-    if locations_equal(old_location, new_location):
-        return False, "unchanged"
-
-    document["location"] = new_location
-    if apply_changes:
+    if changed and apply_changes:
         write_json(path, document)
-    return True, f'{old_location.get("name", "") or "<leer>"} -> {new_location.get("name", "") or "<unknown>"}'
+
+    submission_id = str(document.get("submission_id", "")).strip()
+    return changed, "; ".join(notes) or "unchanged", {
+        "submission_id": submission_id,
+        "location": normalize_location_block(document.get("location")),
+        "photos": document.get("photos") if isinstance(document.get("photos"), list) else [],
+    }
 
 
 def rebuild_direct_vessel_photos(path: Path, locations: list[dict[str, Any]], areas: list[dict[str, Any]], apply_changes: bool) -> tuple[int, int]:
@@ -328,7 +437,31 @@ def rebuild_direct_vessel_photos(path: Path, locations: list[dict[str, Any]], ar
     return scanned, changed
 
 
-def rebuild_sightings_index(path: Path, locations: list[dict[str, Any]], areas: list[dict[str, Any]], apply_changes: bool) -> tuple[int, int]:
+def normalize_sighting_photo_from_submission(photo: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "photo_id": str(photo.get("photo_id", "")),
+        "path": str(photo.get("path", "")),
+        "filename": str(photo.get("filename", "")),
+        "original_filename": str(photo.get("original_filename", "")),
+        "mime_type": str(photo.get("mime_type", "image/jpeg")) or "image/jpeg",
+        "size_bytes": photo.get("size_bytes") if isinstance(photo.get("size_bytes"), int) else None,
+        "sequence": photo.get("sequence") if isinstance(photo.get("sequence"), int) else 0,
+        "captured_at": str(photo.get("captured_at", "")),
+        "added_at": str(photo.get("added_at", "")),
+        "source": str(photo.get("source", "submission")) or "submission",
+        "notes": str(photo.get("notes", "")),
+        "metadata_version": (
+            int(photo.get("metadata_version", 0) or 0)
+            if str(photo.get("metadata_version", 0) or 0).lstrip("-").isdigit()
+            else 0
+        ),
+        "photo_lat": parse_coordinate(photo.get("photo_lat")),
+        "photo_lon": parse_coordinate(photo.get("photo_lon")),
+        "location": normalize_location_block(photo.get("location")) if isinstance(photo.get("location"), dict) else None,
+    }
+
+
+def rebuild_sightings_index_from_submissions(path: Path, submission_states: dict[str, dict[str, Any]], apply_changes: bool) -> tuple[int, int]:
     if not path.exists():
         return 0, 0
     document = read_json(path)
@@ -337,25 +470,21 @@ def rebuild_sightings_index(path: Path, locations: list[dict[str, Any]], areas: 
     changed = 0
     for sighting in sightings:
         scanned += 1
-        if not should_rebuild(sighting.get("location")):
+        submission_id = str(sighting.get("submission_id", "")).strip()
+        state = submission_states.get(submission_id)
+        if not state:
             continue
-        lat = parse_coordinate(sighting.get("observer_lat"))
-        lon = parse_coordinate(sighting.get("observer_lon"))
-        if lat is None or lon is None:
-            lat = parse_coordinate(sighting.get("photo_lat"))
-            lon = parse_coordinate(sighting.get("photo_lon"))
-        if lat is None or lon is None:
-            continue
-        new_location = resolve_location(lat, lon, locations, areas)
-        old_location = normalize_location_block(sighting.get("location"))
-        if locations_equal(old_location, new_location):
-            continue
-        sighting["location"] = new_location
-        changed += 1
+        before_location = normalize_location_block(sighting.get("location"))
+        after_location = state["location"]
+        new_photos = [normalize_sighting_photo_from_submission(photo) for photo in state["photos"] if isinstance(photo, dict)]
+        if not locations_equal(before_location, after_location) or sighting.get("photos") != new_photos:
+            sighting["location"] = after_location
+            sighting["photos"] = new_photos
+            sighting["photo_count"] = len(new_photos)
+            changed += 1
     if changed and apply_changes:
         write_json(path, document)
     return scanned, changed
-
 
 def iter_submission_files() -> Iterable[Path]:
     if not SUBMISSIONS_DIR.exists():
@@ -380,9 +509,12 @@ def main() -> int:
     submission_scanned = 0
     submission_changed = 0
     submission_logs: list[str] = []
+    submission_states: dict[str, dict[str, Any]] = {}
     for submission_path in iter_submission_files():
         submission_scanned += 1
-        changed, note = rebuild_submission(submission_path, locations, areas, args.apply)
+        changed, note, state = rebuild_submission(submission_path, locations, areas, args.apply)
+        if state and state.get("submission_id"):
+            submission_states[state["submission_id"]] = state
         if changed:
             submission_changed += 1
             submission_logs.append(f"SUBMISSION {submission_path.as_posix()}: {note}")
@@ -396,7 +528,11 @@ def main() -> int:
         vessel_photo_records += scanned
         vessel_photo_changed += changed
 
-    sightings_scanned, sightings_changed = rebuild_sightings_index(SIGHTINGS_PATH, locations, areas, args.apply)
+    sightings_scanned, sightings_changed = rebuild_sightings_index_from_submissions(
+        SIGHTINGS_PATH,
+        submission_states,
+        args.apply
+    )
 
     print("Danube Vessel Log – Rebuild Location Matches")
     print(f"Modus: {'APPLY' if args.apply else 'DRY RUN'}")
