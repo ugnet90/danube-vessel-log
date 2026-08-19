@@ -4,14 +4,14 @@
   "identity": {
     "name": "NickoVision",
     "former_names": [],
-    "mmsi": "",
-    "imo": "",
+    "mmsi": "269057649",
+    "imo": "4029860",
     "eni": "",
-    "call_sign": ""
+    "call_sign": "HE7649"
   },
   "classification": {
-    "ship_type": "UNKNOWN",
-    "ship_subtype": "UNKNOWN",
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
     "status": "active",
     "flag": "CH"
   },
@@ -19,7 +19,7 @@
     "year_built": 2018,
     "shipyard": "VAHALI",
     "length_m": 135,
-    "width_m": null,
+    "width_m": 12,
     "draft_m": null,
     "passengers": 220
   },
@@ -75,8 +75,8 @@
     "environment": "production",
     "created_at": "2026-08-06T14:48:11.292Z",
     "created_from_submission_id": "SUB-20260806-142210-89B147",
-    "updated_at": "2026-08-19T05:47:27.153Z",
-    "updated_by": "vessel-enrichment",
+    "updated_at": "2026-08-19T05:50:05.413Z",
+    "updated_by": "web-ui",
     "change_history": [
       {
         "changed_at": "2026-08-19T05:47:27.153Z",
@@ -132,6 +132,50 @@
             "field": "enrichment.wikidata.accepted_qid",
             "old_value": "",
             "new_value": "Q122413683"
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-08-19T05:50:05.413Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "identity.mmsi",
+          "identity.imo",
+          "identity.call_sign",
+          "classification.ship_type",
+          "classification.ship_subtype",
+          "technical.width_m"
+        ],
+        "changes": [
+          {
+            "field": "identity.mmsi",
+            "old_value": "",
+            "new_value": "269057649"
+          },
+          {
+            "field": "identity.imo",
+            "old_value": "",
+            "new_value": "4029860"
+          },
+          {
+            "field": "identity.call_sign",
+            "old_value": "",
+            "new_value": "HE7649"
+          },
+          {
+            "field": "classification.ship_type",
+            "old_value": "UNKNOWN",
+            "new_value": "PASSENGER"
+          },
+          {
+            "field": "classification.ship_subtype",
+            "old_value": "UNKNOWN",
+            "new_value": "RIVER_CRUISE"
+          },
+          {
+            "field": "technical.width_m",
+            "old_value": null,
+            "new_value": 12
           }
         ]
       }
