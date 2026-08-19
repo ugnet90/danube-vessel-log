@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.24**  
+Aktuelle Version: **0.14.25**  
 Stand: **19.08.2026**
 
 ## 1. Projektzweck
@@ -169,7 +169,7 @@ Ab Version **0.14.24** werden bei neuen direkten Schiffsfotos folgende Metadaten
 - `notes`
 - Quelle `direct_vessel_upload`
 
-Die GPS-Koordinaten werden gegen `data/locations.csv` aufgelöst. Ein Treffer speichert Location-ID, öffentlichen Namen, Gemeinde, Land, Matching-Art und Entfernung.
+Die GPS-Koordinaten werden ab Version **0.14.25** zuerst gegen die präzisen Aufnahmebereiche in `data/location_areas.geojson` geprüft. Wenn für eine übergeordnete Location keine Flächen definiert sind, bleibt die bisherige Radiusauflösung über `data/locations.csv` als Rückfall erhalten. Ein Treffer speichert Location-ID, gegebenenfalls `area_id`, öffentlichen Namen, Gemeinde, Land und Matching-Art.
 
 ### 5.3 Hauptfoto
 
@@ -183,7 +183,7 @@ Einzelne Fotos können über die Weboberfläche gelöscht werden. Dabei werden s
 
 ## 6. Standortdaten
 
-### 6.1 Locations
+### 6.1 Kanonische Locations
 
 `data/locations.csv`
 
@@ -194,16 +194,83 @@ Locations enthalten unter anderem:
 - öffentlichen Namen
 - Gemeinde
 - Land
-- Koordinaten
+- Referenzkoordinaten
 - Matching-Radius
 
 Beispiel:
 
-`LOC-001` – Nibelungenbrücke, Linz
+`LOC-001` – Nibelungenbrücke / zentraler Linzer Aufnahmebereich
 
-Der Worker kann eine Location über GPS-Koordinaten oder eine explizite `location_id` bestimmen.
+Der Radius bleibt als allgemeiner Rückfall für Locations bestehen, für die noch keine präzisen Aufnahmebereiche definiert sind.
 
-### 6.2 Doppelte Ortsbestandteile
+### 6.2 Präzise Aufnahmebereiche
+
+`data/location_areas.geojson`
+
+Ab Version **0.14.25** können innerhalb einer kanonischen Location beliebig viele polygonale Aufnahmebereiche definiert werden.
+
+Wesentliche Eigenschaften eines Bereichs:
+
+- `area_id` – eindeutige Kennung des Aufnahmebereichs
+- `location_id` – übergeordnete kanonische Location
+- `public_name` – Name, der als Aufnahme-/Sichtungsort angezeigt wird
+- `municipality`
+- `country`
+- `priority`
+- GeoJSON-Geometrie als `Polygon` oder `MultiPolygon`
+
+Die GPS-Koordinate beschreibt den Standort des Beobachters bzw. Fotografen, nicht die Position des Schiffs.
+
+Matching-Reihenfolge:
+
+1. explizite `location_id`, wenn keine GPS-Koordinaten vorhanden sind;
+2. präziser GeoJSON-Aufnahmebereich (`matched_by = "geo_area"`);
+3. Radius-Matching über `data/locations.csv` (`matched_by = "coordinates"`) nur für Locations ohne definierte Aufnahmebereiche;
+4. sonst `unknown`.
+
+Sobald für eine Location präzise Flächen vorhanden sind, wird deren großzügiger Radius bei GPS-Matching nicht mehr verwendet. Dadurch kann `LOC-001` außerhalb der definierten Linzer Bereiche nicht mehr pauschal als Nibelungenbrücke zurückgegeben werden.
+
+### 6.3 Erste Linzer Aufnahmebereiche
+
+Version 0.14.25 enthält zunächst fünf Bereiche unterhalb von `LOC-001`:
+
+- `AREA-LINZ-NIBELUNGENBRUECKE` – **Nibelungenbrücke, Linz**
+- `AREA-LINZ-OBERE-DONAULAENDE` – **Obere Donaulände, Linz**
+- `AREA-LINZ-UNTERE-DONAULAENDE` – **Untere Donaulände, Linz**
+- `AREA-LINZ-ALT-URFAHR` – **Donauufer Alt-Urfahr, Linz**
+- `AREA-LINZ-URFAHR-DONAULAENDE` – **Urfahraner Donaulände, Linz**
+
+Die Nibelungenbrücke besitzt mit `priority = 100` eine höhere Priorität als die vier Uferbereiche mit `priority = 80`. Kleine Überschneidungen an den Brückenköpfen sind dadurch ausdrücklich erlaubt; innerhalb einer Überschneidung gewinnt die Brücke.
+
+Die Flächen sind Daten und nicht im Worker hart codiert. Sie können daher später in `data/location_areas.geojson` erweitert oder geometrisch angepasst werden, ohne die Matching-Logik neu zu programmieren.
+
+### 6.4 Speicherung des Ergebnisses
+
+Bei einem Flächentreffer bleiben zwei Ebenen erhalten:
+
+- `location.id` bzw. `location_id` – übergeordnete kanonische Location, derzeit für die Linzer Bereiche `LOC-001`;
+- `location.area_id` – konkreter Aufnahmebereich.
+
+Der angezeigte `location.name` wird aus dem präzisen Aufnahmebereich übernommen.
+
+Beispiel:
+
+```json
+{
+  "status": "matched",
+  "matched_by": "geo_area",
+  "id": "LOC-001",
+  "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+  "name": "Untere Donaulände, Linz",
+  "municipality": "Linz",
+  "country": "Österreich",
+  "distance_m": null
+}
+```
+
+Diese Hierarchie erhält die bestehende `location_id`-Kompatibilität, insbesondere zu den bereits hinterlegten Linzer Anlegestellen, und ermöglicht trotzdem einen deutlich präziseren Aufnahmeort.
+
+### 6.5 Doppelte Ortsbestandteile
 
 Bei der Ausgabe werden doppelte Ortsbestandteile entfernt. Aus
 
@@ -213,7 +280,7 @@ wird beispielsweise:
 
 `Nibelungenbrücke, Linz, Österreich`
 
-### 6.3 Anlegestellen
+### 6.6 Anlegestellen
 
 Anlegestellen werden separat geführt und können einer Location zugeordnet sein. Für Linz sind unter anderem Donaustationen und weitere definierte Liegestellen hinterlegt.
 
@@ -258,7 +325,7 @@ Der Worker übernimmt unter anderem:
 - Verarbeitung von JPEG-Fotos
 - Erzeugung von Submission- und Photo-IDs
 - Schiffsnamensabgleich
-- Standortauflösung
+- Standortauflösung mit Polygonen und Radius-Fallback
 - Anlegestellenauflösung
 - Review und Vessel-Zuordnung
 - Statusaktualisierung auf `active`
@@ -453,131 +520,176 @@ Bei Änderungen an diesem Projekt gilt:
 - reine Code-Schnipsel sind nicht die primäre Auslieferungsform;
 - Commit-Kommentare dürfen maximal **50 Zeichen** lang sein.
 
-## 16. Version 0.14.24 – Änderung
+## 16. Version 0.14.25 – Änderung
 
 ### Problem
 
-Der iPhone-Kurzbefehl für zusätzliche Schiffsfotos lieferte bereits:
+`LOC-001` besitzt für die Nibelungenbrücke einen bewusst großzügigen GPS-Radius. Dadurch wurden auch Beobachtungen und Fotoaufnahmen an benachbarten Donauufern häufig als **Nibelungenbrücke, Linz** klassifiziert.
 
-- `captured_at`
-- `photo_lat`
-- `photo_lon`
-- `vessel_name_entered`
-- `vessel_id`
-- `notes`
+Eine reine Verkleinerung des Radius wäre unflexibel und würde bei anderen Standorten weiterhin keine länglichen oder unregelmäßigen Aufnahmebereiche abbilden.
 
-Der Worker speicherte bei `direct_vessel_upload` bisher jedoch nur einen Teil davon. Insbesondere gingen `photo_lat` und `photo_lon` verloren und es wurde keine Location bestimmt. `vessel.html` zeigte bei den zusätzlichen Schiffsfotos außerdem keine Metadaten an.
+### Lösung
 
-### Korrektur im Worker
+Version 0.14.25 ergänzt eine polygonbasierte Standortauflösung über:
 
-`cloudflare/worker.js` speichert ab 0.14.24 bei direkten Schiffsfotos zusätzlich:
+`data/location_areas.geojson`
 
-- GPS-Breite
-- GPS-Länge
-- aufgelösten Location-Datensatz
-- eingegebenen Schiffsnamen
+Der Worker führt bei vorhandenen GPS-Koordinaten zuerst einen Point-in-Polygon-Test durch.
 
-Die bereits vorhandenen Werte `captured_at`, `added_at` und `notes` bleiben erhalten.
+- Treffer in einem Aufnahmebereich: `matched_by = "geo_area"`
+- mehrere Treffer durch überlappende Flächen: höchste `priority` gewinnt
+- kein Flächentreffer: Radius-Fallback nur für Locations, für die **keine** Aufnahmebereiche definiert sind
+- kein Treffer: Standort bleibt unbekannt
 
-Die Standortauflösung verwendet die bereits im Projekt vorhandene Location-Logik und `data/locations.csv`.
+### Hierarchische Location-Struktur
 
-### Korrektur in vessel.js
+Die fünf Linzer Aufnahmebereiche sind Unterbereiche von `LOC-001`.
 
-`docs/js/vessel.js` zeigt bei zusätzlichen Schiffsfotos nun:
+Damit bleiben bestehende Verknüpfungen, insbesondere die Zuordnung der Linzer Anlegestellen zu `LOC-001`, kompatibel. Der konkrete Aufnahmebereich wird zusätzlich als `area_id` gespeichert.
 
-- Aufnahmezeitpunkt mit Uhrzeit
-- Aufnahmeort
-- optional die Notiz
+### Direkte Schiffsfotos
 
-Auch die große Fotoansicht zeigt bei direkten Schiffsfotos Aufnahmezeitpunkt und – sofern vorhanden – Aufnahmeort.
+Die in Version 0.14.24 ergänzte Standortauflösung für direkte Schiffsfotos verwendet automatisch dieselbe neue Polygonlogik. Der iPhone-Kurzbefehl muss nicht geändert werden.
 
-### Keine Änderung am iPhone-Kurzbefehl
+### Sichtungen
 
-Der Kurzbefehl ist für diese Korrektur bereits richtig vorbereitet und muss **nicht** nochmals geändert werden.
+Auch normale Sichtungen mit Beobachtungskoordinaten verwenden automatisch die neue Polygonlogik. `location.name` enthält anschließend den präzisen Aufnahmebereich.
 
-## 17. Verhalten bestehender Zusatzfotos
+## 17. Installation des Updates 0.14.25
 
-Die Änderung ist rückwärtskompatibel.
+Dieses ZIP enthält die **vollständigen geänderten bzw. neu benötigten Dateien**, nicht nur Patches.
 
-Bereits vorhandene direkte Schiffsfotos besitzen in ihren bisherigen JSON-Datensätzen normalerweise bereits `captured_at`. Dieser Wert wird ab 0.14.24 in der Oberfläche angezeigt.
+Zu ersetzen bzw. neu anzulegen sind:
 
-GPS und Location älterer direkter Fotos wurden vor 0.14.24 jedoch nicht gespeichert. Diese fehlenden Informationen können aus dem bisherigen JSON-Datensatz nicht automatisch rekonstruiert werden. Solche Fotos erscheinen daher gegebenenfalls mit:
+- `cloudflare/worker.js` – vollständig ersetzen
+- `data/location_areas.geojson` – neu anlegen
+- `README.md` – vollständige Projekt-README übernehmen
+- `COMMIT_MESSAGE.txt` – Commit-Kommentar
 
-`Aufnahmeort unbekannt`
-
-Neue Uploads speichern die GPS-/Location-Daten korrekt.
-
-## 18. Installation des Updates 0.14.24
-
-Dieses ZIP enthält die **vollständigen geänderten Dateien**, nicht nur Patches.
-
-Zu ersetzen sind:
-
-- `cloudflare/worker.js`
-- `docs/js/vessel.js`
+`data/locations.csv` muss für dieses Update **nicht** ersetzt werden.
 
 Vorgehen:
 
 1. ZIP entpacken.
 2. `cloudflare/worker.js` im Repository vollständig ersetzen.
-3. `docs/js/vessel.js` im Repository vollständig ersetzen.
-4. `README.md` im Projektstamm durch die mitgelieferte vollständige Projekt-README ersetzen bzw. übernehmen.
+3. `data/location_areas.geojson` im Repository neu anlegen.
+4. `README.md` im Projektstamm durch die mitgelieferte vollständige Projekt-README ersetzen.
 5. Änderungen mit dem Inhalt aus `COMMIT_MESSAGE.txt` committen.
 6. Cloudflare Worker neu deployen.
-7. GitHub Pages die aktualisierte `vessel.js` bereitstellen lassen.
-8. `vessel.html` neu laden; bei Bedarf Browser-Cache umgehen.
+7. Eine Sichtung bzw. ein direktes Zusatzfoto aus jedem gewünschten Bereich testen.
 
-## 19. Test für Version 0.14.24
+Für dieses Update ist keine Änderung an `docs/js/vessel.js` und keine Änderung an den iPhone-Kurzbefehlen erforderlich.
 
-### Neuer direkter Foto-Upload
+## 18. Test für Version 0.14.25
 
-Mit dem vorhandenen iPhone-Kurzbefehl ein zusätzliches Foto zu einem bestehenden Schiff hochladen.
+### Nibelungenbrücke
 
-Danach prüfen:
+Eine Aufnahme auf der Brücke soll liefern:
 
-1. Foto erscheint unter **Zusätzliche Schiffsfotos**.
-2. Aufnahmezeitpunkt entspricht dem Foto und nicht dem späteren Uploadzeitpunkt.
-3. Bei gültigen Foto-Koordinaten wird der passende Aufnahmeort angezeigt.
-4. Eine Notiz wird angezeigt, wenn sie übermittelt wurde.
-5. Es wird **keine neue Sichtung** angelegt.
-6. Die Sichtungsanzahl bleibt unverändert.
-7. Hauptfoto- und Löschfunktion funktionieren weiterhin.
+- `matched_by = "geo_area"`
+- `area_id = "AREA-LINZ-NIBELUNGENBRUECKE"`
+- Anzeige: `Nibelungenbrücke, Linz, Österreich`
 
-### JSON-Prüfung
+### Südliches Ufer westlich der Brücke
 
-In
+Eine Aufnahme im definierten zentralen Bereich der Oberen Donaulände soll liefern:
 
-`data/vessel_photos/<vessel_id>.json`
+- `area_id = "AREA-LINZ-OBERE-DONAULAENDE"`
+- Anzeige: `Obere Donaulände, Linz, Österreich`
 
-muss ein neuer Datensatz unter anderem `captured_at`, `photo_lat`, `photo_lon` und `location` enthalten.
+### Südliches Ufer östlich der Brücke
 
-## 20. Technische Prüfung
+Eine Aufnahme im Bereich Untere Donaulände / Brucknerhaus soll liefern:
 
-Für Version 0.14.24 wurden die geänderten JavaScript-Dateien mit
+- `area_id = "AREA-LINZ-UNTERE-DONAULAENDE"`
+- Anzeige: `Untere Donaulände, Linz, Österreich`
 
-`node --check`
+### Nordufer
 
-auf Syntaxfehler geprüft.
+Je nach Seite der Brücke soll geliefert werden:
 
-## 21. Rückfall
+- `AREA-LINZ-ALT-URFAHR`
+- oder `AREA-LINZ-URFAHR-DONAULAENDE`
 
-Bei unerwarteten Problemen können
+### Außerhalb der fünf Flächen
 
-- `cloudflare/worker.js`
-- `docs/js/vessel.js`
+Eine GPS-Koordinate, die zwar noch innerhalb des alten großzügigen Radius von `LOC-001`, aber außerhalb aller fünf definierten Aufnahmebereiche liegt, darf **nicht mehr automatisch Nibelungenbrücke** ergeben.
 
-auf Version 0.14.23 zurückgesetzt und erneut deployed werden.
+Der Standort bleibt in diesem Fall `unknown`, sofern keine andere Location ohne Polygonbereiche über ihren Radius trifft.
 
-Die mit 0.14.24 neu gespeicherten optionalen Foto-Metadaten stören die ältere Leseroutine nicht, werden dort jedoch nicht vollständig angezeigt.
+## 19. Anpassung und Erweiterung der Polygone
 
-## 22. Dateiversionen dieses Pakets
+Neue oder geänderte Aufnahmebereiche werden ausschließlich in
+
+`data/location_areas.geojson`
+
+gepflegt.
+
+GeoJSON verwendet die Koordinatenreihenfolge:
+
+`[Längengrad, Breitengrad]`
+
+Ein Polygonring muss geschlossen sein, also mit derselben Koordinate beginnen und enden.
+
+Neue Bereiche können derselben `location_id` oder später weiteren kanonischen Locations zugeordnet werden.
+
+Empfehlung für Prioritäten:
+
+- `100` – sehr spezifischer Bereich, z. B. eine Brücke
+- `80` – Ufer-/Promenadenbereich
+- niedrigere Werte – größere oder allgemeinere Bereiche
+
+Die Flächen dürfen sich überlappen. Die höhere Priorität entscheidet.
+
+## 20. Rückwärtskompatibilität
+
+Bestehende Sichtungen und Fotos werden nicht nachträglich umklassifiziert.
+
+Die neue Logik wirkt auf neue Standortauflösungen ab Deployment von Version 0.14.25.
+
+Vorhandene Datensätze mit:
+
+`matched_by = "coordinates"`
+
+bleiben unverändert.
+
+Neue Datensätze können zusätzlich enthalten:
+
+- `matched_by = "geo_area"`
+- `area_id`
+
+Leseroutinen, die `area_id` noch nicht verwenden, können weiterhin mit `location.id` und `location.name` arbeiten.
+
+## 21. Technische Prüfung
+
+Für Version 0.14.25 wurde:
+
+- `cloudflare/worker.js` mit `node --check` auf Syntaxfehler geprüft;
+- `data/location_areas.geojson` als JSON validiert;
+- der GeoJSON-Parser des Workers mit Testpunkten für Nibelungenbrücke, Ars-Electronica-Uferbereich, Brucknerhaus/Untere Donaulände und einen Punkt außerhalb der definierten Flächen geprüft;
+- die Prioritätslogik für Flächentreffer vorbereitet;
+- das ZIP nach Erstellung mit `unzip -t` geprüft.
+
+## 22. Rückfall
+
+Bei unerwarteten Problemen kann `cloudflare/worker.js` auf Version 0.14.24 zurückgesetzt und erneut deployed werden.
+
+`data/location_areas.geojson` kann dabei im Repository verbleiben, weil Version 0.14.24 diese Datei nicht liest.
+
+## 23. Dateiversionen dieses Pakets
 
 ### cloudflare/worker.js
 
-- Version: `0.14.24`
+- Version: `0.14.25`
 - Updated: `2026-08-19`
 
-### docs/js/vessel.js
+### data/location_areas.geojson
 
-- Version: `0.14.24`
+- Schema-Version: `1`
+- Projektversion: `0.14.25`
 - Updated: `2026-08-19`
+
+### README.md
+
+- vollständige Projektbeschreibung
+- aktueller Stand: `0.14.25`
