@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-19T05:51:38.512467Z",
+  "generated_at": "2026-08-19T05:54:13.319553Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -1249,14 +1249,6 @@
       "json_path": "data/vessels/VES-000121.json",
       "missing_fields": [
         {
-          "field": "identity.mmsi",
-          "label": "MMSI"
-        },
-        {
-          "field": "identity.imo",
-          "label": "IMO"
-        },
-        {
           "field": "identity.call_sign",
           "label": "Rufzeichen"
         },
@@ -1277,7 +1269,7 @@
           "label": "Marke"
         }
       ],
-      "missing_count": 7,
+      "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
         "status": "matched_no_new_data",
