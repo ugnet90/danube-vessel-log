@@ -1,0 +1,45 @@
+name: Rebuild location matches
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild-location-matches:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Standortzuordnungen neu berechnen
+        run: python tools/rebuild_location_matches.py --apply
+
+      - name: Änderungen prüfen
+        id: diff
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Änderungen committen und pushen
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add inbox/submissions data/vessel_photos data/sightings.json
+          git commit -m "Rebuild location matches"
+          git push
+
+      - name: Keine Änderungen
+        if: steps.diff.outputs.changed != 'true'
+        run: echo "Keine neu zu speichernden Standortänderungen gefunden."
