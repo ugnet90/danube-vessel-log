@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.14.24
+// Version: 0.14.27
 // Updated: 2026-08-19
 
 "use strict";
@@ -252,8 +252,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function sightingPlaceLabel(sighting) {
     const location =
-      locationLabel(
-        sighting?.location
+      sightingDisplayLocationLabel(
+        sighting
       );
 
     const berth =
@@ -270,10 +270,68 @@ document.addEventListener("DOMContentLoaded", () => {
       : location;
   }
 
+  function photoSpecificLocationLabels(sighting) {
+    const labels = [];
+    const normalized = new Set();
+
+    for (
+      const photo
+      of Array.isArray(sighting?.photos)
+        ? sighting.photos
+        : []
+    ) {
+      if (
+        Number(photo?.metadata_version ?? 0) < 1 ||
+        !photo?.location
+      ) {
+        continue;
+      }
+
+      const label =
+        locationLabel(photo.location);
+
+      if (!label || label === "–") {
+        continue;
+      }
+
+      const key =
+        label.toLocaleLowerCase("de");
+
+      if (normalized.has(key)) {
+        continue;
+      }
+
+      normalized.add(key);
+      labels.push(label);
+    }
+
+    return labels;
+  }
+
+  function sightingDisplayLocationLabel(sighting) {
+    const photoLocations =
+      photoSpecificLocationLabels(sighting);
+
+    if (photoLocations.length === 1) {
+      return photoLocations[0];
+    }
+
+    if (photoLocations.length > 1) {
+      return (
+        "Mehrere Aufnahmeorte: " +
+        photoLocations.join(" · ")
+      );
+    }
+
+    return locationLabel(
+      sighting?.location
+    );
+  }
+
   function sightingHeaderLabel(sighting) {
     const location =
-      locationLabel(
-        sighting?.location
+      sightingDisplayLocationLabel(
+        sighting
       );
 
     return [
@@ -284,6 +342,41 @@ document.addEventListener("DOMContentLoaded", () => {
     ]
       .filter(Boolean)
       .join(" · ") || "–";
+  }
+
+  function sightingPhotoMetadataLabel(
+    photo,
+    sighting
+  ) {
+    if (
+      Number(photo?.metadata_version ?? 0) < 1
+    ) {
+      return "";
+    }
+
+    const captured =
+      dateTime(
+        photo?.captured_at ||
+        sighting?.captured_at ||
+        ""
+      );
+
+    const locationText =
+      locationLabel(photo?.location);
+
+    const locationDisplay =
+      locationText === "–"
+        ? "Aufnahmeort unbekannt"
+        : locationText;
+
+    return [
+      captured,
+      locationDisplay
+    ]
+      .filter(valueText =>
+        valueText && valueText !== "–"
+      )
+      .join(" · ");
   }
 
   function sightingMetadataLabel(sighting) {
@@ -3806,8 +3899,25 @@ document.addEventListener("DOMContentLoaded", () => {
               );
             }
 
+            photoCard.append(link);
+
+            const photoMetadata =
+              sightingPhotoMetadataLabel(
+                photo,
+                sighting
+              );
+
+            if (photoMetadata) {
+              photoCard.append(
+                createTextElement(
+                  "p",
+                  "sighting-meta",
+                  photoMetadata
+                )
+              );
+            }
+
             photoCard.append(
-              link,
               createPhotoActionButtons({
                 photo,
                 sighting,
