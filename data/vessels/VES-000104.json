@@ -8,7 +8,7 @@
       "Melodia",
       "Excellence Allegra"
     ],
-    "mmsi": "",
+    "mmsi": "215441000",
     "imo": "",
     "eni": "04809190",
     "call_sign": ""
@@ -21,7 +21,7 @@
   },
   "technical": {
     "year_built": 2010,
-    "shipyard": "",
+    "shipyard": "P+S WERFTEN GmbH (Stralsund, Germany)",
     "length_m": 135,
     "width_m": 11.45,
     "draft_m": null,
@@ -29,7 +29,7 @@
   },
   "operations": {
     "operator": "TUI Cruises",
-    "owner": "",
+    "owner": "TUI AG (via TUI UK & Ireland)",
     "manager": "",
     "cruise_brand": "",
     "home_port": "Valletta"
@@ -89,8 +89,8 @@
     "environment": "production",
     "created_at": "2026-07-23T19:24:28.438Z",
     "created_from_submission_id": "SUB-20260723-191829-3BB171",
-    "updated_at": "2026-08-19T06:19:20.015Z",
-    "updated_by": "vessel-enrichment",
+    "updated_at": "2026-08-19T06:24:19.795Z",
+    "updated_by": "web-ui",
     "created_from_candidate_id": "CAN-4C8EA0A0A753",
     "candidate_source_revision_id": "268617530",
     "change_history": [
@@ -174,6 +174,32 @@
               "Q1636655",
               "Q113563850"
             ]
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-08-19T06:24:19.795Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "identity.mmsi",
+          "technical.shipyard",
+          "operations.owner"
+        ],
+        "changes": [
+          {
+            "field": "identity.mmsi",
+            "old_value": "",
+            "new_value": "215441000"
+          },
+          {
+            "field": "technical.shipyard",
+            "old_value": "",
+            "new_value": "P+S WERFTEN GmbH (Stralsund, Germany)"
+          },
+          {
+            "field": "operations.owner",
+            "old_value": "",
+            "new_value": "TUI AG (via TUI UK & Ireland)"
           }
         ]
       }
