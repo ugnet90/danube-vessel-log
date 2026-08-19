@@ -64,9 +64,34 @@
         "distance_m": 97
       },
       "vessel_name_entered": "S.S. Maria Theresa"
+    },
+    {
+      "photo_id": "PHOTO-D07368FFCCEC41C98E6A076716B1FAAA",
+      "path": "inbox/photos/2026/07/PHOTO-D07368FFCCEC41C98E6A076716B1FAAA.jpg",
+      "filename": "PHOTO-D07368FFCCEC41C98E6A076716B1FAAA.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 282429,
+      "sequence": 4,
+      "captured_at": "2026-07-28T13:23:51.000Z",
+      "added_at": "2026-08-19T06:01:08.779Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "photo_lat": 48.30907,
+      "photo_lon": 14.28917166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 335
+      },
+      "vessel_name_entered": "S.S. Maria Theresa"
     }
   ],
-  "updated_at": "2026-08-19T05:59:50.924Z",
+  "updated_at": "2026-08-19T06:01:08.779Z",
   "photo_history": [
     {
       "action": "deleted",
