@@ -14,9 +14,59 @@
       "added_at": "2026-07-31T13:20:06.998Z",
       "source": "direct_vessel_upload",
       "notes": ""
+    },
+    {
+      "photo_id": "PHOTO-DE95180B87A84478B82FAC7B5884D164",
+      "path": "inbox/photos/2026/08/PHOTO-DE95180B87A84478B82FAC7B5884D164.jpg",
+      "filename": "PHOTO-DE95180B87A84478B82FAC7B5884D164.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 436275,
+      "sequence": 2,
+      "captured_at": "2026-08-06T14:14:22.000Z",
+      "added_at": "2026-08-19T05:59:50.924Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "photo_lat": 48.30756166666666,
+      "photo_lon": 14.28557,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 97
+      },
+      "vessel_name_entered": "S.S. Maria Theresa"
+    },
+    {
+      "photo_id": "PHOTO-37E3673F7418449889B257B26E3E6E5C",
+      "path": "inbox/photos/2026/08/PHOTO-37E3673F7418449889B257B26E3E6E5C.jpg",
+      "filename": "PHOTO-37E3673F7418449889B257B26E3E6E5C.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 448926,
+      "sequence": 3,
+      "captured_at": "2026-08-06T14:14:22.000Z",
+      "added_at": "2026-08-19T05:59:50.924Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "photo_lat": 48.30756166666666,
+      "photo_lon": 14.28557,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 97
+      },
+      "vessel_name_entered": "S.S. Maria Theresa"
     }
   ],
-  "updated_at": "2026-08-19T05:58:58.006Z",
+  "updated_at": "2026-08-19T05:59:50.924Z",
   "photo_history": [
     {
       "action": "deleted",
