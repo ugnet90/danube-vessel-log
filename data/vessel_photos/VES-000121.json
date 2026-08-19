@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000121",
+  "photos": [
+    {
+      "photo_id": "PHOTO-E06B9D073E914AF9920C3DE8CDE148D9",
+      "path": "inbox/photos/2026/08/PHOTO-E06B9D073E914AF9920C3DE8CDE148D9.jpg",
+      "filename": "PHOTO-E06B9D073E914AF9920C3DE8CDE148D9.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 363171,
+      "sequence": 1,
+      "captured_at": "2026-08-19T05:09:51.000Z",
+      "added_at": "2026-08-19T09:44:48.591Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "photo_lat": 48.307755,
+      "photo_lon": 14.28761666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+        "name": "Untere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "AmaMagna"
+    }
+  ],
+  "updated_at": "2026-08-19T09:44:48.591Z"
+}
