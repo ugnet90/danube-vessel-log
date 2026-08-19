@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.24
+ * Version: 0.14.25
  * Updated: 2026-08-19
  */
 
@@ -11,6 +11,7 @@ const MAX_PHOTOS_PER_SUBMISSION = 10;
 const SIGHTINGS_PATH = "data/sightings.json";
 const BRANCH = "main";
 const LOCATIONS_PATH = "data/locations.csv";
+const LOCATION_AREAS_PATH = "data/location_areas.geojson";
 const BERTHS_PATH = "data/berths.csv";
 const VESSEL_PHOTOS_DIRECTORY = "data/vessel_photos";
 const VESSELS_PATH = "data/vessels.csv";
@@ -1408,6 +1409,11 @@ async function createJsonSubmission(request, env) {
       ? locationResult.location.distance_m
       : null;
 
+  input.location_area_id =
+    typeof locationResult.location?.area_id === "string"
+      ? locationResult.location.area_id
+      : "";
+
   const berthResult = await resolveBerth({
     input,
     location: locationResult.location,
@@ -1831,6 +1837,11 @@ async function createPhotoSubmission(request, env) {
     Number.isFinite(locationResult.location?.distance_m)
       ? locationResult.location.distance_m
       : null;
+
+  input.location_area_id =
+    typeof locationResult.location?.area_id === "string"
+      ? locationResult.location.area_id
+      : "";
 
   const berthResult = await resolveBerth({
     input,
@@ -2460,6 +2471,10 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
           locationResult.matched_by ?? "",
         id:
           locationResult.location?.location_id ?? "",
+        area_id:
+          typeof locationResult.location?.area_id === "string"
+            ? locationResult.location.area_id
+            : "",
         name: locationTextParts.name,
         municipality:
           locationTextParts.municipality,
@@ -2478,6 +2493,7 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
         status: "unknown",
         matched_by: "",
         id: "",
+        area_id: "",
         name: "",
         municipality: "",
         country: "",
@@ -3552,6 +3568,7 @@ function buildSightingRecord({ submission, submissionPath }) {
             status: String(submission.location.status ?? "unknown"),
             matched_by: String(submission.location.matched_by ?? ""),
             id: String(submission.location.id ?? ""),
+            area_id: String(submission.location.area_id ?? ""),
             name: String(submission.location.name ?? ""),
             municipality: String(submission.location.municipality ?? ""),
             country: String(submission.location.country ?? ""),
@@ -3563,6 +3580,7 @@ function buildSightingRecord({ submission, submissionPath }) {
             status: "unknown",
             matched_by: "",
             id: "",
+            area_id: "",
             name: "",
             municipality: "",
             country: "",
@@ -10618,6 +10636,11 @@ function buildSubmission({
           ? input.location_id
           : "",
 
+      area_id:
+        typeof input.location_area_id === "string"
+          ? input.location_area_id
+          : "",
+
       name:
         typeof input.location_name === "string"
           ? input.location_name
@@ -11943,6 +11966,10 @@ function normalizeLocationForOutput(location) {
       ""
     ).trim(),
 
+    area_id: String(
+      source.area_id ?? ""
+    ).trim(),
+
     ...textParts
   };
 }
@@ -12097,9 +12124,89 @@ async function resolveLocation(input, env) {
     };
   }
 
+  /*
+   * Präzise Aufnahmebereiche werden vor den bisherigen Radien geprüft.
+   * Die GeoJSON-Datei ist bewusst eine Verfeinerung: Ist sie temporär
+   * nicht lesbar, bleibt die bisherige Radiuslogik als Rückfall erhalten.
+   */
+  const locationAreasResult =
+    await loadLocationAreas(env);
+
+  const locationAreas =
+    locationAreasResult.ok
+      ? locationAreasResult.areas
+      : [];
+
+  const areaMatch =
+    findLocationAreaMatch(
+      longitude,
+      latitude,
+      locationAreas
+    );
+
+  if (areaMatch) {
+    const parentLocation =
+      locationsResult.locations.find(
+        location =>
+          location.location_id ===
+          areaMatch.location_id
+      ) ?? null;
+
+    const publicName =
+      areaMatch.public_name ||
+      areaMatch.name ||
+      parentLocation?.public_name ||
+      parentLocation?.name ||
+      "";
+
+    return {
+      ok: true,
+      location: {
+        ...(parentLocation ?? {}),
+        location_id:
+          areaMatch.location_id,
+        name: publicName,
+        public_name: publicName,
+        municipality:
+          areaMatch.municipality ||
+          parentLocation?.municipality ||
+          "",
+        country:
+          areaMatch.country ||
+          parentLocation?.country ||
+          "",
+        area_id: areaMatch.area_id,
+        area_priority: areaMatch.priority,
+        distance_m: null
+      },
+      matched_by: "geo_area"
+    };
+  }
+
+  /*
+   * Sobald für eine Location präzise Flächen vorhanden sind, wird ihr
+   * großzügiger Radius nicht mehr als Ersatz verwendet. So kann z. B.
+   * LOC-001 außerhalb der definierten Linzer Ufer-/Brückenbereiche nicht
+   * mehr fälschlich "Nibelungenbrücke" liefern.
+   */
+  const areaManagedLocationIds =
+    new Set(
+      locationAreas.map(
+        area => area.location_id
+      )
+    );
+
   let bestMatch = null;
 
   for (const location of locationsResult.locations) {
+    if (
+      areaManagedLocationIds.has(
+        location.location_id
+      )
+    ) {
+      continue;
+    }
+
     const distanceM = calculateDistanceMeters(
       latitude,
       longitude,
@@ -12126,6 +12233,433 @@ async function resolveLocation(input, env) {
     location: bestMatch,
     matched_by: bestMatch ? "coordinates" : ""
   };
+}
+
+async function loadLocationAreas(env) {
+  const url =
+    `https://api.github.com/repos/` +
+    `${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/` +
+    `${LOCATION_AREAS_PATH}?ref=${encodeURIComponent(BRANCH)}`;
+
+  const result = await githubRequest(url, {
+    method: "GET",
+    headers: githubHeaders(env)
+  });
+
+  if (!result.ok) {
+    return {
+      ok: false,
+      status: result.status,
+      areas: [],
+      error:
+        "data/location_areas.geojson konnte nicht aus GitHub geladen werden."
+    };
+  }
+
+  if (
+    typeof result.body.content !== "string" ||
+    result.body.encoding !== "base64"
+  ) {
+    return {
+      ok: false,
+      status: 502,
+      areas: [],
+      error:
+        "GitHub lieferte location_areas.geojson nicht im erwarteten Format."
+    };
+  }
+
+  let geoJsonText;
+
+  try {
+    geoJsonText = decodeBase64Utf8(
+      result.body.content.replace(/\s/g, "")
+    );
+  } catch {
+    return {
+      ok: false,
+      status: 500,
+      areas: [],
+      error:
+        "location_areas.geojson konnte nicht decodiert werden."
+    };
+  }
+
+  try {
+    return {
+      ok: true,
+      status: 200,
+      areas:
+        parseLocationAreasGeoJson(
+          geoJsonText
+        )
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      status: 500,
+      areas: [],
+      error:
+        error instanceof Error
+          ? error.message
+          : "location_areas.geojson konnte nicht verarbeitet werden."
+    };
+  }
+}
+
+function parseLocationAreasGeoJson(geoJsonText) {
+  let document;
+
+  try {
+    document = JSON.parse(geoJsonText);
+  } catch {
+    throw new Error(
+      "location_areas.geojson enthält kein gültiges JSON."
+    );
+  }
+
+  if (
+    document?.type !== "FeatureCollection" ||
+    !Array.isArray(document.features)
+  ) {
+    throw new Error(
+      "location_areas.geojson muss eine GeoJSON-FeatureCollection sein."
+    );
+  }
+
+  const areas = [];
+
+  for (const feature of document.features) {
+    const properties =
+      feature?.properties &&
+      typeof feature.properties === "object"
+        ? feature.properties
+        : {};
+
+    const areaId =
+      String(
+        properties.area_id ?? ""
+      ).trim();
+
+    const locationId =
+      String(
+        properties.location_id ?? ""
+      ).trim();
+
+    const geometry =
+      feature?.geometry &&
+      typeof feature.geometry === "object"
+        ? feature.geometry
+        : null;
+
+    if (
+      !areaId ||
+      !/^LOC-\d{3,}$/.test(locationId) ||
+      !geometry ||
+      !["Polygon", "MultiPolygon"].includes(
+        geometry.type
+      ) ||
+      !Array.isArray(geometry.coordinates)
+    ) {
+      continue;
+    }
+
+    const priorityNumber =
+      Number(properties.priority);
+
+    areas.push({
+      area_id: areaId,
+      location_id: locationId,
+      name:
+        String(
+          properties.name ?? ""
+        ).trim(),
+      public_name:
+        String(
+          properties.public_name ?? ""
+        ).trim(),
+      municipality:
+        String(
+          properties.municipality ?? ""
+        ).trim(),
+      country:
+        String(
+          properties.country ?? ""
+        ).trim(),
+      priority:
+        Number.isFinite(priorityNumber)
+          ? priorityNumber
+          : 0,
+      geometry
+    });
+  }
+
+  return areas;
+}
+
+function findLocationAreaMatch(
+  longitude,
+  latitude,
+  areas
+) {
+  let bestMatch = null;
+
+  for (
+    const area
+    of Array.isArray(areas)
+      ? areas
+      : []
+  ) {
+    if (
+      !pointInGeoJsonGeometry(
+        longitude,
+        latitude,
+        area.geometry
+      )
+    ) {
+      continue;
+    }
+
+    if (
+      bestMatch === null ||
+      area.priority > bestMatch.priority
+    ) {
+      bestMatch = area;
+    }
+  }
+
+  return bestMatch;
+}
+
+function pointInGeoJsonGeometry(
+  longitude,
+  latitude,
+  geometry
+) {
+  if (
+    geometry?.type === "Polygon"
+  ) {
+    return pointInGeoJsonPolygon(
+      longitude,
+      latitude,
+      geometry.coordinates
+    );
+  }
+
+  if (
+    geometry?.type === "MultiPolygon"
+  ) {
+    return geometry.coordinates.some(
+      polygon =>
+        pointInGeoJsonPolygon(
+          longitude,
+          latitude,
+          polygon
+        )
+    );
+  }
+
+  return false;
+}
+
+function pointInGeoJsonPolygon(
+  longitude,
+  latitude,
+  rings
+) {
+  if (
+    !Array.isArray(rings) ||
+    rings.length < 1 ||
+    !pointInGeoJsonRing(
+      longitude,
+      latitude,
+      rings[0]
+    )
+  ) {
+    return false;
+  }
+
+  for (
+    const hole
+    of rings.slice(1)
+  ) {
+    if (
+      pointInGeoJsonRing(
+        longitude,
+        latitude,
+        hole
+      )
+    ) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function pointInGeoJsonRing(
+  longitude,
+  latitude,
+  ring
+) {
+  if (
+    !Array.isArray(ring) ||
+    ring.length < 3
+  ) {
+    return false;
+  }
+
+  let inside = false;
+
+  for (
+    let index = 0, previous = ring.length - 1;
+    index < ring.length;
+    previous = index, index += 1
+  ) {
+    const currentPoint =
+      ring[index];
+
+    const previousPoint =
+      ring[previous];
+
+    if (
+      !Array.isArray(currentPoint) ||
+      !Array.isArray(previousPoint) ||
+      currentPoint.length < 2 ||
+      previousPoint.length < 2
+    ) {
+      continue;
+    }
+
+    const currentLongitude =
+      Number(currentPoint[0]);
+
+    const currentLatitude =
+      Number(currentPoint[1]);
+
+    const previousLongitude =
+      Number(previousPoint[0]);
+
+    const previousLatitude =
+      Number(previousPoint[1]);
+
+    if (
+      !Number.isFinite(currentLongitude) ||
+      !Number.isFinite(currentLatitude) ||
+      !Number.isFinite(previousLongitude) ||
+      !Number.isFinite(previousLatitude)
+    ) {
+      continue;
+    }
+
+    if (
+      pointOnGeoSegment(
+        longitude,
+        latitude,
+        previousLongitude,
+        previousLatitude,
+        currentLongitude,
+        currentLatitude
+      )
+    ) {
+      return true;
+    }
+
+    const crossesLatitude =
+      (
+        currentLatitude > latitude
+      ) !== (
+        previousLatitude > latitude
+      );
+
+    if (!crossesLatitude) {
+      continue;
+    }
+
+    const intersectionLongitude =
+      (
+        (previousLongitude - currentLongitude) *
+        (latitude - currentLatitude)
+      ) /
+      (
+        previousLatitude - currentLatitude
+      ) +
+      currentLongitude;
+
+    if (
+      longitude <
+      intersectionLongitude
+    ) {
+      inside = !inside;
+    }
+  }
+
+  return inside;
+}
+
+function pointOnGeoSegment(
+  longitude,
+  latitude,
+  longitude1,
+  latitude1,
+  longitude2,
+  latitude2
+) {
+  const epsilon = 1e-10;
+
+  const cross =
+    (
+      latitude - latitude1
+    ) *
+    (
+      longitude2 - longitude1
+    ) -
+    (
+      longitude - longitude1
+    ) *
+    (
+      latitude2 - latitude1
+    );
+
+  if (Math.abs(cross) > epsilon) {
+    return false;
+  }
+
+  const squaredLength =
+    (
+      longitude2 - longitude1
+    ) ** 2 +
+    (
+      latitude2 - latitude1
+    ) ** 2;
+
+  if (squaredLength <= epsilon ** 2) {
+    return (
+      Math.abs(longitude - longitude1) <= epsilon &&
+      Math.abs(latitude - latitude1) <= epsilon
+    );
+  }
+
+  const dot =
+    (
+      longitude - longitude1
+    ) *
+    (
+      longitude2 - longitude1
+    ) +
+    (
+      latitude - latitude1
+    ) *
+    (
+      latitude2 - latitude1
+    );
+
+  if (dot < -epsilon) {
+    return false;
+  }
+
+  return dot <=
+    squaredLength + epsilon;
 }
 
 async function loadLocations(env) {
