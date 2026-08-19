@@ -3,26 +3,13 @@
   "vessel_id": "VES-000110",
   "photos": [
     {
-      "photo_id": "PHOTO-D28272BA6C5D4F07936A9D0339B7A9AB",
-      "path": "inbox/photos/2026/07/PHOTO-D28272BA6C5D4F07936A9D0339B7A9AB.jpg",
-      "filename": "PHOTO-D28272BA6C5D4F07936A9D0339B7A9AB.jpg",
-      "original_filename": "shortcut-photo-01.jpg",
-      "mime_type": "image/jpeg",
-      "size_bytes": 282429,
-      "sequence": 1,
-      "captured_at": "2026-07-28T13:23:51.000Z",
-      "added_at": "2026-07-31T13:20:06.998Z",
-      "source": "direct_vessel_upload",
-      "notes": ""
-    },
-    {
       "photo_id": "PHOTO-DE95180B87A84478B82FAC7B5884D164",
       "path": "inbox/photos/2026/08/PHOTO-DE95180B87A84478B82FAC7B5884D164.jpg",
       "filename": "PHOTO-DE95180B87A84478B82FAC7B5884D164.jpg",
       "original_filename": "shortcut-photo-01.jpg",
       "mime_type": "image/jpeg",
       "size_bytes": 436275,
-      "sequence": 2,
+      "sequence": 1,
       "captured_at": "2026-08-06T14:14:22.000Z",
       "added_at": "2026-08-19T05:59:50.924Z",
       "source": "direct_vessel_upload",
@@ -47,7 +34,7 @@
       "original_filename": "shortcut-photo-02.jpg",
       "mime_type": "image/jpeg",
       "size_bytes": 448926,
-      "sequence": 3,
+      "sequence": 2,
       "captured_at": "2026-08-06T14:14:22.000Z",
       "added_at": "2026-08-19T05:59:50.924Z",
       "source": "direct_vessel_upload",
@@ -72,7 +59,7 @@
       "original_filename": "shortcut-photo-01.jpg",
       "mime_type": "image/jpeg",
       "size_bytes": 282429,
-      "sequence": 4,
+      "sequence": 3,
       "captured_at": "2026-07-28T13:23:51.000Z",
       "added_at": "2026-08-19T06:01:08.779Z",
       "source": "direct_vessel_upload",
@@ -91,7 +78,7 @@
       "vessel_name_entered": "S.S. Maria Theresa"
     }
   ],
-  "updated_at": "2026-08-19T06:01:08.779Z",
+  "updated_at": "2026-08-19T06:01:34.277Z",
   "photo_history": [
     {
       "action": "deleted",
@@ -125,6 +112,24 @@
         "sequence": 2,
         "captured_at": "2026-08-06T14:14:22.000Z",
         "added_at": "2026-08-18T18:34:26.483Z",
+        "source": "direct_vessel_upload",
+        "notes": ""
+      }
+    },
+    {
+      "action": "deleted",
+      "deleted_at": "2026-08-19T06:01:34.277Z",
+      "deleted_by": "web-ui",
+      "photo": {
+        "photo_id": "PHOTO-D28272BA6C5D4F07936A9D0339B7A9AB",
+        "path": "inbox/photos/2026/07/PHOTO-D28272BA6C5D4F07936A9D0339B7A9AB.jpg",
+        "filename": "PHOTO-D28272BA6C5D4F07936A9D0339B7A9AB.jpg",
+        "original_filename": "shortcut-photo-01.jpg",
+        "mime_type": "image/jpeg",
+        "size_bytes": 282429,
+        "sequence": 1,
+        "captured_at": "2026-07-28T13:23:51.000Z",
+        "added_at": "2026-07-31T13:20:06.998Z",
         "source": "direct_vessel_upload",
         "notes": ""
       }
