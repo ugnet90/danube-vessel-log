@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.23
- * Updated: 2026-08-18
+ * Version: 0.14.24
+ * Updated: 2026-08-19
  */
 
 const API_VERSION = "2022-11-28";
@@ -2242,7 +2242,32 @@ function normalizeDirectVesselPhotos(env, document) {
       notes:
         typeof photo.notes === "string"
           ? photo.notes
-          : ""
+          : "",
+      photo_lat:
+        parseCoordinate(photo.photo_lat),
+      photo_lon:
+        parseCoordinate(photo.photo_lon),
+      vessel_name_entered:
+        typeof photo.vessel_name_entered === "string"
+          ? photo.vessel_name_entered
+          : "",
+      location: {
+        status:
+          photo.location?.status === "matched"
+            ? "matched"
+            : "unknown",
+        matched_by:
+          typeof photo.location?.matched_by === "string"
+            ? photo.location.matched_by
+            : "",
+        ...normalizeLocationForOutput(
+          photo.location
+        ),
+        distance_m:
+          Number.isFinite(photo.location?.distance_m)
+            ? Math.round(photo.location.distance_m)
+            : null
+      }
     }))
     .sort((left, right) =>
       String(right.captured_at || right.added_at)
@@ -2358,6 +2383,9 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
 
   let submissionFile = null;
   let vesselPhotosFile = null;
+  let directPhotoLatitude = null;
+  let directPhotoLongitude = null;
+  let directPhotoLocation = null;
 
   if (target.targetType === "submission") {
     submissionFile = await findSubmissionFile(env, target.submissionId);
@@ -2369,6 +2397,93 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
     if (!vesselResult.ok) return jsonResponse({ ok: false, error: vesselResult.error }, vesselResult.status === 404 ? 404 : 502);
     vesselPhotosFile = await loadDirectVesselPhotos(env, target.vesselId);
     if (!vesselPhotosFile.ok) return jsonResponse({ ok: false, error: vesselPhotosFile.error }, vesselPhotosFile.status ?? 502);
+
+    /*
+     * Reine Zusatzfotos sind keine neue Sichtung. Die vom iPhone
+     * gelieferten Foto-Metadaten bleiben trotzdem am Foto erhalten.
+     * Die Koordinaten werden zusätzlich gegen data/locations.csv
+     * aufgelöst, sofern gültige GPS-Werte vorhanden sind.
+     */
+    directPhotoLatitude = parseCoordinate(
+      input.photo_lat ?? input.observer_lat
+    );
+
+    directPhotoLongitude = parseCoordinate(
+      input.photo_lon ?? input.observer_lon
+    );
+
+    const hasDirectPhotoCoordinates =
+      directPhotoLatitude !== null &&
+      directPhotoLongitude !== null &&
+      !(
+        directPhotoLatitude === 0 &&
+        directPhotoLongitude === 0
+      );
+
+    if (hasDirectPhotoCoordinates) {
+      const locationResult = await resolveLocation(
+        {
+          ...input,
+          observer_lat: directPhotoLatitude,
+          observer_lon: directPhotoLongitude
+        },
+        env
+      );
+
+      if (!locationResult.ok) {
+        return jsonResponse({
+          ok: false,
+          error: locationResult.error
+        }, 502);
+      }
+
+      const locationTextParts =
+        normalizeLocationTextParts({
+          name:
+            locationResult.location?.public_name ??
+            locationResult.location?.name ??
+            "",
+          municipality:
+            locationResult.location?.municipality ??
+            "",
+          country:
+            locationResult.location?.country ??
+            ""
+        });
+
+      directPhotoLocation = {
+        status:
+          locationResult.location
+            ? "matched"
+            : "unknown",
+        matched_by:
+          locationResult.matched_by ?? "",
+        id:
+          locationResult.location?.location_id ?? "",
+        name: locationTextParts.name,
+        municipality:
+          locationTextParts.municipality,
+        country: locationTextParts.country,
+        distance_m:
+          Number.isFinite(
+            locationResult.location?.distance_m
+          )
+            ? Math.round(
+                locationResult.location.distance_m
+              )
+            : null
+      };
+    } else {
+      directPhotoLocation = {
+        status: "unknown",
+        matched_by: "",
+        id: "",
+        name: "",
+        municipality: "",
+        country: "",
+        distance_m: null
+      };
+    }
   }
 
   const year = String(capturedAt.getUTCFullYear());
@@ -2384,7 +2499,7 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
     const bytes = await photo.arrayBuffer();
     const originalFilename = (typeof originalFilenames[index] === "string" ? originalFilenames[index].trim() : "") || photo.name || "";
 
-    records.push({
+    const record = {
       photo_id: photoId,
       path,
       filename: `${photoId}.jpg`,
@@ -2396,7 +2511,17 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
       added_at: uploadedAt.toISOString(),
       source: target.targetType === "submission" ? "submission_supplement" : "direct_vessel_upload",
       notes: String(input.notes ?? "").trim()
-    });
+    };
+
+    if (target.targetType === "vessel") {
+      record.photo_lat = directPhotoLatitude;
+      record.photo_lon = directPhotoLongitude;
+      record.location = directPhotoLocation;
+      record.vessel_name_entered =
+        normalizeEnteredVesselName(input);
+    }
+
+    records.push(record);
 
     files.push({ path, content: arrayBufferToBase64(bytes), encoding: "base64" });
   }
