@@ -31,5 +31,15 @@
       "decision": "created",
       "notes": ""
     }
+  },
+  "location": {
+    "status": "matched",
+    "matched_by": "geo_area",
+    "id": "LOC-001",
+    "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+    "name": "Untere Donaulände, Linz",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "distance_m": null
   }
 }

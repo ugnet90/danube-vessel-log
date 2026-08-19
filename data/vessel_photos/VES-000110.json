@@ -17,13 +17,14 @@
       "photo_lat": 48.30756166666666,
       "photo_lon": 14.28557,
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
         "municipality": "",
-        "country": "Österreich",
-        "distance_m": 97
+        "country": "",
+        "distance_m": null
       },
       "vessel_name_entered": "S.S. Maria Theresa"
     },
@@ -42,13 +43,14 @@
       "photo_lat": 48.30756166666666,
       "photo_lon": 14.28557,
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
         "municipality": "",
-        "country": "Österreich",
-        "distance_m": 97
+        "country": "",
+        "distance_m": null
       },
       "vessel_name_entered": "S.S. Maria Theresa"
     },
@@ -68,12 +70,13 @@
       "photo_lon": 14.28917166666667,
       "location": {
         "status": "matched",
-        "matched_by": "coordinates",
+        "matched_by": "geo_area",
         "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+        "name": "Untere Donaulände, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": 335
+        "distance_m": null
       },
       "vessel_name_entered": "S.S. Maria Theresa"
     }

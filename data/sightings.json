@@ -12,13 +12,13 @@
       "vessel_name_entered": "AmaMagna",
       "location": {
         "status": "matched",
-        "matched_by": "coordinates",
+        "matched_by": "geo_area",
         "id": "LOC-001",
-        "area_id": "",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+        "name": "Untere Donaulände, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": 276
+        "distance_m": null
       },
       "berth": {
         "status": "matched",
@@ -133,12 +133,13 @@
       "reviewed_at": "2026-08-19T05:00:52.058Z",
       "vessel_name_entered": "S.S. Maria Theresa",
       "location": {
-        "status": "matched",
-        "matched_by": "berth_id",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
         "municipality": "",
-        "country": "Österreich",
+        "country": "",
         "distance_m": null
       },
       "berth": {
@@ -188,12 +189,13 @@
       "reviewed_at": "2026-08-19T05:38:03.982Z",
       "vessel_name_entered": "Emerald Destiny",
       "location": {
-        "status": "matched",
-        "matched_by": "berth_id",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
         "municipality": "",
-        "country": "Österreich",
+        "country": "",
         "distance_m": null
       },
       "berth": {
@@ -243,12 +245,13 @@
       "reviewed_at": "2026-08-19T05:41:52.709Z",
       "vessel_name_entered": "APT Ostara",
       "location": {
-        "status": "matched",
-        "matched_by": "berth_id",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
         "municipality": "",
-        "country": "Österreich",
+        "country": "",
         "distance_m": null
       },
       "berth": {
@@ -298,12 +301,13 @@
       "reviewed_at": "2026-08-18T15:03:02.412Z",
       "vessel_name_entered": "Viking Embla",
       "location": {
-        "status": "matched",
-        "matched_by": "berth_id",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
         "municipality": "",
-        "country": "Österreich",
+        "country": "",
         "distance_m": null
       },
       "berth": {
@@ -353,12 +357,13 @@
       "reviewed_at": "2026-08-18T15:00:20.006Z",
       "vessel_name_entered": "Amadeus Cara",
       "location": {
-        "status": "matched",
-        "matched_by": "berth_id",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
         "municipality": "",
-        "country": "Österreich",
+        "country": "",
         "distance_m": null
       },
       "berth": {
@@ -408,12 +413,13 @@
       "reviewed_at": "2026-08-18T14:57:39.934Z",
       "vessel_name_entered": "Vista Classica",
       "location": {
-        "status": "matched",
-        "matched_by": "berth_id",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
         "municipality": "",
-        "country": "Österreich",
+        "country": "",
         "distance_m": null
       },
       "berth": {
@@ -463,13 +469,14 @@
       "reviewed_at": "2026-08-18T13:12:27.368Z",
       "vessel_name_entered": "Avalon Illumination",
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
         "municipality": "",
-        "country": "Österreich",
-        "distance_m": 96
+        "country": "",
+        "distance_m": null
       },
       "berth": {
         "status": "matched",
@@ -532,13 +539,14 @@
       "reviewed_at": "2026-08-18T10:15:20.482Z",
       "vessel_name_entered": "AmaSonata",
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
         "municipality": "",
-        "country": "Österreich",
-        "distance_m": 330
+        "country": "",
+        "distance_m": null
       },
       "berth": {
         "status": "matched",
@@ -696,13 +704,14 @@
       "reviewed_at": "2026-08-17T10:07:57.919Z",
       "vessel_name_entered": "S. S. Emilie",
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
-        "distance_m": 441
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
       },
       "berth": {
         "status": "matched",
@@ -778,13 +787,14 @@
       "reviewed_at": "2026-08-17T10:13:51.671Z",
       "vessel_name_entered": "S. S. Emilie",
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
-        "distance_m": 446
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
       },
       "berth": {
         "status": "matched",
@@ -903,12 +913,13 @@
       "vessel_name_entered": "S. S. Maria Theresa",
       "location": {
         "status": "matched",
-        "matched_by": "coordinates",
+        "matched_by": "geo_area",
         "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": 432
+        "distance_m": null
       },
       "berth": {
         "status": "matched",
@@ -972,12 +983,13 @@
       "vessel_name_entered": "NickoVision",
       "location": {
         "status": "matched",
-        "matched_by": "coordinates",
+        "matched_by": "geo_area",
         "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": 379
+        "distance_m": null
       },
       "berth": {
         "status": "matched",
@@ -1080,12 +1092,13 @@
       "vessel_name_entered": "AmaMora",
       "location": {
         "status": "matched",
-        "matched_by": "coordinates",
+        "matched_by": "geo_area",
         "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": 389
+        "distance_m": null
       },
       "berth": {
         "status": "matched",
@@ -1148,13 +1161,14 @@
       "reviewed_at": "2026-08-06T08:55:10.316Z",
       "vessel_name_entered": "France",
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
-        "distance_m": 452
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
       },
       "berth": {
         "status": "matched",
@@ -1270,12 +1284,13 @@
       "vessel_name_entered": "Vista Classica",
       "location": {
         "status": "matched",
-        "matched_by": "coordinates",
+        "matched_by": "geo_area",
         "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": 392
+        "distance_m": null
       },
       "berth": {
         "status": "matched",
@@ -1365,12 +1380,13 @@
       "vessel_name_entered": "Avalon Illumination",
       "location": {
         "status": "matched",
-        "matched_by": "coordinates",
+        "matched_by": "geo_area",
         "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": 385
+        "distance_m": null
       },
       "berth": {
         "status": "matched",
@@ -1512,12 +1528,13 @@
       "vessel_name_entered": "Amadeus Cara",
       "location": {
         "status": "matched",
-        "matched_by": "coordinates",
+        "matched_by": "geo_area",
         "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": 374
+        "distance_m": null
       },
       "berth": {
         "status": "matched",
@@ -1917,13 +1934,14 @@
       "reviewed_at": "2026-07-30T17:33:00.999Z",
       "vessel_name_entered": "TUI isla",
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
-        "distance_m": 456
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
       },
       "berth": {
         "status": "matched",
@@ -2000,8 +2018,9 @@
       "vessel_name_entered": "S S Maria Theresa",
       "location": {
         "status": "matched",
-        "matched_by": "coordinates",
+        "matched_by": "geo_area",
         "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -2056,12 +2075,13 @@
       "reviewed_at": "2026-07-27T14:34:37.979Z",
       "vessel_name_entered": "AmaMora",
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
         "distance_m": null
       },
       "berth": {},
@@ -2100,12 +2120,13 @@
       "reviewed_at": "2026-07-27T14:25:35.847Z",
       "vessel_name_entered": "AmaReina",
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
         "distance_m": null
       },
       "berth": {},
@@ -2240,12 +2261,13 @@
       "reviewed_at": "2026-07-23T19:24:28.438Z",
       "vessel_name_entered": "tui isla",
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
         "distance_m": null
       },
       "berth": {},
@@ -2297,12 +2319,13 @@
       "reviewed_at": "2026-07-23T19:25:15.489Z",
       "vessel_name_entered": "AmaMora",
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
         "distance_m": null
       },
       "berth": {},
@@ -2411,12 +2434,13 @@
       "reviewed_at": "2026-07-22T13:03:30.818Z",
       "vessel_name_entered": "S. S. Beatrice",
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
         "distance_m": null
       },
       "berth": {},
@@ -2468,12 +2492,13 @@
       "reviewed_at": "2026-07-22T10:36:06.102Z",
       "vessel_name_entered": "Testschiff",
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
         "distance_m": null
       },
       "berth": {},
@@ -2513,9 +2538,10 @@
       "vessel_name_entered": "S. S. Beatrice",
       "location": {
         "status": "matched",
-        "matched_by": "coordinates",
+        "matched_by": "geo_area",
         "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+        "name": "Untere Donaulände, Linz",
         "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
@@ -2557,9 +2583,10 @@
       "vessel_name_entered": "S. S. Beatrice",
       "location": {
         "status": "matched",
-        "matched_by": "coordinates",
+        "matched_by": "geo_area",
         "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+        "name": "Untere Donaulände, Linz",
         "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
@@ -2600,12 +2627,13 @@
       "reviewed_at": "2026-07-21T11:18:33.594Z",
       "vessel_name_entered": "Testschiff",
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
         "distance_m": null
       },
       "berth": {},
@@ -2644,12 +2672,13 @@
       "reviewed_at": "2026-07-21T10:33:40.648Z",
       "vessel_name_entered": "Testschiff",
       "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
         "distance_m": null
       },
       "berth": {},
@@ -2734,7 +2763,8 @@
       "location": {
         "status": "unknown",
         "matched_by": "",
-        "id": "LOC-001",
+        "id": "",
+        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -2776,10 +2806,11 @@
       "reviewed_at": "2026-07-20T20:40:12.191Z",
       "vessel_name_entered": "Testschiff",
       "location": {
-        "status": "unknown",
-        "matched_by": "",
+        "status": "matched",
+        "matched_by": "geo_area",
         "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
+        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+        "name": "Untere Donaulände, Linz",
         "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
@@ -2822,10 +2853,11 @@
       "location": {
         "status": "unknown",
         "matched_by": "",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
         "distance_m": null
       },
       "berth": {},
@@ -2866,10 +2898,11 @@
       "location": {
         "status": "unknown",
         "matched_by": "",
-        "id": "LOC-001",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
         "distance_m": null
       },
       "berth": {},
@@ -2908,12 +2941,13 @@
       "reviewed_at": "2026-07-26T16:32:15.614Z",
       "vessel_name_entered": "TUI Skyla",
       "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+        "name": "Untere Donaulände, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
         "distance_m": null
       },
       "berth": {},

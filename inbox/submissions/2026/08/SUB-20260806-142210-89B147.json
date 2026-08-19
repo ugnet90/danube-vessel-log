@@ -5,12 +5,13 @@
   "captured_at": "2026-08-06T14:21:46.000Z",
   "location": {
     "status": "matched",
-    "matched_by": "coordinates",
+    "matched_by": "geo_area",
     "id": "LOC-001",
-    "name": "Nibelungenbrücke, Linz",
+    "area_id": "AREA-LINZ-ALT-URFAHR",
+    "name": "Donauufer Alt-Urfahr, Linz",
     "municipality": "Linz",
     "country": "Österreich",
-    "distance_m": 379
+    "distance_m": null
   },
   "berth": {
     "status": "matched",

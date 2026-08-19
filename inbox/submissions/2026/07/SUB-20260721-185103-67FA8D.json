@@ -5,11 +5,13 @@
   "captured_at": "2026-07-21T18:50:48.000Z",
   "location": {
     "status": "matched",
-    "matched_by": "coordinates",
+    "matched_by": "geo_area",
     "id": "LOC-001",
-    "name": "Nibelungenbrücke, Linz",
+    "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+    "name": "Untere Donaulände, Linz",
     "municipality": "Linz",
-    "country": "Österreich"
+    "country": "Österreich",
+    "distance_m": null
   },
   "movement": "unknown",
   "direction": "unknown",
