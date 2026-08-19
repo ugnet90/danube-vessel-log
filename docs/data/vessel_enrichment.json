@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-19T05:58:10.773573Z",
+  "generated_at": "2026-08-19T06:05:32.469051Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -406,46 +406,11 @@
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
+          "Q1636655",
           "Q24027026",
           "Q43448989"
         ],
         "candidates": [
-          {
-            "qid": "Q1636655",
-            "label": "Melodija",
-            "description": "russisches Plattenlabel",
-            "url": "https://www.wikidata.org/wiki/Q1636655",
-            "score": 0.945,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Plattenlabel"
-            ],
-            "suggestions": [
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Q119855371",
-                "display_value": "Q119855371",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q1636655",
-                "confidence": 0.945,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2476406174
-          },
           {
             "qid": "Q113563850",
             "label": "Melodia",
@@ -746,46 +711,11 @@
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
+          "Q1636655",
           "Q24027026",
           "Q43449030"
         ],
         "candidates": [
-          {
-            "qid": "Q1636655",
-            "label": "Melodija",
-            "description": "russisches Plattenlabel",
-            "url": "https://www.wikidata.org/wiki/Q1636655",
-            "score": 0.95,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Plattenlabel"
-            ],
-            "suggestions": [
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Q119855371",
-                "display_value": "Q119855371",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q1636655",
-                "confidence": 0.95,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2476406174
-          },
           {
             "qid": "Q113563850",
             "label": "Melodia",
