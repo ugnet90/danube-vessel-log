@@ -67,7 +67,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-A1ABD78BA80648EA88122B5737E9C38D",
@@ -80,7 +84,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-6123B41C76B945D0A00D19D82187838D",
@@ -93,7 +101,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-D07AE86BAEB7462FACFA0C5ED193119D",
@@ -106,7 +118,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-6FD125D5964F4CE1ACA27C7D27EC6542",
@@ -119,10 +135,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-08-19T09:43:50.114Z"
+      "updated_at": "2026-08-19T09:43:50.114Z",
+      "photo_count": 5
     },
     {
       "submission_id": "SUB-20260819-050049-BE48BC",
@@ -525,10 +546,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-08-18T13:12:27.368Z"
+      "updated_at": "2026-08-18T13:12:27.368Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260818-101224-8E7288",
@@ -595,7 +621,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-89D6E3A9DAB940A3BA31C23CD916F136",
@@ -608,7 +638,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-49499A8EE16B44779E0AB0EEEC44CEF8",
@@ -621,10 +655,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-08-18T10:15:20.482Z"
+      "updated_at": "2026-08-18T10:15:20.482Z",
+      "photo_count": 3
     },
     {
       "submission_id": "SUB-20260818-044727-5CB090",
@@ -638,6 +677,7 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
+        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -690,10 +730,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-08-18T04:47:32.395Z"
+      "updated_at": "2026-08-18T04:47:32.395Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260817-100752-22C490",
@@ -760,7 +805,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-A8DF3AC316104831A11FE53D1AE0E5E6",
@@ -773,10 +822,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-08-17T10:07:57.919Z"
+      "updated_at": "2026-08-17T10:07:57.919Z",
+      "photo_count": 2
     },
     {
       "submission_id": "SUB-20260817-081632-0B0183",
@@ -846,6 +900,7 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
+        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -898,10 +953,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-08-06T14:47:06.006Z"
+      "updated_at": "2026-08-06T14:47:06.006Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260806-142324-38E029",
@@ -913,10 +973,10 @@
       "vessel_name_entered": "S. S. Maria Theresa",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
@@ -968,10 +1028,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-08-18T18:33:24.635Z"
+      "updated_at": "2026-08-18T18:33:24.635Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260806-142210-89B147",
@@ -983,10 +1048,10 @@
       "vessel_name_entered": "NickoVision",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
@@ -1038,7 +1103,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-F2A7EECE12694C6684DAB29662D52453",
@@ -1051,7 +1120,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-6591382AB29D482FA83A46E89F4B3A73",
@@ -1064,7 +1137,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-0701FF3B3DF546F0B7E1F49571CD3D1E",
@@ -1077,10 +1154,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-08-06T14:48:11.292Z"
+      "updated_at": "2026-08-06T14:48:11.292Z",
+      "photo_count": 4
     },
     {
       "submission_id": "SUB-20260806-141900-81052D",
@@ -1092,10 +1174,10 @@
       "vessel_name_entered": "AmaMora",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
@@ -1147,10 +1229,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-08-06T14:48:32.692Z"
+      "updated_at": "2026-08-06T14:48:32.692Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260806-055454-CAA0E9",
@@ -1217,7 +1304,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-057B3D5A9B1047368B1D67ABB1C9ABC3",
@@ -1230,7 +1321,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-7CC25E03CFF94BA5BC2099370DEAD976",
@@ -1243,7 +1338,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-A056BA620A3F4751AEB1A098C6BEC6E0",
@@ -1256,7 +1355,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-607F555D1F4A44C9BDAFB5752BFC0D33",
@@ -1269,10 +1372,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-08-06T08:55:10.316Z"
+      "updated_at": "2026-08-06T08:55:10.316Z",
+      "photo_count": 5
     },
     {
       "submission_id": "SUB-20260805-115711-2C6744",
@@ -1284,10 +1392,10 @@
       "vessel_name_entered": "Vista Classica",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
@@ -1339,7 +1447,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-FC6B8BCC94554ED5AE01D1718E3F8F33",
@@ -1352,7 +1464,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-A2B6707A10B64BB1BAC51FD0881B1892",
@@ -1365,10 +1481,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-08-05T12:06:51.337Z"
+      "updated_at": "2026-08-05T12:06:51.337Z",
+      "photo_count": 3
     },
     {
       "submission_id": "SUB-20260805-115353-717599",
@@ -1380,10 +1501,10 @@
       "vessel_name_entered": "Avalon Illumination",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
@@ -1435,7 +1556,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-E0A55A0E019541F5A8C88431830A6769",
@@ -1448,7 +1573,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-8A54F691D238486E92A6942B61B6E548",
@@ -1461,7 +1590,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-3B2D549A48934033878C0F6F80590BFD",
@@ -1474,7 +1607,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-D24ABCC8401F440788629EA21B8770BC",
@@ -1487,7 +1624,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-51D19CCB5E674A53BE7DBDC7E6B6E61A",
@@ -1500,7 +1641,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-B0ED48FDD5BE4AD289CD8E859D9DBF30",
@@ -1513,10 +1658,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-08-05T12:09:30.924Z"
+      "updated_at": "2026-08-05T12:09:30.924Z",
+      "photo_count": 7
     },
     {
       "submission_id": "SUB-20260805-115158-1BF055",
@@ -1528,10 +1678,10 @@
       "vessel_name_entered": "Amadeus Cara",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
@@ -1583,7 +1733,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-6B22411697CD42559168990907AF2947",
@@ -1596,7 +1750,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-BE0F84AF4B9A483EBBB4CD405AD8D319",
@@ -1609,7 +1767,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-00328E112BAC4B7AB9C483090E431B7D",
@@ -1622,7 +1784,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-6CEBB82F593045E7A8EC34C9FEC4D77E",
@@ -1635,7 +1801,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-1BC00DDB4BDA4C679AFB1E49BEB1372D",
@@ -1648,7 +1818,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-2B6E65EDBE124FAB8D34F649A1821E71",
@@ -1661,10 +1835,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-08-05T12:10:25.767Z"
+      "updated_at": "2026-08-05T12:10:25.767Z",
+      "photo_count": 7
     },
     {
       "submission_id": "SUB-20260731-141925-441DC5",
@@ -1678,6 +1857,7 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
+        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -1730,7 +1910,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-2F3929C23383478F8D3580553B39761B",
@@ -1743,10 +1927,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-31T14:21:15.529Z"
+      "updated_at": "2026-07-31T14:21:15.529Z",
+      "photo_count": 2
     },
     {
       "submission_id": "SUB-20260731-132500-0C1CB7",
@@ -1760,6 +1949,7 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
+        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -1812,7 +2002,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-14F83EB48031423F986388456429157B",
@@ -1825,10 +2019,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-31T13:26:59.198Z"
+      "updated_at": "2026-07-31T13:26:59.198Z",
+      "photo_count": 2
     },
     {
       "submission_id": "SUB-20260730-144242-B1A40B",
@@ -1842,6 +2041,7 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
+        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -1894,7 +2094,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-7A5091D623EE4BCEA893BBE539A0C141",
@@ -1907,7 +2111,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-6F897CDF1CEF498F9317B8A0CC2A72D8",
@@ -1920,10 +2128,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-30T16:04:49.763Z"
+      "updated_at": "2026-07-30T16:04:49.763Z",
+      "photo_count": 3
     },
     {
       "submission_id": "SUB-20260730-135420-AE6197",
@@ -1990,7 +2203,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-687AAC3FD7774A49BAE4667DECF71EDD",
@@ -2003,10 +2220,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-30T17:33:00.999Z"
+      "updated_at": "2026-07-30T17:33:00.999Z",
+      "photo_count": 2
     },
     {
       "submission_id": "SUB-20260728-062433-033817",
@@ -2018,9 +2240,9 @@
       "vessel_name_entered": "S S Maria Theresa",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -2048,7 +2270,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-D8DCFB3FB36F476C8EF7782AA7A5B3D5",
@@ -2061,10 +2287,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-28T06:26:41.861Z"
+      "updated_at": "2026-07-28T06:26:41.861Z",
+      "photo_count": 2
     },
     {
       "submission_id": "SUB-20260727-143120-E74E5E",
@@ -2106,10 +2337,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-27T14:34:37.979Z"
+      "updated_at": "2026-07-27T14:34:37.979Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260727-142352-5EC9E4",
@@ -2151,7 +2387,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-128DB3F662BE47BB8E47365746B4B79F",
@@ -2164,7 +2404,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-192DA1556CF24E54AD9F858CB69ACB4C",
@@ -2177,10 +2421,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-27T14:25:35.847Z"
+      "updated_at": "2026-07-27T14:25:35.847Z",
+      "photo_count": 3
     },
     {
       "submission_id": "SUB-20260727-104146-96C97B",
@@ -2194,6 +2443,7 @@
         "status": "matched",
         "matched_by": "location_id",
         "id": "LOC-001",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -2221,7 +2471,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-00D04B6AF31F485DB90F7DED4FD0A479",
@@ -2234,7 +2488,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-B974FFA0782C480585E3B7459A62F997",
@@ -2247,10 +2505,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-27T10:42:47.677Z"
+      "updated_at": "2026-07-27T10:42:47.677Z",
+      "photo_count": 3
     },
     {
       "submission_id": "SUB-20260723-191829-3BB171",
@@ -2292,7 +2555,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-E25AE8CE13D14225B2B7DA28F8A9D12C",
@@ -2305,10 +2572,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-23T19:24:28.438Z"
+      "updated_at": "2026-07-23T19:24:28.438Z",
+      "photo_count": 2
     },
     {
       "submission_id": "SUB-20260723-191503-F07681",
@@ -2350,10 +2622,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-23T19:25:15.489Z"
+      "updated_at": "2026-07-23T19:25:15.489Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260723-071316-8E68BF",
@@ -2367,6 +2644,7 @@
         "status": "matched",
         "matched_by": "location_id",
         "id": "LOC-001",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -2394,7 +2672,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-DBE910096EEF4414803D6B6201948064",
@@ -2407,7 +2689,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-660D1F61A4C4491C97147B4835AEB8A1",
@@ -2420,10 +2706,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-23T07:14:59.689Z"
+      "updated_at": "2026-07-23T07:14:59.689Z",
+      "photo_count": 3
     },
     {
       "submission_id": "SUB-20260721-191622-37FF92",
@@ -2465,7 +2756,11 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         },
         {
           "photo_id": "PHOTO-F532C02BD94C44B5A1C12385673B0B59",
@@ -2478,10 +2773,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-22T13:03:30.818Z"
+      "updated_at": "2026-07-22T13:03:30.818Z",
+      "photo_count": 2
     },
     {
       "submission_id": "SUB-20260721-190946-54E45C",
@@ -2523,10 +2823,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-22T10:36:06.102Z"
+      "updated_at": "2026-07-22T10:36:06.102Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260721-190751-ADEE95",
@@ -2538,10 +2843,10 @@
       "vessel_name_entered": "S. S. Beatrice",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
-        "name": "Untere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
@@ -2568,10 +2873,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-22T13:04:29.876Z"
+      "updated_at": "2026-07-22T13:04:29.876Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260721-185103-67FA8D",
@@ -2583,10 +2893,10 @@
       "vessel_name_entered": "S. S. Beatrice",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
-        "name": "Untere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
@@ -2613,10 +2923,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-23T09:53:22.687Z"
+      "updated_at": "2026-07-23T09:53:22.687Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260721-111633-AC48F5",
@@ -2658,10 +2973,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-21T11:18:33.594Z"
+      "updated_at": "2026-07-21T11:18:33.594Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260721-100318-7F4587",
@@ -2703,10 +3023,15 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-21T10:33:40.648Z"
+      "updated_at": "2026-07-21T10:33:40.648Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260720-135834-F1C25B",
@@ -2720,6 +3045,7 @@
         "status": "matched",
         "matched_by": "location_id",
         "id": "LOC-001",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -2743,14 +3069,19 @@
           "original_filename": "IMG_1511.jpeg",
           "mime_type": "image/jpeg",
           "size_bytes": 6176554,
-          "sequence": 1,
+          "sequence": 0,
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-21T14:28:51.198Z"
+      "updated_at": "2026-07-21T14:28:51.198Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260720-134418-4C746B",
@@ -2788,14 +3119,19 @@
           "original_filename": "IMG_1511.jpeg",
           "mime_type": "image/jpeg",
           "size_bytes": 6176554,
-          "sequence": 1,
+          "sequence": 0,
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-22T10:48:04.276Z"
+      "updated_at": "2026-07-22T10:48:04.276Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260719-173035-9D2D8B",
@@ -2807,10 +3143,10 @@
       "vessel_name_entered": "Testschiff",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
-        "name": "Untere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
@@ -2833,14 +3169,19 @@
           "original_filename": "IMG_1436.jpeg",
           "mime_type": "image/jpeg",
           "size_bytes": 4388876,
-          "sequence": 1,
+          "sequence": 0,
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-20T20:40:12.191Z"
+      "updated_at": "2026-07-20T20:40:12.191Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260719-160723-D3BF9E",
@@ -2878,14 +3219,19 @@
           "original_filename": "IMG_1478.jpeg",
           "mime_type": "image/jpeg",
           "size_bytes": 1529341,
-          "sequence": 1,
+          "sequence": 0,
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-23T09:59:11.059Z"
+      "updated_at": "2026-07-23T09:59:11.059Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260719-153937-710675",
@@ -2923,14 +3269,19 @@
           "original_filename": "IMG_1477.jpeg",
           "mime_type": "image/jpeg",
           "size_bytes": 8369943,
-          "sequence": 1,
+          "sequence": 0,
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-23T19:07:26.363Z"
+      "updated_at": "2026-07-23T19:07:26.363Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260719-125510-C5F3AB",
@@ -2942,10 +3293,10 @@
       "vessel_name_entered": "TUI Skyla",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
-        "name": "Untere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
@@ -2968,14 +3319,19 @@
           "original_filename": "IMG_1476.jpeg",
           "mime_type": "image/jpeg",
           "size_bytes": 8303540,
-          "sequence": 1,
+          "sequence": 0,
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": ""
+          "notes": "",
+          "metadata_version": 0,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": null
         }
       ],
-      "updated_at": "2026-07-26T16:32:15.614Z"
+      "updated_at": "2026-07-26T16:32:15.614Z",
+      "photo_count": 1
     }
   ]
 }

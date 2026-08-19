@@ -5,10 +5,10 @@
   "captured_at": "2026-08-06T14:18:41.000Z",
   "location": {
     "status": "matched",
-    "matched_by": "geo_area",
+    "matched_by": "legacy_parent",
     "id": "LOC-001",
-    "area_id": "AREA-LINZ-ALT-URFAHR",
-    "name": "Donauufer Alt-Urfahr, Linz",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
     "municipality": "Linz",
     "country": "Österreich",
     "distance_m": null

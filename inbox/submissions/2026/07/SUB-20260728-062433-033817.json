@@ -5,9 +5,9 @@
   "captured_at": "2026-07-28T06:24:19.000Z",
   "location": {
     "status": "matched",
-    "matched_by": "geo_area",
+    "matched_by": "legacy_parent",
     "id": "LOC-001",
-    "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+    "area_id": "",
     "name": "Nibelungenbrücke, Linz",
     "municipality": "Linz",
     "country": "Österreich",
