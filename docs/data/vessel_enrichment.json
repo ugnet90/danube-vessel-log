@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-19T09:47:37.495822Z",
+  "generated_at": "2026-08-19T12:54:10.303767Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,13 +32,13 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 25,
-    "vessels_incomplete": 25,
+    "vessels_total": 26,
+    "vessels_incomplete": 26,
     "vessels_complete": 0,
     "candidate_matches": 0,
     "matched_no_new_data": 13,
     "low_confidence": 0,
-    "no_match": 12,
+    "no_match": 13,
     "lookup_errors": 0,
     "suggestions_total": 0
   },
@@ -177,6 +177,88 @@
         }
       ],
       "missing_count": 19,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "no_match",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000002",
+      "name": "Testschiff 19",
+      "environment": "test",
+      "json_path": "data/vessels/VES-000002.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.eni",
+          "label": "ENI"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "classification.flag",
+          "label": "Flagge"
+        },
+        {
+          "field": "technical.year_built",
+          "label": "Baujahr"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.length_m",
+          "label": "Länge"
+        },
+        {
+          "field": "technical.width_m",
+          "label": "Breite"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "technical.passengers",
+          "label": "Passagiere"
+        },
+        {
+          "field": "operations.operator",
+          "label": "Betreiber"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        },
+        {
+          "field": "operations.home_port",
+          "label": "Heimathafen"
+        }
+      ],
+      "missing_count": 16,
       "lookup": {
         "provider": "wikidata",
         "status": "no_match",
