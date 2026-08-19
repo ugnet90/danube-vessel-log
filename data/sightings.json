@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-19T12:52:44.568Z",
+  "updated_at": "2026-08-19T13:20:33.088Z",
   "sightings": [
     {
       "submission_id": "SUB-20260819-052017-A072A4",
@@ -664,6 +664,115 @@
         }
       ],
       "updated_at": "2026-08-19T12:52:44.568Z"
+    },
+    {
+      "submission_id": "SUB-20260819-131850-C78DDB",
+      "submission_path": "inbox/submissions/2026/08/SUB-20260819-131850-C78DDB.json",
+      "vessel_id": "VES-000003",
+      "captured_at": "2026-08-18T05:05:33.000Z",
+      "uploaded_at": "2026-08-19T13:18:50.113Z",
+      "reviewed_at": "2026-08-19T13:20:33.088Z",
+      "vessel_name_entered": "Testschiff 20",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14",
+        "location_id": "LOC-001",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "river": "Donau",
+        "bank": "right",
+        "relative_to_reference": "downstream",
+        "river_km": 2134.92,
+        "river_km_text": "2134,9+20 m",
+        "facility_type": "Rohrponton",
+        "mooring_order": "2, max. Breite 32 m",
+        "entry_count": 4,
+        "entry_height": "1,60 m",
+        "latitude": 48.308417,
+        "longitude": 14.28775,
+        "address": "Ernst-Koref-Promenade, 4020 Linz",
+        "access_type": "public",
+        "source_url": "https://maps.oberoesterreich.at/",
+        "source_checked_at": "2026-07-28"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "notes": "",
+      "observer_lat": 48.3074,
+      "observer_lon": 14.285275,
+      "photo_lat": 48.3074,
+      "photo_lon": 14.285275,
+      "review_decision": "created",
+      "review_notes": "",
+      "photos": [
+        {
+          "photo_id": "PHOTO-B3BAD3B8B0BE4FC1B00AF812E5499091",
+          "path": "inbox/photos/2026/08/PHOTO-B3BAD3B8B0BE4FC1B00AF812E5499091.jpg",
+          "filename": "PHOTO-B3BAD3B8B0BE4FC1B00AF812E5499091.jpg",
+          "original_filename": "shortcut-photo-01.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 561651,
+          "sequence": 1,
+          "captured_at": "2026-08-18T05:05:33.000Z",
+          "added_at": "",
+          "source": "submission",
+          "notes": "",
+          "metadata_version": 1,
+          "photo_lat": 48.3074,
+          "photo_lon": 14.285275,
+          "location": {
+            "status": "unknown",
+            "matched_by": "",
+            "id": "",
+            "area_id": "",
+            "name": "",
+            "municipality": "",
+            "country": "",
+            "distance_m": null
+          }
+        },
+        {
+          "photo_id": "PHOTO-464D107752C846A884BCBACC312F57B6",
+          "path": "inbox/photos/2026/08/PHOTO-464D107752C846A884BCBACC312F57B6.jpg",
+          "filename": "PHOTO-464D107752C846A884BCBACC312F57B6.jpg",
+          "original_filename": "shortcut-photo-02.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 382638,
+          "sequence": 2,
+          "captured_at": "2026-08-19T05:08:05.000Z",
+          "added_at": "",
+          "source": "submission",
+          "notes": "",
+          "metadata_version": 1,
+          "photo_lat": 48.30798,
+          "photo_lon": 14.28780333333333,
+          "location": {
+            "status": "matched",
+            "matched_by": "geo_area",
+            "id": "LOC-001",
+            "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+            "name": "Untere Donaulände, Linz",
+            "municipality": "",
+            "country": "Österreich",
+            "distance_m": null
+          }
+        }
+      ],
+      "updated_at": "2026-08-19T13:20:33.088Z"
     },
     {
       "submission_id": "SUB-20260818-101224-8E7288",
