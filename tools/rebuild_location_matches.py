@@ -2,7 +2,7 @@
 """
 Danube Vessel Log
 File: tools/rebuild_location_matches.py
-Version: 0.14.35
+Version: 0.14.38
 Updated: 2026-08-20
 
 Einmaliges bzw. wiederholbares Wartungswerkzeug zur nachträglichen
@@ -438,9 +438,48 @@ def photo_index_record(
     }
 
 
+def reviewed_vessel_id(submission: dict[str, Any]) -> str:
+    workflow = submission.get("workflow") if isinstance(submission.get("workflow"), dict) else {}
+    review = workflow.get("review") if isinstance(workflow.get("review"), dict) else {}
+    workflow_status = str(workflow.get("status", "")).strip()
+    decision = str(review.get("decision", "")).strip()
+    vessel_id = str(review.get("vessel_id", "")).strip()
+
+    if workflow_status != "reviewed":
+        return ""
+    if decision not in {"confirmed", "corrected", "created"}:
+        return ""
+    if not vessel_id.startswith("VES-"):
+        return ""
+    return vessel_id
+
+
+def sighting_index_record(
+    submission: dict[str, Any],
+    vessel_names: dict[str, str],
+) -> dict[str, Any] | None:
+    vessel_id = reviewed_vessel_id(submission)
+    if not vessel_id:
+        return None
+
+    berth = normalized_berth_for_index(submission.get("berth"))
+    return {
+        "submission_id": str(submission.get("submission_id", "")).strip(),
+        "vessel_id": vessel_id,
+        "vessel_name": vessel_names.get(vessel_id, "") or str(submission.get("vessel_name_entered", "")).strip() or vessel_id,
+        "captured_at": str(submission.get("captured_at", "")).strip(),
+        "location": normalize_location_block(submission.get("location")),
+        "berth": berth,
+        "movement": str(submission.get("movement", "")).strip(),
+        "direction": str(submission.get("direction", "")).strip(),
+        "photo_count": len(submission.get("photos")) if isinstance(submission.get("photos"), list) else 0,
+    }
+
+
 def build_photo_locations_document() -> dict[str, Any]:
     vessel_names = load_vessel_names()
-    records: list[dict[str, Any]] = []
+    photo_records: list[dict[str, Any]] = []
+    sighting_records: list[dict[str, Any]] = []
 
     for path in iter_submission_files():
         try:
@@ -477,7 +516,11 @@ def build_photo_locations_document() -> dict[str, Any]:
                 movement=str(submission.get("movement", "")),
             )
             if record:
-                records.append(record)
+                photo_records.append(record)
+
+        sighting_record = sighting_index_record(submission, vessel_names)
+        if sighting_record:
+            sighting_records.append(sighting_record)
 
     for path in iter_vessel_photo_files():
         try:
@@ -497,23 +540,37 @@ def build_photo_locations_document() -> dict[str, Any]:
                 vessel_name=vessel_name,
             )
             if record:
-                records.append(record)
+                photo_records.append(record)
 
-    records.sort(
+    photo_records.sort(
         key=lambda item: (
             str(item.get("captured_at", "")),
             str(item.get("photo_id", "")),
         ),
         reverse=True,
     )
+    sighting_records.sort(
+        key=lambda item: (
+            str(item.get("captured_at", "")),
+            str(item.get("submission_id", "")),
+        ),
+        reverse=True,
+    )
+
+    updated_at = max(
+        [str(item.get("captured_at", "")) for item in photo_records]
+        + [str(item.get("captured_at", "")) for item in sighting_records]
+        + [""],
+    )
 
     return {
-        "schema_version": 1,
-        "updated_at": max((str(item.get("captured_at", "")) for item in records), default=""),
-        "count": len(records),
-        "photos": records,
+        "schema_version": 2,
+        "updated_at": updated_at,
+        "count": len(photo_records),
+        "photos": photo_records,
+        "sighting_count": len(sighting_records),
+        "sightings": sighting_records,
     }
-
 
 def rebuild_submission(path: Path, locations: list[dict[str, Any]], areas: list[dict[str, Any]], apply_changes: bool) -> tuple[bool, str, dict[str, Any] | None]:
     document = read_json(path)
@@ -710,9 +767,9 @@ def main() -> int:
         photo_locations_document,
         args.apply
     )
-    docs_photo_index_changed = write_json_if_changed(
+    docs_photo_index_changed = sync_text_file(
+        PHOTO_LOCATIONS_PATH,
         DOCS_PHOTO_LOCATIONS_PATH,
-        photo_locations_document,
         args.apply
     )
     docs_areas_changed = sync_text_file(
@@ -720,6 +777,27 @@ def main() -> int:
         DOCS_LOCATION_AREAS_PATH,
         args.apply
     )
+
+    if args.apply:
+        public_pairs = [
+            (PHOTO_LOCATIONS_PATH, DOCS_PHOTO_LOCATIONS_PATH),
+            (LOCATION_AREAS_PATH, DOCS_LOCATION_AREAS_PATH),
+        ]
+        inconsistent = [
+            (source, target)
+            for source, target in public_pairs
+            if not source.exists()
+            or not target.exists()
+            or source.read_bytes() != target.read_bytes()
+        ]
+        if inconsistent:
+            names = ", ".join(
+                f"{source.relative_to(ROOT)} != {target.relative_to(ROOT)}"
+                for source, target in inconsistent
+            )
+            raise RuntimeError(
+                "Öffentliche Datenspiegel sind nicht konsistent: " + names
+            )
 
     print("Danube Vessel Log – Rebuild Location Matches")
     print(f"Modus: {'APPLY' if args.apply else 'DRY RUN'}")
@@ -731,6 +809,7 @@ def main() -> int:
     print(f"Sichtungsindex-Einträge geprüft: {sightings_scanned}")
     print(f"Sichtungsindex-Einträge geändert: {sightings_changed}")
     print(f"Foto-Standortindex Einträge: {photo_locations_document['count']}")
+    print(f"Sichtungen für Kartenindex: {photo_locations_document['sighting_count']}")
     print(f"Foto-Standortindex geändert: {photo_index_changed or docs_photo_index_changed}")
     print(f"Docs-Polygonspiegel geändert: {docs_areas_changed}")
     if submission_logs:
