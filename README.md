@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.33**  
+Aktuelle Version: **0.14.34**  
 Stand: **20.08.2026**
 
 ## 1. Projektzweck
@@ -1353,4 +1353,88 @@ Geprüft wurden:
 
 - vollständige Projektbeschreibung
 - aktueller Projektstand: `0.14.33`
+
+## 50. Version 0.14.34 – Fotoaufnahme direkt auf Standortkarte
+
+Version **0.14.34** verknüpft fotoindividuelle GPS-Daten direkt mit der integrierten Standortkarte.
+
+### 50.1 Link an Fotos
+
+Bei Fotos mit gespeicherten `photo_lat`- und `photo_lon`-Werten erscheint auf der Schiffdetailseite neu der Link:
+
+`Auf Karte`
+
+Der Link wird sowohl bei
+
+- **Zusätzlichen Schiffsfotos** als auch
+- den einzelnen Fotos innerhalb einer **Sichtung**
+
+angezeigt. Fotos ohne verwertbare GPS-Koordinaten erhalten keinen Kartenlink.
+
+### 50.2 Zielseite mit Foto-Marker und Polygonen
+
+Der Kartenlink öffnet `docs/location_areas.html` mit den GPS-Koordinaten des gewählten Fotos als URL-Parameter.
+
+Die Standortseite:
+
+- lädt weiterhin alle aktuellen Standortpolygone auf OpenStreetMap;
+- setzt zusätzlich einen deutlich sichtbaren Marker auf den exakten gespeicherten GPS-Punkt des Fotos;
+- zoomt automatisch auf den GPS-Punkt;
+- zeigt Aufnahmezeit und Koordinaten;
+- zeigt die aktuell am Foto gespeicherte Standortzuordnung;
+- berechnet clientseitig, in welchem bzw. welchen Polygonen der GPS-Punkt tatsächlich liegt;
+- sortiert Mehrfachtreffer nach der hinterlegten Polygon-Priorität.
+
+Damit lässt sich insbesondere bei Grenzfällen sofort unterscheiden, ob ein falscher Standort aus der Polygongeometrie bzw. Prioritätslogik stammt oder ob bereits die vom iPhone gespeicherte GPS-Position außerhalb des tatsächlich besuchten Bereichs liegt.
+
+### 50.3 Keine Änderung der Standortlogik
+
+0.14.34 verändert **keine** serverseitige Polygon- oder Rebuild-Logik und ändert keine Standortzuordnung. Die neue Funktion ist zunächst eine direkte visuelle Kontrolle der bereits gespeicherten Foto-GPS-Daten.
+
+Für diese Version ist **kein Cloudflare-Worker-Deployment** erforderlich.
+
+## 51. Technische Prüfung für 0.14.34
+
+Geprüft wurden:
+
+- JavaScript-Syntax von `docs/js/vessel.js`;
+- JavaScript-Syntax von `docs/js/location_areas.js`;
+- Kartenlinks werden nur bei gültigen Koordinaten erzeugt;
+- URL-Parameter werden über `URLSearchParams` kodiert;
+- die Standortkarte zeigt einen separaten Foto-Marker;
+- Punkt-in-Polygon-Prüfung unterstützt Grenzpunkte;
+- Mehrfachtreffer werden nach `priority` sortiert;
+- ZIP-Integrität.
+
+## 52. Dateiversionen 0.14.34
+
+### docs/js/vessel.js
+
+- Version: `0.14.34`
+- Kartenlink je Foto mit fotoindividuellen GPS-Daten
+
+### docs/css/vessel.css
+
+- Version: `0.14.34`
+- Darstellung des neuen Links `Auf Karte`
+
+### docs/location_areas.html
+
+- Version: `0.14.34`
+- Informationsfeld für ein aus der Schiffseite geöffnetes Foto
+
+### docs/js/location_areas.js
+
+- Version: `0.14.34`
+- Foto-Marker, URL-Parameter und clientseitige Polygonprüfung
+
+### docs/css/location_areas.css
+
+- Version: `0.14.34`
+- Darstellung der Foto-Informationen auf der Standortseite
+
+### README.md
+
+- vollständige Projektbeschreibung
+- aktueller Projektstand: `0.14.34`
 
