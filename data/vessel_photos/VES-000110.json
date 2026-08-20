@@ -58,8 +58,8 @@
       },
       "vessel_name_entered": "S.S. Maria Theresa",
       "relation": {
-        "type": "vessel",
-        "submission_id": ""
+        "type": "sighting",
+        "submission_id": "SUB-20260806-142324-38E029"
       }
     },
     {
@@ -93,7 +93,7 @@
       }
     }
   ],
-  "updated_at": "2026-08-20T17:01:19.401Z",
+  "updated_at": "2026-08-20T17:01:40.897Z",
   "photo_history": [
     {
       "action": "deleted",
