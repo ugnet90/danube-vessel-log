@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/css/vessel.css
- * Version: 0.14.17
- * Updated: 2026-08-01
+ * Version: 0.14.34
+ * Updated: 2026-08-20
  */
 
 .vessel-page {
@@ -113,12 +113,6 @@
   overflow: hidden;
 }
 
-.primary-photo-stage {
-  position: relative;
-  overflow: hidden;
-  background: #eef2f6;
-}
-
 .primary-photo,
 .primary-photo-placeholder {
   width: 100%;
@@ -140,60 +134,11 @@
   text-align: center;
 }
 
-.primary-photo-navigation {
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  display: grid;
-  width: 42px;
-  height: 52px;
-  place-items: center;
-  padding: 0;
-  transform: translateY(-50%);
-  border: 1px solid rgb(255 255 255 / 70%);
-  border-radius: 9px;
-  background: rgb(15 23 42 / 68%);
-  color: #fff;
-  font: inherit;
-  font-size: 2rem;
-  line-height: 1;
-  cursor: pointer;
-  backdrop-filter: blur(3px);
-}
-
-.primary-photo-navigation.previous {
-  left: 12px;
-}
-
-.primary-photo-navigation.next {
-  right: 12px;
-}
-
-.primary-photo-navigation:hover,
-.primary-photo-navigation:focus-visible {
-  background: rgb(15 23 42 / 86%);
-}
-
-.primary-photo-navigation:disabled {
-  cursor: default;
-  opacity: 0.45;
-}
-
 .primary-photo-card figcaption {
-  display: flex;
   min-height: 42px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
   padding: 11px 14px;
   color: #6b7280;
   font-size: 0.88rem;
-}
-
-.primary-photo-position {
-  flex: 0 0 auto;
-  font-variant-numeric: tabular-nums;
-  font-weight: 700;
 }
 
 .summary-card,
@@ -614,30 +559,39 @@ dd {
   box-shadow: 0 0 0 1px #2563eb;
 }
 
-.photo-card-actions {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 7px;
+.photo-map-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 5px 8px;
+  border: 1px solid #cbd5df;
+  border-radius: 7px;
+  background: #f7f9fb;
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.photo-map-link:hover,
+.photo-map-link:focus-visible {
+  border-color: #2563eb;
+  background: #eef4ff;
+  outline: none;
 }
 
 .primary-photo-button {
-  display: flex;
   width: 100%;
-  min-height: 48px;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 5px;
+  min-height: 34px;
+  padding: 7px 9px;
   border: 1px solid #cbd5df;
   border-radius: 7px;
   background: #fff;
   color: #25313c;
   font: inherit;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  line-height: 1.15;
-  text-align: center;
-  white-space: normal;
-  overflow-wrap: anywhere;
   cursor: pointer;
 }
 
@@ -651,38 +605,6 @@ dd {
   border-color: #b8cdf6;
   background: #eaf1ff;
   color: #1d4ed8;
-  cursor: default;
-}
-
-.photo-delete-button {
-  display: flex;
-  width: 100%;
-  min-height: 48px;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 5px;
-  border: 1px solid #e4b9b9;
-  border-radius: 7px;
-  background: #fff;
-  color: #b42318;
-  font: inherit;
-  font-size: 0.78rem;
-  font-weight: 700;
-  line-height: 1.15;
-  text-align: center;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  cursor: pointer;
-}
-
-.photo-delete-button:not(:disabled):hover,
-.photo-delete-button:not(:disabled):focus-visible {
-  border-color: #b42318;
-  background: #fff5f5;
-}
-
-.photo-delete-button:disabled {
-  opacity: 0.5;
   cursor: default;
 }
 
@@ -1246,20 +1168,4 @@ dd {
     transform: rotate(90deg);
     width: max-content;
   }  
-}
-
-@media (max-width: 520px) {
-  .primary-photo-navigation {
-    width: 38px;
-    height: 48px;
-    font-size: 1.8rem;
-  }
-
-  .primary-photo-navigation.previous {
-    left: 8px;
-  }
-
-  .primary-photo-navigation.next {
-    right: 8px;
-  }
 }

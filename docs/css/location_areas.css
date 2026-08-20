@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/location_areas.css
- * Version: 0.14.33
+ * Version: 0.14.34
  * Updated: 2026-08-20
  */
 
@@ -69,6 +69,31 @@
   color: #52606d;
   font-size: 0.9rem;
   line-height: 1.45;
+}
+
+.selected-photo-card {
+  margin-bottom: 12px;
+  padding: 11px 12px;
+  border: 1px solid #f0c94d;
+  border-radius: 9px;
+  background: #fffbea;
+  color: #25313c;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.selected-photo-card strong,
+.selected-photo-card span {
+  display: block;
+}
+
+.selected-photo-card strong {
+  margin-bottom: 4px;
+}
+
+.selected-photo-card .selected-photo-match {
+  margin-top: 6px;
+  font-weight: 700;
 }
 
 .location-areas-status {
