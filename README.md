@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.38**  
+Aktuelle Version: **0.14.39**  
 Stand: **20.08.2026**
 
 ## 1. Projektzweck
@@ -119,7 +119,19 @@ Eine Sichtung kann unter anderem enthalten:
 - ein oder mehrere Fotos
 - Review-Status
 
-### 4.3 Review-Flow
+### 4.3 Bedeutung von Sichtung, Aufnahmeort und Schiffsposition
+
+Eine **Sichtung** ist das Beobachtungsereignis und nicht bloß ein einzelner Kartenpunkt. Sie verknüpft ein bestimmtes Schiff mit einem Zeitpunkt bzw. einem zusammengehörigen Aufnahmevorgang.
+
+Dabei werden drei Ebenen getrennt:
+
+- **Sichtung**: das Ereignis bzw. die Submission;
+- **Foto-Aufnahmeort / Beobachtungsort**: tatsächliche GPS-Position des iPhones bzw. Fotografen; jedes Foto kann einen eigenen Aufnahmeort besitzen;
+- **Schiffsposition**: bekannte Position des beobachteten Schiffs. Bei `movement = moored` ist dies die erfasste Anlegestelle. Bei fahrenden Schiffen wird ohne belastbaren Positionsnachweis kein Schiffspunkt erfunden.
+
+Mehrere Fotos derselben Sichtung dürfen daher von unterschiedlichen Aufnahmeorten stammen. Auf der Karte werden diese Aufnahmeorte jeweils direkt mit der bekannten Schiffsposition derselben Sichtung verbunden. Die gestrichelte Linie bedeutet **„Foto gehört zu dieser Sichtung“** und stellt keinen Fahrweg dar.
+
+### 4.4 Review-Flow
 
 Der Review kennt insbesondere die Entscheidungen:
 
@@ -153,6 +165,13 @@ geführt.
 
 Ein direktes Schiffsfoto ist **keine Sichtung**. Es darf daher nicht automatisch eine neue Sichtungsanzahl erzeugen und keine Bewegung, Richtung oder Anlegestelle vortäuschen.
 
+Ab Version **0.14.39** besitzt ein direktes Zusatzfoto zusätzlich einen expliziten Bezug:
+
+- `relation.type = "vessel"`: Foto gehört nur zum Schiff;
+- `relation.type = "sighting"` plus `relation.submission_id`: Foto wurde nachträglich einer konkreten bestehenden Sichtung zugeordnet.
+
+Auch bei Sichtungsbezug bleibt das Foto kanonisch in `data/vessel_photos/<vessel_id>.json`; die ursprüngliche Submission wird nicht rückwirkend umgeschrieben. Die Schiffdetailseite stellt ein solches Foto trotzdem bei der zugeordneten Sichtung dar. Die Zuordnung kann dort später geändert oder wieder auf **Nur zum Schiff** zurückgesetzt werden.
+
 Ab Version **0.14.24** werden bei neuen direkten Schiffsfotos folgende Metadaten gespeichert:
 
 - `photo_id`
@@ -167,6 +186,8 @@ Ab Version **0.14.24** werden bei neuen direkten Schiffsfotos folgende Metadaten
 - aufgelöster `location`-Datensatz
 - `vessel_name_entered`
 - `notes`
+- `relation.type` (`vessel` oder `sighting`)
+- bei Sichtungsbezug `relation.submission_id`
 - Quelle `direct_vessel_upload`
 
 Die GPS-Koordinaten werden ab Version **0.14.25** zuerst gegen die präzisen Aufnahmebereiche in `data/location_areas.geojson` geprüft. Wenn für eine übergeordnete Location keine Flächen definiert sind, bleibt die bisherige Radiusauflösung über `data/locations.csv` als Rückfall erhalten. Ein Treffer speichert Location-ID, gegebenenfalls `area_id`, öffentlichen Namen, Gemeinde, Land und Matching-Art.
@@ -1912,3 +1933,127 @@ Bei späteren reinen Änderungen an `data/location_areas.geojson` oder `data/pho
 - `docs/js/vessel.js`: Version `0.14.38`; Foto-Kartenoverlay mit Schiffmarker und Verbindungslinie bei angelegten Sichtungen.
 - `docs/css/vessel.css`: Version `0.14.38`; Darstellung des Schiffmarkers im Foto-Kartenoverlay.
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.38`.
+
+
+## 64. Version 0.14.39 – Sichtungsbezug, Verbindungslinien und historische Anlegepunkte
+
+Version **0.14.39** präzisiert das Kartenmodell und erweitert direkte Zusatzfotos um einen optionalen Bezug zu einer bestehenden Sichtung.
+
+### 64.1 Sichtung als Ereignis
+
+Eine Sichtung ist ab dieser Version ausdrücklich das übergeordnete Beobachtungsereignis. Foto-Aufnahmeorte und Schiffsposition sind getrennte räumliche Informationen innerhalb dieser Sichtung.
+
+Bei einer angelegten Sichtung gilt:
+
+- Schiffssymbol = Koordinate der erfassten Anlegestelle;
+- Fotopunkt = tatsächliche GPS-Koordinate des jeweiligen Fotos;
+- gestrichelte Linie = dieses Foto gehört zu dieser Sichtung;
+- mehrere Fotos aus verschiedenen Aufnahmeorten erzeugen mehrere direkte Linien zum selben Schiffssymbol.
+
+Bei `movement != moored` wird ohne belastbaren Schiffspositionsnachweis kein künstlicher Schiffspunkt erzeugt.
+
+### 64.2 Zusatzfoto nur zum Schiff oder zu einer Sichtung
+
+Direkte Zusatzfotos in `data/vessel_photos/<vessel_id>.json` erhalten einen expliziten Relation-Block:
+
+```json
+{
+  "relation": {
+    "type": "vessel",
+    "submission_id": ""
+  }
+}
+```
+
+oder:
+
+```json
+{
+  "relation": {
+    "type": "sighting",
+    "submission_id": "SUB-..."
+  }
+}
+```
+
+Fehlt der Block in historischen Datensätzen, wird das Foto rückwärtskompatibel als **Nur zum Schiff** behandelt. Der Rebuild ergänzt bei vorhandenen direkten Fotos den expliziten Standardbezug.
+
+Der Upload-Endpunkt `/vessel-photos` akzeptiert optional:
+
+- `relation_type`: `vessel` oder `sighting`;
+- `relation_submission_id`: erforderliche Submission-ID bei `sighting`.
+
+Ohne diese Felder bleibt das bisherige Verhalten unverändert und die Fotos werden nur dem Schiff zugeordnet.
+
+Für den iPhone-Kurzbefehl steht zusätzlich der mit `X-Upload-Key` geschützte Endpunkt
+
+`GET /vessel-sightings-upload?vessel_id=VES-000123`
+
+zur Verfügung. Er liefert die bestehenden Sichtungen des ausgewählten Schiffs in absteigender Zeitfolge und ermöglicht damit eine Auswahl **Nur zum Schiff / Zu bestehender Sichtung** bereits beim Zusatzfoto-Upload. Die konkrete Kurzbefehlanpassung ist in `SHORTCUT_ZUSATZFOTOS_SICHTUNGSBEZUG.md` beschrieben.
+
+### 64.3 Nachträgliche Zuordnung in der Schiffdetailseite
+
+Bei direkten Zusatzfotos steht nun die Auswahl **Zuordnung** zur Verfügung. Möglich sind:
+
+- **Nur zum Schiff**;
+- jede bestätigte vorhandene Sichtung dieses Schiffs.
+
+Die Weboberfläche speichert Änderungen über den neuen Management-Endpunkt:
+
+`POST /vessel-photo-relation`
+
+Ein Zusatzfoto mit gültigem Sichtungsbezug wird in `vessel.html` bei der betreffenden Sichtung als **Nachträglich ergänzt** angezeigt. Es bleibt physisch und kanonisch dennoch ein direkter Schiffsfoto-Datensatz. Wird der Bezug wieder entfernt, erscheint das Foto erneut im Abschnitt **Zusätzliche Schiffsfotos**.
+
+Nach einer Änderung dieser Relation ist für die zentrale Seite **Standorte** ein `Rebuild location matches` erforderlich, damit `data/photo_locations.json` und der automatisch erzeugte öffentliche Spiegel den neuen Bezug übernehmen. Das Foto-Kartenoverlay der Schiffdetailseite verwendet dagegen unmittelbar den aktuellen Schiffsdatensatz.
+
+### 64.4 Kartenindex Schema 3
+
+`data/photo_locations.json` verwendet ab 0.14.39 Schema-Version **3**. Fotoeinträge enthalten zusätzlich den Relation-Block. Bei Sichtungsfotos wird automatisch der Bezug zu ihrer eigenen Submission gespeichert; bei direkten Zusatzfotos wird der kanonische Relation-Block übernommen.
+
+`data/` bleibt weiterhin die einzige manuell bzw. fachlich maßgebliche Datenquelle. `docs/data/` wird ausschließlich automatisch gespiegelt.
+
+### 64.5 Mehrere Aufnahmeorte einer Sichtung
+
+Die Seite `location_areas.html` zeichnet für alle sichtbaren Fotos mit Sichtungsbezug gestrichelte Verbindungen zur bekannten Schiffsposition, sofern die Sichtung `moored` ist und die Anlegestelle gültige Koordinaten besitzt.
+
+Dadurch kann ein angelegtes Schiff beispielsweise von drei verschiedenen Ufer- oder Brückenpositionen fotografiert worden sein und erscheint als ein Schiffspunkt mit drei getrennten Linien zu den drei Foto-Aufnahmeorten.
+
+Auch der **Auf Karte**-Layer in `vessel.html` zeigt beim Öffnen eines Fotos nun den gesamten räumlichen Kontext dieser Sichtung: alle verfügbaren Foto-Aufnahmeorte, die gemeinsame Schiffsposition und je Aufnahmeort eine eigene Verbindungslinie. Das angeklickte Foto wird hervorgehoben.
+
+### 64.6 Mehrere historische Sichtungen an derselben Anlegestelle
+
+Mehrere Schiffsmarker an exakt derselben Anlegestellenkoordinate werden nicht mehr unsichtbar übereinandergelegt. Stattdessen wird ein gemeinsamer Schiffmarker mit Zähler dargestellt.
+
+Antippen bzw. Anklicken öffnet eine chronologisch sortierte Liste der betreffenden Anlege-Sichtungen mit:
+
+- Schiffname;
+- Datum/Uhrzeit;
+- Submission-ID;
+- Link zur Schiffdetailseite.
+
+Bei nur einer sichtbaren Anlege-Sichtung bleibt der normale einzelne Schiffmarker erhalten. Die Gruppierung reagiert auf die bestehenden Schiffs-, Datums-, Orts- und Fotoartfilter.
+
+### 64.7 Deployment
+
+Version 0.14.39 verändert den Cloudflare Worker und erfordert daher ein **Worker-Deployment**.
+
+Anschließend einmal:
+
+`Actions -> Rebuild location matches -> Run workflow`
+
+ausführen. Dadurch werden historische direkte Zusatzfotos mit dem Standardbezug `vessel` normalisiert und der Kartenindex auf Schema 3 aktualisiert.
+
+## 65. Dateiversionen 0.14.39
+
+- `cloudflare/worker.js`: Version `0.14.39`; Relation für direkte Zusatzfotos, Validierung eines Sichtungsbezugs sowie neue Endpunkte `/vessel-photo-relation` und `/vessel-sightings-upload`.
+- `docs/js/api.js`: Version `0.14.39`; API-Methode zum Ändern der Zusatzfoto-Zuordnung.
+- `docs/js/vessel.js`: Version `0.14.39`; Zusatzfoto-Zuordnung, Anzeige nachträglich zugeordneter Fotos in Sichtungen und Mehrfachlinien im Foto-Kartenoverlay.
+- `docs/css/vessel.css`: Version `0.14.39`; Darstellung der Relation-Auswahl und Kennzeichnung nachträglich ergänzter Fotos.
+- `tools/rebuild_location_matches.py`: Version `0.14.39`; Kartenindex Schema 3 und Migration historischer direkter Fotos auf Relation `vessel`.
+- `docs/js/location_map.js`: Version `0.14.39`; Sammelmarker für mehrere historische Anlege-Sichtungen.
+- `docs/js/location_areas.js`: Version `0.14.39`; direkte Foto-zu-Schiff-Verbindungen, gruppierte Anlege-Sichtungen und Relation-Filterung.
+- `docs/location_areas.html`: Version `0.14.39`; präzisierte Ebenen- und Bedienbeschreibung.
+- `docs/css/location_areas.css`: Version `0.14.39`; Sammelmarker und historische Sichtungsliste.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.39`.
+
+- `SHORTCUT_ZUSATZFOTOS_SICHTUNGSBEZUG.md`: Schrittfolge für die optionale Sichtungsauswahl im iPhone-Kurzbefehl „Foto(s) zu Schiff hinzufügen“.
