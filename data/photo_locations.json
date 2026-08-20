@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "updated_at": "2026-08-20T05:24:00.000Z",
   "count": 21,
   "photos": [
@@ -295,10 +295,10 @@
       },
       "berth": {
         "status": "matched",
-        "id": "BER-000004",
-        "name": "Schiffsanlegestelle Linz-Lentos",
-        "short_name": "Linz-Lentos Nr. 14",
-        "station_number": "14"
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
       },
       "movement": "moored",
       "path": "inbox/photos/2026/08/PHOTO-70735659A1B64D548485D87DE3295D19.jpg"
@@ -533,6 +533,1143 @@
       "berth": null,
       "movement": "",
       "path": "inbox/photos/2026/07/PHOTO-D07368FFCCEC41C98E6A076716B1FAAA.jpg"
+    }
+  ],
+  "sighting_count": 48,
+  "sightings": [
+    {
+      "submission_id": "SUB-20260820-124108-48F869",
+      "vessel_id": "VES-000126",
+      "vessel_name": "Verdi",
+      "captured_at": "2026-08-20T05:08:57.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
+        "name": "Urfahraner Donaulände, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260820-121908-E4BD96",
+      "vessel_id": "VES-000125",
+      "vessel_name": "Travelmarvel Vega",
+      "captured_at": "2026-08-20T05:02:53.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20260820-062732-2DAB3E",
+      "vessel_id": "VES-000124",
+      "vessel_name": "Amadeus Aurea",
+      "captured_at": "2026-08-20T05:02:17.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 3
+    },
+    {
+      "submission_id": "SUB-20260819-052017-A072A4",
+      "vessel_id": "VES-000121",
+      "vessel_name": "AmaMagna",
+      "captured_at": "2026-08-19T05:04:58.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+        "name": "Untere Donaulände, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 5
+    },
+    {
+      "submission_id": "SUB-20260819-050049-BE48BC",
+      "vessel_id": "VES-000110",
+      "vessel_name": "S.S. Maria Theresa",
+      "captured_at": "2026-08-19T05:00:40.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 0
+    },
+    {
+      "submission_id": "SUB-20260819-050020-C178FB",
+      "vessel_id": "VES-000122",
+      "vessel_name": "Emerald Destiny",
+      "captured_at": "2026-08-19T04:59:59.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 0
+    },
+    {
+      "submission_id": "SUB-20260819-045746-AA535E",
+      "vessel_id": "VES-000123",
+      "vessel_name": "APT Ostara",
+      "captured_at": "2026-08-19T04:56:59.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 0
+    },
+    {
+      "submission_id": "SUB-20260818-150133-1FE24B",
+      "vessel_id": "VES-000120",
+      "vessel_name": "Viking Embla",
+      "captured_at": "2026-08-18T15:01:15.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 0
+    },
+    {
+      "submission_id": "SUB-20260818-150017-3E674F",
+      "vessel_id": "VES-000115",
+      "vessel_name": "Amadeus Cara",
+      "captured_at": "2026-08-18T15:00:04.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 0
+    },
+    {
+      "submission_id": "SUB-20260818-145737-804942",
+      "vessel_id": "VES-000113",
+      "vessel_name": "Vista Classica",
+      "captured_at": "2026-08-18T14:57:27.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 0
+    },
+    {
+      "submission_id": "SUB-20260819-131850-C78DDB",
+      "vessel_id": "VES-000003",
+      "vessel_name": "Testschiff 20",
+      "captured_at": "2026-08-18T05:05:33.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20260819-124911-DF6189",
+      "vessel_id": "VES-000002",
+      "vessel_name": "Testschiff 19",
+      "captured_at": "2026-08-18T05:05:33.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20260818-131221-FD27F1",
+      "vessel_id": "VES-000114",
+      "vessel_name": "Avalon Illumination",
+      "captured_at": "2026-08-18T05:05:33.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260818-101224-8E7288",
+      "vessel_id": "VES-000119",
+      "vessel_name": "AmaSonata",
+      "captured_at": "2026-08-18T05:02:25.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 3
+    },
+    {
+      "submission_id": "SUB-20260818-044727-5CB090",
+      "vessel_id": "VES-000112",
+      "vessel_name": "S. S. Emilie",
+      "captured_at": "2026-08-18T04:47:15.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260817-100752-22C490",
+      "vessel_id": "VES-000112",
+      "vessel_name": "S. S. Emilie",
+      "captured_at": "2026-08-17T10:07:38.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20260817-081632-0B0183",
+      "vessel_id": "VES-000112",
+      "vessel_name": "S. S. Emilie",
+      "captured_at": "2026-08-17T08:16:16.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 0
+    },
+    {
+      "submission_id": "SUB-20260806-142501-F59185",
+      "vessel_id": "VES-000117",
+      "vessel_name": "Viking Vilhjalm",
+      "captured_at": "2026-08-06T14:24:07.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260806-142324-38E029",
+      "vessel_id": "VES-000110",
+      "vessel_name": "S.S. Maria Theresa",
+      "captured_at": "2026-08-06T14:22:56.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "legacy_parent",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260806-142210-89B147",
+      "vessel_id": "VES-000118",
+      "vessel_name": "NickoVision",
+      "captured_at": "2026-08-06T14:21:46.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "legacy_parent",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 4
+    },
+    {
+      "submission_id": "SUB-20260806-141900-81052D",
+      "vessel_id": "VES-000105",
+      "vessel_name": "AmaMora",
+      "captured_at": "2026-08-06T14:18:41.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "legacy_parent",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260806-055454-CAA0E9",
+      "vessel_id": "VES-000116",
+      "vessel_name": "France",
+      "captured_at": "2026-08-06T05:54:33.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 5
+    },
+    {
+      "submission_id": "SUB-20260805-115711-2C6744",
+      "vessel_id": "VES-000113",
+      "vessel_name": "Vista Classica",
+      "captured_at": "2026-08-05T11:56:55.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "legacy_parent",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 3
+    },
+    {
+      "submission_id": "SUB-20260805-115353-717599",
+      "vessel_id": "VES-000114",
+      "vessel_name": "Avalon Illumination",
+      "captured_at": "2026-08-05T11:53:30.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "legacy_parent",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 7
+    },
+    {
+      "submission_id": "SUB-20260805-115158-1BF055",
+      "vessel_id": "VES-000115",
+      "vessel_name": "Amadeus Cara",
+      "captured_at": "2026-08-05T11:51:33.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "legacy_parent",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 7
+    },
+    {
+      "submission_id": "SUB-20260731-141925-441DC5",
+      "vessel_id": "VES-000105",
+      "vessel_name": "AmaMora",
+      "captured_at": "2026-07-31T14:19:02.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20260731-132500-0C1CB7",
+      "vessel_id": "VES-000112",
+      "vessel_name": "S. S. Emilie",
+      "captured_at": "2026-07-31T13:24:29.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20260730-144242-B1A40B",
+      "vessel_id": "VES-000111",
+      "vessel_name": "TUI Maya",
+      "captured_at": "2026-07-30T14:42:22.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 3
+    },
+    {
+      "submission_id": "SUB-20260730-135420-AE6197",
+      "vessel_id": "VES-000104",
+      "vessel_name": "TUI Isla",
+      "captured_at": "2026-07-30T13:54:02.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "direction": "upstream",
+      "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20260728-062433-033817",
+      "vessel_id": "VES-000110",
+      "vessel_name": "S.S. Maria Theresa",
+      "captured_at": "2026-07-28T06:24:19.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "legacy_parent",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20260727-143120-E74E5E",
+      "vessel_id": "VES-000105",
+      "vessel_name": "AmaMora",
+      "captured_at": "2026-07-27T14:31:05.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260727-142352-5EC9E4",
+      "vessel_id": "VES-000108",
+      "vessel_name": "AmaReina",
+      "captured_at": "2026-07-27T14:23:36.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 3
+    },
+    {
+      "submission_id": "SUB-20260727-104146-96C97B",
+      "vessel_id": "VES-000107",
+      "vessel_name": "A-Rosa Flora",
+      "captured_at": "2026-07-27T10:41:31.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "location_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 3
+    },
+    {
+      "submission_id": "SUB-20260723-191829-3BB171",
+      "vessel_id": "VES-000104",
+      "vessel_name": "TUI Isla",
+      "captured_at": "2026-07-23T19:17:39.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20260723-191503-F07681",
+      "vessel_id": "VES-000105",
+      "vessel_name": "AmaMora",
+      "captured_at": "2026-07-23T19:14:39.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260723-071316-8E68BF",
+      "vessel_id": "VES-000101",
+      "vessel_name": "Travelmarvel Capella",
+      "captured_at": "2026-07-23T07:12:59.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "location_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 3
+    },
+    {
+      "submission_id": "SUB-20260721-191622-37FF92",
+      "vessel_id": "VES-000100",
+      "vessel_name": "S. S. Beatrice",
+      "captured_at": "2026-07-21T19:16:05.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20260721-190946-54E45C",
+      "vessel_id": "VES-000001",
+      "vessel_name": "Testschiff",
+      "captured_at": "2026-07-21T19:09:24.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260721-190751-ADEE95",
+      "vessel_id": "VES-000100",
+      "vessel_name": "S. S. Beatrice",
+      "captured_at": "2026-07-21T19:07:24.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "legacy_parent",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260721-185103-67FA8D",
+      "vessel_id": "VES-000100",
+      "vessel_name": "S. S. Beatrice",
+      "captured_at": "2026-07-21T18:50:48.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "legacy_parent",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260721-111633-AC48F5",
+      "vessel_id": "VES-000001",
+      "vessel_name": "Testschiff",
+      "captured_at": "2026-07-21T11:16:21.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260721-100318-7F4587",
+      "vessel_id": "VES-000001",
+      "vessel_name": "Testschiff",
+      "captured_at": "2026-07-21T10:03:06.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260720-135834-F1C25B",
+      "vessel_id": "VES-000001",
+      "vessel_name": "Testschiff",
+      "captured_at": "2026-07-20T13:58:08.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "location_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260720-134418-4C746B",
+      "vessel_id": "VES-000000",
+      "vessel_name": "Testschiff",
+      "captured_at": "2026-07-20T13:44:01.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260719-173035-9D2D8B",
+      "vessel_id": "VES-000001",
+      "vessel_name": "Testschiff",
+      "captured_at": "2026-07-19T17:30:18.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "legacy_parent",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260719-160723-D3BF9E",
+      "vessel_id": "VES-000102",
+      "vessel_name": "AmaStella",
+      "captured_at": "2026-07-19T16:07:15.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260719-153937-710675",
+      "vessel_id": "VES-000103",
+      "vessel_name": "A-Rosa Riva",
+      "captured_at": "2026-07-19T15:39:24.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260719-125510-C5F3AB",
+      "vessel_id": "VES-000106",
+      "vessel_name": "TUI Skyla",
+      "captured_at": "2026-07-19T12:54:38.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "legacy_parent",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": null,
+      "movement": "unknown",
+      "direction": "unknown",
+      "photo_count": 1
     }
   ]
 }
