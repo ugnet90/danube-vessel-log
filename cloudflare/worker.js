@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.39
+ * Version: 0.14.40
  * Updated: 2026-08-20
  */
 
@@ -9,6 +9,8 @@ const API_VERSION = "2022-11-28";
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024; // 8 MB
 const MAX_PHOTOS_PER_SUBMISSION = 10;
 const SIGHTINGS_PATH = "data/sightings.json";
+const PHOTO_LOCATIONS_PATH = "data/photo_locations.json";
+const PUBLIC_PHOTO_LOCATIONS_PATH = "docs/data/photo_locations.json";
 const BRANCH = "main";
 const LOCATIONS_PATH = "data/locations.csv";
 const LOCATION_AREAS_PATH = "data/location_areas.geojson";
@@ -2335,6 +2337,238 @@ function normalizeDirectPhotoRelation(value) {
   };
 }
 
+function directPhotoIndexVesselName(vessel, vesselId) {
+  return String(
+    vessel?.identity?.name ??
+    vessel?.name ??
+    vesselId ??
+    ""
+  ).trim();
+}
+
+function directPhotoLocationIndexRecord({
+  photo,
+  vesselId,
+  vesselName
+}) {
+  const latitude = parseCoordinate(photo?.photo_lat);
+  const longitude = parseCoordinate(photo?.photo_lon);
+
+  if (
+    latitude === null ||
+    longitude === null ||
+    (latitude === 0 && longitude === 0)
+  ) {
+    return null;
+  }
+
+  const relation = normalizeDirectPhotoRelation(
+    photo?.relation
+  );
+
+  const location =
+    photo?.location &&
+    typeof photo.location === "object" &&
+    !Array.isArray(photo.location)
+      ? { ...photo.location }
+      : {
+          status: "unknown",
+          matched_by: "",
+          id: "",
+          area_id: "",
+          name: "",
+          municipality: "",
+          country: "",
+          distance_m: null
+        };
+
+  return {
+    photo_id: String(photo?.photo_id ?? "").trim(),
+    source_type: "direct",
+    submission_id: relation.submission_id,
+    vessel_id: vesselId,
+    vessel_name: vesselName || vesselId,
+    captured_at: String(
+      photo?.captured_at ?? photo?.added_at ?? ""
+    ).trim(),
+    photo_lat: latitude,
+    photo_lon: longitude,
+    location,
+    berth: null,
+    movement: "",
+    relation,
+    path: String(photo?.path ?? "").trim()
+  };
+}
+
+function normalizePhotoLocationsIndexDocument(document) {
+  const source =
+    document &&
+    typeof document === "object" &&
+    !Array.isArray(document)
+      ? document
+      : {};
+
+  return {
+    ...source,
+    schema_version: Math.max(
+      Number(source.schema_version) || 0,
+      3
+    ),
+    photos: Array.isArray(source.photos)
+      ? [...source.photos]
+      : [],
+    sightings: Array.isArray(source.sightings)
+      ? [...source.sightings]
+      : []
+  };
+}
+
+function finalizePhotoLocationsIndexDocument(document) {
+  document.photos.sort((left, right) =>
+    String(right?.captured_at ?? "")
+      .localeCompare(String(left?.captured_at ?? "")) ||
+    String(right?.photo_id ?? "")
+      .localeCompare(String(left?.photo_id ?? ""))
+  );
+
+  document.sightings.sort((left, right) =>
+    String(right?.captured_at ?? "")
+      .localeCompare(String(left?.captured_at ?? "")) ||
+    String(right?.submission_id ?? "")
+      .localeCompare(String(left?.submission_id ?? ""))
+  );
+
+  document.count = document.photos.length;
+  document.sighting_count = document.sightings.length;
+
+  document.updated_at = [
+    ...document.photos.map(item =>
+      String(item?.captured_at ?? "")
+    ),
+    ...document.sightings.map(item =>
+      String(item?.captured_at ?? "")
+    ),
+    ""
+  ].sort().at(-1) || "";
+
+  return document;
+}
+
+function upsertDirectPhotosInLocationIndex({
+  document,
+  vesselId,
+  vesselName,
+  photos
+}) {
+  const normalized =
+    normalizePhotoLocationsIndexDocument(document);
+
+  const byPhotoId = new Map();
+  normalized.photos.forEach((item, index) => {
+    const photoId = String(item?.photo_id ?? "").trim();
+    if (photoId) byPhotoId.set(photoId, index);
+  });
+
+  for (const photo of Array.isArray(photos) ? photos : []) {
+    const photoId = String(photo?.photo_id ?? "").trim();
+    if (!photoId) continue;
+
+    const record = directPhotoLocationIndexRecord({
+      photo,
+      vesselId,
+      vesselName
+    });
+
+    const existingIndex = byPhotoId.get(photoId);
+
+    if (!record) {
+      if (existingIndex !== undefined) {
+        normalized.photos.splice(existingIndex, 1);
+        byPhotoId.clear();
+        normalized.photos.forEach((item, index) => {
+          const id = String(item?.photo_id ?? "").trim();
+          if (id) byPhotoId.set(id, index);
+        });
+      }
+      continue;
+    }
+
+    if (existingIndex === undefined) {
+      normalized.photos.push(record);
+      byPhotoId.set(photoId, normalized.photos.length - 1);
+    } else {
+      normalized.photos[existingIndex] = record;
+    }
+  }
+
+  return finalizePhotoLocationsIndexDocument(normalized);
+}
+
+async function loadPhotoLocationsIndexForUpdate(env) {
+  const primary = await readGitHubFile({
+    env,
+    path: PHOTO_LOCATIONS_PATH
+  });
+
+  let file = primary;
+
+  if (!file.ok) {
+    const publicFile = await readGitHubFile({
+      env,
+      path: PUBLIC_PHOTO_LOCATIONS_PATH
+    });
+
+    if (!publicFile.ok) {
+      return {
+        ok: false,
+        status: primary.status ?? publicFile.status ?? 502,
+        error:
+          "Der Kartenindex konnte nicht geladen werden. Bitte Rebuild location matches ausführen."
+      };
+    }
+
+    file = publicFile;
+  }
+
+  try {
+    return {
+      ok: true,
+      document: normalizePhotoLocationsIndexDocument(
+        JSON.parse(
+          String(file.content ?? "")
+            .replace(/^\uFEFF/, "")
+        )
+      )
+    };
+  } catch {
+    return {
+      ok: false,
+      status: 500,
+      error:
+        "Der Kartenindex enthält ungültiges JSON. Bitte Rebuild location matches ausführen."
+    };
+  }
+}
+
+function createPhotoLocationsCommitFiles(document) {
+  const content =
+    JSON.stringify(document, null, 2) + "\n";
+
+  return [
+    {
+      path: PHOTO_LOCATIONS_PATH,
+      content,
+      encoding: "utf-8"
+    },
+    {
+      path: PUBLIC_PHOTO_LOCATIONS_PATH,
+      content,
+      encoding: "utf-8"
+    }
+  ];
+}
+
 function reviewedVesselIdForSubmission(submission) {
   const workflow =
     submission?.workflow &&
@@ -2934,6 +3168,9 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
     type: "vessel",
     submission_id: ""
   };
+  let directVesselName = "";
+  let mapIndexUpdated = false;
+  let mapIndexWarning = "";
 
   if (target.targetType === "submission") {
     submissionFile = await findSubmissionFile(env, target.submissionId);
@@ -2943,6 +3180,10 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
   } else {
     const vesselResult = await loadCanonicalVessel(env, target.vesselId);
     if (!vesselResult.ok) return jsonResponse({ ok: false, error: vesselResult.error }, vesselResult.status === 404 ? 404 : 502);
+    directVesselName = directPhotoIndexVesselName(
+      vesselResult.vessel,
+      target.vesselId
+    );
     vesselPhotosFile = await loadDirectVesselPhotos(env, target.vesselId);
     if (!vesselPhotosFile.ok) return jsonResponse({ ok: false, error: vesselPhotosFile.error }, vesselPhotosFile.status ?? 502);
 
@@ -3177,6 +3418,29 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
         JSON.stringify(vesselPhotosFile.document, null, 2) + "\n",
       encoding: "utf-8"
     });
+
+    const mapIndexResult =
+      await loadPhotoLocationsIndexForUpdate(env);
+
+    if (mapIndexResult.ok) {
+      const updatedMapIndex =
+        upsertDirectPhotosInLocationIndex({
+          document: mapIndexResult.document,
+          vesselId: target.vesselId,
+          vesselName: directVesselName,
+          photos: savedRecords
+        });
+
+      files.push(
+        ...createPhotoLocationsCommitFiles(
+          updatedMapIndex
+        )
+      );
+      mapIndexUpdated = true;
+    } else {
+      mapIndexWarning = mapIndexResult.error ||
+        "Kartenindex nicht aktualisiert.";
+    }
   }
 
   if (
@@ -3235,6 +3499,14 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
           ? normalizeDirectPhotoRelation(record.relation)
           : null
     })),
+    map_index_updated:
+      target.targetType === "vessel"
+        ? mapIndexUpdated
+        : false,
+    map_index_warning:
+      target.targetType === "vessel"
+        ? mapIndexWarning
+        : "",
     commit_sha: commitResult.commitSha
   }, 201);
 }
@@ -3586,6 +3858,48 @@ async function handleVesselPhotoRelation(request, env) {
     );
   directPhotosResult.document.updated_at = updatedAt;
 
+  const commitFiles = [
+    {
+      path: directPhotosResult.path,
+      content:
+        JSON.stringify(
+          directPhotosResult.document,
+          null,
+          2
+        ) + "\n",
+      encoding: "utf-8"
+    }
+  ];
+
+  let mapIndexUpdated = false;
+  let mapIndexWarning = "";
+
+  const mapIndexResult =
+    await loadPhotoLocationsIndexForUpdate(env);
+
+  if (mapIndexResult.ok) {
+    const updatedMapIndex =
+      upsertDirectPhotosInLocationIndex({
+        document: mapIndexResult.document,
+        vesselId,
+        vesselName: directPhotoIndexVesselName(
+          vesselResult.vessel,
+          vesselId
+        ),
+        photos: [photo]
+      });
+
+    commitFiles.push(
+      ...createPhotoLocationsCommitFiles(
+        updatedMapIndex
+      )
+    );
+    mapIndexUpdated = true;
+  } else {
+    mapIndexWarning = mapIndexResult.error ||
+      "Kartenindex nicht aktualisiert.";
+  }
+
   const commitResult =
     await createAtomicGitHubCommit({
       env,
@@ -3593,18 +3907,7 @@ async function handleVesselPhotoRelation(request, env) {
         nextRelation.type === "sighting"
           ? "Zusatzfoto Sichtung zugeordnet"
           : "Zusatzfoto Sichtungsbezug gelöst",
-      files: [
-        {
-          path: directPhotosResult.path,
-          content:
-            JSON.stringify(
-              directPhotosResult.document,
-              null,
-              2
-            ) + "\n",
-          encoding: "utf-8"
-        }
-      ]
+      files: commitFiles
     });
 
   if (!commitResult.ok) {
@@ -3624,6 +3927,8 @@ async function handleVesselPhotoRelation(request, env) {
     photo_id: photoId,
     previous_relation: previousRelation,
     relation: nextRelation,
+    map_index_updated: mapIndexUpdated,
+    map_index_warning: mapIndexWarning,
     updated_at: updatedAt,
     commit_sha: commitResult.commitSha
   });
