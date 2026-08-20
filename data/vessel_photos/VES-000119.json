@@ -55,7 +55,34 @@
         "distance_m": null
       },
       "vessel_name_entered": "AmaSonata"
+    },
+    {
+      "photo_id": "PHOTO-6DDBD86BED3141A28DE0280C7386FFB6",
+      "path": "inbox/photos/2026/08/PHOTO-6DDBD86BED3141A28DE0280C7386FFB6.jpg",
+      "filename": "PHOTO-6DDBD86BED3141A28DE0280C7386FFB6.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 313460,
+      "sequence": 3,
+      "captured_at": "2026-08-20T05:24:00.000Z",
+      "added_at": "2026-08-20T13:08:25.440Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30670333333333,
+      "photo_lon": 14.28365833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "name": "Obere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "AmaSonata"
     }
   ],
-  "updated_at": "2026-08-20T12:23:23.131Z"
+  "updated_at": "2026-08-20T13:08:25.440Z"
 }
