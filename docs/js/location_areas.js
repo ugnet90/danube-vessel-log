@@ -1,519 +1,250 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_areas.js
- * Version: 0.14.34
+ * Version: 0.14.35
  * Updated: 2026-08-20
  */
 
 "use strict";
 
-(function () {
-  const DATA_URL = "data/location_areas.geojson";
-  const AREA_COLORS = [
-    "#d7191c",
-    "#2c7bb6",
-    "#fdae61",
-    "#7b3294",
-    "#1a9641"
-  ];
-
+(async function () {
+  const maps = window.DanubeLocationMap;
   const status = document.getElementById("locationAreasStatus");
   const list = document.getElementById("locationAreasList");
-  const toggleVerticesButton = document.getElementById("toggleVerticesButton");
   const selectedPhotoCard = document.getElementById("selectedPhotoCard");
+  const showAreas = document.getElementById("showAreas");
+  const showBerths = document.getElementById("showBerths");
+  const showPhotos = document.getElementById("showPhotos");
+  const showVertices = document.getElementById("showVertices");
+  const vesselFilter = document.getElementById("photoVesselFilter");
+  const areaFilter = document.getElementById("photoAreaFilter");
+  const sourceFilter = document.getElementById("photoSourceFilter");
+  const dateFrom = document.getElementById("photoDateFrom");
+  const dateTo = document.getElementById("photoDateTo");
+  const labelMode = document.getElementById("photoLabelMode");
+  const resetFilters = document.getElementById("resetPhotoFilters");
+  const photoCount = document.getElementById("photoCount");
 
-  if (!window.L) {
-    status.textContent = "Die Kartenbibliothek Leaflet konnte nicht geladen werden.";
+  if (!maps || !window.L) {
+    status.textContent = "Die Kartenbibliothek konnte nicht geladen werden.";
     status.classList.add("error");
     return;
   }
 
-  function coordinateFromQuery(
-    valueText,
-    minimum,
-    maximum
-  ) {
-    const parsed = Number(
-      String(valueText ?? "")
-        .trim()
-        .replace(",", ".")
-    );
+  const workerUrl = String(
+    window.VesselConfig?.workerUrl ?? ""
+  ).trim();
 
-    return (
-      Number.isFinite(parsed) &&
-      parsed >= minimum &&
-      parsed <= maximum
-    )
-      ? parsed
-      : null;
-  }
+  let map;
+  let areas = [];
+  let photos = [];
+  let berths = [];
+  let areaLayers;
+  let berthLayers;
+  let photoLayer = L.layerGroup();
+  let selectedPhotoLayer = null;
 
   function selectedPhotoFromQuery() {
-    const params =
-      new URLSearchParams(
-        window.location.search
-      );
-
-    const latitude = coordinateFromQuery(
+    const params = new URLSearchParams(window.location.search);
+    const coords = maps.validCoordinates(
       params.get("lat"),
-      -90,
-      90
+      params.get("lon")
     );
-
-    const longitude = coordinateFromQuery(
-      params.get("lon"),
-      -180,
-      180
-    );
-
-    if (
-      latitude === null ||
-      longitude === null ||
-      (latitude === 0 && longitude === 0)
-    ) {
-      return null;
-    }
-
+    if (!coords) return null;
     return {
-      latitude,
-      longitude,
-      capturedAt:
-        params.get("captured_at") || "",
-      currentLocation:
-        params.get("location") || "",
-      photoId:
-        params.get("photo_id") || ""
+      photo_id: params.get("photo_id") || "",
+      captured_at: params.get("captured_at") || "",
+      current_location: params.get("location") || "",
+      photo_lat: coords.latitude,
+      photo_lon: coords.longitude,
+      source_type: "selected"
     };
   }
 
-  function formatDateTime(valueText) {
-    if (!valueText) return "";
-
-    const date = new Date(valueText);
-    if (Number.isNaN(date.getTime())) {
-      return valueText;
+  function setLayerVisible(group, visible) {
+    if (!group) return;
+    if (visible) {
+      if (!map.hasLayer(group)) group.addTo(map);
+    } else if (map.hasLayer(group)) {
+      map.removeLayer(group);
     }
-
-    return new Intl.DateTimeFormat(
-      "de-AT",
-      {
-        dateStyle: "medium",
-        timeStyle: "short"
-      }
-    ).format(date);
   }
 
-  function pointOnSegment(
-    longitude,
-    latitude,
-    left,
-    right
-  ) {
-    const x1 = Number(left?.[0]);
-    const y1 = Number(left?.[1]);
-    const x2 = Number(right?.[0]);
-    const y2 = Number(right?.[1]);
+  function fillFilterOptions() {
+    const vesselValues = new Map();
+    const areaValues = new Set();
 
-    if (
-      ![x1, y1, x2, y2].every(
-        Number.isFinite
-      )
-    ) {
-      return false;
-    }
+    photos.forEach(photo => {
+      const id = String(photo?.vessel_id || "").trim();
+      const name = String(photo?.vessel_name || id || "").trim();
+      const key = id || name;
+      if (key) vesselValues.set(key, name || key);
+      const areaName = String(photo?.location?.name || "").trim();
+      if (areaName) areaValues.add(areaName);
+    });
 
-    const cross =
-      (longitude - x1) * (y2 - y1) -
-      (latitude - y1) * (x2 - x1);
-
-    if (Math.abs(cross) > 1e-10) {
-      return false;
-    }
-
-    return (
-      longitude >= Math.min(x1, x2) - 1e-10 &&
-      longitude <= Math.max(x1, x2) + 1e-10 &&
-      latitude >= Math.min(y1, y2) - 1e-10 &&
-      latitude <= Math.max(y1, y2) + 1e-10
-    );
-  }
-
-  function pointInRing(
-    longitude,
-    latitude,
-    ring
-  ) {
-    if (!Array.isArray(ring) || ring.length < 3) {
-      return false;
-    }
-
-    let inside = false;
-
-    for (
-      let index = 0,
-        previous = ring.length - 1;
-      index < ring.length;
-      previous = index, index += 1
-    ) {
-      const currentPoint = ring[index];
-      const previousPoint = ring[previous];
-
-      if (
-        pointOnSegment(
-          longitude,
-          latitude,
-          previousPoint,
-          currentPoint
-        )
-      ) {
-        return true;
-      }
-
-      const currentLon = Number(currentPoint?.[0]);
-      const currentLat = Number(currentPoint?.[1]);
-      const previousLon = Number(previousPoint?.[0]);
-      const previousLat = Number(previousPoint?.[1]);
-
-      if (
-        ![
-          currentLon,
-          currentLat,
-          previousLon,
-          previousLat
-        ].every(Number.isFinite)
-      ) {
-        continue;
-      }
-
-      const crosses =
-        (currentLat > latitude) !==
-        (previousLat > latitude);
-
-      if (!crosses) continue;
-
-      const intersectionLongitude =
-        ((previousLon - currentLon) *
-          (latitude - currentLat)) /
-          (previousLat - currentLat) +
-        currentLon;
-
-      if (longitude < intersectionLongitude) {
-        inside = !inside;
-      }
-    }
-
-    return inside;
-  }
-
-  function matchingAreas(
-    features,
-    selectedPhoto
-  ) {
-    return features
-      .filter(feature => {
-        const ring =
-          feature?.geometry?.coordinates?.[0];
-
-        return pointInRing(
-          selectedPhoto.longitude,
-          selectedPhoto.latitude,
-          ring
-        );
-      })
-      .sort((left, right) =>
-        Number(
-          right?.properties?.priority ?? 0
-        ) -
-        Number(
-          left?.properties?.priority ?? 0
-        )
-      );
-  }
-
-  const selectedPhoto =
-    selectedPhotoFromQuery();
-
-  const map = L.map("locationAreasMap", {
-    zoomControl: true,
-    preferCanvas: false
-  }).setView([48.3092, 14.2854], 16);
-
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 20,
-    attribution: "&copy; OpenStreetMap contributors"
-  }).addTo(map);
-
-  const polygonLayers = [];
-  const vertexLayer = L.layerGroup();
-  let verticesVisible = false;
-
-  function popupContent(properties) {
-    const name = properties?.public_name || properties?.name || "Standortbereich";
-    const priority = properties?.priority ?? "–";
-    const description = properties?.description || "";
-
-    return (
-      '<div class="location-area-popup">' +
-        "<strong>" + name + "</strong>" +
-        "Priorität: " + priority +
-        (description ? "<br><br>" + description : "") +
-      "</div>"
-    );
-  }
-
-  function addVertexMarkers(feature, color) {
-    const ring = feature?.geometry?.coordinates?.[0];
-    if (!Array.isArray(ring)) return;
-
-    const points = (
-      ring.length > 1 &&
-      ring[0][0] === ring[ring.length - 1][0] &&
-      ring[0][1] === ring[ring.length - 1][1]
-    ) ? ring.slice(0, -1) : ring;
-
-    points.forEach((coordinate, index) => {
-      const longitude = Number(coordinate?.[0]);
-      const latitude = Number(coordinate?.[1]);
-      if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
-
-      const marker = L.marker([latitude, longitude], {
-        icon: L.divIcon({
-          className: "",
-          html: '<div class="location-area-vertex-label" style="border-color:' + color + '">' + (index + 1) + "</div>",
-          iconSize: [24, 24],
-          iconAnchor: [12, 12]
-        })
+    [...vesselValues.entries()]
+      .sort((a, b) => a[1].localeCompare(b[1], "de"))
+      .forEach(([value, text]) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = text;
+        vesselFilter.append(option);
       });
 
-      marker.bindPopup(
-        "<strong>" + (feature.properties?.name || "Bereich") +
-        " – Eckpunkt " + (index + 1) + "</strong><br>" +
-        "Breitengrad: " + latitude.toFixed(7) + "<br>" +
-        "Längengrad: " + longitude.toFixed(7)
-      );
+    [...areaValues]
+      .sort((a, b) => a.localeCompare(b, "de"))
+      .forEach(value => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        areaFilter.append(option);
+      });
+  }
 
-      marker.addTo(vertexLayer);
+  function photoMatches(photo) {
+    const vesselKey = String(photo?.vessel_id || photo?.vessel_name || "").trim();
+    if (vesselFilter.value && vesselKey !== vesselFilter.value) return false;
+    if (areaFilter.value && String(photo?.location?.name || "") !== areaFilter.value) return false;
+    if (sourceFilter.value && String(photo?.source_type || "") !== sourceFilter.value) return false;
+
+    const day = maps.localDateKey(photo?.captured_at);
+    if (dateFrom.value && (!day || day < dateFrom.value)) return false;
+    if (dateTo.value && (!day || day > dateTo.value)) return false;
+    return true;
+  }
+
+  function renderPhotos() {
+    photoLayer.clearLayers();
+    const visiblePhotos = photos.filter(photoMatches);
+
+    for (const photo of visiblePhotos) {
+      const marker = maps.createPhotoMarker(map, photo, {
+        addToMap: false,
+        labelMode: labelMode.value
+      });
+      if (marker) marker.addTo(photoLayer);
+    }
+
+    setLayerVisible(photoLayer, showPhotos.checked);
+    photoCount.textContent = `${visiblePhotos.length} ${visiblePhotos.length === 1 ? "Foto" : "Fotos"}`;
+  }
+
+  function renderAreaList() {
+    list.replaceChildren();
+    areaLayers.entries.forEach(entry => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "location-area-item";
+      const swatch = document.createElement("span");
+      swatch.className = "location-area-swatch";
+      swatch.style.background = entry.color;
+      const text = document.createElement("span");
+      text.textContent = maps.areaName(entry.feature);
+      button.append(swatch, text);
+      button.addEventListener("click", () => {
+        const bounds = entry.layer.getBounds();
+        if (bounds?.isValid()) map.fitBounds(bounds.pad(0.15));
+        entry.layer.openPopup?.();
+      });
+      list.append(button);
     });
   }
 
-  function addListItem(feature, layer, color) {
-    const properties = feature.properties || {};
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "location-area-item";
-    button.style.setProperty("--area-color", color);
+  function showSelectedPhoto() {
+    const photo = selectedPhotoFromQuery();
+    if (!photo) return;
 
+    const matches = maps.matchingAreas(areas, photo.photo_lat, photo.photo_lon);
+    const best = matches[0] || null;
+    const inferred = best ? maps.areaName(best) : "Kein Polygon-Treffer";
+
+    selectedPhotoCard.classList.remove("hidden");
+    selectedPhotoCard.replaceChildren();
     const title = document.createElement("strong");
-    title.textContent = properties.public_name || properties.name || "Standortbereich";
+    title.textContent = "Ausgewähltes Foto";
+    const info = document.createElement("div");
+    info.textContent = [
+      maps.formatDateTime(photo.captured_at),
+      photo.current_location ? `gespeichert: ${photo.current_location}` : "",
+      `GPS-Punkt liegt in: ${inferred}`
+    ].filter(Boolean).join(" · ");
+    selectedPhotoCard.append(title, info);
 
-    const meta = document.createElement("span");
-    meta.textContent = "Priorität " + (properties.priority ?? "–");
-
-    button.append(title, meta);
-    button.addEventListener("click", () => {
-      map.fitBounds(layer.getBounds(), { padding: [30, 30], maxZoom: 19 });
-      layer.openPopup();
+    selectedPhotoLayer = maps.createPhotoMarker(map, {
+      ...photo,
+      vessel_name: "Ausgewähltes Foto",
+      location: { name: inferred }
+    }, {
+      color: "#991b1b",
+      fillColor: "#ffffff",
+      radius: 9,
+      weight: 4
     });
-    list.append(button);
+
+    if (selectedPhotoLayer) {
+      map.setView([photo.photo_lat, photo.photo_lon], 18);
+      selectedPhotoLayer.openPopup();
+    }
   }
 
-  function renderSelectedPhoto(
-    features
-  ) {
-    if (!selectedPhoto) return;
+  function wireControls() {
+    showAreas.addEventListener("change", () => setLayerVisible(areaLayers.group, showAreas.checked));
+    showBerths.addEventListener("change", () => setLayerVisible(berthLayers?.group, showBerths.checked));
+    showPhotos.addEventListener("change", () => setLayerVisible(photoLayer, showPhotos.checked));
+    showVertices.addEventListener("change", () => setLayerVisible(areaLayers.vertexGroup, showVertices.checked));
 
-    const matches = matchingAreas(
-      features,
-      selectedPhoto
-    );
+    [vesselFilter, areaFilter, sourceFilter, dateFrom, dateTo, labelMode]
+      .forEach(control => control.addEventListener("change", renderPhotos));
 
-    const bestMatch = matches[0] ?? null;
-    const bestMatchName =
-      bestMatch?.properties?.public_name ||
-      bestMatch?.properties?.name ||
-      "kein Polygon";
-
-    const marker = L.circleMarker(
-      [
-        selectedPhoto.latitude,
-        selectedPhoto.longitude
-      ],
-      {
-        radius: 9,
-        color: "#111827",
-        weight: 3,
-        fillColor: "#facc15",
-        fillOpacity: 1
-      }
-    ).addTo(map);
-
-    const popup =
-      document.createElement("div");
-
-    const title =
-      document.createElement("strong");
-    title.textContent = "Fotoaufnahme";
-    popup.append(title);
-
-    const captured = formatDateTime(
-      selectedPhoto.capturedAt
-    );
-
-    if (captured) {
-      popup.append(
-        document.createElement("br"),
-        document.createTextNode(captured)
-      );
-    }
-
-    popup.append(
-      document.createElement("br"),
-      document.createTextNode(
-        "GPS: " +
-        selectedPhoto.latitude.toFixed(7) +
-        " / " +
-        selectedPhoto.longitude.toFixed(7)
-      ),
-      document.createElement("br"),
-      document.createTextNode(
-        "Polygon: " + bestMatchName
-      )
-    );
-
-    marker.bindPopup(popup);
-
-    if (selectedPhotoCard) {
-      selectedPhotoCard.replaceChildren();
-
-      const heading =
-        document.createElement("strong");
-      heading.textContent = "Ausgewähltes Foto";
-      selectedPhotoCard.append(heading);
-
-      if (captured) {
-        const dateLine =
-          document.createElement("span");
-        dateLine.textContent = captured;
-        selectedPhotoCard.append(dateLine);
-      }
-
-      const gpsLine =
-        document.createElement("span");
-      gpsLine.textContent =
-        "GPS: " +
-        selectedPhoto.latitude.toFixed(7) +
-        " / " +
-        selectedPhoto.longitude.toFixed(7);
-      selectedPhotoCard.append(gpsLine);
-
-      if (selectedPhoto.currentLocation) {
-        const currentLine =
-          document.createElement("span");
-        currentLine.textContent =
-          "Aktuell zugeordnet: " +
-          selectedPhoto.currentLocation;
-        selectedPhotoCard.append(currentLine);
-      }
-
-      const matchLine =
-        document.createElement("span");
-      matchLine.className =
-        "selected-photo-match";
-      matchLine.textContent =
-        matches.length > 0
-          ? "GPS-Punkt liegt in: " +
-            matches
-              .map(feature =>
-                feature?.properties?.public_name ||
-                feature?.properties?.name ||
-                "Standortbereich"
-              )
-              .join(" · ")
-          : "GPS-Punkt liegt in keinem Polygon.";
-
-      selectedPhotoCard.append(matchLine);
-      selectedPhotoCard.classList.remove(
-        "hidden"
-      );
-    }
-
-    map.setView(
-      [
-        selectedPhoto.latitude,
-        selectedPhoto.longitude
-      ],
-      19
-    );
-
-    window.setTimeout(
-      () => marker.openPopup(),
-      0
-    );
+    resetFilters.addEventListener("click", () => {
+      vesselFilter.value = "";
+      areaFilter.value = "";
+      sourceFilter.value = "";
+      dateFrom.value = "";
+      dateTo.value = "";
+      labelMode.value = "none";
+      renderPhotos();
+    });
   }
 
-  async function loadAreas() {
+  try {
+    map = maps.createMap(document.getElementById("locationAreasMap"));
+    [areas, photos] = await Promise.all([
+      maps.loadAreas(),
+      maps.loadPhotoLocations().catch(() => [])
+    ]);
+
+    areaLayers = maps.addAreaLayers(map, areas, {
+      addToMap: true,
+      fillOpacity: 0.22,
+      weight: 4
+    });
+
+    photoLayer.addTo(map);
+
     try {
-      const response = await fetch(DATA_URL, { cache: "no-store" });
-      if (!response.ok) {
-        throw new Error("HTTP " + response.status);
-      }
-
-      const data = await response.json();
-      const features = Array.isArray(data?.features) ? data.features : [];
-      if (features.length === 0) {
-        throw new Error("Keine Polygonflächen vorhanden.");
-      }
-
-      const allBounds = L.latLngBounds();
-
-      features.forEach((feature, index) => {
-        const color = AREA_COLORS[index % AREA_COLORS.length];
-        const layer = L.geoJSON(feature, {
-          style: {
-            color,
-            weight: 4,
-            opacity: 1,
-            fillColor: color,
-            fillOpacity: 0.30
-          }
-        }).addTo(map);
-
-        layer.bindPopup(popupContent(feature.properties));
-        layer.eachLayer(child => {
-          if (typeof child.getBounds === "function") {
-            allBounds.extend(child.getBounds());
-          }
-        });
-
-        polygonLayers.push(layer);
-        addVertexMarkers(feature, color);
-        addListItem(feature, layer, color);
-      });
-
-      if (selectedPhoto) {
-        renderSelectedPhoto(features);
-      } else if (allBounds.isValid()) {
-        map.fitBounds(allBounds, { padding: [20, 20] });
-      }
-
-      status.textContent = features.length + " Standortbereiche geladen.";
+      berths = await maps.loadBerths(workerUrl, "LOC-001");
+      berthLayers = maps.addBerthLayers(map, berths, { addToMap: true });
     } catch (error) {
-      status.textContent = "Standortbereiche konnten nicht geladen werden: " + (error instanceof Error ? error.message : String(error));
-      status.classList.add("error");
+      berthLayers = { group: L.layerGroup(), markers: [] };
+      console.warn(error);
     }
+
+    fillFilterOptions();
+    renderAreaList();
+    renderPhotos();
+    wireControls();
+
+    if (areaLayers.bounds.isValid()) {
+      map.fitBounds(areaLayers.bounds.pad(0.08));
+    }
+
+    showSelectedPhoto();
+
+    status.textContent = `${areas.length} Bereiche · ${berths.length} Anlegestellen · ${photos.length} Fotoorte geladen.`;
+  } catch (error) {
+    status.textContent = error instanceof Error ? error.message : String(error);
+    status.classList.add("error");
   }
-
-  toggleVerticesButton.addEventListener("click", () => {
-    verticesVisible = !verticesVisible;
-
-    if (verticesVisible) {
-      vertexLayer.addTo(map);
-      toggleVerticesButton.textContent = "Eckpunkte ausblenden";
-    } else {
-      map.removeLayer(vertexLayer);
-      toggleVerticesButton.textContent = "Eckpunkte anzeigen";
-    }
-  });
-
-  loadAreas();
 })();

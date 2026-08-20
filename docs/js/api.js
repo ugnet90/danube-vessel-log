@@ -1,3 +1,8 @@
+// Danube Vessel Log
+// File: docs/js/api.js
+// Version: 0.14.35
+// Updated: 2026-08-20
+
 "use strict";
 
 (function () {
@@ -95,18 +100,6 @@
     };
   }
 
-
-  async function getVessels({
-    workerUrl,
-    apiKey = ""
-  }) {
-    return request({
-      workerUrl,
-      path: "/vessels",
-      apiKey
-    });
-  }
-
   async function getVessel({
     workerUrl,
     apiKey = "",
@@ -165,6 +158,45 @@
     });
   }
 
+  async function getBerths({
+    workerUrl,
+    apiKey = "",
+    locationId = ""
+  }) {
+    const params = new URLSearchParams();
+    if (locationId) params.set("location_id", locationId);
+
+    return request({
+      workerUrl,
+      path:
+        "/berths" +
+        (params.toString() ? `?${params.toString()}` : ""),
+      apiKey
+    });
+  }
+
+  async function updateSubmissionBerth({
+    workerUrl,
+    apiKey = "",
+    submissionId,
+    berthStatus,
+    berthId = "",
+    berthNameEntered = ""
+  }) {
+    return request({
+      workerUrl,
+      path: "/submission-berth",
+      method: "POST",
+      apiKey,
+      body: {
+        submission_id: submissionId,
+        berth_status: berthStatus,
+        berth_id: berthId,
+        berth_name_entered: berthNameEntered
+      }
+    });
+  }
+
   async function reviewSubmission({
     workerUrl,
     apiKey = "",
@@ -194,10 +226,11 @@
 
   window.VesselApi = {
     request,
-    getVessels,
     getVessel,
     getVesselIdSuggestion,
     createVessel,
+    getBerths,
+    updateSubmissionBerth,
     reviewSubmission
   };
 })();

@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.14.27
-// Updated: 2026-08-19
+// Version: 0.14.35
+// Updated: 2026-08-20
 
 "use strict";
 
@@ -20,6 +20,18 @@ document.addEventListener("DOMContentLoaded", () => {
   )
     .get("id")
     ?.trim() || "";
+
+  let photoMapModal = null;
+  let photoMapCanvas = null;
+  let photoMapInfo = null;
+  let closePhotoMapButton = null;
+  let mapDependenciesPromise = null;
+  let photoMap = null;
+  let photoMapAreaLayers = null;
+  let photoMapBerthLayers = null;
+  let photoMapMarker = null;
+  let photoMapAreasPromise = null;
+  let photoMapBerthsPromise = null;
 
   const apiKey = byId("apiKey");
 
@@ -415,117 +427,225 @@ document.addEventListener("DOMContentLoaded", () => {
       .join(" · ");
   }
 
-  function photoCoordinate(
-    input,
-    minimum,
-    maximum
-  ) {
-    const normalized =
-      typeof input === "number"
-        ? input
-        : Number(
-            String(input ?? "")
-              .trim()
-              .replace(",", ".")
-          );
-
-    return (
-      Number.isFinite(normalized) &&
-      normalized >= minimum &&
-      normalized <= maximum
-    )
-      ? normalized
-      : null;
+  function loadScriptOnce(src, test) {
+    if (test()) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const existing = [...document.scripts].find(script => script.src === new URL(src, document.baseURI).href);
+      if (existing) {
+        existing.addEventListener("load", resolve, { once: true });
+        existing.addEventListener("error", () => reject(new Error(`${src} konnte nicht geladen werden.`)), { once: true });
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = src;
+      script.addEventListener("load", resolve, { once: true });
+      script.addEventListener("error", () => reject(new Error(`${src} konnte nicht geladen werden.`)), { once: true });
+      document.head.append(script);
+    });
   }
 
-  function photoMapUrl(
+  async function ensureMapDependencies() {
+    if (!mapDependenciesPromise) {
+      mapDependenciesPromise = (async () => {
+        if (!document.querySelector('link[data-danube-leaflet]')) {
+          const link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+          link.dataset.danubeLeaflet = "true";
+          document.head.append(link);
+        }
+        await loadScriptOnce(
+          "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+          () => Boolean(window.L)
+        );
+        await loadScriptOnce(
+          "js/location_map.js",
+          () => Boolean(window.DanubeLocationMap)
+        );
+      })();
+    }
+    return mapDependenciesPromise;
+  }
+
+  function ensurePhotoMapUi() {
+    if (photoMapModal) return;
+
+    photoMapModal = document.createElement("div");
+    photoMapModal.id = "photoMapModal";
+    photoMapModal.className = "photo-map-modal hidden";
+    photoMapModal.setAttribute("role", "dialog");
+    photoMapModal.setAttribute("aria-modal", "true");
+    photoMapModal.setAttribute("aria-labelledby", "photoMapTitle");
+    photoMapModal.innerHTML = `
+      <div class="photo-map-dialog">
+        <header class="photo-map-header">
+          <div>
+            <h2 id="photoMapTitle">Aufnahmeort</h2>
+            <p id="photoMapInfo"></p>
+          </div>
+          <button id="closePhotoMapButton" class="secondary-button photo-map-close" type="button" aria-label="Karte schließen">×</button>
+        </header>
+        <div id="photoMapCanvas" class="photo-map-canvas"></div>
+      </div>`;
+    document.body.append(photoMapModal);
+
+    photoMapCanvas = byId("photoMapCanvas");
+    photoMapInfo = byId("photoMapInfo");
+    closePhotoMapButton = byId("closePhotoMapButton");
+
+    closePhotoMapButton.addEventListener("click", closePhotoMapModal);
+    photoMapModal.addEventListener("click", event => {
+      if (event.target === photoMapModal) closePhotoMapModal();
+    });
+  }
+
+  async function ensurePhotoMap() {
+    ensurePhotoMapUi();
+    await ensureMapDependencies();
+    const maps = window.DanubeLocationMap;
+    if (!maps || !window.L) {
+      throw new Error("Die Kartenbibliothek konnte nicht geladen werden.");
+    }
+
+    if (!photoMap) {
+      photoMap = maps.createMap(photoMapCanvas, { zoom: 17 });
+    }
+
+    if (!photoMapAreasPromise) {
+      photoMapAreasPromise = maps.loadAreas();
+    }
+
+    const areas = await photoMapAreasPromise;
+
+    if (!photoMapAreaLayers) {
+      photoMapAreaLayers = maps.addAreaLayers(photoMap, areas, {
+        addToMap: true,
+        fillOpacity: 0.22,
+        weight: 4
+      });
+    }
+
+    if (!photoMapBerthsPromise && workerUrl) {
+      photoMapBerthsPromise = maps.loadBerths(workerUrl, "LOC-001")
+        .catch(() => []);
+    }
+
+    if (!photoMapBerthLayers && photoMapBerthsPromise) {
+      const berths = await photoMapBerthsPromise;
+      photoMapBerthLayers = maps.addBerthLayers(photoMap, berths, {
+        addToMap: true
+      });
+    }
+
+    return { maps, areas };
+  }
+
+  async function openPhotoMapModal(
     photo,
     fallbackCapturedAt = ""
   ) {
-    const latitude = photoCoordinate(
-      photo?.photo_lat,
-      -90,
-      90
-    );
+    ensurePhotoMapUi();
+    photoMapModal.classList.remove("hidden");
+    document.body.classList.add("photo-map-open");
 
-    const longitude = photoCoordinate(
-      photo?.photo_lon,
-      -180,
-      180
-    );
-
-    if (
-      latitude === null ||
-      longitude === null ||
-      (latitude === 0 && longitude === 0)
-    ) {
-      return "";
-    }
-
-    const params = new URLSearchParams();
-    params.set("lat", String(latitude));
-    params.set("lon", String(longitude));
-
-    const capturedAt = String(
-      photo?.captured_at ||
-      fallbackCapturedAt ||
-      ""
-    ).trim();
-
-    if (capturedAt) {
-      params.set("captured_at", capturedAt);
-    }
-
-    const currentLocation =
-      locationLabel(photo?.location);
-
-    if (
-      currentLocation &&
-      currentLocation !== "–"
-    ) {
-      params.set(
-        "location",
-        currentLocation
+    try {
+      const context = await ensurePhotoMap();
+      const coords = context.maps.validCoordinates(
+        photo?.photo_lat,
+        photo?.photo_lon
       );
+      if (!coords) {
+        closePhotoMapModal();
+        return;
+      }
+      photoMap.invalidateSize();
+
+      if (photoMapMarker) {
+        photoMap.removeLayer(photoMapMarker);
+        photoMapMarker = null;
+      }
+
+      const capturedAt = String(
+        photo?.captured_at || fallbackCapturedAt || ""
+      ).trim();
+      const matches = context.maps.matchingAreas(
+        context.areas,
+        coords.latitude,
+        coords.longitude
+      );
+      const inferred = matches[0]
+        ? context.maps.areaName(matches[0])
+        : "Kein Polygon-Treffer";
+      const stored = locationLabel(photo?.location);
+
+      photoMapInfo.textContent = [
+        context.maps.formatDateTime(capturedAt),
+        `GPS: ${coords.latitude.toFixed(7)} / ${coords.longitude.toFixed(7)}`,
+        stored && stored !== "–" ? `gespeichert: ${stored}` : "",
+        `Polygon: ${inferred}`
+      ].filter(Boolean).join(" · ");
+
+      photoMapMarker = context.maps.createPhotoMarker(
+        photoMap,
+        {
+          ...photo,
+          captured_at: capturedAt,
+          vessel_id: vesselId,
+          vessel_name:
+            currentVessel?.identity?.name ||
+            currentVessel?.name ||
+            vesselId,
+          location: {
+            ...(photo?.location || {}),
+            name: stored && stored !== "–" ? stored : inferred
+          }
+        },
+        {
+          color: "#991b1b",
+          fillColor: "#ffffff",
+          radius: 9,
+          weight: 4
+        }
+      );
+
+      photoMap.setView(
+        [coords.latitude, coords.longitude],
+        18
+      );
+      photoMapMarker?.openPopup();
+    } catch (error) {
+      photoMapInfo.textContent =
+        error instanceof Error ? error.message : String(error);
     }
+  }
 
-    const photoId = String(
-      photo?.photo_id ?? ""
-    ).trim();
-
-    if (photoId) {
-      params.set("photo_id", photoId);
-    }
-
-    return (
-      "location_areas.html?" +
-      params.toString()
-    );
+  function closePhotoMapModal() {
+    if (!photoMapModal) return;
+    photoMapModal.classList.add("hidden");
+    document.body.classList.remove("photo-map-open");
   }
 
   function createPhotoMapLink(
     photo,
     fallbackCapturedAt = ""
   ) {
-    const href = photoMapUrl(
-      photo,
-      fallbackCapturedAt
-    );
+    const latitude = Number(String(photo?.photo_lat ?? "").replace(",", "."));
+    const longitude = Number(String(photo?.photo_lon ?? "").replace(",", "."));
+    if (
+      !Number.isFinite(latitude) || !Number.isFinite(longitude) ||
+      latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180 ||
+      (latitude === 0 && longitude === 0)
+    ) return null;
 
-    if (!href) return null;
-
-    const link =
-      document.createElement("a");
-
-    link.className = "photo-map-link";
-    link.href = href;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.textContent = "Auf Karte";
-    link.title =
-      "Aufnahmeort mit Standortpolygonen anzeigen";
-
-    return link;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "photo-map-link";
+    button.textContent = "Auf Karte";
+    button.title = "Aufnahmeort mit Standortpolygonen anzeigen";
+    button.addEventListener("click", () => {
+      openPhotoMapModal(photo, fallbackCapturedAt);
+    });
+    return button;
   }
 
   function safeUrl(valueText) {
@@ -4671,4 +4791,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   initialize();
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && photoMapModal && !photoMapModal.classList.contains("hidden")) {
+      closePhotoMapModal();
+    }
+  });
+
 });

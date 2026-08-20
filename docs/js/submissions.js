@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/submissions.js
-// Version: 0.14.6
-// Updated: 2026-07-30
+// Version: 0.14.35
+// Updated: 2026-08-20
 
 "use strict";
 
@@ -21,21 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusFilter = byId("statusFilter");
   const listStatus = byId("listStatus");
   const submissionList = byId("submissionList");
-
-  const nextStepPanel =
-    byId("nextStepPanel");
-
-  const nextStepTitle =
-    byId("nextStepTitle");
-
-  const nextStepText =
-    byId("nextStepText");
-
-  const nextStepVesselLink =
-    byId("nextStepVesselLink");
-
-  const nextStepEnrichmentLink =
-    byId("nextStepEnrichmentLink");
   const emptyState = byId("emptyState");
   const detailContent = byId("detailContent");
   const detailTitle = byId("detailTitle");
@@ -47,27 +32,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const previousPhotoButton = byId("previousPhotoButton");
   const nextPhotoButton = byId("nextPhotoButton");
   const noPhotoMessage = byId("noPhotoMessage");
-  const capturedAtLabel =
-    byId("capturedAtLabel");
-  
-  const capturedAt =
-    byId("capturedAt");
-  
-  const locationTextLabel =
-    byId("locationTextLabel");
-  
-  const locationText =
-    byId("locationText");
-
-  const berthText =
-    byId("berthText");
-
-  const berthOverviewWrap =
-    byId("berthOverviewWrap");
-
+  const capturedAt = byId("capturedAt");
+  const locationText = byId("locationText");
   const movementText = byId("movementText");
   const directionText = byId("directionText");
   const enteredName = byId("enteredName");
+  const berthText = byId("berthText");
+  const editBerthButton = byId("editBerthButton");
+  const berthCorrectionPanel = byId("berthCorrectionPanel");
+  const berthCorrectionSelect = byId("berthCorrectionSelect");
+  const berthUnlistedField = byId("berthUnlistedField");
+  const berthCorrectionUnlistedText = byId("berthCorrectionUnlistedText");
+  const saveBerthCorrectionButton = byId("saveBerthCorrectionButton");
+  const cancelBerthCorrectionButton = byId("cancelBerthCorrectionButton");
+  const berthCorrectionResult = byId("berthCorrectionResult");
   const autoMatchStatus = byId("autoMatchStatus");
   const autoVesselId = byId("autoVesselId");
   const matchedBy = byId("matchedBy");
@@ -110,14 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const vesselManager = byId("vesselManager");
   const vesselCruiseBrand = byId("vesselCruiseBrand");
   const vesselHomePort = byId("vesselHomePort");
-  const vesselEnrichmentStatus =
-    byId("vesselEnrichmentStatus");
-
-  const vesselEnrichmentDate =
-    byId("vesselEnrichmentDate");
-
-  const vesselEnrichmentLink =
-    byId("vesselEnrichmentLink");
+  const vesselEnrichmentStatus = byId("vesselEnrichmentStatus");
+  const vesselEnrichmentDate = byId("vesselEnrichmentDate");
   const vesselSourceCount = byId("vesselSourceCount");
   const vesselUpdatedAt = byId("vesselUpdatedAt");
 
@@ -277,12 +249,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedVesselId = "";
   let reviewCandidateVesselId = "";
   let vesselLoadToken = 0;
-  let enrichmentLoadToken = 0;
   let reviewBusy = false;
-  let vesselCreateActive = false;
   let vesselCreateBusy = false;
   let vesselSuggestionToken = 0;
   let referenceReady = false;
+  let berthCorrectionBusy = false;
+  const berthOptionsCache = new Map();
 
   const vesselCache = new Map();
 
@@ -331,32 +303,6 @@ document.addEventListener("DOMContentLoaded", () => {
     failed: "Fehler",
     unknown: "unbekannt"
   };
-  
-  const enrichmentReportStatusLabels = {
-    candidate:
-      "Wikidata-Kandidat mit Vorschlägen",
-
-    matched_no_new_data:
-      "Wikidata-Treffer ohne neue Daten",
-
-    low_confidence:
-      "Unsicherer Wikidata-Treffer",
-
-    no_match:
-      "Kein Wikidata-Treffer",
-
-    lookup_error:
-      "Fehler bei der Wikidata-Abfrage",
-
-    not_needed:
-      "Keine Anreicherung erforderlich",
-
-    offline:
-      "Nur Fehlstellenreport",
-
-    pending:
-      "Noch nicht geprüft"
-  };  
 
   function getWorkflowStatus(submission) {
     return (
@@ -365,15 +311,6 @@ document.addEventListener("DOMContentLoaded", () => {
       "new"
     );
   }
-
-  function isTestSubmission(submission) {
-    return String(
-      submission?.vessel_name_entered ?? ""
-    )
-      .trim()
-      .toLowerCase()
-      .includes("test");
-  }  
 
   function getAutomaticMatch(submission) {
     return (
@@ -458,72 +395,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return String(value);
   }
 
-  function formatBerth(
-    berth,
-    movement = "unknown"
-  ) {
-    const source =
-      berth &&
-      typeof berth === "object"
-        ? berth
-        : {};
-
-    const status =
-      String(
-        source.status ?? ""
-      ).trim();
-
-    if (status === "matched") {
-      return (
-        source.short_name ||
-        source.name ||
-        source.id ||
-        "Ausgewählte Anlegestelle"
-      );
-    }
-
-    if (status === "unlisted") {
-      return (
-        source.name ||
-        "Andere, nicht gelistete Anlegestelle"
-      );
-    }
-
-    if (status === "not_applicable") {
-      return "Keine Anlegestelle";
-    }
-
-    if (status === "unknown") {
-      return "Anlegestelle unbekannt";
-    }
-
-    /*
-     * Rückwärtskompatibilität für
-     * ältere API-Antworten.
-     */
-    return movement === "moving"
-      ? "Keine Anlegestelle"
-      : "Anlegestelle unbekannt";
-  }
-
-  function berthDetails(berth) {
-    if (
-      !berth ||
-      typeof berth !== "object" ||
-      berth.status !== "matched"
-    ) {
-      return "";
-    }
-
-    return [
-      berth.river_km_text,
-      berth.facility_type,
-      berth.mooring_order
-    ]
-      .filter(Boolean)
-      .join(" · ");
-  }  
-
   function formatList(value) {
     if (!Array.isArray(value) || value.length === 0) {
       return "—";
@@ -576,196 +447,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     reviewResult.textContent = "";
   }
-
-  function enrichmentPageUrl(
-    vesselIdValue
-  ) {
-    const normalizedVesselId =
-      String(
-        vesselIdValue ?? ""
-      ).trim();
-
-    return vesselIdPattern.test(
-      normalizedVesselId
-    )
-      ? (
-          "vessel_enrichment.html?" +
-          "vessel_id=" +
-          encodeURIComponent(
-            normalizedVesselId
-          )
-        )
-      : "vessel_enrichment.html";
-  }
-
-  function showNextStep(
-    vesselIdValue,
-    message
-  ) {
-    const normalizedVesselId =
-      String(
-        vesselIdValue ?? ""
-      ).trim();
-
-    if (
-      !vesselIdPattern.test(
-        normalizedVesselId
-      )
-    ) {
-      nextStepPanel.classList.add(
-        "hidden"
-      );
-
-      return;
-    }
-
-    nextStepTitle.textContent =
-      `${normalizedVesselId} wurde ` +
-      "der Sichtung zugeordnet.";
-
-    nextStepText.textContent =
-      message ||
-      (
-        "Die Anreicherungsseite prüft den aktuellen " +
-        "Report. Ist der neue Report noch nicht fertig, " +
-        "wird er dort automatisch erneut geladen."
-      );
-
-    nextStepVesselLink.href =
-      "vessel.html?id=" +
-      encodeURIComponent(
-        normalizedVesselId
-      );
-
-    nextStepEnrichmentLink.href =
-      enrichmentPageUrl(
-        normalizedVesselId
-      );
-
-    nextStepPanel.classList.remove(
-      "hidden"
-    );
-
-    nextStepPanel.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest"
-    });
-  }
-
-  function hideNextStep() {
-    nextStepPanel.classList.add(
-      "hidden"
-    );
-  }
-
-  async function loadEnrichmentReportState(
-    vesselIdValue
-  ) {
-    const normalizedVesselId =
-      String(
-        vesselIdValue ?? ""
-      ).trim();
-
-    const token =
-      ++enrichmentLoadToken;
-
-    vesselEnrichmentLink.href =
-      enrichmentPageUrl(
-        normalizedVesselId
-      );
-
-    vesselEnrichmentLink.classList.remove(
-      "hidden"
-    );
-
-    vesselEnrichmentStatus.textContent =
-      "Report wird geprüft …";
-
-    vesselEnrichmentDate.textContent =
-      "—";
-
-    try {
-      const response = await fetch(
-        "data/vessel_enrichment.json?" +
-        `ts=${Date.now()}`,
-        {
-          cache: "no-store"
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          `HTTP ${response.status}`
-        );
-      }
-
-      const report =
-        await response.json();
-
-      if (
-        token !== enrichmentLoadToken
-      ) {
-        return;
-      }
-
-      const reportVessels =
-        Array.isArray(report?.vessels)
-          ? report.vessels
-          : [];
-
-      const entry =
-        reportVessels.find(
-          vessel =>
-            vessel?.vessel_id ===
-            normalizedVesselId
-        ) ?? null;
-
-      vesselEnrichmentDate.textContent =
-        formatDateTime(
-          report?.generated_at
-        );
-
-      if (!entry) {
-        vesselEnrichmentStatus.textContent =
-          "Neuer Report wird vorbereitet";
-
-        vesselEnrichmentLink.textContent =
-          "Anreicherung öffnen";
-
-        return;
-      }
-
-      const lookupStatus =
-        entry?.lookup?.status ??
-        "pending";
-
-      vesselEnrichmentStatus.textContent =
-        enrichmentReportStatusLabels[
-          lookupStatus
-        ] ??
-        lookupStatus;
-
-      vesselEnrichmentLink.textContent =
-        lookupStatus === "candidate"
-          ? "Anreicherung prüfen"
-          : "Anreicherung anzeigen";
-    } catch {
-      if (
-        token !== enrichmentLoadToken
-      ) {
-        return;
-      }
-
-      vesselEnrichmentStatus.textContent =
-        "Report derzeit nicht erreichbar";
-
-      vesselEnrichmentDate.textContent =
-        "—";
-
-      vesselEnrichmentLink.textContent =
-        "Anreicherung öffnen";
-    }
-  }  
 
   function getPhotos(submission) {
     if (Array.isArray(submission?.photos)) {
@@ -937,13 +618,8 @@ document.addEventListener("DOMContentLoaded", () => {
           ? submission.photo_count
           : getPhotos(submission).length;
 
-      const environmentPrefix =
-        isTestSubmission(submission)
-          ? "TEST · "
-          : "";
-      
       status.textContent =
-        `${environmentPrefix}${workflowText} · ${matchText} · ` +
+        `${workflowText} · ${matchText} · ` +
         formatPhotoCount(photoCount);
 
       button.append(title, meta, status);
@@ -968,67 +644,22 @@ document.addEventListener("DOMContentLoaded", () => {
     vesselCreateResult.textContent = "";
   }
 
-  function updateVesselCreateEntryButtons() {
-    const creationAllowed =
-      Boolean(selectedSubmission) &&
-      getWorkflowStatus(
-        selectedSubmission
-      ) === "new";
-
-    const entryDisabled =
-      vesselCreateActive ||
-      vesselCreateBusy ||
-      !creationAllowed;
-
-    /*
-     * Allgemeiner Einstieg:
-     * „Neues Schiff anlegen“
-     */
-    openVesselCreateButton.disabled =
-      entryDisabled;
-
-    /*
-     * Alle dynamisch erzeugten Einstiege:
-     * „Daten in Neuanlage übernehmen“
-     */
-    for (
-      const button
-      of catalogCandidates.querySelectorAll(
-        "[data-vessel-create-candidate]"
-      )
-    ) {
-      button.disabled =
-        entryDisabled;
-    }
-  }
-
-  function setVesselCreateActive(
-    isActive
-  ) {
-    vesselCreateActive =
-      Boolean(isActive);
-
-    updateVesselCreateEntryButtons();
-  }
-
   function setVesselCreateBusy(isBusy) {
-    vesselCreateBusy =
-      Boolean(isBusy);
+    vesselCreateBusy = isBusy;
 
-    for (
-      const control
-      of vesselCreatePanel.querySelectorAll(
-        "input, select, textarea, button"
-      )
-    ) {
-      control.disabled =
-        vesselCreateBusy;
+    for (const control of vesselCreatePanel.querySelectorAll(
+      "input, select, textarea, button"
+    )) {
+      control.disabled = isBusy;
     }
 
-    updateVesselCreateEntryButtons();
+    openVesselCreateButton.disabled =
+      isBusy ||
+      !selectedSubmission ||
+      getWorkflowStatus(selectedSubmission) !== "new";
 
     saveVesselCreateButton.textContent =
-      vesselCreateBusy
+      isBusy
         ? "Schiff wird angelegt …"
         : "Schiff anlegen und Sichtung zuordnen";
   }
@@ -1042,10 +673,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     newVesselCandidateNotice
       .classList.add("hidden");    
-    newVesselEnvironment.value =
-      isTestSubmission(selectedSubmission)
-        ? "test"
-        : "production";
+    newVesselEnvironment.value = "production";
     newVesselId.value = "";
     newVesselName.value =
       selectedSubmission?.vessel_name_entered ?? "";
@@ -1142,47 +770,20 @@ document.addEventListener("DOMContentLoaded", () => {
         "error",
         "Die Referenzdaten wurden noch nicht geladen."
       );
-
-      return false;
+    
+      return;
     }
-
+    
     if (
       !selectedSubmission ||
-      getWorkflowStatus(
-        selectedSubmission
-      ) !== "new"
+      getWorkflowStatus(selectedSubmission) !== "new"
     ) {
-      return false;
-    }
-
-    /*
-     * Ein bereits geöffnetes oder gerade
-     * gespeichertes Formular darf nicht
-     * nochmals geöffnet werden.
-     */
-    if (
-      vesselCreateActive ||
-      vesselCreateBusy
-    ) {
-      return false;
+      return;
     }
 
     resetVesselCreateForm();
-
-    vesselCreatePanel.classList.remove(
-      "hidden"
-    );
-
-    correctionPanel.classList.add(
-      "hidden"
-    );
-
-    /*
-     * Ab jetzt werden die beiden oberen
-     * Einstiegsmöglichkeiten gesperrt.
-     */
-    setVesselCreateActive(true);
-
+    vesselCreatePanel.classList.remove("hidden");
+    correctionPanel.classList.add("hidden");
     requestVesselIdSuggestion();
 
     requestAnimationFrame(() => {
@@ -1190,24 +791,20 @@ document.addEventListener("DOMContentLoaded", () => {
         behavior: "smooth",
         block: "start"
       });
-
       newVesselName.focus();
       newVesselName.select();
-    });
-
-    return true;
+    });    
   }
 
   function openVesselCreateFromCandidate(
     candidate
   ) {
     /*
-     * Keine zweite Vorbelegung zulassen,
-     * solange bereits ein Formular offen ist.
+     * Die vorhandene Funktion kümmert
+     * sich weiterhin um Öffnen,
+     * Zurücksetzen und ID-Vorschlag.
      */
-    if (!openVesselCreateForm()) {
-      return;
-    }
+    openVesselCreateForm();
 
     newVesselCandidateId.value =
       candidate.candidate_id ?? "";
@@ -1435,13 +1032,6 @@ document.addEventListener("DOMContentLoaded", () => {
       statusFilter.value = "new";
       selectedSubmission = null;
 
-      /*
-       * Die Neuanlage ist abgeschlossen.
-       * Der nächste Datensatz darf wieder
-       * eine neue Anlage starten.
-       */
-      setVesselCreateActive(false);
-
       await loadSubmissions({
         preserveSelection: false
       });
@@ -1451,16 +1041,6 @@ document.addEventListener("DOMContentLoaded", () => {
         `${submissions.length} offene Sichtung` +
         `${submissions.length === 1 ? "" : "en"} verbleibend.`
       );
-
-      showNextStep(
-        createdVesselId,
-        (
-          "Das Schiff wurde angelegt. Der " +
-          "Anreicherungsworkflow wurde durch die " +
-          "Änderung der Schiffsstammdaten angestoßen."
-        )
-      );
-      
     } catch (error) {
       showVesselCreateResult(
         "error",
@@ -1476,9 +1056,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function resetVesselPanel() {
     vesselLoadToken += 1;
     vesselSuggestionToken += 1;
-
-    vesselCreateActive = false;
-    enrichmentLoadToken += 1;
     selectedVesselId = "";
     reviewCandidateVesselId = "";
     vesselStatus.textContent = "";
@@ -1490,21 +1067,8 @@ document.addEventListener("DOMContentLoaded", () => {
     vesselError.classList.add("hidden");
     vesselError.textContent = "";
     vesselContent.classList.add("hidden");
-    vesselEnrichmentStatus.textContent =
-      "";
-
-    vesselEnrichmentDate.textContent =
-      "";
-
-    vesselEnrichmentLink.classList.add(
-      "hidden"
-    );    
-    vesselCreatePanel.classList.add(
-      "hidden"
-    );
-
+    vesselCreatePanel.classList.add("hidden");
     clearVesselCreateResult();
-    updateVesselCreateEntryButtons();
   }
 
   function updateCandidateSelection() {
@@ -1776,18 +1340,6 @@ document.addEventListener("DOMContentLoaded", () => {
       useButton.className =
         "primary-button compact-button";
 
-      /*
-       * Kennzeichnung für die zentrale
-       * Sperrung während einer Neuanlage.
-       */
-      useButton.dataset
-        .vesselCreateCandidate =
-          "true";
-
-      useButton.disabled =
-        vesselCreateActive ||
-        vesselCreateBusy;
-
       useButton.textContent =
         "Daten in Neuanlage übernehmen";
 
@@ -1810,9 +1362,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     catalogCandidatePanel
       .classList.remove("hidden");
-
-    updateVesselCreateEntryButtons();
-  }
+  }  
 
   function renderCandidateButtons(vesselIds) {
     vesselCandidates.replaceChildren();
@@ -1920,24 +1470,10 @@ document.addEventListener("DOMContentLoaded", () => {
       formatValue(operations.home_port);
 
     vesselEnrichmentStatus.textContent =
-      "Report wird geprüft …";
-
+      enrichmentStatusLabels[enrichment.status] ??
+      formatValue(enrichment.status);
     vesselEnrichmentDate.textContent =
-      "—";
-
-    vesselEnrichmentLink.href =
-      enrichmentPageUrl(
-        vessel.vessel_id
-      );
-
-    vesselEnrichmentLink.classList.remove(
-      "hidden"
-    );
-
-    loadEnrichmentReportState(
-      vessel.vessel_id
-    );
-    
+      formatDateTime(enrichment.last_run_at);
     vesselSourceCount.textContent =
       formatSourceCount(vessel.sources);
     vesselUpdatedAt.textContent =
@@ -1946,13 +1482,9 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
     const environment =
-      isTestSubmission(selectedSubmission)
-        ? "test"
-        : (
-            typeof audit.environment === "string"
-              ? audit.environment.trim().toLowerCase()
-              : ""
-          );
+      typeof audit.environment === "string"
+        ? audit.environment.trim().toLowerCase()
+        : "";
 
     if (environment) {
       vesselEnvironmentBadge.textContent =
@@ -2078,19 +1610,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-function renderVesselContext(submission) {
-  resetVesselPanel();
+  function renderVesselContext(submission) {
+    resetVesselPanel();
 
-  if (isTestSubmission(submission)) {
-    vesselEnvironmentBadge.textContent =
-      "TEST";
-
-    vesselEnvironmentBadge.className =
-      "environment-badge environment-test";
-  }
-
-  const workflowStatus =
-    getWorkflowStatus(submission);
+    const workflowStatus =
+      getWorkflowStatus(submission);
     const assignedVesselId =
       getAssignedVesselId(submission);
     const candidates =
@@ -2176,12 +1700,167 @@ function renderVesselContext(submission) {
       getWorkflowStatus(selectedSubmission) !== "new";
   }
 
+  function berthLabel(berth) {
+    const status = String(berth?.status || "unknown");
+    if (status === "matched") {
+      return berth?.short_name || berth?.name || berth?.id || "Anlegestelle";
+    }
+    if (status === "not_applicable") return "Nicht zutreffend";
+    if (status === "unlisted") return berth?.name || "Andere, nicht gelistete Anlegestelle";
+    return "Unbekannt";
+  }
+
+  function showBerthCorrectionResult(type, message) {
+    berthCorrectionResult.className = `review-result ${type}`;
+    berthCorrectionResult.textContent = message;
+    berthCorrectionResult.classList.remove("hidden");
+  }
+
+  function clearBerthCorrectionResult() {
+    berthCorrectionResult.textContent = "";
+    berthCorrectionResult.className = "review-result hidden";
+  }
+
+  function updateBerthUnlistedField() {
+    berthUnlistedField.classList.toggle(
+      "hidden",
+      berthCorrectionSelect.value !== "__unlisted__"
+    );
+  }
+
+  async function loadBerthOptions() {
+    const locationId = String(selectedSubmission?.location?.id || "").trim();
+    if (berthOptionsCache.has(locationId)) return berthOptionsCache.get(locationId);
+    const response = await window.VesselApi.getBerths({
+      workerUrl,
+      apiKey: apiKeyInput.value,
+      locationId
+    });
+    const berths = Array.isArray(response.data?.berths)
+      ? response.data.berths
+      : [];
+    berthOptionsCache.set(locationId, berths);
+    return berths;
+  }
+
+  async function openBerthCorrection() {
+    if (!selectedSubmission || berthCorrectionBusy) return;
+    clearBerthCorrectionResult();
+    berthCorrectionPanel.classList.remove("hidden");
+    editBerthButton.disabled = true;
+
+    try {
+      const berths = await loadBerthOptions();
+      berthCorrectionSelect.replaceChildren();
+
+      const addOption = (value, label) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = label;
+        berthCorrectionSelect.append(option);
+      };
+
+      const movement = String(selectedSubmission?.movement || "unknown");
+      if (movement === "moving") {
+        addOption("__not_applicable__", "Nicht zutreffend (in Fahrt)");
+      } else {
+        addOption("__unknown__", "Unbekannt");
+        berths.forEach(berth => {
+          addOption(
+            berth.berth_id,
+            berth.short_name || berth.public_name || berth.berth_id
+          );
+        });
+        addOption("__unlisted__", "Andere, nicht gelistete Anlegestelle");
+        addOption("__not_applicable__", "Nicht zutreffend");
+      }
+
+      const current = selectedSubmission?.berth || {};
+      if (current.status === "matched" && current.id) {
+        berthCorrectionSelect.value = current.id;
+      } else if (current.status === "unlisted") {
+        berthCorrectionSelect.value = "__unlisted__";
+      } else if (current.status === "not_applicable") {
+        berthCorrectionSelect.value = "__not_applicable__";
+      } else {
+        berthCorrectionSelect.value = "__unknown__";
+      }
+
+      if (!berthCorrectionSelect.value) {
+        berthCorrectionSelect.selectedIndex = 0;
+      }
+
+      berthCorrectionUnlistedText.value =
+        current.status === "unlisted" ? String(current.name || "") : "";
+      updateBerthUnlistedField();
+    } catch (error) {
+      showBerthCorrectionResult(
+        "error",
+        error instanceof Error ? error.message : String(error)
+      );
+    } finally {
+      editBerthButton.disabled = false;
+    }
+  }
+
+  async function saveBerthCorrection() {
+    if (!selectedSubmission || berthCorrectionBusy) return;
+
+    const selection = berthCorrectionSelect.value;
+    let berthStatus = "matched";
+    let berthId = selection;
+    let berthNameEntered = "";
+
+    if (selection === "__unknown__") {
+      berthStatus = "unknown";
+      berthId = "";
+    } else if (selection === "__not_applicable__") {
+      berthStatus = "not_applicable";
+      berthId = "";
+    } else if (selection === "__unlisted__") {
+      berthStatus = "unlisted";
+      berthId = "";
+      berthNameEntered = berthCorrectionUnlistedText.value.trim();
+    }
+
+    berthCorrectionBusy = true;
+    saveBerthCorrectionButton.disabled = true;
+    cancelBerthCorrectionButton.disabled = true;
+    clearBerthCorrectionResult();
+
+    try {
+      await window.VesselApi.updateSubmissionBerth({
+        workerUrl,
+        apiKey: apiKeyInput.value,
+        submissionId: selectedSubmission.submission_id,
+        berthStatus,
+        berthId,
+        berthNameEntered
+      });
+
+      showBerthCorrectionResult("success", "Die Anlegestelle wurde gespeichert.");
+      berthOptionsCache.clear();
+      await loadSubmissions({ preserveSelection: true });
+      berthCorrectionPanel.classList.add("hidden");
+    } catch (error) {
+      showBerthCorrectionResult(
+        "error",
+        error instanceof Error ? error.message : String(error)
+      );
+    } finally {
+      berthCorrectionBusy = false;
+      saveBerthCorrectionButton.disabled = false;
+      cancelBerthCorrectionButton.disabled = false;
+    }
+  }
+
   function renderDetail() {
     renderCatalogCandidates([]);
     
     if (!selectedSubmission) {
       emptyState.classList.remove("hidden");
       detailContent.classList.add("hidden");
+      berthCorrectionPanel.classList.add("hidden");
       resetVesselPanel();
       return;
     }
@@ -2189,22 +1868,7 @@ function renderVesselContext(submission) {
     emptyState.classList.add("hidden");
     detailContent.classList.remove("hidden");
 
-    const submission =
-      selectedSubmission;
-    
-    const hasPhotos =
-      getPhotos(submission).length > 0;
-    
-    capturedAtLabel.textContent =
-      hasPhotos
-        ? "Aufgenommen"
-        : "Gesichtet";
-    
-    locationTextLabel.textContent =
-      hasPhotos
-        ? "Aufnahmeort"
-        : "Beobachtungsort";
-    
+    const submission = selectedSubmission;
     const workflowStatus =
       getWorkflowStatus(submission);
     const automaticMatch =
@@ -2235,28 +1899,10 @@ function renderVesselContext(submission) {
         ? locationParts.join(", ")
         : "—";
 
-    berthText.textContent =
-      formatBerth(
-        submission.berth,
-        submission.movement
-      );
-
-    berthText.title =
-      berthDetails(
-        submission.berth
-      );
-
-    const showBerthOverview =
-      submission.location?.id ===
-        "LOC-001" ||
-      submission.berth
-        ?.location_id ===
-        "LOC-001";
-
-    berthOverviewWrap.classList.toggle(
-      "hidden",
-      !showBerthOverview
-    );
+    berthText.textContent = berthLabel(submission.berth);
+    editBerthButton.disabled = false;
+    berthCorrectionPanel.classList.add("hidden");
+    clearBerthCorrectionResult();
 
     movementText.textContent =
       movementLabels[submission.movement] ??
@@ -2420,68 +2066,20 @@ function renderVesselContext(submission) {
       return;
     }
 
-    const reviewedSubmission =
-      selectedSubmission;
-
-    const automaticMatch =
-      getAutomaticMatch(
-        reviewedSubmission
-      );
-
     clearReviewResult();
     reviewBusy = true;
     updateReviewButtons();
 
     try {
-      const response =
-        await window.VesselApi
-          .reviewSubmission({
-            workerUrl,
-
-            apiKey:
-              apiKeyInput.value,
-
-            submissionId:
-              reviewedSubmission
-                .submission_id,
-
-            decision,
-
-            vesselId:
-              reviewedVesselId,
-
-            notes:
-              reviewNotes.value.trim()
-          });
-
-      let completedVesselId =
-        String(
-          response.data?.vessel_id ??
-          ""
-        ).trim();
-
-      if (
-        !vesselIdPattern.test(
-          completedVesselId
-        ) &&
-        decision === "corrected"
-      ) {
-        completedVesselId =
-          reviewedVesselId;
-      }
-
-      if (
-        !vesselIdPattern.test(
-          completedVesselId
-        ) &&
-        decision === "confirmed"
-      ) {
-        completedVesselId =
-          String(
-            automaticMatch.vessel_id ??
-            ""
-          ).trim();
-      }
+      await window.VesselApi.reviewSubmission({
+        workerUrl,
+        apiKey: apiKeyInput.value,
+        submissionId:
+          selectedSubmission.submission_id,
+        decision,
+        vesselId: reviewedVesselId,
+        notes: reviewNotes.value.trim()
+      });
 
       showReviewResult(
         "success",
@@ -2494,25 +2092,6 @@ function renderVesselContext(submission) {
       await loadSubmissions({
         preserveSelection: false
       });
-
-      if (
-        decision !== "rejected" &&
-        vesselIdPattern.test(
-          completedVesselId
-        )
-      ) {
-        showNextStep(
-          completedVesselId,
-          (
-            "Die Sichtung wurde zugeordnet. " +
-            "Die Anreicherungsseite zeigt den " +
-            "aktuellen Report und wartet bei " +
-            "Bedarf automatisch auf dessen Aktualisierung."
-          )
-        );
-      } else {
-        hideNextStep();
-      }
     } catch (error) {
       showReviewResult(
         "error",
@@ -2525,6 +2104,14 @@ function renderVesselContext(submission) {
       updateReviewButtons();
     }
   }
+
+  editBerthButton.addEventListener("click", openBerthCorrection);
+  cancelBerthCorrectionButton.addEventListener("click", () => {
+    berthCorrectionPanel.classList.add("hidden");
+    clearBerthCorrectionResult();
+  });
+  berthCorrectionSelect.addEventListener("change", updateBerthUnlistedField);
+  saveBerthCorrectionButton.addEventListener("click", saveBerthCorrection);
 
   reloadButton.addEventListener("click", () => {
     vesselCache.clear();
@@ -2645,28 +2232,11 @@ function renderVesselContext(submission) {
     openVesselCreateForm();
   });
 
-  cancelVesselCreateButton.addEventListener(
-    "click",
-    () => {
-      if (vesselCreateBusy) {
-        return;
-      }
-
-      vesselSuggestionToken += 1;
-
-      vesselCreatePanel.classList.add(
-        "hidden"
-      );
-
-      clearVesselCreateResult();
-
-      /*
-       * Die beiden Einstiegsmöglichkeiten
-       * werden wieder freigegeben.
-       */
-      setVesselCreateActive(false);
-    }
-  );
+  cancelVesselCreateButton.addEventListener("click", () => {
+    vesselSuggestionToken += 1;
+    vesselCreatePanel.classList.add("hidden");
+    clearVesselCreateResult();
+  });
 
   newVesselEnvironment.addEventListener("change", () => {
     requestVesselIdSuggestion();
@@ -2753,13 +2323,5 @@ function renderVesselContext(submission) {
     }
   }
   
-  async function initializePage() {
-    await initializeReferenceData();
-
-    await loadSubmissions({
-      preserveSelection: false
-    });
-  }
-
-  initializePage();
+  initializeReferenceData();  
 });
