@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.32**  
+Aktuelle Version: **0.14.33**  
 Stand: **20.08.2026**
 
 ## 1. Projektzweck
@@ -1262,4 +1262,95 @@ Geprüft wurden:
 
 - vollständige Projektbeschreibung
 - aktueller Projektstand: `0.14.32`
+
+## 47. Version 0.14.33 – Standortkarte in der Weboberfläche
+
+Version **0.14.33** integriert die Polygonkontrolle direkt in die Weboberfläche. Die bisher separat erzeugte HTML-Kontrollkarte ist damit für den normalen Betrieb nicht mehr erforderlich.
+
+### 47.1 Neuer Navigationspunkt
+
+Die Hauptnavigation enthält neu den Eintrag:
+
+`Standorte`
+
+Der Link öffnet:
+
+`docs/location_areas.html`
+
+Die Seite verwendet OpenStreetMap als Hintergrund und zeigt die aktuell veröffentlichten Linzer Standortpolygone deutlich eingefärbt und mit kräftiger Kontur.
+
+### 47.2 Funktionen der Standortseite
+
+Die neue Seite bietet:
+
+- Darstellung aller aktuellen Standortpolygone auf OpenStreetMap;
+- farblich eindeutige Polygone mit verstärkter Kontur und höherer Deckkraft;
+- Bereichsliste links neben der Karte;
+- Klick auf einen Bereich zoomt direkt auf das Polygon;
+- Klick auf ein Polygon zeigt Name, Priorität und Beschreibung;
+- optionales Ein-/Ausblenden aller nummerierten Eckpunkte;
+- Klick auf einen Eckpunkt zeigt Breiten- und Längengrad;
+- direkter Link auf das verwendete GeoJSON.
+
+### 47.3 GeoJSON-Spiegel für GitHub Pages
+
+Die kanonische Polygondatei bleibt:
+
+`data/location_areas.geojson`
+
+Da die GitHub-Pages-Oberfläche aus `docs/` veröffentlicht wird, verwendet die neue Standortseite zusätzlich einen synchronen Spiegel:
+
+`docs/data/location_areas.geojson`
+
+Bei jeder zukünftigen Polygonänderung müssen beide Dateien denselben Geometriestand enthalten. Die von ChatGPT erzeugten Update-Pakete sollen beide Dateien gemeinsam aktualisieren.
+
+Der in 0.14.33 neu hinzugefügte Spiegel entspricht exakt dem Polygonstand aus 0.14.32.
+
+### 47.4 Deployment
+
+Für 0.14.33 ist **kein Cloudflare-Worker-Deployment** erforderlich. Nach dem Commit steht der neue Navigationslink über die GitHub-Pages-Weboberfläche zur Verfügung.
+
+## 48. Technische Prüfung für 0.14.33
+
+Geprüft wurden:
+
+- `docs/data/location_areas.geojson` ist byte-identisch zum Polygonstand aus 0.14.32;
+- neue HTML-, CSS- und JavaScript-Dateien sind vollständig vorhanden;
+- `docs/js/site_map.js` enthält den neuen Navigationspunkt `Standorte`;
+- JavaScript-Syntax von `docs/js/location_areas.js` mit `node --check`;
+- JSON-Syntax des GeoJSON-Spiegels;
+- ZIP-Integrität.
+
+## 49. Dateiversionen 0.14.33
+
+### docs/location_areas.html
+
+- Version: `0.14.33`
+- neue integrierte OpenStreetMap-Polygonansicht
+
+### docs/css/location_areas.css
+
+- Version: `0.14.33`
+- Layout, Kartenhöhe, Bereichsliste und Eckpunktdarstellung
+
+### docs/js/location_areas.js
+
+- Version: `0.14.33`
+- Laden und Darstellen der Standortpolygone
+- Bereichszoom und optionale Eckpunktanzeige
+
+### docs/js/site_map.js
+
+- Version: `0.14.33`
+- neuer Navigationspunkt `Standorte`
+
+### docs/data/location_areas.geojson
+
+- Stand der Geometrie: `0.14.32`
+- synchroner GitHub-Pages-Spiegel von `data/location_areas.geojson`
+
+### README.md
+
+- vollständige Projektbeschreibung
+- aktueller Projektstand: `0.14.33`
 
