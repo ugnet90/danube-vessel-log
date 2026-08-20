@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_map.js
- * Version: 0.14.35
+ * Version: 0.14.37
  * Updated: 2026-08-20
  *
  * Gemeinsame Kartenlogik für Standortseite und Foto-Kartenoverlay.
@@ -545,6 +545,40 @@
     return "";
   }
 
+  function photoHoverContent(photo) {
+    const container = document.createElement("div");
+    container.className = "photo-hover-content";
+
+    const title = document.createElement("strong");
+    title.textContent =
+      photo?.vessel_name ||
+      photo?.vessel_id ||
+      "Fotoaufnahme";
+    container.append(title);
+
+    const lines = [
+      formatDateTime(photo?.captured_at),
+      photo?.location?.name
+        ? `Aufnahmeort: ${photo.location.name}`
+        : "Aufnahmeort: unbekannt",
+      photo?.submission_id
+        ? `Sichtung: ${photo.submission_id}`
+        : (
+          photo?.source_type === "direct"
+            ? "Zusätzliches Schiffsfoto"
+            : "Sichtungsfoto"
+        )
+    ].filter(Boolean);
+
+    lines.forEach(text => {
+      const line = document.createElement("div");
+      line.textContent = text;
+      container.append(line);
+    });
+
+    return container;
+  }
+
   function photoPopup(photo) {
     const container = document.createElement("div");
     container.className = "photo-location-popup";
@@ -617,13 +651,163 @@
       options.labelMode || "none"
     );
 
+    const hoverContent = photoHoverContent(photo);
+
     if (label) {
       marker.bindTooltip(label, {
         permanent: true,
         direction: "top",
         className: "photo-location-label"
       });
+
+      marker.on("mouseover", () => {
+        marker.setTooltipContent(hoverContent);
+        marker.openTooltip();
+      });
+
+      marker.on("mouseout", () => {
+        marker.setTooltipContent(label);
+        marker.openTooltip();
+      });
+    } else {
+      marker.bindTooltip(hoverContent, {
+        permanent: false,
+        sticky: true,
+        direction: "top",
+        opacity: 0.97,
+        className: "photo-hover-tooltip"
+      });
     }
+
+    if (options.addToMap !== false) {
+      marker.addTo(map);
+    }
+
+    return marker;
+  }
+
+  function vesselBerthPopup(record) {
+    const container = document.createElement("div");
+    container.className = "vessel-berth-popup";
+
+    const title = document.createElement("strong");
+    title.textContent =
+      record?.vessel_name ||
+      record?.vessel_id ||
+      "Schiff an Anlegestelle";
+    container.append(title);
+
+    const addLine = text => {
+      if (!text) return;
+      const line = document.createElement("div");
+      line.textContent = text;
+      container.append(line);
+    };
+
+    addLine(formatDateTime(record?.captured_at));
+    addLine(
+      record?.berth?.short_name || record?.berth?.name
+        ? `Anlegestelle: ${record.berth.short_name || record.berth.name}`
+        : ""
+    );
+    addLine(
+      record?.submission_id
+        ? `Sichtung: ${record.submission_id}`
+        : ""
+    );
+    addLine(
+      record?.direction === "upstream"
+        ? "Ausrichtung: flussaufwärts"
+        : record?.direction === "downstream"
+          ? "Ausrichtung: flussabwärts"
+          : ""
+    );
+
+    const note = document.createElement("div");
+    note.className = "vessel-berth-position-note";
+    note.textContent =
+      "Marker = Position der erfassten Anlegestelle, kein Schiff-GPS.";
+    container.append(note);
+
+    if (record?.vessel_id) {
+      const link = document.createElement("a");
+      link.href =
+        `vessel.html?id=${encodeURIComponent(record.vessel_id)}`;
+      link.textContent = "Schiff öffnen";
+      link.className = "map-popup-link";
+      container.append(link);
+    }
+
+    return container;
+  }
+
+  function vesselBerthHoverContent(record) {
+    const container = document.createElement("div");
+    container.className = "vessel-berth-hover-content";
+
+    const title = document.createElement("strong");
+    title.textContent =
+      record?.vessel_name ||
+      record?.vessel_id ||
+      "Schiff";
+    container.append(title);
+
+    [
+      formatDateTime(record?.captured_at),
+      record?.berth?.short_name || record?.berth?.name || "",
+      record?.submission_id ? `Sichtung: ${record.submission_id}` : ""
+    ].filter(Boolean).forEach(text => {
+      const line = document.createElement("div");
+      line.textContent = text;
+      container.append(line);
+    });
+
+    return container;
+  }
+
+  function vesselBerthIcon() {
+    return L.divIcon({
+      className: "",
+      html:
+        '<div class="vessel-berth-marker" aria-hidden="true">' +
+        '<svg viewBox="0 0 36 36" focusable="false" aria-hidden="true">' +
+        '<path d="M8 17h20l-2 8c-3 2-5 3-8 3s-5-1-8-3l-2-8Z" />' +
+        '<path d="M12 17V10h11v7M16 10V6h5v4" />' +
+        '<path d="M5 29c3 2 6 2 9 0 3 2 6 2 9 0 3 2 6 2 9 0" />' +
+        '</svg></div>',
+      iconSize: [38, 38],
+      iconAnchor: [19, 19]
+    });
+  }
+
+  function createVesselBerthMarker(map, record, berth, options = {}) {
+    const coords = validCoordinates(
+      berth?.latitude,
+      berth?.longitude
+    );
+    if (!coords) return null;
+
+    const marker = L.marker(
+      [coords.latitude, coords.longitude],
+      { icon: vesselBerthIcon(), zIndexOffset: 450 }
+    );
+
+    const mergedRecord = {
+      ...record,
+      berth: {
+        ...(record?.berth || {}),
+        ...(berth || {})
+      }
+    };
+
+    marker.bindPopup(vesselBerthPopup(mergedRecord));
+    marker.bindTooltip(vesselBerthHoverContent(mergedRecord), {
+      permanent: false,
+      sticky: true,
+      direction: "top",
+      opacity: 0.97,
+      className: "vessel-berth-hover-tooltip"
+    });
 
     if (options.addToMap !== false) {
       marker.addTo(map);
@@ -647,6 +831,7 @@
     areaName,
     addAreaLayers,
     addBerthLayers,
-    createPhotoMarker
+    createPhotoMarker,
+    createVesselBerthMarker
   });
 })();

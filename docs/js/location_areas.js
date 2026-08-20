@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_areas.js
- * Version: 0.14.35
+ * Version: 0.14.37
  * Updated: 2026-08-20
  */
 
@@ -15,6 +15,7 @@
   const showAreas = document.getElementById("showAreas");
   const showBerths = document.getElementById("showBerths");
   const showPhotos = document.getElementById("showPhotos");
+  const showVesselBerths = document.getElementById("showVesselBerths");
   const showVertices = document.getElementById("showVertices");
   const vesselFilter = document.getElementById("photoVesselFilter");
   const areaFilter = document.getElementById("photoAreaFilter");
@@ -24,6 +25,7 @@
   const labelMode = document.getElementById("photoLabelMode");
   const resetFilters = document.getElementById("resetPhotoFilters");
   const photoCount = document.getElementById("photoCount");
+  const vesselBerthCount = document.getElementById("vesselBerthCount");
 
   if (!maps || !window.L) {
     status.textContent = "Die Kartenbibliothek konnte nicht geladen werden.";
@@ -42,6 +44,7 @@
   let areaLayers;
   let berthLayers;
   let photoLayer = L.layerGroup();
+  let vesselBerthLayer = L.layerGroup();
   let selectedPhotoLayer = null;
 
   function selectedPhotoFromQuery() {
@@ -130,6 +133,86 @@
     photoCount.textContent = `${visiblePhotos.length} ${visiblePhotos.length === 1 ? "Foto" : "Fotos"}`;
   }
 
+  function berthById() {
+    return new Map(
+      berths
+        .filter(berth => String(berth?.berth_id || "").trim())
+        .map(berth => [String(berth.berth_id).trim(), berth])
+    );
+  }
+
+  function vesselBerthRecords() {
+    const berthLookup = berthById();
+    const records = new Map();
+
+    for (const photo of photos.filter(photoMatches)) {
+      if (photo?.source_type !== "sighting") continue;
+      if (String(photo?.movement || "") !== "moored") continue;
+
+      const berthId = String(photo?.berth?.id || "").trim();
+      if (!berthId || !berthLookup.has(berthId)) continue;
+
+      const submissionId = String(photo?.submission_id || "").trim();
+      const key = submissionId || [
+        photo?.vessel_id || photo?.vessel_name || "",
+        photo?.captured_at || "",
+        berthId
+      ].join("|");
+
+      if (!records.has(key)) {
+        records.set(key, {
+          ...photo,
+          berth: { ...(photo.berth || {}) },
+          berth_id: berthId
+        });
+        continue;
+      }
+
+      const current = records.get(key);
+      const currentTime = Date.parse(current?.captured_at || "");
+      const candidateTime = Date.parse(photo?.captured_at || "");
+      if (
+        Number.isFinite(candidateTime) &&
+        (!Number.isFinite(currentTime) || candidateTime < currentTime)
+      ) {
+        current.captured_at = photo.captured_at;
+      }
+    }
+
+    return [...records.values()].map(record => ({
+      record,
+      berth: berthLookup.get(record.berth_id)
+    }));
+  }
+
+  function renderVesselBerths() {
+    vesselBerthLayer.clearLayers();
+    const entries = vesselBerthRecords();
+
+    for (const entry of entries) {
+      const marker = maps.createVesselBerthMarker(
+        map,
+        entry.record,
+        entry.berth,
+        { addToMap: false }
+      );
+      if (marker) marker.addTo(vesselBerthLayer);
+    }
+
+    setLayerVisible(
+      vesselBerthLayer,
+      showVesselBerths.checked
+    );
+
+    vesselBerthCount.textContent =
+      `${entries.length} ${entries.length === 1 ? "Schiff an Anlegestelle" : "Schiffe an Anlegestellen"}`;
+  }
+
+  function renderMapData() {
+    renderPhotos();
+    renderVesselBerths();
+  }
+
   function renderAreaList() {
     list.replaceChildren();
     areaLayers.entries.forEach(entry => {
@@ -192,10 +275,11 @@
     showAreas.addEventListener("change", () => setLayerVisible(areaLayers.group, showAreas.checked));
     showBerths.addEventListener("change", () => setLayerVisible(berthLayers?.group, showBerths.checked));
     showPhotos.addEventListener("change", () => setLayerVisible(photoLayer, showPhotos.checked));
+    showVesselBerths.addEventListener("change", () => setLayerVisible(vesselBerthLayer, showVesselBerths.checked));
     showVertices.addEventListener("change", () => setLayerVisible(areaLayers.vertexGroup, showVertices.checked));
 
     [vesselFilter, areaFilter, sourceFilter, dateFrom, dateTo, labelMode]
-      .forEach(control => control.addEventListener("change", renderPhotos));
+      .forEach(control => control.addEventListener("change", renderMapData));
 
     resetFilters.addEventListener("click", () => {
       vesselFilter.value = "";
@@ -204,7 +288,7 @@
       dateFrom.value = "";
       dateTo.value = "";
       labelMode.value = "none";
-      renderPhotos();
+      renderMapData();
     });
   }
 
@@ -222,6 +306,7 @@
     });
 
     photoLayer.addTo(map);
+    vesselBerthLayer.addTo(map);
 
     try {
       berths = await maps.loadBerths(workerUrl, "LOC-001");
@@ -233,7 +318,7 @@
 
     fillFilterOptions();
     renderAreaList();
-    renderPhotos();
+    renderMapData();
     wireControls();
 
     if (areaLayers.bounds.isValid()) {
