@@ -2,9 +2,9 @@
   "type": "FeatureCollection",
   "schema_version": 1,
   "project": "Danube Vessel Log",
-  "version": "0.14.28",
-  "updated_at": "2026-08-19",
-  "description": "Neu gezeichnete GPS-Aufnahmebereiche für Linz. Brückenpolygon basiert auf dem tatsächlichen OSM-Brückenumriss; Uferbereiche sind fotografische Aufenthaltskorridore. Prioritäten lösen Überlappungen auf.",
+  "version": "0.14.30",
+  "updated_at": "2026-08-20",
+  "description": "GPS-Aufnahmebereiche Linz. Die Geometrien dieser Version wurden ohne geometrische Interpretation, Glättung, Pufferung oder Verschiebung 1:1 aus dem vom Nutzer gelieferten uMap-GeoJSON übernommen.",
   "features": [
     {
       "type": "Feature",
@@ -16,32 +16,72 @@
         "municipality": "Linz",
         "country": "Österreich",
         "priority": 100,
-        "description": "Nibelungenbrücke entlang des tatsächlichen OSM-Brückenumrisses, mit ca. 7 m GPS-Toleranz.",
-        "geometry_source": "OpenStreetMap way 85676904; geprüft 2026-08-19"
+        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis gezeichneter Aufnahmebereich der Nibelungenbrücke.",
+        "geometry_source": "uMap-GeoJSON des Nutzers; 1:1 übernommen am 2026-08-20"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              14.2843141,
-              48.3094088
+              14.283648,
+              48.309242
             ],
             [
-              14.2858978,
-              48.3072521
+              14.283686,
+              48.309203
             ],
             [
-              14.2853639,
-              48.3070791
+              14.283788,
+              48.309245
             ],
             [
-              14.2837809,
-              48.3092351
+              14.283831,
+              48.309181
             ],
             [
-              14.2843141,
-              48.3094088
+              14.2839,
+              48.30921
+            ],
+            [
+              14.285392,
+              48.307165
+            ],
+            [
+              14.285343,
+              48.307144
+            ],
+            [
+              14.285477,
+              48.307001
+            ],
+            [
+              14.285982,
+              48.307133
+            ],
+            [
+              14.285815,
+              48.307312
+            ],
+            [
+              14.28574,
+              48.307312
+            ],
+            [
+              14.28426,
+              48.30932
+            ],
+            [
+              14.284394,
+              48.309349
+            ],
+            [
+              14.284254,
+              48.309527
+            ],
+            [
+              14.283648,
+              48.309242
             ]
           ]
         ]
@@ -57,55 +97,68 @@
         "municipality": "Linz",
         "country": "Österreich",
         "priority": 80,
-        "description": "Südliches Donauufer westlich/stromaufwärts der Nibelungenbrücke; als fotografischer Uferkorridor neu gezeichnet."
+        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis gezeichneter Aufnahmebereich der Oberen Donaulände.",
+        "geometry_source": "uMap-GeoJSON des Nutzers; 1:1 übernommen am 2026-08-20"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              14.2855,
-              48.30718
+              14.285316,
+              48.307251
             ],
             [
-              14.28465,
-              48.30684
+              14.285381,
+              48.307167
             ],
             [
-              14.2836,
-              48.30632
+              14.285335,
+              48.307146
             ],
             [
-              14.28255,
-              48.3059
+              14.285727,
+              48.306723
             ],
             [
-              14.28135,
-              48.30562
+              14.284539,
+              48.30638
             ],
             [
-              14.28118,
-              48.30538
+              14.284455,
+              48.306475
             ],
             [
-              14.2828,
-              48.30518
+              14.282047,
+              48.306223
             ],
             [
-              14.28435,
-              48.30547
+              14.281258,
+              48.306073
             ],
             [
-              14.28495,
-              48.30582
+              14.281148,
+              48.306309
             ],
             [
-              14.28536,
-              48.30635
+              14.282438,
+              48.306573
             ],
             [
-              14.2855,
-              48.30718
+              14.282425,
+              48.306687
+            ],
+            [
+              14.283806,
+              48.306994
+            ],
+            [
+              14.284582,
+              48.307205
+            ],
+            [
+              14.285316,
+              48.307251
             ]
           ]
         ]
@@ -121,83 +174,104 @@
         "municipality": "Linz",
         "country": "Österreich",
         "priority": 80,
-        "description": "Südliches Donauufer östlich/stromabwärts der Nibelungenbrücke über Lentos bis Brucknerhaus; als fotografischer Uferkorridor neu gezeichnet."
+        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis gezeichneter Aufnahmebereich der Unteren Donaulände.",
+        "geometry_source": "uMap-GeoJSON des Nutzers; 1:1 übernommen am 2026-08-20"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              14.28578,
-              48.30718
+              14.285692,
+              48.307392
             ],
             [
-              14.28645,
-              48.3077
+              14.285743,
+              48.30732
             ],
             [
-              14.28775,
-              48.30828
+              14.285818,
+              48.30732
             ],
             [
-              14.2892,
-              48.30892
+              14.286092,
+              48.306837
             ],
             [
-              14.29065,
-              48.30955
+              14.287283,
+              48.307276
             ],
             [
-              14.29195,
-              48.31013
+              14.287768,
+              48.307354
             ],
             [
-              14.29255,
-              48.3105
+              14.287655,
+              48.307729
             ],
             [
-              14.29272,
-              48.3109
+              14.289031,
+              48.308243
             ],
             [
-              14.293,
-              48.31064
+              14.290732,
+              48.309129
             ],
             [
-              14.29276,
-              48.30975
+              14.29174,
+              48.309898
             ],
             [
-              14.2923,
-              48.30912
+              14.292556,
+              48.310184
             ],
             [
-              14.29115,
-              48.30884
+              14.293393,
+              48.311097
             ],
             [
-              14.2897,
-              48.30827
+              14.2949,
+              48.312478
             ],
             [
-              14.2882,
-              48.3076
+              14.294211,
+              48.313669
             ],
             [
-              14.28685,
-              48.30698
+              14.292105,
+              48.311523
             ],
             [
-              14.2858,
-              48.30648
+              14.291826,
+              48.311507
             ],
             [
-              14.2855,
-              48.30682
+              14.291512,
+              48.311208
             ],
             [
-              14.28578,
-              48.30718
+              14.291432,
+              48.310855
+            ],
+            [
+              14.289742,
+              48.309542
+            ],
+            [
+              14.288304,
+              48.308607
+            ],
+            [
+              14.287865,
+              48.30855
+            ],
+            [
+              14.286003,
+              48.307672
+            ],
+            [
+              14.285692,
+              48.307392
             ]
           ]
         ]
@@ -213,59 +287,64 @@
         "municipality": "Linz",
         "country": "Österreich",
         "priority": 80,
-        "description": "Nördliches Donauufer westlich der Nibelungenbrücke im Bereich Alt-Urfahr; vollständig nördlich des Flusses neu gezeichnet."
+        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis gezeichneter Aufnahmebereich am Donauufer Alt-Urfahr.",
+        "geometry_source": "uMap-GeoJSON des Nutzers; 1:1 übernommen am 2026-08-20"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              14.2839,
-              48.30918
+              14.283967,
+              48.309104
             ],
             [
-              14.28335,
-              48.30936
+              14.283898,
+              48.309203
             ],
             [
-              14.28255,
-              48.30942
+              14.28382,
+              48.309178
             ],
             [
-              14.28175,
-              48.30934
+              14.283678,
+              48.309197
             ],
             [
-              14.28095,
-              48.3091
+              14.283509,
+              48.309249
             ],
             [
-              14.2809,
-              48.3097
+              14.279201,
+              48.307965
             ],
             [
-              14.2815,
-              48.31002
+              14.279362,
+              48.307718
             ],
             [
-              14.28245,
-              48.31024
+              14.280145,
+              48.307922
             ],
             [
-              14.28335,
-              48.31032
+              14.28103,
+              48.308093
             ],
             [
-              14.284,
-              48.31026
+              14.281937,
+              48.308339
             ],
             [
-              14.28418,
-              48.30965
+              14.28301,
+              48.308692
             ],
             [
-              14.2839,
-              48.30918
+              14.283691,
+              48.308921
+            ],
+            [
+              14.283967,
+              48.309104
             ]
           ]
         ]
@@ -281,67 +360,104 @@
         "municipality": "Linz",
         "country": "Österreich",
         "priority": 80,
-        "description": "Nördliches Donauufer östlich der Nibelungenbrücke im Bereich Ars Electronica/Donaulände; neu gezeichnet."
+        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis gezeichneter Aufnahmebereich der Urfahraner Donaulände.",
+        "geometry_source": "uMap-GeoJSON des Nutzers; 1:1 übernommen am 2026-08-20"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              14.28424,
-              48.30934
+              14.284354,
+              48.309224
             ],
             [
-              14.28475,
-              48.30962
+              14.284289,
+              48.309319
             ],
             [
-              14.28555,
-              48.30998
+              14.284405,
+              48.309344
             ],
             [
-              14.28635,
-              48.31035
+              14.284249,
+              48.309549
             ],
             [
-              14.28715,
-              48.31078
+              14.284869,
+              48.310166
             ],
             [
-              14.288,
-              48.31126
+              14.28526,
+              48.310435
             ],
             [
-              14.2888,
-              48.31182
+              14.287012,
+              48.312264
             ],
             [
-              14.28888,
-              48.31203
+              14.290316,
+              48.315514
             ],
             [
-              14.28755,
-              48.31225
+              14.291722,
+              48.314954
             ],
             [
-              14.2867,
-              48.31184
+              14.291161,
+              48.314189
             ],
             [
-              14.2859,
-              48.31136
+              14.290979,
+              48.314007
             ],
             [
-              14.2852,
-              48.31086
+              14.29078,
+              48.314001
             ],
             [
-              14.28462,
-              48.31035
+              14.289646,
+              48.312847
             ],
             [
-              14.28424,
-              48.30934
+              14.289721,
+              48.312728
+            ],
+            [
+              14.289165,
+              48.312146
+            ],
+            [
+              14.288519,
+              48.311545
+            ],
+            [
+              14.288042,
+              48.311158
+            ],
+            [
+              14.287202,
+              48.310676
+            ],
+            [
+              14.287253,
+              48.310458
+            ],
+            [
+              14.286532,
+              48.310121
+            ],
+            [
+              14.28629,
+              48.310141
+            ],
+            [
+              14.284968,
+              48.309429
+            ],
+            [
+              14.284354,
+              48.309224
             ]
           ]
         ]
