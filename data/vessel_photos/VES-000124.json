@@ -58,10 +58,10 @@
       },
       "vessel_name_entered": "Amadeus Aurea",
       "relation": {
-        "type": "vessel",
-        "submission_id": ""
+        "type": "sighting",
+        "submission_id": "SUB-20260820-062732-2DAB3E"
       }
     }
   ],
-  "updated_at": "2026-08-20T17:11:53.541Z"
+  "updated_at": "2026-08-20T17:12:08.786Z"
 }
