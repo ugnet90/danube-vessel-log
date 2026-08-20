@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.27
- * Updated: 2026-08-19
+ * Version: 0.14.31
+ * Updated: 2026-08-20
  */
 
 const API_VERSION = "2022-11-28";
@@ -2700,12 +2700,36 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
   const photoResult = await readAttachmentPhotos(form);
   if (!photoResult.ok) return jsonResponse({ ok: false, error: photoResult.error }, photoResult.status);
 
+  /*
+   * 0.14.31: Auch beim nachträglichen Hinzufügen von Fotos werden
+   * fotoindividuelle Aufnahme-Metadaten unterstützt. Die Reihenfolge
+   * von photo_metadata muss der Reihenfolge der hochgeladenen Fotos
+   * entsprechen. Ohne photo_metadata bleibt das bisherige Verhalten
+   * vollständig rückwärtskompatibel.
+   */
+  const photoMetadataResult =
+    normalizePhotoMetadataInput(
+      input,
+      photoResult.photos.length
+    );
+
+  if (!photoMetadataResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: photoMetadataResult.error
+    }, 400);
+  }
+
+  const photoMetadataItems =
+    photoMetadataResult.items;
+
   const uploadedAt = new Date();
   let capturedAt = new Date(input.captured_at ?? uploadedAt.toISOString());
   if (Number.isNaN(capturedAt.getTime())) capturedAt = uploadedAt;
 
   let submissionFile = null;
   let vesselPhotosFile = null;
+  let attachmentLocationContext = null;
   let directPhotoLatitude = null;
   let directPhotoLongitude = null;
   let directPhotoLocation = null;
@@ -2722,10 +2746,9 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
     if (!vesselPhotosFile.ok) return jsonResponse({ ok: false, error: vesselPhotosFile.error }, vesselPhotosFile.status ?? 502);
 
     /*
-     * Reine Zusatzfotos sind keine neue Sichtung. Die vom iPhone
-     * gelieferten Foto-Metadaten bleiben trotzdem am Foto erhalten.
-     * Die Koordinaten werden zusätzlich gegen data/locations.csv
-     * aufgelöst, sofern gültige GPS-Werte vorhanden sind.
+     * Reine Zusatzfotos sind keine neue Sichtung. Für neue Clients
+     * werden die fotoindividuellen Werte aus photo_metadata verwendet.
+     * Die bisherigen gemeinsamen Felder bleiben als Fallback bestehen.
      */
     directPhotoLatitude = parseCoordinate(
       input.photo_lat ?? input.observer_lat
@@ -2734,88 +2757,61 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
     directPhotoLongitude = parseCoordinate(
       input.photo_lon ?? input.observer_lon
     );
+  }
 
-    const hasDirectPhotoCoordinates =
+  const needsLocationContext =
+    photoMetadataItems.some(item =>
+      item.photo_lat !== null &&
+      item.photo_lon !== null
+    ) ||
+    (
+      target.targetType === "vessel" &&
       directPhotoLatitude !== null &&
       directPhotoLongitude !== null &&
       !(
         directPhotoLatitude === 0 &&
         directPhotoLongitude === 0
-      );
+      )
+    );
 
-    if (hasDirectPhotoCoordinates) {
-      const locationResult = await resolveLocation(
-        {
-          ...input,
-          observer_lat: directPhotoLatitude,
-          observer_lon: directPhotoLongitude
-        },
-        env
-      );
+  if (needsLocationContext) {
+    const contextResult =
+      await loadLocationMatchingContext(env);
 
-      if (!locationResult.ok) {
-        return jsonResponse({
-          ok: false,
-          error: locationResult.error
-        }, 502);
-      }
-
-      const locationTextParts =
-        normalizeLocationTextParts({
-          name:
-            locationResult.location?.public_name ??
-            locationResult.location?.name ??
-            "",
-          municipality:
-            locationResult.location?.municipality ??
-            "",
-          country:
-            locationResult.location?.country ??
-            ""
-        });
-
-      directPhotoLocation = {
-        status:
-          locationResult.location
-            ? "matched"
-            : "unknown",
-        matched_by:
-          locationResult.matched_by ?? "",
-        id:
-          locationResult.location?.location_id ?? "",
-        area_id:
-          typeof locationResult.location?.area_id === "string"
-            ? locationResult.location.area_id
-            : "",
-        name: locationTextParts.name,
-        municipality:
-          locationTextParts.municipality,
-        country: locationTextParts.country,
-        distance_m:
-          Number.isFinite(
-            locationResult.location?.distance_m
-          )
-            ? Math.round(
-                locationResult.location.distance_m
-              )
-            : null
-      };
-    } else {
-      directPhotoLocation = {
-        status: "unknown",
-        matched_by: "",
-        id: "",
-        area_id: "",
-        name: "",
-        municipality: "",
-        country: "",
-        distance_m: null
-      };
+    if (!contextResult.ok) {
+      return jsonResponse({
+        ok: false,
+        error: contextResult.error
+      }, 502);
     }
+
+    attachmentLocationContext = contextResult;
   }
 
-  const year = String(capturedAt.getUTCFullYear());
-  const month = String(capturedAt.getUTCMonth() + 1).padStart(2, "0");
+  if (
+    target.targetType === "vessel" &&
+    directPhotoLatitude !== null &&
+    directPhotoLongitude !== null &&
+    !(
+      directPhotoLatitude === 0 &&
+      directPhotoLongitude === 0
+    ) &&
+    attachmentLocationContext
+  ) {
+    directPhotoLocation =
+      buildResolvedLocationRecord(
+        resolveLocationFromContext(
+          {
+            photo_lat: directPhotoLatitude,
+            photo_lon: directPhotoLongitude
+          },
+          attachmentLocationContext
+        )
+      );
+  } else if (target.targetType === "vessel") {
+    directPhotoLocation =
+      buildResolvedLocationRecord(null);
+  }
   const originalFilenames = Array.isArray(input.original_filenames) ? input.original_filenames : [];
   const records = [];
   const files = [];
@@ -2823,9 +2819,26 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
   for (let index = 0; index < photoResult.photos.length; index += 1) {
     const photo = photoResult.photos[index];
     const photoId = createPhotoId();
-    const path = `inbox/photos/${year}/${month}/${photoId}.jpg`;
     const bytes = await photo.arrayBuffer();
     const originalFilename = (typeof originalFilenames[index] === "string" ? originalFilenames[index].trim() : "") || photo.name || "";
+
+    const individualMetadata =
+      photoMetadataItems[index] ?? null;
+
+    const recordCapturedAt =
+      individualMetadata
+        ? new Date(individualMetadata.captured_at)
+        : capturedAt;
+
+    const recordYear =
+      String(recordCapturedAt.getUTCFullYear());
+
+    const recordMonth =
+      String(recordCapturedAt.getUTCMonth() + 1)
+        .padStart(2, "0");
+
+    const path =
+      `inbox/photos/${recordYear}/${recordMonth}/${photoId}.jpg`;
 
     const record = {
       photo_id: photoId,
@@ -2835,16 +2848,46 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
       mime_type: "image/jpeg",
       size_bytes: bytes.byteLength,
       sequence: index + 1,
-      captured_at: capturedAt.toISOString(),
+      captured_at: recordCapturedAt.toISOString(),
       added_at: uploadedAt.toISOString(),
       source: target.targetType === "submission" ? "submission_supplement" : "direct_vessel_upload",
       notes: String(input.notes ?? "").trim()
     };
 
-    if (target.targetType === "vessel") {
+    if (individualMetadata) {
+      record.metadata_version = 1;
+      record.photo_lat =
+        individualMetadata.photo_lat;
+      record.photo_lon =
+        individualMetadata.photo_lon;
+
+      if (attachmentLocationContext) {
+        record.location =
+          buildResolvedLocationRecord(
+            resolveLocationFromContext(
+              {
+                photo_lat:
+                  individualMetadata.photo_lat,
+                photo_lon:
+                  individualMetadata.photo_lon
+              },
+              attachmentLocationContext
+            )
+          );
+      } else {
+        record.location =
+          buildResolvedLocationRecord(null);
+      }
+    } else if (target.targetType === "vessel") {
+      /*
+       * Legacy-Fallback für ältere Kurzbefehle ohne photo_metadata.
+       */
       record.photo_lat = directPhotoLatitude;
       record.photo_lon = directPhotoLongitude;
       record.location = directPhotoLocation;
+    }
+
+    if (target.targetType === "vessel") {
       record.vessel_name_entered =
         normalizeEnteredVesselName(input);
     }
@@ -2951,7 +2994,16 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
     submission_id: target.submissionId || "",
     vessel_id: target.vesselId || "",
     photo_count: savedRecords.length,
-    photos: savedRecords.map(record => ({ photo_id: record.photo_id, photo_path: record.path, original_filename: record.original_filename, size_bytes: record.size_bytes })),
+    photos: savedRecords.map(record => ({
+      photo_id: record.photo_id,
+      photo_path: record.path,
+      original_filename: record.original_filename,
+      size_bytes: record.size_bytes,
+      captured_at: record.captured_at ?? "",
+      photo_lat: parseCoordinate(record.photo_lat),
+      photo_lon: parseCoordinate(record.photo_lon),
+      location: record.location ?? null
+    })),
     commit_sha: commitResult.commitSha
   }, 201);
 }
