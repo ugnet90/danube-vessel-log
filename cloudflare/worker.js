@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.31
+ * Version: 0.14.35
  * Updated: 2026-08-20
  */
 
@@ -189,6 +189,21 @@ export default {
         return jsonResponse({
           ok: false,
           error: "Unbehandelter Fehler beim Laden der Anlegestellen.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error)
+        }, 500);
+      }
+    }
+
+    if (request.method === "POST" && url.pathname === "/submission-berth") {
+      try {
+        return await handleSubmissionBerthUpdate(request, env);
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error: "Unbehandelter Fehler beim Korrigieren der Anlegestelle.",
           exception:
             error instanceof Error
               ? error.message
@@ -12047,6 +12062,227 @@ async function handleBerthsList(request, env) {
     location_id: locationId,
     count: berths.length,
     berths
+  });
+}
+
+async function handleSubmissionBerthUpdate(request, env) {
+  const authError = checkManagementKey(request, env);
+  if (authError) return authError;
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error: "Ungültiges JSON."
+    }, 400);
+  }
+
+  const submissionId = String(
+    input?.submission_id ?? ""
+  ).trim();
+
+  const submissionPath = buildSubmissionPath(submissionId);
+  if (!submissionPath) {
+    return jsonResponse({
+      ok: false,
+      error: "Ungültige submission_id."
+    }, 400);
+  }
+
+  const allowedStatuses = new Set([
+    "matched",
+    "unknown",
+    "not_applicable",
+    "unlisted"
+  ]);
+
+  const berthStatus = String(
+    input?.berth_status ?? ""
+  ).trim();
+
+  if (!allowedStatuses.has(berthStatus)) {
+    return jsonResponse({
+      ok: false,
+      error: "berth_status ist ungültig."
+    }, 400);
+  }
+
+  const file = await readGitHubFile({
+    env,
+    path: submissionPath
+  });
+
+  if (!file.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        file.status === 404
+          ? "Die Sichtung wurde nicht gefunden."
+          : "Die Sichtung konnte nicht geladen werden."
+    }, file.status === 404 ? 404 : 502);
+  }
+
+  let submission;
+  try {
+    submission = JSON.parse(
+      String(file.content ?? "").replace(/^\uFEFF/, "")
+    );
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error: "Die Sichtung enthält ungültiges JSON."
+    }, 500);
+  }
+
+  const movement = String(
+    submission?.movement ?? "unknown"
+  ).trim() || "unknown";
+
+  if (
+    movement === "moving" &&
+    berthStatus !== "not_applicable"
+  ) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Bei einer Sichtung in Fahrt muss die Anlegestelle auf nicht zutreffend gesetzt werden."
+    }, 400);
+  }
+
+  const location = {
+    location_id:
+      String(submission?.location?.id ?? "").trim(),
+    municipality:
+      String(submission?.location?.municipality ?? "").trim(),
+    country:
+      String(submission?.location?.country ?? "").trim()
+  };
+
+  const berthResult = await resolveBerth({
+    input: {
+      movement,
+      berth_status: berthStatus,
+      berth_id:
+        String(input?.berth_id ?? "").trim(),
+      berth_name_entered:
+        String(input?.berth_name_entered ?? "").trim()
+    },
+    location,
+    env
+  });
+
+  if (!berthResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: berthResult.error
+    }, berthResult.status ?? 400);
+  }
+
+  const previousBerth = normalizeSubmissionBerth(
+    submission?.berth,
+    movement
+  );
+  const newBerth = normalizeSubmissionBerth(
+    berthResult.berth,
+    movement
+  );
+
+  if (
+    JSON.stringify(previousBerth) ===
+    JSON.stringify(newBerth)
+  ) {
+    return jsonResponse({
+      ok: true,
+      changed: false,
+      submission_id: submissionId,
+      berth: newBerth
+    });
+  }
+
+  const changedAt = new Date().toISOString();
+
+  if (!Array.isArray(submission.berth_history)) {
+    submission.berth_history = [];
+  }
+
+  submission.berth_history.push({
+    changed_at: changedAt,
+    previous: previousBerth,
+    current: newBerth
+  });
+
+  submission.berth = newBerth;
+  submission.updated_at = changedAt;
+
+  const commitFiles = [
+    {
+      path: submissionPath,
+      content:
+        JSON.stringify(submission, null, 2) + "\n",
+      encoding: "utf-8"
+    }
+  ];
+
+  if (
+    submission?.workflow?.status === "reviewed" &&
+    VESSEL_ID_PATTERN.test(
+      String(
+        submission?.workflow?.review?.vessel_id ?? ""
+      ).trim()
+    )
+  ) {
+    const sightingsResult =
+      await loadSightingsDocument(env);
+
+    if (!sightingsResult.ok) {
+      return jsonResponse({
+        ok: false,
+        error: sightingsResult.error
+      }, sightingsResult.status ?? 502);
+    }
+
+    const sightingsDocument =
+      updateSightingsDocument({
+        document: sightingsResult.document,
+        submission,
+        submissionPath,
+        updatedAt: changedAt
+      });
+
+    commitFiles.push(
+      createSightingsCommitFile(
+        sightingsDocument
+      )
+    );
+  }
+
+  const commitResult =
+    await createAtomicGitHubCommit({
+      env,
+      message: "Anlegestelle korrigiert",
+      files: commitFiles
+    });
+
+  if (!commitResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Die korrigierte Anlegestelle konnte nicht gespeichert werden.",
+      github_step: commitResult.step,
+      github_status: commitResult.status,
+      github_response: commitResult.body
+    }, 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+    changed: true,
+    submission_id: submissionId,
+    berth: newBerth,
+    changed_at: changedAt,
+    commit_sha: commitResult.commitSha ?? ""
   });
 }
 
