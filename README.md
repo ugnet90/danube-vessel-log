@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.34**  
+Aktuelle Version: **0.14.35**  
 Stand: **20.08.2026**
 
 ## 1. Projektzweck
@@ -1437,4 +1437,273 @@ Geprüft wurden:
 
 - vollständige Projektbeschreibung
 - aktueller Projektstand: `0.14.34`
+
+## 53. Version 0.14.35 – Fotoorte, Kartenfilter und Anlegestellen
+
+Version **0.14.35** baut die in 0.14.33/0.14.34 eingeführte Standortkarte zu einer gemeinsamen räumlichen Auswertungsoberfläche aus.
+
+### 53.1 Gemeinsame Kartenlogik
+
+Die wiederverwendbare Kartenlogik liegt neu in:
+
+`docs/js/location_map.js`
+
+Sie wird sowohl von der Seite `Standorte` als auch vom Foto-Kartenoverlay der Schiffdetailseite verwendet. Dadurch werden Polygonprüfung, OpenStreetMap-Darstellung, Anlegestellen und Foto-Marker nicht mehr in mehreren Dateien getrennt implementiert.
+
+### 53.2 Foto-Aufnahmeorte auf der Standortkarte
+
+Der Rebuild erzeugt neu einen zentralen abgeleiteten Foto-Standortindex:
+
+- `data/photo_locations.json` – kanonischer abgeleiteter Index;
+- `docs/data/photo_locations.json` – synchroner GitHub-Pages-Spiegel.
+
+Ein Eintrag enthält unter anderem:
+
+- `photo_id`;
+- `source_type` (`sighting` oder `direct`);
+- `submission_id`, soweit vorhanden;
+- `vessel_id`;
+- `vessel_name`;
+- `captured_at`;
+- `photo_lat` und `photo_lon`;
+- die am Foto gespeicherte Standortzuordnung;
+- die Anlegestelle der Sichtung, soweit vorhanden;
+- den Bildpfad.
+
+Nur Fotos mit gültigen, von `0/0` verschiedenen GPS-Koordinaten werden in den Kartenindex aufgenommen.
+
+### 53.3 Filter auf der Seite „Standorte“
+
+Auf `docs/location_areas.html` können die folgenden Ebenen unabhängig ein- und ausgeblendet werden:
+
+- **Polygone**;
+- **Anlegestellen**;
+- **Foto-Aufnahmeorte**;
+- **Polygon-Eckpunkte**.
+
+Die Foto-Aufnahmeorte können gefiltert werden nach:
+
+- Schiff;
+- Aufnahmeort;
+- Fotoart: Sichtungsfoto oder zusätzliches Schiffsfoto;
+- Datum von;
+- Datum bis.
+
+Für die Foto-Marker ist zusätzlich eine optionale Beschriftung möglich:
+
+- keine Beschriftung;
+- Schiffsname;
+- Datum;
+- Sichtungs-ID;
+- Schiff + Datum.
+
+Die Zahl der nach dem Filter noch sichtbaren Fotoorte wird direkt angezeigt.
+
+Die Datenstruktur des Fotoindexes ist bewusst chronologisch auswertbar aufgebaut. Eine dynamische Zeitleiste bzw. ein Abspielmodus kann damit in einer späteren Version ergänzt werden, ohne den Datenbestand nochmals umzubauen.
+
+### 53.4 Anlegestellen als Kartenebene
+
+Die Anlegestellen werden nicht als Polygone geführt. Sie sind punktförmige Referenzobjekte und werden anhand der bereits in `data/berths.csv` vorhandenen Koordinaten dargestellt.
+
+Die Standortseite lädt die aktiven Linzer Anlegestellen über den bestehenden Worker-Endpunkt:
+
+`GET /berths?location_id=LOC-001`
+
+Jede Anlegestelle erscheint mit einem Anker-Marker. Soweit vorhanden, zeigt der Marker bzw. sein Popup:
+
+- Kurzname / öffentlicher Name;
+- Stationsnummer;
+- Donau-km;
+- Ufer;
+- Anlagentyp;
+- Zugangsart.
+
+Die bisherige Skizze `assets/berths/linz-nibelungen.svg` kann als statische Referenz im Repository verbleiben. Für die normale Standortkontrolle ist sie nicht mehr erforderlich, weil die Anlegestellen direkt in OpenStreetMap eingeblendet werden.
+
+### 53.5 „Auf Karte“ ohne neues Browserfenster
+
+Der Button `Auf Karte` bei einem Foto öffnet ab 0.14.35 **kein neues Fenster und keinen neuen Tab** mehr.
+
+Stattdessen erzeugt `docs/js/vessel.js` auf der bestehenden Schiffdetailseite ein Kartenoverlay. Auf dem iPhone nimmt dieses Overlay nahezu den gesamten Bildschirm ein; am PC erscheint es als großer Dialog über der Schiffseite.
+
+Das Overlay zeigt:
+
+- den exakten fotoindividuellen GPS-Punkt;
+- die aktuellen Standortpolygone;
+- die aktiven Linzer Anlegestellen;
+- Aufnahmezeit;
+- GPS-Koordinaten;
+- die am Foto gespeicherte Standortbezeichnung;
+- den aufgrund der Polygone clientseitig ermittelten Bereich.
+
+Das Overlay kann über `×`, durch Klick auf den Hintergrund oder mit `Esc` geschlossen werden. Die Schiffseite bleibt dabei an derselben Scrollposition erhalten.
+
+Leaflet und die gemeinsame Kartenlogik werden auf `vessel.html` nur bei Bedarf dynamisch geladen. Deshalb muss die bestehende `docs/vessel.html` für diese Funktion nicht ersetzt werden.
+
+## 54. Korrektur einer Anlegestelle nach der Sichtung
+
+0.14.35 ergänzt erstmals die nachträgliche Korrektur der bei einer Sichtung gespeicherten Anlegestelle.
+
+### 54.1 Oberfläche
+
+In der Detailansicht einer Sichtung wird die gespeicherte **Anlegestelle** angezeigt. Über `Ändern` kann sie unabhängig vom Review-Status der Sichtung korrigiert werden.
+
+Zur Auswahl stehen:
+
+- eine aktive Anlegestelle aus `data/berths.csv`;
+- `Unbekannt`;
+- `Andere, nicht gelistete Anlegestelle` mit Freitext;
+- `Nicht zutreffend`.
+
+Bei einer Sichtung mit Bewegung `moving` ist nur `Nicht zutreffend` zulässig.
+
+### 54.2 Worker-Endpunkt
+
+Neu:
+
+`POST /submission-berth`
+
+Der Endpunkt verwendet den Management-API-Schlüssel und:
+
+1. lädt die vorhandene Submission;
+2. validiert die neue Anlegestelle gegen die aktiven Referenzdaten;
+3. verhindert eine Anlegestelle bei einer Sichtung `in Fahrt`;
+4. archiviert den bisherigen und den neuen Wert in `berth_history`;
+5. aktualisiert `submission.berth`;
+6. aktualisiert bei bereits reviewed Sichtungen im selben atomaren Commit auch `data/sightings.json`.
+
+Eine irrtümlich gewählte Anlegestelle erfordert daher keine neue Sichtung mehr.
+
+### 54.3 Änderungshistorie
+
+Jede tatsächliche Änderung wird in der Submission unter `berth_history` protokolliert mit:
+
+- `changed_at`;
+- `previous`;
+- `current`.
+
+Wird derselbe Wert nochmals gespeichert, erzeugt der Worker keinen neuen Änderungseintrag.
+
+## 55. Rebuild-Erweiterung in 0.14.35
+
+`tools/rebuild_location_matches.py` bleibt das zentrale Werkzeug zur Neuberechnung der fotoindividuellen Standortzuordnungen und wird zusätzlich erweitert.
+
+Der Rebuild:
+
+- aktualisiert weiterhin Submission- und direkte Foto-Standorte;
+- synchronisiert weiterhin `data/sightings.json`;
+- erzeugt `data/photo_locations.json` vollständig neu aus dem aktuellen Bestand;
+- erzeugt den Spiegel `docs/data/photo_locations.json`;
+- synchronisiert `data/location_areas.geojson` nach `docs/data/location_areas.geojson`.
+
+Der Workflow `.github/workflows/rebuild_location_matches.yml` nimmt diese Dateien automatisch in seinen Commit auf.
+
+### 55.1 Erstes Einspielen von 0.14.35
+
+Nach dem Commit von 0.14.35 sind **zwei Schritte** erforderlich:
+
+1. den Cloudflare Worker neu deployen, weil `POST /submission-berth` neu hinzukommt;
+2. anschließend einmal `Rebuild location matches` manuell starten, damit der bestehende Fotobestand in `photo_locations.json` aufgenommen wird.
+
+Neue Fotos erscheinen im zentralen Kartenindex nach dem nächsten Rebuild. Die normale Fotoanzeige und die fotoindividuelle Standortzuordnung selbst sind davon nicht abhängig.
+
+## 56. Technische Prüfung für 0.14.35
+
+Geprüft wurden:
+
+- JavaScript-Syntax von `cloudflare/worker.js`;
+- JavaScript-Syntax von `docs/js/api.js`;
+- JavaScript-Syntax von `docs/js/submissions.js`;
+- JavaScript-Syntax von `docs/js/vessel.js`;
+- JavaScript-Syntax von `docs/js/location_map.js`;
+- JavaScript-Syntax von `docs/js/location_areas.js`;
+- Python-Syntax von `tools/rebuild_location_matches.py`;
+- synthetischer Rebuild mit Sichtungsfotos und direktem Schiffsfoto;
+- Erzeugung von kanonischem und GitHub-Pages-Fotoindex;
+- Synchronisierung des Polygonspiegels;
+- Filtergrundlagen für Schiff, Ort, Fotoart und Datum;
+- ZIP-Integrität.
+
+## 57. Dateiversionen 0.14.35
+
+### cloudflare/worker.js
+
+- Version: `0.14.35`
+- neuer Endpunkt `POST /submission-berth`;
+- Anlegestellenkorrektur mit Historie und Sichtungsindex-Synchronisierung.
+
+### docs/js/api.js
+
+- Version: `0.14.35`
+- `getBerths`;
+- `updateSubmissionBerth`.
+
+### docs/submissions.html
+
+- Version: `0.14.35`
+- Anzeige und Korrektur der Anlegestelle;
+- kein Versionssuffix mehr bei `submissions.js`.
+
+### docs/js/submissions.js
+
+- Version: `0.14.35`
+- Auswahl und Speichern einer korrigierten Anlegestelle.
+
+### docs/css/submissions.css
+
+- Version: `0.14.35`
+- Layout des Anlegestellen-Korrekturbereichs.
+
+### docs/js/location_map.js
+
+- Version: `0.14.35`
+- gemeinsame OSM-/Polygon-/Anlegestellen-/Foto-Marker-Logik.
+
+### docs/location_areas.html
+
+- Version: `0.14.35`
+- Ebenenschalter und Foto-Filter.
+
+### docs/js/location_areas.js
+
+- Version: `0.14.35`
+- Anzeige aller Fotoorte und aktiven Anlegestellen;
+- Filterung und Marker-Beschriftung.
+
+### docs/css/location_areas.css
+
+- Version: `0.14.35`
+- Karten-, Filter-, Anlegestellen- und Marker-Darstellung.
+
+### docs/js/vessel.js
+
+- Version: `0.14.35`
+- `Auf Karte` als Overlay statt neuem Browserfenster;
+- Leaflet und Kartenmodul werden bei Bedarf dynamisch geladen.
+
+### docs/css/vessel.css
+
+- Version: `0.14.35`
+- responsives Foto-Kartenoverlay.
+
+### tools/rebuild_location_matches.py
+
+- Version: `0.14.35`
+- Aufbau und Spiegelung des Foto-Standortindexes;
+- Synchronisierung des Polygonspiegels.
+
+### data/photo_locations.json
+
+- Schema-Version: `1`;
+- abgeleiteter zentraler Foto-Standortindex.
+
+### docs/data/photo_locations.json
+
+- Schema-Version: `1`;
+- GitHub-Pages-Spiegel des Foto-Standortindexes.
+
+### README.md
+
+- vollständige Projektbeschreibung;
+- aktueller Projektstand: `0.14.35`.
 
