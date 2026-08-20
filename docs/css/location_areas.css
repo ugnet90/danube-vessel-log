@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/location_areas.css
- * Version: 0.14.35
+ * Version: 0.14.37
  * Updated: 2026-08-20
  */
 
@@ -55,3 +55,30 @@
 @media (max-width: 480px) {
   .photo-filter-grid { grid-template-columns: 1fr; }
 }
+
+.photo-hover-tooltip, .vessel-berth-hover-tooltip {
+  max-width: 320px;
+  padding: 7px 9px;
+  border: 1px solid #cbd5e1;
+  background: rgba(255,255,255,.97);
+  color: #111827;
+  line-height: 1.35;
+  box-shadow: 0 3px 12px rgba(0,0,0,.16);
+}
+.photo-hover-content strong, .vessel-berth-hover-content strong { display: block; margin-bottom: 3px; }
+.vessel-berth-marker {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 2px solid #0f4c81;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 7px rgba(0,0,0,.30);
+  box-sizing: border-box;
+}
+.vessel-berth-marker svg { width: 28px; height: 28px; overflow: visible; }
+.vessel-berth-marker svg path { fill: none; stroke: #0f4c81; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.vessel-berth-popup { line-height: 1.45; }
+.vessel-berth-popup strong { display: block; margin-bottom: 3px; }
+.vessel-berth-position-note { margin-top: 5px; color: #52606d; font-size: .86rem; }
