@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "vessel_id": "VES-000121",
   "photos": [
     {
@@ -28,10 +28,10 @@
       },
       "vessel_name_entered": "AmaMagna",
       "relation": {
-        "type": "vessel",
-        "submission_id": ""
+        "type": "sighting",
+        "submission_id": "SUB-20260819-052017-A072A4"
       }
     }
   ],
-  "updated_at": "2026-08-19T09:44:48.591Z"
+  "updated_at": "2026-08-20T17:10:47.016Z"
 }
