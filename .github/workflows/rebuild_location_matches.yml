@@ -36,7 +36,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add inbox/submissions data/vessel_photos data/sightings.json
+          git add inbox/submissions data/vessel_photos data/sightings.json data/photo_locations.json docs/data/photo_locations.json docs/data/location_areas.geojson
           git commit -m "Standorte neu aufbauen"
           git push
 
