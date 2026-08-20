@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.31**  
+Aktuelle Version: **0.14.32**  
 Stand: **20.08.2026**
 
 ## 1. Projektzweck
@@ -1178,4 +1178,88 @@ Geprüft wurden:
 
 - vollständige Projektbeschreibung
 - aktueller Stand: `0.14.31`
+
+## 44. Version 0.14.32 – verfeinerte uMap-Polygone
+
+Version **0.14.32** übernimmt die vom Nutzer in uMap nochmals präzise bearbeiteten Linzer Aufnahmebereiche. Die Geometrien wurden **1:1** aus dem gelieferten GeoJSON übernommen; es erfolgt keine automatische Glättung, Pufferung, Verschiebung oder sonstige geometrische Interpretation.
+
+### 44.1 Schwerpunkt der Korrektur
+
+Insbesondere die Grenzbereiche zwischen der `Nibelungenbrücke` und den direkt angrenzenden Bereichen wurden in uMap genauer nachgezeichnet:
+
+- `Donauufer Alt-Urfahr`
+- `Urfahraner Donaulände`
+- `Obere Donaulände`
+- `Untere Donaulände`
+
+Die Prioritäten bleiben unverändert:
+
+- `Nibelungenbrücke`: `priority = 100`
+- alle vier Uferbereiche: `priority = 80`
+
+Damit entscheidet die Brücke weiterhin bei einer tatsächlichen geometrischen Überlappung.
+
+### 44.2 Kontrolle mit realen Foto-GPS-Daten
+
+Die drei zuletzt geprüften Foto-GPS-Punkte werden mit den neuen Polygonen wie folgt zugeordnet:
+
+- `48.308546666666666 / 14.28225` → `Donauufer Alt-Urfahr, Linz`
+- `48.309096666666667 / 14.283453333333333` → `Donauufer Alt-Urfahr, Linz`
+- `48.306766666666667 / 14.283395333333333` → `Obere Donaulände, Linz`
+
+Der früher geprüfte Brückenpunkt
+
+- `48.3074 / 14.285275`
+
+liegt weiterhin in `Nibelungenbrücke, Linz`.
+
+### 44.3 Verhältnis zu 0.14.31
+
+Das ZIP-Paket 0.14.32 ist **kumulativ** und enthält auch den Worker-Fix aus 0.14.31 für fotoindividuelle Metadaten beim Kurzbefehl **„Foto(s) zu Schiff hinzufügen“**. Dadurch kann 0.14.32 auch direkt auf 0.14.30 angewendet werden.
+
+Falls 0.14.31 bereits eingespielt wurde, sind `cloudflare/worker.js` und die Kurzbefehldokumentation in 0.14.32 inhaltlich unverändert; neu ist in diesem Schritt `data/location_areas.geojson`.
+
+### 44.4 Deployment und Rebuild
+
+- Falls der Worker-Fix aus **0.14.31 noch nicht deployed** wurde: nach dem Commit den Cloudflare Worker deployen.
+- Falls 0.14.31 bereits deployed wurde: wegen der Polygonänderung ist **kein erneutes Worker-Deployment** erforderlich.
+- Danach `Rebuild location matches` ausführen, damit vorhandene Foto-GPS-Daten gegen die neuen Polygone neu aufgelöst werden.
+
+## 45. Technische Prüfung für 0.14.32
+
+Geprüft wurden:
+
+- exakt fünf Features im gelieferten uMap-GeoJSON;
+- alle fünf erwarteten Namen vorhanden;
+- alle Geometrien vom Typ `Polygon`;
+- alle Polygonringe geschlossen;
+- alle fünf Polygone geometrisch gültig;
+- die vier genannten realen GPS-Testpunkte ergeben die erwarteten Bereiche;
+- Projekt-GeoJSON ist gültiges JSON;
+- ZIP-Integrität.
+
+## 46. Dateiversionen 0.14.32
+
+### data/location_areas.geojson
+
+- Version: `0.14.32`
+- Updated: `2026-08-20`
+- Geometrien 1:1 aus dem verfeinerten uMap-Export übernommen
+
+### cloudflare/worker.js
+
+- Stand: `0.14.31`
+- unverändert gegenüber 0.14.31
+- im kumulativen Paket enthalten
+
+### docs/shortcuts/KURZBEFEHL_FOTOS_ZU_SCHIFF_HINZUFUEGEN.md
+
+- Stand: `0.14.31`
+- unverändert gegenüber 0.14.31
+- im kumulativen Paket enthalten
+
+### README.md
+
+- vollständige Projektbeschreibung
+- aktueller Projektstand: `0.14.32`
 
