@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.39**  
+Aktuelle Version: **0.14.40**  
 Stand: **20.08.2026**
 
 ## 1. Projektzweck
@@ -2004,7 +2004,7 @@ Die Weboberfläche speichert Änderungen über den neuen Management-Endpunkt:
 
 Ein Zusatzfoto mit gültigem Sichtungsbezug wird in `vessel.html` bei der betreffenden Sichtung als **Nachträglich ergänzt** angezeigt. Es bleibt physisch und kanonisch dennoch ein direkter Schiffsfoto-Datensatz. Wird der Bezug wieder entfernt, erscheint das Foto erneut im Abschnitt **Zusätzliche Schiffsfotos**.
 
-Nach einer Änderung dieser Relation ist für die zentrale Seite **Standorte** ein `Rebuild location matches` erforderlich, damit `data/photo_locations.json` und der automatisch erzeugte öffentliche Spiegel den neuen Bezug übernehmen. Das Foto-Kartenoverlay der Schiffdetailseite verwendet dagegen unmittelbar den aktuellen Schiffsdatensatz.
+In Version 0.14.39 war nach einer Änderung dieser Relation noch ein `Rebuild location matches` für die zentrale Seite **Standorte** erforderlich. **Seit 0.14.40** aktualisiert der Worker den kanonischen Kartenindex und seinen öffentlichen Spiegel automatisch im selben Commit. Das Foto-Kartenoverlay der Schiffdetailseite verwendet weiterhin unmittelbar den aktuellen Schiffsdatensatz.
 
 ### 64.4 Kartenindex Schema 3
 
@@ -2057,3 +2057,84 @@ ausführen. Dadurch werden historische direkte Zusatzfotos mit dem Standardbezug
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.39`.
 
 - `SHORTCUT_ZUSATZFOTOS_SICHTUNGSBEZUG.md`: Schrittfolge für die optionale Sichtungsauswahl im iPhone-Kurzbefehl „Foto(s) zu Schiff hinzufügen“.
+
+## 66. Version 0.14.40 – Kartenbezüge und Darstellung
+
+Version **0.14.40** verbessert die Darstellung von Sichtungs- und Zusatzfotos auf der Schiffdetailseite und in der zentralen Standortkarte. Außerdem wird die Sichtungszuordnung direkter Zusatzfotos ohne nachträglichen manuellen Karten-Rebuild synchron gehalten.
+
+### 66.1 Kompaktere Fotokarten in `vessel.html`
+
+Die Fotogalerie einer Sichtung richtet Karten nicht mehr an der Höhe des höchsten Elements der Zeile aus. Dadurch entstehen bei einem nachträglich ergänzten Foto mit Zuordnungssteuerung keine großen leeren Flächen unter den übrigen Bildern.
+
+Die Zuordnungssteuerung ist standardmäßig eingeklappt und wird über **Zuordnung ändern** geöffnet. Hauptfoto- und Löschaktionen stehen kompakt nebeneinander. Auf schmalen Displays bleibt die Darstellung responsiv.
+
+### 66.2 Vollbildmodus der Standortkarte
+
+`location_areas.html` besitzt nun einen Schalter **Vollbild**. Der Kartenbereich wird dabei innerhalb der Webanwendung auf die gesamte Viewportgröße erweitert. Dies funktioniert auch auf mobilen Geräten ohne Abhängigkeit von der Browser-Fullscreen-API.
+
+Mit **Vollbild schließen** bzw. `Esc` wird die normale Ansicht wiederhergestellt.
+
+### 66.3 Sichtungsbezug der Foto-Aufnahmeorte
+
+Foto-Aufnahmeorte werden in der Übersicht farblich unterschieden:
+
+- **blau** = Foto gehört zu einer konkreten Sichtung;
+- **gelb** = direktes Zusatzfoto nur zum Schiff, ohne konkrete Sichtung.
+
+Die Standortseite zeigt dafür eine Legende. Damit ist sofort erkennbar, warum ein Foto eine gestrichelte Verbindung zur Schiffsposition besitzt oder nicht.
+
+### 66.4 Vollständige Foto-zu-Schiff-Verbindungen
+
+Für jede sichtbare Fotoaufnahme mit konkretem Sichtungsbezug wird eine eigene gestrichelte Linie zur bekannten Schiffsposition der Sichtung erzeugt, sofern:
+
+- die Sichtung `moored` ist und
+- die erfasste Anlegestelle gültige Koordinaten besitzt.
+
+Die Linien sind etwas stärker hervorgehoben. Zusätzlich zeigt die Oberfläche die Anzahl der aktuell gezeichneten Verbindungen an.
+
+Fotos **nur zum Schiff** besitzen bewusst keine Verbindungslinie, da ihnen keine konkrete Sichtung und damit keine belastbare Schiffsposition zugeordnet ist.
+
+### 66.5 Direkte Kartenaktualisierung bei Zusatzfoto-Zuordnungen
+
+Ab 0.14.40 aktualisiert der Worker bei Änderungen über `/vessel-photo-relation` den zentralen Kartenindex gemeinsam mit dem direkten Schiffsfoto-Datensatz in **demselben atomaren Git-Commit**.
+
+Dabei werden automatisch und bytegleich aktualisiert:
+
+- `data/photo_locations.json` – kanonischer Kartenindex;
+- `docs/data/photo_locations.json` – automatisch erzeugter GitHub-Pages-Spiegel.
+
+Damit erscheint ein nachträglich einer Sichtung zugeordnetes Zusatzfoto nach dem normalen Pages-Update auch in der Gesamtkarte mit seiner Verbindungslinie. Ein zusätzlicher Rebuild ist für zukünftige Zuordnungsänderungen nicht mehr erforderlich.
+
+Dasselbe gilt für neue direkte Zusatzfotos, sofern der Kartenindex vorhanden ist. Kann der Index ausnahmsweise nicht aktualisiert werden, meldet die Oberfläche weiterhin, dass einmal `Rebuild location matches` ausgeführt werden soll.
+
+Für bereits **vor Installation von 0.14.40** gespeicherte Sichtungsbezüge ist einmalig ein Rebuild sinnvoll, damit auch diese bestehenden Relationen sicher im Kartenindex stehen.
+
+### 66.6 Spiderfy für historische Schiffe an derselben Anlegestelle
+
+Ein Schiffmarker mit Zähler kann nun angeklickt bzw. angetippt werden. Die einzelnen historischen Anlege-Sichtungen werden fächerförmig um die gemeinsame Anlegestelle aufgeklappt.
+
+Die aufgefächerten Marker sind reine Darstellungspositionen. Dünne Hilfslinien führen zurück zur tatsächlichen gespeicherten Anlegestellenkoordinate. In den Detailinformationen wird ausdrücklich darauf hingewiesen, dass diese aufgefächerten Positionen keine Schiff-GPS-Positionen darstellen.
+
+Ein erneuter Klick auf den Sammelmarker klappt die Darstellung wieder zusammen. Beim Zoomen wird ein geöffnetes Spiderfy automatisch geschlossen.
+
+### 66.7 Deployment
+
+Version 0.14.40 verändert den Cloudflare Worker. Daher ist nach dem Commit ein **Worker-Deployment** erforderlich.
+
+Da bereits unter 0.14.39 ein Zusatzfoto einer Sichtung zugeordnet wurde, anschließend bitte **einmal**:
+
+`Actions -> Rebuild location matches -> Run workflow`
+
+ausführen. Dies ist für den bereits vorhandenen Bezug nötig. Zukünftige Änderungen über die neue Worker-Version synchronisieren den Kartenindex automatisch.
+
+## 67. Dateiversionen 0.14.40
+
+- `cloudflare/worker.js`: Version `0.14.40`; automatische Aktualisierung des kanonischen und öffentlichen Foto-Kartenindex bei direkten Zusatzfoto-Uploads und Sichtungszuordnungen.
+- `docs/js/location_map.js`: Version `0.14.40`; farbliche Unterscheidung von Fotoorten mit/ohne Sichtungsbezug und Spiderfy-Unterstützung für historische Schiffsmarker.
+- `docs/js/location_areas.js`: Version `0.14.40`; vollständige Verbindungslinien, Verbindungszähler, Spiderfy-Aktivierung und Vollbildmodus.
+- `docs/location_areas.html`: Version `0.14.40`; Vollbild-Schalter, Markerlegende und Verbindungszähler.
+- `docs/css/location_areas.css`: Version `0.14.40`; Vollbilddarstellung und Markerlegende.
+- `docs/js/vessel.js`: Version `0.14.40`; kompaktere Zuordnungssteuerung und Rückmeldung über die automatische Kartenindex-Aktualisierung.
+- `docs/css/vessel.css`: Version `0.14.40`; kompakte Fotokarten, Aktionsschaltflächen und eingeklappte Zuordnungssteuerung.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.40`.
+
