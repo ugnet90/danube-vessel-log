@@ -1,22 +1,14 @@
 <!--
   Danube Vessel Log
   File: docs/submissions.html
-  Version: 0.14.6
-  Updated: 2026-07-30
+  Version: 0.14.35
+  Updated: 2026-08-20
 -->
 
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <!-- Danube Vessel Log: Favicons -->
-  <link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon/favicon-48x48.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
-  <link rel="manifest" href="assets/favicon/site.webmanifest">
-<meta name="theme-color" content="#0647c7">  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Schiffssichtungen</title>
   <link rel="stylesheet" href="css/common.css">
@@ -37,38 +29,6 @@
       <div class="form-field">
         <label for="apiKey">API-Schlüssel</label>
         <input id="apiKey" type="password" placeholder="Optional" autocomplete="off">
-      </div>
-    </section>
-
-    <section
-      id="nextStepPanel"
-      class="connection-card hidden"
-      aria-live="polite"
-    >
-      <strong id="nextStepTitle">
-        Schiff wurde zugeordnet
-      </strong>
-
-      <p id="nextStepText">
-        Der nächste Arbeitsschritt kann geöffnet werden.
-      </p>
-
-      <div class="review-actions">
-        <a
-          id="nextStepVesselLink"
-          class="secondary-button"
-          href="vessels.html"
-        >
-          Schiff öffnen
-        </a>
-
-        <a
-          id="nextStepEnrichmentLink"
-          class="primary-button"
-          href="vessel_enrichment.html"
-        >
-          Anreicherung prüfen
-        </a>
       </div>
     </section>
 
@@ -118,41 +78,16 @@
             <div class="detail-card">
               <h3>Sichtung</h3>
               <dl>
-                <div>
-                  <dt id="capturedAtLabel">Aufgenommen</dt>
-                  <dd id="capturedAt"></dd>
-                </div>
-                
-                <div>
-                  <dt id="locationTextLabel">Aufnahmeort</dt>
-                  <dd id="locationText"></dd>
-                </div>
-                
-                <div>
+                <div><dt>Aufgenommen</dt><dd id="capturedAt"></dd></div>
+                <div><dt>Standort</dt><dd id="locationText"></dd></div>
+                <div class="berth-detail-row">
                   <dt>Anlegestelle</dt>
                   <dd>
                     <span id="berthText"></span>
-                
-                    <span
-                      id="berthOverviewWrap"
-                      class="hidden"
-                    >
-                      ·
-                      <a
-                        href="assets/berths/linz-nibelungen.svg"
-                        target="_blank"
-                        rel="noopener"
-                      >
-                        Übersicht
-                      </a>
-                    </span>
+                    <button id="editBerthButton" class="secondary-button compact-action-button" type="button">Ändern</button>
                   </dd>
                 </div>
-                
-                <div>
-                  <dt>Bewegung</dt>
-                  <dd id="movementText"></dd>
-                </div>
+                <div><dt>Bewegung</dt><dd id="movementText"></dd></div>
                 <div><dt>Richtung</dt><dd id="directionText"></dd></div>
                 <div><dt>Eingabe</dt><dd id="enteredName"></dd></div>
               </dl>
@@ -167,6 +102,30 @@
                 <div><dt>Kandidaten</dt><dd id="candidateIds"></dd></div>
               </dl>
             </div>
+          </section>
+
+          <section id="berthCorrectionPanel" class="berth-correction-panel hidden">
+            <div class="berth-correction-heading">
+              <div>
+                <h3>Anlegestelle korrigieren</h3>
+                <p>Die Änderung betrifft diese Sichtung und wird mit altem und neuem Wert protokolliert.</p>
+              </div>
+              <button id="cancelBerthCorrectionButton" class="secondary-button" type="button">Abbrechen</button>
+            </div>
+            <div class="berth-correction-grid">
+              <div class="form-field">
+                <label for="berthCorrectionSelect">Anlegestelle</label>
+                <select id="berthCorrectionSelect"></select>
+              </div>
+              <div id="berthUnlistedField" class="form-field hidden">
+                <label for="berthCorrectionUnlistedText">Nicht gelistete Anlegestelle</label>
+                <input id="berthCorrectionUnlistedText" type="text" maxlength="150" autocomplete="off">
+              </div>
+              <div class="berth-correction-actions">
+                <button id="saveBerthCorrectionButton" class="primary-button" type="button">Anlegestelle speichern</button>
+              </div>
+            </div>
+            <div id="berthCorrectionResult" class="review-result hidden" aria-live="polite"></div>
           </section>
 
           <section id="vesselSection" class="vessel-section">
@@ -455,36 +414,10 @@
               </section>
 
               <dl class="vessel-footer-grid">
-                <div>
-                  <dt>Anreicherung</dt>
-
-                  <dd>
-                    <span id="vesselEnrichmentStatus"></span>
-
-                    <a
-                      id="vesselEnrichmentLink"
-                      class="secondary-button compact-button hidden"
-                      href="vessel_enrichment.html"
-                    >
-                      Anreicherung öffnen
-                    </a>
-                  </dd>
-                </div>
-
-                <div>
-                  <dt>Report erstellt</dt>
-                  <dd id="vesselEnrichmentDate"></dd>
-                </div>
-
-                <div>
-                  <dt>Quellen</dt>
-                  <dd id="vesselSourceCount"></dd>
-                </div>
-
-                <div>
-                  <dt>Letzte Änderung</dt>
-                  <dd id="vesselUpdatedAt"></dd>
-                </div>
+                <div><dt>Anreicherung</dt><dd id="vesselEnrichmentStatus"></dd></div>
+                <div><dt>Letzter Lauf</dt><dd id="vesselEnrichmentDate"></dd></div>
+                <div><dt>Quellen</dt><dd id="vesselSourceCount"></dd></div>
+                <div><dt>Letzte Änderung</dt><dd id="vesselUpdatedAt"></dd></div>
               </dl>
             </div>
           </section>

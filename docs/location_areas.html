@@ -1,7 +1,7 @@
 <!--
   Danube Vessel Log
   File: docs/location_areas.html
-  Version: 0.14.34
+  Version: 0.14.35
   Updated: 2026-08-20
 -->
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Standortbereiche – Danube Vessel Log</title>
+  <title>Standorte – Danube Vessel Log</title>
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="css/location_areas.css">
@@ -20,33 +20,83 @@
   <main class="location-areas-page">
     <header class="location-areas-header">
       <div>
-        <h1>Standortbereiche Linz</h1>
-        <p>Aktuelle GPS-Polygone auf OpenStreetMap-Basis.</p>
+        <h1>Standorte</h1>
+        <p>Aufnahmebereiche, Anlegestellen und Foto-Aufnahmeorte auf OpenStreetMap.</p>
       </div>
-      <div class="location-areas-actions">
-        <button id="toggleVerticesButton" class="secondary-button" type="button">Eckpunkte anzeigen</button>
-        <a class="secondary-button location-areas-link" href="data/location_areas.geojson" target="_blank" rel="noopener noreferrer">GeoJSON öffnen</a>
-      </div>
+      <a class="secondary-button location-areas-link" href="data/location_areas.geojson" target="_blank" rel="noopener noreferrer">GeoJSON öffnen</a>
     </header>
+
+    <section class="map-control-card" aria-label="Kartenebenen und Filter">
+      <div class="layer-controls">
+        <strong>Ebenen</strong>
+        <label><input id="showAreas" type="checkbox" checked> Polygone</label>
+        <label><input id="showBerths" type="checkbox" checked> Anlegestellen</label>
+        <label><input id="showPhotos" type="checkbox" checked> Foto-Aufnahmeorte</label>
+        <label><input id="showVertices" type="checkbox"> Eckpunkte</label>
+      </div>
+
+      <div class="photo-filter-grid">
+        <label>
+          <span>Schiff</span>
+          <select id="photoVesselFilter"><option value="">Alle Schiffe</option></select>
+        </label>
+        <label>
+          <span>Aufnahmeort</span>
+          <select id="photoAreaFilter"><option value="">Alle Orte</option></select>
+        </label>
+        <label>
+          <span>Fotoart</span>
+          <select id="photoSourceFilter">
+            <option value="">Alle</option>
+            <option value="sighting">Sichtungsfoto</option>
+            <option value="direct">Zusätzliches Schiffsfoto</option>
+          </select>
+        </label>
+        <label>
+          <span>Von</span>
+          <input id="photoDateFrom" type="date">
+        </label>
+        <label>
+          <span>Bis</span>
+          <input id="photoDateTo" type="date">
+        </label>
+        <label>
+          <span>Marker-Beschriftung</span>
+          <select id="photoLabelMode">
+            <option value="none">Keine</option>
+            <option value="vessel">Schiffsname</option>
+            <option value="date">Datum</option>
+            <option value="sighting">Sichtungs-ID</option>
+            <option value="vessel-date">Schiff + Datum</option>
+          </select>
+        </label>
+        <div class="photo-filter-actions">
+          <button id="resetPhotoFilters" class="secondary-button" type="button">Filter zurücksetzen</button>
+          <span id="photoCount" class="photo-count">0 Fotos</span>
+        </div>
+      </div>
+    </section>
 
     <section class="location-areas-layout">
       <aside class="location-areas-panel">
         <h2>Bereiche</h2>
-        <p class="location-areas-help">Klick auf einen Bereich zoomt auf das Polygon. Auf der Karte öffnet ein Klick die Details.</p>
+        <p class="location-areas-help">Klick auf einen Bereich zoomt auf das Polygon. Marker zeigen Details per Klick.</p>
         <div id="selectedPhotoCard" class="selected-photo-card hidden" aria-live="polite"></div>
-        <div id="locationAreasStatus" class="location-areas-status" aria-live="polite">Standortbereiche werden geladen …</div>
+        <div id="locationAreasStatus" class="location-areas-status" aria-live="polite">Kartendaten werden geladen …</div>
         <div id="locationAreasList" class="location-areas-list"></div>
       </aside>
 
-      <section class="location-areas-map-card" aria-label="Karte der Standortbereiche">
+      <section class="location-areas-map-card" aria-label="Standortkarte">
         <div id="locationAreasMap" class="location-areas-map"></div>
       </section>
     </section>
   </main>
 
+  <script src="js/config.js"></script>
   <script src="js/site_map.js"></script>
   <script src="js/nav.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/location_map.js"></script>
   <script src="js/location_areas.js"></script>
 </body>
 </html>
