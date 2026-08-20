@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000124",
+  "photos": [
+    {
+      "photo_id": "PHOTO-34312D6A44DE447E8C331404FB84AE61",
+      "path": "inbox/photos/2026/08/PHOTO-34312D6A44DE447E8C331404FB84AE61.jpg",
+      "filename": "PHOTO-34312D6A44DE447E8C331404FB84AE61.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 418590,
+      "sequence": 1,
+      "captured_at": "2026-08-20T05:15:58.000Z",
+      "added_at": "2026-08-20T06:34:50.384Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "photo_lat": 48.30904666666667,
+      "photo_lon": 14.28402833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "Amadeus Aurea"
+    },
+    {
+      "photo_id": "PHOTO-E79FB0A8841E434F9FB09336A9999ECF",
+      "path": "inbox/photos/2026/08/PHOTO-E79FB0A8841E434F9FB09336A9999ECF.jpg",
+      "filename": "PHOTO-E79FB0A8841E434F9FB09336A9999ECF.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 325236,
+      "sequence": 2,
+      "captured_at": "2026-08-20T05:15:58.000Z",
+      "added_at": "2026-08-20T06:34:50.384Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "photo_lat": 48.30904666666667,
+      "photo_lon": 14.28402833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "Amadeus Aurea"
+    }
+  ],
+  "updated_at": "2026-08-20T06:34:50.384Z"
+}
