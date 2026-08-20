@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_map.js
- * Version: 0.14.38
+ * Version: 0.14.39
  * Updated: 2026-08-20
  *
  * Gemeinsame Kartenlogik für Standortseite und Foto-Kartenoverlay.
@@ -829,6 +829,161 @@
   }
 
 
+  function vesselBerthGroupPopup(records, berth) {
+    const container = document.createElement("div");
+    container.className = "vessel-berth-group-popup";
+
+    const title = document.createElement("strong");
+    const berthName =
+      berth?.short_name ||
+      berth?.public_name ||
+      berth?.name ||
+      "Anlegestelle";
+    title.textContent = berthName;
+    container.append(title);
+
+    const normalized = (Array.isArray(records) ? records : [])
+      .slice()
+      .sort((left, right) =>
+        String(right?.captured_at || "")
+          .localeCompare(String(left?.captured_at || ""))
+      );
+
+    const uniqueVessels = new Set(
+      normalized
+        .map(record => String(
+          record?.vessel_id || record?.vessel_name || ""
+        ).trim())
+        .filter(Boolean)
+    ).size;
+
+    const summary = document.createElement("div");
+    summary.className = "vessel-berth-group-summary";
+    summary.textContent =
+      `${normalized.length} Anlege-Sichtungen · ${uniqueVessels} ` +
+      `${uniqueVessels === 1 ? "Schiff" : "Schiffe"}`;
+    container.append(summary);
+
+    const list = document.createElement("div");
+    list.className = "vessel-berth-history-list";
+
+    normalized.forEach(record => {
+      const item = document.createElement("div");
+      item.className = "vessel-berth-history-item";
+
+      const heading = document.createElement("div");
+      heading.className = "vessel-berth-history-title";
+      heading.textContent =
+        record?.vessel_name ||
+        record?.vessel_id ||
+        "Schiff";
+      item.append(heading);
+
+      const date = document.createElement("div");
+      date.textContent = formatDateTime(record?.captured_at);
+      item.append(date);
+
+      if (record?.submission_id) {
+        const sighting = document.createElement("div");
+        sighting.textContent = `Sichtung: ${record.submission_id}`;
+        item.append(sighting);
+      }
+
+      if (record?.vessel_id) {
+        const link = document.createElement("a");
+        link.href =
+          `vessel.html?id=${encodeURIComponent(record.vessel_id)}`;
+        link.textContent = "Schiff öffnen";
+        link.className = "map-popup-link";
+        item.append(link);
+      }
+
+      list.append(item);
+    });
+
+    container.append(list);
+
+    const note = document.createElement("div");
+    note.className = "vessel-berth-position-note";
+    note.textContent =
+      "Marker = Position der erfassten Anlegestelle, kein Schiff-GPS.";
+    container.append(note);
+
+    return container;
+  }
+
+  function vesselBerthGroupIcon(count) {
+    const safeCount = Math.max(2, Number(count) || 2);
+    return L.divIcon({
+      className: "",
+      html:
+        '<div class="vessel-berth-marker vessel-berth-group-marker" aria-hidden="true">' +
+        '<svg viewBox="0 0 36 36" focusable="false" aria-hidden="true">' +
+        '<path d="M8 17h20l-2 8c-3 2-5 3-8 3s-5-1-8-3l-2-8Z" />' +
+        '<path d="M12 17V10h11v7M16 10V6h5v4" />' +
+        '<path d="M5 29c3 2 6 2 9 0 3 2 6 2 9 0 3 2 6 2 9 0" />' +
+        '</svg>' +
+        `<span class="vessel-berth-group-count">${safeCount}</span>` +
+        '</div>',
+      iconSize: [42, 42],
+      iconAnchor: [21, 21]
+    });
+  }
+
+  function createVesselBerthGroupMarker(
+    map,
+    records,
+    berth,
+    options = {}
+  ) {
+    const coords = validCoordinates(
+      berth?.latitude,
+      berth?.longitude
+    );
+    if (!coords) return null;
+
+    const normalized = Array.isArray(records)
+      ? records.filter(Boolean)
+      : [];
+    if (normalized.length < 2) return null;
+
+    const marker = L.marker(
+      [coords.latitude, coords.longitude],
+      {
+        icon: vesselBerthGroupIcon(normalized.length),
+        zIndexOffset: 470
+      }
+    );
+
+    marker.bindPopup(
+      vesselBerthGroupPopup(normalized, berth),
+      { maxWidth: 390 }
+    );
+
+    const berthName =
+      berth?.short_name ||
+      berth?.public_name ||
+      berth?.name ||
+      "Anlegestelle";
+
+    marker.bindTooltip(
+      `${berthName}<br>${normalized.length} Anlege-Sichtungen`,
+      {
+        permanent: false,
+        sticky: true,
+        direction: "top",
+        opacity: 0.97,
+        className: "vessel-berth-hover-tooltip"
+      }
+    );
+
+    if (options.addToMap !== false) {
+      marker.addTo(map);
+    }
+
+    return marker;
+  }
+
   function createPhotoVesselConnection(
     map,
     photoCoordinates,
@@ -891,6 +1046,7 @@
     addBerthLayers,
     createPhotoMarker,
     createVesselBerthMarker,
+    createVesselBerthGroupMarker,
     createPhotoVesselConnection
   });
 })();

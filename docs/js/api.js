@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/api.js
-// Version: 0.14.38
+// Version: 0.14.39
 // Updated: 2026-08-20
 
 "use strict";
@@ -208,6 +208,28 @@
     });
   }
 
+  async function updateVesselPhotoRelation({
+    workerUrl,
+    apiKey = "",
+    vesselId,
+    photoId,
+    relationType = "vessel",
+    submissionId = ""
+  }) {
+    return request({
+      workerUrl,
+      path: "/vessel-photo-relation",
+      method: "POST",
+      apiKey,
+      body: {
+        vessel_id: vesselId,
+        photo_id: photoId,
+        relation_type: relationType,
+        submission_id: submissionId
+      }
+    });
+  }
+
   async function reviewSubmission({
     workerUrl,
     apiKey = "",
@@ -243,6 +265,7 @@
     createVessel,
     getBerths,
     updateSubmissionBerth,
+    updateVesselPhotoRelation,
     reviewSubmission
   };
 })();

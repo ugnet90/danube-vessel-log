@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.14.38
+// Version: 0.14.39
 // Updated: 2026-08-20
 
 "use strict";
@@ -29,9 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let photoMap = null;
   let photoMapAreaLayers = null;
   let photoMapBerthLayers = null;
-  let photoMapMarker = null;
+  let photoMapMarkers = [];
   let photoMapVesselMarker = null;
-  let photoMapConnectionLine = null;
+  let photoMapConnectionLines = [];
   let photoMapBerths = [];
   let photoMapAreasPromise = null;
   let photoMapBerthsPromise = null;
@@ -430,6 +430,159 @@ document.addEventListener("DOMContentLoaded", () => {
       .join(" · ");
   }
 
+  function directPhotoRelation(photo) {
+    const type =
+      String(photo?.relation?.type || "").trim() === "sighting"
+        ? "sighting"
+        : "vessel";
+    const submissionId =
+      type === "sighting"
+        ? String(photo?.relation?.submission_id || "").trim()
+        : "";
+
+    return {
+      type: submissionId ? "sighting" : "vessel",
+      submission_id: submissionId
+    };
+  }
+
+  function linkedDirectPhotosForSighting(
+    sighting,
+    directPhotos = currentPayload?.direct_photos
+  ) {
+    const submissionId = String(
+      sighting?.submission_id || ""
+    ).trim();
+    if (!submissionId) return [];
+
+    return (Array.isArray(directPhotos) ? directPhotos : [])
+      .filter(photo => {
+        const relation = directPhotoRelation(photo);
+        return (
+          relation.type === "sighting" &&
+          relation.submission_id === submissionId
+        );
+      });
+  }
+
+  function relatedSightingForDirectPhoto(
+    photo,
+    sightings = currentPayload?.sightings
+  ) {
+    const relation = directPhotoRelation(photo);
+    if (relation.type !== "sighting") return null;
+
+    return (Array.isArray(sightings) ? sightings : [])
+      .find(sighting =>
+        String(sighting?.submission_id || "").trim() ===
+          relation.submission_id
+      ) || null;
+  }
+
+  function sightingChoiceLabel(sighting) {
+    return [
+      dateTime(sighting?.captured_at),
+      sightingPlaceLabel(sighting),
+      String(sighting?.submission_id || "").trim()
+    ].filter(Boolean).join(" · ");
+  }
+
+  async function saveDirectPhotoRelation(
+    photo,
+    select,
+    button
+  ) {
+    const photoId = String(photo?.photo_id || "").trim();
+    if (!photoId) return;
+
+    const submissionId = String(select.value || "").trim();
+    const relationType = submissionId ? "sighting" : "vessel";
+    const originalText = button.textContent;
+
+    button.disabled = true;
+    select.disabled = true;
+    button.textContent = "Speichert …";
+    pageStatus.className = "page-status";
+    pageStatus.textContent = "Foto-Zuordnung wird gespeichert …";
+
+    try {
+      await window.VesselApi.updateVesselPhotoRelation({
+        workerUrl,
+        apiKey: apiKey.value,
+        vesselId,
+        photoId,
+        relationType,
+        submissionId
+      });
+
+      await load();
+      pageStatus.className = "page-status success";
+      pageStatus.textContent = submissionId
+        ? "Das Zusatzfoto wurde der Sichtung zugeordnet. Für die Gesamtkarte bitte den Rebuild ausführen."
+        : "Der Sichtungsbezug wurde entfernt. Für die Gesamtkarte bitte den Rebuild ausführen.";
+    } catch (error) {
+      pageStatus.className = "page-status error";
+      pageStatus.textContent =
+        error instanceof Error ? error.message : String(error);
+      button.disabled = false;
+      select.disabled = false;
+      button.textContent = originalText;
+    }
+  }
+
+  function createDirectPhotoRelationControl(
+    photo,
+    sightings
+  ) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "photo-relation-control";
+
+    const label = document.createElement("label");
+    const title = document.createElement("span");
+    title.textContent = "Zuordnung";
+
+    const select = document.createElement("select");
+    select.setAttribute(
+      "aria-label",
+      "Zusatzfoto einer Sichtung zuordnen"
+    );
+
+    const vesselOnly = document.createElement("option");
+    vesselOnly.value = "";
+    vesselOnly.textContent = "Nur zum Schiff";
+    select.append(vesselOnly);
+
+    (Array.isArray(sightings) ? sightings : [])
+      .forEach(sighting => {
+        const submissionId = String(
+          sighting?.submission_id || ""
+        ).trim();
+        if (!submissionId) return;
+        const option = document.createElement("option");
+        option.value = submissionId;
+        option.textContent = sightingChoiceLabel(sighting);
+        select.append(option);
+      });
+
+    const relation = directPhotoRelation(photo);
+    select.value = relation.type === "sighting"
+      ? relation.submission_id
+      : "";
+
+    const saveButton = document.createElement("button");
+    saveButton.type = "button";
+    saveButton.className = "secondary-button photo-relation-save";
+    saveButton.textContent = "Zuordnung speichern";
+    saveButton.disabled = !photo?.photo_id;
+    saveButton.addEventListener("click", () =>
+      saveDirectPhotoRelation(photo, select, saveButton)
+    );
+
+    label.append(title, select);
+    wrapper.append(label, saveButton);
+    return wrapper;
+  }
+
   function loadScriptOnce(src, test) {
     if (test()) return Promise.resolve();
     return new Promise((resolve, reject) => {
@@ -559,40 +712,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const context = await ensurePhotoMap();
-      const coords = context.maps.validCoordinates(
+      const selectedCoords = context.maps.validCoordinates(
         photo?.photo_lat,
         photo?.photo_lon
       );
-      if (!coords) {
+      if (!selectedCoords) {
         closePhotoMapModal();
         return;
       }
+
       photoMap.invalidateSize();
 
-      for (const layer of [
-        photoMapMarker,
-        photoMapVesselMarker,
-        photoMapConnectionLine
-      ]) {
-        if (layer && photoMap.hasLayer(layer)) {
-          photoMap.removeLayer(layer);
+      for (const marker of photoMapMarkers) {
+        if (marker && photoMap.hasLayer(marker)) {
+          photoMap.removeLayer(marker);
         }
       }
+      for (const line of photoMapConnectionLines) {
+        if (line && photoMap.hasLayer(line)) {
+          photoMap.removeLayer(line);
+        }
+      }
+      if (
+        photoMapVesselMarker &&
+        photoMap.hasLayer(photoMapVesselMarker)
+      ) {
+        photoMap.removeLayer(photoMapVesselMarker);
+      }
 
-      photoMapMarker = null;
+      photoMapMarkers = [];
+      photoMapConnectionLines = [];
       photoMapVesselMarker = null;
-      photoMapConnectionLine = null;
 
       const capturedAt = String(
         photo?.captured_at || fallbackCapturedAt || ""
       ).trim();
-      const matches = context.maps.matchingAreas(
+      const selectedMatches = context.maps.matchingAreas(
         context.areas,
-        coords.latitude,
-        coords.longitude
+        selectedCoords.latitude,
+        selectedCoords.longitude
       );
-      const inferred = matches[0]
-        ? context.maps.areaName(matches[0])
+      const inferred = selectedMatches[0]
+        ? context.maps.areaName(selectedMatches[0])
         : "Kein Polygon-Treffer";
       const stored = locationLabel(photo?.location);
       const vesselName =
@@ -603,34 +764,119 @@ document.addEventListener("DOMContentLoaded", () => {
       const infoParts = [
         vesselName ? `Schiff: ${vesselName}` : "",
         context.maps.formatDateTime(capturedAt),
-        `GPS: ${coords.latitude.toFixed(7)} / ${coords.longitude.toFixed(7)}`,
+        `GPS: ${selectedCoords.latitude.toFixed(7)} / ${selectedCoords.longitude.toFixed(7)}`,
         stored && stored !== "–" ? `gespeichert: ${stored}` : "",
         `Polygon: ${inferred}`
       ];
 
-      photoMapMarker = context.maps.createPhotoMarker(
-        photoMap,
-        {
-          ...photo,
-          captured_at: capturedAt,
-          vessel_id: vesselId,
-          vessel_name: vesselName,
-          submission_id:
-            photo?.submission_id ||
-            sighting?.submission_id ||
-            "",
-          location: {
-            ...(photo?.location || {}),
-            name: stored && stored !== "–" ? stored : inferred
-          }
-        },
-        {
-          color: "#991b1b",
-          fillColor: "#ffffff",
-          radius: 9,
-          weight: 4
+      const photoKey = item =>
+        String(item?.photo_id || "").trim() ||
+        String(item?.path || "").trim() ||
+        [
+          item?.photo_lat,
+          item?.photo_lon,
+          item?.captured_at
+        ].join("|");
+
+      const selectedKey = photoKey(photo);
+      const contextPhotos = sighting
+        ? [
+            ...(Array.isArray(sighting?.photos)
+              ? sighting.photos
+              : []),
+            ...linkedDirectPhotosForSighting(sighting)
+          ]
+        : [photo];
+
+      if (!contextPhotos.some(item => photoKey(item) === selectedKey)) {
+        contextPhotos.push(photo);
+      }
+
+      const uniquePhotos = [];
+      const seenPhotoKeys = new Set();
+      for (const item of contextPhotos) {
+        const key = photoKey(item);
+        if (!key || seenPhotoKeys.has(key)) continue;
+        seenPhotoKeys.add(key);
+        uniquePhotos.push(item);
+      }
+
+      const bounds = L.latLngBounds();
+      let selectedMarker = null;
+      let validPhotoCount = 0;
+
+      for (const mapPhoto of uniquePhotos) {
+        const coords = context.maps.validCoordinates(
+          mapPhoto?.photo_lat,
+          mapPhoto?.photo_lon
+        );
+        if (!coords) continue;
+
+        validPhotoCount += 1;
+        bounds.extend([coords.latitude, coords.longitude]);
+
+        const isSelected = photoKey(mapPhoto) === selectedKey;
+        const mapCapturedAt = String(
+          mapPhoto?.captured_at ||
+          sighting?.captured_at ||
+          fallbackCapturedAt ||
+          ""
+        ).trim();
+        const matches = context.maps.matchingAreas(
+          context.areas,
+          coords.latitude,
+          coords.longitude
+        );
+        const photoInferred = matches[0]
+          ? context.maps.areaName(matches[0])
+          : "Kein Polygon-Treffer";
+        const photoStored = locationLabel(mapPhoto?.location);
+        const relation = directPhotoRelation(mapPhoto);
+        const isDirect =
+          String(mapPhoto?.source || "").includes("direct") ||
+          relation.type === "sighting";
+
+        const marker = context.maps.createPhotoMarker(
+          photoMap,
+          {
+            ...mapPhoto,
+            source_type: isDirect ? "direct" : "sighting",
+            captured_at: mapCapturedAt,
+            vessel_id: vesselId,
+            vessel_name: vesselName,
+            submission_id:
+              sighting?.submission_id ||
+              relation.submission_id ||
+              mapPhoto?.submission_id ||
+              "",
+            location: {
+              ...(mapPhoto?.location || {}),
+              name:
+                photoStored && photoStored !== "–"
+                  ? photoStored
+                  : photoInferred
+            }
+          },
+          isSelected
+            ? {
+                color: "#991b1b",
+                fillColor: "#ffffff",
+                radius: 9,
+                weight: 4
+              }
+            : {
+                color: "#111827",
+                fillColor: "#facc15",
+                radius: 7,
+                weight: 2
+              }
+        );
+
+        if (marker) {
+          photoMapMarkers.push(marker);
+          if (isSelected) selectedMarker = marker;
         }
-      );
+      }
 
       let berthCoordinates = null;
       const berthId = String(sighting?.berth?.id || "").trim();
@@ -649,6 +895,11 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         if (berth && berthCoordinates) {
+          bounds.extend([
+            berthCoordinates.latitude,
+            berthCoordinates.longitude
+          ]);
+
           photoMapVesselMarker =
             context.maps.createVesselBerthMarker(
               photoMap,
@@ -665,12 +916,29 @@ document.addEventListener("DOMContentLoaded", () => {
               berth
             );
 
-          photoMapConnectionLine =
-            context.maps.createPhotoVesselConnection(
-              photoMap,
-              coords,
-              berthCoordinates
+          for (const mapPhoto of uniquePhotos) {
+            const coords = context.maps.validCoordinates(
+              mapPhoto?.photo_lat,
+              mapPhoto?.photo_lon
             );
+            if (!coords) continue;
+
+            const line =
+              context.maps.createPhotoVesselConnection(
+                photoMap,
+                coords,
+                berthCoordinates,
+                {
+                  tooltip:
+                    `${vesselName}: Foto-Aufnahmeort → ` +
+                    `${berth?.short_name || berth?.public_name || berthId}`
+                }
+              );
+
+            if (line) {
+              photoMapConnectionLines.push(line);
+            }
+          }
 
           const berthName =
             berth?.short_name ||
@@ -680,6 +948,8 @@ document.addEventListener("DOMContentLoaded", () => {
             berthId;
 
           infoParts.push(
+            `Sichtung: ${sighting?.submission_id || "–"}`,
+            `${validPhotoCount} Aufnahmeort${validPhotoCount === 1 ? "" : "e"}`,
             `Schiffmarker: ${berthName} (Anlegestelle, kein Schiff-GPS)`
           );
         }
@@ -688,20 +958,18 @@ document.addEventListener("DOMContentLoaded", () => {
       photoMapInfo.textContent =
         infoParts.filter(Boolean).join(" · ");
 
-      if (berthCoordinates) {
-        const bounds = L.latLngBounds([
-          [coords.latitude, coords.longitude],
-          [berthCoordinates.latitude, berthCoordinates.longitude]
-        ]);
-        photoMap.fitBounds(bounds.pad(0.35), { maxZoom: 18 });
-      } else {
-        photoMap.setView(
-          [coords.latitude, coords.longitude],
-          18
-        );
+      if (bounds.isValid()) {
+        if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+          photoMap.setView(
+            [selectedCoords.latitude, selectedCoords.longitude],
+            18
+          );
+        } else {
+          photoMap.fitBounds(bounds.pad(0.25), { maxZoom: 18 });
+        }
       }
 
-      photoMapMarker?.openPopup();
+      selectedMarker?.openPopup();
     } catch (error) {
       photoMapInfo.textContent =
         error instanceof Error ? error.message : String(error);
@@ -3876,7 +4144,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderDirectPhotos(
     photos,
-    primaryPhoto
+    primaryPhoto,
+    sightings
   ) {
     const gallery =
       byId("directPhotosGallery");
@@ -3884,10 +4153,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const empty =
       byId("directPhotosEmpty");
 
-    const normalizedPhotos =
+    const allDirectPhotos =
       Array.isArray(photos)
         ? photos
         : [];
+
+    const validSightingIds = new Set(
+      (Array.isArray(sightings) ? sightings : [])
+        .map(sighting => String(
+          sighting?.submission_id || ""
+        ).trim())
+        .filter(Boolean)
+    );
+
+    /*
+     * Zusatzfotos mit gültigem Sichtungsbezug werden bei der
+     * betreffenden Sichtung dargestellt. Nur ungebundene oder
+     * verwaiste Zusatzfotos bleiben in diesem Abschnitt sichtbar.
+     */
+    const normalizedPhotos = allDirectPhotos.filter(photo => {
+      const relation = directPhotoRelation(photo);
+      return !(
+        relation.type === "sighting" &&
+        validSightingIds.has(relation.submission_id)
+      );
+    });
 
     const primaryPhotoId =
       typeof primaryPhoto?.photo_id ===
@@ -3960,6 +4250,20 @@ document.addEventListener("DOMContentLoaded", () => {
         metadata
       );
 
+      const relation = directPhotoRelation(photo);
+      if (
+        relation.type === "sighting" &&
+        !validSightingIds.has(relation.submission_id)
+      ) {
+        photoCard.append(
+          createTextElement(
+            "p",
+            "photo-relation-warning",
+            `Zugeordnete Sichtung ${relation.submission_id} wurde nicht gefunden.`
+          )
+        );
+      }
+
       const mapLink =
         createPhotoMapLink(photo);
 
@@ -3981,6 +4285,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       photoCard.append(
+        createDirectPhotoRelationControl(
+          photo,
+          sightings
+        )
+      );
+
+      photoCard.append(
         createPhotoActionButtons({
           photo,
           sighting: null,
@@ -3999,6 +4310,11 @@ document.addEventListener("DOMContentLoaded", () => {
       "hidden",
       !hasPhotos
     );
+
+    empty.textContent =
+      allDirectPhotos.length > 0 && !hasPhotos
+        ? "Alle Zusatzfotos sind konkreten Sichtungen zugeordnet."
+        : "Keine zusätzlichen Schiffsfotos vorhanden.";
 
     empty.classList.toggle(
       "hidden",
@@ -4133,16 +4449,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
         header.append(headingGroup);
 
+        const originalPhotos =
+          Array.isArray(sighting.photos)
+            ? sighting.photos
+            : [];
+
+        const linkedDirectPhotos =
+          linkedDirectPhotosForSighting(
+            sighting,
+            directPhotos
+          );
+
         const photoCount =
-          Number(sighting.photo_count || 0);
+          originalPhotos.length +
+          linkedDirectPhotos.length;
+
+        const photoCountText =
+          `${photoCount} Foto${photoCount === 1 ? "" : "s"}` +
+          (linkedDirectPhotos.length
+            ? ` (${linkedDirectPhotos.length} nachträglich)`
+            : "");
 
         header.append(
           createTextElement(
             "span",
             "sighting-photo-count",
-            `${photoCount} Foto${
-              photoCount === 1 ? "" : "s"
-            }`
+            photoCountText
           )
         );
 
@@ -4171,10 +4503,18 @@ document.addEventListener("DOMContentLoaded", () => {
           );
         }
 
-        const photos =
-          Array.isArray(sighting.photos)
-            ? sighting.photos
-            : [];
+        const photos = [
+          ...originalPhotos.map(photo => ({
+            photo,
+            source: "sighting",
+            linked: false
+          })),
+          ...linkedDirectPhotos.map(photo => ({
+            photo,
+            source: "direct",
+            linked: true
+          }))
+        ];
 
         if (photos.length > 0) {
           const gallery =
@@ -4183,7 +4523,8 @@ document.addEventListener("DOMContentLoaded", () => {
           gallery.className =
             "sighting-gallery";
 
-          for (const photo of photos) {
+          for (const photoEntry of photos) {
+            const photo = photoEntry.photo;
             const photoUrl = safeUrl(
               photo?.url ?? ""
             );
@@ -4235,11 +4576,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
             photoCard.append(link);
 
-            const photoMetadata =
-              sightingPhotoMetadataLabel(
-                photo,
-                sighting
+            if (photoEntry.linked) {
+              photoCard.append(
+                createTextElement(
+                  "span",
+                  "linked-sighting-photo-badge",
+                  "Nachträglich ergänzt"
+                )
               );
+            }
+
+            const photoMetadata =
+              photoEntry.linked
+                ? directPhotoMetadataLabel(photo)
+                : sightingPhotoMetadataLabel(
+                    photo,
+                    sighting
+                  );
 
             if (photoMetadata) {
               photoCard.append(
@@ -4262,11 +4615,23 @@ document.addEventListener("DOMContentLoaded", () => {
               photoCard.append(mapLink);
             }
 
+            if (photoEntry.linked) {
+              photoCard.append(
+                createDirectPhotoRelationControl(
+                  photo,
+                  normalizedSightings
+                )
+              );
+            }
+
             photoCard.append(
               createPhotoActionButtons({
                 photo,
-                sighting,
-                source: "sighting",
+                sighting:
+                  photoEntry.linked
+                    ? null
+                    : sighting,
+                source: photoEntry.source,
                 primaryPhotoId
               })
             );
@@ -4552,7 +4917,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderDirectPhotos(
       payload.direct_photos,
-      payload.primary_photo
+      payload.primary_photo,
+      payload.sightings
     );
 
     renderSightings(

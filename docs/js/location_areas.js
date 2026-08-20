@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_areas.js
- * Version: 0.14.38
+ * Version: 0.14.39
  * Updated: 2026-08-20
  */
 
@@ -47,6 +47,7 @@
   let berthLayers;
   let photoLayer = L.layerGroup();
   let vesselBerthLayer = L.layerGroup();
+  let connectionLayer = L.layerGroup();
   let selectedPhotoLayer = null;
 
   function selectedPhotoFromQuery() {
@@ -136,20 +137,29 @@
       return false;
     }
 
+    /*
+     * Sobald explizit nach einer Fotoart gefiltert wird,
+     * wird eine Schiffsposition nur dann gezeigt, wenn mindestens
+     * ein aktuell sichtbares Foto genau zu dieser Sichtung gehört.
+     * Damit können auch nachträglich zugeordnete Zusatzfotos
+     * ihren Sichtungs-/Schiffspunkt einblenden.
+     */
+    if (sourceFilter.value) {
+      const submissionId = String(
+        sighting?.submission_id || ""
+      ).trim();
+
+      return Boolean(submissionId) && photos.some(photo =>
+        String(photo?.submission_id || "").trim() === submissionId &&
+        photoMatches(photo)
+      );
+    }
+
     if (
       areaFilter.value &&
       String(sighting?.location?.name || "") !==
         areaFilter.value
     ) {
-      return false;
-    }
-
-    /*
-     * Eine Anlegeposition ist eine Sichtungsebene.
-     * Beim expliziten Filter auf direkte Zusatzfotos
-     * dürfen deshalb keine Schiffmarker erscheinen.
-     */
-    if (sourceFilter.value === "direct") {
       return false;
     }
 
@@ -178,6 +188,7 @@
 
     setLayerVisible(photoLayer, showPhotos.checked);
     photoCount.textContent = `${visiblePhotos.length} ${visiblePhotos.length === 1 ? "Foto" : "Fotos"}`;
+    return visiblePhotos;
   }
 
   function berthById() {
@@ -217,17 +228,102 @@
       .filter(Boolean);
   }
 
-  function renderVesselBerths() {
+  function renderConnections(entries, visiblePhotos) {
+    connectionLayer.clearLayers();
+
+    const bySubmission = new Map(
+      entries
+        .map(entry => [
+          String(entry?.record?.submission_id || "").trim(),
+          entry
+        ])
+        .filter(([submissionId]) => Boolean(submissionId))
+    );
+
+    for (const photo of visiblePhotos) {
+      const submissionId = String(
+        photo?.submission_id || ""
+      ).trim();
+      if (!submissionId || !bySubmission.has(submissionId)) {
+        continue;
+      }
+
+      const entry = bySubmission.get(submissionId);
+      const photoCoordinates = maps.validCoordinates(
+        photo?.photo_lat,
+        photo?.photo_lon
+      );
+      const berthCoordinates = maps.validCoordinates(
+        entry?.berth?.latitude,
+        entry?.berth?.longitude
+      );
+      if (!photoCoordinates || !berthCoordinates) continue;
+
+      const vesselName =
+        entry?.record?.vessel_name ||
+        entry?.record?.vessel_id ||
+        "Schiff";
+      const berthName =
+        entry?.berth?.short_name ||
+        entry?.berth?.public_name ||
+        entry?.record?.berth?.short_name ||
+        entry?.record?.berth?.name ||
+        "Anlegestelle";
+
+      const line = maps.createPhotoVesselConnection(
+        map,
+        photoCoordinates,
+        berthCoordinates,
+        {
+          addToMap: false,
+          tooltip:
+            `${vesselName}: Foto-Aufnahmeort → ${berthName}`
+        }
+      );
+
+      if (line) line.addTo(connectionLayer);
+    }
+
+    setLayerVisible(
+      connectionLayer,
+      showPhotos.checked && showVesselBerths.checked
+    );
+  }
+
+  function renderVesselBerths(visiblePhotos) {
     vesselBerthLayer.clearLayers();
     const entries = vesselBerthRecords();
 
+    const groups = new Map();
     for (const entry of entries) {
-      const marker = maps.createVesselBerthMarker(
-        map,
-        entry.record,
-        entry.berth,
-        { addToMap: false }
-      );
+      const berthId = String(
+        entry?.record?.berth_id || ""
+      ).trim();
+      if (!berthId) continue;
+      if (!groups.has(berthId)) groups.set(berthId, []);
+      groups.get(berthId).push(entry);
+    }
+
+    for (const groupedEntries of groups.values()) {
+      const berth = groupedEntries[0]?.berth;
+      let marker = null;
+
+      if (groupedEntries.length === 1) {
+        marker = maps.createVesselBerthMarker(
+          map,
+          groupedEntries[0].record,
+          berth,
+          { addToMap: false }
+        );
+      } else {
+        marker = maps.createVesselBerthGroupMarker(
+          map,
+          groupedEntries.map(entry => entry.record),
+          berth,
+          { addToMap: false }
+        );
+      }
+
       if (marker) marker.addTo(vesselBerthLayer);
     }
 
@@ -235,6 +331,8 @@
       vesselBerthLayer,
       showVesselBerths.checked
     );
+
+    renderConnections(entries, visiblePhotos);
 
     const uniqueVessels = new Set(
       entries
@@ -252,8 +350,8 @@
   }
 
   function renderMapData() {
-    renderPhotos();
-    renderVesselBerths();
+    const visiblePhotos = renderPhotos();
+    renderVesselBerths(visiblePhotos);
   }
 
   function renderAreaList() {
@@ -317,8 +415,8 @@
   function wireControls() {
     showAreas.addEventListener("change", () => setLayerVisible(areaLayers.group, showAreas.checked));
     showBerths.addEventListener("change", () => setLayerVisible(berthLayers?.group, showBerths.checked));
-    showPhotos.addEventListener("change", () => setLayerVisible(photoLayer, showPhotos.checked));
-    showVesselBerths.addEventListener("change", () => setLayerVisible(vesselBerthLayer, showVesselBerths.checked));
+    showPhotos.addEventListener("change", renderMapData);
+    showVesselBerths.addEventListener("change", renderMapData);
     showVertices.addEventListener("change", () => setLayerVisible(areaLayers.vertexGroup, showVertices.checked));
 
     [vesselFilter, areaFilter, sourceFilter, dateFrom, dateTo, labelMode]
@@ -358,6 +456,7 @@
       weight: 4
     });
 
+    connectionLayer.addTo(map);
     photoLayer.addTo(map);
     vesselBerthLayer.addTo(map);
 
@@ -380,9 +479,11 @@
 
     showSelectedPhoto();
 
-    const indexNote = locationIndexSchemaVersion >= 2
+    const indexNote = locationIndexSchemaVersion >= 3
       ? `${sightings.length} bestätigte Sichtungen`
-      : "Kartenindex noch ohne Sichtungsebene – Rebuild ausführen";
+      : locationIndexSchemaVersion >= 2
+        ? `${sightings.length} bestätigte Sichtungen · Rebuild für Zusatzfoto-Bezüge ausführen`
+        : "Kartenindex noch ohne Sichtungsebene – Rebuild ausführen";
 
     status.textContent =
       `${areas.length} Bereiche · ${berths.length} Anlegestellen · ` +
