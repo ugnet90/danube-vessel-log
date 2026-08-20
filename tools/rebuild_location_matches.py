@@ -2,7 +2,7 @@
 """
 Danube Vessel Log
 File: tools/rebuild_location_matches.py
-Version: 0.14.38
+Version: 0.14.39
 Updated: 2026-08-20
 
 Einmaliges bzw. wiederholbares Wartungswerkzeug zur nachträglichen
@@ -401,6 +401,16 @@ def normalized_berth_for_index(value: Any) -> dict[str, Any] | None:
     }
 
 
+def normalized_direct_photo_relation(value: Any) -> dict[str, str]:
+    if not isinstance(value, dict):
+        return {"type": "vessel", "submission_id": ""}
+    relation_type = str(value.get("type", "")).strip()
+    submission_id = str(value.get("submission_id", "")).strip()
+    if relation_type == "sighting" and submission_id.startswith("SUB-"):
+        return {"type": "sighting", "submission_id": submission_id}
+    return {"type": "vessel", "submission_id": ""}
+
+
 def photo_index_record(
     *,
     photo: dict[str, Any],
@@ -412,6 +422,7 @@ def photo_index_record(
     fallback_location: Any = None,
     berth: Any = None,
     movement: str = "",
+    relation: Any = None,
 ) -> dict[str, Any] | None:
     lat = parse_coordinate(photo.get("photo_lat"))
     lon = parse_coordinate(photo.get("photo_lon"))
@@ -434,6 +445,11 @@ def photo_index_record(
         "location": normalize_location_block(location_value),
         "berth": normalized_berth_for_index(berth),
         "movement": str(movement or "").strip(),
+        "relation": (
+            {"type": "sighting", "submission_id": submission_id}
+            if source_type == "sighting" and submission_id
+            else normalized_direct_photo_relation(relation)
+        ),
         "path": str(photo.get("path", "")).strip(),
     }
 
@@ -533,11 +549,14 @@ def build_photo_locations_document() -> dict[str, Any]:
         for photo in photos:
             if not isinstance(photo, dict):
                 continue
+            relation = normalized_direct_photo_relation(photo.get("relation"))
             record = photo_index_record(
                 photo=photo,
                 source_type="direct",
                 vessel_id=vessel_id,
                 vessel_name=vessel_name,
+                submission_id=relation.get("submission_id", ""),
+                relation=relation,
             )
             if record:
                 photo_records.append(record)
@@ -564,7 +583,7 @@ def build_photo_locations_document() -> dict[str, Any]:
     )
 
     return {
-        "schema_version": 2,
+        "schema_version": 3,
         "updated_at": updated_at,
         "count": len(photo_records),
         "photos": photo_records,
@@ -647,18 +666,25 @@ def rebuild_direct_vessel_photos(path: Path, locations: list[dict[str, Any]], ar
     scanned = 0
     for photo in photos:
         scanned += 1
-        if not should_rebuild(photo.get("location")):
-            continue
-        lat = parse_coordinate(photo.get("photo_lat"))
-        lon = parse_coordinate(photo.get("photo_lon"))
-        if lat is None or lon is None:
-            continue
-        new_location = resolve_location(lat, lon, locations, areas)
-        old_location = normalize_location_block(photo.get("location"))
-        if locations_equal(old_location, new_location):
-            continue
-        photo["location"] = new_location
-        changed += 1
+        photo_changed = False
+
+        normalized_relation = normalized_direct_photo_relation(photo.get("relation"))
+        if photo.get("relation") != normalized_relation:
+            photo["relation"] = normalized_relation
+            photo_changed = True
+
+        if should_rebuild(photo.get("location")):
+            lat = parse_coordinate(photo.get("photo_lat"))
+            lon = parse_coordinate(photo.get("photo_lon"))
+            if lat is not None and lon is not None:
+                new_location = resolve_location(lat, lon, locations, areas)
+                old_location = normalize_location_block(photo.get("location"))
+                if not locations_equal(old_location, new_location):
+                    photo["location"] = new_location
+                    photo_changed = True
+
+        if photo_changed:
+            changed += 1
     if changed and apply_changes:
         write_json(path, document)
     return scanned, changed
