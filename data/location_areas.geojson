@@ -2,9 +2,9 @@
   "type": "FeatureCollection",
   "schema_version": 1,
   "project": "Danube Vessel Log",
-  "version": "0.14.30",
+  "version": "0.14.32",
   "updated_at": "2026-08-20",
-  "description": "GPS-Aufnahmebereiche Linz. Die Geometrien dieser Version wurden ohne geometrische Interpretation, Glättung, Pufferung oder Verschiebung 1:1 aus dem vom Nutzer gelieferten uMap-GeoJSON übernommen.",
+  "description": "GPS-Aufnahmebereiche Linz. Die Geometrien wurden 1:1 aus dem vom Nutzer in uMap verfeinerten GeoJSON übernommen; insbesondere die Grenzbereiche zwischen Nibelungenbrücke und den angrenzenden Uferbereichen wurden präzisiert.",
   "features": [
     {
       "type": "Feature",
@@ -16,8 +16,8 @@
         "municipality": "Linz",
         "country": "Österreich",
         "priority": 100,
-        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis gezeichneter Aufnahmebereich der Nibelungenbrücke.",
-        "geometry_source": "uMap-GeoJSON des Nutzers; 1:1 übernommen am 2026-08-20"
+        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis präzise nachgezeichneter Aufnahmebereich der Nibelungenbrücke. Die Grenzbereiche zur Nibelungenbrücke wurden am 2026-08-20 gezielt verfeinert.",
+        "geometry_source": "uMap-GeoJSON des Nutzers; Geometrie 1:1 übernommen am 2026-08-20"
       },
       "geometry": {
         "type": "Polygon",
@@ -48,28 +48,28 @@
               48.307165
             ],
             [
-              14.285343,
-              48.307144
+              14.285341,
+              48.307147
             ],
             [
               14.285477,
               48.307001
             ],
             [
-              14.285982,
-              48.307133
+              14.28592,
+              48.307124
             ],
             [
               14.285815,
               48.307312
             ],
             [
-              14.28574,
-              48.307312
+              14.285743,
+              48.307328
             ],
             [
-              14.28426,
-              48.30932
+              14.284276,
+              48.309324
             ],
             [
               14.284394,
@@ -97,8 +97,8 @@
         "municipality": "Linz",
         "country": "Österreich",
         "priority": 80,
-        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis gezeichneter Aufnahmebereich der Oberen Donaulände.",
-        "geometry_source": "uMap-GeoJSON des Nutzers; 1:1 übernommen am 2026-08-20"
+        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis präzise nachgezeichneter Aufnahmebereich der Obere Donaulände. Die Grenzbereiche zur Nibelungenbrücke wurden am 2026-08-20 gezielt verfeinert.",
+        "geometry_source": "uMap-GeoJSON des Nutzers; Geometrie 1:1 übernommen am 2026-08-20"
       },
       "geometry": {
         "type": "Polygon",
@@ -174,8 +174,8 @@
         "municipality": "Linz",
         "country": "Österreich",
         "priority": 80,
-        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis gezeichneter Aufnahmebereich der Unteren Donaulände.",
-        "geometry_source": "uMap-GeoJSON des Nutzers; 1:1 übernommen am 2026-08-20"
+        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis präzise nachgezeichneter Aufnahmebereich der Untere Donaulände. Die Grenzbereiche zur Nibelungenbrücke wurden am 2026-08-20 gezielt verfeinert.",
+        "geometry_source": "uMap-GeoJSON des Nutzers; Geometrie 1:1 übernommen am 2026-08-20"
       },
       "geometry": {
         "type": "Polygon",
@@ -287,8 +287,8 @@
         "municipality": "Linz",
         "country": "Österreich",
         "priority": 80,
-        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis gezeichneter Aufnahmebereich am Donauufer Alt-Urfahr.",
-        "geometry_source": "uMap-GeoJSON des Nutzers; 1:1 übernommen am 2026-08-20"
+        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis präzise nachgezeichneter Aufnahmebereich am Donauufer Alt-Urfahr. Die Grenzbereiche zur Nibelungenbrücke wurden am 2026-08-20 gezielt verfeinert.",
+        "geometry_source": "uMap-GeoJSON des Nutzers; Geometrie 1:1 übernommen am 2026-08-20"
       },
       "geometry": {
         "type": "Polygon",
@@ -303,12 +303,20 @@
               48.309203
             ],
             [
-              14.28382,
-              48.309178
+              14.283828,
+              48.309181
             ],
             [
-              14.283678,
-              48.309197
+              14.283788,
+              48.309238
+            ],
+            [
+              14.283683,
+              48.309199
+            ],
+            [
+              14.283645,
+              48.309242
             ],
             [
               14.283509,
@@ -360,8 +368,8 @@
         "municipality": "Linz",
         "country": "Österreich",
         "priority": 80,
-        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis gezeichneter Aufnahmebereich der Urfahraner Donaulände.",
-        "geometry_source": "uMap-GeoJSON des Nutzers; 1:1 übernommen am 2026-08-20"
+        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis präzise nachgezeichneter Aufnahmebereich der Urfahraner Donaulände. Die Grenzbereiche zur Nibelungenbrücke wurden am 2026-08-20 gezielt verfeinert.",
+        "geometry_source": "uMap-GeoJSON des Nutzers; Geometrie 1:1 übernommen am 2026-08-20"
       },
       "geometry": {
         "type": "Polygon",
