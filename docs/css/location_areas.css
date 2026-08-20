@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/location_areas.css
- * Version: 0.14.38
+ * Version: 0.14.39
  * Updated: 2026-08-20
  */
 
@@ -82,3 +82,13 @@
 .vessel-berth-popup { line-height: 1.45; }
 .vessel-berth-popup strong { display: block; margin-bottom: 3px; }
 .vessel-berth-position-note { margin-top: 5px; color: #52606d; font-size: .86rem; }
+
+.vessel-berth-group-marker { position: relative; width: 40px; height: 40px; }
+.vessel-berth-group-count { position: absolute; right: -7px; top: -7px; min-width: 20px; height: 20px; padding: 0 4px; display: grid; place-items: center; border: 2px solid #fff; border-radius: 999px; background: #0f4c81; color: #fff; font-size: 10px; font-weight: 800; line-height: 1; box-sizing: border-box; box-shadow: 0 1px 4px rgba(0,0,0,.28); }
+.vessel-berth-group-popup { line-height: 1.4; }
+.vessel-berth-group-popup > strong { display: block; margin-bottom: 3px; }
+.vessel-berth-group-summary { margin-bottom: 8px; color: #52606d; font-size: .9rem; }
+.vessel-berth-history-list { display: grid; gap: 8px; max-height: 260px; overflow-y: auto; padding-right: 4px; }
+.vessel-berth-history-item { padding-top: 7px; border-top: 1px solid #e5e7eb; }
+.vessel-berth-history-item:first-child { padding-top: 0; border-top: 0; }
+.vessel-berth-history-title { font-weight: 750; }

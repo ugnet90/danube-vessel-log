@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/vessel.css
- * Version: 0.14.38
+ * Version: 0.14.39
  * Updated: 2026-08-20
  */
 
@@ -1200,3 +1200,12 @@ body.photo-map-open { overflow: hidden; }
   .photo-map-header p { font-size: .8rem; }
   .photo-map-canvas { min-height: 0; }
 }
+
+/* 0.14.39: Sichtungsbezug für nachträgliche Zusatzfotos */
+.photo-relation-control { display: grid; gap: 7px; margin-top: 8px; padding-top: 8px; border-top: 1px solid #e5e7eb; }
+.photo-relation-control label { display: grid; gap: 4px; color: #52606d; font-size: .82rem; }
+.photo-relation-control label > span { font-weight: 700; }
+.photo-relation-control select { width: 100%; min-height: 34px; box-sizing: border-box; }
+.photo-relation-save { width: 100%; min-height: 34px; }
+.linked-sighting-photo-badge { display: inline-block; margin: 7px 7px 0; padding: 3px 7px; border-radius: 999px; background: #e8f2ff; color: #0f4c81; font-size: .75rem; font-weight: 750; }
+.photo-relation-warning { margin: 6px 0; color: #9a3412; font-size: .82rem; }
