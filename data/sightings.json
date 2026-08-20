@@ -16,7 +16,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
         "name": "Urfahraner Donaulände, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       },
@@ -77,13 +77,14 @@
             "id": "LOC-001",
             "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
             "name": "Urfahraner Donaulände, Linz",
-            "municipality": "",
+            "municipality": "Linz",
             "country": "Österreich",
             "distance_m": null
           }
         }
       ],
-      "updated_at": "2026-08-20T12:50:33.552Z"
+      "updated_at": "2026-08-20T12:50:33.552Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260820-121908-E4BD96",
@@ -99,7 +100,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-ALT-URFAHR",
         "name": "Donauufer Alt-Urfahr, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       },
@@ -160,7 +161,7 @@
             "id": "LOC-001",
             "area_id": "AREA-LINZ-ALT-URFAHR",
             "name": "Donauufer Alt-Urfahr, Linz",
-            "municipality": "",
+            "municipality": "Linz",
             "country": "Österreich",
             "distance_m": null
           }
@@ -186,13 +187,14 @@
             "id": "LOC-001",
             "area_id": "AREA-LINZ-ALT-URFAHR",
             "name": "Donauufer Alt-Urfahr, Linz",
-            "municipality": "",
+            "municipality": "Linz",
             "country": "Österreich",
             "distance_m": null
           }
         }
       ],
-      "updated_at": "2026-08-20T12:21:23.744Z"
+      "updated_at": "2026-08-20T12:21:23.744Z",
+      "photo_count": 2
     },
     {
       "submission_id": "SUB-20260820-062732-2DAB3E",
