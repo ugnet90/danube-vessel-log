@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.35**  
+Aktuelle Version: **0.14.36**  
 Stand: **20.08.2026**
 
 ## 1. Projektzweck
@@ -1706,4 +1706,51 @@ Geprüft wurden:
 
 - vollständige Projektbeschreibung;
 - aktueller Projektstand: `0.14.35`.
+
+## 58. Version 0.14.36 – Koordinaten für Linz 1 und Linz 32
+
+Version **0.14.36** ergänzt die bislang fehlenden Kartenkoordinaten für die beiden Donaustationen, die bereits seit 0.14.3 als aktive Anlegestellen in `data/berths.csv` enthalten sind.
+
+### 58.1 Ursache
+
+`BER-000005` (Donaustation Linz 1) und `BER-000006` (Donaustation Linz 32) waren als aktive Anlegestellen vorhanden, ihre Felder `latitude` und `longitude` waren jedoch leer.
+
+Die Standortkarte 0.14.35 zeichnet Anlegestellen bewusst nur dann als Marker, wenn beide Koordinaten numerisch vorhanden und gültig sind. Deshalb erschienen Linz 1 und Linz 32 nicht auf der Karte, obwohl sie über `GET /berths` geliefert wurden.
+
+### 58.2 Ergänzte Koordinaten
+
+Die Koordinaten wurden aus den `Route planen`-Links der jeweiligen offiziellen Anlegestellenseiten der Donau Schiffsstationen GmbH übernommen:
+
+- `BER-000005` – Donaustation Linz 1 (Brucknerhaus)
+  - Breite: `48.310960`
+  - Länge: `14.291569`
+  - Kartenbereich: Untere Donaulände, Linz
+- `BER-000006` – Donaustation Linz 32
+  - Breite: `48.313344`
+  - Länge: `14.290028`
+  - Kartenbereich: Urfahraner Donaulände, Linz
+
+Die vorhandenen IDs, Namen, Stationsnummern, Uferangaben, Strom-km-Angaben und Sortierreihenfolgen bleiben unverändert.
+
+### 58.3 Einspielen
+
+Für 0.14.36 ist **kein Cloudflare-Worker-Deployment** erforderlich.
+
+Der Worker liest `data/berths.csv` bei der Abfrage der Anlegestellen aus dem Repository. Nach dem Commit und der Aktualisierung der GitHub-Pages-Seite sollten beide zusätzlichen Marker auf `Standorte` sichtbar sein.
+
+Ein `Rebuild location matches` ist für diese Änderung ebenfalls **nicht erforderlich**.
+
+## 59. Dateiversionen 0.14.36
+
+### data/berths.csv
+
+- vollständige Anlegestellendatei;
+- Koordinaten von Linz 1 und Linz 32 ergänzt;
+- Quellen-URLs für diese beiden Einträge auf die jeweiligen offiziellen Donaustationen-Seiten gesetzt;
+- Prüfdatum dieser beiden Einträge auf `2026-08-20` aktualisiert.
+
+### README.md
+
+- vollständige Projektbeschreibung;
+- aktueller Projektstand: `0.14.36`.
 
