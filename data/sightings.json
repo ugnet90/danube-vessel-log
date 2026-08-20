@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-20T17:21:31.743Z",
+  "updated_at": "2026-08-20T17:21:59.840Z",
   "sightings": [
     {
       "submission_id": "SUB-20260820-124108-48F869",
@@ -3210,56 +3210,6 @@
         }
       ],
       "updated_at": "2026-07-23T09:53:22.687Z",
-      "photo_count": 1
-    },
-    {
-      "submission_id": "SUB-20260720-134418-4C746B",
-      "submission_path": "inbox/submissions/2026/07/SUB-20260720-134418-4C746B.json",
-      "vessel_id": "VES-000000",
-      "captured_at": "2026-07-20T13:44:01.000Z",
-      "uploaded_at": "2026-07-20T13:44:18.090Z",
-      "reviewed_at": "2026-07-22T10:48:04.276Z",
-      "vessel_name_entered": "Testschiff",
-      "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
-        "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
-        "distance_m": null
-      },
-      "berth": {},
-      "movement": "unknown",
-      "direction": "unknown",
-      "notes": "",
-      "observer_lat": null,
-      "observer_lon": null,
-      "photo_lat": 0,
-      "photo_lon": 0,
-      "review_decision": "corrected",
-      "review_notes": "",
-      "photos": [
-        {
-          "photo_id": "PHOTO-2F09755D1E2B42B59E5C5455C10B34FF",
-          "path": "inbox/photos/2026/07/PHOTO-2F09755D1E2B42B59E5C5455C10B34FF.jpg",
-          "filename": "PHOTO-2F09755D1E2B42B59E5C5455C10B34FF.jpg",
-          "original_filename": "IMG_1511.jpeg",
-          "mime_type": "image/jpeg",
-          "size_bytes": 6176554,
-          "sequence": 0,
-          "captured_at": "",
-          "added_at": "",
-          "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
-        }
-      ],
-      "updated_at": "2026-07-22T10:48:04.276Z",
       "photo_count": 1
     },
     {
