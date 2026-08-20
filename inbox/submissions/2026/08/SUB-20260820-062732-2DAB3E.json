@@ -5,11 +5,11 @@
   "captured_at": "2026-08-20T05:02:17.000Z",
   "location": {
     "status": "matched",
-    "matched_by": "berth_id",
+    "matched_by": "geo_area",
     "id": "LOC-001",
-    "area_id": "",
-    "name": "Nibelungenbrücke, Linz",
-    "municipality": "",
+    "area_id": "AREA-LINZ-ALT-URFAHR",
+    "name": "Donauufer Alt-Urfahr, Linz",
+    "municipality": "Linz",
     "country": "Österreich",
     "distance_m": null
   },
@@ -59,13 +59,13 @@
       "photo_lat": 48.30854666666666,
       "photo_lon": 14.28225,
       "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
-        "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
         "distance_m": null
       }
     },
@@ -82,13 +82,13 @@
       "photo_lat": 48.30909666666667,
       "photo_lon": 14.28345333333333,
       "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
-        "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
         "distance_m": null
       }
     },
@@ -105,13 +105,13 @@
       "photo_lat": 48.30676666666667,
       "photo_lon": 14.28395333333333,
       "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
-        "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "name": "Obere Donaulände, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
         "distance_m": null
       }
     }

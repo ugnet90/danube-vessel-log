@@ -12,11 +12,11 @@
       "vessel_name_entered": "Amadeus Aurea",
       "location": {
         "status": "matched",
-        "matched_by": "berth_id",
+        "matched_by": "geo_area",
         "id": "LOC-001",
-        "area_id": "",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       },
@@ -72,13 +72,13 @@
           "photo_lat": 48.30854666666666,
           "photo_lon": 14.28225,
           "location": {
-            "status": "unknown",
-            "matched_by": "",
-            "id": "",
-            "area_id": "",
-            "name": "",
-            "municipality": "",
-            "country": "",
+            "status": "matched",
+            "matched_by": "geo_area",
+            "id": "LOC-001",
+            "area_id": "AREA-LINZ-ALT-URFAHR",
+            "name": "Donauufer Alt-Urfahr, Linz",
+            "municipality": "Linz",
+            "country": "Österreich",
             "distance_m": null
           }
         },
@@ -98,13 +98,13 @@
           "photo_lat": 48.30909666666667,
           "photo_lon": 14.28345333333333,
           "location": {
-            "status": "unknown",
-            "matched_by": "",
-            "id": "",
-            "area_id": "",
-            "name": "",
-            "municipality": "",
-            "country": "",
+            "status": "matched",
+            "matched_by": "geo_area",
+            "id": "LOC-001",
+            "area_id": "AREA-LINZ-ALT-URFAHR",
+            "name": "Donauufer Alt-Urfahr, Linz",
+            "municipality": "Linz",
+            "country": "Österreich",
             "distance_m": null
           }
         },
@@ -124,18 +124,19 @@
           "photo_lat": 48.30676666666667,
           "photo_lon": 14.28395333333333,
           "location": {
-            "status": "unknown",
-            "matched_by": "",
-            "id": "",
-            "area_id": "",
-            "name": "",
-            "municipality": "",
-            "country": "",
+            "status": "matched",
+            "matched_by": "geo_area",
+            "id": "LOC-001",
+            "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+            "name": "Obere Donaulände, Linz",
+            "municipality": "Linz",
+            "country": "Österreich",
             "distance_m": null
           }
         }
       ],
-      "updated_at": "2026-08-20T06:31:40.720Z"
+      "updated_at": "2026-08-20T06:31:40.720Z",
+      "photo_count": 3
     },
     {
       "submission_id": "SUB-20260819-052017-A072A4",
@@ -920,13 +921,13 @@
       "reviewed_at": "2026-08-18T10:15:20.482Z",
       "vessel_name_entered": "AmaSonata",
       "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
-        "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
         "distance_m": null
       },
       "berth": {
