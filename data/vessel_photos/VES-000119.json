@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000119",
+  "photos": [
+    {
+      "photo_id": "PHOTO-E0844EE036C048F5867777338A3E7348",
+      "path": "inbox/photos/2026/08/PHOTO-E0844EE036C048F5867777338A3E7348.jpg",
+      "filename": "PHOTO-E0844EE036C048F5867777338A3E7348.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 562755,
+      "sequence": 1,
+      "captured_at": "2026-08-20T05:19:02.000Z",
+      "added_at": "2026-08-20T12:23:23.131Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30738333333333,
+      "photo_lon": 14.28525333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "AmaSonata"
+    },
+    {
+      "photo_id": "PHOTO-A6ABF82D09B7431CB198B0F8BF2D3AD2",
+      "path": "inbox/photos/2026/08/PHOTO-A6ABF82D09B7431CB198B0F8BF2D3AD2.jpg",
+      "filename": "PHOTO-A6ABF82D09B7431CB198B0F8BF2D3AD2.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 318943,
+      "sequence": 2,
+      "captured_at": "2026-08-20T05:21:46.000Z",
+      "added_at": "2026-08-20T12:23:23.131Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30679666666666,
+      "photo_lon": 14.28404166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "name": "Obere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "AmaSonata"
+    }
+  ],
+  "updated_at": "2026-08-20T12:23:23.131Z"
+}
