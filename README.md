@@ -1,7 +1,7 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.28**  
-Stand: **19.08.2026**
+Aktuelle Version: **0.14.30**  
+Stand: **20.08.2026**
 
 ## 1. Projektzweck
 
@@ -992,3 +992,126 @@ Für Version 0.14.28 wurden geprüft:
 
 - vollständige Projektbeschreibung
 - aktueller Stand: `0.14.28`
+
+
+## 35. Version 0.14.29 – Polygonkorrekturen nach Screenshot-Markierungen
+
+Für Version **0.14.29** wurden die Linzer Standortpolygone erneut anhand der vom Nutzer auf OpenStreetMap markierten Korrekturbilder überarbeitet.
+
+### 35.1 Ziel der Anpassung
+
+Die in `0.14.28` neu gezeichneten Flächen waren in mehreren Bereichen noch zu knapp. Gewünscht war insbesondere eine **deutliche Erweiterung der Bereiche außerhalb der Nibelungenbrücke**.
+
+### 35.2 Angepasste Bereiche
+
+Folgende fünf Bereiche wurden neu definiert:
+
+- `Nibelungenbrücke` – leicht vergrößert, damit die Brücke an beiden Enden und seitlich toleranter erfasst wird;
+- `Obere Donaulände` – südliches Ufer westlich der Brücke deutlich erweitert;
+- `Untere Donaulände` – südliches Ufer östlich der Brücke deutlich erweitert;
+- `Donauufer Alt-Urfahr` – nördliches Ufer westlich der Brücke deutlich erweitert;
+- `Urfahraner Donaulände` – nördliches Ufer östlich der Brücke deutlich erweitert.
+
+Die neuen Geometrien basieren ausdrücklich auf den vom Nutzer übermittelten Korrektur-Screenshots und dienen als praktische Arbeitsdefinition für die Standortzuordnung in Linz.
+
+### 35.3 Nach Einspielen von 0.14.29
+
+Nach dem Commit ist **kein Worker-Deployment erforderlich**, weil weiterhin nur `data/location_areas.geojson` geändert wird.
+
+Für bereits gespeicherte automatisch ermittelte Standortdaten kann anschließend der vorhandene GitHub-Workflow
+
+`Rebuild location matches`
+
+erneut manuell gestartet werden.
+
+## 36. Technische Prüfung für 0.14.29
+
+Für Version 0.14.29 wurden geprüft:
+
+- `data/location_areas.geojson` als gültiges JSON;
+- alle fünf Polygone auf geschlossene Ringstruktur;
+- ZIP-Integrität.
+
+## 37. Dateiversionen 0.14.29
+
+### data/location_areas.geojson
+
+- Version: `0.14.29`
+- Updated: `2026-08-20`
+- fünf Linzer Aufnahmebereiche nach Nutzer-Screenshots neu definiert
+
+### README.md
+
+- vollständige Projektbeschreibung
+- aktueller Stand: `0.14.29`
+
+
+## 38. Version 0.14.30 – uMap-Geometrien 1:1 übernommen
+
+Version **0.14.30** ersetzt die Polygongeometrien aus 0.14.29 vollständig.
+
+Quelle ist die vom Nutzer am 20.08.2026 bereitgestellte uMap-Datei `unbenannte_karte.geojson`. Sie enthält genau fünf benannte Polygonobjekte:
+
+- `Nibelungenbrücke`
+- `Obere Donaulände`
+- `Untere Donaulände`
+- `Donauufer Alt-Urfahr`
+- `Urfahraner Donaulände`
+
+### 38.1 Verbindliche Übernahmeregel
+
+Die Koordinaten wurden **1:1 aus dem uMap-Export übernommen**. Es erfolgte ausdrücklich keine visuelle Rekonstruktion aus Screenshots und keine geometrische Interpretation durch ChatGPT.
+
+Nicht vorgenommen wurden insbesondere:
+
+- keine Glättung;
+- keine zusätzliche Pufferung;
+- keine Verschiebung von Eckpunkten;
+- keine Vereinfachung der Polygonringe;
+- keine automatisierte Anpassung an Straßen- oder Uferlinien.
+
+Ergänzt wurden ausschließlich die bestehenden Projekt-Metadaten wie `area_id`, `location_id`, `public_name`, `priority`, Gemeinde und Land.
+
+### 38.2 Prioritäten
+
+Die bestehende Prioritätslogik bleibt unverändert:
+
+- `Nibelungenbrücke`: `priority = 100`
+- alle vier Uferbereiche: `priority = 80`
+
+Damit gewinnt die Nibelungenbrücke bei einer eventuellen geometrischen Überlappung weiterhin vor einem Uferbereich.
+
+### 38.3 Deployment und Rebuild
+
+Für dieses Update ist **kein Cloudflare-Worker-Deployment** erforderlich, weil nur `data/location_areas.geojson` geändert wird.
+
+Nach dem Commit kann der bestehende GitHub-Workflow
+
+`Rebuild location matches`
+
+erneut ausgeführt werden, um automatisch ermittelte Bestandsstandorte anhand der neuen, vom Nutzer gezeichneten Polygone neu zuzuordnen.
+
+## 39. Technische Prüfung für 0.14.30
+
+Geprüft wurden:
+
+- exakt fünf Features im gelieferten uMap-GeoJSON;
+- alle fünf erwarteten Namen vorhanden;
+- alle fünf Geometrien vom Typ `Polygon`;
+- alle Polygonringe geschlossen;
+- alle fünf Polygone geometrisch gültig;
+- Projekt-GeoJSON als gültiges JSON;
+- ZIP-Integrität.
+
+## 40. Dateiversionen 0.14.30
+
+### data/location_areas.geojson
+
+- Version: `0.14.30`
+- Updated: `2026-08-20`
+- Geometrien 1:1 aus dem uMap-Export des Nutzers übernommen
+
+### README.md
+
+- vollständige Projektbeschreibung
+- aktueller Stand: `0.14.30`
