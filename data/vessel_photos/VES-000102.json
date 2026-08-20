@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000102",
+  "photos": [
+    {
+      "photo_id": "PHOTO-64FEA80CECF54087B067C247A2EF018B",
+      "path": "inbox/photos/2026/08/PHOTO-64FEA80CECF54087B067C247A2EF018B.jpg",
+      "filename": "PHOTO-64FEA80CECF54087B067C247A2EF018B.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 331972,
+      "sequence": 1,
+      "captured_at": "2026-08-20T05:05:33.000Z",
+      "added_at": "2026-08-20T12:28:42.856Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30942166666667,
+      "photo_lon": 14.284425,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
+        "name": "Urfahraner Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "AmaStella"
+    },
+    {
+      "photo_id": "PHOTO-84F3E33A0B884995A53355C59F465B6E",
+      "path": "inbox/photos/2026/08/PHOTO-84F3E33A0B884995A53355C59F465B6E.jpg",
+      "filename": "PHOTO-84F3E33A0B884995A53355C59F465B6E.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 360169,
+      "sequence": 2,
+      "captured_at": "2026-08-20T05:11:21.000Z",
+      "added_at": "2026-08-20T12:28:42.856Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30996333333334,
+      "photo_lon": 14.28567,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
+        "name": "Urfahraner Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "AmaStella"
+    }
+  ],
+  "updated_at": "2026-08-20T12:28:42.856Z"
+}
