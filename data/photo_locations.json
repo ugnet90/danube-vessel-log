@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "updated_at": "2026-08-20T05:24:00.000Z",
-  "count": 21,
+  "count": 19,
   "photos": [
     {
       "photo_id": "PHOTO-6DDBD86BED3141A28DE0280C7386FFB6",
@@ -120,7 +120,7 @@
     {
       "photo_id": "PHOTO-C26B5E1254B24266AF50EF90AA93EBFA",
       "source_type": "direct",
-      "submission_id": "",
+      "submission_id": "SUB-20260820-121908-E4BD96",
       "vessel_id": "VES-000125",
       "vessel_name": "Travelmarvel Vega",
       "captured_at": "2026-08-20T05:18:35.000Z",
@@ -139,15 +139,15 @@
       "berth": null,
       "movement": "",
       "relation": {
-        "type": "vessel",
-        "submission_id": ""
+        "type": "sighting",
+        "submission_id": "SUB-20260820-121908-E4BD96"
       },
       "path": "inbox/photos/2026/08/PHOTO-C26B5E1254B24266AF50EF90AA93EBFA.jpg"
     },
     {
       "photo_id": "PHOTO-45E946FC79D34EDFBEB2ED9756B9007E",
       "source_type": "direct",
-      "submission_id": "",
+      "submission_id": "SUB-20260820-121908-E4BD96",
       "vessel_id": "VES-000125",
       "vessel_name": "Travelmarvel Vega",
       "captured_at": "2026-08-20T05:17:14.000Z",
@@ -166,15 +166,15 @@
       "berth": null,
       "movement": "",
       "relation": {
-        "type": "vessel",
-        "submission_id": ""
+        "type": "sighting",
+        "submission_id": "SUB-20260820-121908-E4BD96"
       },
       "path": "inbox/photos/2026/08/PHOTO-45E946FC79D34EDFBEB2ED9756B9007E.jpg"
     },
     {
       "photo_id": "PHOTO-E79FB0A8841E434F9FB09336A9999ECF",
       "source_type": "direct",
-      "submission_id": "",
+      "submission_id": "SUB-20260820-062732-2DAB3E",
       "vessel_id": "VES-000124",
       "vessel_name": "Amadeus Aurea",
       "captured_at": "2026-08-20T05:15:58.000Z",
@@ -193,15 +193,15 @@
       "berth": null,
       "movement": "",
       "relation": {
-        "type": "vessel",
-        "submission_id": ""
+        "type": "sighting",
+        "submission_id": "SUB-20260820-062732-2DAB3E"
       },
       "path": "inbox/photos/2026/08/PHOTO-E79FB0A8841E434F9FB09336A9999ECF.jpg"
     },
     {
       "photo_id": "PHOTO-34312D6A44DE447E8C331404FB84AE61",
       "source_type": "direct",
-      "submission_id": "",
+      "submission_id": "SUB-20260820-062732-2DAB3E",
       "vessel_id": "VES-000124",
       "vessel_name": "Amadeus Aurea",
       "captured_at": "2026-08-20T05:15:58.000Z",
@@ -220,8 +220,8 @@
       "berth": null,
       "movement": "",
       "relation": {
-        "type": "vessel",
-        "submission_id": ""
+        "type": "sighting",
+        "submission_id": "SUB-20260820-062732-2DAB3E"
       },
       "path": "inbox/photos/2026/08/PHOTO-34312D6A44DE447E8C331404FB84AE61.jpg"
     },
@@ -447,7 +447,7 @@
     {
       "photo_id": "PHOTO-E06B9D073E914AF9920C3DE8CDE148D9",
       "source_type": "direct",
-      "submission_id": "",
+      "submission_id": "SUB-20260819-052017-A072A4",
       "vessel_id": "VES-000121",
       "vessel_name": "AmaMagna",
       "captured_at": "2026-08-19T05:09:51.000Z",
@@ -466,81 +466,15 @@
       "berth": null,
       "movement": "",
       "relation": {
-        "type": "vessel",
-        "submission_id": ""
+        "type": "sighting",
+        "submission_id": "SUB-20260819-052017-A072A4"
       },
       "path": "inbox/photos/2026/08/PHOTO-E06B9D073E914AF9920C3DE8CDE148D9.jpg"
     },
     {
-      "photo_id": "PHOTO-464D107752C846A884BCBACC312F57B6",
-      "source_type": "sighting",
-      "submission_id": "SUB-20260819-131850-C78DDB",
-      "vessel_id": "VES-000003",
-      "vessel_name": "Testschiff 20",
-      "captured_at": "2026-08-19T05:08:05.000Z",
-      "photo_lat": 48.30798,
-      "photo_lon": 14.28780333333333,
-      "location": {
-        "status": "matched",
-        "matched_by": "geo_area",
-        "id": "LOC-001",
-        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
-        "name": "Untere Donaulände, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
-        "distance_m": null
-      },
-      "berth": {
-        "status": "matched",
-        "id": "BER-000004",
-        "name": "Schiffsanlegestelle Linz-Lentos",
-        "short_name": "Linz-Lentos Nr. 14",
-        "station_number": "14"
-      },
-      "movement": "moored",
-      "relation": {
-        "type": "sighting",
-        "submission_id": "SUB-20260819-131850-C78DDB"
-      },
-      "path": "inbox/photos/2026/08/PHOTO-464D107752C846A884BCBACC312F57B6.jpg"
-    },
-    {
-      "photo_id": "PHOTO-B3BAD3B8B0BE4FC1B00AF812E5499091",
-      "source_type": "sighting",
-      "submission_id": "SUB-20260819-131850-C78DDB",
-      "vessel_id": "VES-000003",
-      "vessel_name": "Testschiff 20",
-      "captured_at": "2026-08-18T05:05:33.000Z",
-      "photo_lat": 48.3074,
-      "photo_lon": 14.285275,
-      "location": {
-        "status": "matched",
-        "matched_by": "geo_area",
-        "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
-        "distance_m": null
-      },
-      "berth": {
-        "status": "matched",
-        "id": "BER-000004",
-        "name": "Schiffsanlegestelle Linz-Lentos",
-        "short_name": "Linz-Lentos Nr. 14",
-        "station_number": "14"
-      },
-      "movement": "moored",
-      "relation": {
-        "type": "sighting",
-        "submission_id": "SUB-20260819-131850-C78DDB"
-      },
-      "path": "inbox/photos/2026/08/PHOTO-B3BAD3B8B0BE4FC1B00AF812E5499091.jpg"
-    },
-    {
       "photo_id": "PHOTO-DE95180B87A84478B82FAC7B5884D164",
       "source_type": "direct",
-      "submission_id": "",
+      "submission_id": "SUB-20260806-142324-38E029",
       "vessel_id": "VES-000110",
       "vessel_name": "S.S. Maria Theresa",
       "captured_at": "2026-08-06T14:14:22.000Z",
@@ -559,15 +493,15 @@
       "berth": null,
       "movement": "",
       "relation": {
-        "type": "vessel",
-        "submission_id": ""
+        "type": "sighting",
+        "submission_id": "SUB-20260806-142324-38E029"
       },
       "path": "inbox/photos/2026/08/PHOTO-DE95180B87A84478B82FAC7B5884D164.jpg"
     },
     {
       "photo_id": "PHOTO-37E3673F7418449889B257B26E3E6E5C",
       "source_type": "direct",
-      "submission_id": "",
+      "submission_id": "SUB-20260806-142324-38E029",
       "vessel_id": "VES-000110",
       "vessel_name": "S.S. Maria Theresa",
       "captured_at": "2026-08-06T14:14:22.000Z",
@@ -586,15 +520,15 @@
       "berth": null,
       "movement": "",
       "relation": {
-        "type": "vessel",
-        "submission_id": ""
+        "type": "sighting",
+        "submission_id": "SUB-20260806-142324-38E029"
       },
       "path": "inbox/photos/2026/08/PHOTO-37E3673F7418449889B257B26E3E6E5C.jpg"
     },
     {
       "photo_id": "PHOTO-D07368FFCCEC41C98E6A076716B1FAAA",
       "source_type": "direct",
-      "submission_id": "",
+      "submission_id": "SUB-20260728-062433-033817",
       "vessel_id": "VES-000110",
       "vessel_name": "S.S. Maria Theresa",
       "captured_at": "2026-07-28T13:23:51.000Z",
@@ -613,13 +547,13 @@
       "berth": null,
       "movement": "",
       "relation": {
-        "type": "vessel",
-        "submission_id": ""
+        "type": "sighting",
+        "submission_id": "SUB-20260728-062433-033817"
       },
       "path": "inbox/photos/2026/07/PHOTO-D07368FFCCEC41C98E6A076716B1FAAA.jpg"
     }
   ],
-  "sighting_count": 48,
+  "sighting_count": 40,
   "sightings": [
     {
       "submission_id": "SUB-20260820-124108-48F869",
@@ -880,58 +814,6 @@
       "movement": "moored",
       "direction": "upstream",
       "photo_count": 0
-    },
-    {
-      "submission_id": "SUB-20260819-131850-C78DDB",
-      "vessel_id": "VES-000003",
-      "vessel_name": "Testschiff 20",
-      "captured_at": "2026-08-18T05:05:33.000Z",
-      "location": {
-        "status": "matched",
-        "matched_by": "geo_area",
-        "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
-        "distance_m": null
-      },
-      "berth": {
-        "status": "matched",
-        "id": "BER-000004",
-        "name": "Schiffsanlegestelle Linz-Lentos",
-        "short_name": "Linz-Lentos Nr. 14",
-        "station_number": "14"
-      },
-      "movement": "moored",
-      "direction": "upstream",
-      "photo_count": 2
-    },
-    {
-      "submission_id": "SUB-20260819-124911-DF6189",
-      "vessel_id": "VES-000002",
-      "vessel_name": "Testschiff 19",
-      "captured_at": "2026-08-18T05:05:33.000Z",
-      "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
-        "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
-        "distance_m": null
-      },
-      "berth": {
-        "status": "matched",
-        "id": "BER-000004",
-        "name": "Schiffsanlegestelle Linz-Lentos",
-        "short_name": "Linz-Lentos Nr. 14",
-        "station_number": "14"
-      },
-      "movement": "moored",
-      "direction": "upstream",
-      "photo_count": 2
     },
     {
       "submission_id": "SUB-20260818-131221-FD27F1",
@@ -1536,26 +1418,6 @@
       "photo_count": 2
     },
     {
-      "submission_id": "SUB-20260721-190946-54E45C",
-      "vessel_id": "VES-000001",
-      "vessel_name": "Testschiff",
-      "captured_at": "2026-07-21T19:09:24.000Z",
-      "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
-        "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
-        "distance_m": null
-      },
-      "berth": null,
-      "movement": "unknown",
-      "direction": "unknown",
-      "photo_count": 1
-    },
-    {
       "submission_id": "SUB-20260721-190751-ADEE95",
       "vessel_id": "VES-000100",
       "vessel_name": "S. S. Beatrice",
@@ -1580,106 +1442,6 @@
       "vessel_id": "VES-000100",
       "vessel_name": "S. S. Beatrice",
       "captured_at": "2026-07-21T18:50:48.000Z",
-      "location": {
-        "status": "matched",
-        "matched_by": "legacy_parent",
-        "id": "LOC-001",
-        "area_id": "",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
-        "distance_m": null
-      },
-      "berth": null,
-      "movement": "unknown",
-      "direction": "unknown",
-      "photo_count": 1
-    },
-    {
-      "submission_id": "SUB-20260721-111633-AC48F5",
-      "vessel_id": "VES-000001",
-      "vessel_name": "Testschiff",
-      "captured_at": "2026-07-21T11:16:21.000Z",
-      "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
-        "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
-        "distance_m": null
-      },
-      "berth": null,
-      "movement": "unknown",
-      "direction": "unknown",
-      "photo_count": 1
-    },
-    {
-      "submission_id": "SUB-20260721-100318-7F4587",
-      "vessel_id": "VES-000001",
-      "vessel_name": "Testschiff",
-      "captured_at": "2026-07-21T10:03:06.000Z",
-      "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
-        "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
-        "distance_m": null
-      },
-      "berth": null,
-      "movement": "unknown",
-      "direction": "unknown",
-      "photo_count": 1
-    },
-    {
-      "submission_id": "SUB-20260720-135834-F1C25B",
-      "vessel_id": "VES-000001",
-      "vessel_name": "Testschiff",
-      "captured_at": "2026-07-20T13:58:08.000Z",
-      "location": {
-        "status": "matched",
-        "matched_by": "location_id",
-        "id": "LOC-001",
-        "area_id": "",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
-        "distance_m": null
-      },
-      "berth": null,
-      "movement": "unknown",
-      "direction": "unknown",
-      "photo_count": 1
-    },
-    {
-      "submission_id": "SUB-20260720-134418-4C746B",
-      "vessel_id": "VES-000000",
-      "vessel_name": "Testschiff",
-      "captured_at": "2026-07-20T13:44:01.000Z",
-      "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
-        "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
-        "distance_m": null
-      },
-      "berth": null,
-      "movement": "unknown",
-      "direction": "unknown",
-      "photo_count": 1
-    },
-    {
-      "submission_id": "SUB-20260719-173035-9D2D8B",
-      "vessel_id": "VES-000001",
-      "vessel_name": "Testschiff",
-      "captured_at": "2026-07-19T17:30:18.000Z",
       "location": {
         "status": "matched",
         "matched_by": "legacy_parent",
