@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000125",
+  "photos": [
+    {
+      "photo_id": "PHOTO-45E946FC79D34EDFBEB2ED9756B9007E",
+      "path": "inbox/photos/2026/08/PHOTO-45E946FC79D34EDFBEB2ED9756B9007E.jpg",
+      "filename": "PHOTO-45E946FC79D34EDFBEB2ED9756B9007E.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 354367,
+      "sequence": 1,
+      "captured_at": "2026-08-20T05:17:14.000Z",
+      "added_at": "2026-08-20T13:06:04.210Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30837,
+      "photo_lon": 14.28455333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "Travelmarvel Vega"
+    },
+    {
+      "photo_id": "PHOTO-C26B5E1254B24266AF50EF90AA93EBFA",
+      "path": "inbox/photos/2026/08/PHOTO-C26B5E1254B24266AF50EF90AA93EBFA.jpg",
+      "filename": "PHOTO-C26B5E1254B24266AF50EF90AA93EBFA.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 458674,
+      "sequence": 2,
+      "captured_at": "2026-08-20T05:18:35.000Z",
+      "added_at": "2026-08-20T13:06:04.210Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.3075,
+      "photo_lon": 14.28518333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "Travelmarvel Vega"
+    }
+  ],
+  "updated_at": "2026-08-20T13:06:04.210Z"
+}
