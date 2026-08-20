@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/location_areas.css
- * Version: 0.14.37
+ * Version: 0.14.38
  * Updated: 2026-08-20
  */
 
@@ -17,7 +17,7 @@
 .photo-filter-grid { display: grid; grid-template-columns: repeat(6, minmax(140px, 1fr)); gap: 12px; margin-top: 12px; align-items: end; }
 .photo-filter-grid label { display: grid; gap: 5px; color: #52606d; font-size: .9rem; }
 .photo-filter-grid select, .photo-filter-grid input { width: 100%; box-sizing: border-box; }
-.photo-filter-actions { display: flex; align-items: center; gap: 10px; grid-column: 1 / -1; }
+.photo-filter-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; grid-column: 1 / -1; }
 .photo-count { color: #52606d; font-size: .9rem; }
 .location-areas-layout { display: grid; grid-template-columns: minmax(260px, 330px) minmax(0, 1fr); gap: 16px; }
 .location-areas-panel { padding: 16px; }
