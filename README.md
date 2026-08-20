@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.37**  
+Aktuelle Version: **0.14.38**  
 Stand: **20.08.2026**
 
 ## 1. Projektzweck
@@ -1831,3 +1831,84 @@ Ein neuer `Rebuild location matches` ist ebenfalls nicht erforderlich, sofern de
 - vollständige Projektbeschreibung;
 - aktueller Projektstand: `0.14.37`.
 
+
+## 62. Version 0.14.38 – kanonische Kartendaten, vollständige Anlege-Sichtungen und API-Fix
+
+Version **0.14.38** bereinigt die Datenquellen der Standortkarte und korrigiert zwei Regressionen aus dem Ausbau der Kartenfunktionen.
+
+### 62.1 `data/` ist die kanonische Quelle
+
+Für die Kartenoberfläche benötigt GitHub Pages Dateien unter `docs/`, während Worker und Wartungswerkzeuge mit den eigentlichen Projektdaten unter `data/` arbeiten. Ab 0.14.38 gilt deshalb verbindlich:
+
+- `data/location_areas.geojson` ist die **kanonische** Polygondatei;
+- `data/photo_locations.json` ist der **kanonische** Kartenindex;
+- `docs/data/location_areas.geojson` und `docs/data/photo_locations.json` sind ausschließlich automatisch erzeugte, byte-identische Veröffentlichungs-Spiegel für GitHub Pages;
+- Dateien unter `docs/data/` werden für diese beiden Datensätze **nicht manuell gepflegt**.
+
+Das Werkzeug `tools/sync_public_data.py` kopiert ausschließlich von `data/` nach `docs/data/`. Mit `--check` wird geprüft, dass beide Paare exakt identisch sind. Eine Abweichung liefert einen Fehlercode.
+
+Der neue GitHub-Workflow `Sync public data` läuft manuell oder automatisch, wenn eine der beiden kanonischen Dateien auf `main` geändert wird. Damit muss beispielsweise nach einem neuen uMap-Export nur noch `data/location_areas.geojson` ersetzt werden.
+
+Auch `Rebuild location matches` erzeugt zuerst die kanonische Datei `data/photo_locations.json`, synchronisiert danach die Pages-Spiegel und prüft die exakte Übereinstimmung.
+
+### 62.2 Kartenindex Schema 2: Sichtungen unabhängig von Fotos
+
+Bis 0.14.37 wurde die Ebene **„Schiffe an Anlegestellen“** aus den Fotoeinträgen von `photo_locations.json` abgeleitet. Dadurch konnten nur Sichtungen mit einem GPS-indexierten Foto erscheinen. Sichtungen ohne Foto fehlten vollständig; mehrere vorhandene Schiffe im Gesamtbestand sind außerdem nicht automatisch gleichbedeutend mit einer angelegten Sichtung.
+
+Ab 0.14.38 besitzt `data/photo_locations.json` Schema-Version 2 mit zwei getrennten Sammlungen:
+
+- `photos` – GPS-Aufnahmeorte einzelner Fotos;
+- `sightings` – bestätigte, korrigiert bestätigte oder aus der Sichtung neu angelegte Schiffszuordnungen, unabhängig davon, ob die Sichtung Fotos enthält.
+
+Ein Sichtungsdatensatz enthält unter anderem `submission_id`, `vessel_id`, `vessel_name`, `captured_at`, `location`, `berth`, `movement`, `direction` und `photo_count`.
+
+Die Schiffmarker an Anlegestellen werden ausschließlich aus diesen Sichtungsdatensätzen erzeugt. Angezeigt werden Sichtungen mit `movement = moored` und einer bekannten Anlegestelle mit Kartenkoordinaten.
+
+Der Zähler unterscheidet nun ausdrücklich zwischen Anzahl der **Anlege-Sichtungen** und Anzahl der darin vorkommenden **unterschiedlichen Schiffe**. Die Zahl muss daher nicht der Gesamtzahl aller in der Datenbank gespeicherten Schiffe entsprechen.
+
+### 62.3 Foto-Kartenoverlay mit fotografiertem Schiff
+
+Wird bei einem Sichtungsfoto `Auf Karte` geöffnet, zeigt das bestehende Overlay weiterhin den exakten GPS-Aufnahmeort des Fotografen und die Standortpolygone.
+
+Ist die zugehörige Sichtung als `moored` gespeichert und besitzt sie eine bekannte Anlegestelle, wird zusätzlich:
+
+- das fotografierte Schiff mit dem Schiff-Symbol an der Koordinate der erfassten Anlegestelle dargestellt;
+- eine gestrichelte Verbindungslinie vom Foto-GPS-Punkt zur Anlegestelle gezeichnet;
+- die Anlegestelle in der Kopfinformation genannt.
+
+Die Schiffmarkierung ist ausdrücklich **keine Schiff-GPS-Position**, sondern die Referenzkoordinate der bei der Sichtung erfassten Anlegestelle.
+
+Bei Sichtungen in Fahrt und bei direkten zusätzlichen Schiffsfotos wird keine Schiffposition erfunden. Dort bleibt es bei der tatsächlichen Foto-GPS-Position und den übrigen Karteninformationen.
+
+### 62.4 Reparatur von Startseite und Schiffsübersicht
+
+Beim Ausbau von `docs/js/api.js` in 0.14.35 ging die bereits vorhandene Methode `getVessels()` versehentlich verloren. Seiten, die die Schiffsliste über `window.VesselApi.getVessels()` laden, konnten deshalb keine Daten mehr darstellen und meldeten unter anderem `window.VesselApi.getVessels is not a function`.
+
+0.14.38 stellt `getVessels()` wieder her, ohne die neueren API-Funktionen für Anlegestellen und Anlegestellenkorrekturen zu entfernen. Damit funktionieren die Schiffsliste und davon abhängige Übersichten wieder mit derselben `/vessels`-API wie vor der Regression.
+
+### 62.5 Einspielen
+
+Für Version 0.14.38 ist **kein Cloudflare-Worker-Deployment** erforderlich.
+
+Nach dem Commit muss einmal ausgeführt werden:
+
+`Actions -> Rebuild location matches -> Run workflow`
+
+Dieser Rebuild erzeugt den Kartenindex in Schema-Version 2 mit der neuen `sightings`-Sammlung und synchronisiert die öffentlichen Datenspiegel. Erst danach kann die Standortseite alle vorhandenen bestätigten angelegten Sichtungen unabhängig von Fotos anzeigen.
+
+Bei späteren reinen Änderungen an `data/location_areas.geojson` oder `data/photo_locations.json` darf nur noch die kanonische Datei unter `data/` geändert werden. Der Workflow `Sync public data` erzeugt die passende Kopie unter `docs/data/` automatisch.
+
+## 63. Dateiversionen 0.14.38
+
+- `docs/js/api.js`: Version `0.14.38`; `getVessels()` wiederhergestellt, neuere API-Methoden bleiben erhalten.
+- `tools/rebuild_location_matches.py`: Version `0.14.38`; Kartenindex Schema 2, Sichtungsebene unabhängig von Fotos, kanonische Erzeugung und Synchronisierung.
+- `tools/sync_public_data.py`: Version `0.14.38`; zentrale Synchronisierung `data/` -> `docs/data/` mit exakter Konsistenzprüfung.
+- `.github/workflows/sync_public_data.yml`: neuer Workflow für die GitHub-Pages-Spiegel.
+- `.github/workflows/rebuild_location_matches.yml`: zusätzliche Konsistenzprüfung der öffentlichen Datenspiegel.
+- `docs/js/location_map.js`: Version `0.14.38`; gemeinsamer Foto-/Sichtungsindex und Verbindung Foto-Aufnahmeort -> Anlegestelle.
+- `docs/js/location_areas.js`: Version `0.14.38`; Schiffmarker aus Sichtungen statt aus Fotos; Filter und getrennte Zähler.
+- `docs/location_areas.html`: Version `0.14.38`; präzisierte Erklärung und Zähler.
+- `docs/css/location_areas.css`: Version `0.14.38`; Layoutanpassung für die erweiterten Zähler.
+- `docs/js/vessel.js`: Version `0.14.38`; Foto-Kartenoverlay mit Schiffmarker und Verbindungslinie bei angelegten Sichtungen.
+- `docs/css/vessel.css`: Version `0.14.38`; Darstellung des Schiffmarkers im Foto-Kartenoverlay.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.38`.
