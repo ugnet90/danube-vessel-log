@@ -26,7 +26,11 @@
         "country": "Österreich",
         "distance_m": null
       },
-      "vessel_name_entered": "AmaMagna"
+      "vessel_name_entered": "AmaMagna",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     }
   ],
   "updated_at": "2026-08-19T09:44:48.591Z"

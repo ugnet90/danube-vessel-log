@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "updated_at": "2026-08-20T05:24:00.000Z",
   "count": 21,
   "photos": [
@@ -24,6 +24,10 @@
       },
       "berth": null,
       "movement": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      },
       "path": "inbox/photos/2026/08/PHOTO-6DDBD86BED3141A28DE0280C7386FFB6.jpg"
     },
     {
@@ -53,6 +57,10 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260820-062732-2DAB3E"
+      },
       "path": "inbox/photos/2026/08/PHOTO-BD781E86C2A647F49F78754C115F0ACA.jpg"
     },
     {
@@ -76,6 +84,10 @@
       },
       "berth": null,
       "movement": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      },
       "path": "inbox/photos/2026/08/PHOTO-A6ABF82D09B7431CB198B0F8BF2D3AD2.jpg"
     },
     {
@@ -99,6 +111,10 @@
       },
       "berth": null,
       "movement": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      },
       "path": "inbox/photos/2026/08/PHOTO-E0844EE036C048F5867777338A3E7348.jpg"
     },
     {
@@ -122,6 +138,10 @@
       },
       "berth": null,
       "movement": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      },
       "path": "inbox/photos/2026/08/PHOTO-C26B5E1254B24266AF50EF90AA93EBFA.jpg"
     },
     {
@@ -145,6 +165,10 @@
       },
       "berth": null,
       "movement": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      },
       "path": "inbox/photos/2026/08/PHOTO-45E946FC79D34EDFBEB2ED9756B9007E.jpg"
     },
     {
@@ -168,6 +192,10 @@
       },
       "berth": null,
       "movement": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      },
       "path": "inbox/photos/2026/08/PHOTO-E79FB0A8841E434F9FB09336A9999ECF.jpg"
     },
     {
@@ -191,6 +219,10 @@
       },
       "berth": null,
       "movement": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      },
       "path": "inbox/photos/2026/08/PHOTO-34312D6A44DE447E8C331404FB84AE61.jpg"
     },
     {
@@ -220,6 +252,10 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260820-062732-2DAB3E"
+      },
       "path": "inbox/photos/2026/08/PHOTO-EC256CCF1A2344B69D7964ACAAD57A78.jpg"
     },
     {
@@ -249,6 +285,10 @@
         "station_number": "12"
       },
       "movement": "moored",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260820-121908-E4BD96"
+      },
       "path": "inbox/photos/2026/08/PHOTO-E42E272EA3E644C283B79FDF4333292D.jpg"
     },
     {
@@ -272,6 +312,10 @@
       },
       "berth": null,
       "movement": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      },
       "path": "inbox/photos/2026/08/PHOTO-84F3E33A0B884995A53355C59F465B6E.jpg"
     },
     {
@@ -301,6 +345,10 @@
         "station_number": "1"
       },
       "movement": "moored",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260820-124108-48F869"
+      },
       "path": "inbox/photos/2026/08/PHOTO-70735659A1B64D548485D87DE3295D19.jpg"
     },
     {
@@ -324,6 +372,10 @@
       },
       "berth": null,
       "movement": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      },
       "path": "inbox/photos/2026/08/PHOTO-64FEA80CECF54087B067C247A2EF018B.jpg"
     },
     {
@@ -353,6 +405,10 @@
         "station_number": "12"
       },
       "movement": "moored",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260820-121908-E4BD96"
+      },
       "path": "inbox/photos/2026/08/PHOTO-59EB3A80456441528F1F8AFCF841AA73.jpg"
     },
     {
@@ -382,6 +438,10 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260820-062732-2DAB3E"
+      },
       "path": "inbox/photos/2026/08/PHOTO-E209295CEF9F4EC391F907B7F5FF3809.jpg"
     },
     {
@@ -405,6 +465,10 @@
       },
       "berth": null,
       "movement": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      },
       "path": "inbox/photos/2026/08/PHOTO-E06B9D073E914AF9920C3DE8CDE148D9.jpg"
     },
     {
@@ -434,6 +498,10 @@
         "station_number": "14"
       },
       "movement": "moored",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260819-131850-C78DDB"
+      },
       "path": "inbox/photos/2026/08/PHOTO-464D107752C846A884BCBACC312F57B6.jpg"
     },
     {
@@ -463,6 +531,10 @@
         "station_number": "14"
       },
       "movement": "moored",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260819-131850-C78DDB"
+      },
       "path": "inbox/photos/2026/08/PHOTO-B3BAD3B8B0BE4FC1B00AF812E5499091.jpg"
     },
     {
@@ -486,6 +558,10 @@
       },
       "berth": null,
       "movement": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      },
       "path": "inbox/photos/2026/08/PHOTO-DE95180B87A84478B82FAC7B5884D164.jpg"
     },
     {
@@ -509,6 +585,10 @@
       },
       "berth": null,
       "movement": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      },
       "path": "inbox/photos/2026/08/PHOTO-37E3673F7418449889B257B26E3E6E5C.jpg"
     },
     {
@@ -532,6 +612,10 @@
       },
       "berth": null,
       "movement": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      },
       "path": "inbox/photos/2026/07/PHOTO-D07368FFCCEC41C98E6A076716B1FAAA.jpg"
     }
   ],

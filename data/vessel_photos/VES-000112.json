@@ -13,7 +13,11 @@
       "captured_at": "2026-07-30T05:18:04.000Z",
       "added_at": "2026-07-31T13:58:24.484Z",
       "source": "direct_vessel_upload",
-      "notes": ""
+      "notes": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     },
     {
       "photo_id": "PHOTO-89E9B75432D2425CA9FABAAFB8A3AACD",
@@ -26,7 +30,11 @@
       "captured_at": "2026-07-30T05:18:04.000Z",
       "added_at": "2026-07-31T13:58:24.484Z",
       "source": "direct_vessel_upload",
-      "notes": ""
+      "notes": "",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     }
   ],
   "updated_at": "2026-07-31T13:58:24.484Z"

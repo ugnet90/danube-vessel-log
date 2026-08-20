@@ -27,7 +27,11 @@
         "country": "Österreich",
         "distance_m": null
       },
-      "vessel_name_entered": "AmaSonata"
+      "vessel_name_entered": "AmaSonata",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     },
     {
       "photo_id": "PHOTO-A6ABF82D09B7431CB198B0F8BF2D3AD2",
@@ -54,7 +58,11 @@
         "country": "Österreich",
         "distance_m": null
       },
-      "vessel_name_entered": "AmaSonata"
+      "vessel_name_entered": "AmaSonata",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     },
     {
       "photo_id": "PHOTO-6DDBD86BED3141A28DE0280C7386FFB6",
@@ -81,7 +89,11 @@
         "country": "Österreich",
         "distance_m": null
       },
-      "vessel_name_entered": "AmaSonata"
+      "vessel_name_entered": "AmaSonata",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     }
   ],
   "updated_at": "2026-08-20T13:08:25.440Z"

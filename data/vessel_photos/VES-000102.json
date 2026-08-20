@@ -27,7 +27,11 @@
         "country": "Österreich",
         "distance_m": null
       },
-      "vessel_name_entered": "AmaStella"
+      "vessel_name_entered": "AmaStella",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     },
     {
       "photo_id": "PHOTO-84F3E33A0B884995A53355C59F465B6E",
@@ -54,7 +58,11 @@
         "country": "Österreich",
         "distance_m": null
       },
-      "vessel_name_entered": "AmaStella"
+      "vessel_name_entered": "AmaStella",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     }
   ],
   "updated_at": "2026-08-20T12:28:42.856Z"

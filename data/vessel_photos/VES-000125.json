@@ -27,7 +27,11 @@
         "country": "Österreich",
         "distance_m": null
       },
-      "vessel_name_entered": "Travelmarvel Vega"
+      "vessel_name_entered": "Travelmarvel Vega",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     },
     {
       "photo_id": "PHOTO-C26B5E1254B24266AF50EF90AA93EBFA",
@@ -54,7 +58,11 @@
         "country": "Österreich",
         "distance_m": null
       },
-      "vessel_name_entered": "Travelmarvel Vega"
+      "vessel_name_entered": "Travelmarvel Vega",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     }
   ],
   "updated_at": "2026-08-20T13:06:04.210Z"

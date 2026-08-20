@@ -26,7 +26,11 @@
         "country": "Österreich",
         "distance_m": null
       },
-      "vessel_name_entered": "Amadeus Aurea"
+      "vessel_name_entered": "Amadeus Aurea",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     },
     {
       "photo_id": "PHOTO-E79FB0A8841E434F9FB09336A9999ECF",
@@ -52,7 +56,11 @@
         "country": "Österreich",
         "distance_m": null
       },
-      "vessel_name_entered": "Amadeus Aurea"
+      "vessel_name_entered": "Amadeus Aurea",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     }
   ],
   "updated_at": "2026-08-20T06:34:50.384Z"

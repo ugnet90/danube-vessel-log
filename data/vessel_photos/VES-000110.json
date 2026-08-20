@@ -26,7 +26,11 @@
         "country": "Österreich",
         "distance_m": null
       },
-      "vessel_name_entered": "S.S. Maria Theresa"
+      "vessel_name_entered": "S.S. Maria Theresa",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     },
     {
       "photo_id": "PHOTO-37E3673F7418449889B257B26E3E6E5C",
@@ -52,7 +56,11 @@
         "country": "Österreich",
         "distance_m": null
       },
-      "vessel_name_entered": "S.S. Maria Theresa"
+      "vessel_name_entered": "S.S. Maria Theresa",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     },
     {
       "photo_id": "PHOTO-D07368FFCCEC41C98E6A076716B1FAAA",
@@ -78,7 +86,11 @@
         "country": "Österreich",
         "distance_m": null
       },
-      "vessel_name_entered": "S.S. Maria Theresa"
+      "vessel_name_entered": "S.S. Maria Theresa",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
     }
   ],
   "updated_at": "2026-08-19T06:01:34.277Z",
