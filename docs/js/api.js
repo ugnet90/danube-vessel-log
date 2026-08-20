@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/api.js
-// Version: 0.14.35
+// Version: 0.14.38
 // Updated: 2026-08-20
 
 "use strict";
@@ -98,6 +98,17 @@
       status: response.status,
       data
     };
+  }
+
+  async function getVessels({
+    workerUrl,
+    apiKey = ""
+  }) {
+    return request({
+      workerUrl,
+      path: "/vessels",
+      apiKey
+    });
   }
 
   async function getVessel({
@@ -226,6 +237,7 @@
 
   window.VesselApi = {
     request,
+    getVessels,
     getVessel,
     getVesselIdSuggestion,
     createVessel,

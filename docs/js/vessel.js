@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.14.35
+// Version: 0.14.38
 // Updated: 2026-08-20
 
 "use strict";
@@ -30,6 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let photoMapAreaLayers = null;
   let photoMapBerthLayers = null;
   let photoMapMarker = null;
+  let photoMapVesselMarker = null;
+  let photoMapConnectionLine = null;
+  let photoMapBerths = [];
   let photoMapAreasPromise = null;
   let photoMapBerthsPromise = null;
 
@@ -530,19 +533,25 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(() => []);
     }
 
-    if (!photoMapBerthLayers && photoMapBerthsPromise) {
-      const berths = await photoMapBerthsPromise;
-      photoMapBerthLayers = maps.addBerthLayers(photoMap, berths, {
-        addToMap: true
-      });
+    if (photoMapBerthsPromise) {
+      photoMapBerths = await photoMapBerthsPromise;
     }
 
-    return { maps, areas };
+    if (!photoMapBerthLayers && photoMapBerths.length) {
+      photoMapBerthLayers = maps.addBerthLayers(
+        photoMap,
+        photoMapBerths,
+        { addToMap: true }
+      );
+    }
+
+    return { maps, areas, berths: photoMapBerths };
   }
 
   async function openPhotoMapModal(
     photo,
-    fallbackCapturedAt = ""
+    fallbackCapturedAt = "",
+    sighting = null
   ) {
     ensurePhotoMapUi();
     photoMapModal.classList.remove("hidden");
@@ -560,10 +569,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       photoMap.invalidateSize();
 
-      if (photoMapMarker) {
-        photoMap.removeLayer(photoMapMarker);
-        photoMapMarker = null;
+      for (const layer of [
+        photoMapMarker,
+        photoMapVesselMarker,
+        photoMapConnectionLine
+      ]) {
+        if (layer && photoMap.hasLayer(layer)) {
+          photoMap.removeLayer(layer);
+        }
       }
+
+      photoMapMarker = null;
+      photoMapVesselMarker = null;
+      photoMapConnectionLine = null;
 
       const capturedAt = String(
         photo?.captured_at || fallbackCapturedAt || ""
@@ -577,13 +595,18 @@ document.addEventListener("DOMContentLoaded", () => {
         ? context.maps.areaName(matches[0])
         : "Kein Polygon-Treffer";
       const stored = locationLabel(photo?.location);
+      const vesselName =
+        currentVessel?.identity?.name ||
+        currentVessel?.name ||
+        vesselId;
 
-      photoMapInfo.textContent = [
+      const infoParts = [
+        vesselName ? `Schiff: ${vesselName}` : "",
         context.maps.formatDateTime(capturedAt),
         `GPS: ${coords.latitude.toFixed(7)} / ${coords.longitude.toFixed(7)}`,
         stored && stored !== "–" ? `gespeichert: ${stored}` : "",
         `Polygon: ${inferred}`
-      ].filter(Boolean).join(" · ");
+      ];
 
       photoMapMarker = context.maps.createPhotoMarker(
         photoMap,
@@ -591,10 +614,11 @@ document.addEventListener("DOMContentLoaded", () => {
           ...photo,
           captured_at: capturedAt,
           vessel_id: vesselId,
-          vessel_name:
-            currentVessel?.identity?.name ||
-            currentVessel?.name ||
-            vesselId,
+          vessel_name: vesselName,
+          submission_id:
+            photo?.submission_id ||
+            sighting?.submission_id ||
+            "",
           location: {
             ...(photo?.location || {}),
             name: stored && stored !== "–" ? stored : inferred
@@ -608,10 +632,75 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       );
 
-      photoMap.setView(
-        [coords.latitude, coords.longitude],
-        18
-      );
+      let berthCoordinates = null;
+      const berthId = String(sighting?.berth?.id || "").trim();
+
+      if (
+        String(sighting?.movement || "") === "moored" &&
+        berthId
+      ) {
+        const berth = (context.berths || []).find(
+          item => String(item?.berth_id || "").trim() === berthId
+        );
+
+        berthCoordinates = context.maps.validCoordinates(
+          berth?.latitude,
+          berth?.longitude
+        );
+
+        if (berth && berthCoordinates) {
+          photoMapVesselMarker =
+            context.maps.createVesselBerthMarker(
+              photoMap,
+              {
+                vessel_id: vesselId,
+                vessel_name: vesselName,
+                captured_at:
+                  sighting?.captured_at || capturedAt,
+                submission_id:
+                  sighting?.submission_id || "",
+                direction: sighting?.direction || "",
+                berth: sighting?.berth || {}
+              },
+              berth
+            );
+
+          photoMapConnectionLine =
+            context.maps.createPhotoVesselConnection(
+              photoMap,
+              coords,
+              berthCoordinates
+            );
+
+          const berthName =
+            berth?.short_name ||
+            berth?.public_name ||
+            sighting?.berth?.short_name ||
+            sighting?.berth?.name ||
+            berthId;
+
+          infoParts.push(
+            `Schiffmarker: ${berthName} (Anlegestelle, kein Schiff-GPS)`
+          );
+        }
+      }
+
+      photoMapInfo.textContent =
+        infoParts.filter(Boolean).join(" · ");
+
+      if (berthCoordinates) {
+        const bounds = L.latLngBounds([
+          [coords.latitude, coords.longitude],
+          [berthCoordinates.latitude, berthCoordinates.longitude]
+        ]);
+        photoMap.fitBounds(bounds.pad(0.35), { maxZoom: 18 });
+      } else {
+        photoMap.setView(
+          [coords.latitude, coords.longitude],
+          18
+        );
+      }
+
       photoMapMarker?.openPopup();
     } catch (error) {
       photoMapInfo.textContent =
@@ -627,7 +716,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function createPhotoMapLink(
     photo,
-    fallbackCapturedAt = ""
+    fallbackCapturedAt = "",
+    sighting = null
   ) {
     const latitude = Number(String(photo?.photo_lat ?? "").replace(",", "."));
     const longitude = Number(String(photo?.photo_lon ?? "").replace(",", "."));
@@ -643,7 +733,11 @@ document.addEventListener("DOMContentLoaded", () => {
     button.textContent = "Auf Karte";
     button.title = "Aufnahmeort mit Standortpolygonen anzeigen";
     button.addEventListener("click", () => {
-      openPhotoMapModal(photo, fallbackCapturedAt);
+      openPhotoMapModal(
+        photo,
+        fallbackCapturedAt,
+        sighting
+      );
     });
     return button;
   }
@@ -4160,7 +4254,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const mapLink =
               createPhotoMapLink(
                 photo,
-                sighting?.captured_at || ""
+                sighting?.captured_at || "",
+                sighting
               );
 
             if (mapLink) {

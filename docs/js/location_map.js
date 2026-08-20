@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_map.js
- * Version: 0.14.37
+ * Version: 0.14.38
  * Updated: 2026-08-20
  *
  * Gemeinsame Kartenlogik für Standortseite und Foto-Kartenoverlay.
@@ -118,11 +118,23 @@
     return features;
   }
 
-  async function loadPhotoLocations() {
+  async function loadLocationIndex() {
     const data = await fetchJson(PHOTO_DATA_URL);
-    return Array.isArray(data?.photos)
-      ? data.photos
-      : [];
+
+    return {
+      schema_version: Number(data?.schema_version || 0),
+      photos: Array.isArray(data?.photos)
+        ? data.photos
+        : [],
+      sightings: Array.isArray(data?.sightings)
+        ? data.sightings
+        : []
+    };
+  }
+
+  async function loadPhotoLocations() {
+    const index = await loadLocationIndex();
+    return index.photos;
   }
 
   async function loadBerths(workerUrl, locationId = "") {
@@ -816,6 +828,51 @@
     return marker;
   }
 
+
+  function createPhotoVesselConnection(
+    map,
+    photoCoordinates,
+    berthCoordinates,
+    options = {}
+  ) {
+    const photo = validCoordinates(
+      photoCoordinates?.latitude,
+      photoCoordinates?.longitude
+    );
+    const berth = validCoordinates(
+      berthCoordinates?.latitude,
+      berthCoordinates?.longitude
+    );
+
+    if (!photo || !berth) return null;
+
+    const line = L.polyline(
+      [
+        [photo.latitude, photo.longitude],
+        [berth.latitude, berth.longitude]
+      ],
+      {
+        color: options.color || "#0f4c81",
+        weight: options.weight ?? 2,
+        opacity: options.opacity ?? 0.8,
+        dashArray: options.dashArray || "7 7",
+        interactive: true
+      }
+    );
+
+    line.bindTooltip(
+      options.tooltip ||
+        "Foto-Aufnahmeort → erfasste Anlegestelle",
+      { direction: "center", sticky: true }
+    );
+
+    if (options.addToMap !== false) {
+      line.addTo(map);
+    }
+
+    return line;
+  }
+
   window.DanubeLocationMap = Object.freeze({
     AREA_COLORS,
     parseCoordinate,
@@ -824,6 +881,7 @@
     formatDate,
     localDateKey,
     loadAreas,
+    loadLocationIndex,
     loadPhotoLocations,
     loadBerths,
     createMap,
@@ -832,6 +890,7 @@
     addAreaLayers,
     addBerthLayers,
     createPhotoMarker,
-    createVesselBerthMarker
+    createVesselBerthMarker,
+    createPhotoVesselConnection
   });
 })();

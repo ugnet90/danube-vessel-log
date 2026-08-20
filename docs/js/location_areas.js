@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_areas.js
- * Version: 0.14.37
+ * Version: 0.14.38
  * Updated: 2026-08-20
  */
 
@@ -40,6 +40,8 @@
   let map;
   let areas = [];
   let photos = [];
+  let sightings = [];
+  let locationIndexSchemaVersion = 0;
   let berths = [];
   let areaLayers;
   let berthLayers;
@@ -77,14 +79,18 @@
     const vesselValues = new Map();
     const areaValues = new Set();
 
-    photos.forEach(photo => {
-      const id = String(photo?.vessel_id || "").trim();
-      const name = String(photo?.vessel_name || id || "").trim();
+    const addFilterValues = item => {
+      const id = String(item?.vessel_id || "").trim();
+      const name = String(item?.vessel_name || id || "").trim();
       const key = id || name;
       if (key) vesselValues.set(key, name || key);
-      const areaName = String(photo?.location?.name || "").trim();
+
+      const areaName = String(item?.location?.name || "").trim();
       if (areaName) areaValues.add(areaName);
-    });
+    };
+
+    photos.forEach(addFilterValues);
+    sightings.forEach(addFilterValues);
 
     [...vesselValues.entries()]
       .sort((a, b) => a[1].localeCompare(b[1], "de"))
@@ -117,6 +123,47 @@
     return true;
   }
 
+
+  function sightingMatches(sighting) {
+    const vesselKey = String(
+      sighting?.vessel_id || sighting?.vessel_name || ""
+    ).trim();
+
+    if (
+      vesselFilter.value &&
+      vesselKey !== vesselFilter.value
+    ) {
+      return false;
+    }
+
+    if (
+      areaFilter.value &&
+      String(sighting?.location?.name || "") !==
+        areaFilter.value
+    ) {
+      return false;
+    }
+
+    /*
+     * Eine Anlegeposition ist eine Sichtungsebene.
+     * Beim expliziten Filter auf direkte Zusatzfotos
+     * dürfen deshalb keine Schiffmarker erscheinen.
+     */
+    if (sourceFilter.value === "direct") {
+      return false;
+    }
+
+    const day = maps.localDateKey(sighting?.captured_at);
+    if (dateFrom.value && (!day || day < dateFrom.value)) {
+      return false;
+    }
+    if (dateTo.value && (!day || day > dateTo.value)) {
+      return false;
+    }
+
+    return true;
+  }
+
   function renderPhotos() {
     photoLayer.clearLayers();
     const visiblePhotos = photos.filter(photoMatches);
@@ -143,46 +190,31 @@
 
   function vesselBerthRecords() {
     const berthLookup = berthById();
-    const records = new Map();
 
-    for (const photo of photos.filter(photoMatches)) {
-      if (photo?.source_type !== "sighting") continue;
-      if (String(photo?.movement || "") !== "moored") continue;
+    return sightings
+      .filter(sightingMatches)
+      .filter(sighting =>
+        String(sighting?.movement || "") === "moored"
+      )
+      .map(sighting => {
+        const berthId = String(
+          sighting?.berth?.id || ""
+        ).trim();
 
-      const berthId = String(photo?.berth?.id || "").trim();
-      if (!berthId || !berthLookup.has(berthId)) continue;
+        if (!berthId || !berthLookup.has(berthId)) {
+          return null;
+        }
 
-      const submissionId = String(photo?.submission_id || "").trim();
-      const key = submissionId || [
-        photo?.vessel_id || photo?.vessel_name || "",
-        photo?.captured_at || "",
-        berthId
-      ].join("|");
-
-      if (!records.has(key)) {
-        records.set(key, {
-          ...photo,
-          berth: { ...(photo.berth || {}) },
-          berth_id: berthId
-        });
-        continue;
-      }
-
-      const current = records.get(key);
-      const currentTime = Date.parse(current?.captured_at || "");
-      const candidateTime = Date.parse(photo?.captured_at || "");
-      if (
-        Number.isFinite(candidateTime) &&
-        (!Number.isFinite(currentTime) || candidateTime < currentTime)
-      ) {
-        current.captured_at = photo.captured_at;
-      }
-    }
-
-    return [...records.values()].map(record => ({
-      record,
-      berth: berthLookup.get(record.berth_id)
-    }));
+        return {
+          record: {
+            ...sighting,
+            berth: { ...(sighting.berth || {}) },
+            berth_id: berthId
+          },
+          berth: berthLookup.get(berthId)
+        };
+      })
+      .filter(Boolean);
   }
 
   function renderVesselBerths() {
@@ -204,8 +236,19 @@
       showVesselBerths.checked
     );
 
+    const uniqueVessels = new Set(
+      entries
+        .map(entry => String(
+          entry?.record?.vessel_id ||
+          entry?.record?.vessel_name ||
+          ""
+        ).trim())
+        .filter(Boolean)
+    ).size;
+
     vesselBerthCount.textContent =
-      `${entries.length} ${entries.length === 1 ? "Schiff an Anlegestelle" : "Schiffe an Anlegestellen"}`;
+      `${entries.length} ${entries.length === 1 ? "Anlege-Sichtung" : "Anlege-Sichtungen"} · ` +
+      `${uniqueVessels} ${uniqueVessels === 1 ? "Schiff" : "Schiffe"}`;
   }
 
   function renderMapData() {
@@ -294,10 +337,20 @@
 
   try {
     map = maps.createMap(document.getElementById("locationAreasMap"));
-    [areas, photos] = await Promise.all([
+
+    const [loadedAreas, locationIndex] = await Promise.all([
       maps.loadAreas(),
-      maps.loadPhotoLocations().catch(() => [])
+      maps.loadLocationIndex().catch(() => ({
+        schema_version: 0,
+        photos: [],
+        sightings: []
+      }))
     ]);
+
+    areas = loadedAreas;
+    photos = locationIndex.photos;
+    sightings = locationIndex.sightings;
+    locationIndexSchemaVersion = locationIndex.schema_version;
 
     areaLayers = maps.addAreaLayers(map, areas, {
       addToMap: true,
@@ -327,7 +380,13 @@
 
     showSelectedPhoto();
 
-    status.textContent = `${areas.length} Bereiche · ${berths.length} Anlegestellen · ${photos.length} Fotoorte geladen.`;
+    const indexNote = locationIndexSchemaVersion >= 2
+      ? `${sightings.length} bestätigte Sichtungen`
+      : "Kartenindex noch ohne Sichtungsebene – Rebuild ausführen";
+
+    status.textContent =
+      `${areas.length} Bereiche · ${berths.length} Anlegestellen · ` +
+      `${photos.length} Fotoorte · ${indexNote}.`;
   } catch (error) {
     status.textContent = error instanceof Error ? error.message : String(error);
     status.classList.add("error");
