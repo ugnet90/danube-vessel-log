@@ -2,8 +2,8 @@
 """
 Danube Vessel Log
 File: tools/rebuild_location_matches.py
-Version: 0.14.27
-Updated: 2026-08-19
+Version: 0.14.35
+Updated: 2026-08-20
 
 Einmaliges bzw. wiederholbares Wartungswerkzeug zur nachträglichen
 Neuberechnung automatisch ermittelter Aufnahme-/Sichtungsorte anhand der
@@ -25,6 +25,10 @@ LOCATION_AREAS_PATH = ROOT / "data" / "location_areas.geojson"
 SUBMISSIONS_DIR = ROOT / "inbox" / "submissions"
 VESSEL_PHOTOS_DIR = ROOT / "data" / "vessel_photos"
 SIGHTINGS_PATH = ROOT / "data" / "sightings.json"
+VESSELS_PATH = ROOT / "data" / "vessels.csv"
+PHOTO_LOCATIONS_PATH = ROOT / "data" / "photo_locations.json"
+DOCS_PHOTO_LOCATIONS_PATH = ROOT / "docs" / "data" / "photo_locations.json"
+DOCS_LOCATION_AREAS_PATH = ROOT / "docs" / "data" / "location_areas.geojson"
 LEGACY_PHOTO_GPS_CUTOFF = "2026-08-18T00:00:00Z"
 
 
@@ -342,7 +346,173 @@ def read_json(path: Path) -> Any:
 
 
 def write_json(path: Path, document: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def json_text(document: Any) -> str:
+    return json.dumps(document, ensure_ascii=False, indent=2) + "\n"
+
+
+def write_json_if_changed(path: Path, document: Any, apply_changes: bool) -> bool:
+    content = json_text(document)
+    current = path.read_text(encoding="utf-8") if path.exists() else None
+    changed = current != content
+    if changed and apply_changes:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content, encoding="utf-8")
+    return changed
+
+
+def sync_text_file(source: Path, target: Path, apply_changes: bool) -> bool:
+    if not source.exists():
+        return False
+    content = source.read_text(encoding="utf-8")
+    current = target.read_text(encoding="utf-8") if target.exists() else None
+    changed = current != content
+    if changed and apply_changes:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(content, encoding="utf-8")
+    return changed
+
+
+def load_vessel_names() -> dict[str, str]:
+    if not VESSELS_PATH.exists():
+        return {}
+    names: dict[str, str] = {}
+    with VESSELS_PATH.open("r", encoding="utf-8-sig", newline="") as handle:
+        for row in csv.DictReader(handle, delimiter=";"):
+            vessel_id = str(row.get("vessel_id", "")).strip()
+            name = str(row.get("name", "")).strip()
+            if vessel_id:
+                names[vessel_id] = name
+    return names
+
+
+def normalized_berth_for_index(value: Any) -> dict[str, Any] | None:
+    if not isinstance(value, dict):
+        return None
+    return {
+        "status": str(value.get("status", "unknown")),
+        "id": str(value.get("id", "")),
+        "name": str(value.get("name", "")),
+        "short_name": str(value.get("short_name", "")),
+        "station_number": str(value.get("station_number", "")),
+    }
+
+
+def photo_index_record(
+    *,
+    photo: dict[str, Any],
+    source_type: str,
+    vessel_id: str,
+    vessel_name: str,
+    submission_id: str = "",
+    fallback_captured_at: str = "",
+    fallback_location: Any = None,
+    berth: Any = None,
+    movement: str = "",
+) -> dict[str, Any] | None:
+    lat = parse_coordinate(photo.get("photo_lat"))
+    lon = parse_coordinate(photo.get("photo_lon"))
+    if lat is None or lon is None or (lat == 0 and lon == 0):
+        return None
+
+    location_value = photo.get("location")
+    if not isinstance(location_value, dict):
+        location_value = fallback_location
+
+    return {
+        "photo_id": str(photo.get("photo_id", "")).strip(),
+        "source_type": source_type,
+        "submission_id": submission_id,
+        "vessel_id": vessel_id,
+        "vessel_name": vessel_name,
+        "captured_at": str(photo.get("captured_at") or fallback_captured_at or "").strip(),
+        "photo_lat": lat,
+        "photo_lon": lon,
+        "location": normalize_location_block(location_value),
+        "berth": normalized_berth_for_index(berth),
+        "movement": str(movement or "").strip(),
+        "path": str(photo.get("path", "")).strip(),
+    }
+
+
+def build_photo_locations_document() -> dict[str, Any]:
+    vessel_names = load_vessel_names()
+    records: list[dict[str, Any]] = []
+
+    for path in iter_submission_files():
+        try:
+            submission = read_json(path)
+        except Exception:
+            continue
+
+        workflow = submission.get("workflow") if isinstance(submission.get("workflow"), dict) else {}
+        review = workflow.get("review") if isinstance(workflow.get("review"), dict) else {}
+        auto = workflow.get("auto") if isinstance(workflow.get("auto"), dict) else {}
+        vessel_match = auto.get("vessel_match") if isinstance(auto.get("vessel_match"), dict) else {}
+
+        reviewed_id = str(review.get("vessel_id", "")).strip()
+        auto_id = str(vessel_match.get("vessel_id", "")).strip()
+        vessel_id = reviewed_id if reviewed_id.startswith("VES-") else auto_id if auto_id.startswith("VES-") else ""
+        entered_name = str(submission.get("vessel_name_entered", "")).strip()
+        vessel_name = vessel_names.get(vessel_id, "") or entered_name or vessel_id
+        submission_id = str(submission.get("submission_id", "")).strip()
+        captured_at = str(submission.get("captured_at", "")).strip()
+        photos = submission.get("photos") if isinstance(submission.get("photos"), list) else []
+
+        for photo in photos:
+            if not isinstance(photo, dict):
+                continue
+            record = photo_index_record(
+                photo=photo,
+                source_type="sighting",
+                vessel_id=vessel_id,
+                vessel_name=vessel_name,
+                submission_id=submission_id,
+                fallback_captured_at=captured_at,
+                fallback_location=submission.get("location"),
+                berth=submission.get("berth"),
+                movement=str(submission.get("movement", "")),
+            )
+            if record:
+                records.append(record)
+
+    for path in iter_vessel_photo_files():
+        try:
+            document = read_json(path)
+        except Exception:
+            continue
+        vessel_id = str(document.get("vessel_id", "")).strip()
+        vessel_name = vessel_names.get(vessel_id, "") or vessel_id
+        photos = document.get("photos") if isinstance(document.get("photos"), list) else []
+        for photo in photos:
+            if not isinstance(photo, dict):
+                continue
+            record = photo_index_record(
+                photo=photo,
+                source_type="direct",
+                vessel_id=vessel_id,
+                vessel_name=vessel_name,
+            )
+            if record:
+                records.append(record)
+
+    records.sort(
+        key=lambda item: (
+            str(item.get("captured_at", "")),
+            str(item.get("photo_id", "")),
+        ),
+        reverse=True,
+    )
+
+    return {
+        "schema_version": 1,
+        "updated_at": max((str(item.get("captured_at", "")) for item in records), default=""),
+        "count": len(records),
+        "photos": records,
+    }
 
 
 def rebuild_submission(path: Path, locations: list[dict[str, Any]], areas: list[dict[str, Any]], apply_changes: bool) -> tuple[bool, str, dict[str, Any] | None]:
@@ -534,6 +704,23 @@ def main() -> int:
         args.apply
     )
 
+    photo_locations_document = build_photo_locations_document()
+    photo_index_changed = write_json_if_changed(
+        PHOTO_LOCATIONS_PATH,
+        photo_locations_document,
+        args.apply
+    )
+    docs_photo_index_changed = write_json_if_changed(
+        DOCS_PHOTO_LOCATIONS_PATH,
+        photo_locations_document,
+        args.apply
+    )
+    docs_areas_changed = sync_text_file(
+        LOCATION_AREAS_PATH,
+        DOCS_LOCATION_AREAS_PATH,
+        args.apply
+    )
+
     print("Danube Vessel Log – Rebuild Location Matches")
     print(f"Modus: {'APPLY' if args.apply else 'DRY RUN'}")
     print(f"Submission-Dateien geprüft: {submission_scanned}")
@@ -543,6 +730,9 @@ def main() -> int:
     print(f"Direkte Foto-Standorte geändert: {vessel_photo_changed}")
     print(f"Sichtungsindex-Einträge geprüft: {sightings_scanned}")
     print(f"Sichtungsindex-Einträge geändert: {sightings_changed}")
+    print(f"Foto-Standortindex Einträge: {photo_locations_document['count']}")
+    print(f"Foto-Standortindex geändert: {photo_index_changed or docs_photo_index_changed}")
+    print(f"Docs-Polygonspiegel geändert: {docs_areas_changed}")
     if submission_logs:
         print("\nBeispiele geänderter Submissions:")
         for line in submission_logs[:20]:
