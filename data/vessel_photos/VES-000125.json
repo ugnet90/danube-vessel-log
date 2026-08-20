@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "vessel_id": "VES-000125",
   "photos": [
     {
@@ -60,10 +60,10 @@
       },
       "vessel_name_entered": "Travelmarvel Vega",
       "relation": {
-        "type": "vessel",
-        "submission_id": ""
+        "type": "sighting",
+        "submission_id": "SUB-20260820-121908-E4BD96"
       }
     }
   ],
-  "updated_at": "2026-08-20T13:06:04.210Z"
+  "updated_at": "2026-08-20T17:12:27.042Z"
 }
