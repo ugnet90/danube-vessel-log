@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/location_areas.css
- * Version: 0.14.40
+ * Version: 0.14.41
  * Updated: 2026-08-20
  */
 
@@ -55,6 +55,7 @@
 .photo-marker-legend span { display: inline-flex; align-items: center; gap: 6px; }
 .photo-marker-dot { width: 11px; height: 11px; border: 2px solid; border-radius: 50%; box-sizing: border-box; }
 .photo-marker-dot-linked { border-color: #1e3a8a; background: #60a5fa; }
+.photo-marker-dot-unlocated { border-color: #5b21b6; background: #c4b5fd; }
 .photo-marker-dot-vessel { border-color: #92400e; background: #facc15; }
 .location-map-toolbar {
   position: absolute;
