@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-20T12:32:29.677912Z",
+  "generated_at": "2026-08-20T12:52:10.713720Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,11 +32,11 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 29,
-    "vessels_incomplete": 29,
+    "vessels_total": 30,
+    "vessels_incomplete": 30,
     "vessels_complete": 0,
     "candidate_matches": 0,
-    "matched_no_new_data": 14,
+    "matched_no_new_data": 15,
     "low_confidence": 0,
     "no_match": 15,
     "lookup_errors": 0,
@@ -1528,6 +1528,56 @@
         }
       ],
       "missing_count": 16,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "matched_no_new_data",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000126",
+      "name": "Verdi",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000126.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
         "status": "matched_no_new_data",
