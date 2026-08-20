@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_areas.js
- * Version: 0.14.39
+ * Version: 0.14.40
  * Updated: 2026-08-20
  */
 
@@ -26,6 +26,9 @@
   const resetFilters = document.getElementById("resetPhotoFilters");
   const photoCount = document.getElementById("photoCount");
   const vesselBerthCount = document.getElementById("vesselBerthCount");
+  const connectionCount = document.getElementById("connectionCount");
+  const fullscreenButton = document.getElementById("toggleMapFullscreen");
+  const mapCard = document.querySelector(".location-areas-map-card");
 
   if (!maps || !window.L) {
     status.textContent = "Die Kartenbibliothek konnte nicht geladen werden.";
@@ -230,6 +233,7 @@
 
   function renderConnections(entries, visiblePhotos) {
     connectionLayer.clearLayers();
+    let renderedCount = 0;
 
     const bySubmission = new Map(
       entries
@@ -276,18 +280,30 @@
         berthCoordinates,
         {
           addToMap: false,
+          color: "#0f4c81",
+          weight: 2.4,
+          opacity: 0.9,
+          dashArray: "6 6",
           tooltip:
             `${vesselName}: Foto-Aufnahmeort → ${berthName}`
         }
       );
 
-      if (line) line.addTo(connectionLayer);
+      if (line) {
+        line.addTo(connectionLayer);
+        renderedCount += 1;
+      }
     }
 
     setLayerVisible(
       connectionLayer,
       showPhotos.checked && showVesselBerths.checked
     );
+
+    if (connectionCount) {
+      connectionCount.textContent =
+        `${renderedCount} ${renderedCount === 1 ? "Verbindung" : "Verbindungen"}`;
+    }
   }
 
   function renderVesselBerths(visiblePhotos) {
@@ -320,7 +336,10 @@
           map,
           groupedEntries.map(entry => entry.record),
           berth,
-          { addToMap: false }
+          {
+            addToMap: false,
+            spiderfy: true
+          }
         );
       }
 
@@ -412,6 +431,28 @@
     }
   }
 
+  function setMapFullscreen(active) {
+    if (!mapCard || !fullscreenButton) return;
+
+    mapCard.classList.toggle("is-fullscreen", active);
+    document.body.classList.toggle(
+      "location-map-fullscreen",
+      active
+    );
+
+    fullscreenButton.textContent = active
+      ? "Vollbild schließen"
+      : "Vollbild";
+    fullscreenButton.setAttribute(
+      "aria-pressed",
+      active ? "true" : "false"
+    );
+
+    window.setTimeout(() => {
+      map?.invalidateSize();
+    }, 40);
+  }
+
   function wireControls() {
     showAreas.addEventListener("change", () => setLayerVisible(areaLayers.group, showAreas.checked));
     showBerths.addEventListener("change", () => setLayerVisible(berthLayers?.group, showBerths.checked));
@@ -431,6 +472,23 @@
       labelMode.value = "none";
       renderMapData();
     });
+
+    if (fullscreenButton && mapCard) {
+      fullscreenButton.addEventListener("click", () => {
+        setMapFullscreen(
+          !mapCard.classList.contains("is-fullscreen")
+        );
+      });
+
+      document.addEventListener("keydown", event => {
+        if (
+          event.key === "Escape" &&
+          mapCard.classList.contains("is-fullscreen")
+        ) {
+          setMapFullscreen(false);
+        }
+      });
+    }
   }
 
   try {

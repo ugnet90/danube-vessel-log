@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_map.js
- * Version: 0.14.39
+ * Version: 0.14.40
  * Updated: 2026-08-20
  *
  * Gemeinsame Kartenlogik für Standortseite und Foto-Kartenoverlay.
@@ -542,6 +542,16 @@
     return { group, bounds, markers };
   }
 
+  function photoHasSightingRelation(photo) {
+    const submissionId = String(
+      photo?.submission_id ||
+      photo?.relation?.submission_id ||
+      ""
+    ).trim();
+
+    return Boolean(submissionId);
+  }
+
   function photoLabel(photo, mode = "none") {
     const vessel = String(
       photo?.vessel_name || photo?.vessel_id || ""
@@ -573,12 +583,12 @@
       photo?.location?.name
         ? `Aufnahmeort: ${photo.location.name}`
         : "Aufnahmeort: unbekannt",
-      photo?.submission_id
-        ? `Sichtung: ${photo.submission_id}`
+      photoHasSightingRelation(photo)
+        ? `Sichtung: ${photo.submission_id || photo?.relation?.submission_id}`
         : (
           photo?.source_type === "direct"
-            ? "Zusätzliches Schiffsfoto"
-            : "Sichtungsfoto"
+            ? "Nur zum Schiff"
+            : "Sichtungsfoto ohne Sichtungs-ID"
         )
     ].filter(Boolean);
 
@@ -617,12 +627,16 @@
     );
     addLine(
       photo?.source_type === "direct"
-        ? "Typ: Zusätzliches Schiffsfoto"
+        ? (
+          photoHasSightingRelation(photo)
+            ? "Typ: Zusatzfoto zu Sichtung"
+            : "Typ: Zusatzfoto nur zum Schiff"
+        )
         : "Typ: Sichtungsfoto"
     );
     addLine(
-      photo?.submission_id
-        ? `Sichtung: ${photo.submission_id}`
+      photoHasSightingRelation(photo)
+        ? `Sichtung: ${photo.submission_id || photo?.relation?.submission_id}`
         : ""
     );
 
@@ -645,14 +659,20 @@
     );
     if (!coords) return null;
 
+    const hasSighting = photoHasSightingRelation(photo);
+
     const marker = L.circleMarker(
       [coords.latitude, coords.longitude],
       {
         radius: options.radius ?? 7,
-        color: options.color || "#111827",
+        color:
+          options.color ||
+          (hasSighting ? "#1e3a8a" : "#92400e"),
         weight: options.weight ?? 2,
-        fillColor: options.fillColor || "#facc15",
-        fillOpacity: options.fillOpacity ?? 0.9
+        fillColor:
+          options.fillColor ||
+          (hasSighting ? "#60a5fa" : "#facc15"),
+        fillOpacity: options.fillOpacity ?? 0.92
       }
     );
 
@@ -698,7 +718,7 @@
     return marker;
   }
 
-  function vesselBerthPopup(record) {
+  function vesselBerthPopup(record, options = {}) {
     const container = document.createElement("div");
     container.className = "vessel-berth-popup";
 
@@ -737,8 +757,9 @@
 
     const note = document.createElement("div");
     note.className = "vessel-berth-position-note";
-    note.textContent =
-      "Marker = Position der erfassten Anlegestelle, kein Schiff-GPS.";
+    note.textContent = options.spiderfied
+      ? "Aufgefächerte Darstellung; die reale gespeicherte Position bleibt die Anlegestelle."
+      : "Marker = Position der erfassten Anlegestelle, kein Schiff-GPS.";
     container.append(note);
 
     if (record?.vessel_id) {
@@ -793,15 +814,27 @@
   }
 
   function createVesselBerthMarker(map, record, berth, options = {}) {
-    const coords = validCoordinates(
+    const berthCoords = validCoordinates(
       berth?.latitude,
       berth?.longitude
     );
-    if (!coords) return null;
+    if (!berthCoords) return null;
+
+    const displayCoords = options.displayCoordinates
+      ? validCoordinates(
+          options.displayCoordinates.latitude,
+          options.displayCoordinates.longitude
+        )
+      : berthCoords;
+
+    if (!displayCoords) return null;
 
     const marker = L.marker(
-      [coords.latitude, coords.longitude],
-      { icon: vesselBerthIcon(), zIndexOffset: 450 }
+      [displayCoords.latitude, displayCoords.longitude],
+      {
+        icon: vesselBerthIcon(),
+        zIndexOffset: options.zIndexOffset ?? 450
+      }
     );
 
     const mergedRecord = {
@@ -812,7 +845,12 @@
       }
     };
 
-    marker.bindPopup(vesselBerthPopup(mergedRecord));
+    marker.bindPopup(
+      vesselBerthPopup(
+        mergedRecord,
+        { spiderfied: options.spiderfied === true }
+      )
+    );
     marker.bindTooltip(vesselBerthHoverContent(mergedRecord), {
       permanent: false,
       sticky: true,
@@ -967,7 +1005,8 @@
       "Anlegestelle";
 
     marker.bindTooltip(
-      `${berthName}<br>${normalized.length} Anlege-Sichtungen`,
+      `${berthName}<br>${normalized.length} Anlege-Sichtungen` +
+      (options.spiderfy ? "<br>Klick: auffächern" : ""),
       {
         permanent: false,
         sticky: true,
@@ -976,6 +1015,111 @@
         className: "vessel-berth-hover-tooltip"
       }
     );
+
+    if (options.spiderfy) {
+      let spiderLayer = null;
+
+      const collapse = () => {
+        if (spiderLayer && map.hasLayer(spiderLayer)) {
+          map.removeLayer(spiderLayer);
+        }
+        spiderLayer = null;
+
+        if (
+          map._danubeVesselSpiderfy &&
+          map._danubeVesselSpiderfy.marker === marker
+        ) {
+          map._danubeVesselSpiderfy = null;
+        }
+      };
+
+      const expand = () => {
+        if (spiderLayer) {
+          collapse();
+          return;
+        }
+
+        if (
+          map._danubeVesselSpiderfy?.collapse &&
+          map._danubeVesselSpiderfy.marker !== marker
+        ) {
+          map._danubeVesselSpiderfy.collapse();
+        }
+
+        spiderLayer = L.layerGroup();
+
+        const center = L.latLng(
+          coords.latitude,
+          coords.longitude
+        );
+        const centerPoint = map.latLngToLayerPoint(center);
+        const count = normalized.length;
+
+        const ringCapacity = 10;
+        normalized.forEach((record, index) => {
+          const ring = Math.floor(index / ringCapacity);
+          const ringStart = ring * ringCapacity;
+          const ringCount = Math.min(
+            ringCapacity,
+            count - ringStart
+          );
+          const ringIndex = index - ringStart;
+          const radius = 52 + ring * 34;
+          const angle =
+            (-Math.PI / 2) +
+            (2 * Math.PI * ringIndex / ringCount);
+
+          const point = L.point(
+            centerPoint.x + Math.cos(angle) * radius,
+            centerPoint.y + Math.sin(angle) * radius
+          );
+          const latLng = map.layerPointToLatLng(point);
+
+          const displayCoordinates = {
+            latitude: latLng.lat,
+            longitude: latLng.lng
+          };
+
+          const leg = L.polyline(
+            [center, latLng],
+            {
+              color: "#64748b",
+              weight: 1.2,
+              opacity: 0.72,
+              dashArray: "2 4",
+              interactive: false
+            }
+          );
+          leg.addTo(spiderLayer);
+
+          const itemMarker = createVesselBerthMarker(
+            map,
+            record,
+            berth,
+            {
+              addToMap: false,
+              displayCoordinates,
+              spiderfied: true,
+              zIndexOffset: 520 + index
+            }
+          );
+
+          if (itemMarker) {
+            itemMarker.addTo(spiderLayer);
+          }
+        });
+
+        spiderLayer.addTo(map);
+        map._danubeVesselSpiderfy = {
+          marker,
+          collapse
+        };
+      };
+
+      marker.on("click", expand);
+      marker.on("remove", collapse);
+      map.on("zoomstart", collapse);
+    }
 
     if (options.addToMap !== false) {
       marker.addTo(map);
@@ -1045,6 +1189,7 @@
     addAreaLayers,
     addBerthLayers,
     createPhotoMarker,
+    photoHasSightingRelation,
     createVesselBerthMarker,
     createVesselBerthGroupMarker,
     createPhotoVesselConnection

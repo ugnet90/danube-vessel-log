@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.14.39
+// Version: 0.14.40
 // Updated: 2026-08-20
 
 "use strict";
@@ -506,20 +506,33 @@ document.addEventListener("DOMContentLoaded", () => {
     pageStatus.textContent = "Foto-Zuordnung wird gespeichert …";
 
     try {
-      await window.VesselApi.updateVesselPhotoRelation({
-        workerUrl,
-        apiKey: apiKey.value,
-        vesselId,
-        photoId,
-        relationType,
-        submissionId
-      });
+      const response =
+        await window.VesselApi.updateVesselPhotoRelation({
+          workerUrl,
+          apiKey: apiKey.value,
+          vesselId,
+          photoId,
+          relationType,
+          submissionId
+        });
 
       await load();
       pageStatus.className = "page-status success";
+
+      const mapIndexUpdated =
+        response?.data?.map_index_updated === true;
+
       pageStatus.textContent = submissionId
-        ? "Das Zusatzfoto wurde der Sichtung zugeordnet. Für die Gesamtkarte bitte den Rebuild ausführen."
-        : "Der Sichtungsbezug wurde entfernt. Für die Gesamtkarte bitte den Rebuild ausführen.";
+        ? (
+          mapIndexUpdated
+            ? "Das Zusatzfoto wurde der Sichtung zugeordnet; die Gesamtkarte ist ebenfalls aktualisiert."
+            : "Das Zusatzfoto wurde der Sichtung zugeordnet. Für die Gesamtkarte bitte einmal den Rebuild ausführen."
+        )
+        : (
+          mapIndexUpdated
+            ? "Der Sichtungsbezug wurde entfernt; die Gesamtkarte ist ebenfalls aktualisiert."
+            : "Der Sichtungsbezug wurde entfernt. Für die Gesamtkarte bitte einmal den Rebuild ausführen."
+        );
     } catch (error) {
       pageStatus.className = "page-status error";
       pageStatus.textContent =
@@ -534,8 +547,15 @@ document.addEventListener("DOMContentLoaded", () => {
     photo,
     sightings
   ) {
-    const wrapper = document.createElement("div");
-    wrapper.className = "photo-relation-control";
+    const details = document.createElement("details");
+    details.className = "photo-relation-control";
+
+    const summary = document.createElement("summary");
+    summary.textContent = "Zuordnung ändern";
+    details.append(summary);
+
+    const fields = document.createElement("div");
+    fields.className = "photo-relation-fields";
 
     const label = document.createElement("label");
     const title = document.createElement("span");
@@ -572,15 +592,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveButton = document.createElement("button");
     saveButton.type = "button";
     saveButton.className = "secondary-button photo-relation-save";
-    saveButton.textContent = "Zuordnung speichern";
+    saveButton.textContent = "Speichern";
     saveButton.disabled = !photo?.photo_id;
     saveButton.addEventListener("click", () =>
       saveDirectPhotoRelation(photo, select, saveButton)
     );
 
     label.append(title, select);
-    wrapper.append(label, saveButton);
-    return wrapper;
+    fields.append(label, saveButton);
+    details.append(fields);
+    return details;
   }
 
   function loadScriptOnce(src, test) {
@@ -865,8 +886,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 weight: 4
               }
             : {
-                color: "#111827",
-                fillColor: "#facc15",
                 radius: 7,
                 weight: 2
               }
