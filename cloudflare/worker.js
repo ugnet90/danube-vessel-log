@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.35
+ * Version: 0.14.39
  * Updated: 2026-08-20
  */
 
@@ -278,6 +278,28 @@ export default {
         }, 500);
       }
     }
+    if (
+      request.method === "GET" &&
+      url.pathname === "/vessel-sightings-upload"
+    ) {
+      try {
+        return await handleVesselSightingsUploadList(
+          request,
+          env
+        );
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler beim Laden der Sichtungsauswahl.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error)
+        }, 500);
+      }
+    }
+
     if (request.method === "GET" && url.pathname === "/vessel") {
       try {
         return await handleVesselDetail(request, env);
@@ -448,6 +470,32 @@ export default {
           ok: false,
           error:
             "Unbehandelter Fehler beim Löschen des Fotos.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          stack:
+            error instanceof Error
+              ? error.stack
+              : null
+        }, 500);
+      }
+    }
+
+    if (
+      request.method === "POST" &&
+      url.pathname === "/vessel-photo-relation"
+    ) {
+      try {
+        return await handleVesselPhotoRelation(
+          request,
+          env
+        );
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler beim Ändern der Foto-Zuordnung.",
           exception:
             error instanceof Error
               ? error.message
@@ -2266,6 +2314,139 @@ async function findSubmissionFile(env, submissionId) {
   }
 }
 
+function normalizeDirectPhotoRelation(value) {
+  const type =
+    value && typeof value === "object" &&
+    String(value.type ?? "").trim() === "sighting"
+      ? "sighting"
+      : "vessel";
+
+  const submissionId =
+    type === "sighting" &&
+    /^SUB-[A-Z0-9-]{8,80}$/.test(
+      String(value?.submission_id ?? "").trim()
+    )
+      ? String(value.submission_id).trim()
+      : "";
+
+  return {
+    type: submissionId ? "sighting" : "vessel",
+    submission_id: submissionId
+  };
+}
+
+function reviewedVesselIdForSubmission(submission) {
+  const workflow =
+    submission?.workflow &&
+    typeof submission.workflow === "object"
+      ? submission.workflow
+      : {};
+
+  const review =
+    workflow?.review &&
+    typeof workflow.review === "object"
+      ? workflow.review
+      : {};
+
+  const decision =
+    String(review?.decision ?? "").trim();
+
+  const reviewedVesselId =
+    String(review?.vessel_id ?? "").trim();
+
+  if (
+    String(workflow?.status ?? "").trim() !== "reviewed" ||
+    !new Set(["confirmed", "corrected", "created"]).has(decision) ||
+    !VESSEL_ID_PATTERN.test(reviewedVesselId)
+  ) {
+    return "";
+  }
+
+  return reviewedVesselId;
+}
+
+async function validateDirectPhotoRelation({
+  env,
+  vesselId,
+  relationType,
+  submissionId
+}) {
+  const normalizedType =
+    String(relationType ?? "vessel").trim() || "vessel";
+
+  if (!new Set(["vessel", "sighting"]).has(normalizedType)) {
+    return {
+      ok: false,
+      status: 400,
+      error: "relation_type muss vessel oder sighting sein."
+    };
+  }
+
+  if (normalizedType === "vessel") {
+    return {
+      ok: true,
+      relation: {
+        type: "vessel",
+        submission_id: ""
+      }
+    };
+  }
+
+  const normalizedSubmissionId =
+    String(submissionId ?? "").trim();
+
+  if (
+    !/^SUB-[A-Z0-9-]{8,80}$/.test(
+      normalizedSubmissionId
+    )
+  ) {
+    return {
+      ok: false,
+      status: 400,
+      error:
+        "Für relation_type=sighting ist eine gültige relation_submission_id erforderlich."
+    };
+  }
+
+  const submissionFile =
+    await findSubmissionFile(
+      env,
+      normalizedSubmissionId
+    );
+
+  if (!submissionFile.ok) {
+    return {
+      ok: false,
+      status: submissionFile.status ?? 502,
+      error: submissionFile.error
+    };
+  }
+
+  const reviewedVesselId =
+    reviewedVesselIdForSubmission(
+      submissionFile.submission
+    );
+
+  if (reviewedVesselId !== vesselId) {
+    return {
+      ok: false,
+      status: 409,
+      error:
+        "Die gewählte Sichtung gehört nicht zu diesem Schiff."
+    };
+  }
+
+  return {
+    ok: true,
+    relation: {
+      type: "sighting",
+      submission_id: normalizedSubmissionId
+    },
+    submission: submissionFile.submission,
+    submission_path: submissionFile.path
+  };
+}
+
 async function loadDirectVesselPhotos(env, vesselId) {
   const path = createVesselPhotosPath(vesselId);
   const file = await readGitHubFile({ env, path });
@@ -2365,6 +2546,7 @@ function normalizeDirectVesselPhotos(env, document) {
         typeof photo.vessel_name_entered === "string"
           ? photo.vessel_name_entered
           : "",
+      relation: normalizeDirectPhotoRelation(photo.relation),
       location: {
         status:
           photo.location?.status === "matched"
@@ -2748,6 +2930,10 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
   let directPhotoLatitude = null;
   let directPhotoLongitude = null;
   let directPhotoLocation = null;
+  let directPhotoRelation = {
+    type: "vessel",
+    submission_id: ""
+  };
 
   if (target.targetType === "submission") {
     submissionFile = await findSubmissionFile(env, target.submissionId);
@@ -2759,6 +2945,29 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
     if (!vesselResult.ok) return jsonResponse({ ok: false, error: vesselResult.error }, vesselResult.status === 404 ? 404 : 502);
     vesselPhotosFile = await loadDirectVesselPhotos(env, target.vesselId);
     if (!vesselPhotosFile.ok) return jsonResponse({ ok: false, error: vesselPhotosFile.error }, vesselPhotosFile.status ?? 502);
+
+    const relationResult =
+      await validateDirectPhotoRelation({
+        env,
+        vesselId: target.vesselId,
+        relationType:
+          input.relation_type ??
+          input.photo_relation?.type ??
+          "vessel",
+        submissionId:
+          input.relation_submission_id ??
+          input.photo_relation?.submission_id ??
+          ""
+      });
+
+    if (!relationResult.ok) {
+      return jsonResponse({
+        ok: false,
+        error: relationResult.error
+      }, relationResult.status ?? 400);
+    }
+
+    directPhotoRelation = relationResult.relation;
 
     /*
      * Reine Zusatzfotos sind keine neue Sichtung. Für neue Clients
@@ -2905,6 +3114,9 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
     if (target.targetType === "vessel") {
       record.vessel_name_entered =
         normalizeEnteredVesselName(input);
+      record.relation = {
+        ...directPhotoRelation
+      };
     }
 
     records.push(record);
@@ -2951,7 +3163,7 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
       sequence: existing.length + index + 1
     }));
 
-    vesselPhotosFile.document.schema_version = 1;
+    vesselPhotosFile.document.schema_version = 2;
     vesselPhotosFile.document.vessel_id = target.vesselId;
     vesselPhotosFile.document.photos = [
       ...existing,
@@ -3017,7 +3229,11 @@ async function handlePhotoAttachment(request, env, forcedTargetType = "") {
       captured_at: record.captured_at ?? "",
       photo_lat: parseCoordinate(record.photo_lat),
       photo_lon: parseCoordinate(record.photo_lon),
-      location: record.location ?? null
+      location: record.location ?? null,
+      relation:
+        target.targetType === "vessel"
+          ? normalizeDirectPhotoRelation(record.relation)
+          : null
     })),
     commit_sha: commitResult.commitSha
   }, 201);
@@ -3251,6 +3467,166 @@ function applyDeletedPrimaryPhotoFallback({
     changed: true,
     fallback
   };
+}
+
+async function handleVesselPhotoRelation(request, env) {
+  const authError = checkManagementKey(request, env);
+  if (authError) return authError;
+
+  let input;
+
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error: "Der Request enthält kein gültiges JSON."
+    }, 400);
+  }
+
+  const vesselId =
+    String(input?.vessel_id ?? "").trim();
+  const photoId =
+    String(input?.photo_id ?? "").trim();
+
+  if (!VESSEL_ID_PATTERN.test(vesselId)) {
+    return jsonResponse({
+      ok: false,
+      error: "vessel_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  if (!/^PHOTO-[A-Z0-9-]{6,80}$/.test(photoId)) {
+    return jsonResponse({
+      ok: false,
+      error: "photo_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  const vesselResult =
+    await loadCanonicalVessel(env, vesselId);
+
+  if (!vesselResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: vesselResult.error
+    }, vesselResult.status === 404 ? 404 : 502);
+  }
+
+  const relationResult =
+    await validateDirectPhotoRelation({
+      env,
+      vesselId,
+      relationType:
+        input?.relation_type ?? "vessel",
+      submissionId:
+        input?.submission_id ?? ""
+    });
+
+  if (!relationResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: relationResult.error
+    }, relationResult.status ?? 400);
+  }
+
+  const directPhotosResult =
+    await loadDirectVesselPhotos(env, vesselId);
+
+  if (!directPhotosResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: directPhotosResult.error
+    }, directPhotosResult.status ?? 502);
+  }
+
+  const photos =
+    Array.isArray(directPhotosResult.document.photos)
+      ? directPhotosResult.document.photos
+      : [];
+
+  const photo = photos.find(
+    item =>
+      String(item?.photo_id ?? "").trim() === photoId
+  );
+
+  if (!photo) {
+    return jsonResponse({
+      ok: false,
+      error: "Das zusätzliche Schiffsfoto wurde nicht gefunden."
+    }, 404);
+  }
+
+  const previousRelation =
+    normalizeDirectPhotoRelation(photo.relation);
+  const nextRelation = relationResult.relation;
+
+  if (
+    previousRelation.type === nextRelation.type &&
+    previousRelation.submission_id === nextRelation.submission_id
+  ) {
+    return jsonResponse({
+      ok: true,
+      changed: false,
+      vessel_id: vesselId,
+      photo_id: photoId,
+      relation: nextRelation
+    });
+  }
+
+  photo.relation = {
+    ...nextRelation
+  };
+
+  const updatedAt = new Date().toISOString();
+  directPhotosResult.document.schema_version =
+    Math.max(
+      Number(directPhotosResult.document.schema_version) || 1,
+      2
+    );
+  directPhotosResult.document.updated_at = updatedAt;
+
+  const commitResult =
+    await createAtomicGitHubCommit({
+      env,
+      message:
+        nextRelation.type === "sighting"
+          ? "Zusatzfoto Sichtung zugeordnet"
+          : "Zusatzfoto Sichtungsbezug gelöst",
+      files: [
+        {
+          path: directPhotosResult.path,
+          content:
+            JSON.stringify(
+              directPhotosResult.document,
+              null,
+              2
+            ) + "\n",
+          encoding: "utf-8"
+        }
+      ]
+    });
+
+  if (!commitResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: "Die Foto-Zuordnung konnte nicht gespeichert werden.",
+      github_step: commitResult.step,
+      github_status: commitResult.status,
+      github_response: commitResult.body
+    }, 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+    changed: true,
+    vessel_id: vesselId,
+    photo_id: photoId,
+    previous_relation: previousRelation,
+    relation: nextRelation,
+    updated_at: updatedAt,
+    commit_sha: commitResult.commitSha
+  });
 }
 
 async function handleDeleteVesselPhoto(request, env) {
@@ -3716,6 +4092,88 @@ async function handleVesselNamesList(
     ok: true,
     count: vessels.length,
     vessels
+  });
+}
+
+async function handleVesselSightingsUploadList(
+  request,
+  env
+) {
+  const authError = checkUploadKey(request, env);
+  if (authError) return authError;
+
+  const url = new URL(request.url);
+  const vesselId = String(
+    url.searchParams.get("vessel_id") ?? ""
+  ).trim();
+
+  if (!VESSEL_ID_PATTERN.test(vesselId)) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "vessel_id fehlt oder hat nicht das Format VES-000000."
+    }, 400);
+  }
+
+  const sightingsResult =
+    await loadSightingsDocument(env);
+
+  if (!sightingsResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: sightingsResult.error
+    }, sightingsResult.status ?? 502);
+  }
+
+  const sightings =
+    (Array.isArray(sightingsResult.document?.sightings)
+      ? sightingsResult.document.sightings
+      : [])
+      .filter(sighting =>
+        String(sighting?.vessel_id ?? "").trim() === vesselId
+      )
+      .map(sighting => ({
+        submission_id:
+          String(sighting?.submission_id ?? "").trim(),
+        captured_at:
+          String(sighting?.captured_at ?? "").trim(),
+        location:
+          sighting?.location && typeof sighting.location === "object"
+            ? {
+                status: sighting.location.status ?? "unknown",
+                id: sighting.location.id ?? "",
+                area_id: sighting.location.area_id ?? "",
+                name: sighting.location.name ?? "",
+                municipality: sighting.location.municipality ?? "",
+                country: sighting.location.country ?? ""
+              }
+            : null,
+        berth:
+          sighting?.berth && typeof sighting.berth === "object"
+            ? {
+                status: sighting.berth.status ?? "unknown",
+                id: sighting.berth.id ?? "",
+                name: sighting.berth.name ?? "",
+                short_name: sighting.berth.short_name ?? "",
+                station_number: sighting.berth.station_number ?? ""
+              }
+            : null,
+        movement:
+          String(sighting?.movement ?? "").trim(),
+        direction:
+          String(sighting?.direction ?? "").trim()
+      }))
+      .filter(sighting => Boolean(sighting.submission_id))
+      .sort((left, right) =>
+        String(right.captured_at)
+          .localeCompare(String(left.captured_at))
+      );
+
+  return jsonResponse({
+    ok: true,
+    vessel_id: vesselId,
+    count: sightings.length,
+    sightings
   });
 }
 
@@ -4191,7 +4649,8 @@ async function loadVesselSightings({
     if (photo) {
       primaryPhoto = {
         ...photo,
-        submission_id: "",
+        submission_id:
+          normalizeDirectPhotoRelation(photo.relation).submission_id,
         captured_at: photo.captured_at || photo.added_at
       };
     }
@@ -4222,7 +4681,10 @@ async function loadVesselSightings({
   if (!primaryPhoto && directPhotos[0]) {
     primaryPhoto = {
       ...directPhotos[0],
-      submission_id: "",
+      submission_id:
+        normalizeDirectPhotoRelation(
+          directPhotos[0].relation
+        ).submission_id,
       captured_at: directPhotos[0].captured_at || directPhotos[0].added_at
     };
   }
