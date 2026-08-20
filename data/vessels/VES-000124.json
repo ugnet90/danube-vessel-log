@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000124",
+  "identity": {
+    "name": "Amadeus Aurea",
+    "former_names": [],
+    "mmsi": "211229340",
+    "imo": "",
+    "eni": "",
+    "call_sign": "DG4407"
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "DE"
+  },
+  "technical": {
+    "year_built": null,
+    "shipyard": "",
+    "length_m": 135,
+    "width_m": 12,
+    "draft_m": null,
+    "passengers": null
+  },
+  "operations": {
+    "operator": "",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": ""
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-E209295CEF9F4EC391F907B7F5FF3809",
+    "primary_submission_id": "SUB-20260820-062732-2DAB3E"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-08-20T06:31:40.720Z",
+    "created_from_submission_id": "SUB-20260820-062732-2DAB3E",
+    "updated_at": "2026-08-20T06:31:40.720Z",
+    "updated_by": "web-ui"
+  }
+}
