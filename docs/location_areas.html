@@ -1,0 +1,51 @@
+<!--
+  Danube Vessel Log
+  File: docs/location_areas.html
+  Version: 0.14.33
+  Updated: 2026-08-20
+-->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Standortbereiche – Danube Vessel Log</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/location_areas.css">
+</head>
+<body>
+  <div class="site-nav-shell" data-site-nav></div>
+
+  <main class="location-areas-page">
+    <header class="location-areas-header">
+      <div>
+        <h1>Standortbereiche Linz</h1>
+        <p>Aktuelle GPS-Polygone auf OpenStreetMap-Basis.</p>
+      </div>
+      <div class="location-areas-actions">
+        <button id="toggleVerticesButton" class="secondary-button" type="button">Eckpunkte anzeigen</button>
+        <a class="secondary-button location-areas-link" href="data/location_areas.geojson" target="_blank" rel="noopener noreferrer">GeoJSON öffnen</a>
+      </div>
+    </header>
+
+    <section class="location-areas-layout">
+      <aside class="location-areas-panel">
+        <h2>Bereiche</h2>
+        <p class="location-areas-help">Klick auf einen Bereich zoomt auf das Polygon. Auf der Karte öffnet ein Klick die Details.</p>
+        <div id="locationAreasStatus" class="location-areas-status" aria-live="polite">Standortbereiche werden geladen …</div>
+        <div id="locationAreasList" class="location-areas-list"></div>
+      </aside>
+
+      <section class="location-areas-map-card" aria-label="Karte der Standortbereiche">
+        <div id="locationAreasMap" class="location-areas-map"></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="js/site_map.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/location_areas.js"></script>
+</body>
+</html>
