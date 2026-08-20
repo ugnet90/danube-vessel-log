@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.30**  
+Aktuelle Version: **0.14.31**  
 Stand: **20.08.2026**
 
 ## 1. Projektzweck
@@ -1115,3 +1115,67 @@ Geprüft wurden:
 
 - vollständige Projektbeschreibung
 - aktueller Stand: `0.14.30`
+
+## 41. Version 0.14.31 – Fotoindividuelle Zusatzfoto-Metadaten
+
+Version **0.14.31** korrigiert den Uploadpfad **„Foto(s) zu Schiff hinzufügen“**.
+
+Der iPhone-Kurzbefehl übermittelt bei mehreren Fotos bereits ein Array `photo_metadata` mit einem Datensatz pro Foto. Bis einschließlich 0.14.30 wertete der Worker beim direkten Anhängen an ein bestehendes Schiff jedoch nur die gemeinsamen Felder `captured_at`, `photo_lat` und `photo_lon` aus. Dadurch erhielten alle gleichzeitig hinzugefügten Fotos Zeit und Standort des ersten Fotos.
+
+Ab 0.14.31 gilt auch für Zusatzfotos:
+
+- `photo_metadata[0]` gehört zu Foto 1, `photo_metadata[1]` zu Foto 2 usw.;
+- jedes Foto erhält sein eigenes `captured_at`;
+- jedes Foto erhält seine eigenen `photo_lat`/`photo_lon`;
+- der Aufnahmeort wird für jedes Foto separat gegen `data/location_areas.geojson` aufgelöst;
+- `metadata_version = 1` kennzeichnet fotoindividuelle Metadaten;
+- der Ablagepfad `inbox/photos/JJJJ/MM/...` richtet sich bei vorhandenen Individualdaten nach dem Aufnahmezeitpunkt des jeweiligen Fotos;
+- ältere Kurzbefehle ohne `photo_metadata` bleiben kompatibel und verwenden weiterhin die gemeinsamen Felder.
+
+Die gleiche Logik wird auch genutzt, wenn Fotos nachträglich einer bestehenden Submission hinzugefügt werden.
+
+### 41.1 Bestehende Sichtungsfotos und Polygonänderungen
+
+Der vorhandene Workflow **`Rebuild location matches`** bleibt das Werkzeug, um gespeicherte Foto-Koordinaten nach einer Änderung von `data/location_areas.geojson` erneut auszuwerten.
+
+Der reale Testpunkt `48.30854666666666 / 14.28225` liegt im aktuellen, aus uMap übernommenen Polygon **„Donauufer Alt-Urfahr, Linz“** und soll daher genau so dargestellt werden. Dafür ist keine Änderung dieses Polygons erforderlich.
+
+### 41.2 Deployment
+
+Da `cloudflare/worker.js` geändert wird, ist nach dem Commit ein **Cloudflare-Worker-Deployment erforderlich**.
+
+Anschließend:
+
+1. den Workflow `Rebuild location matches` ausführen, damit bereits gespeicherte Sichtungsfotos mit ihren vorhandenen GPS-Daten gegen die aktuellen uMap-Polygone neu aufgelöst werden;
+2. den Kurzbefehl **„Foto(s) zu Schiff hinzufügen“** mit zwei Fotos unterschiedlicher Aufnahmezeit bzw. unterschiedlichem Aufnahmeort testen.
+
+## 42. Technische Prüfung für 0.14.31
+
+Geprüft wurden:
+
+- JavaScript-Syntax des Workers mit `node --check`;
+- `photo_metadata` wird im Zusatzfoto-Endpunkt validiert;
+- pro Foto werden individuelle Zeit und Koordinaten verwendet;
+- pro Foto wird der Standort separat aufgelöst;
+- Legacy-Fallback ohne `photo_metadata` bleibt erhalten;
+- die API-Antwort enthält die gespeicherten fotoindividuellen Werte zur leichteren Kontrolle;
+- ZIP-Integrität.
+
+## 43. Dateiversionen 0.14.31
+
+### cloudflare/worker.js
+
+- Version: `0.14.31`
+- Updated: `2026-08-20`
+- fotoindividuelle Zusatzfoto-Metadaten und Standortauflösung
+
+### docs/shortcuts/KURZBEFEHL_FOTOS_ZU_SCHIFF_HINZUFUEGEN.md
+
+- dokumentiert das in 0.14.31 erwartete `photo_metadata`-Format
+- beschreibt Rückwärtskompatibilität und Testablauf
+
+### README.md
+
+- vollständige Projektbeschreibung
+- aktueller Stand: `0.14.31`
+
