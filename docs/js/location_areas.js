@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_areas.js
- * Version: 0.14.33
+ * Version: 0.14.34
  * Updated: 2026-08-20
  */
 
@@ -20,12 +20,218 @@
   const status = document.getElementById("locationAreasStatus");
   const list = document.getElementById("locationAreasList");
   const toggleVerticesButton = document.getElementById("toggleVerticesButton");
+  const selectedPhotoCard = document.getElementById("selectedPhotoCard");
 
   if (!window.L) {
     status.textContent = "Die Kartenbibliothek Leaflet konnte nicht geladen werden.";
     status.classList.add("error");
     return;
   }
+
+  function coordinateFromQuery(
+    valueText,
+    minimum,
+    maximum
+  ) {
+    const parsed = Number(
+      String(valueText ?? "")
+        .trim()
+        .replace(",", ".")
+    );
+
+    return (
+      Number.isFinite(parsed) &&
+      parsed >= minimum &&
+      parsed <= maximum
+    )
+      ? parsed
+      : null;
+  }
+
+  function selectedPhotoFromQuery() {
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    const latitude = coordinateFromQuery(
+      params.get("lat"),
+      -90,
+      90
+    );
+
+    const longitude = coordinateFromQuery(
+      params.get("lon"),
+      -180,
+      180
+    );
+
+    if (
+      latitude === null ||
+      longitude === null ||
+      (latitude === 0 && longitude === 0)
+    ) {
+      return null;
+    }
+
+    return {
+      latitude,
+      longitude,
+      capturedAt:
+        params.get("captured_at") || "",
+      currentLocation:
+        params.get("location") || "",
+      photoId:
+        params.get("photo_id") || ""
+    };
+  }
+
+  function formatDateTime(valueText) {
+    if (!valueText) return "";
+
+    const date = new Date(valueText);
+    if (Number.isNaN(date.getTime())) {
+      return valueText;
+    }
+
+    return new Intl.DateTimeFormat(
+      "de-AT",
+      {
+        dateStyle: "medium",
+        timeStyle: "short"
+      }
+    ).format(date);
+  }
+
+  function pointOnSegment(
+    longitude,
+    latitude,
+    left,
+    right
+  ) {
+    const x1 = Number(left?.[0]);
+    const y1 = Number(left?.[1]);
+    const x2 = Number(right?.[0]);
+    const y2 = Number(right?.[1]);
+
+    if (
+      ![x1, y1, x2, y2].every(
+        Number.isFinite
+      )
+    ) {
+      return false;
+    }
+
+    const cross =
+      (longitude - x1) * (y2 - y1) -
+      (latitude - y1) * (x2 - x1);
+
+    if (Math.abs(cross) > 1e-10) {
+      return false;
+    }
+
+    return (
+      longitude >= Math.min(x1, x2) - 1e-10 &&
+      longitude <= Math.max(x1, x2) + 1e-10 &&
+      latitude >= Math.min(y1, y2) - 1e-10 &&
+      latitude <= Math.max(y1, y2) + 1e-10
+    );
+  }
+
+  function pointInRing(
+    longitude,
+    latitude,
+    ring
+  ) {
+    if (!Array.isArray(ring) || ring.length < 3) {
+      return false;
+    }
+
+    let inside = false;
+
+    for (
+      let index = 0,
+        previous = ring.length - 1;
+      index < ring.length;
+      previous = index, index += 1
+    ) {
+      const currentPoint = ring[index];
+      const previousPoint = ring[previous];
+
+      if (
+        pointOnSegment(
+          longitude,
+          latitude,
+          previousPoint,
+          currentPoint
+        )
+      ) {
+        return true;
+      }
+
+      const currentLon = Number(currentPoint?.[0]);
+      const currentLat = Number(currentPoint?.[1]);
+      const previousLon = Number(previousPoint?.[0]);
+      const previousLat = Number(previousPoint?.[1]);
+
+      if (
+        ![
+          currentLon,
+          currentLat,
+          previousLon,
+          previousLat
+        ].every(Number.isFinite)
+      ) {
+        continue;
+      }
+
+      const crosses =
+        (currentLat > latitude) !==
+        (previousLat > latitude);
+
+      if (!crosses) continue;
+
+      const intersectionLongitude =
+        ((previousLon - currentLon) *
+          (latitude - currentLat)) /
+          (previousLat - currentLat) +
+        currentLon;
+
+      if (longitude < intersectionLongitude) {
+        inside = !inside;
+      }
+    }
+
+    return inside;
+  }
+
+  function matchingAreas(
+    features,
+    selectedPhoto
+  ) {
+    return features
+      .filter(feature => {
+        const ring =
+          feature?.geometry?.coordinates?.[0];
+
+        return pointInRing(
+          selectedPhoto.longitude,
+          selectedPhoto.latitude,
+          ring
+        );
+      })
+      .sort((left, right) =>
+        Number(
+          right?.properties?.priority ?? 0
+        ) -
+        Number(
+          left?.properties?.priority ?? 0
+        )
+      );
+  }
+
+  const selectedPhoto =
+    selectedPhotoFromQuery();
 
   const map = L.map("locationAreasMap", {
     zoomControl: true,
@@ -111,6 +317,140 @@
     list.append(button);
   }
 
+  function renderSelectedPhoto(
+    features
+  ) {
+    if (!selectedPhoto) return;
+
+    const matches = matchingAreas(
+      features,
+      selectedPhoto
+    );
+
+    const bestMatch = matches[0] ?? null;
+    const bestMatchName =
+      bestMatch?.properties?.public_name ||
+      bestMatch?.properties?.name ||
+      "kein Polygon";
+
+    const marker = L.circleMarker(
+      [
+        selectedPhoto.latitude,
+        selectedPhoto.longitude
+      ],
+      {
+        radius: 9,
+        color: "#111827",
+        weight: 3,
+        fillColor: "#facc15",
+        fillOpacity: 1
+      }
+    ).addTo(map);
+
+    const popup =
+      document.createElement("div");
+
+    const title =
+      document.createElement("strong");
+    title.textContent = "Fotoaufnahme";
+    popup.append(title);
+
+    const captured = formatDateTime(
+      selectedPhoto.capturedAt
+    );
+
+    if (captured) {
+      popup.append(
+        document.createElement("br"),
+        document.createTextNode(captured)
+      );
+    }
+
+    popup.append(
+      document.createElement("br"),
+      document.createTextNode(
+        "GPS: " +
+        selectedPhoto.latitude.toFixed(7) +
+        " / " +
+        selectedPhoto.longitude.toFixed(7)
+      ),
+      document.createElement("br"),
+      document.createTextNode(
+        "Polygon: " + bestMatchName
+      )
+    );
+
+    marker.bindPopup(popup);
+
+    if (selectedPhotoCard) {
+      selectedPhotoCard.replaceChildren();
+
+      const heading =
+        document.createElement("strong");
+      heading.textContent = "Ausgewähltes Foto";
+      selectedPhotoCard.append(heading);
+
+      if (captured) {
+        const dateLine =
+          document.createElement("span");
+        dateLine.textContent = captured;
+        selectedPhotoCard.append(dateLine);
+      }
+
+      const gpsLine =
+        document.createElement("span");
+      gpsLine.textContent =
+        "GPS: " +
+        selectedPhoto.latitude.toFixed(7) +
+        " / " +
+        selectedPhoto.longitude.toFixed(7);
+      selectedPhotoCard.append(gpsLine);
+
+      if (selectedPhoto.currentLocation) {
+        const currentLine =
+          document.createElement("span");
+        currentLine.textContent =
+          "Aktuell zugeordnet: " +
+          selectedPhoto.currentLocation;
+        selectedPhotoCard.append(currentLine);
+      }
+
+      const matchLine =
+        document.createElement("span");
+      matchLine.className =
+        "selected-photo-match";
+      matchLine.textContent =
+        matches.length > 0
+          ? "GPS-Punkt liegt in: " +
+            matches
+              .map(feature =>
+                feature?.properties?.public_name ||
+                feature?.properties?.name ||
+                "Standortbereich"
+              )
+              .join(" · ")
+          : "GPS-Punkt liegt in keinem Polygon.";
+
+      selectedPhotoCard.append(matchLine);
+      selectedPhotoCard.classList.remove(
+        "hidden"
+      );
+    }
+
+    map.setView(
+      [
+        selectedPhoto.latitude,
+        selectedPhoto.longitude
+      ],
+      19
+    );
+
+    window.setTimeout(
+      () => marker.openPopup(),
+      0
+    );
+  }
+
   async function loadAreas() {
     try {
       const response = await fetch(DATA_URL, { cache: "no-store" });
@@ -150,7 +490,9 @@
         addListItem(feature, layer, color);
       });
 
-      if (allBounds.isValid()) {
+      if (selectedPhoto) {
+        renderSelectedPhoto(features);
+      } else if (allBounds.isValid()) {
         map.fitBounds(allBounds, { padding: [20, 20] });
       }
 

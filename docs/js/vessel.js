@@ -415,6 +415,119 @@ document.addEventListener("DOMContentLoaded", () => {
       .join(" · ");
   }
 
+  function photoCoordinate(
+    input,
+    minimum,
+    maximum
+  ) {
+    const normalized =
+      typeof input === "number"
+        ? input
+        : Number(
+            String(input ?? "")
+              .trim()
+              .replace(",", ".")
+          );
+
+    return (
+      Number.isFinite(normalized) &&
+      normalized >= minimum &&
+      normalized <= maximum
+    )
+      ? normalized
+      : null;
+  }
+
+  function photoMapUrl(
+    photo,
+    fallbackCapturedAt = ""
+  ) {
+    const latitude = photoCoordinate(
+      photo?.photo_lat,
+      -90,
+      90
+    );
+
+    const longitude = photoCoordinate(
+      photo?.photo_lon,
+      -180,
+      180
+    );
+
+    if (
+      latitude === null ||
+      longitude === null ||
+      (latitude === 0 && longitude === 0)
+    ) {
+      return "";
+    }
+
+    const params = new URLSearchParams();
+    params.set("lat", String(latitude));
+    params.set("lon", String(longitude));
+
+    const capturedAt = String(
+      photo?.captured_at ||
+      fallbackCapturedAt ||
+      ""
+    ).trim();
+
+    if (capturedAt) {
+      params.set("captured_at", capturedAt);
+    }
+
+    const currentLocation =
+      locationLabel(photo?.location);
+
+    if (
+      currentLocation &&
+      currentLocation !== "–"
+    ) {
+      params.set(
+        "location",
+        currentLocation
+      );
+    }
+
+    const photoId = String(
+      photo?.photo_id ?? ""
+    ).trim();
+
+    if (photoId) {
+      params.set("photo_id", photoId);
+    }
+
+    return (
+      "location_areas.html?" +
+      params.toString()
+    );
+  }
+
+  function createPhotoMapLink(
+    photo,
+    fallbackCapturedAt = ""
+  ) {
+    const href = photoMapUrl(
+      photo,
+      fallbackCapturedAt
+    );
+
+    if (!href) return null;
+
+    const link =
+      document.createElement("a");
+
+    link.className = "photo-map-link";
+    link.href = href;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = "Auf Karte";
+    link.title =
+      "Aufnahmeort mit Standortpolygonen anzeigen";
+
+    return link;
+  }
+
   function safeUrl(valueText) {
     try {
       const url = new URL(valueText);
@@ -3633,6 +3746,13 @@ document.addEventListener("DOMContentLoaded", () => {
         metadata
       );
 
+      const mapLink =
+        createPhotoMapLink(photo);
+
+      if (mapLink) {
+        photoCard.append(mapLink);
+      }
+
       if (
         typeof photo?.notes === "string" &&
         photo.notes.trim()
@@ -3915,6 +4035,16 @@ document.addEventListener("DOMContentLoaded", () => {
                   photoMetadata
                 )
               );
+            }
+
+            const mapLink =
+              createPhotoMapLink(
+                photo,
+                sighting?.captured_at || ""
+              );
+
+            if (mapLink) {
+              photoCard.append(mapLink);
             }
 
             photoCard.append(
