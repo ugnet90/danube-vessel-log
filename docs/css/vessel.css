@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/vessel.css
- * Version: 0.14.34
+ * Version: 0.14.35
  * Updated: 2026-08-20
  */
 
@@ -1168,4 +1168,27 @@ dd {
     transform: rotate(90deg);
     width: max-content;
   }  
+}
+
+/* 0.14.35: Kartenoverlay für Foto-Aufnahmeorte */
+.photo-map-link { cursor: pointer; font-family: inherit; }
+body.photo-map-open { overflow: hidden; }
+.photo-map-modal { position: fixed; inset: 0; z-index: 3000; display: grid; place-items: center; padding: 22px; background: rgba(15,23,42,.62); box-sizing: border-box; }
+.photo-map-dialog { display: grid; grid-template-rows: auto minmax(0,1fr); width: min(1180px, 96vw); height: min(820px, 92vh); overflow: hidden; border-radius: 14px; background: #fff; box-shadow: 0 20px 55px rgba(0,0,0,.28); }
+.photo-map-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 14px 16px; border-bottom: 1px solid #d9e0e7; }
+.photo-map-header h2 { margin: 0; font-size: 1.18rem; }
+.photo-map-header p { margin: 5px 0 0; color: #52606d; font-size: .88rem; line-height: 1.4; }
+.photo-map-close { min-width: 42px; font-size: 1.35rem; line-height: 1; }
+.photo-map-canvas { width: 100%; height: 100%; min-height: 420px; }
+.photo-map-modal .berth-map-marker { display: flex; align-items: center; justify-content: center; gap: 1px; min-width: 30px; height: 30px; padding: 0 4px; border: 2px solid #0f4c81; border-radius: 50%; background: #fff; color: #0f4c81; box-shadow: 0 1px 5px rgba(0,0,0,.28); font-size: 16px; font-weight: 800; box-sizing: border-box; }
+.photo-map-modal .berth-map-marker span { font-size: 9px; }
+.photo-map-modal .photo-location-popup { line-height: 1.45; }
+.photo-map-modal .photo-location-popup strong { display: block; margin-bottom: 3px; }
+
+@media (max-width: 720px) {
+  .photo-map-modal { padding: 0; }
+  .photo-map-dialog { width: 100vw; height: 100dvh; border-radius: 0; }
+  .photo-map-header { padding: 11px 12px; }
+  .photo-map-header p { font-size: .8rem; }
+  .photo-map-canvas { min-height: 0; }
 }
