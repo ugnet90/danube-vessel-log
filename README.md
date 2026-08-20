@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.36**  
+Aktuelle Version: **0.14.37**  
 Stand: **20.08.2026**
 
 ## 1. Projektzweck
@@ -1753,4 +1753,81 @@ Ein `Rebuild location matches` ist für diese Änderung ebenfalls **nicht erford
 
 - vollständige Projektbeschreibung;
 - aktueller Projektstand: `0.14.36`.
+
+## 60. Version 0.14.37 – Karten-Hover und Schiff-Anlegepositionen
+
+Version **0.14.37** erweitert die Standortkarte um zwei miteinander kombinierte Darstellungen.
+
+### 60.1 Foto-Aufnahmeorte mit Mouseover
+
+Foto-Aufnahmeorte zeigen ihre Kerndaten jetzt bereits beim Darüberfahren mit der Maus. Angezeigt werden – soweit vorhanden – Schiff, Aufnahmezeit, Aufnahmeort und Sichtungs-ID bzw. Fotoart.
+
+Ein Klick auf den Marker öffnet weiterhin das ausführlichere Popup mit Link zum Schiff.
+
+Ist eine permanente Marker-Beschriftung aktiviert, wird diese beim Mouseover vorübergehend durch die Detailinformation ersetzt und danach wiederhergestellt.
+
+### 60.2 Schiffe an Anlegestellen
+
+Die Standortkarte besitzt eine zusätzliche, separat schaltbare Ebene **„Schiffe an Anlegestellen“**.
+
+Dargestellt werden Sichtungen, bei denen:
+
+- `source_type = sighting` gilt,
+- die Bewegung `moored`/`angelegt` ist,
+- eine bekannte `berth.id` gespeichert ist und
+- für diese Anlegestelle gültige Kartenkoordinaten vorhanden sind.
+
+Mehrere Fotos derselben Sichtung erzeugen nur **einen** Schiffmarker. Der Marker verwendet ein Schiff-Symbol statt eines gewöhnlichen Punktes.
+
+Wichtig: Die Position dieses Markers ist die hinterlegte Koordinate der **Anlegestelle** und keine per GPS gemessene Position des Schiffsrumpfs. Das wird auch im Popup ausdrücklich angegeben.
+
+Die vorhandenen Foto-Filter für Schiff und Datum wirken zugleich auf diese Schiffmarker. Bei Filterung auf zusätzliche Schiffsfotos werden folgerichtig keine Anlegepositionen gezeigt, weil direkte Zusatzfotos keine Sichtungen sind.
+
+### 60.3 Bedienung
+
+- Foto-Punkt: Mouseover = Kurzinformation, Klick = Detail-Popup.
+- Schiff-Symbol: Mouseover = Schiff, Zeitpunkt, Anlegestelle und Sichtungs-ID; Klick = Detail-Popup.
+- `Polygone`, `Anlegestellen`, `Foto-Aufnahmeorte`, `Schiffe an Anlegestellen` und `Eckpunkte` bleiben getrennt ein- und ausschaltbar.
+
+### 60.4 Einspielen
+
+Für Version 0.14.37 ist **kein Cloudflare-Worker-Deployment** erforderlich.
+
+Ein neuer `Rebuild location matches` ist ebenfalls nicht erforderlich, sofern der Foto-Standortindex aus Version 0.14.35 bereits aufgebaut wurde und die Foto-Aufnahmeorte auf der Karte sichtbar sind. Die Schiff-Anlegepositionen werden im Browser aus diesem Index und den aktuellen Anlegestellendaten gebildet.
+
+## 61. Dateiversionen 0.14.37
+
+### docs/js/location_map.js
+
+- Version: `0.14.37`
+- Mouseover-Details für Foto-Aufnahmeorte;
+- neuer Schiffmarker mit eigenem Schiff-Symbol;
+- Popup und Mouseover-Information für Schiff-Anlegepositionen.
+
+### docs/js/location_areas.js
+
+- Version: `0.14.37`
+- neue Ebene `Schiffe an Anlegestellen`;
+- Gruppierung mehrerer Fotos derselben Sichtung zu genau einem Schiffmarker;
+- bestehende Foto-Filter steuern auch die Schiffmarker.
+
+### docs/location_areas.html
+
+- Version: `0.14.37`
+- zusätzlicher Ebenenschalter und Zähler für Schiff-Anlegepositionen;
+- aktualisierter Bedienhinweis für Mouseover und Klick.
+
+### docs/css/location_areas.css
+
+- Version: `0.14.37`
+- Gestaltung der Hover-Tooltips und Schiffmarker.
+
+### data/berths.csv
+
+- unverändert aus Version `0.14.36` mitgeführt, damit Linz 1 und Linz 32 auch bei direktem Sprung auf 0.14.37 ihre Kartenkoordinaten behalten.
+
+### README.md
+
+- vollständige Projektbeschreibung;
+- aktueller Projektstand: `0.14.37`.
 
