@@ -1,0 +1,119 @@
+{
+  "schema_version": 13,
+  "submission_id": "SUB-20260820-121908-E4BD96",
+  "uploaded_at": "2026-08-20T12:19:08.057Z",
+  "captured_at": "2026-08-20T05:02:53.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "geo_area",
+    "id": "LOC-001",
+    "area_id": "AREA-LINZ-ALT-URFAHR",
+    "name": "Donauufer Alt-Urfahr, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000002",
+    "name": "Schiffsanlegestelle Linz-Nibelungen",
+    "short_name": "Linz-Nibelungen Nr. 12",
+    "station_number": "12",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "upstream",
+    "river_km": 2135.1955,
+    "river_km_text": "2135,2-4,5 m",
+    "facility_type": "Gitterkahn",
+    "mooring_order": "max. Breite 30 m",
+    "entry_count": 4,
+    "entry_height": "0,85 m, 1,50 m oder 2,10 m",
+    "latitude": 48.307028,
+    "longitude": 14.284278,
+    "address": "Obere Donaulände, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "Travelmarvel Vega",
+  "notes": "",
+  "observer_lat": 48.30856333333333,
+  "observer_lon": 14.282245,
+  "photos": [
+    {
+      "photo_id": "PHOTO-59EB3A80456441528F1F8AFCF841AA73",
+      "path": "inbox/photos/2026/08/PHOTO-59EB3A80456441528F1F8AFCF841AA73.jpg",
+      "filename": "PHOTO-59EB3A80456441528F1F8AFCF841AA73.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 290090,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-08-20T05:02:53.000Z",
+      "photo_lat": 48.30856333333333,
+      "photo_lon": 14.282245,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-E42E272EA3E644C283B79FDF4333292D",
+      "path": "inbox/photos/2026/08/PHOTO-E42E272EA3E644C283B79FDF4333292D.jpg",
+      "filename": "PHOTO-E42E272EA3E644C283B79FDF4333292D.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 300377,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-08-20T05:13:38.000Z",
+      "photo_lat": 48.30908333333333,
+      "photo_lon": 14.28358,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "travelmarvel vega"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30856333333333,
+  "photo_lon": 14.282245
+}
