@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/location_areas.css
- * Version: 0.14.39
+ * Version: 0.14.40
  * Updated: 2026-08-20
  */
 
@@ -29,7 +29,7 @@
 .location-area-item { display: flex; align-items: center; gap: 9px; width: 100%; padding: 9px 10px; border: 1px solid #d9e0e7; border-radius: 8px; background: #fff; text-align: left; cursor: pointer; }
 .location-area-item:hover { background: #f4f6f8; }
 .location-area-swatch { width: 13px; height: 13px; border-radius: 3px; flex: 0 0 13px; }
-.location-areas-map-card { overflow: hidden; min-height: 660px; }
+.location-areas-map-card { position: relative; overflow: hidden; min-height: 660px; }
 .location-areas-map { width: 100%; height: 72vh; min-height: 660px; }
 .selected-photo-card { padding: 10px; margin: 12px 0; border: 1px solid #f1c27d; border-radius: 8px; background: #fff8e8; line-height: 1.4; }
 .selected-photo-card strong { display: block; margin-bottom: 4px; }
@@ -41,6 +41,50 @@
 .photo-location-popup strong { display: block; margin-bottom: 3px; }
 .map-popup-link { display: inline-block; margin-top: 5px; }
 .hidden { display: none !important; }
+
+
+.photo-marker-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  grid-column: 1 / -1;
+  align-items: center;
+  color: #52606d;
+  font-size: .86rem;
+}
+.photo-marker-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.photo-marker-dot { width: 11px; height: 11px; border: 2px solid; border-radius: 50%; box-sizing: border-box; }
+.photo-marker-dot-linked { border-color: #1e3a8a; background: #60a5fa; }
+.photo-marker-dot-vessel { border-color: #92400e; background: #facc15; }
+.location-map-toolbar {
+  position: absolute;
+  z-index: 800;
+  top: 10px;
+  right: 10px;
+  pointer-events: none;
+}
+.location-map-toolbar .secondary-button {
+  pointer-events: auto;
+  background: rgba(255,255,255,.96);
+  box-shadow: 0 2px 8px rgba(0,0,0,.18);
+}
+body.location-map-fullscreen { overflow: hidden; }
+.location-areas-map-card.is-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 2600;
+  width: 100vw;
+  height: 100dvh;
+  min-height: 100dvh;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.location-areas-map-card.is-fullscreen .location-areas-map {
+  width: 100%;
+  height: 100dvh;
+  min-height: 100dvh;
+}
 
 @media (max-width: 1050px) {
   .photo-filter-grid { grid-template-columns: repeat(3, minmax(140px, 1fr)); }
@@ -92,3 +136,7 @@
 .vessel-berth-history-item { padding-top: 7px; border-top: 1px solid #e5e7eb; }
 .vessel-berth-history-item:first-child { padding-top: 0; border-top: 0; }
 .vessel-berth-history-title { font-weight: 750; }
+
+
+/* 0.14.40: aufgefächerte historische Schiffsmarker */
+.vessel-berth-history-item .map-popup-link { margin-top: 3px; }
