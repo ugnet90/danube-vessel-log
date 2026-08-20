@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_areas.js
- * Version: 0.14.40
+ * Version: 0.14.41
  * Updated: 2026-08-20
  */
 
@@ -177,14 +177,42 @@
     return true;
   }
 
-  function renderPhotos() {
+  function mappableSubmissionIds(entries) {
+    return new Set(
+      entries
+        .filter(entry => maps.validCoordinates(
+          entry?.berth?.latitude,
+          entry?.berth?.longitude
+        ))
+        .map(entry => String(
+          entry?.record?.submission_id || ""
+        ).trim())
+        .filter(Boolean)
+    );
+  }
+
+  function renderPhotos(entries) {
     photoLayer.clearLayers();
     const visiblePhotos = photos.filter(photoMatches);
+    const mappableSightings = mappableSubmissionIds(entries);
 
     for (const photo of visiblePhotos) {
+      const submissionId = String(
+        photo?.submission_id ||
+        photo?.relation?.submission_id ||
+        ""
+      ).trim();
+      const hasSighting = Boolean(submissionId);
+      const relationState = !hasSighting
+        ? "vessel"
+        : mappableSightings.has(submissionId)
+          ? "sighting-connected"
+          : "sighting-unlocated";
+
       const marker = maps.createPhotoMarker(map, photo, {
         addToMap: false,
-        labelMode: labelMode.value
+        labelMode: labelMode.value,
+        relationState
       });
       if (marker) marker.addTo(photoLayer);
     }
@@ -263,6 +291,16 @@
       );
       if (!photoCoordinates || !berthCoordinates) continue;
 
+      const spiderCoordinates =
+        map._danubeVesselSpiderfy?.positions instanceof Map
+          ? map._danubeVesselSpiderfy.positions.get(submissionId)
+          : null;
+      const targetCoordinates =
+        maps.validCoordinates(
+          spiderCoordinates?.latitude,
+          spiderCoordinates?.longitude
+        ) || berthCoordinates;
+
       const vesselName =
         entry?.record?.vessel_name ||
         entry?.record?.vessel_id ||
@@ -277,7 +315,7 @@
       const line = maps.createPhotoVesselConnection(
         map,
         photoCoordinates,
-        berthCoordinates,
+        targetCoordinates,
         {
           addToMap: false,
           color: "#0f4c81",
@@ -285,7 +323,8 @@
           opacity: 0.9,
           dashArray: "6 6",
           tooltip:
-            `${vesselName}: Foto-Aufnahmeort → ${berthName}`
+            `${vesselName}: Foto-Aufnahmeort → ${berthName}` +
+            (spiderCoordinates ? " (aufgefächerte Darstellung)" : "")
         }
       );
 
@@ -306,9 +345,8 @@
     }
   }
 
-  function renderVesselBerths(visiblePhotos) {
+  function renderVesselBerths(entries, visiblePhotos) {
     vesselBerthLayer.clearLayers();
-    const entries = vesselBerthRecords();
 
     const groups = new Map();
     for (const entry of entries) {
@@ -369,8 +407,9 @@
   }
 
   function renderMapData() {
-    const visiblePhotos = renderPhotos();
-    renderVesselBerths(visiblePhotos);
+    const entries = vesselBerthRecords();
+    const visiblePhotos = renderPhotos(entries);
+    renderVesselBerths(entries, visiblePhotos);
   }
 
   function renderAreaList() {
@@ -493,6 +532,12 @@
 
   try {
     map = maps.createMap(document.getElementById("locationAreasMap"));
+
+    map.on("danube:vessel-spiderfy-change", () => {
+      const entries = vesselBerthRecords();
+      const visiblePhotos = photos.filter(photoMatches);
+      renderConnections(entries, visiblePhotos);
+    });
 
     const [loadedAreas, locationIndex] = await Promise.all([
       maps.loadAreas(),
