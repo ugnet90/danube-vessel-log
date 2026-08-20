@@ -1,0 +1,142 @@
+{
+  "schema_version": 13,
+  "submission_id": "SUB-20260820-062732-2DAB3E",
+  "uploaded_at": "2026-08-20T06:27:32.179Z",
+  "captured_at": "2026-08-20T05:02:17.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000001",
+    "name": "Schiffsanlegestelle Linz-Schloss",
+    "short_name": "Linz-Schloss Nr. 11",
+    "station_number": "11",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "upstream",
+    "river_km": 2135.3436,
+    "river_km_text": "2135,3+43,6 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 13 m",
+    "entry_count": 3,
+    "entry_height": "0,80 m oder 1,50 m",
+    "latitude": 48.306639,
+    "longitude": 14.282528,
+    "address": "Obere Donaulände, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "Amadeus Aurea",
+  "notes": "",
+  "observer_lat": 48.30854666666666,
+  "observer_lon": 14.28225,
+  "photos": [
+    {
+      "photo_id": "PHOTO-E209295CEF9F4EC391F907B7F5FF3809",
+      "path": "inbox/photos/2026/08/PHOTO-E209295CEF9F4EC391F907B7F5FF3809.jpg",
+      "filename": "PHOTO-E209295CEF9F4EC391F907B7F5FF3809.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 369701,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-08-20T05:02:17.000Z",
+      "photo_lat": 48.30854666666666,
+      "photo_lon": 14.28225,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-EC256CCF1A2344B69D7964ACAAD57A78",
+      "path": "inbox/photos/2026/08/PHOTO-EC256CCF1A2344B69D7964ACAAD57A78.jpg",
+      "filename": "PHOTO-EC256CCF1A2344B69D7964ACAAD57A78.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 432258,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-08-20T05:14:54.000Z",
+      "photo_lat": 48.30909666666667,
+      "photo_lon": 14.28345333333333,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-BD781E86C2A647F49F78754C115F0ACA",
+      "path": "inbox/photos/2026/08/PHOTO-BD781E86C2A647F49F78754C115F0ACA.jpg",
+      "filename": "PHOTO-BD781E86C2A647F49F78754C115F0ACA.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 354605,
+      "sequence": 3,
+      "metadata_version": 1,
+      "captured_at": "2026-08-20T05:22:35.000Z",
+      "photo_lat": 48.30676666666667,
+      "photo_lon": 14.28395333333333,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "amadeus aurea"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30854666666666,
+  "photo_lon": 14.28225
+}
