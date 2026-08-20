@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.40**  
+Aktuelle Version: **0.14.41**  
 Stand: **20.08.2026**
 
 ## 1. Projektzweck
@@ -2138,3 +2138,51 @@ ausführen. Dies ist für den bereits vorhandenen Bezug nötig. Zukünftige Änd
 - `docs/css/vessel.css`: Version `0.14.40`; kompakte Fotokarten, Aktionsschaltflächen und eingeklappte Zuordnungssteuerung.
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.40`.
 
+
+
+## 68. Version 0.14.41 – Spiderfy-Verbindungen und Markerzustände
+
+Version **0.14.41** korrigiert die Bedienung gruppierter historischer Schiffspositionen und macht den Zusammenhang zwischen Foto-Aufnahmeort, Sichtung und kartierbarer Schiffsposition eindeutiger.
+
+### 68.1 Sammelmarker ohne störendes Erst-Popup
+
+Bei einem Sammelmarker mit mehreren historischen Anlege-Sichtungen öffnet der erste Klick nun unmittelbar die fächerförmige Spiderfy-Darstellung. Die bisher gleichzeitig eingeblendete Gesamtübersicht wird dabei nicht mehr automatisch über die aufgefächerten Marker gelegt.
+
+Ein erneuter Klick auf den Sammelmarker klappt die Einzelsichtungen wieder zusammen und zeigt anschließend die chronologische Gesamtübersicht der Anlege-Sichtungen. Beim nächsten Auffächern wird diese Übersicht automatisch geschlossen. Zoomen oder das Entfernen des Layers klappt Spiderfy weiterhin ohne zusätzliches Popup zusammen.
+
+### 68.2 Dynamische Sichtungslinien beim Spiderfy
+
+Während eine Gruppe aufgefächert ist, enden die gestrichelten Foto-Verbindungen nicht mehr an der gemeinsamen Anlegestellenkoordinate. Stattdessen wird jede Verbindung anhand der `submission_id` dynamisch zum zugehörigen aufgefächerten Schiffssymbol umgeleitet.
+
+Damit gilt auch in der Spiderfy-Darstellung weiterhin:
+
+- ein Foto-Aufnahmeort gehört zu genau seiner Sichtung;
+- mehrere Fotos derselben Sichtung führen zum selben aufgefächerten Schiffssymbol;
+- beim Zusammenklappen wandern die Linien automatisch wieder zur realen Anlegestellenposition zurück;
+- die aufgefächerten Schiffssymbole bleiben reine Darstellungspositionen und sind kein Schiff-GPS.
+
+### 68.3 Dritter Markerzustand für Sichtungen ohne kartierbare Schiffsposition
+
+Die bisherige blaue Farbe bedeutete lediglich, dass ein Foto eine `submission_id` besitzt. Dadurch konnte ein blauer Punkt ohne Verbindungslinie entstehen, wenn die zugehörige Sichtung keine belastbar kartierbare Schiffsposition besitzt – zum Beispiel bei einem fahrenden Schiff oder bei fehlender/ungültiger Anlegestelle.
+
+Ab 0.14.41 unterscheidet die Karte drei Zustände:
+
+- **blau** = konkrete Sichtung und kartierbare Schiffsposition; eine Verbindung kann dargestellt werden;
+- **violett** = konkrete Sichtung, aber keine kartierbare Schiffsposition; bewusst keine Verbindungslinie;
+- **gelb** = Zusatzfoto nur zum Schiff, ohne konkrete Sichtung.
+
+Mouseover/Popup eines violetten Punktes weist zusätzlich darauf hin, dass für diese Sichtung keine kartierbare Schiffsposition vorliegt.
+
+### 68.4 Deployment
+
+Version 0.14.41 verändert ausschließlich die GitHub-Pages-Oberfläche. Ein **Cloudflare-Worker-Deployment ist nicht erforderlich**. Ebenso ist **kein Rebuild** notwendig, sofern der Kartenindex bereits unter 0.14.40 aktuell ist.
+
+Nach dem Commit genügt das normale GitHub-Pages-Update. Bei noch gecachtem JavaScript einmal die Seite vollständig neu laden.
+
+## 69. Dateiversionen 0.14.41
+
+- `docs/js/location_map.js`: Version `0.14.41`; kontrolliertes Sammelmarker-Popup, Spiderfy-Zustandsereignisse und dritter Foto-Markerzustand.
+- `docs/js/location_areas.js`: Version `0.14.41`; dynamische Verbindungslinien zu aufgefächerten Sichtungen und Ermittlung kartierbarer Sichtungsbezüge.
+- `docs/location_areas.html`: Version `0.14.41`; erweiterte Markerlegende und präzisierte Spiderfy-Hilfe.
+- `docs/css/location_areas.css`: Version `0.14.41`; violetter Markerzustand für Sichtungen ohne kartierbare Schiffsposition.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.41`.
