@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-20T17:26:19.585564Z",
+  "generated_at": "2026-08-21T19:57:00.530462Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,15 +32,15 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 26,
-    "vessels_incomplete": 26,
+    "vessels_total": 27,
+    "vessels_incomplete": 27,
     "vessels_complete": 0,
-    "candidate_matches": 0,
+    "candidate_matches": 1,
     "matched_no_new_data": 14,
     "low_confidence": 0,
     "no_match": 12,
     "lookup_errors": 0,
-    "suggestions_total": 0
+    "suggestions_total": 3
   },
   "vessels": [
     {
@@ -1278,6 +1278,121 @@
         "accepted_qid": "",
         "rejected_qids": [],
         "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000127",
+      "name": "Excellence Princess",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000127.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 8,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "candidate",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": [
+          {
+            "qid": "Q22968357",
+            "label": "Excellence Princess",
+            "description": "Flusskreuzfahrtschiff",
+            "url": "https://www.wikidata.org/wiki/Q22968357",
+            "score": 1.0,
+            "confidence": "very_high",
+            "matched_by": [
+              "identity.eni"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [
+                "02335839"
+              ],
+              "call_sign": [
+                "HE7484"
+              ]
+            },
+            "instance_of": [
+              "Flusskreuzfahrtschiff"
+            ],
+            "suggestions": [
+              {
+                "field": "identity.call_sign",
+                "field_label": "Rufzeichen",
+                "value": "HE7484",
+                "display_value": "HE7484",
+                "property": "P2317",
+                "property_label": "call sign",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2317",
+                "source_url": "https://www.wikidata.org/wiki/Q22968357",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.shipyard",
+                "field_label": "Werft",
+                "value": "VAHALI",
+                "display_value": "VAHALI",
+                "property": "P176",
+                "property_label": "manufacturer",
+                "property_url": "https://www.wikidata.org/wiki/Property:P176",
+                "source_url": "https://www.wikidata.org/wiki/Q22968357",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.draft_m",
+                "field_label": "Tiefgang",
+                "value": 1.55,
+                "display_value": 1.55,
+                "property": "P2262",
+                "property_label": "draft",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
+                "source_url": "https://www.wikidata.org/wiki/Q22968357",
+                "confidence": 1.0,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2407044845
+          }
+        ]
       }
     }
   ]
