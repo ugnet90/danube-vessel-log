@@ -1,7 +1,7 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.41**  
-Stand: **20.08.2026**
+Aktuelle Version: **0.14.42**  
+Stand: **21.08.2026**
 
 ## 1. Projektzweck
 
@@ -2186,3 +2186,52 @@ Nach dem Commit genügt das normale GitHub-Pages-Update. Bei noch gecachtem Java
 - `docs/location_areas.html`: Version `0.14.41`; erweiterte Markerlegende und präzisierte Spiderfy-Hilfe.
 - `docs/css/location_areas.css`: Version `0.14.41`; violetter Markerzustand für Sichtungen ohne kartierbare Schiffsposition.
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.41`.
+
+## 70. Version 0.14.42 – flache Sichtungsauswahl für iPhone-Kurzbefehle
+
+Version **0.14.42** erweitert den geschützten Worker-Endpunkt `GET /vessel-sightings-upload?vessel_id=VES-000000`. Hintergrund ist, dass Apple Kurzbefehle die vorhandene verschachtelte `sightings`-Liste zwar als Liste erkennt, die einzelnen Objekte in der Wiederholung aber nicht zuverlässig als Wörterbücher weiterverarbeitet. Die zugrunde liegenden Sichtungsdaten selbst sind vollständig vorhanden und bleiben unverändert.
+
+### 70.1 Rückwärtskompatible API-Erweiterung
+
+Die bisherige Antwort mit `count` und `sightings` bleibt vollständig erhalten. Zusätzlich liefert der Worker nun zwei für Apple Kurzbefehle optimierte Felder:
+
+- `choices`: flache Liste fertiger Auswahltexte;
+- `choices_text`: dieselben Auswahltexte zusätzlich als durch Zeilenumbrüche getrennte Zeichenkette.
+
+Ein Eintrag in `choices` hat das Format:
+
+`19.08.2026, 07:00 · Linz-Lentos Nr. 14 · SUB-20260819-050049-BE48BC`
+
+Damit muss der Kurzbefehl die verschachtelten Sichtungsobjekte nicht mehr selbst zerlegen. Er kann `choices` direkt in **Aus Liste auswählen** verwenden und anschließend die enthaltene `SUB-...`-ID aus dem ausgewählten Text übernehmen.
+
+### 70.2 Datum und Ortsbezeichnung
+
+Der Worker formatiert `captured_at` serverseitig mit der Zeitzone `Europe/Vienna` im Format `dd.MM.yyyy, HH:mm`. Sommer- und Winterzeit werden damit automatisch korrekt berücksichtigt.
+
+Für den sichtbaren Ort gilt diese Priorität:
+
+1. `berth.short_name`, wenn eine konkrete Anlegestelle vorhanden ist;
+2. andernfalls `location.name`;
+3. andernfalls `Ort unbekannt`.
+
+Die `submission_id` wird immer als letzter Bestandteil des Auswahltexts ausgegeben.
+
+### 70.3 Sicherheit und bestehende Daten
+
+Der Endpunkt bleibt unverändert durch `X-Upload-Key` geschützt. Ein direktes Öffnen der URL im Browser ohne diesen Header liefert weiterhin erwartungsgemäß `Nicht autorisiert.`. Der Upload-Key wird nicht in die URL verschoben.
+
+Es werden keine Sichtungen, Fotos oder Standortdaten verändert. Die Änderung betrifft ausschließlich die Form der Antwort des Auswahl-Endpunkts.
+
+### 70.4 Deployment
+
+Version 0.14.42 verändert `cloudflare/worker.js`. Nach dem Commit ist daher ein **Cloudflare-Worker-Deployment erforderlich**.
+
+Ein **Rebuild location matches ist nicht erforderlich**, da keine gespeicherten Daten oder Kartenindizes verändert werden.
+
+Nach dem Deployment wird der iPhone-Kurzbefehl **„Foto(s) zu Schiff hinzufügen“** auf die neue `choices`-Liste vereinfacht.
+
+## 71. Dateiversionen 0.14.42
+
+- `cloudflare/worker.js`: Version `0.14.42`; `/vessel-sightings-upload` liefert zusätzlich `choices` und `choices_text` mit serverseitig formatierten Sichtungsinformationen.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.42`.
+
