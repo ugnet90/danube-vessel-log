@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.42
+ * Version: 0.14.43
  * Updated: 2026-08-21
  */
 
@@ -1789,7 +1789,49 @@ async function createPhotoSubmission(request, env) {
     );
   }
 
-  const validationError = validateMetadata(input);
+  /*
+   * Fotoindividuelle Metadaten müssen vor der allgemeinen Metadaten-
+   * validierung normalisiert werden. Sonst würde eine Sichtung mit
+   * gültigem GPS im ersten photo_metadata-Eintrag fälschlich abgelehnt,
+   * wenn die rückwärtskompatiblen Top-Level-Koordinaten leer sind.
+   */
+  const photoMetadataResult =
+    normalizePhotoMetadataInput(
+      input,
+      photos.length
+    );
+
+  if (!photoMetadataResult.ok) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: photoMetadataResult.error
+      },
+      400
+    );
+  }
+
+  const photoMetadataItems =
+    photoMetadataResult.items;
+
+  const firstPhotoMetadata =
+    photoMetadataItems[0] ?? null;
+
+  const validationInput =
+    firstPhotoMetadata &&
+    firstPhotoMetadata.photo_lat !== null &&
+    firstPhotoMetadata.photo_lon !== null
+      ? {
+          ...input,
+          observer_lat: firstPhotoMetadata.photo_lat,
+          observer_lon: firstPhotoMetadata.photo_lon,
+          photo_lat: firstPhotoMetadata.photo_lat,
+          photo_lon: firstPhotoMetadata.photo_lon
+        }
+      : input;
+
+  const validationError =
+    validateMetadata(validationInput);
 
   if (validationError) {
     return jsonResponse(
@@ -1848,25 +1890,6 @@ async function createPhotoSubmission(request, env) {
     }
   }
 
-  const photoMetadataResult =
-    normalizePhotoMetadataInput(
-      input,
-      photos.length
-    );
-
-  if (!photoMetadataResult.ok) {
-    return jsonResponse(
-      {
-        ok: false,
-        error: photoMetadataResult.error
-      },
-      400
-    );
-  }
-
-  const photoMetadataItems =
-    photoMetadataResult.items;
-
   const uploadedAt = new Date();
   const capturedAt = new Date(input.captured_at);
 
@@ -1889,9 +1912,6 @@ async function createPhotoSubmission(request, env) {
    * Sichtungs-/Submission-Ort verwendet. Die übrigen Fotos behalten
    * trotzdem ihre eigenen Koordinaten und Aufnahmeorte.
    */
-  const firstPhotoMetadata =
-    photoMetadataItems[0] ?? null;
-
   const locationInput =
     firstPhotoMetadata &&
     firstPhotoMetadata.photo_lat !== null &&
@@ -12462,8 +12482,21 @@ function validateMetadata(input) {
     observerCoordinates.longitude >= -180 &&
     observerCoordinates.longitude <= 180;
 
-  if (!hasValidLocationId && !hasValidCoordinates) {
-    return "Es fehlen eine gültige location_id oder gültige Beobachtungskoordinaten.";
+  const hasValidMatchedBerth =
+    String(input.berth_status ?? "").trim() === "matched" &&
+    /^BER-\d{6}$/.test(
+      String(input.berth_id ?? "").trim()
+    );
+
+  if (
+    !hasValidLocationId &&
+    !hasValidCoordinates &&
+    !hasValidMatchedBerth
+  ) {
+    return (
+      "Es fehlen eine gültige location_id, gültige " +
+      "Beobachtungskoordinaten oder eine gültige Anlegestelle."
+    );
   }
 
   const allowedMovements = ["moving", "moored", "unknown"];
