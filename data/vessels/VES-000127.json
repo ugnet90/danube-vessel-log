@@ -7,7 +7,7 @@
     "mmsi": "",
     "imo": "",
     "eni": "02335839",
-    "call_sign": ""
+    "call_sign": "HE7484"
   },
   "classification": {
     "ship_type": "PASSENGER",
@@ -17,10 +17,10 @@
   },
   "technical": {
     "year_built": 2013,
-    "shipyard": "",
+    "shipyard": "VAHALI",
     "length_m": 135,
     "width_m": 11.45,
-    "draft_m": null,
+    "draft_m": 1.55,
     "passengers": 186
   },
   "operations": {
@@ -58,12 +58,35 @@
       "added_by": "candidate-catalog",
       "candidate_id": "CAN-1AE17617D20A",
       "source_revision_id": "268617530"
+    },
+    {
+      "source_id": "SRC-8C450BE51DEE",
+      "provider": "Wikidata",
+      "title": "Wikidata: Excellence Princess",
+      "url": "https://www.wikidata.org/wiki/Q22968357",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "identity.call_sign",
+        "technical.shipyard",
+        "technical.draft_m"
+      ],
+      "retrieved_at": "2026-08-21T19:57:00.530462Z",
+      "verified_at": "2026-08-21T20:03:23.794Z",
+      "added_at": "2026-08-21T20:03:23.794Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2407044845
     }
   ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q22968357",
+      "rejected_qids": [],
+      "accepted_at": "2026-08-21T20:03:23.794Z",
+      "last_reviewed_at": "2026-08-21T20:03:23.794Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-752BC34C7C6A47D983893D0F67282F32",
@@ -74,9 +97,44 @@
     "environment": "production",
     "created_at": "2026-08-21T19:55:28.054Z",
     "created_from_submission_id": "SUB-20260821-181451-7AC653",
-    "updated_at": "2026-08-21T19:55:28.054Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-08-21T20:03:23.794Z",
+    "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-1AE17617D20A",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-08-21T20:03:23.794Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "3 Wikidata-Felder aus Q22968357 übernommen",
+        "changed_fields": [
+          "identity.call_sign",
+          "technical.shipyard",
+          "technical.draft_m",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "identity.call_sign",
+            "old_value": "",
+            "new_value": "HE7484"
+          },
+          {
+            "field": "technical.shipyard",
+            "old_value": "",
+            "new_value": "VAHALI"
+          },
+          {
+            "field": "technical.draft_m",
+            "old_value": null,
+            "new_value": 1.55
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q22968357"
+          }
+        ]
+      }
+    ]
   }
 }
