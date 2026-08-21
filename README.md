@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.42**  
+Aktuelle Version: **0.14.43**  
 Stand: **21.08.2026**
 
 ## 1. Projektzweck
@@ -2234,4 +2234,21 @@ Nach dem Deployment wird der iPhone-Kurzbefehl **„Foto(s) zu Schiff hinzufüge
 
 - `cloudflare/worker.js`: Version `0.14.42`; `/vessel-sightings-upload` liefert zusätzlich `choices` und `choices_text` mit serverseitig formatierten Sichtungsinformationen.
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.42`.
+
+## 72. Version 0.14.43 – Standortvalidierung bei Foto-Sichtungen
+
+Version **0.14.43** korrigiert die Standortvalidierung beim Upload neuer Sichtungen mit Fotos. In 0.14.42 wurde die allgemeine Metadatenprüfung noch ausgeführt, bevor `photo_metadata` normalisiert wurde. Dadurch konnte ein Upload mit gültigen fotoindividuellen GPS-Koordinaten fälschlich mit „Es fehlen eine gültige location_id oder gültige Beobachtungskoordinaten.“ abgewiesen werden, wenn die rückwärtskompatiblen Top-Level-Koordinaten leer waren.
+
+Die Foto-Metadaten werden nun vor der allgemeinen Validierung normalisiert. Sind im ersten `photo_metadata`-Eintrag gültige `photo_lat`/`photo_lon` vorhanden, werden diese auch für die Sichtungs-/Standortvalidierung verwendet. Die bereits vorhandene Logik, den ersten zuverlässigen Fotoort als rückwärtskompatiblen Sichtungsort zu verwenden, greift damit nun auch tatsächlich vor der Ablehnung.
+
+Zusätzlich gilt eine gültig ausgewählte Anlegestelle (`berth_status = matched` plus gültige `berth_id`) als zulässige Standortquelle. Das passt zur bereits vorhandenen `applyBerthLocationFallback`-Logik: Fehlen GPS und `location_id`, kann der über die Anlegestelle referenzierte Standort anschließend sauber gesetzt werden.
+
+Die in 0.14.42 ergänzten Felder `choices` und `choices_text` für `/vessel-sightings-upload` bleiben unverändert erhalten.
+
+Version 0.14.43 verändert ausschließlich `cloudflare/worker.js`. Nach dem Commit ist ein **Cloudflare-Worker-Deployment erforderlich**. Ein Rebuild der Standort- oder Fotoindizes ist **nicht erforderlich**.
+
+## 73. Dateiversionen 0.14.43
+
+- `cloudflare/worker.js`: Version `0.14.43`; Foto-Metadaten werden vor der Standortvalidierung normalisiert; gültige Anlegestellen können als Standortquelle dienen.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.43`.
 
