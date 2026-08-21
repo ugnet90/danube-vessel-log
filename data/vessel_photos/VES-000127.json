@@ -1,0 +1,162 @@
+{
+  "schema_version": 2,
+  "vessel_id": "VES-000127",
+  "photos": [
+    {
+      "photo_id": "PHOTO-65FECF084C35494CBB28FE708AC0E65C",
+      "path": "inbox/photos/2026/08/PHOTO-65FECF084C35494CBB28FE708AC0E65C.jpg",
+      "filename": "PHOTO-65FECF084C35494CBB28FE708AC0E65C.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 504770,
+      "sequence": 1,
+      "captured_at": "2026-08-21T05:07:27.000Z",
+      "added_at": "2026-08-21T19:58:37.023Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30826166666667,
+      "photo_lon": 14.284595,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "Excellence Princess",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260821-181451-7AC653"
+      }
+    },
+    {
+      "photo_id": "PHOTO-39CC5871EF4344A18020A3ED7DA70876",
+      "path": "inbox/photos/2026/08/PHOTO-39CC5871EF4344A18020A3ED7DA70876.jpg",
+      "filename": "PHOTO-39CC5871EF4344A18020A3ED7DA70876.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 388575,
+      "sequence": 2,
+      "captured_at": "2026-08-21T05:11:09.000Z",
+      "added_at": "2026-08-21T19:58:37.023Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30675,
+      "photo_lon": 14.28391666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "name": "Obere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "Excellence Princess",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260821-181451-7AC653"
+      }
+    },
+    {
+      "photo_id": "PHOTO-4B2ABE29D2144F12A9457F762B7286AE",
+      "path": "inbox/photos/2026/08/PHOTO-4B2ABE29D2144F12A9457F762B7286AE.jpg",
+      "filename": "PHOTO-4B2ABE29D2144F12A9457F762B7286AE.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 421530,
+      "sequence": 3,
+      "captured_at": "2026-08-21T05:11:34.000Z",
+      "added_at": "2026-08-21T19:58:37.023Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30666666666666,
+      "photo_lon": 14.28353333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "name": "Obere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "Excellence Princess",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260821-181451-7AC653"
+      }
+    },
+    {
+      "photo_id": "PHOTO-F072E33557E24F158CCC4D46AFF93684",
+      "path": "inbox/photos/2026/08/PHOTO-F072E33557E24F158CCC4D46AFF93684.jpg",
+      "filename": "PHOTO-F072E33557E24F158CCC4D46AFF93684.jpg",
+      "original_filename": "shortcut-photo-04.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 428157,
+      "sequence": 4,
+      "captured_at": "2026-08-21T05:11:36.000Z",
+      "added_at": "2026-08-21T19:58:37.023Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30666333333333,
+      "photo_lon": 14.28353833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "name": "Obere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "Excellence Princess",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260821-181451-7AC653"
+      }
+    },
+    {
+      "photo_id": "PHOTO-FAB95861B6C84AECA3A30C9FBEEEB925",
+      "path": "inbox/photos/2026/08/PHOTO-FAB95861B6C84AECA3A30C9FBEEEB925.jpg",
+      "filename": "PHOTO-FAB95861B6C84AECA3A30C9FBEEEB925.jpg",
+      "original_filename": "shortcut-photo-05.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 405012,
+      "sequence": 5,
+      "captured_at": "2026-08-21T05:12:10.000Z",
+      "added_at": "2026-08-21T19:58:37.023Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30655333333333,
+      "photo_lon": 14.28296166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "name": "Obere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "vessel_name_entered": "Excellence Princess",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260821-181451-7AC653"
+      }
+    }
+  ],
+  "updated_at": "2026-08-21T19:58:37.023Z"
+}
