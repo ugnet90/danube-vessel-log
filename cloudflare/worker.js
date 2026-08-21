@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.40
- * Updated: 2026-08-20
+ * Version: 0.14.42
+ * Updated: 2026-08-21
  */
 
 const API_VERSION = "2022-11-28";
@@ -4400,6 +4400,59 @@ async function handleVesselNamesList(
   });
 }
 
+function formatSightingChoiceDate(value) {
+  const raw = String(value ?? "").trim();
+  if (!raw) return "Datum unbekannt";
+
+  const date = new Date(raw);
+  if (Number.isNaN(date.getTime())) {
+    return raw;
+  }
+
+  try {
+    return new Intl.DateTimeFormat("de-AT", {
+      timeZone: "Europe/Vienna",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23"
+    })
+      .format(date)
+      .replace(/[\u00a0\u202f]/g, " ");
+  } catch {
+    return raw;
+  }
+}
+
+function buildSightingUploadChoice(sighting) {
+  const submissionId = String(
+    sighting?.submission_id ?? ""
+  ).trim();
+
+  const berthName = String(
+    sighting?.berth?.short_name ?? ""
+  ).trim();
+
+  const locationName = String(
+    sighting?.location?.name ?? ""
+  ).trim();
+
+  const place =
+    berthName ||
+    locationName ||
+    "Ort unbekannt";
+
+  return [
+    formatSightingChoiceDate(
+      sighting?.captured_at
+    ),
+    place,
+    submissionId
+  ].join(" · ");
+}
+
 async function handleVesselSightingsUploadList(
   request,
   env
@@ -4474,11 +4527,17 @@ async function handleVesselSightingsUploadList(
           .localeCompare(String(left.captured_at))
       );
 
+  const choices = sightings.map(
+    buildSightingUploadChoice
+  );
+
   return jsonResponse({
     ok: true,
     vessel_id: vesselId,
     count: sightings.length,
-    sightings
+    sightings,
+    choices,
+    choices_text: choices.join("\n")
   });
 }
 
