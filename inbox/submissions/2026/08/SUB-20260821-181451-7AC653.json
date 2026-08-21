@@ -1,0 +1,119 @@
+{
+  "schema_version": 13,
+  "submission_id": "SUB-20260821-181451-7AC653",
+  "uploaded_at": "2026-08-21T18:14:51.783Z",
+  "captured_at": "2026-08-21T05:04:04.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000001",
+    "name": "Schiffsanlegestelle Linz-Schloss",
+    "short_name": "Linz-Schloss Nr. 11",
+    "station_number": "11",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "upstream",
+    "river_km": 2135.3436,
+    "river_km_text": "2135,3+43,6 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 13 m",
+    "entry_count": 3,
+    "entry_height": "0,80 m oder 1,50 m",
+    "latitude": 48.306639,
+    "longitude": 14.282528,
+    "address": "Obere Donaulände, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "Excellence Princess",
+  "notes": "",
+  "observer_lat": null,
+  "observer_lon": null,
+  "photos": [
+    {
+      "photo_id": "PHOTO-752BC34C7C6A47D983893D0F67282F32",
+      "path": "inbox/photos/2026/08/PHOTO-752BC34C7C6A47D983893D0F67282F32.jpg",
+      "filename": "PHOTO-752BC34C7C6A47D983893D0F67282F32.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 429703,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-08-21T05:04:04.000Z",
+      "photo_lat": null,
+      "photo_lon": null,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-35F2DED0531D431EA0B2DC69AE6E7AC5",
+      "path": "inbox/photos/2026/08/PHOTO-35F2DED0531D431EA0B2DC69AE6E7AC5.jpg",
+      "filename": "PHOTO-35F2DED0531D431EA0B2DC69AE6E7AC5.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 463754,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-08-21T05:06:39.000Z",
+      "photo_lat": 48.30884166666667,
+      "photo_lon": 14.28418833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "excellence princess"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": null,
+  "photo_lon": null
+}
