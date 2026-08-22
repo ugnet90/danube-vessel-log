@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000128",
+  "identity": {
+    "name": "Thurgau Prestige",
+    "former_names": [],
+    "mmsi": "",
+    "imo": "",
+    "eni": "",
+    "call_sign": ""
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": ""
+  },
+  "technical": {
+    "year_built": null,
+    "shipyard": "",
+    "length_m": null,
+    "width_m": null,
+    "draft_m": null,
+    "passengers": null
+  },
+  "operations": {
+    "operator": "",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": ""
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-572C497C347D49E0BC7B15E577692BB6",
+    "primary_submission_id": "SUB-20260822-134740-610689"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-08-22T14:09:32.532Z",
+    "created_from_submission_id": "SUB-20260822-134740-610689",
+    "updated_at": "2026-08-22T14:09:32.532Z",
+    "updated_by": "web-ui"
+  }
+}
