@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-22T14:11:05.679497Z",
+  "generated_at": "2026-08-22T16:20:13.199702Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 28,
     "vessels_incomplete": 28,
     "vessels_complete": 0,
-    "candidate_matches": 1,
-    "matched_no_new_data": 15,
+    "candidate_matches": 0,
+    "matched_no_new_data": 16,
     "low_confidence": 0,
     "no_match": 12,
     "lookup_errors": 0,
-    "suggestions_total": 9
+    "suggestions_total": 0
   },
   "vessels": [
     {
@@ -1325,52 +1325,20 @@
       "json_path": "data/vessels/VES-000128.json",
       "missing_fields": [
         {
-          "field": "identity.mmsi",
-          "label": "MMSI"
-        },
-        {
           "field": "identity.imo",
           "label": "IMO"
-        },
-        {
-          "field": "identity.eni",
-          "label": "ENI"
         },
         {
           "field": "identity.call_sign",
           "label": "Rufzeichen"
         },
         {
-          "field": "classification.flag",
-          "label": "Flagge"
-        },
-        {
-          "field": "technical.year_built",
-          "label": "Baujahr"
-        },
-        {
           "field": "technical.shipyard",
           "label": "Werft"
         },
         {
-          "field": "technical.length_m",
-          "label": "Länge"
-        },
-        {
-          "field": "technical.width_m",
-          "label": "Breite"
-        },
-        {
           "field": "technical.draft_m",
           "label": "Tiefgang"
-        },
-        {
-          "field": "technical.passengers",
-          "label": "Passagiere"
-        },
-        {
-          "field": "operations.operator",
-          "label": "Betreiber"
         },
         {
           "field": "operations.owner",
@@ -1383,158 +1351,17 @@
         {
           "field": "operations.cruise_brand",
           "label": "Marke"
-        },
-        {
-          "field": "operations.home_port",
-          "label": "Heimathafen"
         }
       ],
-      "missing_count": 16,
+      "missing_count": 7,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
-        "accepted_qid": "",
+        "accepted_qid": "Q124258713",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q124258713",
-            "label": "Thurgau Prestige",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q124258713",
-            "score": 0.98,
-            "confidence": "very_high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [
-                "269057300"
-              ],
-              "imo": [],
-              "eni": [
-                "07001906"
-              ],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.mmsi",
-                "field_label": "MMSI",
-                "value": "269057300",
-                "display_value": "269057300",
-                "property": "P587",
-                "property_label": "MMSI",
-                "property_url": "https://www.wikidata.org/wiki/Property:P587",
-                "source_url": "https://www.wikidata.org/wiki/Q124258713",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "identity.eni",
-                "field_label": "ENI",
-                "value": "07001906",
-                "display_value": "07001906",
-                "property": "P5910",
-                "property_label": "ENI number",
-                "property_url": "https://www.wikidata.org/wiki/Property:P5910",
-                "source_url": "https://www.wikidata.org/wiki/Q124258713",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "classification.flag",
-                "field_label": "Flagge",
-                "value": "CH",
-                "display_value": "Schweiz",
-                "property": "P8047",
-                "property_label": "country of registry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P8047",
-                "source_url": "https://www.wikidata.org/wiki/Q124258713",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.year_built",
-                "field_label": "Baujahr",
-                "value": 2009,
-                "display_value": 2009,
-                "property": "P729",
-                "property_label": "service entry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P729",
-                "source_url": "https://www.wikidata.org/wiki/Q124258713",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.length_m",
-                "field_label": "Länge",
-                "value": 110.0,
-                "display_value": 110.0,
-                "property": "P2043",
-                "property_label": "length",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2043",
-                "source_url": "https://www.wikidata.org/wiki/Q124258713",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.width_m",
-                "field_label": "Breite",
-                "value": 11.4,
-                "display_value": 11.4,
-                "property": "P2261",
-                "property_label": "beam",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2261",
-                "source_url": "https://www.wikidata.org/wiki/Q124258713",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.passengers",
-                "field_label": "Passagiere",
-                "value": 124,
-                "display_value": 124,
-                "property": "P1083",
-                "property_label": "maximum capacity",
-                "property_url": "https://www.wikidata.org/wiki/Property:P1083",
-                "source_url": "https://www.wikidata.org/wiki/Q124258713",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.operator",
-                "field_label": "Betreiber",
-                "value": "Thurgau Travel AG",
-                "display_value": "Thurgau Travel AG",
-                "property": "P137",
-                "property_label": "operator",
-                "property_url": "https://www.wikidata.org/wiki/Property:P137",
-                "source_url": "https://www.wikidata.org/wiki/Q124258713",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.home_port",
-                "field_label": "Heimathafen",
-                "value": "Basel",
-                "display_value": "Basel",
-                "property": "P532",
-                "property_label": "port of registry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P532",
-                "source_url": "https://www.wikidata.org/wiki/Q124258713",
-                "confidence": 0.98,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2529504152
-          }
-        ]
+        "candidates": []
       }
     }
   ]
