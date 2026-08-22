@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.43
- * Updated: 2026-08-21
+ * Version: 0.14.44
+ * Updated: 2026-08-22
  */
 
 const API_VERSION = "2022-11-28";
@@ -2419,6 +2419,143 @@ function directPhotoLocationIndexRecord({
     relation,
     path: String(photo?.path ?? "").trim()
   };
+}
+
+function locationIndexLocationRecord(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return {
+      status: "unknown",
+      matched_by: "",
+      id: "",
+      area_id: "",
+      name: "",
+      municipality: "",
+      country: "",
+      distance_m: null
+    };
+  }
+
+  return {
+    status: String(value.status ?? "unknown"),
+    matched_by: String(value.matched_by ?? ""),
+    id: String(value.id ?? ""),
+    area_id: String(value.area_id ?? ""),
+    name: String(value.name ?? ""),
+    municipality: String(value.municipality ?? ""),
+    country: String(value.country ?? ""),
+    distance_m: Number.isFinite(value.distance_m)
+      ? value.distance_m
+      : null
+  };
+}
+
+function locationIndexBerthRecord(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return null;
+  }
+
+  return {
+    status: String(value.status ?? "unknown"),
+    id: String(value.id ?? ""),
+    name: String(value.name ?? ""),
+    short_name: String(value.short_name ?? ""),
+    station_number: String(value.station_number ?? "")
+  };
+}
+
+function upsertReviewedSubmissionInLocationIndex({
+  document,
+  submission,
+  vesselId,
+  vesselName
+}) {
+  const normalized = normalizePhotoLocationsIndexDocument(document);
+  const submissionId = String(submission?.submission_id ?? "").trim();
+
+  if (!submissionId) {
+    return finalizePhotoLocationsIndexDocument(normalized);
+  }
+
+  normalized.photos = normalized.photos.filter(item =>
+    !(
+      String(item?.source_type ?? "").trim() === "sighting" &&
+      String(item?.submission_id ?? "").trim() === submissionId
+    )
+  );
+  normalized.sightings = normalized.sightings.filter(item =>
+    String(item?.submission_id ?? "").trim() !== submissionId
+  );
+
+  const reviewedVesselId = reviewedVesselIdForSubmission(submission);
+  if (!reviewedVesselId) {
+    return finalizePhotoLocationsIndexDocument(normalized);
+  }
+
+  const resolvedVesselId =
+    VESSEL_ID_PATTERN.test(String(vesselId ?? "").trim())
+      ? String(vesselId).trim()
+      : reviewedVesselId;
+  const resolvedVesselName = String(
+    vesselName ??
+    submission?.vessel_name_entered ??
+    resolvedVesselId
+  ).trim() || resolvedVesselId;
+  const capturedAt = String(submission?.captured_at ?? "").trim();
+  const location = locationIndexLocationRecord(submission?.location);
+  const berth = locationIndexBerthRecord(submission?.berth);
+  const movement = String(submission?.movement ?? "").trim();
+
+  for (const photo of Array.isArray(submission?.photos) ? submission.photos : []) {
+    const latitude = parseCoordinate(photo?.photo_lat);
+    const longitude = parseCoordinate(photo?.photo_lon);
+
+    if (
+      latitude === null ||
+      longitude === null ||
+      (latitude === 0 && longitude === 0)
+    ) {
+      continue;
+    }
+
+    normalized.photos.push({
+      photo_id: String(photo?.photo_id ?? "").trim(),
+      source_type: "sighting",
+      submission_id: submissionId,
+      vessel_id: resolvedVesselId,
+      vessel_name: resolvedVesselName,
+      captured_at: String(photo?.captured_at ?? capturedAt).trim(),
+      photo_lat: latitude,
+      photo_lon: longitude,
+      location: locationIndexLocationRecord(
+        photo?.location && typeof photo.location === "object"
+          ? photo.location
+          : submission?.location
+      ),
+      berth,
+      movement,
+      relation: {
+        type: "sighting",
+        submission_id: submissionId
+      },
+      path: String(photo?.path ?? "").trim()
+    });
+  }
+
+  normalized.sightings.push({
+    submission_id: submissionId,
+    vessel_id: resolvedVesselId,
+    vessel_name: resolvedVesselName,
+    captured_at: capturedAt,
+    location,
+    berth,
+    movement,
+    direction: String(submission?.direction ?? "").trim(),
+    photo_count: Array.isArray(submission?.photos)
+      ? submission.photos.length
+      : 0
+  });
+
+  return finalizePhotoLocationsIndexDocument(normalized);
 }
 
 function normalizePhotoLocationsIndexDocument(document) {
@@ -12331,6 +12468,37 @@ async function autoConfirmMatchedSubmission({
     };
   }
 
+  const mapIndexResult =
+    await loadPhotoLocationsIndexForUpdate(env);
+
+  if (!mapIndexResult.ok) {
+    return {
+      attempted: true,
+      confirmed: false,
+      vessel_id: review.vessel_id,
+      error:
+        mapIndexResult.error ??
+        "Der Kartenindex konnte bei der automatischen Zuordnung nicht aktualisiert werden.",
+      commit: null
+    };
+  }
+
+  const updatedMapIndex =
+    upsertReviewedSubmissionInLocationIndex({
+      document: mapIndexResult.document,
+      submission,
+      vesselId: review.vessel_id,
+      vesselName: directPhotoIndexVesselName(
+        vesselResult.vessel,
+        review.vessel_id
+      )
+    });
+
+  const mapIndexCommitFiles =
+    createPhotoLocationsCommitFiles(
+      updatedMapIndex
+    );
+
   const activation =
     activateObservedVessel({
       vessel:
@@ -12367,7 +12535,8 @@ async function autoConfirmMatchedSubmission({
             encoding:
               "utf-8"
           },
-          sightingsCommitFile
+          sightingsCommitFile,
+          ...mapIndexCommitFiles
         ]
       });
 
@@ -12421,7 +12590,8 @@ async function autoConfirmMatchedSubmission({
           encoding:
             "utf-8"
         },
-        sightingsCommitFile
+        sightingsCommitFile,
+        ...mapIndexCommitFiles
       ]
     });
 
