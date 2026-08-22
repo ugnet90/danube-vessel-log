@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/css/location_areas.css
- * Version: 0.14.41
- * Updated: 2026-08-20
+ * Version: 0.14.44
+ * Updated: 2026-08-22
  */
 
 .location-areas-page { width: min(1500px, 100%); margin: 0 auto; padding: 22px 20px 40px; box-sizing: border-box; }
@@ -14,6 +14,7 @@
 .map-control-card { padding: 14px 16px; margin-bottom: 16px; }
 .layer-controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding-bottom: 12px; border-bottom: 1px solid #e7ecf1; }
 .layer-controls label { display: inline-flex; align-items: center; gap: 6px; }
+.connection-mode-control select { min-width: 120px; }
 .photo-filter-grid { display: grid; grid-template-columns: repeat(6, minmax(140px, 1fr)); gap: 12px; margin-top: 12px; align-items: end; }
 .photo-filter-grid label { display: grid; gap: 5px; color: #52606d; font-size: .9rem; }
 .photo-filter-grid select, .photo-filter-grid input { width: 100%; box-sizing: border-box; }
@@ -141,3 +142,99 @@ body.location-map-fullscreen { overflow: hidden; }
 
 /* 0.14.40: aufgefächerte historische Schiffsmarker */
 .vessel-berth-history-item .map-popup-link { margin-top: 3px; }
+
+
+/* 0.14.44: kompakte Kartendetails, Foto-Spiderfy und persistente Darstellung */
+.map-detail-panel {
+  position: absolute;
+  z-index: 790;
+  top: 58px;
+  right: 10px;
+  width: min(330px, calc(100% - 20px));
+  max-height: min(42vh, 360px);
+  overflow: auto;
+  padding: 12px 42px 12px 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: rgba(255,255,255,.96);
+  box-shadow: 0 3px 14px rgba(0,0,0,.18);
+  box-sizing: border-box;
+  line-height: 1.35;
+}
+.map-detail-panel strong { display: block; margin-bottom: 4px; }
+.map-detail-panel .map-detail-line { margin-top: 2px; }
+.map-detail-panel .map-detail-note { margin-top: 6px; color: #52606d; font-size: .86rem; }
+.map-detail-panel .map-popup-link { margin-top: 7px; }
+.map-detail-close {
+  position: absolute;
+  top: 5px;
+  right: 7px;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #475569;
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+}
+.map-detail-close:hover { background: #eef2f6; color: #111827; }
+
+.photo-hover-tooltip, .vessel-berth-hover-tooltip, .berth-hover-tooltip {
+  max-width: 245px;
+  padding: 5px 7px;
+  line-height: 1.25;
+}
+.photo-hover-content strong, .vessel-berth-hover-content strong { margin-bottom: 1px; }
+
+.photo-group-marker {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #334155;
+  border-radius: 50%;
+  background: #fff;
+  color: #0f172a;
+  box-shadow: 0 2px 7px rgba(0,0,0,.28);
+  box-sizing: border-box;
+  font-weight: 800;
+}
+.photo-group-marker::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border: 2px solid #1e3a8a;
+  border-radius: 50%;
+  background: #60a5fa;
+}
+.photo-group-count {
+  position: absolute;
+  right: -8px;
+  top: -8px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #334155;
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+@media (max-width: 760px) {
+  .map-detail-panel {
+    top: auto;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    width: auto;
+    max-height: 32vh;
+  }
+}
