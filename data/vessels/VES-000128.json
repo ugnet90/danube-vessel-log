@@ -4,39 +4,69 @@
   "identity": {
     "name": "Thurgau Prestige",
     "former_names": [],
-    "mmsi": "",
+    "mmsi": "269057300",
     "imo": "",
-    "eni": "",
+    "eni": "07001906",
     "call_sign": ""
   },
   "classification": {
     "ship_type": "PASSENGER",
     "ship_subtype": "RIVER_CRUISE",
     "status": "active",
-    "flag": ""
+    "flag": "CH"
   },
   "technical": {
-    "year_built": null,
+    "year_built": 2009,
     "shipyard": "",
-    "length_m": null,
-    "width_m": null,
+    "length_m": 110,
+    "width_m": 11.4,
     "draft_m": null,
-    "passengers": null
+    "passengers": 124
   },
   "operations": {
-    "operator": "",
+    "operator": "Thurgau Travel AG",
     "owner": "",
     "manager": "",
     "cruise_brand": "",
-    "home_port": ""
+    "home_port": "Basel"
   },
   "name_history": [],
   "identifiers_history": [],
-  "sources": [],
+  "sources": [
+    {
+      "source_id": "SRC-459CA7ADD3B8",
+      "provider": "Wikidata",
+      "title": "Wikidata: Thurgau Prestige",
+      "url": "https://www.wikidata.org/wiki/Q124258713",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "identity.mmsi",
+        "identity.eni",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "retrieved_at": "2026-08-22T14:11:05.679497Z",
+      "verified_at": "2026-08-22T16:18:35.074Z",
+      "added_at": "2026-08-22T16:18:35.074Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2529504152
+    }
+  ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q124258713",
+      "rejected_qids": [],
+      "accepted_at": "2026-08-22T16:18:35.074Z",
+      "last_reviewed_at": "2026-08-22T16:18:35.074Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-572C497C347D49E0BC7B15E577692BB6",
@@ -47,7 +77,78 @@
     "environment": "production",
     "created_at": "2026-08-22T14:09:32.532Z",
     "created_from_submission_id": "SUB-20260822-134740-610689",
-    "updated_at": "2026-08-22T14:09:32.532Z",
-    "updated_by": "web-ui"
+    "updated_at": "2026-08-22T16:18:35.074Z",
+    "updated_by": "vessel-enrichment",
+    "change_history": [
+      {
+        "changed_at": "2026-08-22T16:18:35.074Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "9 Wikidata-Felder aus Q124258713 übernommen",
+        "changed_fields": [
+          "identity.mmsi",
+          "identity.eni",
+          "classification.flag",
+          "technical.year_built",
+          "technical.length_m",
+          "technical.width_m",
+          "technical.passengers",
+          "operations.operator",
+          "operations.home_port",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "identity.mmsi",
+            "old_value": "",
+            "new_value": "269057300"
+          },
+          {
+            "field": "identity.eni",
+            "old_value": "",
+            "new_value": "07001906"
+          },
+          {
+            "field": "classification.flag",
+            "old_value": "",
+            "new_value": "CH"
+          },
+          {
+            "field": "technical.year_built",
+            "old_value": null,
+            "new_value": 2009
+          },
+          {
+            "field": "technical.length_m",
+            "old_value": null,
+            "new_value": 110
+          },
+          {
+            "field": "technical.width_m",
+            "old_value": null,
+            "new_value": 11.4
+          },
+          {
+            "field": "technical.passengers",
+            "old_value": null,
+            "new_value": 124
+          },
+          {
+            "field": "operations.operator",
+            "old_value": "",
+            "new_value": "Thurgau Travel AG"
+          },
+          {
+            "field": "operations.home_port",
+            "old_value": "",
+            "new_value": "Basel"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q124258713"
+          }
+        ]
+      }
+    ]
   }
 }
