@@ -1,0 +1,121 @@
+{
+  "schema_version": 13,
+  "submission_id": "SUB-20260822-135015-DBB3CA",
+  "uploaded_at": "2026-08-22T13:50:15.570Z",
+  "captured_at": "2026-08-21T05:08:51.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "geo_area",
+    "id": "LOC-001",
+    "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000002",
+    "name": "Schiffsanlegestelle Linz-Nibelungen",
+    "short_name": "Linz-Nibelungen Nr. 12",
+    "station_number": "12",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "upstream",
+    "river_km": 2135.1955,
+    "river_km_text": "2135,2-4,5 m",
+    "facility_type": "Gitterkahn",
+    "mooring_order": "max. Breite 30 m",
+    "entry_count": 4,
+    "entry_height": "0,85 m, 1,50 m oder 2,10 m",
+    "latitude": 48.307028,
+    "longitude": 14.284278,
+    "address": "Obere Donaulände, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "AmaSonata",
+  "notes": "",
+  "observer_lat": 48.30739166666667,
+  "observer_lon": 14.28525,
+  "photos": [
+    {
+      "photo_id": "PHOTO-477B91A413F849B28F927778D7CC4BCE",
+      "path": "inbox/photos/2026/08/PHOTO-477B91A413F849B28F927778D7CC4BCE.jpg",
+      "filename": "PHOTO-477B91A413F849B28F927778D7CC4BCE.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 436571,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-08-21T05:08:51.000Z",
+      "photo_lat": 48.30739166666667,
+      "photo_lon": 14.28525,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-7020EE264FF34661AF53E8B2C17BFB78",
+      "path": "inbox/photos/2026/08/PHOTO-7020EE264FF34661AF53E8B2C17BFB78.jpg",
+      "filename": "PHOTO-7020EE264FF34661AF53E8B2C17BFB78.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 458517,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-08-21T05:09:31.000Z",
+      "photo_lat": 48.30712166666667,
+      "photo_lon": 14.28535333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "name": "Obere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000119",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000119"
+        ],
+        "matched_value": "AmaSonata",
+        "normalized_input": "amasonata"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30739166666667,
+  "photo_lon": 14.28525
+}
