@@ -1,8 +1,8 @@
 <!--
   Danube Vessel Log
   File: docs/location_areas.html
-  Version: 0.14.41
-  Updated: 2026-08-20
+  Version: 0.14.44
+  Updated: 2026-08-22
 -->
 <!DOCTYPE html>
 <html lang="de">
@@ -34,6 +34,14 @@
         <label><input id="showPhotos" type="checkbox" checked> Foto-Aufnahmeorte</label>
         <label><input id="showVesselBerths" type="checkbox" checked> Schiffspositionen an Anlegestellen</label>
         <label><input id="showVertices" type="checkbox"> Eckpunkte</label>
+        <label class="connection-mode-control">
+          <span>Sichtungslinien</span>
+          <select id="connectionMode">
+            <option value="selected">Nur Auswahl</option>
+            <option value="all">Alle</option>
+            <option value="none">Keine</option>
+          </select>
+        </label>
       </div>
 
       <div class="photo-filter-grid">
@@ -88,7 +96,7 @@
     <section class="location-areas-layout">
       <aside class="location-areas-panel">
         <h2>Bereiche</h2>
-        <p class="location-areas-help">Klick auf einen Bereich zoomt auf das Polygon. Foto- und Schiffmarker zeigen am PC Daten beim Darüberfahren und öffnen per Klick bzw. Antippen die Details. Gestrichelte Linien verbinden jeden Foto-Aufnahmeort mit der bekannten Schiffsposition derselben Sichtung. Mehrere historische Anlege-Sichtungen an derselben Anlegestelle werden in einem Schiffmarker mit Zähler zusammengefasst; Klick auf den Zähler fächert die einzelnen Sichtungen auf. Während der Auffächerung wandern die gestrichelten Foto-Verbindungen zu den zugehörigen aufgefächerten Schiffsymbolen.</p>
+        <p class="location-areas-help">Klick auf einen Bereich zoomt auf das Polygon. Foto- und Schiffmarker zeigen am PC nur kurze Hinweise beim Darüberfahren; Details erscheinen platzsparend am Kartenrand. Überlappende Foto-Aufnahmeorte und mehrere historische Anlege-Sichtungen werden mit Zähler zusammengefasst und per Klick aufgefächert. Sichtungslinien können vollständig, nur für die gewählte Aufnahme/Sichtung oder gar nicht angezeigt werden. Beim Auffächern wandern die Linien dynamisch zu den dargestellten Foto- und Schiffsymbolen.</p>
         <div id="selectedPhotoCard" class="selected-photo-card hidden" aria-live="polite"></div>
         <div id="locationAreasStatus" class="location-areas-status" aria-live="polite">Kartendaten werden geladen …</div>
         <div id="locationAreasList" class="location-areas-list"></div>
@@ -98,6 +106,10 @@
         <div class="location-map-toolbar">
           <button id="toggleMapFullscreen" class="secondary-button" type="button" aria-pressed="false">Vollbild</button>
         </div>
+        <aside id="mapDetailPanel" class="map-detail-panel hidden" aria-live="polite">
+          <button id="closeMapDetail" class="map-detail-close" type="button" aria-label="Details schließen">×</button>
+          <div id="mapDetailContent"></div>
+        </aside>
         <div id="locationAreasMap" class="location-areas-map"></div>
       </section>
     </section>
