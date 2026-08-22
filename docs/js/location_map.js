@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_map.js
- * Version: 0.14.41
- * Updated: 2026-08-20
+ * Version: 0.14.44
+ * Updated: 2026-08-22
  *
  * Gemeinsame Kartenlogik für Standortseite und Foto-Kartenoverlay.
  */
@@ -523,12 +523,23 @@
         }
       );
 
-      marker.bindPopup(berthPopup(berth));
+      if (typeof options.onSelect === "function") {
+        marker.on("click", event => {
+          marker.closeTooltip();
+          options.onSelect({ marker, berth, event });
+        });
+      } else {
+        marker.bindPopup(berthPopup(berth));
+      }
+
       marker.bindTooltip(
         berth?.short_name ||
         berth?.public_name ||
         label,
-        { direction: "top" }
+        {
+          direction: "top",
+          className: "berth-hover-tooltip"
+        }
       );
       marker.addTo(group);
       bounds.extend([coords.latitude, coords.longitude]);
@@ -578,28 +589,22 @@
       "Fotoaufnahme";
     container.append(title);
 
-    const lines = [
+    const compact = [
       formatDateTime(photo?.captured_at),
-      photo?.location?.name
-        ? `Aufnahmeort: ${photo.location.name}`
-        : "Aufnahmeort: unbekannt",
-      photoHasSightingRelation(photo)
-        ? `Sichtung: ${photo.submission_id || photo?.relation?.submission_id}`
-        : (
-          photo?.source_type === "direct"
-            ? "Nur zum Schiff"
-            : "Sichtungsfoto ohne Sichtungs-ID"
-        ),
-      relationState === "sighting-unlocated"
-        ? "Schiffsposition: nicht kartierbar – keine Verbindungslinie"
-        : ""
-    ].filter(Boolean);
+      String(photo?.location?.name || "").trim()
+    ].filter(Boolean).join(" · ");
 
-    lines.forEach(text => {
+    if (compact) {
       const line = document.createElement("div");
-      line.textContent = text;
+      line.textContent = compact;
       container.append(line);
-    });
+    }
+
+    if (relationState === "sighting-unlocated") {
+      const note = document.createElement("div");
+      note.textContent = "Schiffsposition nicht kartierbar";
+      container.append(note);
+    }
 
     return container;
   }
@@ -660,12 +665,34 @@
     return container;
   }
 
+  function photoMarkerKey(photo) {
+    const photoId = String(photo?.photo_id || "").trim();
+    if (photoId) return photoId;
+
+    return [
+      String(photo?.source_type || "photo").trim(),
+      String(photo?.submission_id || photo?.relation?.submission_id || "").trim(),
+      String(photo?.captured_at || "").trim(),
+      String(photo?.photo_lat ?? photo?.latitude ?? "").trim(),
+      String(photo?.photo_lon ?? photo?.longitude ?? "").trim(),
+      String(photo?.path || "").trim()
+    ].join("|");
+  }
+
   function createPhotoMarker(map, photo, options = {}) {
-    const coords = validCoordinates(
+    const sourceCoords = validCoordinates(
       photo?.photo_lat ?? photo?.latitude,
       photo?.photo_lon ?? photo?.longitude
     );
-    if (!coords) return null;
+    if (!sourceCoords) return null;
+
+    const displayCoords = options.displayCoordinates
+      ? validCoordinates(
+          options.displayCoordinates.latitude,
+          options.displayCoordinates.longitude
+        )
+      : sourceCoords;
+    if (!displayCoords) return null;
 
     const hasSighting = photoHasSightingRelation(photo);
     const relationState =
@@ -673,25 +700,14 @@
       (hasSighting ? "sighting-connected" : "vessel");
 
     const stateColors = {
-      "sighting-connected": {
-        color: "#1e3a8a",
-        fillColor: "#60a5fa"
-      },
-      "sighting-unlocated": {
-        color: "#5b21b6",
-        fillColor: "#c4b5fd"
-      },
-      vessel: {
-        color: "#92400e",
-        fillColor: "#facc15"
-      }
+      "sighting-connected": { color: "#1e3a8a", fillColor: "#60a5fa" },
+      "sighting-unlocated": { color: "#5b21b6", fillColor: "#c4b5fd" },
+      vessel: { color: "#92400e", fillColor: "#facc15" }
     };
-    const colors =
-      stateColors[relationState] ||
-      stateColors.vessel;
+    const colors = stateColors[relationState] || stateColors.vessel;
 
     const marker = L.circleMarker(
-      [coords.latitude, coords.longitude],
+      [displayCoords.latitude, displayCoords.longitude],
       {
         radius: options.radius ?? 7,
         color: options.color || colors.color,
@@ -701,13 +717,22 @@
       }
     );
 
-    marker.bindPopup(photoPopup(photo, relationState));
+    if (typeof options.onSelect === "function") {
+      marker.on("click", event => {
+        marker.closeTooltip();
+        options.onSelect({
+          marker,
+          photo,
+          relationState,
+          photoKey: photoMarkerKey(photo),
+          event
+        });
+      });
+    } else {
+      marker.bindPopup(photoPopup(photo, relationState));
+    }
 
-    const label = photoLabel(
-      photo,
-      options.labelMode || "none"
-    );
-
+    const label = photoLabel(photo, options.labelMode || "none");
     const hoverContent = photoHoverContent(photo, relationState);
 
     if (label) {
@@ -716,12 +741,10 @@
         direction: "top",
         className: "photo-location-label"
       });
-
       marker.on("mouseover", () => {
         marker.setTooltipContent(hoverContent);
         marker.openTooltip();
       });
-
       marker.on("mouseout", () => {
         marker.setTooltipContent(label);
         marker.openTooltip();
@@ -736,10 +759,155 @@
       });
     }
 
-    if (options.addToMap !== false) {
-      marker.addTo(map);
-    }
+    marker._danubePhotoKey = photoMarkerKey(photo);
 
+    if (options.addToMap !== false) marker.addTo(map);
+    return marker;
+  }
+
+  function photoGroupIcon(count) {
+    const safeCount = Math.max(2, Number(count) || 2);
+    return L.divIcon({
+      className: "",
+      html:
+        '<div class="photo-group-marker" aria-hidden="true">' +
+        `<span class="photo-group-count">${safeCount}</span>` +
+        "</div>",
+      iconSize: [34, 34],
+      iconAnchor: [17, 17]
+    });
+  }
+
+  function createPhotoGroupMarker(map, items, options = {}) {
+    const normalized = (Array.isArray(items) ? items : [])
+      .map(item => item?.photo ? item : { photo: item })
+      .filter(item => validCoordinates(
+        item?.photo?.photo_lat ?? item?.photo?.latitude,
+        item?.photo?.photo_lon ?? item?.photo?.longitude
+      ));
+    if (normalized.length < 2) return null;
+
+    const centerCoords = options.centerCoordinates
+      ? validCoordinates(
+          options.centerCoordinates.latitude,
+          options.centerCoordinates.longitude
+        )
+      : null;
+    const fallbackCoords = validCoordinates(
+      normalized[0]?.photo?.photo_lat ?? normalized[0]?.photo?.latitude,
+      normalized[0]?.photo?.photo_lon ?? normalized[0]?.photo?.longitude
+    );
+    const coords = centerCoords || fallbackCoords;
+    if (!coords) return null;
+
+    const marker = L.marker(
+      [coords.latitude, coords.longitude],
+      { icon: photoGroupIcon(normalized.length), zIndexOffset: 430 }
+    );
+
+    marker.bindTooltip(
+      `${normalized.length} Foto-Aufnahmeorte<br>Klick: auffächern`,
+      {
+        permanent: false,
+        sticky: true,
+        direction: "top",
+        opacity: 0.97,
+        className: "photo-hover-tooltip"
+      }
+    );
+
+    let spiderLayer = null;
+
+    const fireSpiderChange = expanded => {
+      map.fire("danube:photo-spiderfy-change", {
+        expanded,
+        marker,
+        positions:
+          expanded && map._danubePhotoSpiderfy?.marker === marker
+            ? map._danubePhotoSpiderfy.positions
+            : null
+      });
+    };
+
+    const collapse = () => {
+      if (spiderLayer && map.hasLayer(spiderLayer)) map.removeLayer(spiderLayer);
+      spiderLayer = null;
+      if (map._danubePhotoSpiderfy?.marker === marker) {
+        map._danubePhotoSpiderfy = null;
+        fireSpiderChange(false);
+      }
+    };
+
+    const expand = () => {
+      if (
+        map._danubePhotoSpiderfy?.collapse &&
+        map._danubePhotoSpiderfy.marker !== marker
+      ) {
+        map._danubePhotoSpiderfy.collapse();
+      }
+
+      spiderLayer = L.layerGroup();
+      const center = L.latLng(coords.latitude, coords.longitude);
+      const centerPoint = map.latLngToLayerPoint(center);
+      const positions = new Map();
+      const count = normalized.length;
+      const ringCapacity = 12;
+
+      normalized.forEach((item, index) => {
+        const ring = Math.floor(index / ringCapacity);
+        const ringStart = ring * ringCapacity;
+        const ringCount = Math.min(ringCapacity, count - ringStart);
+        const ringIndex = index - ringStart;
+        const radius = 34 + ring * 27;
+        const angle = (-Math.PI / 2) + (2 * Math.PI * ringIndex / ringCount);
+        const point = L.point(
+          centerPoint.x + Math.cos(angle) * radius,
+          centerPoint.y + Math.sin(angle) * radius
+        );
+        const latLng = map.layerPointToLatLng(point);
+        const displayCoordinates = { latitude: latLng.lat, longitude: latLng.lng };
+        positions.set(photoMarkerKey(item.photo), displayCoordinates);
+
+        L.polyline([center, latLng], {
+          color: "#64748b",
+          weight: 1,
+          opacity: 0.6,
+          dashArray: "2 4",
+          interactive: false
+        }).addTo(spiderLayer);
+
+        const markerOptions =
+          typeof options.markerOptions === "function"
+            ? options.markerOptions(item) || {}
+            : {};
+        const child = createPhotoMarker(map, item.photo, {
+          ...markerOptions,
+          addToMap: false,
+          displayCoordinates
+        });
+        if (child) child.addTo(spiderLayer);
+      });
+
+      spiderLayer.addTo(map);
+      map._danubePhotoSpiderfy = { marker, collapse, positions };
+      fireSpiderChange(true);
+    };
+
+    marker.on("click", event => {
+      if (event?.originalEvent) L.DomEvent.stopPropagation(event.originalEvent);
+      marker.closeTooltip();
+      if (spiderLayer) collapse();
+      else expand();
+    });
+
+    const handleZoomStart = () => collapse();
+    marker.on("remove", () => {
+      collapse();
+      map.off("zoomstart", handleZoomStart);
+    });
+    map.on("zoomstart", handleZoomStart);
+
+    if (options.addToMap !== false) marker.addTo(map);
     return marker;
   }
 
@@ -804,21 +972,18 @@
     container.className = "vessel-berth-hover-content";
 
     const title = document.createElement("strong");
-    title.textContent =
-      record?.vessel_name ||
-      record?.vessel_id ||
-      "Schiff";
+    title.textContent = record?.vessel_name || record?.vessel_id || "Schiff";
     container.append(title);
 
-    [
+    const compact = [
       formatDateTime(record?.captured_at),
-      record?.berth?.short_name || record?.berth?.name || "",
-      record?.submission_id ? `Sichtung: ${record.submission_id}` : ""
-    ].filter(Boolean).forEach(text => {
+      record?.berth?.short_name || record?.berth?.name || ""
+    ].filter(Boolean).join(" · ");
+    if (compact) {
       const line = document.createElement("div");
-      line.textContent = text;
+      line.textContent = compact;
       container.append(line);
-    });
+    }
 
     return container;
   }
@@ -870,12 +1035,19 @@
       }
     };
 
-    marker.bindPopup(
-      vesselBerthPopup(
-        mergedRecord,
-        { spiderfied: options.spiderfied === true }
-      )
-    );
+    if (typeof options.onSelect === "function") {
+      marker.on("click", event => {
+        marker.closeTooltip();
+        options.onSelect({ marker, record: mergedRecord, berth, event });
+      });
+    } else {
+      marker.bindPopup(
+        vesselBerthPopup(
+          mergedRecord,
+          { spiderfied: options.spiderfied === true }
+        )
+      );
+    }
     marker.bindTooltip(vesselBerthHoverContent(mergedRecord), {
       permanent: false,
       sticky: true,
@@ -1018,9 +1190,6 @@
       }
     );
 
-    const groupPopupContent =
-      vesselBerthGroupPopup(normalized, berth);
-
     const berthName =
       berth?.short_name ||
       berth?.public_name ||
@@ -1041,10 +1210,6 @@
 
     if (options.spiderfy) {
       let spiderLayer = null;
-      const summaryPopup = L.popup({
-        maxWidth: 390,
-        offset: [0, -12]
-      }).setContent(groupPopupContent);
 
       const fireSpiderChange = expanded => {
         map.fire("danube:vessel-spiderfy-change", {
@@ -1063,13 +1228,7 @@
         });
       };
 
-      const showSummary = () => {
-        summaryPopup
-          .setLatLng(marker.getLatLng())
-          .openOn(map);
-      };
-
-      const collapse = ({ showOverview = false } = {}) => {
+      const collapse = () => {
         if (spiderLayer && map.hasLayer(spiderLayer)) {
           map.removeLayer(spiderLayer);
         }
@@ -1083,14 +1242,9 @@
           fireSpiderChange(false);
         }
 
-        if (showOverview && map.hasLayer(marker)) {
-          window.setTimeout(showSummary, 0);
-        }
       };
 
       const expand = () => {
-        map.closePopup(summaryPopup);
-
         if (
           map._danubeVesselSpiderfy?.collapse &&
           map._danubeVesselSpiderfy.marker !== marker
@@ -1163,7 +1317,8 @@
               addToMap: false,
               displayCoordinates,
               spiderfied: true,
-              zIndexOffset: 520 + index
+              zIndexOffset: 520 + index,
+              onSelect: options.onSelect
             }
           );
 
@@ -1187,7 +1342,7 @@
         }
 
         if (spiderLayer) {
-          collapse({ showOverview: true });
+          collapse();
         } else {
           expand();
         }
@@ -1205,7 +1360,7 @@
       map.on("zoomstart", handleZoomStart);
     } else {
       marker.bindPopup(
-        groupPopupContent,
+        vesselBerthGroupPopup(normalized, berth),
         { maxWidth: 390 }
       );
     }
@@ -1278,6 +1433,8 @@
     addAreaLayers,
     addBerthLayers,
     createPhotoMarker,
+    photoMarkerKey,
+    createPhotoGroupMarker,
     photoHasSightingRelation,
     createVesselBerthMarker,
     createVesselBerthGroupMarker,
