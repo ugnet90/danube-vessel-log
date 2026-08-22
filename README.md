@@ -1,7 +1,7 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.43**  
-Stand: **21.08.2026**
+Aktuelle Version: **0.14.44**  
+Stand: **22.08.2026**
 
 ## 1. Projektzweck
 
@@ -2252,3 +2252,74 @@ Version 0.14.43 verändert ausschließlich `cloudflare/worker.js`. Nach dem Comm
 - `cloudflare/worker.js`: Version `0.14.43`; Foto-Metadaten werden vor der Standortvalidierung normalisiert; gültige Anlegestellen können als Standortquelle dienen.
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.43`.
 
+
+
+## 74. Version 0.14.44 – Kartenbedienung und sofortiger Kartenindex
+
+Version **0.14.44** verbessert die Bedienung von `docs/location_areas.html` und beseitigt die zuletzt beobachtete Verzögerung zwischen einer automatisch bestätigten neuen Sichtung und dem Kartenindex.
+
+### 74.1 Foto-Aufnahmeorte auffächern
+
+Foto-Aufnahmeorte, die sich bei der aktuellen Zoomstufe überdecken oder nahezu überdecken, werden nun zu einem Sammelmarker mit Zähler zusammengefasst. Ein Klick auf den Sammelmarker fächert die einzelnen Foto-Punkte radial auf. Die individuellen Marker behalten dabei ihren bisherigen Zustand und ihre Farbe:
+
+- blau: Foto mit Sichtungsbezug und kartierbarer Schiffsposition,
+- violett: Foto mit Sichtungsbezug ohne kartierbare Schiffsposition,
+- gelb: Zusatzfoto nur zum Schiff.
+
+Die Gruppierung wird anhand des aktuell sichtbaren Pixelabstands berechnet und nach Zoomänderungen neu bewertet. Beim Auffächern werden die zugehörigen Sichtungslinien dynamisch auf die dargestellten Foto-Positionen umgelegt. Gleichzeitig kann weiterhin eine Schiffssichtungsgruppe an einer Anlegestelle aufgefächert sein; die Linie verbindet dann die beiden jeweils dargestellten Endpunkte.
+
+### 74.2 Kompaktere Karteninformationen
+
+Die großen Leaflet-Popups für Foto-Punkte, einzelne Schiffssichtungen und Anlegestellen werden in `location_areas.html` nicht mehr verwendet. Dadurch tritt die störende Überlagerung aus Hover-Tooltip und Klick-Popup nicht mehr auf.
+
+Stattdessen gilt:
+
+- Mouseover zeigt nur einen kurzen Tooltip mit den wichtigsten Angaben.
+- Klick auf einen einzelnen Foto-Punkt, eine einzelne Schiffssichtung oder eine Anlegestelle öffnet ein kompaktes Detailfeld am Kartenrand.
+- Das Detailfeld besitzt einen eigenen Schließen-Button und verdeckt deutlich weniger Kartenfläche.
+- Ein Klick auf einen Sammelmarker mit mehreren Schiffssichtungen bzw. Foto-Punkten dient zunächst nur zum Auffächern; Detailinformationen erscheinen erst beim Klick auf einen einzelnen aufgefächerten Marker.
+
+### 74.3 Sichtungslinien wählbar
+
+Für die gestrichelten Foto-Schiff-Verbindungen gibt es nun die Auswahl **Sichtungslinien** mit drei Modi:
+
+- **Nur Auswahl** – Standard; zunächst keine Linien. Ein Klick auf einen Foto-Punkt zeigt nur dessen Verbindung, ein Klick auf eine einzelne Schiffssichtung zeigt die Verbindungen der zugehörigen Fotos. Ein erneuter Klick auf denselben Punkt schaltet diese Auswahl wieder aus.
+- **Alle** – zeigt alle Verbindungen der aktuell gefilterten Daten.
+- **Keine** – blendet sämtliche Sichtungslinien aus.
+
+Die vorhandenen Filter für Schiff, Ort, Fotoart und Zeitraum gelten weiterhin auch für die Verbindungslinien.
+
+### 74.4 Darstellung lokal gespeichert
+
+Die Karten-Darstellung wird nun in `localStorage` pro Browser/Gerät gespeichert und bleibt erhalten, bis sie geändert wird. Gespeichert werden:
+
+- Sichtbarkeit von Polygonen, Anlegestellen, Foto-Aufnahmeorten, Schiffspositionen und Eckpunkten,
+- Modus der Sichtungslinien,
+- Schiff-, Orts-, Fotoart- und Datumsfilter,
+- Marker-Beschriftung.
+
+Der Vollbildzustand selbst wird bewusst nicht dauerhaft gespeichert.
+
+### 74.5 Automatisch bestätigte Sichtungen sofort im Kartenindex
+
+Bei einer eindeutig automatisch bestätigten neuen Sichtung aktualisiert der Worker nun im selben atomaren Commit zusätzlich zu `data/sightings.json` auch den Kartenindex:
+
+- `data/photo_locations.json`
+- `docs/data/photo_locations.json`
+
+Dabei werden sowohl der Sichtungseintrag als auch die kartierbaren Foto-Aufnahmeorte der Submission übernommen. Dadurch ist eine neu bestätigte Sichtung unmittelbar für `location_areas.html` kartierbar; ein nachträglich zu dieser Sichtung hochgeladenes Zusatzfoto kann sofort seine Schiffsposition und Verbindungslinie finden. Der zuvor erforderliche nachträgliche **Rebuild location matches** entfällt für diesen Normalfall.
+
+Die beiden öffentlichen/kanonischen Kartenindexdateien werden weiterhin gemeinsam aus demselben Dokument geschrieben, damit sie nicht auseinanderlaufen.
+
+### 74.6 Deployment
+
+Version 0.14.44 verändert sowohl den Cloudflare Worker als auch die GitHub-Pages-Oberfläche. Nach dem Commit ist daher ein **Cloudflare-Worker-Deployment erforderlich**. Ein **Rebuild location matches ist für neue automatisch bestätigte Sichtungen nicht erforderlich**. Bereits vor 0.14.44 entstandene veraltete Kartenindizes können weiterhin einmalig mit dem bestehenden Rebuild korrigiert werden.
+
+## 75. Dateiversionen 0.14.44
+
+- `cloudflare/worker.js`: Version `0.14.44`; automatisch bestätigte Sichtungen und ihre Fotoorte werden atomar in den Kartenindex übernommen.
+- `docs/js/location_map.js`: Version `0.14.44`; Foto-Spiderfy, kompakte Tooltips, callback-basierte Detailauswahl und dynamische Foto-Spiderfy-Positionen.
+- `docs/js/location_areas.js`: Version `0.14.44`; persistente Karteneinstellungen, Sichtungslinien-Modi, Foto-Gruppierung, Detailfeld und dynamische Verbindungen.
+- `docs/location_areas.html`: Version `0.14.44`; Auswahl für Sichtungslinien und kompaktes Karten-Detailfeld.
+- `docs/css/location_areas.css`: Version `0.14.44`; Gestaltung des Detailfelds, kompakter Tooltips und Foto-Sammelmarker.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.44`.
