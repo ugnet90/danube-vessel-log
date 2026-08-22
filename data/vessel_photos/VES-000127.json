@@ -23,7 +23,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       },
@@ -54,7 +54,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
         "name": "Obere Donaulände, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       },
@@ -85,7 +85,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
         "name": "Obere Donaulände, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       },
@@ -116,7 +116,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
         "name": "Obere Donaulände, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       },
@@ -147,7 +147,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
         "name": "Obere Donaulände, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       },
