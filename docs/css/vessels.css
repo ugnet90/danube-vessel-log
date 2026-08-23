@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/css/vessels.css
- * Version: 0.14.16
- * Updated: 2026-07-31
+ * Version: 0.14.47
+ * Updated: 2026-08-23
  */
 
 .vessels-page {
@@ -245,7 +245,18 @@
   }
 
   .filter-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .filter-type-field,
+  .test-toggle {
+    grid-column: 1 / -1;
+  }
+
+  .filter-flag-field,
+  .filter-status-field {
+    grid-column: auto;
   }
 
   .list-toolbar {

@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/common.css
- * Version: 0.14.46
+ * Version: 0.14.47
  * Updated: 2026-08-23
  */
 
@@ -258,6 +258,35 @@ code {
   white-space: nowrap;
 }
 
+
+.site-nav-settings-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  padding: 9px;
+  border: 1px solid #d9e0e7;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #334e68;
+  cursor: pointer;
+}
+
+.site-nav-settings-toggle svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.site-nav-settings-toggle:hover,
+.site-nav-settings-toggle[aria-expanded="true"] {
+  background: #f4f7ff;
+  color: #1d4ed8;
+}
+
 .site-nav-toggle {
   display: none;
   width: 44px;
@@ -423,6 +452,7 @@ code {
 
   .site-brand {
     overflow: hidden;
+    margin-right: auto;
     font-size: 0.98rem;
     text-overflow: ellipsis;
   }
@@ -431,6 +461,7 @@ code {
     display: none;
   }
 
+  .site-nav-settings-toggle,
   .site-nav-toggle {
     display: inline-grid;
     flex: 0 0 44px;
