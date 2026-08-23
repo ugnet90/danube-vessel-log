@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.46**  
+Aktuelle Version: **0.14.47**  
 Stand: **23.08.2026**
 
 ## 1. Projektzweck
@@ -2440,4 +2440,95 @@ Nach dem Commit genügt das normale GitHub-Pages-Update.
 - `docs/location_areas.html`: Version `0.14.46`; Kartensteuerung und GeoJSON-Aktion in Seiteneinstellungen verschoben.
 - `docs/css/location_areas.css`: Version `0.14.46`; mobile Reihenfolge **Karte vor Bereiche** und kompakter Seitenkopf.
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.46`.
+
+## 80. Version 0.14.47 – Kartenbedienung, Markertrennung und Orthofoto
+
+Version **0.14.47** korrigiert die nach 0.14.46 aufgefallenen Bedienprobleme auf der Standortseite und verdichtet zusätzlich die Schiffsfilter auf kleinen Displays.
+
+### 80.1 Schiffsfilter mobil kompakter
+
+Auf `docs/vessels.html` bleiben Suche und Schiffstyp über die volle verfügbare Breite erhalten. Die beiden kompakten Auswahlfelder **Flagge** und **Status** stehen auf schmalen Displays nun nebeneinander. Dadurch wird die Filterkarte am iPhone kürzer, ohne die Desktopdarstellung zu verändern.
+
+### 80.2 Mobile Seiteneinstellungen als eigener Zahnrad-Schalter
+
+Auf schmalen Displays befindet sich **Seiteneinstellungen** nicht mehr als zusätzlicher Eintrag im Hamburger-Menü. Wenn eine Seite Seiteneinstellungen besitzt, erscheint im Kopf rechts neben dem Hamburger-Schalter ein eigener Zahnrad-Schalter.
+
+Damit gilt mobil:
+
+- Hamburger = Hauptnavigation;
+- Zahnrad = Einstellungen der aktuell geöffneten Seite.
+
+Die Desktopnavigation bleibt unverändert und führt **Seiteneinstellungen** weiterhin als normalen Navigationsschalter.
+
+### 80.3 Standortkarte: sichtbare Standardebenen und wirksames Zurücksetzen
+
+Die Karteneinstellungen verwenden einen neuen lokalen Einstellungsstand `danube.locationAreas.settings.v2`. Dadurch werden ältere, möglicherweise unpassende gespeicherte Werte aus dem bisherigen Kartenlayout nicht automatisch weiterverwendet.
+
+Die neuen Standardwerte sind:
+
+- Polygone: ein;
+- Anlegestellen: ein;
+- Foto-Aufnahmeorte: ein;
+- Schiffspositionen an Anlegestellen: ein;
+- Eckpunkte: aus;
+- Sichtungslinien: **Alle**;
+- Kartenhintergrund: OpenStreetMap;
+- keine aktiven Schiff-, Aufnahmeort-, Fotoart- oder Datumsfilter;
+- Marker-Beschriftung: keine.
+
+Der bisherige Schalter **Filter zurücksetzen** heißt nun **Einstellungen zurücksetzen** und setzt nicht nur die Filterfelder, sondern die vollständige Kartenkonfiguration auf diese Standardwerte zurück. Dadurch werden insbesondere ausgeblendete Polygone und ein abweichender Sichtungslinien-Modus wieder sichtbar zurückgesetzt.
+
+### 80.4 Anlegestelle und Schiff werden grafisch getrennt
+
+Die bisherige Darstellung legte Schiffsmarker direkt auf die Anlegestellenmarker. Das verdeckte den Anleger und suggerierte zugleich eine exakte Schiff-GPS-Position.
+
+Ab 0.14.47 gilt deshalb:
+
+- die Anlegestelle wird als kleine schematische Anleger-/Pontonfläche dargestellt;
+- der zugehörige Schiffsmarker wird in Kartenpixeln **flussseitig neben** der Anlegestelle positioniert;
+- eine dezente gestrichelte Hilfslinie verbindet Anleger und verschobenen Schiffsmarker;
+- Sichtungslinien von Foto-Aufnahmeorten enden am sichtbaren Schiffsmarker und nicht mehr unter dem Anlegestellensymbol;
+- beim Zoomen werden die schematischen Schiffspositionen neu berechnet, sodass die visuelle Trennung erhalten bleibt;
+- die Darstellung bleibt ausdrücklich **schematisch** und ist keine abgeleitete Schiff-GPS-Position.
+
+Die Flussseite wird aus Uferseite und Verlauf der benachbarten Anlegestellen abgeleitet. Für die derzeit einzige isolierte Anlegestelle am linken Ufer greift eine passende Fallback-Richtung zur Flussmitte.
+
+### 80.5 Paralleles Anlegen mehrerer Schiffe – fachlich vorgemerkt
+
+Mehrere historische Sichtungen an derselben Anlegestelle dürfen nicht als gleichzeitige Mehrfachbelegung interpretiert werden. Deshalb erzeugt 0.14.47 **keine erfundene parallele Belegung** aus vorhandenen Historienwerten.
+
+Für eine spätere belastbare Umsetzung ist vorgesehen, zwei Ebenen zu unterscheiden:
+
+- **Anlegestelle:** optional bekannte maximale Parallelbelegung bzw. Anzahl möglicher Lagen;
+- **konkrete Sichtung:** tatsächliche Lage des Schiffs, beispielsweise Lage 1 direkt am Anleger, Lage 2 daneben, Lage 3 weiter flussseitig.
+
+Damit könnte die Karte später zwei oder drei Schiffe realitätsnäher parallel zur Anlegestelle darstellen. Die dafür nötige Erfassung im iPhone-Kurzbefehl, Worker und Review-Flow ist in 0.14.47 noch nicht eingeführt.
+
+### 80.6 Optionaler Orthofoto-Hintergrund
+
+Unter **Seiteneinstellungen** der Standortkarte gibt es nun die Auswahl **Kartenhintergrund** mit:
+
+- OpenStreetMap;
+- Orthofoto;
+- Orthofoto + Beschriftung.
+
+Für die Orthofoto-Varianten wird die österreichische `basemap.at`-Orthofotoebene in EPSG:3857 verwendet. Die Auswahl wird zusammen mit den übrigen Karteneinstellungen lokal im Browser gespeichert.
+
+### 80.7 Deployment
+
+Version 0.14.47 verändert ausschließlich Dateien unter `docs/` sowie diese README. Ein **Cloudflare-Worker-Deployment ist nicht erforderlich**. Ein **Rebuild location matches ist ebenfalls nicht erforderlich**.
+
+Nach dem Commit genügt das normale GitHub-Pages-Update. Wegen der geänderten JavaScript- und CSS-Dateien sollte die Seite am iPhone einmal vollständig neu geladen werden.
+
+## 81. Dateiversionen 0.14.47
+
+- `docs/vessels.html`: Version `0.14.47`; eigene Klassen für die kompakten mobilen Filterfelder Flagge und Status.
+- `docs/css/vessels.css`: Version `0.14.47`; zweispaltige mobile Anordnung von Flagge und Status.
+- `docs/js/nav.js`: Version `0.14.47`; eigener mobiler Zahnrad-Schalter für Seiteneinstellungen außerhalb des Hamburger-Menüs.
+- `docs/css/common.css`: Version `0.14.47`; Gestaltung und mobile Platzierung des Zahnrad-Schalters.
+- `docs/location_areas.html`: Version `0.14.47`; Kartenhintergrund-Auswahl, Sichtungslinien standardmäßig auf Alle und umfassender Reset-Schalter.
+- `docs/js/location_areas.js`: Version `0.14.47`; neue Karteneinstellungsdefaults, vollständiger Reset, Basiskartenumschaltung, flussseitige Schiffsmarker und korrigierte Linienendpunkte.
+- `docs/js/location_map.js`: Version `0.14.47`; OpenStreetMap-/basemap.at-Hintergründe, schematischer Anleger-Marker und verschiebbare Gruppenmarker.
+- `docs/css/location_areas.css`: Version `0.14.47`; kompakte Anlegerdarstellung und Gestaltung der neuen Kartenhintergrund-Auswahl.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.47`.
 
