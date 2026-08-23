@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/nav.js
-// Version: 0.14.46
+// Version: 0.14.47
 // Updated: 2026-08-23
 
 "use strict";
@@ -367,16 +367,25 @@
       mobileSettingsButton.type =
         "button";
       mobileSettingsButton.className =
-        "site-mobile-settings";
-      mobileSettingsButton.textContent =
-        "Seiteneinstellungen";
+        "site-nav-settings-toggle";
+      mobileSettingsButton.setAttribute(
+        "aria-label",
+        "Seiteneinstellungen öffnen"
+      );
+      mobileSettingsButton.setAttribute(
+        "title",
+        "Seiteneinstellungen"
+      );
       mobileSettingsButton.setAttribute(
         "aria-expanded",
         "false"
       );
+      mobileSettingsButton.innerHTML =
+        '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9.8 3.4h4.4l.5 2a7.3 7.3 0 0 1 1.4.8l1.9-.6 2.2 3.8-1.5 1.4c.1.4.1.8.1 1.2s0 .8-.1 1.2l1.5 1.4-2.2 3.8-1.9-.6a7.3 7.3 0 0 1-1.4.8l-.5 2H9.8l-.5-2a7.3 7.3 0 0 1-1.4-.8l-1.9.6-2.2-3.8 1.5-1.4A7 7 0 0 1 5.2 12c0-.4 0-.8.1-1.2L3.8 9.4 6 5.6l1.9.6a7.3 7.3 0 0 1 1.4-.8l.5-2Z"/><circle cx="12" cy="12" r="3"/></svg>' ;
 
-      mobileMenu.appendChild(
-        mobileSettingsButton
+      nav.insertBefore(
+        mobileSettingsButton,
+        menuButton
       );
     }
 

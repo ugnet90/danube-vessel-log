@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_areas.js
- * Version: 0.14.44
- * Updated: 2026-08-22
+ * Version: 0.14.47
+ * Updated: 2026-08-23
  */
 
 "use strict";
@@ -13,6 +13,7 @@
   const list = document.getElementById("locationAreasList");
   const selectedPhotoCard = document.getElementById("selectedPhotoCard");
   const showAreas = document.getElementById("showAreas");
+  const baseMapMode = document.getElementById("baseMapMode");
   const showBerths = document.getElementById("showBerths");
   const showPhotos = document.getElementById("showPhotos");
   const showVesselBerths = document.getElementById("showVesselBerths");
@@ -40,8 +41,24 @@
     return;
   }
 
-  const SETTINGS_KEY = "danube.locationAreas.settings.v1";
+  const SETTINGS_KEY = "danube.locationAreas.settings.v2";
   const PHOTO_CLUSTER_PIXEL_DISTANCE = 19;
+  const VESSEL_RIVER_OFFSET_PX = 48;
+  const DEFAULT_SETTINGS = Object.freeze({
+    showAreas: true,
+    showBerths: true,
+    showPhotos: true,
+    showVesselBerths: true,
+    showVertices: false,
+    baseMapMode: "osm",
+    connectionMode: "all",
+    vesselFilter: "",
+    areaFilter: "",
+    sourceFilter: "",
+    dateFrom: "",
+    dateTo: "",
+    labelMode: "none"
+  });
   const workerUrl = String(window.VesselConfig?.workerUrl ?? "").trim();
 
   let map;
@@ -59,6 +76,7 @@
   let currentEntries = [];
   let currentVisiblePhotos = [];
   let selectedConnection = null;
+  let vesselDisplayCoordinates = new Map();
 
   function selectedPhotoFromQuery() {
     const params = new URLSearchParams(window.location.search);
@@ -97,7 +115,7 @@
   }
 
   function restoreSettings() {
-    const saved = readSettings();
+    const saved = { ...DEFAULT_SETTINGS, ...readSettings() };
     const checkboxValues = {
       showAreas,
       showBerths,
@@ -111,6 +129,7 @@
     });
 
     const selectValues = {
+      baseMapMode,
       connectionMode,
       vesselFilter,
       areaFilter,
@@ -133,6 +152,7 @@
       showPhotos: showPhotos.checked,
       showVesselBerths: showVesselBerths.checked,
       showVertices: showVertices.checked,
+      baseMapMode: baseMapMode.value,
       connectionMode: connectionMode.value,
       vesselFilter: vesselFilter.value,
       areaFilter: areaFilter.value,
@@ -258,7 +278,7 @@
             ? "Ausrichtung: flussabwärts"
             : ""
       ],
-      note: "Position = erfasste Anlegestelle, kein Schiff-GPS.",
+      note: "Position = schematisch flussseitig neben der erfassten Anlegestelle, kein Schiff-GPS.",
       vesselId: String(record?.vessel_id || "").trim()
     });
   }
@@ -485,6 +505,93 @@
     return false;
   }
 
+  function downstreamReferenceBerth(berth) {
+    const bank = String(berth?.bank || "").trim();
+    const currentKm = Number(berth?.river_km);
+    if (!bank || !Number.isFinite(currentKm)) return null;
+
+    const sameBank = berths
+      .filter(candidate => candidate !== berth && String(candidate?.bank || "").trim() === bank)
+      .map(candidate => ({ candidate, km: Number(candidate?.river_km) }))
+      .filter(item => Number.isFinite(item.km));
+
+    const downstream = sameBank
+      .filter(item => item.km < currentKm)
+      .sort((left, right) => (currentKm - left.km) - (currentKm - right.km))[0];
+    if (downstream) return { berth: downstream.candidate, reverse: false };
+
+    const upstream = sameBank
+      .filter(item => item.km > currentKm)
+      .sort((left, right) => (left.km - currentKm) - (right.km - currentKm))[0];
+    return upstream ? { berth: upstream.candidate, reverse: true } : null;
+  }
+
+  function riverwardDisplayCoordinates(berth, distancePx = VESSEL_RIVER_OFFSET_PX) {
+    const coords = maps.validCoordinates(berth?.latitude, berth?.longitude);
+    if (!coords || !map) return coords;
+
+    const center = L.latLng(coords.latitude, coords.longitude);
+    const centerPoint = map.latLngToLayerPoint(center);
+    const reference = downstreamReferenceBerth(berth);
+
+    let dx = 1;
+    let dy = 0;
+    if (reference) {
+      const refCoords = maps.validCoordinates(reference.berth?.latitude, reference.berth?.longitude);
+      if (refCoords) {
+        const refPoint = map.latLngToLayerPoint([refCoords.latitude, refCoords.longitude]);
+        dx = refPoint.x - centerPoint.x;
+        dy = refPoint.y - centerPoint.y;
+        if (reference.reverse) {
+          dx *= -1;
+          dy *= -1;
+        }
+      }
+    }
+
+    const length = Math.hypot(dx, dy) || 1;
+    const tx = dx / length;
+    const ty = dy / length;
+    const bank = String(berth?.bank || "").trim();
+
+    let nx;
+    let ny;
+    if (bank === "left") {
+      nx = -ty;
+      ny = tx;
+    } else {
+      nx = ty;
+      ny = -tx;
+    }
+
+    const point = L.point(
+      centerPoint.x + nx * distancePx,
+      centerPoint.y + ny * distancePx
+    );
+    const latLng = map.layerPointToLatLng(point);
+    return { latitude: latLng.lat, longitude: latLng.lng };
+  }
+
+  function addBerthGuide(berth, displayCoordinates) {
+    const berthCoordinates = maps.validCoordinates(berth?.latitude, berth?.longitude);
+    const display = maps.validCoordinates(displayCoordinates?.latitude, displayCoordinates?.longitude);
+    if (!berthCoordinates || !display) return;
+
+    L.polyline(
+      [
+        [berthCoordinates.latitude, berthCoordinates.longitude],
+        [display.latitude, display.longitude]
+      ],
+      {
+        color: "#94a3b8",
+        weight: 1.4,
+        opacity: 0.8,
+        dashArray: "2 4",
+        interactive: false
+      }
+    ).addTo(vesselBerthLayer);
+  }
+
   function renderConnections(entries, visiblePhotos) {
     connectionLayer.clearLayers();
     let renderedCount = 0;
@@ -517,9 +624,13 @@
           photoSpiderCoordinates?.latitude,
           photoSpiderCoordinates?.longitude
         ) || photoCoordinates;
+        const storedDisplayCoordinates = vesselDisplayCoordinates.get(submissionId);
         const targetCoordinates = maps.validCoordinates(
           vesselSpiderCoordinates?.latitude,
           vesselSpiderCoordinates?.longitude
+        ) || maps.validCoordinates(
+          storedDisplayCoordinates?.latitude,
+          storedDisplayCoordinates?.longitude
         ) || berthCoordinates;
 
         const vesselName = entry?.record?.vessel_name || entry?.record?.vessel_id || "Schiff";
@@ -558,6 +669,7 @@
   function renderVesselBerths(entries, visiblePhotos) {
     if (map._danubeVesselSpiderfy?.collapse) map._danubeVesselSpiderfy.collapse();
     vesselBerthLayer.clearLayers();
+    vesselDisplayCoordinates = new Map();
 
     const groups = new Map();
     for (const entry of entries) {
@@ -569,10 +681,21 @@
 
     for (const groupedEntries of groups.values()) {
       const berth = groupedEntries[0]?.berth;
+      const displayCoordinates = riverwardDisplayCoordinates(berth);
       let marker = null;
+
+      if (displayCoordinates) {
+        addBerthGuide(berth, displayCoordinates);
+        groupedEntries.forEach(entry => {
+          const submissionId = String(entry?.record?.submission_id || "").trim();
+          if (submissionId) vesselDisplayCoordinates.set(submissionId, displayCoordinates);
+        });
+      }
+
       if (groupedEntries.length === 1) {
         marker = maps.createVesselBerthMarker(map, groupedEntries[0].record, berth, {
           addToMap: false,
+          displayCoordinates,
           onSelect: showVesselDetail
         });
       } else {
@@ -580,7 +703,12 @@
           map,
           groupedEntries.map(entry => entry.record),
           berth,
-          { addToMap: false, spiderfy: true, onSelect: showVesselDetail }
+          {
+            addToMap: false,
+            displayCoordinates,
+            spiderfy: true,
+            onSelect: showVesselDetail
+          }
         );
       }
       if (marker) marker.addTo(vesselBerthLayer);
@@ -677,6 +805,9 @@
   }
 
   function applyLayerSettings() {
+    if (typeof map?._danubeSetBaseLayer === "function") {
+      baseMapMode.value = map._danubeSetBaseLayer(baseMapMode.value);
+    }
     setLayerVisible(areaLayers?.group, showAreas.checked);
     setLayerVisible(berthLayers?.group, showBerths.checked);
     setLayerVisible(areaLayers?.vertexGroup, showVertices.checked);
@@ -688,6 +819,13 @@
       saveSettings();
       renderMapData();
     };
+
+    baseMapMode.addEventListener("change", () => {
+      if (typeof map?._danubeSetBaseLayer === "function") {
+        baseMapMode.value = map._danubeSetBaseLayer(baseMapMode.value);
+      }
+      saveSettings();
+    });
 
     showAreas.addEventListener("change", () => {
       setLayerVisible(areaLayers.group, showAreas.checked);
@@ -712,15 +850,23 @@
       .forEach(control => control.addEventListener("change", persistAndRender));
 
     resetFilters.addEventListener("click", () => {
-      vesselFilter.value = "";
-      areaFilter.value = "";
-      sourceFilter.value = "";
-      dateFrom.value = "";
-      dateTo.value = "";
-      labelMode.value = "none";
+      showAreas.checked = DEFAULT_SETTINGS.showAreas;
+      showBerths.checked = DEFAULT_SETTINGS.showBerths;
+      showPhotos.checked = DEFAULT_SETTINGS.showPhotos;
+      showVesselBerths.checked = DEFAULT_SETTINGS.showVesselBerths;
+      showVertices.checked = DEFAULT_SETTINGS.showVertices;
+      baseMapMode.value = DEFAULT_SETTINGS.baseMapMode;
+      connectionMode.value = DEFAULT_SETTINGS.connectionMode;
+      vesselFilter.value = DEFAULT_SETTINGS.vesselFilter;
+      areaFilter.value = DEFAULT_SETTINGS.areaFilter;
+      sourceFilter.value = DEFAULT_SETTINGS.sourceFilter;
+      dateFrom.value = DEFAULT_SETTINGS.dateFrom;
+      dateTo.value = DEFAULT_SETTINGS.dateTo;
+      labelMode.value = DEFAULT_SETTINGS.labelMode;
       selectedConnection = null;
+      closeDetail({ clearSelection: false });
       saveSettings();
-      renderMapData();
+      applyLayerSettings();
     });
 
     closeDetailButton?.addEventListener("click", () => closeDetail());
@@ -786,7 +932,7 @@
     if (areaLayers.bounds.isValid()) map.fitBounds(areaLayers.bounds.pad(0.08));
 
     map.on("zoomend", () => {
-      if (showPhotos.checked) renderMapData();
+      renderMapData();
     });
 
     showSelectedPhoto();

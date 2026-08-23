@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_map.js
- * Version: 0.14.44
- * Updated: 2026-08-22
+ * Version: 0.14.47
+ * Updated: 2026-08-23
  *
  * Gemeinsame Kartenlogik für Standortseite und Foto-Kartenoverlay.
  */
@@ -179,13 +179,60 @@
       ...(options.leafletOptions || {})
     });
 
-    L.tileLayer(
-      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      {
-        maxZoom: 20,
-        attribution: "&copy; OpenStreetMap contributors"
-      }
-    ).addTo(map);
+    const baseLayerFactories = {
+      osm: () => [
+        L.tileLayer(
+          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          {
+            maxZoom: 20,
+            attribution: "&copy; OpenStreetMap contributors"
+          }
+        )
+      ],
+      orthophoto: () => [
+        L.tileLayer(
+          "https://mapsneu.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg",
+          {
+            maxZoom: 20,
+            attribution: 'Datenquelle: <a href="https://basemap.at/" target="_blank" rel="noopener noreferrer">basemap.at</a>'
+          }
+        )
+      ],
+      "orthophoto-labels": () => [
+        L.tileLayer(
+          "https://mapsneu.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg",
+          {
+            maxZoom: 20,
+            attribution: 'Datenquelle: <a href="https://basemap.at/" target="_blank" rel="noopener noreferrer">basemap.at</a>'
+          }
+        ),
+        L.tileLayer(
+          "https://mapsneu.wien.gv.at/basemap/bmapoverlay/normal/google3857/{z}/{y}/{x}.png",
+          {
+            maxZoom: 20,
+            attribution: 'Beschriftung: <a href="https://basemap.at/" target="_blank" rel="noopener noreferrer">basemap.at</a>'
+          }
+        )
+      ]
+    };
+
+    let activeBaseLayers = [];
+    map._danubeSetBaseLayer = mode => {
+      const normalized = Object.prototype.hasOwnProperty.call(baseLayerFactories, mode)
+        ? mode
+        : "osm";
+
+      activeBaseLayers.forEach(layer => {
+        if (map.hasLayer(layer)) map.removeLayer(layer);
+      });
+
+      activeBaseLayers = baseLayerFactories[normalized]();
+      activeBaseLayers.forEach(layer => layer.addTo(map));
+      map._danubeBaseLayerMode = normalized;
+      return normalized;
+    };
+
+    map._danubeSetBaseLayer(options.baseLayerMode || "osm");
 
     const center = Array.isArray(options.center)
       ? options.center
@@ -512,13 +559,14 @@
           icon: L.divIcon({
             className: "",
             html:
-              '<div class="berth-map-marker">⚓' +
+              '<div class="berth-map-marker">' +
+              '<span class="berth-map-marker-anchor">⚓</span>' +
               (berth?.station_number
-                ? `<span>${berth.station_number}</span>`
+                ? `<span class="berth-map-marker-number">${berth.station_number}</span>`
                 : "") +
               "</div>",
-            iconSize: [34, 34],
-            iconAnchor: [17, 17]
+            iconSize: [38, 24],
+            iconAnchor: [19, 12]
           })
         }
       );
@@ -952,7 +1000,7 @@
     note.className = "vessel-berth-position-note";
     note.textContent = options.spiderfied
       ? "Aufgefächerte Darstellung; die reale gespeicherte Position bleibt die Anlegestelle."
-      : "Marker = Position der erfassten Anlegestelle, kein Schiff-GPS.";
+      : "Marker = schematisch flussseitig neben der erfassten Anlegestelle, kein Schiff-GPS.";
     container.append(note);
 
     if (record?.vessel_id) {
@@ -1141,7 +1189,7 @@
     const note = document.createElement("div");
     note.className = "vessel-berth-position-note";
     note.textContent =
-      "Marker = Position der erfassten Anlegestelle, kein Schiff-GPS.";
+      "Marker = schematisch flussseitig neben der erfassten Anlegestelle, kein Schiff-GPS.";
     container.append(note);
 
     return container;
@@ -1171,11 +1219,19 @@
     berth,
     options = {}
   ) {
-    const coords = validCoordinates(
+    const berthCoords = validCoordinates(
       berth?.latitude,
       berth?.longitude
     );
-    if (!coords) return null;
+    if (!berthCoords) return null;
+
+    const displayCoords = options.displayCoordinates
+      ? validCoordinates(
+          options.displayCoordinates.latitude,
+          options.displayCoordinates.longitude
+        )
+      : berthCoords;
+    if (!displayCoords) return null;
 
     const normalized = Array.isArray(records)
       ? records.filter(Boolean)
@@ -1183,7 +1239,7 @@
     if (normalized.length < 2) return null;
 
     const marker = L.marker(
-      [coords.latitude, coords.longitude],
+      [displayCoords.latitude, displayCoords.longitude],
       {
         icon: vesselBerthGroupIcon(normalized.length),
         zIndexOffset: 470
@@ -1255,8 +1311,8 @@
         spiderLayer = L.layerGroup();
 
         const center = L.latLng(
-          coords.latitude,
-          coords.longitude
+          displayCoords.latitude,
+          displayCoords.longitude
         );
         const centerPoint = map.latLngToLayerPoint(center);
         const count = normalized.length;
