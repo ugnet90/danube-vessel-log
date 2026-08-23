@@ -2,8 +2,8 @@
 <!--
   Danube Vessel Log
   File: docs/dashboard.html
-  Version: 0.14.19
-  Updated: 2026-08-06
+  Version: 0.14.45
+  Updated: 2026-08-23
 -->
 <html lang="de">
 <head>
@@ -29,12 +29,12 @@
         <h1>Übersicht</h1>
         <p>Schiffe, Sichtungen und offene Arbeitsschritte im Überblick.</p>
       </div>
-      <button id="reloadButton" class="secondary-button" type="button">Neu laden</button>
+      <button id="reloadButton" class="secondary-button dashboard-reload-button" type="button" aria-label="Übersicht neu laden"><span class="dashboard-reload-icon" aria-hidden="true">↻</span><span class="dashboard-reload-label">Neu laden</span></button>
     </header>
 
-    <section class="dashboard-connection-card">
+    <section class="dashboard-connection-card" data-api-key-settings>
       <div class="form-field dashboard-key-field">
-        <label for="apiKey">API-Schlüssel</label>
+        <label for="apiKey">Management-API-Schlüssel</label>
         <input id="apiKey" type="password" placeholder="Optional" autocomplete="off">
       </div>
     </section>
@@ -67,8 +67,8 @@
       </a>
     </section>
 
-    <div class="dashboard-main-grid">
-      <section class="dashboard-card">
+    <div id="dashboardMainGrid" class="dashboard-main-grid">
+      <section id="taskCard" class="dashboard-card">
         <header class="dashboard-card-header"><div><h2>Nächste Aufgaben</h2><p>Noch erforderliche Prüfungen.</p></div></header>
         <div id="taskList" class="dashboard-task-list"></div>
         <div id="noTasks" class="dashboard-empty-state hidden">Keine offenen Aufgaben.</div>
@@ -84,15 +84,23 @@
       </section>
     </div>
 
-    <section class="dashboard-card dashboard-system-card">
-      <header class="dashboard-card-header"><div><h2>Systemstatus</h2><p>Erreichbarkeit und Datenstand.</p></div></header>
-      <dl class="dashboard-system-grid">
-        <div><dt>Worker</dt><dd id="workerState">wird geprüft …</dd></div>
-        <div><dt>Anreicherungsreport</dt><dd id="enrichmentState">wird geprüft …</dd></div>
-        <div><dt>Reportmodus</dt><dd id="reportMode">–</dd></div>
-        <div><dt>Dashboard geladen</dt><dd id="loadedAt">–</dd></div>
-      </dl>
-    </section>
+    <details class="dashboard-card dashboard-system-card">
+      <summary class="dashboard-system-summary">
+        <span>
+          <strong>Systemstatus</strong>
+          <small>Erreichbarkeit und Datenstand</small>
+        </span>
+        <span id="workerStateSummary" class="dashboard-system-summary-state">wird geprüft …</span>
+      </summary>
+      <div class="dashboard-system-body">
+        <dl class="dashboard-system-grid">
+          <div><dt>Worker</dt><dd id="workerState">wird geprüft …</dd></div>
+          <div><dt>Anreicherungsreport</dt><dd id="enrichmentState">wird geprüft …</dd></div>
+          <div><dt>Reportmodus</dt><dd id="reportMode">–</dd></div>
+          <div><dt>Dashboard geladen</dt><dd id="loadedAt">–</dd></div>
+        </dl>
+      </div>
+    </details>
   </main>
 
   <script src="js/config.js"></script>
