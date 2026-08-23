@@ -1,7 +1,7 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.44**  
-Stand: **22.08.2026**
+Aktuelle Version: **0.14.45**  
+Stand: **23.08.2026**
 
 ## 1. Projektzweck
 
@@ -2323,3 +2323,67 @@ Version 0.14.44 verändert sowohl den Cloudflare Worker als auch die GitHub-Page
 - `docs/location_areas.html`: Version `0.14.44`; Auswahl für Sichtungslinien und kompaktes Karten-Detailfeld.
 - `docs/css/location_areas.css`: Version `0.14.44`; Gestaltung des Detailfelds, kompakter Tooltips und Foto-Sammelmarker.
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.44`.
+
+## 76. Version 0.14.45 – mobile Navigation und kompakte Übersicht
+
+Version **0.14.45** überarbeitet die GitHub-Pages-Oberfläche für schmale Displays, insbesondere für die Nutzung am iPhone. Die Desktopdarstellung bleibt grundsätzlich erhalten; auf mobilen Geräten wird die Navigation bewusst verdichtet.
+
+### 76.1 Hamburger-Menü auf schmalen Displays
+
+Unterhalb von 760 Pixel Breite zeigt die gemeinsame Hauptnavigation nur noch **Danube Vessel Log** und einen Hamburger-Schalter. Das mobile Menü enthält:
+
+- Übersicht;
+- Sichtungen;
+- Schiffe;
+- Anreicherung;
+- Standorte;
+- soweit auf der aktuellen Seite vorhanden: Einstellungen.
+
+Die bisher nebeneinander stehenden Navigationspunkte können dadurch die Seite am iPhone nicht mehr verbreitern. Zusätzlich begrenzt `docs/css/common.css` die Gesamtseite auf die Viewportbreite. Breite Tabellen dürfen weiterhin innerhalb ihrer vorgesehenen Scrollcontainer horizontal gescrollt werden; die gesamte Website selbst soll nicht mehr horizontal verschoben werden müssen.
+
+### 76.2 API-Schlüssel in Einstellungen verschoben
+
+Der bisher auf mehreren Seiten ständig sichtbare Management-API-Schlüssel wird aus dem Seiteninhalt entfernt und von `docs/js/nav.js` in ein gemeinsames Einstellungsfeld übernommen. Betroffen sind:
+
+- `dashboard.html`;
+- `vessels.html`;
+- `submissions.html`;
+- `vessel.html`.
+
+Der Schlüssel bleibt technisch weiterhin dasselbe Eingabefeld mit der ID `apiKey`, sodass die bestehenden Seitenfunktionen unverändert darauf zugreifen. Die Navigation verschiebt dieses Feld beim Laden lediglich in den Einstellungsbereich.
+
+Ein eingegebener Management-API-Schlüssel wird in `sessionStorage` nur für die aktuelle Browser-Sitzung gehalten. Dadurch bleibt er beim Wechsel zwischen den genannten Seiten verfügbar, wird aber nicht als dauerhafte Einstellung in `localStorage` gespeichert. Über **Löschen** kann er sofort aus der Sitzung entfernt werden.
+
+Der separate API-Schlüssel der AIS-Live-Testseite ist davon nicht betroffen.
+
+### 76.3 Kompakteres Dashboard am iPhone
+
+Die Übersichtsseite wird auf kleinen Displays deutlich verdichtet:
+
+- die vier Kennzahlen erscheinen als 2×2-Raster;
+- erläuternde Untertexte der Kennzahlen werden mobil ausgeblendet;
+- **Neu laden** wird als kompakte Schaltfläche mit Aktualisierungssymbol dargestellt;
+- der Bereich **Nächste Aufgaben** entfällt vollständig, wenn die Daten vollständig geladen sind und keine Aufgabe offen ist;
+- von den zuletzt geänderten Schiffen werden mobil nur die drei jüngsten Zeilen eingeblendet;
+- die Schiffzeilen bleiben kompakt zweispaltig statt untereinander zu stapeln;
+- der Systemstatus ist standardmäßig eingeklappt und kann bei Bedarf geöffnet werden;
+- der bisherige API-Schlüssel-Block belegt keinen Platz mehr im Dashboard.
+
+### 76.4 Deployment
+
+Version 0.14.45 verändert ausschließlich Dateien unter `docs/` sowie diese README. Ein **Cloudflare-Worker-Deployment ist nicht erforderlich**. Ein **Rebuild location matches ist ebenfalls nicht erforderlich**.
+
+Nach dem Commit genügt das normale GitHub-Pages-Update. Bei noch gecachten CSS- oder JavaScript-Dateien die Seite einmal vollständig neu laden.
+
+## 77. Dateiversionen 0.14.45
+
+- `docs/js/nav.js`: Version `0.14.45`; responsive Navigation, Hamburger-Menü, Einstellungsbereich und sitzungsbezogene Verwaltung des Management-API-Schlüssels.
+- `docs/css/common.css`: Version `0.14.45`; mobile Navigation, Einstellungsbereich und Schutz vor horizontaler Gesamtseitenbreite.
+- `docs/dashboard.html`: Version `0.14.45`; kompakter Reload-Schalter, verschiebbarer API-Schlüsselbereich und einklappbarer Systemstatus.
+- `docs/css/dashboard.css`: Version `0.14.45`; 2×2-Kennzahlen, kompakte Schiffsliste und verdichtete mobile Darstellung.
+- `docs/js/dashboard.js`: Version `0.14.45`; blendet einen vollständig leeren Aufgabenbereich aus und synchronisiert den kompakten Worker-Status.
+- `docs/vessels.html`: Version `0.14.45`; Management-API-Schlüssel für gemeinsamen Einstellungsbereich markiert.
+- `docs/submissions.html`: Version `0.14.45`; Management-API-Schlüssel für gemeinsamen Einstellungsbereich markiert.
+- `docs/vessel.html`: Version `0.14.45`; Management-API-Schlüssel für gemeinsamen Einstellungsbereich markiert.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.45`.
+
