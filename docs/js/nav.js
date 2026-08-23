@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/nav.js
-// Version: 0.14.45
+// Version: 0.14.46
 // Updated: 2026-08-23
 
 "use strict";
@@ -153,6 +153,20 @@
     return { input, field };
   }
 
+  function preparePageSettings() {
+    const sources = Array.from(
+      document.querySelectorAll(
+        "[data-page-settings]"
+      )
+    );
+
+    for (const source of sources) {
+      source.remove();
+    }
+
+    return sources;
+  }
+
   function renderNavigation() {
     const target =
       document.querySelector(
@@ -172,6 +186,11 @@
 
     const activeId = currentPageId();
     const settings = prepareSettings();
+    const pageSettings =
+      preparePageSettings();
+    const hasSettings =
+      Boolean(settings) ||
+      pageSettings.length > 0;
 
     const nav =
       document.createElement("nav");
@@ -249,10 +268,12 @@
         "aria-expanded",
         "true"
       );
-      window.setTimeout(
-        () => settings.input.focus(),
-        0
-      );
+      if (settings?.input) {
+        window.setTimeout(
+          () => settings.input.focus(),
+          0
+        );
+      }
     }
 
     function toggleSettings() {
@@ -268,7 +289,7 @@
       }
     }
 
-    if (settings) {
+    if (hasSettings) {
       settingsButton =
         document.createElement("button");
 
@@ -276,7 +297,7 @@
       settingsButton.className =
         "site-nav-link site-nav-settings-button";
       settingsButton.textContent =
-        "Einstellungen";
+        "Seiteneinstellungen";
       settingsButton.setAttribute(
         "aria-expanded",
         "false"
@@ -339,7 +360,7 @@
 
     let mobileSettingsButton = null;
 
-    if (settings) {
+    if (hasSettings) {
       mobileSettingsButton =
         document.createElement("button");
 
@@ -348,7 +369,7 @@
       mobileSettingsButton.className =
         "site-mobile-settings";
       mobileSettingsButton.textContent =
-        "Einstellungen";
+        "Seiteneinstellungen";
       mobileSettingsButton.setAttribute(
         "aria-expanded",
         "false"
@@ -359,7 +380,7 @@
       );
     }
 
-    if (settings) {
+    if (hasSettings) {
       settingsPanel =
         document.createElement("section");
 
@@ -367,7 +388,7 @@
         "site-settings-panel hidden";
       settingsPanel.setAttribute(
         "aria-label",
-        "Einstellungen"
+        "Seiteneinstellungen"
       );
 
       const header =
@@ -378,7 +399,7 @@
       const heading =
         document.createElement("h2");
       heading.textContent =
-        "Einstellungen";
+        "Seiteneinstellungen";
 
       const closeButton =
         document.createElement("button");
@@ -387,7 +408,7 @@
         "site-settings-close";
       closeButton.setAttribute(
         "aria-label",
-        "Einstellungen schließen"
+        "Seiteneinstellungen schließen"
       );
       closeButton.textContent = "×";
 
@@ -396,80 +417,108 @@
         closeButton
       );
 
+      const content =
+        document.createElement("div");
+      content.className =
+        "site-settings-content";
+
+      for (const source of pageSettings) {
+        content.appendChild(source);
+      }
+
+      if (settings) {
+        const apiSection =
+          document.createElement("section");
+        apiSection.className =
+          "site-settings-section";
+
+        const apiHeading =
+          document.createElement("h3");
+        apiHeading.textContent =
+          "Zugriff";
+
+        apiSection.append(
+          apiHeading,
+          settings.field
+        );
+
+        const hint =
+          document.createElement("p");
+        hint.className =
+          "site-settings-hint";
+        hint.textContent =
+          "Der Schlüssel wird nur für diese Browser-Sitzung gespeichert und beim Schließen der Sitzung nicht dauerhaft abgelegt.";
+        apiSection.appendChild(hint);
+
+        const actions =
+          document.createElement("div");
+        actions.className =
+          "site-settings-actions";
+
+        const clearButton =
+          document.createElement("button");
+        clearButton.type = "button";
+        clearButton.className =
+          "secondary-button";
+        clearButton.textContent =
+          "Löschen";
+
+        const applyButton =
+          document.createElement("button");
+        applyButton.type = "button";
+        applyButton.className =
+          "primary-button";
+        applyButton.textContent =
+          "Übernehmen";
+
+        actions.append(
+          clearButton,
+          applyButton
+        );
+        apiSection.appendChild(actions);
+        content.appendChild(apiSection);
+
+        clearButton.addEventListener(
+          "click",
+          () => {
+            settings.input.value = "";
+            storeSessionApiKey("");
+            settings.input.dispatchEvent(
+              new Event(
+                "change",
+                { bubbles: true }
+              )
+            );
+          }
+        );
+
+        applyButton.addEventListener(
+          "click",
+          () => {
+            storeSessionApiKey(
+              settings.input.value.trim()
+            );
+            settings.input.dispatchEvent(
+              new Event(
+                "change",
+                { bubbles: true }
+              )
+            );
+            closeSettings();
+          }
+        );
+      }
+
       settingsPanel.append(
         header,
-        settings.field
+        content
       );
-
-      const hint =
-        document.createElement("p");
-      hint.className =
-        "site-settings-hint";
-      hint.textContent =
-        "Der Schlüssel wird nur für diese Browser-Sitzung gespeichert und beim Schließen der Sitzung nicht dauerhaft abgelegt.";
-      settingsPanel.appendChild(hint);
-
-      const actions =
-        document.createElement("div");
-      actions.className =
-        "site-settings-actions";
-
-      const clearButton =
-        document.createElement("button");
-      clearButton.type = "button";
-      clearButton.className =
-        "secondary-button";
-      clearButton.textContent =
-        "Löschen";
-
-      const applyButton =
-        document.createElement("button");
-      applyButton.type = "button";
-      applyButton.className =
-        "primary-button";
-      applyButton.textContent =
-        "Übernehmen";
-
-      actions.append(
-        clearButton,
-        applyButton
-      );
-      settingsPanel.appendChild(actions);
 
       closeButton.addEventListener(
         "click",
         closeSettings
       );
 
-      clearButton.addEventListener(
-        "click",
-        () => {
-          settings.input.value = "";
-          storeSessionApiKey("");
-          settings.input.dispatchEvent(
-            new Event(
-              "change",
-              { bubbles: true }
-            )
-          );
-        }
-      );
-
-      applyButton.addEventListener(
-        "click",
-        () => {
-          storeSessionApiKey(
-            settings.input.value.trim()
-          );
-          settings.input.dispatchEvent(
-            new Event(
-              "change",
-              { bubbles: true }
-            )
-          );
-          closeSettings();
-        }
-      );
 
       settingsButton.addEventListener(
         "click",
