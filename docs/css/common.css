@@ -1,13 +1,24 @@
+/*
+ * Danube Vessel Log
+ * File: docs/css/common.css
+ * Version: 0.14.45
+ * Updated: 2026-08-23
+ */
+
 * {
   box-sizing: border-box;
 }
 
 html {
   min-height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
   min-height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   margin: 0;
   background: #f4f6f8;
   color: #1f2933;
@@ -25,7 +36,31 @@ button,
 input,
 select,
 textarea {
+  min-width: 0;
   font: inherit;
+}
+
+img,
+video,
+canvas {
+  max-width: 100%;
+}
+
+body > main {
+  max-width: 100%;
+}
+
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 code {
@@ -160,15 +195,18 @@ code {
   }
 }
 .site-nav-shell {
+  position: relative;
+  z-index: 1500;
   border-bottom: 1px solid #d9e0e7;
   background: #ffffff;
 }
 
 .site-nav {
   width: min(1400px, 100%);
+  min-width: 0;
+  min-height: 58px;
   margin: 0 auto;
   padding: 0 20px;
-  min-height: 58px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -176,6 +214,7 @@ code {
 }
 
 .site-brand {
+  min-width: 0;
   color: #172b4d;
   font-size: 1.05rem;
   font-weight: 750;
@@ -185,6 +224,7 @@ code {
 
 .site-nav-links {
   display: flex;
+  min-width: 0;
   align-items: stretch;
   align-self: stretch;
   gap: 4px;
@@ -194,10 +234,14 @@ code {
   display: flex;
   align-items: center;
   padding: 0 14px;
+  border: 0;
   border-bottom: 3px solid transparent;
+  background: transparent;
   color: #52606d;
+  font: inherit;
   font-weight: 650;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .site-nav-link:hover {
@@ -208,6 +252,115 @@ code {
 .site-nav-link.active {
   border-bottom-color: #2563eb;
   color: #1d4ed8;
+}
+
+.site-nav-settings-button {
+  white-space: nowrap;
+}
+
+.site-nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  padding: 9px 8px;
+  border: 1px solid #d9e0e7;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #334e68;
+  cursor: pointer;
+}
+
+.site-nav-toggle-bars {
+  display: grid;
+  gap: 5px;
+}
+
+.site-nav-toggle-bars span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 0 auto;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.site-mobile-menu {
+  display: none;
+}
+
+.site-settings-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: max(20px, calc((100% - 1400px) / 2 + 20px));
+  width: min(390px, calc(100vw - 32px));
+  padding: 16px;
+  border: 1px solid #d9e0e7;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgb(15 23 42 / 18%);
+}
+
+.site-settings-panel.hidden {
+  display: none;
+}
+
+.site-settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.site-settings-header h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.site-settings-close {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid #d9e0e7;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #52606d;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.site-settings-field {
+  margin-bottom: 12px;
+}
+
+.site-settings-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.site-settings-field input {
+  width: 100%;
+  padding: 10px 11px;
+  border: 1px solid #b8c2cc;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #1f2933;
+}
+
+.site-settings-hint {
+  margin: 8px 0 0;
+  color: #6b7280;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.site-settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
 }
 
 .secondary-button,
@@ -228,18 +381,92 @@ code {
   background: #f4f6f8;
 }
 
-@media (max-width: 600px) {
+.site-settings-actions .secondary-button,
+.site-settings-actions .primary-button {
+  width: auto;
+}
+
+@media (max-width: 760px) {
   .site-nav {
-    padding: 0 12px;
     min-height: 54px;
+    padding: 0 12px;
+    gap: 12px;
   }
 
   .site-brand {
-    font-size: 0.94rem;
+    overflow: hidden;
+    font-size: 0.98rem;
+    text-overflow: ellipsis;
   }
 
-  .site-nav-link {
-    padding: 0 10px;
-    font-size: 0.92rem;
+  .site-nav-links {
+    display: none;
+  }
+
+  .site-nav-toggle {
+    display: inline-grid;
+    flex: 0 0 44px;
+    place-items: center;
+  }
+
+  .site-mobile-menu:not(.hidden) {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: grid;
+    padding: 8px 10px 12px;
+    border-top: 1px solid #eef2f6;
+    border-bottom: 1px solid #d9e0e7;
+    background: #ffffff;
+    box-shadow: 0 10px 24px rgb(15 23 42 / 14%);
+  }
+
+  .site-mobile-menu a,
+  .site-mobile-menu button {
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #334e68;
+    font: inherit;
+    font-weight: 700;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .site-mobile-menu a:hover,
+  .site-mobile-menu button:hover,
+  .site-mobile-menu a.active {
+    background: #f4f7ff;
+    color: #1d4ed8;
+  }
+
+  .site-mobile-menu .site-mobile-settings {
+    margin-top: 6px;
+    border-top: 1px solid #e7ecf1;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .site-settings-panel {
+    top: calc(100% + 6px);
+    left: 10px;
+    right: 10px;
+    width: auto;
+    max-height: calc(100dvh - 78px);
+    overflow-y: auto;
+    padding: 14px;
+  }
+
+  .site-settings-actions {
+    justify-content: stretch;
+  }
+
+  .site-settings-actions .secondary-button,
+  .site-settings-actions .primary-button {
+    flex: 1 1 0;
   }
 }

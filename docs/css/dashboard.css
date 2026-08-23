@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/css/dashboard.css
- * Version: 0.14.0
- * Updated: 2026-07-28
+ * Version: 0.14.45
+ * Updated: 2026-08-23
  */
 
 .dashboard-page {
@@ -45,6 +45,12 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
+}
+
+.dashboard-reload-icon {
+  margin-right: 6px;
+  font-size: 1.15rem;
+  line-height: 1;
 }
 
 .dashboard-connection-card,
@@ -309,6 +315,66 @@
   overflow-wrap: anywhere;
 }
 
+.dashboard-main-grid.tasks-hidden {
+  grid-template-columns: 1fr;
+}
+
+.dashboard-system-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.dashboard-system-summary {
+  display: flex;
+  min-height: 62px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 18px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.dashboard-system-summary::-webkit-details-marker {
+  display: none;
+}
+
+.dashboard-system-summary > span:first-child {
+  display: grid;
+  gap: 2px;
+}
+
+.dashboard-system-summary strong {
+  font-size: 1rem;
+}
+
+.dashboard-system-summary small {
+  color: #64748b;
+}
+
+.dashboard-system-summary-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #52606d;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.dashboard-system-summary-state::after {
+  content: "▾";
+  font-size: 0.9rem;
+  transition: transform 120ms ease;
+}
+
+.dashboard-system-card[open] .dashboard-system-summary-state::after {
+  transform: rotate(180deg);
+}
+
+.dashboard-system-body {
+  padding: 0 18px 18px;
+}
+
 @media (max-width: 1000px) {
   .dashboard-summary {
     grid-template-columns:
@@ -335,55 +401,232 @@
 
 @media (max-width: 600px) {
   .dashboard-page {
-    width: min(
-      100% - 20px,
-      1400px
-    );
-    padding-top: 18px;
+    width: calc(100% - 16px);
+    padding: 12px 0 28px;
   }
 
-  .dashboard-header,
-  .dashboard-card-header {
-    align-items: stretch;
-    flex-direction: column;
+  .dashboard-header {
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 8px;
   }
 
-  .dashboard-header button,
-  .dashboard-small-button {
-    width: 100%;
+  .dashboard-header h1 {
+    font-size: 1.35rem;
+  }
+
+  .dashboard-header p {
+    display: none;
+  }
+
+  .dashboard-header button {
+    width: 42px;
+    min-width: 42px;
+    height: 42px;
+    margin-left: auto;
+    padding: 0;
+  }
+
+  .dashboard-reload-icon {
+    margin: 0;
+    font-size: 1.35rem;
+  }
+
+  .dashboard-reload-label {
+    display: none;
+  }
+
+  .dashboard-page-status {
+    min-height: 20px;
+    margin-bottom: 8px;
+    font-size: 0.82rem;
+    line-height: 1.35;
   }
 
   .dashboard-summary {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
 
   .dashboard-metric-card {
-    min-height: 118px;
+    min-height: 82px;
+    padding: 11px 12px;
+    border-radius: 10px;
+  }
+
+  .dashboard-metric-label {
+    font-size: 0.78rem;
+    line-height: 1.2;
+  }
+
+  .dashboard-metric-value {
+    margin-top: 5px;
+    font-size: 1.7rem;
+  }
+
+  .dashboard-metric-card small {
+    display: none;
+  }
+
+  .dashboard-main-grid {
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .dashboard-card {
+    padding: 13px;
+    border-radius: 10px;
+  }
+
+  .dashboard-card-header {
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .dashboard-card-header h2 {
+    font-size: 1rem;
+  }
+
+  .dashboard-card-header p {
+    display: none;
+  }
+
+  .dashboard-small-button {
+    width: auto;
+    padding: 6px 9px;
+    font-size: 0.78rem;
+  }
+
+  .dashboard-task-list,
+  .dashboard-vessel-list {
+    gap: 6px;
+  }
+
+  .dashboard-task-item,
+  .dashboard-vessel-row {
+    gap: 8px;
+    padding: 9px 10px;
+    border-radius: 8px;
+  }
+
+  .dashboard-task-text strong,
+  .dashboard-vessel-main strong {
+    font-size: 0.9rem;
+    line-height: 1.25;
+  }
+
+  .dashboard-task-text span,
+  .dashboard-vessel-main span {
+    margin-top: 2px;
+    font-size: 0.73rem;
+    line-height: 1.25;
+  }
+
+  .dashboard-task-count {
+    min-width: 30px;
+    min-height: 26px;
+    padding: 3px 7px;
+    font-size: 0.76rem;
   }
 
   .dashboard-vessel-row {
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .dashboard-vessel-main {
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  .dashboard-vessel-main strong,
+  .dashboard-vessel-main span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .dashboard-vessel-meta {
-    width: 100%;
-    align-items: flex-start;
-    text-align: left;
+    width: auto;
+    align-items: flex-end;
+    flex: 0 0 auto;
+    font-size: 0.68rem;
+    text-align: right;
+  }
+
+  .dashboard-vessel-status {
+    padding: 2px 6px;
+    font-size: 0.68rem;
+  }
+
+  .dashboard-vessel-meta > span:last-child {
+    margin-top: 3px;
+  }
+
+  .dashboard-vessel-row:nth-child(n + 4) {
+    display: none;
+  }
+
+  .dashboard-empty-state {
+    padding: 12px;
+    font-size: 0.82rem;
+  }
+
+  .dashboard-system-card {
+    margin-top: 10px;
+    padding: 0;
+  }
+
+  .dashboard-system-summary {
+    min-height: 52px;
+    padding: 10px 12px;
+  }
+
+  .dashboard-system-summary strong {
+    font-size: 0.92rem;
+  }
+
+  .dashboard-system-summary small {
+    display: none;
+  }
+
+  .dashboard-system-summary-state {
+    font-size: 0.75rem;
+  }
+
+  .dashboard-system-body {
+    padding: 0 10px 10px;
   }
 
   .dashboard-system-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .dashboard-system-grid > div,
   .dashboard-system-grid > div:nth-child(2),
   .dashboard-system-grid > div:nth-child(-n + 2) {
-    border-right: 0;
+    padding: 9px;
+    border-right: 1px solid #e2e8ef;
     border-bottom: 1px solid #e2e8ef;
   }
 
-  .dashboard-system-grid > div:last-child {
+  .dashboard-system-grid > div:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .dashboard-system-grid > div:nth-last-child(-n + 2) {
     border-bottom: 0;
+  }
+
+  .dashboard-system-grid dt {
+    font-size: 0.7rem;
+  }
+
+  .dashboard-system-grid dd {
+    margin-top: 3px;
+    font-size: 0.75rem;
   }
 }
