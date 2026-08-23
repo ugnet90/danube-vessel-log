@@ -2,7 +2,7 @@
 <!--
   Danube Vessel Log
   File: docs/vessel.html
-  Version: 0.14.45
+  Version: 0.14.48
   Updated: 2026-08-23
 -->
 <html lang="de">
@@ -676,29 +676,30 @@
         </section>
       </div>
 
-      <section class="detail-card">
-        <div class="card-heading-row">
-          <div class="card-title-with-count">
-            <h2>Quellen</h2>
-      
+      <details class="detail-card collapsible-detail-card">
+        <summary class="collapsible-card-summary">
+          <span class="card-title-with-count">
+            <span class="collapsible-card-title">Quellen</span>
             <span
               id="sourceCountBadge"
               class="count-badge"
+            >0</span>
+          </span>
+          <span class="collapsible-card-state" aria-hidden="true"></span>
+        </summary>
+
+        <div class="collapsible-card-content">
+          <div class="collapsible-card-actions">
+            <button
+              id="addSourceButton"
+              class="secondary-button"
+              type="button"
+              disabled
             >
-              0
-            </span>
+              Quelle hinzufügen
+            </button>
           </div>
-      
-          <button
-            id="addSourceButton"
-            class="secondary-button"
-            type="button"
-            disabled
-          >
-            Quelle hinzufügen
-          </button>
-        </div>
-      
+
         <form
           id="sourceForm"
           class="source-form hidden"
@@ -813,7 +814,8 @@
           id="sourceList"
           class="source-list hidden"
         ></div>
-      </section>
+        </div>
+      </details>
 
       <section class="detail-card">
         <div class="card-heading-row">
@@ -1006,18 +1008,19 @@
         </section>
       </section>
       
-      <section class="detail-card">
-        <div class="card-heading-row">
-          <h2>Änderungshistorie</h2>
-      
-          <span
-            id="changeHistoryCount"
-            class="count-badge"
-          >
-            0
+      <details class="detail-card collapsible-detail-card">
+        <summary class="collapsible-card-summary">
+          <span class="card-title-with-count">
+            <span class="collapsible-card-title">Änderungshistorie</span>
+            <span
+              id="changeHistoryCount"
+              class="count-badge"
+            >0</span>
           </span>
-        </div>
-      
+          <span class="collapsible-card-state" aria-hidden="true"></span>
+        </summary>
+
+        <div class="collapsible-card-content">
         <div
           id="changeHistoryEmpty"
           class="empty-state"
@@ -1030,7 +1033,8 @@
           id="changeHistoryList"
           class="change-history-list hidden"
         ></div>
-      </section>      
+        </div>
+      </details>      
     </article>
   </main>
 
