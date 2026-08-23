@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/css/location_areas.css
- * Version: 0.14.44
- * Updated: 2026-08-22
+ * Version: 0.14.46
+ * Updated: 2026-08-23
  */
 
 .location-areas-page { width: min(1500px, 100%); margin: 0 auto; padding: 22px 20px 40px; box-sizing: border-box; }
@@ -236,5 +236,85 @@ body.location-map-fullscreen { overflow: hidden; }
     left: 8px;
     width: auto;
     max-height: 32vh;
+  }
+}
+
+
+/* 0.14.46: Kartensteuerung in Seiteneinstellungen, Karte mobil zuerst */
+.location-page-settings .map-control-card {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.location-page-settings .location-areas-link {
+  width: auto;
+}
+
+.site-settings-panel .location-page-settings .layer-controls {
+  align-items: flex-start;
+  gap: 10px 14px;
+}
+
+.site-settings-panel .location-page-settings .photo-filter-grid {
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.site-settings-panel .location-page-settings .photo-filter-actions {
+  gap: 8px 10px;
+}
+
+.site-settings-panel .location-page-settings .photo-marker-legend {
+  gap: 8px 12px;
+}
+
+@media (max-width: 760px) {
+  .location-areas-page {
+    padding: 12px 10px 24px;
+  }
+
+  .location-areas-header {
+    margin-bottom: 10px;
+  }
+
+  .location-areas-header p {
+    display: none;
+  }
+
+  .location-areas-header h1 {
+    font-size: 1.7rem;
+    line-height: 1.15;
+  }
+
+  .location-areas-map-card {
+    order: 1;
+  }
+
+  .location-areas-panel {
+    order: 2;
+  }
+
+  .location-areas-map-card,
+  .location-areas-map {
+    height: 64vh;
+    min-height: 460px;
+  }
+
+  .location-areas-panel {
+    padding: 14px;
+  }
+
+  .location-areas-panel h2 {
+    font-size: 1.35rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .location-areas-map-card,
+  .location-areas-map {
+    min-height: 430px;
   }
 }

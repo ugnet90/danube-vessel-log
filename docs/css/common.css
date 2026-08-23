@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/common.css
- * Version: 0.14.45
+ * Version: 0.14.46
  * Updated: 2026-08-23
  */
 
@@ -292,7 +292,9 @@ code {
   position: absolute;
   top: calc(100% + 8px);
   right: max(20px, calc((100% - 1400px) / 2 + 20px));
-  width: min(390px, calc(100vw - 32px));
+  width: min(460px, calc(100vw - 32px));
+  max-height: calc(100dvh - 88px);
+  overflow-y: auto;
   padding: 16px;
   border: 1px solid #d9e0e7;
   border-radius: 12px;
@@ -354,6 +356,32 @@ code {
   color: #6b7280;
   font-size: 0.82rem;
   line-height: 1.4;
+}
+
+
+.site-settings-content {
+  display: grid;
+  gap: 14px;
+}
+
+.site-settings-content > [data-page-settings] {
+  margin: 0;
+}
+
+.site-settings-section {
+  padding-top: 12px;
+  border-top: 1px solid #e7ecf1;
+}
+
+.site-settings-section:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.site-settings-section h3 {
+  margin: 0 0 10px;
+  color: #334e68;
+  font-size: 0.92rem;
 }
 
 .site-settings-actions {

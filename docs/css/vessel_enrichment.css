@@ -1,4 +1,4 @@
-/* Danube Vessel Log · vessel_enrichment.css · Version 0.14.18 */
+/* Danube Vessel Log · vessel_enrichment.css · Version 0.14.46 */
 
 .enrichment-page {
   width: min(1500px, calc(100% - 32px));
@@ -461,5 +461,91 @@
 
   .selection-actions {
     justify-content: flex-start;
+  }
+}
+
+
+/* 0.14.46: kompakte mobile Anreicherung und Seiteneinstellungen */
+.enrichment-page-settings .controls-card {
+  margin-top: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.enrichment-principle-settings p {
+  margin: 0;
+  color: #52606d;
+  line-height: 1.45;
+}
+
+.site-settings-panel .enrichment-page-settings .controls-grid {
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.site-settings-panel .enrichment-page-settings .control-footer {
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.site-settings-panel .enrichment-page-settings .control-footer .secondary-button {
+  width: auto;
+}
+
+@media (max-width: 700px) {
+  .enrichment-page {
+    width: calc(100% - 20px);
+    padding: 12px 0 24px;
+  }
+
+  .enrichment-page > .page-header {
+    margin-bottom: 4px;
+  }
+
+  .enrichment-page > .page-header p {
+    display: none;
+  }
+
+  .enrichment-page > .page-header h1 {
+    font-size: 1.55rem;
+  }
+
+  .enrichment-page > .page-status {
+    min-height: 0;
+    margin-top: 6px;
+    font-size: 0.88rem;
+  }
+
+  .enrichment-page > .summary-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .enrichment-page > .summary-grid article {
+    min-height: 62px;
+    padding: 9px 10px;
+  }
+
+  .enrichment-page > .summary-grid span {
+    overflow-wrap: anywhere;
+    font-size: 0.72rem;
+    line-height: 1.15;
+  }
+
+  .enrichment-page > .summary-grid strong {
+    margin-top: 2px;
+    font-size: 1.3rem;
+    line-height: 1.1;
+  }
+
+  .enrichment-page > .report-card {
+    margin-top: 10px;
+    padding: 10px;
   }
 }
