@@ -1,8 +1,8 @@
 <!--
   Danube Vessel Log
   File: docs/location_areas.html
-  Version: 0.14.44
-  Updated: 2026-08-22
+  Version: 0.14.46
+  Updated: 2026-08-23
 -->
 <!DOCTYPE html>
 <html lang="de">
@@ -23,10 +23,15 @@
         <h1>Standorte</h1>
         <p>Aufnahmebereiche, Anlegestellen und Foto-Aufnahmeorte auf OpenStreetMap.</p>
       </div>
-      <a class="secondary-button location-areas-link" href="data/location_areas.geojson" target="_blank" rel="noopener noreferrer">GeoJSON öffnen</a>
     </header>
 
-    <section class="map-control-card" aria-label="Kartenebenen und Filter">
+    <section class="location-page-settings" data-page-settings aria-label="Einstellungen der Standortkarte">
+      <section class="site-settings-section">
+        <h3>Kartendaten</h3>
+        <a class="secondary-button location-areas-link" href="data/location_areas.geojson" target="_blank" rel="noopener noreferrer">GeoJSON öffnen</a>
+      </section>
+
+      <section class="map-control-card site-settings-section" aria-label="Kartenebenen und Filter">
       <div class="layer-controls">
         <strong>Ebenen</strong>
         <label><input id="showAreas" type="checkbox" checked> Polygone</label>
@@ -91,6 +96,7 @@
           <span><i class="photo-marker-dot photo-marker-dot-vessel"></i> nur zum Schiff</span>
         </div>
       </div>
+      </section>
     </section>
 
     <section class="location-areas-layout">
