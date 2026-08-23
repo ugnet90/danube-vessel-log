@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.45**  
+Aktuelle Version: **0.14.46**  
 Stand: **23.08.2026**
 
 ## 1. Projektzweck
@@ -2386,4 +2386,58 @@ Nach dem Commit genügt das normale GitHub-Pages-Update. Bei noch gecachten CSS-
 - `docs/submissions.html`: Version `0.14.45`; Management-API-Schlüssel für gemeinsamen Einstellungsbereich markiert.
 - `docs/vessel.html`: Version `0.14.45`; Management-API-Schlüssel für gemeinsamen Einstellungsbereich markiert.
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.45`.
+
+## 78. Version 0.14.46 – Seiteneinstellungen und kompaktere Fachseiten
+
+Version **0.14.46** setzt die mobile Verdichtung aus 0.14.45 auf den Seiten **Datenanreicherung** und **Standorte** fort. Die bislang dauerhaft sichtbaren, platzintensiven Bedienfelder werden in einen gemeinsamen Menüpunkt **Seiteneinstellungen** verschoben.
+
+### 78.1 Gemeinsamer Menüpunkt „Seiteneinstellungen“
+
+Der bisherige Navigationspunkt **Einstellungen** heißt nun **Seiteneinstellungen**. `docs/js/nav.js` kann neben dem Management-API-Schlüssel jetzt auch seitenspezifische Einstellungsblöcke mit `data-page-settings` aufnehmen. Die ursprünglichen DOM-Elemente werden beim Laden in das gemeinsame Einstellungsfeld der Navigation verschoben; IDs und Event-Handler der Fachseiten bleiben dadurch unverändert nutzbar.
+
+Der Einstellungsdialog ist scrollbar und auf die verfügbare Viewporthöhe begrenzt. Auf Seiten mit Management-API-Schlüssel bleibt dessen sitzungsbezogene Speicherung unverändert erhalten.
+
+### 78.2 Datenanreicherung mobil verdichtet
+
+Auf `docs/vessel_enrichment.html` befinden sich nun unter **Seiteneinstellungen**:
+
+- **Report neu laden**;
+- der Hinweis zum Prüfprinzip;
+- Suche und Filter einschließlich **Filter zurücksetzen**.
+
+Im eigentlichen Seiteninhalt verbleiben damit Titel, Lade-/Reportstatus, die Kennzahlen und unmittelbar anschließend die Schiffstabelle. Auf schmalen Displays wird zusätzlich:
+
+- die lange Einleitungszeile unter dem Titel ausgeblendet;
+- die sechs Kennzahlen als kompaktes **3×2-Raster** dargestellt;
+- der Abstand bis zur Ergebnistabelle deutlich reduziert.
+
+### 78.3 Standortseite: Karte zuerst
+
+Auf `docs/location_areas.html` befinden sich nun unter **Seiteneinstellungen**:
+
+- GeoJSON öffnen;
+- Ebenen ein-/ausblenden;
+- Sichtungslinien-Modus;
+- Filter für Schiff, Aufnahmeort, Fotoart und Zeitraum;
+- Marker-Beschriftung;
+- Filter zurücksetzen;
+- Zähler und Kartenlegende.
+
+Auf dem iPhone wird die Standortkarte im eigentlichen Seiteninhalt **vor** dem Bereichs-/Hilfeblock dargestellt. Die lange Einleitung unter dem Seitentitel wird mobil ausgeblendet. Damit ist die Karte nach dem Öffnen der Standortseite ohne vorheriges Durchscrollen der Kartensteuerung und Bereichsbeschreibung erreichbar.
+
+### 78.4 Deployment
+
+Version 0.14.46 verändert ausschließlich Dateien unter `docs/` sowie diese README. Ein **Cloudflare-Worker-Deployment ist nicht erforderlich**. Ein **Rebuild location matches ist ebenfalls nicht erforderlich**.
+
+Nach dem Commit genügt das normale GitHub-Pages-Update.
+
+## 79. Dateiversionen 0.14.46
+
+- `docs/js/nav.js`: Version `0.14.46`; gemeinsamer Menüpunkt **Seiteneinstellungen** und Unterstützung für seitenspezifische Einstellungsblöcke.
+- `docs/css/common.css`: Version `0.14.46`; scrollbarer Seiteneinstellungsdialog und gemeinsame Gestaltung der Einstellungsabschnitte.
+- `docs/vessel_enrichment.html`: Version `0.14.46`; Report-Aktion, Prüfhinweis und Filter in Seiteneinstellungen verschoben.
+- `docs/css/vessel_enrichment.css`: Version `0.14.46`; kompakte mobile Kennzahlen und verkürzter Seitenkopf.
+- `docs/location_areas.html`: Version `0.14.46`; Kartensteuerung und GeoJSON-Aktion in Seiteneinstellungen verschoben.
+- `docs/css/location_areas.css`: Version `0.14.46`; mobile Reihenfolge **Karte vor Bereiche** und kompakter Seitenkopf.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.46`.
 
