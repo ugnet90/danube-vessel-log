@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/css/vessel.css
- * Version: 0.14.40
- * Updated: 2026-08-20
+ * Version: 0.14.48
+ * Updated: 2026-08-23
  */
 
 .vessel-page {
@@ -264,6 +264,58 @@ dd {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+/* 0.14.48: selten benötigte Detailbereiche standardmäßig einklappen. */
+.collapsible-detail-card {
+  padding: 0;
+}
+
+.collapsible-card-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px;
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.collapsible-card-summary::-webkit-details-marker {
+  display: none;
+}
+
+.collapsible-card-title {
+  font-size: 1.18rem;
+  font-weight: 750;
+}
+
+.collapsible-card-state {
+  flex: 0 0 auto;
+  color: #2563eb;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.collapsible-card-state::before {
+  content: "Anzeigen";
+}
+
+.collapsible-detail-card[open] .collapsible-card-state::before {
+  content: "Ausblenden";
+}
+
+.collapsible-card-content {
+  margin: 0 20px 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e7ecf1;
+}
+
+.collapsible-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 14px;
 }
 
 .source-form {
@@ -1163,9 +1215,61 @@ dd {
     padding: 16px;
   }
 
-  .summary-grid,
+  .detail-card.collapsible-detail-card {
+    padding: 0;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .summary-grid > div {
+    min-height: 66px;
+    padding: 8px 5px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .summary-grid > div:nth-child(4) {
+    grid-column: 1 / -1;
+    min-height: 58px;
+  }
+
+  .summary-value {
+    font-size: 1.3rem;
+  }
+
+  .summary-value-small {
+    font-size: 0.78rem;
+    line-height: 1.2;
+  }
+
+  .summary-grid > div:nth-child(4) .summary-value-small {
+    font-size: 0.9rem;
+  }
+
+  .summary-label {
+    margin-top: 3px;
+    font-size: 0.7rem;
+    line-height: 1.15;
+  }
+
   .source-list {
     grid-template-columns: 1fr;
+  }
+
+  .collapsible-card-summary {
+    padding: 16px;
+  }
+
+  .collapsible-card-content {
+    margin: 0 16px 16px;
+  }
+
+  .collapsible-card-title {
+    font-size: 1.08rem;
   }
 
   .detail-grid > div {
