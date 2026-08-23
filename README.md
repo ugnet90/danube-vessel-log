@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.47**  
+Aktuelle Version: **0.14.48**  
 Stand: **23.08.2026**
 
 ## 1. Projektzweck
@@ -2531,4 +2531,55 @@ Nach dem Commit genügt das normale GitHub-Pages-Update. Wegen der geänderten J
 - `docs/js/location_map.js`: Version `0.14.47`; OpenStreetMap-/basemap.at-Hintergründe, schematischer Anleger-Marker und verschiebbare Gruppenmarker.
 - `docs/css/location_areas.css`: Version `0.14.47`; kompakte Anlegerdarstellung und Gestaltung der neuen Kartenhintergrund-Auswahl.
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.47`.
+
+## 82. Version 0.14.48 – Karten-Canvas und kompaktere Schiffsdetails
+
+Version **0.14.48** korrigiert eine mit dem mobilen Overflow-Schutz eingeführte CSS-Regressionsursache der Leaflet-Vektorzeichnung und verdichtet die Schiffsdetailseite auf kleinen Displays.
+
+### 82.1 Standortkarte: Leaflet-Canvas nicht responsiv verkleinern
+
+Die in 0.14.46 eingeführte allgemeine Regel `img, video, canvas { max-width: 100%; }` wirkte unbeabsichtigt auch auf den von Leaflet intern dimensionierten Karten-Canvas. Die Standortkarte wird mit `preferCanvas: true` erzeugt; Polygone, Sichtungslinien, Spiderfy-Hilfslinien und die beim Auffächern erzeugten `circleMarker` werden deshalb in diesem Canvas gezeichnet.
+
+Ein CSS-seitig auf die Containerbreite begrenzter Leaflet-Canvas kann seine interne Kartenprojektion nicht mehr in der vorgesehenen Größe darstellen. Die Folge waren genau die nach 0.14.47 beobachteten Symptome: fehlende Polygone, fehlende Sichtungslinien und ein scheinbar wirkungsloses Auffächern überlappender Foto-Aufnahmeorte.
+
+Ab 0.14.48 gilt die allgemeine Breitenbegrenzung nur noch für `img` und `video`. Leaflet-Canvas-Elemente erhalten ausdrücklich `max-width: none` und `max-height: none`. Die mobile Gesamtseite bleibt weiterhin gegen horizontales Überlaufen geschützt; die intern von Leaflet benötigte Renderergröße wird jedoch nicht mehr verändert.
+
+Die Kartenlogik und die gespeicherten Standortdaten selbst werden dafür nicht geändert.
+
+### 82.2 Orthofoto-Vergleich bleibt geodätisch unverändert
+
+Die Vergleichsscreenshots von OpenStreetMap und Orthofoto wurden bei unverändertem Leaflet-Zoom aufgenommen. Die Danube-Vessel-Overlaymarker verbleiben beim Umschalten in praktisch derselben Bildschirmposition; es findet beim Wechsel der Basiskarte kein `setView`, `fitBounds` oder anderer Zoomwechsel statt.
+
+Der für `basemap.at` verwendete Orthofoto-Dienst bleibt deshalb in 0.14.48 bewusst unverändert. Es wird **kein künstlicher Zoom-Offset und keine Pixelverschiebung** eingeführt, solange nicht geklärt ist, ob die sichtbare Abweichung von der Orthofoto-Georeferenzierung, vom kartografischen OSM-Datenstand oder von der fachlichen Position der Anlegestellenpunkte herrührt. Eine pauschale Korrektur würde ansonsten korrekte Koordinaten verfälschen.
+
+Für die weitere Eingrenzung ist die bereits vorhandene Variante **Orthofoto + Beschriftung** vorgesehen: Die basemap.at-Beschriftung liegt im selben Koordinatensystem wie das Orthofoto und erlaubt den direkten Vergleich von Straßen/Uferlinien mit dem Luftbild.
+
+### 82.3 Quellen und Änderungshistorie einklappbar
+
+Auf `docs/vessel.html` sind die beiden umfangreicheren Bereiche **Quellen** und **Änderungshistorie** nun standardmäßig geschlossen. Beide verwenden native `details`/`summary`-Elemente und können mit **Anzeigen** bzw. **Ausblenden** geöffnet und geschlossen werden.
+
+Die vorhandenen Zähler bleiben bereits im geschlossenen Zustand sichtbar. Alle bestehenden IDs der Formulare, Listen und Zähler bleiben erhalten, sodass die bisherige JavaScript-Logik für Quellen und Historie unverändert weiterarbeitet.
+
+### 82.4 Schiffsübersicht mobil kompakter
+
+Auf Displays bis 600 px werden die drei wichtigsten Kennzahlen der Schiffsdetailseite in einer Reihe dargestellt:
+
+- Sichtungen;
+- Fotos;
+- letzte Sichtung.
+
+Die Karten sind niedriger, die Abstände kleiner und die Schriftgrößen für diese mobile Kennzahlenzeile angepasst. **Letzter Standort** bleibt darunter über die volle Breite erhalten, damit längere Ortsbezeichnungen weiterhin lesbar bleiben.
+
+### 82.5 Deployment
+
+Version 0.14.48 verändert ausschließlich Dateien unter `docs/` sowie diese README. Ein **Cloudflare-Worker-Deployment ist nicht erforderlich**. Ein **Rebuild location matches ist ebenfalls nicht erforderlich**.
+
+Nach dem Commit genügt das normale GitHub-Pages-Update. Wegen der geänderten CSS-Dateien sollte die Seite am iPhone einmal vollständig neu geladen werden.
+
+## 83. Dateiversionen 0.14.48
+
+- `docs/css/common.css`: Version `0.14.48`; Leaflet-Canvas von der globalen responsiven Medienbreitenregel ausgenommen, damit Vektorlayer und Spiderfy wieder korrekt gezeichnet werden.
+- `docs/vessel.html`: Version `0.14.48`; Quellen und Änderungshistorie standardmäßig einklappbar.
+- `docs/css/vessel.css`: Version `0.14.48`; Gestaltung der einklappbaren Detailbereiche und kompakte dreispaltige mobile Kennzahlenzeile.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.48`.
 
