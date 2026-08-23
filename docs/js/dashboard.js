@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/dashboard.js
-// Version: 0.14.19
-// Updated: 2026-08-06
+// Version: 0.14.45
+// Updated: 2026-08-23
 
 "use strict";
 
@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const pageStatus = byId("pageStatus");
   const taskList = byId("taskList");
   const noTasks = byId("noTasks");
+  const taskCard = byId("taskCard");
+  const dashboardMainGrid = byId("dashboardMainGrid");
   const recentVesselList = byId("recentVesselList");
   const recentVesselEmpty = byId("recentVesselEmpty");
   let loading = false;
@@ -125,7 +127,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     for (const task of tasks) taskList.append(createTask(task));
-    noTasks.classList.toggle("hidden", tasks.length > 0);
+
+    const hideCompletedEmptyCard =
+      tasks.length === 0 && dataComplete;
+
+    taskCard.classList.toggle(
+      "hidden",
+      hideCompletedEmptyCard
+    );
+    dashboardMainGrid.classList.toggle(
+      "tasks-hidden",
+      hideCompletedEmptyCard
+    );
+
+    noTasks.classList.toggle(
+      "hidden",
+      tasks.length > 0 || hideCompletedEmptyCard
+    );
     noTasks.textContent = tasks.length === 0 && !dataComplete
       ? "Die offenen Aufgaben konnten nicht vollständig ermittelt werden."
       : "Keine offenen Aufgaben.";
@@ -242,7 +260,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     renderTasks({ openSubmissionCount, enrichmentSummary, dataComplete: openSubmissionCount !== null && enrichmentSummary !== null });
-    setText("workerState", workerSuccesses === 2 ? "Erreichbar" : workerSuccesses === 1 ? "Teilweise erreichbar" : "Nicht erreichbar");
+    const workerStateText =
+      workerSuccesses === 2
+        ? "Erreichbar"
+        : workerSuccesses === 1
+          ? "Teilweise erreichbar"
+          : "Nicht erreichbar";
+    setText("workerState", workerStateText);
+    setText("workerStateSummary", workerStateText);
     setText("loadedAt", formatDateTime(new Date().toISOString()));
 
     if (errors.length === 0) setPageStatus("Übersicht wurde aktualisiert.", "success");
