@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-24T05:59:54.472070Z",
+  "generated_at": "2026-08-24T06:02:09.604917Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,13 +32,13 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 29,
-    "vessels_incomplete": 29,
+    "vessels_total": 30,
+    "vessels_incomplete": 30,
     "vessels_complete": 0,
     "candidate_matches": 0,
     "matched_no_new_data": 16,
     "low_confidence": 0,
-    "no_match": 13,
+    "no_match": 14,
     "lookup_errors": 0,
     "suggestions_total": 0
   },
@@ -1408,6 +1408,68 @@
         }
       ],
       "missing_count": 9,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "no_match",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000130",
+      "name": "Silver by Amadeus",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000130.json",
+      "missing_fields": [
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.eni",
+          "label": "ENI"
+        },
+        {
+          "field": "technical.year_built",
+          "label": "Baujahr"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "technical.passengers",
+          "label": "Passagiere"
+        },
+        {
+          "field": "operations.operator",
+          "label": "Betreiber"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        },
+        {
+          "field": "operations.home_port",
+          "label": "Heimathafen"
+        }
+      ],
+      "missing_count": 11,
       "lookup": {
         "provider": "wikidata",
         "status": "no_match",
