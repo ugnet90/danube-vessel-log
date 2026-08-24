@@ -1,0 +1,142 @@
+{
+  "schema_version": 13,
+  "submission_id": "SUB-20260824-055624-DD814D",
+  "uploaded_at": "2026-08-24T05:56:24.291Z",
+  "captured_at": "2026-08-24T05:08:49.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "geo_area",
+    "id": "LOC-001",
+    "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000003",
+    "name": "Schiffsanlegestelle Linz-Hauptplatz",
+    "short_name": "Linz-Hauptplatz Nr. 13",
+    "station_number": "13",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2135.045,
+    "river_km_text": "2135,0+45 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 29 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.307722,
+    "longitude": 14.28625,
+    "address": "Dr. Ernst Koref Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "Scenic Opal",
+  "notes": "",
+  "observer_lat": 48.30808333333334,
+  "observer_lon": 14.28518333333333,
+  "photos": [
+    {
+      "photo_id": "PHOTO-806642B50E2449FB9A5F77C0F37E168B",
+      "path": "inbox/photos/2026/08/PHOTO-806642B50E2449FB9A5F77C0F37E168B.jpg",
+      "filename": "PHOTO-806642B50E2449FB9A5F77C0F37E168B.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 389951,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-08-24T05:08:49.000Z",
+      "photo_lat": 48.30808333333334,
+      "photo_lon": 14.28518333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-8DE588D9AD74486B8C3E7017420CCC18",
+      "path": "inbox/photos/2026/08/PHOTO-8DE588D9AD74486B8C3E7017420CCC18.jpg",
+      "filename": "PHOTO-8DE588D9AD74486B8C3E7017420CCC18.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 337893,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-08-24T05:06:07.000Z",
+      "photo_lat": 48.309495,
+      "photo_lon": 14.28465333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
+        "name": "Urfahraner Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-C83F2C59D6F14E6C86B529DD2753A30C",
+      "path": "inbox/photos/2026/08/PHOTO-C83F2C59D6F14E6C86B529DD2753A30C.jpg",
+      "filename": "PHOTO-C83F2C59D6F14E6C86B529DD2753A30C.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 414310,
+      "sequence": 3,
+      "metadata_version": 1,
+      "captured_at": "2026-08-24T05:07:42.000Z",
+      "photo_lat": 48.30888,
+      "photo_lon": 14.28458333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "scenic opal"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30808333333334,
+  "photo_lon": 14.28518333333333
+}
