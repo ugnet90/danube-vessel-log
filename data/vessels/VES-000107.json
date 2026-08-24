@@ -91,17 +91,17 @@
     }
   },
   "media": {
-    "primary_photo_id": "",
-    "primary_submission_id": "",
-    "primary_photo_updated_at": "2026-07-27T10:43:18.712Z"
+    "primary_photo_id": "PHOTO-82B60521CA134CDDBCF24FA97FA1F33A",
+    "primary_submission_id": "SUB-20260824-134826-4517B9",
+    "primary_photo_updated_at": "2026-08-24T13:50:08.365Z"
   },
   "notes": "",
   "audit": {
     "environment": "production",
     "created_at": "2026-07-27T10:42:47.677Z",
     "created_from_submission_id": "SUB-20260727-104146-96C97B",
-    "updated_at": "2026-08-24T13:42:46.294Z",
-    "updated_by": "web-ui-sighting-delete",
+    "updated_at": "2026-08-24T13:50:08.365Z",
+    "updated_by": "web-ui-primary-photo",
     "created_from_candidate_id": "CAN-0705978DBD47",
     "candidate_source_revision_id": "268617530",
     "change_history": [
