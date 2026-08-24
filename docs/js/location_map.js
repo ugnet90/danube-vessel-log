@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_map.js
- * Version: 0.14.49
- * Updated: 2026-08-23
+ * Version: 0.14.50
+ * Updated: 2026-08-24
  *
  * Gemeinsame Kartenlogik für Standortseite und Foto-Kartenoverlay.
  */
@@ -268,10 +268,11 @@
         ? mode
         : "osm";
 
-      // Hintergrundwechsel darf Zentrum und Zoom niemals verändern.
-      const centerBefore = map.getCenter();
-      const zoomBefore = map.getZoom();
-
+      // Ein reiner Tile-Layer-Wechsel verändert in Leaflet weder Zentrum
+      // noch Zoom. Deshalb hier bewusst kein getCenter()/setView(): Beim
+      // ersten Kartenaufbau ist die Map vor dem initialen setView() noch
+      // nicht geladen; getCenter() würde dann einen Fehler auslösen und
+      // die gesamte Karteninitialisierung abbrechen.
       activeBaseLayers.forEach(layer => {
         if (map.hasLayer(layer)) map.removeLayer(layer);
       });
@@ -279,10 +280,6 @@
       activeBaseLayers = baseLayerFactories[normalized]();
       activeBaseLayers.forEach(layer => layer.addTo(map));
       map._danubeBaseLayerMode = normalized;
-
-      if (Number.isFinite(zoomBefore)) {
-        map.setView(centerBefore, zoomBefore, { animate: false });
-      }
 
       return normalized;
     };
