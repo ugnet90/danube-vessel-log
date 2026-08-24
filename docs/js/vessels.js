@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/vessels.js
-// Version: 0.14.16
-// Updated: 2026-07-31
+// Version: 0.15.2
+// Updated: 2026-08-24
 
 "use strict";
 
@@ -85,9 +85,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function sortValue(vessel, key) {
     if (key === "status") return labelStatus(vessel.status);
-    if (key === "year_built") {
-      const year = Number(vessel.year_built);
-      return Number.isFinite(year) && year > 0 ? year : null;
+    if (["year_built", "sighting_count", "photo_count"].includes(key)) {
+      const rawValue = vessel?.[key];
+      if (rawValue === null || rawValue === undefined || rawValue === "") return null;
+      const number = Number(rawValue);
+      if (key === "year_built") {
+        return Number.isFinite(number) && number > 0 ? number : null;
+      }
+      return Number.isFinite(number) && number >= 0 ? number : null;
     }
     return String(vessel?.[key] ?? "").trim();
   }
@@ -103,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (rightMissing) return -1;
 
     let comparison;
-    if (sortKey === "year_built") {
+    if (["year_built", "sighting_count", "photo_count"].includes(sortKey)) {
       comparison = leftValue - rightValue;
     } else {
       comparison = collator.compare(String(leftValue), String(rightValue));
@@ -184,17 +189,28 @@ document.addEventListener("DOMContentLoaded", () => {
         former.textContent = `früher: ${vessel.former_names.split("|").join(", ")}`;
         nameCell.appendChild(former);
       }
+      const countValue = value => {
+        if (value === null || value === undefined || value === "") return "–";
+        const number = Number(value);
+        return Number.isFinite(number) && number >= 0
+          ? String(number)
+          : "–";
+      };
+
       const values = [
-        vessel.ship_type || "–",
-        vessel.operator || "–",
-        vessel.flag || "–",
-        vessel.year_built || "–",
-        labelStatus(vessel.status)
+        { value: countValue(vessel.sighting_count), numeric: true },
+        { value: countValue(vessel.photo_count), numeric: true },
+        { value: vessel.ship_type || "–" },
+        { value: vessel.operator || "–" },
+        { value: vessel.flag || "–" },
+        { value: vessel.year_built || "–" },
+        { value: labelStatus(vessel.status) }
       ];
 
-      row.append(idCell, nameCell, ...values.map(value => {
+      row.append(idCell, nameCell, ...values.map(item => {
         const cell = document.createElement("td");
-        cell.textContent = value;
+        cell.textContent = item.value;
+        if (item.numeric) cell.className = "numeric-column";
         return cell;
       }));
       vesselRows.appendChild(row);
@@ -216,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
       refreshFilters();
       updateSortHeaders();
       render();
-      listStatus.textContent = "";
+      listStatus.textContent = response.data?.stats_warning || "";
     } catch (error) {
       vessels = [];
       render();
