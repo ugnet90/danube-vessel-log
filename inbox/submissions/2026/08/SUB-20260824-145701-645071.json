@@ -1,0 +1,73 @@
+{
+  "schema_version": 14,
+  "submission_id": "SUB-20260824-145701-645071",
+  "uploaded_at": "2026-08-24T14:57:01.728Z",
+  "captured_at": "2026-08-24T14:56:47.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000004",
+    "name": "Schiffsanlegestelle Linz-Lentos",
+    "short_name": "Linz-Lentos Nr. 14",
+    "station_number": "14",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2134.92,
+    "river_km_text": "2134,9+20 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "2, max. Breite 32 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.3084435,
+    "longitude": 14.2877255,
+    "address": "Ernst-Koref-Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 2,
+  "direction": "upstream",
+  "vessel_name_entered": "Silver by Amadeus",
+  "notes": "",
+  "observer_lat": 48.45745878885316,
+  "observer_lon": 14.03170633828949,
+  "photos": [],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000130",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000130"
+        ],
+        "matched_value": "Silver by Amadeus",
+        "normalized_input": "silverbyamadeus"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
