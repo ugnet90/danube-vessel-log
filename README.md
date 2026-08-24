@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.49**  
+Aktuelle Version: **0.14.50**  
 Stand: **23.08.2026**
 
 ## 1. Projektzweck
@@ -2594,4 +2594,21 @@ Stand: 23.08.2026
 - Eine Konsolenwarnung meldet, falls basemap.at künftig Kacheln mit einer unerwarteten Naturgröße liefert.
 - Keine Änderung an Schiffsdaten, Sichtungsdaten, Polygongeometrien oder Anlegestellenkoordinaten.
 - Kein Worker-Deployment und kein Rebuild erforderlich.
+
+## 0.14.50 – Karteninitialisierung repariert
+
+Stand: 24.08.2026
+
+- Standortkarte: Regression aus 0.14.49 behoben, durch die die Karte nach dem Laden vollständig grau blieb.
+- Ursache war ein `map.getCenter()` innerhalb des Basiskartenwechsels, bevor Leaflet beim ersten Kartenaufbau bereits ein initiales Zentrum und eine Zoomstufe erhalten hatte. Dadurch brach `createMap()` vor `map.setView(...)` ab; weder Basiskarte noch Polygone, Fotoorte, Anlegestellen oder Sichtungslinien konnten anschließend aufgebaut werden.
+- Der Basiskartenwechsel tauscht ab 0.14.50 ausschließlich die Tile-Layer aus. Ein zusätzlicher `getCenter()`-/`setView()`-Zyklus ist nicht nötig, weil das Hinzufügen oder Entfernen eines Leaflet-Tile-Layers die Kartenansicht selbst nicht verändert.
+- Die in 0.14.49 ergänzten expliziten basemap.at-Einstellungen für `google3857`, 256-px-Kacheln, `zoomOffset: 0` und deaktivierte Retina-Umschaltung bleiben erhalten.
+- Die in 0.14.49 korrigierte Anzeige von Datum und Uhrzeit der letzten Sichtung bleibt unverändert erhalten.
+- Keine Änderung an Schiffsdaten, Sichtungsdaten, Polygongeometrien oder Anlegestellenkoordinaten.
+- Kein Worker-Deployment und kein Rebuild erforderlich.
+
+### Dateiversionen 0.14.50
+
+- `docs/js/location_map.js`: Version `0.14.50`; Karteninitialisierung und Basiskartenwechsel repariert.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.50`.
 
