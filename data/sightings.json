@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "updated_at": "2026-08-24T15:01:38.211Z",
+  "updated_at": "2026-08-24T15:08:19.179Z",
   "sightings": [
     {
       "submission_id": "SUB-20260824-142259-B5219C",
@@ -397,15 +397,15 @@
         "mooring_order": "2, max. Breite 32 m",
         "entry_count": 4,
         "entry_height": "1,60 m",
-        "latitude": 48.308417,
-        "longitude": 14.28775,
+        "latitude": 48.3084435,
+        "longitude": 14.2877255,
         "address": "Ernst-Koref-Promenade, 4020 Linz",
         "access_type": "public",
         "source_url": "https://maps.oberoesterreich.at/",
-        "source_checked_at": "2026-07-28"
+        "source_checked_at": "2026-08-24"
       },
       "movement": "moored",
-      "alongside_position": null,
+      "alongside_position": 2,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.309075,
@@ -468,8 +468,7 @@
           }
         }
       ],
-      "updated_at": "2026-08-24T06:00:22.055Z",
-      "photo_count": 2
+      "updated_at": "2026-08-24T15:08:19.179Z"
     },
     {
       "submission_id": "SUB-20260822-135015-DBB3CA",
