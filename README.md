@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.50**  
+Aktuelle Version: **0.14.51**  
 Stand: **23.08.2026**
 
 ## 1. Projektzweck
@@ -303,11 +303,28 @@ wird beispielsweise:
 
 ### 6.6 Anlegestellen
 
-Anlegestellen werden separat geführt und können einer Location zugeordnet sein. Für Linz sind unter anderem Donaustationen und weitere definierte Liegestellen hinterlegt.
+Anlegestellen werden separat geführt und können einer Location zugeordnet sein. Die fachlichen Stammdaten liegen in:
+
+`data/berths.csv`
+
+Für die sechs aktuell kartierten Linzer Anleger existiert ab Version 0.14.51 zusätzlich eine eigene Geometriedatei:
+
+`data/berth_geometries.geojson`
+
+Sie enthält pro Anlegestelle zwei Geometrien:
+
+- `berth_polygon`: die tatsächliche Ponton-/Anlegerfläche;
+- `mooring_edge`: die wasserseitige **Liegekante**, an der das erste Schiff längsseits liegt.
+
+Die Zuordnung erfolgt ausschließlich über die stabile `berth_id`, nicht über den sichtbaren Namen. `docs/data/berth_geometries.geojson` ist nur der von `tools/sync_public_data.py` erzeugte öffentliche Spiegel für GitHub Pages.
+
+Die Punktkoordinaten `latitude`/`longitude` in `data/berths.csv` entsprechen für diese sechs Anleger dem Mittelpunkt der jeweiligen Liegekante. Dadurch bleiben bestehende API-Verbraucher kompatibel, während die Karte die präzisere Polygon- und Liniengeometrie verwenden kann. Insbesondere wurde damit die zuvor zu weit südwestlich liegende Kartenkoordinate von **Linz 32** korrigiert.
 
 Ist bei einer Sichtung keine Location direkt gespeichert, kann die Web-/API-Ausgabe die Location über die bekannte `location_id` der Anlegestelle ergänzen.
 
 Bei einer Sichtung **in Fahrt** soll keine Anlegestelle erzwungen werden.
+
+Mehrere historische Sichtungen an derselben Anlegestelle werden weiterhin **nicht** als gleichzeitige Päckchenbelegung interpretiert. Eine spätere tatsächliche Liegeposition `1/2/3` wird nur dann gespeichert, wenn sie für die konkrete Sichtung bekannt ist.
 
 ## 7. iPhone-Kurzbefehle
 
@@ -2611,4 +2628,79 @@ Stand: 24.08.2026
 
 - `docs/js/location_map.js`: Version `0.14.50`; Karteninitialisierung und Basiskartenwechsel repariert.
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.50`.
+
+## 0.14.51 – Anlegergeometrien und Liegekanten
+
+Stand: 24.08.2026
+
+Version **0.14.51** ersetzt die rein punktförmige Kartendarstellung der sechs Linzer Anlegestellen durch die vom Nutzer nachgezeichneten aktuellen Anlegergeometrien und bereitet damit die spätere belastbare Darstellung von Päckchenbelegungen vor.
+
+### Anlegerpolygon und Liegekante
+
+Neu ist die kanonische Datei:
+
+`data/berth_geometries.geojson`
+
+Für jede der sechs Anlegestellen enthält sie:
+
+- ein Polygon der Anleger-/Pontonfläche;
+- einen `LineString` der wasserseitigen Liegekante;
+- die stabile `berth_id`;
+- den sichtbaren Anlegernamen;
+- die Stationsnummer;
+- `geometry_role = berth_polygon` bzw. `geometry_role = mooring_edge`.
+
+Die öffentliche GitHub-Pages-Kopie liegt unter:
+
+`docs/data/berth_geometries.geojson`
+
+`tools/sync_public_data.py` synchronisiert diese Datei zusammen mit den vorhandenen öffentlichen Kartendaten.
+
+### Korrigierte Referenzkoordinaten
+
+Für die sechs geometrisch erfassten Anleger werden `latitude` und `longitude` in `data/berths.csv` auf den Mittelpunkt der jeweiligen Liegekante gesetzt. Die Punktwerte bleiben damit als kompatible API-Referenz erhalten.
+
+Dabei wurde insbesondere die bisherige Koordinate von **Linz 32** korrigiert. Die vorherige Referenz lag deutlich südwestlich des tatsächlichen Pontons; die neue Geometrie und der daraus abgeleitete Mittelpunkt liegen am aktuellen Anleger.
+
+### Kartendarstellung
+
+Die Ebene **Anlegestellen** zeigt ab 0.14.51:
+
+- die tatsächliche Anlegerfläche als halbtransparentes Polygon;
+- die wasserseitige Liegekante als hervorgehobene Linie;
+- eine kleine Stationskennzeichnung am Mittelpunkt der Liegekante.
+
+Schiffspositionen an Anlegestellen werden nicht mehr aus dem Verlauf benachbarter Anleger und einem festen Pixelabstand abgeleitet. Die Karte nimmt nun die konkrete Liegekante als Ausgangspunkt und bestimmt die Flussseite aus der Lage der Liegekante relativ zum Polygon. Der derzeitige Schiffmarker wird etwa 10 m flussseitig von der Liegekante dargestellt.
+
+Diese Position bleibt eine **abgeleitete Darstellungsposition** und noch keine gemessene Schiff-GPS-Position. Die Geometrie schafft aber die Grundlage dafür, in einem späteren Schritt die tatsächlichen Liegepositionen 1, 2 und 3 längsseits parallel zur Liegekante abzubilden.
+
+### Orthofoto-Hinweis
+
+Die Untersuchung des vermeintlichen Maßstabsfehlers ergab keinen globalen Projektions- oder Zoomfehler: Linz 13 und 14 stimmen im Orthofoto mit den aktuellen Geometrien überein, während Linz 11 und 12 im verwendeten Orthofoto noch eine ältere bauliche Situation zeigen können.
+
+Bei Auswahl von **Orthofoto** oder **Orthofoto + Beschriftung** weist die Standortseite deshalb darauf hin, dass Aufnahmejahr und Datenstand je nach Gebiet abweichen können. Für Linz 11/12 erscheint zusätzlich ein Hinweis auf den Umbau 2025/26. Es wird bewusst **keine** künstliche Skalierung, Verschiebung oder Zoomkorrektur des Orthofoto-Layers vorgenommen.
+
+### Schiffsdetail-Fotokarte
+
+Auch die Kartenansicht aus der Schiffsdetailseite lädt die neuen Anlegergeometrien. Anlegerpolygon und Liegekante erscheinen damit konsistent in beiden Kartenansichten; der Schiffmarker und die Foto-Verbindungslinien werden ebenfalls von der Liegekante aus flussseitig abgeleitet.
+
+### Deployment
+
+- Kein Cloudflare-Worker-Deployment erforderlich.
+- Kein `Rebuild location matches` erforderlich.
+- `data/berths.csv` und `data/berth_geometries.geojson` müssen zusammen mit den geänderten Webdateien committed werden.
+- Nach dem GitHub-Pages-Update am iPhone einmal vollständig neu laden.
+
+### Dateiversionen 0.14.51
+
+- `data/berth_geometries.geojson`: neu; sechs Anlegerpolygone und sechs Liegekanten.
+- `data/berths.csv`: Kartenkoordinaten der sechs Linzer Anleger auf die Mittelpunkte der Liegekanten aktualisiert; Linz 32 korrigiert.
+- `docs/data/berth_geometries.geojson`: neuer öffentlicher Spiegel.
+- `tools/sync_public_data.py`: Version `0.14.51`; synchronisiert zusätzlich die Anlegergeometrien.
+- `docs/js/location_map.js`: Version `0.14.51`; Laden/Indexieren der Anlegergeometrien, Polygon-/Liegekantenlayer und geometrisch abgeleitete flussseitige Position.
+- `docs/js/location_areas.js`: Version `0.14.51`; Standortkarte verwendet Anlegergeometrien, Orthofoto-Hinweise und geometrische Linienendpunkte.
+- `docs/location_areas.html`: Version `0.14.51`; Link zu Anleger-Geometrien und Orthofoto-Datenstandshinweis.
+- `docs/css/location_areas.css`: Version `0.14.51`; Darstellung der neuen Anlegergeometrie-UI.
+- `docs/js/vessel.js`: Version `0.14.51`; Schiffsdetail-Fotokarte verwendet dieselben Anlegergeometrien.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.51`.
 
