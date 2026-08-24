@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.15.0
+ * Version: 0.15.2
  * Updated: 2026-08-24
  */
 
@@ -4447,7 +4447,7 @@ async function handleVesselsList(request, env) {
     }, 502);
   }
 
-  const vessels = result.vessels
+  const baseVessels = result.vessels
     .map(vessel => ({
       ...vessel,
       environment:
@@ -4459,11 +4459,152 @@ async function handleVesselsList(request, env) {
       left.vessel_id.localeCompare(right.vessel_id)
     );
 
+  const statsResult = await loadVesselListStats(
+    env,
+    baseVessels.map(vessel => vessel.vessel_id)
+  );
+
+  const vessels = baseVessels.map(vessel => {
+    const stats = statsResult.stats.get(vessel.vessel_id);
+
+    return {
+      ...vessel,
+      sighting_count: stats?.sighting_count ?? null,
+      photo_count: stats?.photo_count ?? null
+    };
+  });
+
   return jsonResponse({
     ok: true,
     count: vessels.length,
-    vessels
+    vessels,
+    stats_warning: statsResult.warnings.join(" ")
   });
+}
+
+async function loadVesselListStats(env, vesselIds) {
+  const normalizedVesselIds = [
+    ...new Set(
+      (Array.isArray(vesselIds) ? vesselIds : [])
+        .map(value => String(value ?? "").trim())
+        .filter(value => VESSEL_ID_PATTERN.test(value))
+    )
+  ];
+
+  const stats = new Map(
+    normalizedVesselIds.map(vesselId => [
+      vesselId,
+      {
+        sighting_count: null,
+        photo_count: null
+      }
+    ])
+  );
+
+  const warnings = [];
+  const sightingsResult = await loadSightingsDocument(env);
+
+  if (!sightingsResult.ok) {
+    warnings.push(
+      "Sichtungs- und Fotoanzahlen konnten nicht geladen werden."
+    );
+
+    return { stats, warnings };
+  }
+
+  for (const vesselId of normalizedVesselIds) {
+    stats.set(vesselId, {
+      sighting_count: 0,
+      photo_count: 0
+    });
+  }
+
+  for (
+    const sighting
+    of Array.isArray(sightingsResult.document?.sightings)
+      ? sightingsResult.document.sightings
+      : []
+  ) {
+    const vesselId = String(sighting?.vessel_id ?? "").trim();
+    const vesselStats = stats.get(vesselId);
+
+    if (!vesselStats) continue;
+
+    vesselStats.sighting_count += 1;
+    vesselStats.photo_count += Array.isArray(sighting?.photos)
+      ? sighting.photos.length
+      : Math.max(0, Number(sighting?.photo_count) || 0);
+  }
+
+  const directoryUrl =
+    `https://api.github.com/repos/` +
+    `${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/` +
+    `${VESSEL_PHOTOS_DIRECTORY}?ref=${encodeURIComponent(BRANCH)}`;
+
+  const directoryResult = await githubRequest(directoryUrl, {
+    method: "GET",
+    headers: githubHeaders(env)
+  });
+
+  if (!directoryResult.ok && directoryResult.status !== 404) {
+    for (const vesselStats of stats.values()) {
+      vesselStats.photo_count = null;
+    }
+
+    warnings.push(
+      "Gesamtfotoanzahlen konnten nicht vollständig geladen werden."
+    );
+
+    return { stats, warnings };
+  }
+
+  const vesselIdSet = new Set(normalizedVesselIds);
+  const directPhotoFiles = Array.isArray(directoryResult.body)
+    ? directoryResult.body.filter(item => {
+        const match = String(item?.name ?? "").match(
+          /^(VES-\d{6})\.json$/
+        );
+
+        return (
+          item?.type === "file" &&
+          match &&
+          vesselIdSet.has(match[1])
+        );
+      })
+    : [];
+
+  const directPhotoResults = await Promise.all(
+    directPhotoFiles.map(async item => {
+      const vesselId = String(item.name).replace(/\.json$/, "");
+      const result = await loadDirectVesselPhotos(env, vesselId);
+      return { vesselId, result };
+    })
+  );
+
+  for (const { vesselId, result: directResult } of directPhotoResults) {
+    const vesselStats = stats.get(vesselId);
+    if (!vesselStats) continue;
+
+    if (!directResult.ok) {
+      vesselStats.photo_count = null;
+      warnings.push(
+        `Fotoanzahl für ${vesselId} konnte nicht geladen werden.`
+      );
+      continue;
+    }
+
+    if (vesselStats.photo_count !== null) {
+      vesselStats.photo_count += normalizeDirectVesselPhotos(
+        env,
+        directResult.document
+      ).length;
+    }
+  }
+
+  return {
+    stats,
+    warnings: [...new Set(warnings)]
+  };
 }
 
 async function handleVesselNamesList(
