@@ -1,0 +1,145 @@
+{
+  "schema_version": 14,
+  "submission_id": "SUB-20260824-132449-C07334",
+  "uploaded_at": "2026-08-24T13:24:49.175Z",
+  "captured_at": "2026-07-23T05:01:56.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000002",
+    "name": "Schiffsanlegestelle Linz-Nibelungen",
+    "short_name": "Linz-Nibelungen Nr. 12",
+    "station_number": "12",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "upstream",
+    "river_km": 2135.1955,
+    "river_km_text": "2135,2-4,5 m",
+    "facility_type": "Gitterkahn",
+    "mooring_order": "max. Breite 30 m",
+    "entry_count": 4,
+    "entry_height": "0,85 m, 1,50 m oder 2,10 m",
+    "latitude": 48.3071005,
+    "longitude": 14.284248,
+    "address": "Obere Donaulände, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 2,
+  "direction": "upstream",
+  "vessel_name_entered": "Travelmarvel Capella",
+  "notes": "",
+  "observer_lat": null,
+  "observer_lon": null,
+  "photos": [
+    {
+      "photo_id": "PHOTO-BEF232431D3C441A9BE88F0EC4A1306D",
+      "path": "inbox/photos/2026/07/PHOTO-BEF232431D3C441A9BE88F0EC4A1306D.jpg",
+      "filename": "PHOTO-BEF232431D3C441A9BE88F0EC4A1306D.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 407247,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-07-23T05:01:56.000Z",
+      "photo_lat": null,
+      "photo_lon": null,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-05E09257DAE2481FAF22D6D236404D81",
+      "path": "inbox/photos/2026/07/PHOTO-05E09257DAE2481FAF22D6D236404D81.jpg",
+      "filename": "PHOTO-05E09257DAE2481FAF22D6D236404D81.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 443038,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-07-23T05:02:04.000Z",
+      "photo_lat": null,
+      "photo_lon": null,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-765AB76CBF494F80860DA5D1CFAF7043",
+      "path": "inbox/photos/2026/07/PHOTO-765AB76CBF494F80860DA5D1CFAF7043.jpg",
+      "filename": "PHOTO-765AB76CBF494F80860DA5D1CFAF7043.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 556770,
+      "sequence": 3,
+      "metadata_version": 1,
+      "captured_at": "2026-07-23T05:03:30.000Z",
+      "photo_lat": null,
+      "photo_lon": null,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000101",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000101"
+        ],
+        "matched_value": "Travelmarvel Capella",
+        "normalized_input": "travelmarvelcapella"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": null,
+  "photo_lon": null
+}
