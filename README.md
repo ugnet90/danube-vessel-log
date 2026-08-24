@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.48**  
+Aktuelle Version: **0.14.49**  
 Stand: **23.08.2026**
 
 ## 1. Projektzweck
@@ -2582,4 +2582,16 @@ Nach dem Commit genügt das normale GitHub-Pages-Update. Wegen der geänderten C
 - `docs/vessel.html`: Version `0.14.48`; Quellen und Änderungshistorie standardmäßig einklappbar.
 - `docs/css/vessel.css`: Version `0.14.48`; Gestaltung der einklappbaren Detailbereiche und kompakte dreispaltige mobile Kennzahlenzeile.
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.48`.
+
+## 0.14.49 – Sichtungszeit und Orthofoto-Härtung
+
+Stand: 23.08.2026
+
+- Schiffsdetail: In der Übersicht zeigt **Letzte Sichtung** wieder Datum **und Uhrzeit** statt nur des Datums.
+- Standortkarte: Die basemap.at-Orthofotoeinbindung ist nun explizit auf das offizielle `google3857`-TileMatrixSet (EPSG:3857), 256-px-Kacheln, `zoomOffset: 0` und deaktivierte Retina-Umschaltung festgelegt.
+- Beim Umschalten des Kartenhintergrunds werden Kartenmittelpunkt und Zoomstufe ausdrücklich unverändert wiederhergestellt.
+- Leaflet-Kartenkacheln sind zusätzlich von der globalen Responsive-`max-width`-Regel ausgenommen, damit Safari/iOS sie nicht nachträglich skaliert.
+- Eine Konsolenwarnung meldet, falls basemap.at künftig Kacheln mit einer unerwarteten Naturgröße liefert.
+- Keine Änderung an Schiffsdaten, Sichtungsdaten, Polygongeometrien oder Anlegestellenkoordinaten.
+- Kein Worker-Deployment und kein Rebuild erforderlich.
 
