@@ -1264,7 +1264,7 @@
       "path": "inbox/photos/2026/07/PHOTO-79CA7784CDC2474C9803DA75C3039AAE.jpg"
     }
   ],
-  "sighting_count": 45,
+  "sighting_count": 46,
   "sightings": [
     {
       "submission_id": "SUB-20260824-055134-FF7351",
@@ -2366,6 +2366,35 @@
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20260824-132449-C07334",
+      "vessel_id": "VES-000101",
+      "vessel_name": "Travelmarvel Capella",
+      "captured_at": "2026-07-23T05:01:56.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "direction": "upstream",
+      "photo_count": 3
     },
     {
       "submission_id": "SUB-20260721-191622-37FF92",
