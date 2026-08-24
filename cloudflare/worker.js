@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.15.2
+ * Version: 0.15.3
  * Updated: 2026-08-24
  */
 
@@ -472,6 +472,32 @@ export default {
           ok: false,
           error:
             "Unbehandelter Fehler beim Löschen des Fotos.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          stack:
+            error instanceof Error
+              ? error.stack
+              : null
+        }, 500);
+      }
+    }
+
+    if (
+      request.method === "POST" &&
+      url.pathname === "/vessel-sighting-delete"
+    ) {
+      try {
+        return await handleDeleteVesselSighting(
+          request,
+          env
+        );
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler beim Löschen der Sichtung.",
           exception:
             error instanceof Error
               ? error.message
@@ -4103,6 +4129,338 @@ async function handleVesselPhotoRelation(request, env) {
     map_index_updated: mapIndexUpdated,
     map_index_warning: mapIndexWarning,
     updated_at: updatedAt,
+    commit_sha: commitResult.commitSha
+  });
+}
+
+async function handleDeleteVesselSighting(request, env) {
+  const authError = checkManagementKey(request, env);
+  if (authError) return authError;
+
+  let input;
+
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({
+      ok: false,
+      error: "Der Request enthält kein gültiges JSON."
+    }, 400);
+  }
+
+  const vesselId = String(input?.vessel_id ?? "").trim();
+  const submissionId = String(input?.submission_id ?? "").trim();
+  const submissionPath = String(input?.submission_path ?? "").trim();
+
+  if (!VESSEL_ID_PATTERN.test(vesselId)) {
+    return jsonResponse({
+      ok: false,
+      error: "vessel_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  if (!/^SUB-[A-Z0-9-]{8,80}$/.test(submissionId)) {
+    return jsonResponse({
+      ok: false,
+      error: "submission_id fehlt oder ist ungültig."
+    }, 400);
+  }
+
+  const vesselResult = await loadCanonicalVessel(env, vesselId);
+  if (!vesselResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: vesselResult.error
+    }, vesselResult.status === 404 ? 404 : 502);
+  }
+
+  const submissionFile = await loadSubmissionForPhotoDelete({
+    env,
+    submissionId,
+    submissionPath
+  });
+
+  if (!submissionFile.ok) {
+    return jsonResponse({
+      ok: false,
+      error: submissionFile.error
+    }, submissionFile.status ?? 502);
+  }
+
+  const submission = submissionFile.submission;
+  const reviewedVesselId = String(
+    submission?.workflow?.review?.vessel_id ?? ""
+  ).trim();
+
+  if (
+    (submission?.workflow?.status ?? "new") !== "reviewed" ||
+    reviewedVesselId !== vesselId
+  ) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Die Sichtung ist nicht als bestätigte Sichtung dieses Schiffes verknüpft."
+    }, 409);
+  }
+
+  const deletedAt = new Date().toISOString();
+  const photoPaths = collectSubmissionPhotoPaths(submission);
+
+  for (const path of photoPaths) {
+    if (!isSafeManagedPhotoPath(path)) {
+      return jsonResponse({
+        ok: false,
+        error:
+          `Die Sichtung enthält einen nicht sicher löschbaren Fotopfad: ${path}`
+      }, 409);
+    }
+  }
+
+  const treeResult = await listSubmissionPaths(env);
+  if (!treeResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        treeResult.error ||
+        "Der GitHub-Dateibaum konnte vor dem Löschen nicht gelesen werden."
+    }, treeResult.status ?? 502);
+  }
+
+  const existingBlobPaths = new Set(treeResult.blob_paths ?? []);
+  const existingPhotoPaths = photoPaths.filter(path =>
+    existingBlobPaths.has(path)
+  );
+  const missingPhotoPaths = photoPaths.filter(path =>
+    !existingBlobPaths.has(path)
+  );
+
+  const sightingsResult = await loadSightingsDocument(env);
+  if (!sightingsResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: sightingsResult.error
+    }, sightingsResult.status ?? 502);
+  }
+
+  const remainingSightings = normalizeSightingsDocument(
+    sightingsResult.document
+  );
+  const beforeCount = remainingSightings.sightings.length;
+  remainingSightings.sightings = remainingSightings.sightings.filter(
+    record => String(record?.submission_id ?? "").trim() !== submissionId
+  );
+
+  if (remainingSightings.sightings.length === beforeCount) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Die Sichtung wurde im Sichtungsindex nicht gefunden; bitte zuerst den Sichtungsindex neu aufbauen."
+    }, 409);
+  }
+
+  remainingSightings.updated_at = deletedAt;
+
+  const directPhotosResult = await loadDirectVesselPhotos(env, vesselId);
+  if (!directPhotosResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error: directPhotosResult.error
+    }, directPhotosResult.status ?? 502);
+  }
+
+  const detachedDirectPhotos = [];
+  for (const photo of Array.isArray(directPhotosResult.document.photos)
+    ? directPhotosResult.document.photos
+    : []) {
+    const relation = normalizeDirectPhotoRelation(photo?.relation);
+    if (
+      relation.type === "sighting" &&
+      relation.submission_id === submissionId
+    ) {
+      photo.relation = {
+        type: "vessel",
+        submission_id: ""
+      };
+      detachedDirectPhotos.push(photo);
+    }
+  }
+
+  if (detachedDirectPhotos.length > 0) {
+    directPhotosResult.document.schema_version = Math.max(
+      Number(directPhotosResult.document.schema_version) || 1,
+      2
+    );
+    directPhotosResult.document.updated_at = deletedAt;
+  }
+
+  const mapIndexResult = await loadPhotoLocationsIndexForUpdate(env);
+  if (!mapIndexResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        mapIndexResult.error ||
+        "Der Kartenindex konnte beim Löschen der Sichtung nicht aktualisiert werden."
+    }, mapIndexResult.status ?? 502);
+  }
+
+  let updatedMapIndex = upsertReviewedSubmissionInLocationIndex({
+    document: mapIndexResult.document,
+    submission: {
+      submission_id: submissionId,
+      workflow: {
+        status: "new"
+      }
+    },
+    vesselId
+  });
+
+  if (detachedDirectPhotos.length > 0) {
+    updatedMapIndex = upsertDirectPhotosInLocationIndex({
+      document: updatedMapIndex,
+      vesselId,
+      vesselName: directPhotoIndexVesselName(
+        vesselResult.vessel,
+        vesselId
+      ),
+      photos: detachedDirectPhotos
+    });
+  }
+
+  const deletedPhotoIds = new Set(
+    (Array.isArray(submission?.photos) ? submission.photos : [])
+      .map(photo => String(photo?.photo_id ?? "").trim())
+      .filter(Boolean)
+  );
+
+  const currentPrimaryPhotoId = String(
+    vesselResult.vessel?.media?.primary_photo_id ?? ""
+  ).trim();
+  const currentPrimarySubmissionId = String(
+    vesselResult.vessel?.media?.primary_submission_id ?? ""
+  ).trim();
+
+  let primaryFallback = null;
+  let vesselChanged = false;
+
+  if (
+    deletedPhotoIds.has(currentPrimaryPhotoId) ||
+    currentPrimarySubmissionId === submissionId
+  ) {
+    if (!vesselResult.vessel.media || typeof vesselResult.vessel.media !== "object") {
+      vesselResult.vessel.media = {};
+    }
+
+    primaryFallback = findFallbackPrimaryPhoto({
+      sightingsDocument: remainingSightings,
+      directPhotosDocument: directPhotosResult.document,
+      vesselId
+    });
+
+    const previousPhotoId = currentPrimaryPhotoId;
+    const previousSubmissionId = currentPrimarySubmissionId;
+
+    vesselResult.vessel.media.primary_photo_id = primaryFallback.photo_id;
+    vesselResult.vessel.media.primary_submission_id = primaryFallback.submission_id;
+
+    if (!vesselResult.vessel.audit || typeof vesselResult.vessel.audit !== "object") {
+      vesselResult.vessel.audit = {};
+    }
+    if (!Array.isArray(vesselResult.vessel.audit.change_history)) {
+      vesselResult.vessel.audit.change_history = [];
+    }
+
+    vesselResult.vessel.audit.change_history.push({
+      changed_at: deletedAt,
+      changed_by: "web-ui-sighting-delete",
+      summary: primaryFallback.photo_id
+        ? `Sichtung ${submissionId} gelöscht; Hauptfoto auf ${primaryFallback.photo_id} geändert.`
+        : `Sichtung ${submissionId} gelöscht; kein Ersatz-Hauptfoto vorhanden.`,
+      changed_fields: [
+        "media.primary_photo_id",
+        "media.primary_submission_id"
+      ],
+      changes: [
+        {
+          field: "media.primary_photo_id",
+          old_value: previousPhotoId,
+          new_value: primaryFallback.photo_id
+        },
+        {
+          field: "media.primary_submission_id",
+          old_value: previousSubmissionId,
+          new_value: primaryFallback.submission_id
+        }
+      ]
+    });
+    vesselResult.vessel.audit.updated_at = deletedAt;
+    vesselResult.vessel.audit.updated_by = "web-ui-sighting-delete";
+    vesselChanged = true;
+  }
+
+  const files = [
+    createSightingsCommitFile(remainingSightings),
+    ...createPhotoLocationsCommitFiles(updatedMapIndex),
+    {
+      path: submissionFile.path,
+      delete: true
+    },
+    ...existingPhotoPaths.map(path => ({
+      path,
+      delete: true
+    }))
+  ];
+
+  if (detachedDirectPhotos.length > 0) {
+    files.push({
+      path: directPhotosResult.path,
+      content:
+        JSON.stringify(directPhotosResult.document, null, 2) + "\n",
+      encoding: "utf-8"
+    });
+  }
+
+  if (vesselChanged) {
+    files.push({
+      path: vesselResult.path,
+      content:
+        JSON.stringify(vesselResult.vessel, null, 2) + "\n",
+      encoding: "utf-8"
+    });
+  }
+
+  const commitResult = await createAtomicGitHubCommit({
+    env,
+    message: `Sichtung ${submissionId} gelöscht`,
+    files
+  });
+
+  if (!commitResult.ok) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Die Sichtung und ihre Fotos konnten nicht vollständig gelöscht werden.",
+      github_step: commitResult.step,
+      github_status: commitResult.status,
+      github_response: commitResult.body
+    }, 502);
+  }
+
+  return jsonResponse({
+    ok: true,
+    message:
+      `Sichtung ${submissionId} wurde gelöscht.` +
+      (existingPhotoPaths.length
+        ? ` ${existingPhotoPaths.length} Sichtungsfoto${existingPhotoPaths.length === 1 ? "" : "s"} wurde${existingPhotoPaths.length === 1 ? "" : "n"} mit gelöscht.`
+        : "") +
+      (detachedDirectPhotos.length
+        ? ` ${detachedDirectPhotos.length} nachträglich ergänzte${detachedDirectPhotos.length === 1 ? "s Foto bleibt" : " Fotos bleiben"} beim Schiff erhalten.`
+        : ""),
+    vessel_id: vesselId,
+    submission_id: submissionId,
+    deleted_photo_count: existingPhotoPaths.length,
+    missing_photo_count: missingPhotoPaths.length,
+    detached_direct_photo_count: detachedDirectPhotos.length,
+    new_primary_photo_id: primaryFallback?.photo_id ?? "",
     commit_sha: commitResult.commitSha
   });
 }
