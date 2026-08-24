@@ -1,7 +1,7 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.51**  
-Stand: **23.08.2026**
+Aktuelle Version: **0.14.52**  
+Stand: **24.08.2026**
 
 ## 1. Projektzweck
 
@@ -316,7 +316,7 @@ Sie enthält pro Anlegestelle zwei Geometrien:
 - `berth_polygon`: die tatsächliche Ponton-/Anlegerfläche;
 - `mooring_edge`: die wasserseitige **Liegekante**, an der das erste Schiff längsseits liegt.
 
-Die Zuordnung erfolgt ausschließlich über die stabile `berth_id`, nicht über den sichtbaren Namen. `docs/data/berth_geometries.geojson` ist nur der von `tools/sync_public_data.py` erzeugte öffentliche Spiegel für GitHub Pages.
+Die Zuordnung erfolgt ausschließlich über die stabile `berth_id`, nicht über den sichtbaren Namen. `docs/data/berth_geometries.geojson` ist nur der von `tools/sync_public_data.py` erzeugte öffentliche Spiegel für GitHub Pages. Ab Version 0.14.52 startet `.github/workflows/sync_public_data.yml` diese Synchronisierung bei Änderungen der kanonischen Datei auf `main` automatisch; gepflegt wird daher ausschließlich `data/berth_geometries.geojson`.
 
 Die Punktkoordinaten `latitude`/`longitude` in `data/berths.csv` entsprechen für diese sechs Anleger dem Mittelpunkt der jeweiligen Liegekante. Dadurch bleiben bestehende API-Verbraucher kompatibel, während die Karte die präzisere Polygon- und Liniengeometrie verwenden kann. Insbesondere wurde damit die zuvor zu weit südwestlich liegende Kartenkoordinate von **Linz 32** korrigiert.
 
@@ -1880,12 +1880,12 @@ Für die Kartenoberfläche benötigt GitHub Pages Dateien unter `docs/`, währen
 
 - `data/location_areas.geojson` ist die **kanonische** Polygondatei;
 - `data/photo_locations.json` ist der **kanonische** Kartenindex;
-- `docs/data/location_areas.geojson` und `docs/data/photo_locations.json` sind ausschließlich automatisch erzeugte, byte-identische Veröffentlichungs-Spiegel für GitHub Pages;
-- Dateien unter `docs/data/` werden für diese beiden Datensätze **nicht manuell gepflegt**.
+- `docs/data/location_areas.geojson`, `docs/data/photo_locations.json` und `docs/data/berth_geometries.geojson` sind ausschließlich automatisch erzeugte, byte-identische Veröffentlichungs-Spiegel für GitHub Pages;
+- Dateien unter `docs/data/` werden für diese drei Datensätze **nicht manuell gepflegt**.
 
-Das Werkzeug `tools/sync_public_data.py` kopiert ausschließlich von `data/` nach `docs/data/`. Mit `--check` wird geprüft, dass beide Paare exakt identisch sind. Eine Abweichung liefert einen Fehlercode.
+Das Werkzeug `tools/sync_public_data.py` kopiert ausschließlich von `data/` nach `docs/data/`. Mit `--check` wird geprüft, dass alle drei Paare exakt identisch sind. Eine Abweichung liefert einen Fehlercode.
 
-Der neue GitHub-Workflow `Sync public data` läuft manuell oder automatisch, wenn eine der beiden kanonischen Dateien auf `main` geändert wird. Damit muss beispielsweise nach einem neuen uMap-Export nur noch `data/location_areas.geojson` ersetzt werden.
+Der GitHub-Workflow `Sync public data` läuft manuell oder automatisch, wenn eine der drei kanonischen Dateien auf `main` geändert wird. Damit muss beispielsweise nach einem neuen uMap-Export nur noch `data/location_areas.geojson` ersetzt werden; für Anlegergeometrien wird ausschließlich `data/berth_geometries.geojson` gepflegt.
 
 Auch `Rebuild location matches` erzeugt zuerst die kanonische Datei `data/photo_locations.json`, synchronisiert danach die Pages-Spiegel und prüft die exakte Übereinstimmung.
 
@@ -2703,4 +2703,54 @@ Auch die Kartenansicht aus der Schiffsdetailseite lädt die neuen Anlegergeometr
 - `docs/css/location_areas.css`: Version `0.14.51`; Darstellung der neuen Anlegergeometrie-UI.
 - `docs/js/vessel.js`: Version `0.14.51`; Schiffsdetail-Fotokarte verwendet dieselben Anlegergeometrien.
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.51`.
+
+## 0.14.52 – Automatische Datenspiegel wiederhergestellt
+
+Stand: 24.08.2026
+
+Version **0.14.52** stellt den bereits vorgesehenen GitHub-Workflow für die öffentlichen GitHub-Pages-Datenspiegel wieder her und erweitert ihn um die in 0.14.51 eingeführten Anlegergeometrien.
+
+### Kanonische Dateien
+
+Manuell gepflegt werden ausschließlich:
+
+- `data/location_areas.geojson`;
+- `data/photo_locations.json`;
+- `data/berth_geometries.geojson`.
+
+Die gleichnamigen Dateien unter `docs/data/` sind ausschließlich öffentliche Spiegel für GitHub Pages und werden nicht manuell bearbeitet.
+
+### Automatische Synchronisierung
+
+`.github/workflows/sync_public_data.yml` startet auf `main` automatisch, sobald eine der drei kanonischen Dateien, das Synchronisationswerkzeug oder der Workflow selbst geändert wurde. Zusätzlich kann der Workflow über **Actions -> Sync public data -> Run workflow** manuell gestartet werden.
+
+Der Workflow führt
+
+`python tools/sync_public_data.py --apply`
+
+aus und committet ausschließlich tatsächlich geänderte Spiegeldateien unter `docs/data/`. Der automatische Commit-Kommentar lautet:
+
+`Öffentliche Kartendaten synchronisiert`
+
+Da der automatische Folgecommit nur `docs/data/` ändert, löst er den Workflow nicht erneut aus.
+
+### Anlegergeometrien
+
+Für künftige Änderungen an Anlegerpolygonen oder Liegekanten muss damit nur noch
+
+`data/berth_geometries.geojson`
+
+ersetzt werden. `docs/data/berth_geometries.geojson` wird automatisch erzeugt.
+
+### Deployment
+
+- Kein Cloudflare-Worker-Deployment erforderlich.
+- Kein `Rebuild location matches` erforderlich, wenn ausschließlich `data/berth_geometries.geojson` geändert wird.
+- Nach dem Commit der kanonischen Datei den Workflow `Sync public data` abwarten; dessen Folgecommit aktualisiert den GitHub-Pages-Spiegel.
+
+### Dateiversionen 0.14.52
+
+- `.github/workflows/sync_public_data.yml`: Version `0.14.52`; automatischer und manueller Sync aller drei öffentlichen Datenspiegel.
+- `tools/sync_public_data.py`: Version `0.14.52`; Dokumentation der automatischen Workflow-Ausführung, Synchronisationslogik unverändert für die drei Paare.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.52`.
 
