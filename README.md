@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.0**  
+Aktuelle Version: **0.15.1**  
 Stand: **24.08.2026**
 
 ## 1. Projektzweck
@@ -333,7 +333,7 @@ Die beiden bestehenden Sichtungs-Kurzbefehle heißen:
 - **Schiffsichtung mit Foto(s)**
 - **Schiffsichtung ohne Foto**
 
-Ab Version 0.15.0 senden beide Sichtungs-Kurzbefehle bei `movement = moored` optional zusätzlich `alongside_position`. Die konkrete Schrittfolge steht in `KURZBEFEHL_LIEGEPOSITION_0.15.0.md`. Der separate Zusatzfoto-Kurzbefehl bleibt unverändert.
+Ab Version 0.15.0 senden beide Sichtungs-Kurzbefehle bei `movement = moored` optional zusätzlich `alongside_position`. Die konkrete Schrittfolge steht in `docs/shortcuts/KURZBEFEHL_LIEGEPOSITION_0.15.0.md`. Der separate Zusatzfoto-Kurzbefehl bleibt unverändert.
 
 Für reine zusätzliche Schiffsfotos existiert ein separater Foto-Upload-Workflow. Dieser erzeugt keine neue Sichtung.
 
@@ -2829,7 +2829,7 @@ Beide Sichtungs-Kurzbefehle werden um eine bedingte Auswahl ergänzt:
 - `3 – dritte Reihe`;
 - `Unbekannt`.
 
-Der technische Wert wird als `alongside_position` im bestehenden JSON bzw. Metadata-JSON gesendet. Die genaue Schrittfolge steht in `KURZBEFEHL_LIEGEPOSITION_0.15.0.md`.
+Der technische Wert wird als `alongside_position` im bestehenden JSON bzw. Metadata-JSON gesendet. Die genaue Schrittfolge steht in `docs/shortcuts/KURZBEFEHL_LIEGEPOSITION_0.15.0.md`.
 
 ### Einspielen / Migration
 
@@ -2839,7 +2839,7 @@ Empfohlene Reihenfolge:
 
 1. Dateien aus der 0.15.0-ZIP committen.
 2. Cloudflare Worker mit der neuen `cloudflare/worker.js` deployen.
-3. Beide Sichtungs-Kurzbefehle gemäß `KURZBEFEHL_LIEGEPOSITION_0.15.0.md` ergänzen.
+3. Beide Sichtungs-Kurzbefehle gemäß `docs/shortcuts/KURZBEFEHL_LIEGEPOSITION_0.15.0.md` ergänzen.
 4. Einmal **Actions -> Sichtungsindex neu aufbauen -> Run workflow** ausführen.
 5. Danach einmal **Actions -> Rebuild location matches -> Run workflow** ausführen, damit `data/photo_locations.json` als Schema 4 mit Schiffsabmessungen neu erzeugt wird.
 6. GitHub-Pages-Aktualisierung abwarten und am iPhone vollständig neu laden.
@@ -2859,5 +2859,34 @@ Die Rebuilds verändern alte Sichtungen nicht fachlich: Bei fehlender Liegeposit
 - `docs/js/api.js`: Version `0.15.0`; `alongside_position` bei Anlegestellen-/Liegepositionskorrekturen.
 - `docs/css/location_areas.css`: Version `0.15.0`; Positionsbadge auf der Standortkarte.
 - `docs/css/vessel.css`: Version `0.15.0`; Positionsbadge im Foto-Kartenoverlay.
-- `KURZBEFEHL_LIEGEPOSITION_0.15.0.md`: neue Schrittfolge für beide Sichtungs-Kurzbefehle.
+- `docs/shortcuts/KURZBEFEHL_LIEGEPOSITION_0.15.0.md`: neue Schrittfolge für beide Sichtungs-Kurzbefehle.
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.15.0`.
+
+
+## 0.15.1 – OSM-Zoomstufe 20 stabilisiert
+
+Version **0.15.1** korrigiert das Verschwinden des OpenStreetMap-Hintergrunds beim Hineinzoomen in die letzte in der Anwendung zugelassene Zoomstufe.
+
+### Ursache
+
+Die Standortkarte erlaubt Zoomstufe 20. Der eingebundene OpenStreetMap-Standard-Tileserver stellt native Rasterkacheln jedoch nur bis Zoomstufe 19 bereit. In 0.15.0 war der OSM-Layer irrtümlich mit `maxNativeZoom: 20` konfiguriert. Leaflet forderte deshalb beim letzten Zoom echte Zoom-20-Kacheln an. Während des Zoomvorgangs blieben die Kacheln der vorherigen Stufe kurz sichtbar; nach deren Entfernung blieb nur der graue Kartenhintergrund, während Vektorlayer, Anlegergeometrien und Marker weiterhin sichtbar waren.
+
+### Korrektur
+
+Für den OSM-Layer gilt jetzt:
+
+- `maxNativeZoom: 19`
+- `maxZoom: 20`
+
+Damit bleibt die vom Projekt gewünschte letzte Zoomstufe 20 erhalten. Leaflet verwendet dort die vorhandenen Zoom-19-Kacheln und skaliert sie hoch, statt nicht vorhandene Zoom-20-Kacheln anzufordern. Die basemap.at-Orthofoto-Konfiguration bleibt unverändert.
+
+Zusätzlich wurden die README-Verweise auf die Kurzbefehldokumentation an die Projektkonvention `docs/shortcuts/` angepasst.
+
+### Deployment 0.15.1
+
+Es ist **kein Cloudflare-Worker-Deployment** erforderlich. Ein **Rebuild des Sichtungsindex** und **Rebuild location matches** sind ebenfalls nicht erforderlich. Nach dem Commit genügt das GitHub-Pages-Update; anschließend die Seite im Browser vollständig neu laden.
+
+### Dateiversionen 0.15.1
+
+- `docs/js/location_map.js`: Version `0.15.1`; OSM native Zoomgrenze auf 19 korrigiert, Anwendung kann weiterhin bis Zoom 20 vergrößern.
+- `README.md`: Projektstand `0.15.1`; Fehlerursache dokumentiert und Shortcut-Pfade auf `docs/shortcuts/` korrigiert.
