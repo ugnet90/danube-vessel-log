@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.15.0
+// Version: 0.15.3
 // Updated: 2026-08-24
 
 "use strict";
@@ -3659,6 +3659,101 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  async function deleteSighting(
+    sighting,
+    originalPhotoCount,
+    linkedDirectPhotoCount,
+    button
+  ) {
+    const submissionId = String(
+      sighting?.submission_id ?? ""
+    ).trim();
+
+    if (!submissionId) {
+      pageStatus.className = "page-status error";
+      pageStatus.textContent =
+        "Diese Sichtung besitzt keine Submission-ID.";
+      return;
+    }
+
+    const confirmationLines = [
+      `Sichtung ${submissionId} endgültig löschen?`,
+      originalPhotoCount > 0
+        ? `${originalPhotoCount} zugehörige${originalPhotoCount === 1 ? "s Foto wird" : " Fotos werden"} ebenfalls gelöscht.`
+        : "Die Sichtung enthält kein ursprüngliches Foto.",
+      linkedDirectPhotoCount > 0
+        ? `${linkedDirectPhotoCount} nachträglich ergänzte${linkedDirectPhotoCount === 1 ? "s Foto bleibt" : " Fotos bleiben"} beim Schiff erhalten und verliert nur den Sichtungsbezug.`
+        : "",
+      "Andere Sichtungen dieses Schiffs bleiben unverändert."
+    ].filter(Boolean);
+
+    if (!window.confirm(confirmationLines.join("\n\n"))) {
+      return;
+    }
+
+    const originalButtonText = button.textContent;
+    button.disabled = true;
+    button.textContent = "Wird gelöscht …";
+
+    pageStatus.className = "page-status";
+    pageStatus.textContent = "Sichtung wird gelöscht …";
+
+    try {
+      const headers = {
+        "Content-Type": "application/json"
+      };
+
+      const suppliedApiKey = apiKey.value.trim();
+      if (suppliedApiKey) {
+        headers["X-API-Key"] = suppliedApiKey;
+      }
+
+      const response = await fetch(
+        `${workerUrl}/vessel-sighting-delete`,
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify({
+            vessel_id: vesselId,
+            submission_id: submissionId,
+            submission_path: String(
+              sighting?.submission_path ?? ""
+            ).trim()
+          })
+        }
+      );
+
+      let result = {};
+      try {
+        result = await response.json();
+      } catch {
+        result = {};
+      }
+
+      if (!response.ok || result.ok !== true) {
+        throw new Error(
+          result.error ||
+          `Der Worker antwortete mit HTTP ${response.status}.`
+        );
+      }
+
+      await load();
+
+      pageStatus.className = "page-status success";
+      pageStatus.textContent =
+        result.message || "Die Sichtung wurde gelöscht.";
+    } catch (error) {
+      pageStatus.className = "page-status error";
+      pageStatus.textContent =
+        error instanceof Error
+          ? error.message
+          : String(error);
+
+      button.disabled = false;
+      button.textContent = originalButtonText;
+    }
+  }
+
   function createPhotoActionButtons({
     photo,
     sighting,
@@ -4569,13 +4664,40 @@ document.addEventListener("DOMContentLoaded", () => {
             ? ` (${linkedDirectPhotos.length} nachträglich)`
             : "");
 
-        header.append(
+        const headerActions =
+          document.createElement("div");
+        headerActions.className =
+          "sighting-header-actions";
+
+        headerActions.append(
           createTextElement(
             "span",
             "sighting-photo-count",
             photoCountText
           )
         );
+
+        const deleteSightingButton =
+          document.createElement("button");
+        deleteSightingButton.type = "button";
+        deleteSightingButton.className =
+          "sighting-delete-button";
+        deleteSightingButton.textContent =
+          "Sichtung löschen";
+        deleteSightingButton.disabled =
+          !String(sighting?.submission_id ?? "").trim();
+        deleteSightingButton.addEventListener(
+          "click",
+          () => deleteSighting(
+            sighting,
+            originalPhotos.length,
+            linkedDirectPhotos.length,
+            deleteSightingButton
+          )
+        );
+
+        headerActions.append(deleteSightingButton);
+        header.append(headerActions);
 
         item.append(header);
 
