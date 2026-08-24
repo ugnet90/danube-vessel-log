@@ -1,0 +1,143 @@
+{
+  "schema_version": 14,
+  "submission_id": "SUB-20260824-142259-B5219C",
+  "uploaded_at": "2026-08-24T14:22:59.565Z",
+  "captured_at": "2026-08-24T14:15:01.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000001",
+    "name": "Schiffsanlegestelle Linz-Schloss",
+    "short_name": "Linz-Schloss Nr. 11",
+    "station_number": "11",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "upstream",
+    "river_km": 2135.3436,
+    "river_km_text": "2135,3+43,6 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 13 m",
+    "entry_count": 3,
+    "entry_height": "0,80 m oder 1,50 m",
+    "latitude": 48.3067095,
+    "longitude": 14.2825785,
+    "address": "Obere Donaulände, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 1,
+  "direction": "upstream",
+  "vessel_name_entered": "Lisabelle",
+  "notes": "",
+  "observer_lat": null,
+  "observer_lon": null,
+  "photos": [
+    {
+      "photo_id": "PHOTO-D273F0B400AD41EBAC498C32FCFDF622",
+      "path": "inbox/photos/2026/08/PHOTO-D273F0B400AD41EBAC498C32FCFDF622.jpg",
+      "filename": "PHOTO-D273F0B400AD41EBAC498C32FCFDF622.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 368360,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-08-24T14:15:01.000Z",
+      "photo_lat": null,
+      "photo_lon": null,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-2D64EEBCB2524C7F97B67EAD4C08E76F",
+      "path": "inbox/photos/2026/08/PHOTO-2D64EEBCB2524C7F97B67EAD4C08E76F.jpg",
+      "filename": "PHOTO-2D64EEBCB2524C7F97B67EAD4C08E76F.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 469520,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-08-24T14:15:57.000Z",
+      "photo_lat": 48.30773,
+      "photo_lon": 14.28502,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-34514E2E842B41F7A9A134C75F184A50",
+      "path": "inbox/photos/2026/08/PHOTO-34514E2E842B41F7A9A134C75F184A50.jpg",
+      "filename": "PHOTO-34514E2E842B41F7A9A134C75F184A50.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 485253,
+      "sequence": 3,
+      "metadata_version": 1,
+      "captured_at": "2026-08-24T14:16:48.000Z",
+      "photo_lat": 48.308345,
+      "photo_lon": 14.28456333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "lisabelle"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": null,
+  "photo_lon": null
+}
