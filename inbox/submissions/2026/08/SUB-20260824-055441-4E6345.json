@@ -1,0 +1,119 @@
+{
+  "schema_version": 13,
+  "submission_id": "SUB-20260824-055441-4E6345",
+  "uploaded_at": "2026-08-24T05:54:41.055Z",
+  "captured_at": "2026-08-24T05:07:20.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "geo_area",
+    "id": "LOC-001",
+    "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000004",
+    "name": "Schiffsanlegestelle Linz-Lentos",
+    "short_name": "Linz-Lentos Nr. 14",
+    "station_number": "14",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2134.92,
+    "river_km_text": "2134,9+20 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "2, max. Breite 32 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.308417,
+    "longitude": 14.28775,
+    "address": "Ernst-Koref-Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-07-28"
+  },
+  "movement": "moored",
+  "direction": "upstream",
+  "vessel_name_entered": "Silver by Amadeus",
+  "notes": "",
+  "observer_lat": 48.309075,
+  "observer_lon": 14.28444166666667,
+  "photos": [
+    {
+      "photo_id": "PHOTO-0090D4FF71474BB8AA8A47A3FAE0F559",
+      "path": "inbox/photos/2026/08/PHOTO-0090D4FF71474BB8AA8A47A3FAE0F559.jpg",
+      "filename": "PHOTO-0090D4FF71474BB8AA8A47A3FAE0F559.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 295246,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-08-24T05:07:20.000Z",
+      "photo_lat": 48.309075,
+      "photo_lon": 14.28444166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-A451631CA5554059A47A290BFF36D77F",
+      "path": "inbox/photos/2026/08/PHOTO-A451631CA5554059A47A290BFF36D77F.jpg",
+      "filename": "PHOTO-A451631CA5554059A47A290BFF36D77F.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 208676,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-08-24T05:09:13.000Z",
+      "photo_lat": 48.3079,
+      "photo_lon": 14.28531333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "silver by amadeus"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.309075,
+  "photo_lon": 14.28444166666667
+}
