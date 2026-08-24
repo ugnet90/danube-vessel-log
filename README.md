@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.1**  
+Aktuelle Version: **0.15.2**  
 Stand: **24.08.2026**
 
 ## 1. Projektzweck
@@ -2890,3 +2890,28 @@ Es ist **kein Cloudflare-Worker-Deployment** erforderlich. Ein **Rebuild des Sic
 
 - `docs/js/location_map.js`: Version `0.15.1`; OSM native Zoomgrenze auf 19 korrigiert, Anwendung kann weiterhin bis Zoom 20 vergrößern.
 - `README.md`: Projektstand `0.15.1`; Fehlerursache dokumentiert und Shortcut-Pfade auf `docs/shortcuts/` korrigiert.
+
+
+## 0.15.2 – Sichtungs- und Fotozahlen in der Schiffsübersicht
+
+Version **0.15.2** ergänzt `vessels.html` um die Gesamtanzahl der Sichtungen und Fotos je Schiff. Die Zählweise entspricht der Schiffsdetailseite: Sichtungen stammen aus `data/sightings.json`; die Fotoanzahl umfasst sowohl Fotos aus Sichtungen als auch zusätzliche direkte Schiffsfotos aus `data/vessel_photos/`.
+
+### Umsetzung
+
+- `GET /vessels` liefert je Schiff zusätzlich `sighting_count` und `photo_count`.
+- Der Worker liest den Sichtungsindex einmal und aggregiert die Sichtungs- und Sichtungsfotozahlen je Vessel-ID.
+- Zusätzliche Schiffsfotos werden über das Verzeichnis `data/vessel_photos/` ergänzt. Es werden nur tatsächlich vorhandene Vessel-Fotodateien geladen.
+- Falls die Statistikdaten nicht vollständig geladen werden können, bleibt die Schiffsliste nutzbar; betroffene Zählwerte werden als `–` dargestellt und ein Hinweis erscheint oberhalb der Tabelle.
+- Die neuen Spalten **Sichtungen** und **Fotos** sind numerisch sortierbar.
+
+### Deployment 0.15.2
+
+Die Änderung an `cloudflare/worker.js` erfordert ein **Cloudflare-Worker-Deployment**. Ein Rebuild des Sichtungsindex oder von `location matches` ist für diese Version **nicht erforderlich**.
+
+### Dateiversionen 0.15.2
+
+- `cloudflare/worker.js`: Version `0.15.2`; Gesamtzahlen je Schiff für die Schiffsübersicht.
+- `docs/vessels.html`: Version `0.15.2`; neue Tabellenspalten Sichtungen und Fotos.
+- `docs/js/vessels.js`: Version `0.15.2`; Darstellung und numerische Sortierung der Zählwerte.
+- `docs/css/vessels.css`: Version `0.15.2`; kompakte numerische Spalten.
+- `README.md`: Projektstand `0.15.2`.
