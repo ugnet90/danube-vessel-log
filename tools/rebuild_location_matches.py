@@ -2,8 +2,8 @@
 """
 Danube Vessel Log
 File: tools/rebuild_location_matches.py
-Version: 0.14.39
-Updated: 2026-08-20
+Version: 0.15.0
+Updated: 2026-08-24
 
 Einmaliges bzw. wiederholbares Wartungswerkzeug zur nachträglichen
 Neuberechnung automatisch ermittelter Aufnahme-/Sichtungsorte anhand der
@@ -376,17 +376,31 @@ def sync_text_file(source: Path, target: Path, apply_changes: bool) -> bool:
     return changed
 
 
-def load_vessel_names() -> dict[str, str]:
+def load_vessel_registry() -> dict[str, dict[str, Any]]:
     if not VESSELS_PATH.exists():
         return {}
-    names: dict[str, str] = {}
+    registry: dict[str, dict[str, Any]] = {}
     with VESSELS_PATH.open("r", encoding="utf-8-sig", newline="") as handle:
         for row in csv.DictReader(handle, delimiter=";"):
             vessel_id = str(row.get("vessel_id", "")).strip()
-            name = str(row.get("name", "")).strip()
-            if vessel_id:
-                names[vessel_id] = name
-    return names
+            if not vessel_id:
+                continue
+            registry[vessel_id] = {
+                "name": str(row.get("name", "")).strip(),
+                "length_m": parse_coordinate(row.get("length_m")),
+                "width_m": parse_coordinate(row.get("width_m")),
+            }
+    return registry
+
+
+def normalize_alongside_position(value: Any, movement: str) -> int | None:
+    if movement != "moored" or value in (None, ""):
+        return None
+    try:
+        position = int(str(value).strip())
+    except (TypeError, ValueError):
+        return None
+    return position if position in {1, 2, 3} else None
 
 
 def normalized_berth_for_index(value: Any) -> dict[str, Any] | None:
@@ -422,6 +436,9 @@ def photo_index_record(
     fallback_location: Any = None,
     berth: Any = None,
     movement: str = "",
+    alongside_position: Any = None,
+    vessel_length_m: Any = None,
+    vessel_width_m: Any = None,
     relation: Any = None,
 ) -> dict[str, Any] | None:
     lat = parse_coordinate(photo.get("photo_lat"))
@@ -445,6 +462,11 @@ def photo_index_record(
         "location": normalize_location_block(location_value),
         "berth": normalized_berth_for_index(berth),
         "movement": str(movement or "").strip(),
+        "alongside_position": normalize_alongside_position(
+            alongside_position, str(movement or "").strip()
+        ),
+        "vessel_length_m": parse_coordinate(vessel_length_m),
+        "vessel_width_m": parse_coordinate(vessel_width_m),
         "relation": (
             {"type": "sighting", "submission_id": submission_id}
             if source_type == "sighting" and submission_id
@@ -472,28 +494,35 @@ def reviewed_vessel_id(submission: dict[str, Any]) -> str:
 
 def sighting_index_record(
     submission: dict[str, Any],
-    vessel_names: dict[str, str],
+    vessel_registry: dict[str, dict[str, Any]],
 ) -> dict[str, Any] | None:
     vessel_id = reviewed_vessel_id(submission)
     if not vessel_id:
         return None
 
     berth = normalized_berth_for_index(submission.get("berth"))
+    movement = str(submission.get("movement", "")).strip()
+    vessel = vessel_registry.get(vessel_id, {})
     return {
         "submission_id": str(submission.get("submission_id", "")).strip(),
         "vessel_id": vessel_id,
-        "vessel_name": vessel_names.get(vessel_id, "") or str(submission.get("vessel_name_entered", "")).strip() or vessel_id,
+        "vessel_name": vessel.get("name", "") or str(submission.get("vessel_name_entered", "")).strip() or vessel_id,
         "captured_at": str(submission.get("captured_at", "")).strip(),
         "location": normalize_location_block(submission.get("location")),
         "berth": berth,
-        "movement": str(submission.get("movement", "")).strip(),
+        "movement": movement,
+        "alongside_position": normalize_alongside_position(
+            submission.get("alongside_position"), movement
+        ),
+        "vessel_length_m": parse_coordinate(vessel.get("length_m")),
+        "vessel_width_m": parse_coordinate(vessel.get("width_m")),
         "direction": str(submission.get("direction", "")).strip(),
         "photo_count": len(submission.get("photos")) if isinstance(submission.get("photos"), list) else 0,
     }
 
 
 def build_photo_locations_document() -> dict[str, Any]:
-    vessel_names = load_vessel_names()
+    vessel_registry = load_vessel_registry()
     photo_records: list[dict[str, Any]] = []
     sighting_records: list[dict[str, Any]] = []
 
@@ -512,7 +541,8 @@ def build_photo_locations_document() -> dict[str, Any]:
         auto_id = str(vessel_match.get("vessel_id", "")).strip()
         vessel_id = reviewed_id if reviewed_id.startswith("VES-") else auto_id if auto_id.startswith("VES-") else ""
         entered_name = str(submission.get("vessel_name_entered", "")).strip()
-        vessel_name = vessel_names.get(vessel_id, "") or entered_name or vessel_id
+        vessel_info = vessel_registry.get(vessel_id, {})
+        vessel_name = vessel_info.get("name", "") or entered_name or vessel_id
         submission_id = str(submission.get("submission_id", "")).strip()
         captured_at = str(submission.get("captured_at", "")).strip()
         photos = submission.get("photos") if isinstance(submission.get("photos"), list) else []
@@ -530,11 +560,14 @@ def build_photo_locations_document() -> dict[str, Any]:
                 fallback_location=submission.get("location"),
                 berth=submission.get("berth"),
                 movement=str(submission.get("movement", "")),
+                alongside_position=submission.get("alongside_position"),
+                vessel_length_m=vessel_info.get("length_m"),
+                vessel_width_m=vessel_info.get("width_m"),
             )
             if record:
                 photo_records.append(record)
 
-        sighting_record = sighting_index_record(submission, vessel_names)
+        sighting_record = sighting_index_record(submission, vessel_registry)
         if sighting_record:
             sighting_records.append(sighting_record)
 
@@ -544,7 +577,8 @@ def build_photo_locations_document() -> dict[str, Any]:
         except Exception:
             continue
         vessel_id = str(document.get("vessel_id", "")).strip()
-        vessel_name = vessel_names.get(vessel_id, "") or vessel_id
+        vessel_info = vessel_registry.get(vessel_id, {})
+        vessel_name = vessel_info.get("name", "") or vessel_id
         photos = document.get("photos") if isinstance(document.get("photos"), list) else []
         for photo in photos:
             if not isinstance(photo, dict):
@@ -556,6 +590,8 @@ def build_photo_locations_document() -> dict[str, Any]:
                 vessel_id=vessel_id,
                 vessel_name=vessel_name,
                 submission_id=relation.get("submission_id", ""),
+                vessel_length_m=vessel_info.get("length_m"),
+                vessel_width_m=vessel_info.get("width_m"),
                 relation=relation,
             )
             if record:
@@ -583,7 +619,7 @@ def build_photo_locations_document() -> dict[str, Any]:
     )
 
     return {
-        "schema_version": 3,
+        "schema_version": 4,
         "updated_at": updated_at,
         "count": len(photo_records),
         "photos": photo_records,

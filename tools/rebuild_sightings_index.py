@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Rebuild data/sightings.json from reviewed submission JSON files."""
+"""
+Danube Vessel Log
+File: tools/rebuild_sightings_index.py
+Version: 0.15.0
+Updated: 2026-08-24
+
+Rebuild data/sightings.json from reviewed submission JSON files.
+"""
 
 from __future__ import annotations
 
@@ -20,6 +27,16 @@ def text(value) -> str:
 
 def number(value):
     return value if isinstance(value, (int, float)) and not isinstance(value, bool) else None
+
+
+def alongside_position(value, movement: str) -> int | None:
+    if movement != "moored" or value in (None, ""):
+        return None
+    try:
+        position = int(str(value).strip())
+    except (TypeError, ValueError):
+        return None
+    return position if position in {1, 2, 3} else None
 
 
 def normalize_photo(photo: dict, index: int) -> dict | None:
@@ -51,6 +68,7 @@ def build_record(submission: dict, path: Path) -> dict | None:
 
     location = submission.get("location") if isinstance(submission.get("location"), dict) else {}
     berth = submission.get("berth") if isinstance(submission.get("berth"), dict) else {}
+    movement = text(submission.get("movement")) or "unknown"
     photos = []
     for index, photo in enumerate(submission.get("photos") or []):
         if isinstance(photo, dict):
@@ -76,7 +94,10 @@ def build_record(submission: dict, path: Path) -> dict | None:
             "distance_m": number(location.get("distance_m")),
         },
         "berth": berth,
-        "movement": text(submission.get("movement")) or "unknown",
+        "movement": movement,
+        "alongside_position": alongside_position(
+            submission.get("alongside_position"), movement
+        ),
         "direction": text(submission.get("direction")) or "unknown",
         "notes": text(submission.get("notes")),
         "observer_lat": number(submission.get("observer_lat")),
@@ -133,7 +154,7 @@ def main() -> None:
         updated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
     document = {
-        "schema_version": 1,
+        "schema_version": 2,
         "updated_at": updated_at,
         "sightings": sightings,
     }
