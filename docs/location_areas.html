@@ -1,8 +1,8 @@
 <!--
   Danube Vessel Log
   File: docs/location_areas.html
-  Version: 0.14.47
-  Updated: 2026-08-23
+  Version: 0.14.51
+  Updated: 2026-08-24
 -->
 <!DOCTYPE html>
 <html lang="de">
@@ -21,14 +21,17 @@
     <header class="location-areas-header">
       <div>
         <h1>Standorte</h1>
-        <p>Aufnahmebereiche, Anlegestellen und Foto-Aufnahmeorte auf OpenStreetMap.</p>
+        <p>Aufnahmebereiche, Anlegestellen und Foto-Aufnahmeorte auf der Karte.</p>
       </div>
     </header>
 
     <section class="location-page-settings" data-page-settings aria-label="Einstellungen der Standortkarte">
       <section class="site-settings-section">
         <h3>Kartendaten</h3>
-        <a class="secondary-button location-areas-link" href="data/location_areas.geojson" target="_blank" rel="noopener noreferrer">GeoJSON öffnen</a>
+        <div class="location-geojson-links">
+          <a class="secondary-button location-areas-link" href="data/location_areas.geojson" target="_blank" rel="noopener noreferrer">Aufnahmebereiche</a>
+          <a class="secondary-button location-areas-link" href="data/berth_geometries.geojson" target="_blank" rel="noopener noreferrer">Anleger-Geometrien</a>
+        </div>
       </section>
 
       <section class="map-control-card site-settings-section" aria-label="Kartenebenen und Filter">
@@ -41,6 +44,7 @@
             <option value="orthophoto">Orthofoto</option>
             <option value="orthophoto-labels">Orthofoto + Beschriftung</option>
           </select>
+          <small id="baseMapNotice" class="base-map-notice hidden"></small>
         </label>
         <label><input id="showAreas" type="checkbox" checked> Polygone</label>
         <label><input id="showBerths" type="checkbox" checked> Anlegestellen</label>
@@ -110,7 +114,7 @@
     <section class="location-areas-layout">
       <aside class="location-areas-panel">
         <h2>Bereiche</h2>
-        <p class="location-areas-help">Klick auf einen Bereich zoomt auf das Polygon. Foto- und Schiffmarker zeigen am PC nur kurze Hinweise beim Darüberfahren; Details erscheinen platzsparend am Kartenrand. Überlappende Foto-Aufnahmeorte und mehrere historische Anlege-Sichtungen werden mit Zähler zusammengefasst und per Klick aufgefächert. Schiffsmarker an Anlegestellen werden zur besseren Lesbarkeit flussseitig neben dem Anleger dargestellt; sie sind keine Schiff-GPS-Positionen. Sichtungslinien können vollständig, nur für die gewählte Aufnahme/Sichtung oder gar nicht angezeigt werden. Beim Auffächern wandern die Linien dynamisch zu den dargestellten Foto- und Schiffsymbolen.</p>
+        <p class="location-areas-help">Klick auf einen Bereich zoomt auf das Polygon. Die Anlegestellen werden aus den aktuellen Anlegerpolygonen mit hervorgehobener Liegekante dargestellt. Schiffsmarker werden aus dieser Liegekante flussseitig abgeleitet; sie sind noch keine gemessenen Schiff-GPS-Positionen. Überlappende Foto-Aufnahmeorte und mehrere historische Anlege-Sichtungen werden mit Zähler zusammengefasst und per Klick aufgefächert. Sichtungslinien können vollständig, nur für die gewählte Aufnahme/Sichtung oder gar nicht angezeigt werden. Beim Auffächern wandern die Linien dynamisch zu den dargestellten Foto- und Schiffsymbolen.</p>
         <div id="selectedPhotoCard" class="selected-photo-card hidden" aria-live="polite"></div>
         <div id="locationAreasStatus" class="location-areas-status" aria-live="polite">Kartendaten werden geladen …</div>
         <div id="locationAreasList" class="location-areas-list"></div>
@@ -120,6 +124,7 @@
         <div class="location-map-toolbar">
           <button id="toggleMapFullscreen" class="secondary-button" type="button" aria-pressed="false">Vollbild</button>
         </div>
+        <div id="mapBaseNotice" class="map-base-notice hidden" aria-live="polite"></div>
         <aside id="mapDetailPanel" class="map-detail-panel hidden" aria-live="polite">
           <button id="closeMapDetail" class="map-detail-close" type="button" aria-label="Details schließen">×</button>
           <div id="mapDetailContent"></div>
