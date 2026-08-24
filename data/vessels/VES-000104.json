@@ -81,16 +81,16 @@
     }
   },
   "media": {
-    "primary_photo_id": "PHOTO-9947C002C8D44AE0B2740FE47B7A4B12",
-    "primary_submission_id": "SUB-20260723-191829-3BB171"
+    "primary_photo_id": "PHOTO-5B970010045443DA9A2A47BBDD69DDB7",
+    "primary_submission_id": "SUB-20260730-135420-AE6197"
   },
   "notes": "",
   "audit": {
     "environment": "production",
     "created_at": "2026-07-23T19:24:28.438Z",
     "created_from_submission_id": "SUB-20260723-191829-3BB171",
-    "updated_at": "2026-08-19T06:24:19.795Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-08-24T12:51:51.727Z",
+    "updated_by": "web-ui-sighting-delete",
     "created_from_candidate_id": "CAN-4C8EA0A0A753",
     "candidate_source_revision_id": "268617530",
     "change_history": [
@@ -200,6 +200,27 @@
             "field": "operations.owner",
             "old_value": "",
             "new_value": "TUI AG (via TUI UK & Ireland)"
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-08-24T12:51:51.727Z",
+        "changed_by": "web-ui-sighting-delete",
+        "summary": "Sichtung SUB-20260723-191829-3BB171 gelöscht; Hauptfoto auf PHOTO-5B970010045443DA9A2A47BBDD69DDB7 geändert.",
+        "changed_fields": [
+          "media.primary_photo_id",
+          "media.primary_submission_id"
+        ],
+        "changes": [
+          {
+            "field": "media.primary_photo_id",
+            "old_value": "PHOTO-9947C002C8D44AE0B2740FE47B7A4B12",
+            "new_value": "PHOTO-5B970010045443DA9A2A47BBDD69DDB7"
+          },
+          {
+            "field": "media.primary_submission_id",
+            "old_value": "SUB-20260723-191829-3BB171",
+            "new_value": "SUB-20260730-135420-AE6197"
           }
         ]
       }
