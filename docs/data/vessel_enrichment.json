@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-24T13:51:43.544548Z",
+  "generated_at": "2026-08-24T14:30:46.907260Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,11 +32,11 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 30,
-    "vessels_incomplete": 30,
+    "vessels_total": 31,
+    "vessels_incomplete": 31,
     "vessels_complete": 0,
     "candidate_matches": 0,
-    "matched_no_new_data": 16,
+    "matched_no_new_data": 17,
     "low_confidence": 0,
     "no_match": 14,
     "lookup_errors": 0,
@@ -1473,6 +1473,76 @@
       "lookup": {
         "provider": "wikidata",
         "status": "no_match",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000131",
+      "name": "Lisabelle",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000131.json",
+      "missing_fields": [
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.eni",
+          "label": "ENI"
+        },
+        {
+          "field": "technical.year_built",
+          "label": "Baujahr"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.length_m",
+          "label": "Länge"
+        },
+        {
+          "field": "technical.width_m",
+          "label": "Breite"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "technical.passengers",
+          "label": "Passagiere"
+        },
+        {
+          "field": "operations.operator",
+          "label": "Betreiber"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        },
+        {
+          "field": "operations.home_port",
+          "label": "Heimathafen"
+        }
+      ],
+      "missing_count": 13,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
         "accepted_qid": "",
