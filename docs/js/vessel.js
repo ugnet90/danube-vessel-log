@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.14.49
-// Updated: 2026-08-23
+// Version: 0.14.51
+// Updated: 2026-08-24
 
 "use strict";
 
@@ -35,6 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let photoMapBerths = [];
   let photoMapAreasPromise = null;
   let photoMapBerthsPromise = null;
+  let photoMapBerthGeometriesPromise = null;
+  let photoMapBerthGeometryIndex = new Map();
 
   const apiKey = byId("apiKey");
 
@@ -706,20 +708,36 @@ document.addEventListener("DOMContentLoaded", () => {
       photoMapBerthsPromise = maps.loadBerths(workerUrl, "LOC-001")
         .catch(() => []);
     }
+    if (!photoMapBerthGeometriesPromise) {
+      photoMapBerthGeometriesPromise = maps.loadBerthGeometries()
+        .catch(() => []);
+    }
 
     if (photoMapBerthsPromise) {
       photoMapBerths = await photoMapBerthsPromise;
     }
+    const berthGeometryFeatures =
+      await photoMapBerthGeometriesPromise;
+    photoMapBerthGeometryIndex =
+      maps.indexBerthGeometries(berthGeometryFeatures);
 
     if (!photoMapBerthLayers && photoMapBerths.length) {
       photoMapBerthLayers = maps.addBerthLayers(
         photoMap,
         photoMapBerths,
-        { addToMap: true }
+        {
+          addToMap: true,
+          geometryIndex: photoMapBerthGeometryIndex
+        }
       );
     }
 
-    return { maps, areas, berths: photoMapBerths };
+    return {
+      maps,
+      areas,
+      berths: photoMapBerths,
+      berthGeometryIndex: photoMapBerthGeometryIndex
+    };
   }
 
   async function openPhotoMapModal(
@@ -908,15 +926,30 @@ document.addEventListener("DOMContentLoaded", () => {
           item => String(item?.berth_id || "").trim() === berthId
         );
 
-        berthCoordinates = context.maps.validCoordinates(
+        berthCoordinates = context.maps.berthAnchorCoordinates(
+          context.berthGeometryIndex,
+          berth
+        ) || context.maps.validCoordinates(
           berth?.latitude,
           berth?.longitude
         );
 
         if (berth && berthCoordinates) {
+          const vesselDisplayCoordinates =
+            context.maps.berthRiverwardDisplayCoordinates(
+              photoMap,
+              berth,
+              context.berthGeometryIndex,
+              { distanceMeters: 10 }
+            ) || berthCoordinates;
+
           bounds.extend([
             berthCoordinates.latitude,
             berthCoordinates.longitude
+          ]);
+          bounds.extend([
+            vesselDisplayCoordinates.latitude,
+            vesselDisplayCoordinates.longitude
           ]);
 
           photoMapVesselMarker =
@@ -932,7 +965,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 direction: sighting?.direction || "",
                 berth: sighting?.berth || {}
               },
-              berth
+              berth,
+              {
+                displayCoordinates: vesselDisplayCoordinates
+              }
             );
 
           for (const mapPhoto of uniquePhotos) {
@@ -946,7 +982,7 @@ document.addEventListener("DOMContentLoaded", () => {
               context.maps.createPhotoVesselConnection(
                 photoMap,
                 coords,
-                berthCoordinates,
+                vesselDisplayCoordinates,
                 {
                   tooltip:
                     `${vesselName}: Foto-Aufnahmeort → ` +
@@ -969,7 +1005,7 @@ document.addEventListener("DOMContentLoaded", () => {
           infoParts.push(
             `Sichtung: ${sighting?.submission_id || "–"}`,
             `${validPhotoCount} Aufnahmeort${validPhotoCount === 1 ? "" : "e"}`,
-            `Schiffmarker: ${berthName} (Anlegestelle, kein Schiff-GPS)`
+            `Schiffmarker: ${berthName} (aus Liegekante abgeleitet)`
           );
         }
       }

@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_map.js
- * Version: 0.14.50
+ * Version: 0.14.51
  * Updated: 2026-08-24
  *
  * Gemeinsame Kartenlogik für Standortseite und Foto-Kartenoverlay.
@@ -12,6 +12,7 @@
 (function () {
   const AREA_DATA_URL = "data/location_areas.geojson";
   const PHOTO_DATA_URL = "data/photo_locations.json";
+  const BERTH_GEOMETRY_URL = "data/berth_geometries.geojson";
   const AREA_COLORS = [
     "#d7191c",
     "#2c7bb6",
@@ -168,6 +169,226 @@
     return Array.isArray(body?.berths)
       ? body.berths
       : [];
+  }
+
+
+  async function loadBerthGeometries() {
+    const data = await fetchJson(BERTH_GEOMETRY_URL);
+    return Array.isArray(data?.features) ? data.features : [];
+  }
+
+  function indexBerthGeometries(features) {
+    const index = new Map();
+
+    (Array.isArray(features) ? features : []).forEach(feature => {
+      const berthId = String(feature?.properties?.berth_id || "").trim();
+      const role = String(feature?.properties?.geometry_role || "").trim();
+      const type = String(feature?.geometry?.type || "").trim();
+      if (!berthId) return;
+
+      if (!index.has(berthId)) {
+        index.set(berthId, {
+          berth_id: berthId,
+          polygon: null,
+          mooringEdge: null
+        });
+      }
+
+      const entry = index.get(berthId);
+      if (role === "berth_polygon" && type === "Polygon") {
+        entry.polygon = feature;
+      } else if (role === "mooring_edge" && type === "LineString") {
+        entry.mooringEdge = feature;
+      }
+    });
+
+    return index;
+  }
+
+  function polygonCenterCoordinates(feature) {
+    const ring = feature?.geometry?.type === "Polygon"
+      ? feature.geometry.coordinates?.[0]
+      : null;
+    if (!Array.isArray(ring) || ring.length < 3) return null;
+
+    const points = ring.slice(
+      0,
+      ring.length > 1 &&
+      ring[0]?.[0] === ring[ring.length - 1]?.[0] &&
+      ring[0]?.[1] === ring[ring.length - 1]?.[1]
+        ? -1
+        : undefined
+    );
+    if (!points.length) return null;
+
+    const valid = points
+      .map(point => validCoordinates(point?.[1], point?.[0]))
+      .filter(Boolean);
+    if (!valid.length) return null;
+
+    // Shoelace-Formel relativ zu einem lokalen Ursprung. Die Koordinaten
+    // der kleinen Anlegerpolygone unterscheiden sich nur im Bereich
+    // weniger 1e-4 Grad; mit absoluten WGS84-Werten würde die Subtraktion
+    // großer, fast gleicher Zahlen unnötig Präzision verlieren.
+    const originLongitude = valid[0].longitude;
+    const originLatitude = valid[0].latitude;
+    let twiceArea = 0;
+    let centroidX = 0;
+    let centroidY = 0;
+
+    for (let index = 0; index < valid.length; index += 1) {
+      const current = valid[index];
+      const next = valid[(index + 1) % valid.length];
+      const x1 = current.longitude - originLongitude;
+      const y1 = current.latitude - originLatitude;
+      const x2 = next.longitude - originLongitude;
+      const y2 = next.latitude - originLatitude;
+      const cross = x1 * y2 - x2 * y1;
+      twiceArea += cross;
+      centroidX += (x1 + x2) * cross;
+      centroidY += (y1 + y2) * cross;
+    }
+
+    if (Math.abs(twiceArea) > 1e-18) {
+      return validCoordinates(
+        originLatitude + centroidY / (3 * twiceArea),
+        originLongitude + centroidX / (3 * twiceArea)
+      );
+    }
+
+    return {
+      latitude: valid.reduce((sum, point) => sum + point.latitude, 0) / valid.length,
+      longitude: valid.reduce((sum, point) => sum + point.longitude, 0) / valid.length
+    };
+  }
+
+
+  function lineMidpointCoordinates(feature) {
+    const coordinates = feature?.geometry?.type === "LineString"
+      ? feature.geometry.coordinates
+      : null;
+    if (!Array.isArray(coordinates) || coordinates.length < 2) return null;
+
+    const valid = coordinates
+      .map(point => validCoordinates(point?.[1], point?.[0]))
+      .filter(Boolean);
+    if (valid.length < 2) return null;
+
+    const referenceLatitude =
+      valid.reduce((sum, point) => sum + point.latitude, 0) / valid.length;
+    const cosine = Math.cos(referenceLatitude * Math.PI / 180);
+
+    const segments = [];
+    let total = 0;
+
+    for (let index = 0; index < valid.length - 1; index += 1) {
+      const start = valid[index];
+      const end = valid[index + 1];
+      const dx = (end.longitude - start.longitude) * cosine;
+      const dy = end.latitude - start.latitude;
+      const length = Math.hypot(dx, dy);
+      segments.push({ start, end, length });
+      total += length;
+    }
+
+    if (!(total > 0)) return valid[0];
+
+    const target = total / 2;
+    let walked = 0;
+
+    for (const segment of segments) {
+      if (walked + segment.length >= target) {
+        const ratio = segment.length
+          ? (target - walked) / segment.length
+          : 0;
+        return {
+          latitude:
+            segment.start.latitude +
+            (segment.end.latitude - segment.start.latitude) * ratio,
+          longitude:
+            segment.start.longitude +
+            (segment.end.longitude - segment.start.longitude) * ratio
+        };
+      }
+      walked += segment.length;
+    }
+
+    return valid[valid.length - 1];
+  }
+
+  function berthGeometryEntry(geometryIndex, berth) {
+    const berthId = String(berth?.berth_id || berth || "").trim();
+    if (!berthId || !(geometryIndex instanceof Map)) return null;
+    return geometryIndex.get(berthId) || null;
+  }
+
+  function berthAnchorCoordinates(geometryIndex, berth) {
+    const entry = berthGeometryEntry(geometryIndex, berth);
+    return (
+      lineMidpointCoordinates(entry?.mooringEdge) ||
+      polygonCenterCoordinates(entry?.polygon) ||
+      validCoordinates(berth?.latitude, berth?.longitude)
+    );
+  }
+
+  function berthRiverwardDisplayCoordinates(
+    map,
+    berth,
+    geometryIndex,
+    options = {}
+  ) {
+    const entry = berthGeometryEntry(geometryIndex, berth);
+    const anchor =
+      lineMidpointCoordinates(entry?.mooringEdge) ||
+      validCoordinates(berth?.latitude, berth?.longitude);
+    if (!anchor || !map) return anchor;
+
+    const polygonCenter = polygonCenterCoordinates(entry?.polygon);
+    if (!polygonCenter) return anchor;
+
+    const anchorLatLng = L.latLng(anchor.latitude, anchor.longitude);
+    const anchorPoint = map.latLngToLayerPoint(anchorLatLng);
+    const polygonPoint = map.latLngToLayerPoint([
+      polygonCenter.latitude,
+      polygonCenter.longitude
+    ]);
+
+    let dx = anchorPoint.x - polygonPoint.x;
+    let dy = anchorPoint.y - polygonPoint.y;
+    const vectorLength = Math.hypot(dx, dy);
+    if (!(vectorLength > 0.001)) return anchor;
+
+    dx /= vectorLength;
+    dy /= vectorLength;
+
+    const distanceMeters = Math.max(
+      0,
+      Number(options.distanceMeters ?? 10) || 10
+    );
+
+    const probePixels = 100;
+    const probeLatLng = map.layerPointToLatLng(
+      L.point(
+        anchorPoint.x + dx * probePixels,
+        anchorPoint.y + dy * probePixels
+      )
+    );
+    const metersPerPixel =
+      map.distance(anchorLatLng, probeLatLng) / probePixels;
+    const pixelDistance = metersPerPixel > 0
+      ? distanceMeters / metersPerPixel
+      : 0;
+
+    const displayPoint = L.point(
+      anchorPoint.x + dx * pixelDistance,
+      anchorPoint.y + dy * pixelDistance
+    );
+    const displayLatLng = map.layerPointToLatLng(displayPoint);
+
+    return {
+      latitude: displayLatLng.lat,
+      longitude: displayLatLng.lng
+    };
   }
 
   function createMap(container, options = {}) {
@@ -591,66 +812,141 @@
     const group = L.layerGroup();
     const bounds = L.latLngBounds();
     const markers = [];
+    const geometryIndex = options.geometryIndex instanceof Map
+      ? options.geometryIndex
+      : indexBerthGeometries(options.geometries || []);
 
     (berths || []).forEach(berth => {
-      const coords = validCoordinates(
-        berth?.latitude,
-        berth?.longitude
-      );
-      if (!coords) return;
+      const entry = berthGeometryEntry(geometryIndex, berth);
+      const anchor = berthAnchorCoordinates(geometryIndex, berth);
+      if (!anchor) return;
 
       const label = String(
         berth?.station_number ||
         berth?.short_name ||
         "⚓"
       );
+      const tooltipText =
+        berth?.short_name ||
+        berth?.public_name ||
+        label;
+
+      const select = event => {
+        if (typeof options.onSelect === "function") {
+          options.onSelect({
+            marker: marker,
+            berth,
+            event
+          });
+        }
+      };
+
+      let polygonLayer = null;
+      let mooringEdgeLayer = null;
+
+      if (entry?.polygon) {
+        polygonLayer = L.geoJSON(entry.polygon, {
+          style: {
+            color: "#0f4c81",
+            weight: 2,
+            opacity: 0.95,
+            fillColor: "#93c5fd",
+            fillOpacity: 0.22
+          }
+        });
+        polygonLayer.bindTooltip(tooltipText, {
+          direction: "top",
+          className: "berth-hover-tooltip"
+        });
+        if (typeof options.onSelect === "function") {
+          polygonLayer.on("click", select);
+        } else {
+          polygonLayer.bindPopup(berthPopup(berth));
+        }
+        polygonLayer.addTo(group);
+        const polygonBounds = polygonLayer.getBounds?.();
+        if (polygonBounds?.isValid()) bounds.extend(polygonBounds);
+      }
+
+      if (entry?.mooringEdge) {
+        mooringEdgeLayer = L.geoJSON(entry.mooringEdge, {
+          style: {
+            color: "#0f4c81",
+            weight: 5,
+            opacity: 0.96,
+            lineCap: "round"
+          }
+        });
+        mooringEdgeLayer.bindTooltip(
+          `${tooltipText} · Liegekante`,
+          {
+            direction: "top",
+            className: "berth-hover-tooltip"
+          }
+        );
+        if (typeof options.onSelect === "function") {
+          mooringEdgeLayer.on("click", select);
+        } else {
+          mooringEdgeLayer.bindPopup(berthPopup(berth));
+        }
+        mooringEdgeLayer.addTo(group);
+        const edgeBounds = mooringEdgeLayer.getBounds?.();
+        if (edgeBounds?.isValid()) bounds.extend(edgeBounds);
+      }
 
       const marker = L.marker(
-        [coords.latitude, coords.longitude],
+        [anchor.latitude, anchor.longitude],
         {
           icon: L.divIcon({
             className: "",
             html:
-              '<div class="berth-map-marker">' +
+              '<div class="berth-map-marker berth-map-marker-geometry">' +
               '<span class="berth-map-marker-anchor">⚓</span>' +
               (berth?.station_number
                 ? `<span class="berth-map-marker-number">${berth.station_number}</span>`
                 : "") +
               "</div>",
-            iconSize: [38, 24],
-            iconAnchor: [19, 12]
-          })
+            iconSize: [34, 22],
+            iconAnchor: [17, 11]
+          }),
+          zIndexOffset: 360
         }
       );
 
       if (typeof options.onSelect === "function") {
         marker.on("click", event => {
           marker.closeTooltip();
-          options.onSelect({ marker, berth, event });
+          select(event);
         });
       } else {
         marker.bindPopup(berthPopup(berth));
       }
 
-      marker.bindTooltip(
-        berth?.short_name ||
-        berth?.public_name ||
-        label,
-        {
-          direction: "top",
-          className: "berth-hover-tooltip"
-        }
-      );
+      marker.bindTooltip(tooltipText, {
+        direction: "top",
+        className: "berth-hover-tooltip"
+      });
       marker.addTo(group);
-      bounds.extend([coords.latitude, coords.longitude]);
-      markers.push({ marker, berth });
+      bounds.extend([anchor.latitude, anchor.longitude]);
+      markers.push({
+        marker,
+        berth,
+        polygonLayer,
+        mooringEdgeLayer,
+        geometry: entry
+      });
     });
 
     if (options.addToMap !== false) {
       group.addTo(map);
     }
 
-    return { group, bounds, markers };
+    return {
+      group,
+      bounds,
+      markers,
+      geometryIndex
+    };
   }
 
   function photoHasSightingRelation(photo) {
@@ -1052,7 +1348,7 @@
     note.className = "vessel-berth-position-note";
     note.textContent = options.spiderfied
       ? "Aufgefächerte Darstellung; die reale gespeicherte Position bleibt die Anlegestelle."
-      : "Marker = schematisch flussseitig neben der erfassten Anlegestelle, kein Schiff-GPS.";
+      : "Marker = aus der Liegekante flussseitig abgeleitet; noch kein gemessenes Schiff-GPS.";
     container.append(note);
 
     if (record?.vessel_id) {
@@ -1241,7 +1537,7 @@
     const note = document.createElement("div");
     note.className = "vessel-berth-position-note";
     note.textContent =
-      "Marker = schematisch flussseitig neben der erfassten Anlegestelle, kein Schiff-GPS.";
+      "Marker = aus der Liegekante flussseitig abgeleitet; noch kein gemessenes Schiff-GPS.";
     container.append(note);
 
     return container;
@@ -1535,6 +1831,10 @@
     loadLocationIndex,
     loadPhotoLocations,
     loadBerths,
+    loadBerthGeometries,
+    indexBerthGeometries,
+    berthAnchorCoordinates,
+    berthRiverwardDisplayCoordinates,
     createMap,
     matchingAreas,
     areaName,

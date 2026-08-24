@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_areas.js
- * Version: 0.14.47
- * Updated: 2026-08-23
+ * Version: 0.14.51
+ * Updated: 2026-08-24
  */
 
 "use strict";
@@ -14,6 +14,8 @@
   const selectedPhotoCard = document.getElementById("selectedPhotoCard");
   const showAreas = document.getElementById("showAreas");
   const baseMapMode = document.getElementById("baseMapMode");
+  const baseMapNotice = document.getElementById("baseMapNotice");
+  const mapBaseNotice = document.getElementById("mapBaseNotice");
   const showBerths = document.getElementById("showBerths");
   const showPhotos = document.getElementById("showPhotos");
   const showVesselBerths = document.getElementById("showVesselBerths");
@@ -43,7 +45,6 @@
 
   const SETTINGS_KEY = "danube.locationAreas.settings.v2";
   const PHOTO_CLUSTER_PIXEL_DISTANCE = 19;
-  const VESSEL_RIVER_OFFSET_PX = 48;
   const DEFAULT_SETTINGS = Object.freeze({
     showAreas: true,
     showBerths: true,
@@ -67,6 +68,7 @@
   let sightings = [];
   let locationIndexSchemaVersion = 0;
   let berths = [];
+  let berthGeometryIndex = new Map();
   let areaLayers;
   let berthLayers;
   const photoLayer = L.layerGroup();
@@ -278,12 +280,17 @@
             ? "Ausrichtung: flussabwärts"
             : ""
       ],
-      note: "Position = schematisch flussseitig neben der erfassten Anlegestelle, kein Schiff-GPS.",
+      note: "Position = aus der aktuellen Liegekante flussseitig abgeleitet; noch keine gemessene Schiff-GPS-Position.",
       vesselId: String(record?.vessel_id || "").trim()
     });
   }
 
   function showBerthDetail({ berth }) {
+    const station = String(berth?.station_number || "").trim();
+    const orthophotoNote = ["11", "12"].includes(station)
+      ? "Hinweis: Die aktuelle Lage von Linz 11/12 stammt aus der neuen Anlegergeometrie. Orthofotos können hier noch den Zustand vor dem Umbau 2025/26 zeigen."
+      : "";
+
     showDetail({
       title: berth?.short_name || berth?.public_name || berth?.name || "Anlegestelle",
       lines: [
@@ -297,7 +304,8 @@
           ? `Ufer: ${berth.bank === "right" ? "rechts" : berth.bank === "left" ? "links" : berth.bank}`
           : "",
         berth?.facility_type ? `Typ: ${berth.facility_type}` : ""
-      ]
+      ],
+      note: orthophotoNote
     });
   }
 
@@ -367,7 +375,7 @@
 
   function mappableSubmissionIds(entries) {
     return new Set(entries
-      .filter(entry => maps.validCoordinates(entry?.berth?.latitude, entry?.berth?.longitude))
+      .filter(entry => berthAnchorCoordinates(entry?.berth))
       .map(entry => String(entry?.record?.submission_id || "").trim())
       .filter(Boolean));
   }
@@ -505,75 +513,28 @@
     return false;
   }
 
-  function downstreamReferenceBerth(berth) {
-    const bank = String(berth?.bank || "").trim();
-    const currentKm = Number(berth?.river_km);
-    if (!bank || !Number.isFinite(currentKm)) return null;
-
-    const sameBank = berths
-      .filter(candidate => candidate !== berth && String(candidate?.bank || "").trim() === bank)
-      .map(candidate => ({ candidate, km: Number(candidate?.river_km) }))
-      .filter(item => Number.isFinite(item.km));
-
-    const downstream = sameBank
-      .filter(item => item.km < currentKm)
-      .sort((left, right) => (currentKm - left.km) - (currentKm - right.km))[0];
-    if (downstream) return { berth: downstream.candidate, reverse: false };
-
-    const upstream = sameBank
-      .filter(item => item.km > currentKm)
-      .sort((left, right) => (left.km - currentKm) - (right.km - currentKm))[0];
-    return upstream ? { berth: upstream.candidate, reverse: true } : null;
-  }
-
-  function riverwardDisplayCoordinates(berth, distancePx = VESSEL_RIVER_OFFSET_PX) {
-    const coords = maps.validCoordinates(berth?.latitude, berth?.longitude);
-    if (!coords || !map) return coords;
-
-    const center = L.latLng(coords.latitude, coords.longitude);
-    const centerPoint = map.latLngToLayerPoint(center);
-    const reference = downstreamReferenceBerth(berth);
-
-    let dx = 1;
-    let dy = 0;
-    if (reference) {
-      const refCoords = maps.validCoordinates(reference.berth?.latitude, reference.berth?.longitude);
-      if (refCoords) {
-        const refPoint = map.latLngToLayerPoint([refCoords.latitude, refCoords.longitude]);
-        dx = refPoint.x - centerPoint.x;
-        dy = refPoint.y - centerPoint.y;
-        if (reference.reverse) {
-          dx *= -1;
-          dy *= -1;
-        }
-      }
-    }
-
-    const length = Math.hypot(dx, dy) || 1;
-    const tx = dx / length;
-    const ty = dy / length;
-    const bank = String(berth?.bank || "").trim();
-
-    let nx;
-    let ny;
-    if (bank === "left") {
-      nx = -ty;
-      ny = tx;
-    } else {
-      nx = ty;
-      ny = -tx;
-    }
-
-    const point = L.point(
-      centerPoint.x + nx * distancePx,
-      centerPoint.y + ny * distancePx
+  function berthAnchorCoordinates(berth) {
+    return maps.berthAnchorCoordinates(
+      berthGeometryIndex,
+      berth
+    ) || maps.validCoordinates(
+      berth?.latitude,
+      berth?.longitude
     );
-    const latLng = map.layerPointToLatLng(point);
-    return { latitude: latLng.lat, longitude: latLng.lng };
   }
+
+  function riverwardDisplayCoordinates(berth) {
+    return maps.berthRiverwardDisplayCoordinates(
+      map,
+      berth,
+      berthGeometryIndex,
+      { distanceMeters: 10 }
+    ) || berthAnchorCoordinates(berth);
+  }
+
 
   function addBerthGuide(berth, displayCoordinates) {
-    const berthCoordinates = maps.validCoordinates(berth?.latitude, berth?.longitude);
+    const berthCoordinates = berthAnchorCoordinates(berth);
     const display = maps.validCoordinates(displayCoordinates?.latitude, displayCoordinates?.longitude);
     if (!berthCoordinates || !display) return;
 
@@ -608,7 +569,7 @@
 
         const entry = bySubmission.get(submissionId);
         const photoCoordinates = maps.validCoordinates(photo?.photo_lat, photo?.photo_lon);
-        const berthCoordinates = maps.validCoordinates(entry?.berth?.latitude, entry?.berth?.longitude);
+        const berthCoordinates = berthAnchorCoordinates(entry?.berth);
         if (!photoCoordinates || !berthCoordinates) continue;
 
         const photoSpiderCoordinates =
@@ -804,10 +765,29 @@
     window.setTimeout(() => map?.invalidateSize(), 40);
   }
 
+  function updateBaseMapNotice() {
+    const orthophoto = String(baseMapMode?.value || "").startsWith("orthophoto");
+    const settingsText =
+      "Orthofoto: Aufnahmejahr und Datenstand können je nach Gebiet abweichen. " +
+      "Bei Linz 11/12 kann noch die Anlegerlage vor dem Umbau 2025/26 sichtbar sein.";
+    const mapText =
+      "Orthofoto: Datenstand je Gebiet unterschiedlich; Linz 11/12 können noch die Lage vor dem Umbau 2025/26 zeigen.";
+
+    if (baseMapNotice) {
+      baseMapNotice.classList.toggle("hidden", !orthophoto);
+      if (orthophoto) baseMapNotice.textContent = settingsText;
+    }
+    if (mapBaseNotice) {
+      mapBaseNotice.classList.toggle("hidden", !orthophoto);
+      if (orthophoto) mapBaseNotice.textContent = mapText;
+    }
+  }
+
   function applyLayerSettings() {
     if (typeof map?._danubeSetBaseLayer === "function") {
       baseMapMode.value = map._danubeSetBaseLayer(baseMapMode.value);
     }
+    updateBaseMapNotice();
     setLayerVisible(areaLayers?.group, showAreas.checked);
     setLayerVisible(berthLayers?.group, showBerths.checked);
     setLayerVisible(areaLayers?.vertexGroup, showVertices.checked);
@@ -824,6 +804,7 @@
       if (typeof map?._danubeSetBaseLayer === "function") {
         baseMapMode.value = map._danubeSetBaseLayer(baseMapMode.value);
       }
+      updateBaseMapNotice();
       saveSettings();
     });
 
@@ -892,12 +873,14 @@
     map.on("danube:vessel-spiderfy-change", refreshConnections);
     map.on("danube:photo-spiderfy-change", refreshConnections);
 
-    const [loadedAreas, locationIndex] = await Promise.all([
+    const [loadedAreas, locationIndex, berthGeometryFeatures] = await Promise.all([
       maps.loadAreas(),
-      maps.loadLocationIndex().catch(() => ({ schema_version: 0, photos: [], sightings: [] }))
+      maps.loadLocationIndex().catch(() => ({ schema_version: 0, photos: [], sightings: [] })),
+      maps.loadBerthGeometries().catch(() => [])
     ]);
 
     areas = loadedAreas;
+    berthGeometryIndex = maps.indexBerthGeometries(berthGeometryFeatures);
     photos = locationIndex.photos;
     sightings = locationIndex.sightings;
     locationIndexSchemaVersion = locationIndex.schema_version;
@@ -916,6 +899,7 @@
       berths = await maps.loadBerths(workerUrl, "LOC-001");
       berthLayers = maps.addBerthLayers(map, berths, {
         addToMap: true,
+        geometryIndex: berthGeometryIndex,
         onSelect: showBerthDetail
       });
     } catch (error) {
