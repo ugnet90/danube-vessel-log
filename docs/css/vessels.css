@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/css/vessels.css
- * Version: 0.14.47
- * Updated: 2026-08-23
+ * Version: 0.15.2
+ * Updated: 2026-08-24
  */
 
 .vessels-page {
@@ -114,7 +114,7 @@
 .vessels-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 900px;
+  min-width: 1040px;
 }
 
 .vessels-table th,
@@ -132,6 +132,17 @@
   font-size: 0.85rem;
   letter-spacing: 0.02em;
   text-transform: uppercase;
+}
+
+.vessels-table th.numeric-column .table-sort-button {
+  justify-content: center;
+}
+
+.vessels-table td.numeric-column {
+  width: 92px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
 }
 
 .table-sort-button {
