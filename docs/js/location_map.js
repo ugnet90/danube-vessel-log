@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_map.js
- * Version: 0.15.0
+ * Version: 0.15.1
  * Updated: 2026-08-24
  *
  * Gemeinsame Kartenlogik für Standortseite und Foto-Kartenoverlay.
@@ -616,7 +616,11 @@
           {
             tileSize: 256,
             zoomOffset: 0,
-            maxNativeZoom: 20,
+            // Der OSM-Standard-Tileserver liefert native Rasterkacheln nur
+            // bis Zoom 19. Die Karte darf weiterhin bis Zoom 20 gehen;
+            // Leaflet skaliert dort die Zoom-19-Kacheln hoch, statt nicht
+            // vorhandene Zoom-20-Kacheln anzufordern.
+            maxNativeZoom: 19,
             maxZoom: 20,
             detectRetina: false,
             attribution: "&copy; OpenStreetMap contributors"
