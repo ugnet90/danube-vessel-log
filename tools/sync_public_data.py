@@ -2,12 +2,14 @@
 """
 Danube Vessel Log
 File: tools/sync_public_data.py
-Version: 0.14.38
-Updated: 2026-08-20
+Version: 0.14.52
+Updated: 2026-08-24
 
 Synchronisiert die für GitHub Pages benötigten öffentlichen Datenspiegel
 unter docs/data/ ausschließlich aus den kanonischen Dateien unter data/.
 Die Dateien unter docs/data/ werden nicht manuell gepflegt.
+Der Workflow .github/workflows/sync_public_data.yml führt --apply bei
+Änderungen der kanonischen Dateien auf main automatisch aus.
 """
 
 from __future__ import annotations
@@ -24,6 +26,10 @@ PAIRS = (
     (
         ROOT / "data" / "photo_locations.json",
         ROOT / "docs" / "data" / "photo_locations.json",
+    ),
+    (
+        ROOT / "data" / "berth_geometries.geojson",
+        ROOT / "docs" / "data" / "berth_geometries.geojson",
     ),
 )
 
