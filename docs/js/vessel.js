@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.14.40
-// Updated: 2026-08-20
+// Version: 0.14.49
+// Updated: 2026-08-23
 
 "use strict";
 
@@ -4418,7 +4418,7 @@ document.addEventListener("DOMContentLoaded", () => {
     set(
       "summaryLastSeen",
       latest
-        ? formatDate(latest.captured_at)
+        ? dateTime(latest.captured_at)
         : "–"
     );
 

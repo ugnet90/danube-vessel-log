@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_map.js
- * Version: 0.14.47
+ * Version: 0.14.49
  * Updated: 2026-08-23
  *
  * Gemeinsame Kartenlogik für Standortseite und Foto-Kartenoverlay.
@@ -179,39 +179,85 @@
       ...(options.leafletOptions || {})
     });
 
+    // basemap.at dokumentiert das Orthofoto im TileMatrixSet
+    // "google3857" (EPSG:3857) mit 256 x 256 px und der REST-Reihenfolge
+    // {TileMatrix}/{TileRow}/{TileCol} = {z}/{y}/{x}. Die Optionen werden
+    // hier absichtlich explizit gesetzt, damit Leaflet/iOS weder Retina-
+    // Umschaltung noch eine implizite Zoom- oder Kachelskalierung anwendet.
+    const basemapAtTileOptions = {
+      tileSize: 256,
+      zoomOffset: 0,
+      minZoom: 6,
+      maxNativeZoom: 20,
+      maxZoom: 20,
+      detectRetina: false,
+      noWrap: true,
+      bounds: L.latLngBounds(
+        [46.35877, 8.782379],
+        [49.037872, 17.5]
+      )
+    };
+
+    function createBasemapAtLayer(path, extension, attribution) {
+      const layer = L.tileLayer(
+        `https://mapsneu.wien.gv.at/basemap/${path}/normal/google3857/{z}/{y}/{x}.${extension}`,
+        {
+          ...basemapAtTileOptions,
+          attribution
+        }
+      );
+
+      // Diagnose nur in der Browser-Konsole: Der Dienst liefert laut
+      // TileMatrixSet 256-px-Kacheln. Eine abweichende Naturgröße wäre
+      // ein Hinweis auf eine serverseitige Änderung des Dienstes.
+      layer.on("tileload", event => {
+        const tile = event?.tile;
+        if (
+          tile &&
+          (tile.naturalWidth !== 256 || tile.naturalHeight !== 256)
+        ) {
+          console.warn(
+            "basemap.at: unerwartete Kachelgröße",
+            tile.naturalWidth,
+            tile.naturalHeight
+          );
+        }
+      });
+
+      return layer;
+    }
+
     const baseLayerFactories = {
       osm: () => [
         L.tileLayer(
           "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
           {
+            tileSize: 256,
+            zoomOffset: 0,
+            maxNativeZoom: 20,
             maxZoom: 20,
+            detectRetina: false,
             attribution: "&copy; OpenStreetMap contributors"
           }
         )
       ],
       orthophoto: () => [
-        L.tileLayer(
-          "https://mapsneu.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg",
-          {
-            maxZoom: 20,
-            attribution: 'Datenquelle: <a href="https://basemap.at/" target="_blank" rel="noopener noreferrer">basemap.at</a>'
-          }
+        createBasemapAtLayer(
+          "bmaporthofoto30cm",
+          "jpeg",
+          'Datenquelle: <a href="https://basemap.at/" target="_blank" rel="noopener noreferrer">basemap.at</a>'
         )
       ],
       "orthophoto-labels": () => [
-        L.tileLayer(
-          "https://mapsneu.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg",
-          {
-            maxZoom: 20,
-            attribution: 'Datenquelle: <a href="https://basemap.at/" target="_blank" rel="noopener noreferrer">basemap.at</a>'
-          }
+        createBasemapAtLayer(
+          "bmaporthofoto30cm",
+          "jpeg",
+          'Datenquelle: <a href="https://basemap.at/" target="_blank" rel="noopener noreferrer">basemap.at</a>'
         ),
-        L.tileLayer(
-          "https://mapsneu.wien.gv.at/basemap/bmapoverlay/normal/google3857/{z}/{y}/{x}.png",
-          {
-            maxZoom: 20,
-            attribution: 'Beschriftung: <a href="https://basemap.at/" target="_blank" rel="noopener noreferrer">basemap.at</a>'
-          }
+        createBasemapAtLayer(
+          "bmapoverlay",
+          "png",
+          'Beschriftung: <a href="https://basemap.at/" target="_blank" rel="noopener noreferrer">basemap.at</a>'
         )
       ]
     };
@@ -222,6 +268,10 @@
         ? mode
         : "osm";
 
+      // Hintergrundwechsel darf Zentrum und Zoom niemals verändern.
+      const centerBefore = map.getCenter();
+      const zoomBefore = map.getZoom();
+
       activeBaseLayers.forEach(layer => {
         if (map.hasLayer(layer)) map.removeLayer(layer);
       });
@@ -229,6 +279,11 @@
       activeBaseLayers = baseLayerFactories[normalized]();
       activeBaseLayers.forEach(layer => layer.addTo(map));
       map._danubeBaseLayerMode = normalized;
+
+      if (Number.isFinite(zoomBefore)) {
+        map.setView(centerBefore, zoomBefore, { animate: false });
+      }
+
       return normalized;
     };
 
