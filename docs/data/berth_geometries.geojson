@@ -1,0 +1,439 @@
+{
+  "type": "FeatureCollection",
+  "schema_version": 1,
+  "updated_at": "2026-08-24",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "berth_id": "BER-000001",
+        "name": "Linz-Schloss Nr. 11",
+        "berth_name": "Linz-Schloss Nr. 11",
+        "station_number": "11",
+        "geometry_role": "berth_polygon"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14.282469,
+              48.306687
+            ],
+            [
+              14.282691,
+              48.306731
+            ],
+            [
+              14.282709,
+              48.306689
+            ],
+            [
+              14.282487,
+              48.306645
+            ],
+            [
+              14.282469,
+              48.306687
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "berth_id": "BER-000002",
+        "name": "Linz-Nibelungen Nr. 12",
+        "berth_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12",
+        "geometry_role": "berth_polygon"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14.283875,
+              48.306972
+            ],
+            [
+              14.28392,
+              48.307008
+            ],
+            [
+              14.283982,
+              48.307033
+            ],
+            [
+              14.284514,
+              48.307165
+            ],
+            [
+              14.284586,
+              48.307172
+            ],
+            [
+              14.284622,
+              48.307161
+            ],
+            [
+              14.284618,
+              48.307136
+            ],
+            [
+              14.28456,
+              48.307108
+            ],
+            [
+              14.284284,
+              48.307037
+            ],
+            [
+              14.28426,
+              48.307029
+            ],
+            [
+              14.284008,
+              48.306968
+            ],
+            [
+              14.28392,
+              48.306958
+            ],
+            [
+              14.283875,
+              48.306972
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "berth_id": "BER-000003",
+        "name": "Linz-Hauptplatz Nr. 13",
+        "berth_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13",
+        "geometry_role": "berth_polygon"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14.28607,
+              48.307675
+            ],
+            [
+              14.286415,
+              48.307818
+            ],
+            [
+              14.286454,
+              48.307777
+            ],
+            [
+              14.286105,
+              48.307634
+            ],
+            [
+              14.28607,
+              48.307675
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "berth_id": "BER-000004",
+        "name": "Linz-Lentos Nr. 14",
+        "berth_name": "Linz-Lentos Nr. 14",
+        "station_number": "14",
+        "geometry_role": "berth_polygon"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14.28757,
+              48.30836
+            ],
+            [
+              14.287885,
+              48.308526
+            ],
+            [
+              14.287932,
+              48.308485
+            ],
+            [
+              14.287612,
+              48.30832
+            ],
+            [
+              14.28757,
+              48.30836
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "berth_id": "BER-000005",
+        "name": "Linz 1 - Brucknerhaus",
+        "berth_name": "Linz 1 - Brucknerhaus",
+        "station_number": "1",
+        "geometry_role": "berth_polygon"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14.291597,
+              48.31118
+            ],
+            [
+              14.29159,
+              48.31119
+            ],
+            [
+              14.291591,
+              48.311203
+            ],
+            [
+              14.291614,
+              48.311243
+            ],
+            [
+              14.291841,
+              48.311462
+            ],
+            [
+              14.291942,
+              48.311417
+            ],
+            [
+              14.29174,
+              48.311218
+            ],
+            [
+              14.291703,
+              48.311193
+            ],
+            [
+              14.291661,
+              48.311172
+            ],
+            [
+              14.291629,
+              48.311167
+            ],
+            [
+              14.291597,
+              48.31118
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "berth_id": "BER-000006",
+        "name": "Linz 32",
+        "berth_name": "Linz 32",
+        "station_number": "32",
+        "geometry_role": "berth_polygon"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14.290895,
+              48.314041
+            ],
+            [
+              14.290895,
+              48.314056
+            ],
+            [
+              14.29106,
+              48.314221
+            ],
+            [
+              14.291085,
+              48.314228
+            ],
+            [
+              14.291131,
+              48.314207
+            ],
+            [
+              14.29113,
+              48.31419
+            ],
+            [
+              14.290965,
+              48.314027
+            ],
+            [
+              14.290937,
+              48.31402
+            ],
+            [
+              14.290895,
+              48.314041
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "berth_id": "BER-000006",
+        "name": "Linz 32 - Liegekante",
+        "berth_name": "Linz 32",
+        "station_number": "32",
+        "geometry_role": "mooring_edge"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.29113,
+            48.314189
+          ],
+          [
+            14.290967,
+            48.314027
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "berth_id": "BER-000005",
+        "name": "Linz 1 - Brucknerhaus - Liegekante",
+        "berth_name": "Linz 1 - Brucknerhaus",
+        "station_number": "1",
+        "geometry_role": "mooring_edge"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.29184,
+            48.311463
+          ],
+          [
+            14.291613,
+            48.311243
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "berth_id": "BER-000004",
+        "name": "Linz-Lentos Nr. 14 - Liegekante",
+        "berth_name": "Linz-Lentos Nr. 14",
+        "station_number": "14",
+        "geometry_role": "mooring_edge"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.287883,
+            48.308526
+          ],
+          [
+            14.287568,
+            48.308361
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "berth_id": "BER-000003",
+        "name": "Linz-Hauptplatz Nr. 13 - Liegekante",
+        "berth_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13",
+        "geometry_role": "mooring_edge"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.286413,
+            48.307819
+          ],
+          [
+            14.28607,
+            48.307675
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "berth_id": "BER-000002",
+        "name": "Linz-Nibelungen Nr. 12 - Liegekante",
+        "berth_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12",
+        "geometry_role": "mooring_edge"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.284513,
+            48.307166
+          ],
+          [
+            14.283983,
+            48.307035
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "berth_id": "BER-000001",
+        "name": "Linz-Schloss Nr. 11 - Liegekante",
+        "berth_name": "Linz-Schloss Nr. 11",
+        "station_number": "11",
+        "geometry_role": "mooring_edge"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.282689,
+            48.306732
+          ],
+          [
+            14.282468,
+            48.306687
+          ]
+        ]
+      }
+    }
+  ]
+}
