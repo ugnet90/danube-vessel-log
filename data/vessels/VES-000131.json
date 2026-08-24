@@ -2,7 +2,7 @@
   "schema_version": 1,
   "vessel_id": "VES-000131",
   "identity": {
-    "name": "Lisabelle",
+    "name": "Lisabelle A",
     "former_names": [],
     "mmsi": "248334000",
     "imo": "",
@@ -18,8 +18,8 @@
   "technical": {
     "year_built": null,
     "shipyard": "",
-    "length_m": null,
-    "width_m": null,
+    "length_m": 110,
+    "width_m": 12,
     "draft_m": null,
     "passengers": null
   },
@@ -47,7 +47,35 @@
     "environment": "production",
     "created_at": "2026-08-24T14:28:55.656Z",
     "created_from_submission_id": "SUB-20260824-142259-B5219C",
-    "updated_at": "2026-08-24T14:28:55.656Z",
-    "updated_by": "web-ui"
+    "updated_at": "2026-08-24T14:42:41.839Z",
+    "updated_by": "web-ui",
+    "change_history": [
+      {
+        "changed_at": "2026-08-24T14:42:41.839Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "identity.name",
+          "technical.length_m",
+          "technical.width_m"
+        ],
+        "changes": [
+          {
+            "field": "identity.name",
+            "old_value": "Lisabelle",
+            "new_value": "Lisabelle A"
+          },
+          {
+            "field": "technical.length_m",
+            "old_value": null,
+            "new_value": 110
+          },
+          {
+            "field": "technical.width_m",
+            "old_value": null,
+            "new_value": 12
+          }
+        ]
+      }
+    ]
   }
 }
