@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_map.js
- * Version: 0.15.4
+ * Version: 0.15.5
  * Updated: 2026-08-24
  *
  * Gemeinsame Kartenlogik für Standortseite und Foto-Kartenoverlay.
@@ -526,19 +526,19 @@
     // Form erhalten, damit keine nautische Ausrichtung erfunden wird.
     const localPoints = bowSign
       ? [
-          [-halfLength * 0.48 * bowSign, -halfWidth],
-          [ halfLength * 0.34 * bowSign, -halfWidth],
-          [ halfLength * 0.50 * bowSign, 0],
-          [ halfLength * 0.34 * bowSign,  halfWidth],
-          [-halfLength * 0.48 * bowSign,  halfWidth]
+          [-halfLength * 1.00 * bowSign, -halfWidth],
+          [ halfLength * 0.72 * bowSign, -halfWidth],
+          [ halfLength * 1.00 * bowSign, 0],
+          [ halfLength * 0.72 * bowSign,  halfWidth],
+          [-halfLength * 1.00 * bowSign,  halfWidth]
         ]
       : [
-          [-halfLength * 0.50, 0],
-          [-halfLength * 0.43, -halfWidth],
-          [ halfLength * 0.43, -halfWidth],
-          [ halfLength * 0.50, 0],
-          [ halfLength * 0.43,  halfWidth],
-          [-halfLength * 0.43,  halfWidth]
+          [-halfLength * 1.00, 0],
+          [-halfLength * 0.86, -halfWidth],
+          [ halfLength * 0.86, -halfWidth],
+          [ halfLength * 1.00, 0],
+          [ halfLength * 0.86,  halfWidth],
+          [-halfLength * 0.86,  halfWidth]
         ];
 
     return localPoints.map(([along, across]) => {
