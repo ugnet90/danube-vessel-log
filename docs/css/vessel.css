@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/vessel.css
- * Version: 0.15.0
+ * Version: 0.15.3
  * Updated: 2026-08-24
  */
 
@@ -562,6 +562,39 @@ dd {
   align-items: flex-start;
   justify-content: space-between;
   gap: 14px;
+}
+
+.sighting-header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sighting-delete-button {
+  min-height: 32px;
+  padding: 6px 9px;
+  border: 1px solid #efb4b4;
+  border-radius: 7px;
+  background: #fff;
+  color: #b42318;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sighting-delete-button:hover,
+.sighting-delete-button:focus-visible {
+  border-color: #dc2626;
+  background: #fff5f5;
+  outline: none;
+}
+
+.sighting-delete-button:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .sighting-date {
@@ -1279,6 +1312,11 @@ dd {
   .sighting-header {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .sighting-header-actions {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .change-history-header {
