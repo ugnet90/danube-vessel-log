@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/submissions.js
-// Version: 0.14.35
-// Updated: 2026-08-20
+// Version: 0.15.0
+// Updated: 2026-08-24
 
 "use strict";
 
@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const capturedAt = byId("capturedAt");
   const locationText = byId("locationText");
   const movementText = byId("movementText");
+  const alongsidePositionText = byId("alongsidePositionText");
   const directionText = byId("directionText");
   const enteredName = byId("enteredName");
   const berthText = byId("berthText");
@@ -43,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const berthCorrectionSelect = byId("berthCorrectionSelect");
   const berthUnlistedField = byId("berthUnlistedField");
   const berthCorrectionUnlistedText = byId("berthCorrectionUnlistedText");
+  const berthCorrectionAlongsidePosition = byId("berthCorrectionAlongsidePosition");
   const saveBerthCorrectionButton = byId("saveBerthCorrectionButton");
   const cancelBerthCorrectionButton = byId("cancelBerthCorrectionButton");
   const berthCorrectionResult = byId("berthCorrectionResult");
@@ -1710,6 +1712,14 @@ document.addEventListener("DOMContentLoaded", () => {
     return "Unbekannt";
   }
 
+  function alongsidePositionLabel(value) {
+    const position = Number(value);
+    if (position === 1) return "1 – direkt am Anleger";
+    if (position === 2) return "2 – zweite Reihe";
+    if (position === 3) return "3 – dritte Reihe";
+    return "Unbekannt";
+  }
+
   function showBerthCorrectionResult(type, message) {
     berthCorrectionResult.className = `review-result ${type}`;
     berthCorrectionResult.textContent = message;
@@ -1726,6 +1736,15 @@ document.addEventListener("DOMContentLoaded", () => {
       "hidden",
       berthCorrectionSelect.value !== "__unlisted__"
     );
+
+    const movement = String(selectedSubmission?.movement || "unknown");
+    const berthApplicable =
+      movement === "moored" &&
+      !["__unknown__", "__not_applicable__"].includes(
+        berthCorrectionSelect.value
+      );
+    berthCorrectionAlongsidePosition.disabled = !berthApplicable;
+    if (!berthApplicable) berthCorrectionAlongsidePosition.value = "";
   }
 
   async function loadBerthOptions() {
@@ -1792,6 +1811,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       berthCorrectionUnlistedText.value =
         current.status === "unlisted" ? String(current.name || "") : "";
+      const currentPosition = Number(selectedSubmission?.alongside_position);
+      berthCorrectionAlongsidePosition.value =
+        [1, 2, 3].includes(currentPosition)
+          ? String(currentPosition)
+          : "";
       updateBerthUnlistedField();
     } catch (error) {
       showBerthCorrectionResult(
@@ -1823,6 +1847,11 @@ document.addEventListener("DOMContentLoaded", () => {
       berthNameEntered = berthCorrectionUnlistedText.value.trim();
     }
 
+    const alongsidePosition =
+      berthCorrectionAlongsidePosition.disabled
+        ? ""
+        : berthCorrectionAlongsidePosition.value;
+
     berthCorrectionBusy = true;
     saveBerthCorrectionButton.disabled = true;
     cancelBerthCorrectionButton.disabled = true;
@@ -1835,10 +1864,11 @@ document.addEventListener("DOMContentLoaded", () => {
         submissionId: selectedSubmission.submission_id,
         berthStatus,
         berthId,
-        berthNameEntered
+        berthNameEntered,
+        alongsidePosition
       });
 
-      showBerthCorrectionResult("success", "Die Anlegestelle wurde gespeichert.");
+      showBerthCorrectionResult("success", "Anlegestelle und Liegeposition wurden gespeichert.");
       berthOptionsCache.clear();
       await loadSubmissions({ preserveSelection: true });
       berthCorrectionPanel.classList.add("hidden");
@@ -1908,6 +1938,11 @@ document.addEventListener("DOMContentLoaded", () => {
       movementLabels[submission.movement] ??
       submission.movement ??
       "—";
+
+    alongsidePositionText.textContent =
+      String(submission.movement || "") === "moored"
+        ? alongsidePositionLabel(submission.alongside_position)
+        : "Nicht zutreffend";
 
     directionText.textContent =
       directionLabels[submission.direction] ??

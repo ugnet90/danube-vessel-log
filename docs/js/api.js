@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/api.js
-// Version: 0.14.39
-// Updated: 2026-08-20
+// Version: 0.15.0
+// Updated: 2026-08-24
 
 "use strict";
 
@@ -192,7 +192,8 @@
     submissionId,
     berthStatus,
     berthId = "",
-    berthNameEntered = ""
+    berthNameEntered = "",
+    alongsidePosition = ""
   }) {
     return request({
       workerUrl,
@@ -203,7 +204,8 @@
         submission_id: submissionId,
         berth_status: berthStatus,
         berth_id: berthId,
-        berth_name_entered: berthNameEntered
+        berth_name_entered: berthNameEntered,
+        alongside_position: alongsidePosition
       }
     });
   }

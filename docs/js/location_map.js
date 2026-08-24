@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_map.js
- * Version: 0.14.51
+ * Version: 0.15.0
  * Updated: 2026-08-24
  *
  * Gemeinsame Kartenlogik für Standortseite und Foto-Kartenoverlay.
@@ -331,6 +331,41 @@
     );
   }
 
+  function normalizeAlongsidePosition(value) {
+    if (value === null || value === undefined || value === "") return null;
+    const position = Number(String(value).trim());
+    return Number.isInteger(position) && position >= 1 && position <= 3
+      ? position
+      : null;
+  }
+
+  function alongsidePositionLabel(value, options = {}) {
+    const position = normalizeAlongsidePosition(value);
+    if (!position) return options.unknownLabel || "Liegeposition unbekannt";
+    if (position === 1) return "Position 1 · direkt am Anleger";
+    if (position === 2) return "Position 2 · zweite Reihe";
+    return "Position 3 · dritte Reihe";
+  }
+
+  function vesselDisplayDistanceMeters(options = {}) {
+    const position = normalizeAlongsidePosition(options.alongsidePosition);
+    if (!position) {
+      return Math.max(0, Number(options.distanceMeters ?? 10) || 10);
+    }
+
+    const fallbackWidth = Math.max(6, Number(options.defaultVesselWidthM ?? 11.5) || 11.5);
+    const ownWidth = Math.max(4, Number(options.vesselWidthM ?? fallbackWidth) || fallbackWidth);
+    const gap = Math.max(0, Number(options.gapMeters ?? 1) || 0);
+
+    // Ohne Kenntnis der gleichzeitig innen liegenden Schiffe werden
+    // Position 2/3 als feste parallele Reihen modelliert. Die eigene
+    // Schiffsbreite beeinflusst die Lage des Mittelpunktes; für die
+    // innenliegenden Reihen wird die typische Donau-Kabinenschiffsbreite
+    // verwendet. Es wird ausdrücklich keine Gleichzeitigkeit historischer
+    // Sichtungen abgeleitet.
+    return gap + ownWidth / 2 + (position - 1) * (fallbackWidth + gap);
+  }
+
   function berthRiverwardDisplayCoordinates(
     map,
     berth,
@@ -361,10 +396,7 @@
     dx /= vectorLength;
     dy /= vectorLength;
 
-    const distanceMeters = Math.max(
-      0,
-      Number(options.distanceMeters ?? 10) || 10
-    );
+    const distanceMeters = vesselDisplayDistanceMeters(options);
 
     const probePixels = 100;
     const probeLatLng = map.layerPointToLatLng(
@@ -389,6 +421,135 @@
       latitude: displayLatLng.lat,
       longitude: displayLatLng.lng
     };
+  }
+
+  function berthMooringAxis(map, berth, geometryIndex) {
+    const entry = berthGeometryEntry(geometryIndex, berth);
+    const coordinates = entry?.mooringEdge?.geometry?.type === "LineString"
+      ? entry.mooringEdge.geometry.coordinates
+      : null;
+    if (!map || !Array.isArray(coordinates) || coordinates.length < 2) return null;
+
+    const first = validCoordinates(coordinates[0]?.[1], coordinates[0]?.[0]);
+    const last = validCoordinates(
+      coordinates[coordinates.length - 1]?.[1],
+      coordinates[coordinates.length - 1]?.[0]
+    );
+    if (!first || !last) return null;
+
+    const startPoint = map.latLngToLayerPoint([first.latitude, first.longitude]);
+    const endPoint = map.latLngToLayerPoint([last.latitude, last.longitude]);
+    let dx = endPoint.x - startPoint.x;
+    let dy = endPoint.y - startPoint.y;
+    const length = Math.hypot(dx, dy);
+    if (!(length > 0.001)) return null;
+
+    dx /= length;
+    dy /= length;
+    return { ux: dx, uy: dy, nx: -dy, ny: dx };
+  }
+
+  function vesselBerthFootprintCoordinates(
+    map,
+    record,
+    berth,
+    geometryIndex,
+    options = {}
+  ) {
+    const position = normalizeAlongsidePosition(record?.alongside_position);
+    if (!position || !map) return null;
+
+    const center = options.displayCoordinates
+      ? validCoordinates(
+          options.displayCoordinates.latitude,
+          options.displayCoordinates.longitude
+        )
+      : berthRiverwardDisplayCoordinates(
+          map,
+          berth,
+          geometryIndex,
+          {
+            alongsidePosition: position,
+            vesselWidthM: record?.vessel_width_m,
+            defaultVesselWidthM: options.defaultVesselWidthM ?? 11.5,
+            gapMeters: options.gapMeters ?? 1
+          }
+        );
+    if (!center) return null;
+
+    const axis = berthMooringAxis(map, berth, geometryIndex);
+    if (!axis) return null;
+
+    const vesselLengthM = Math.min(
+      250,
+      Math.max(30, Number(record?.vessel_length_m ?? options.defaultVesselLengthM ?? 135) || 135)
+    );
+    const vesselWidthM = Math.min(
+      35,
+      Math.max(5, Number(record?.vessel_width_m ?? options.defaultVesselWidthM ?? 11.5) || 11.5)
+    );
+
+    const centerLatLng = L.latLng(center.latitude, center.longitude);
+    const centerPoint = map.latLngToLayerPoint(centerLatLng);
+    const probePixels = 100;
+    const probeLatLng = map.layerPointToLatLng(
+      L.point(centerPoint.x + probePixels, centerPoint.y)
+    );
+    const metersPerPixel = map.distance(centerLatLng, probeLatLng) / probePixels;
+    if (!(metersPerPixel > 0)) return null;
+
+    const halfLength = vesselLengthM / (2 * metersPerPixel);
+    const halfWidth = vesselWidthM / (2 * metersPerPixel);
+
+    // Symmetrischer, leicht zugespitzter Schiffskörper. Die Längsachse
+    // folgt der Liegekante; Bug/Heck werden absichtlich nicht behauptet,
+    // weil die Richtung der GeoJSON-Linie keine nautische Richtung trägt.
+    const localPoints = [
+      [-halfLength * 0.50, 0],
+      [-halfLength * 0.43, -halfWidth],
+      [ halfLength * 0.43, -halfWidth],
+      [ halfLength * 0.50, 0],
+      [ halfLength * 0.43,  halfWidth],
+      [-halfLength * 0.43,  halfWidth]
+    ];
+
+    return localPoints.map(([along, across]) => {
+      const point = L.point(
+        centerPoint.x + axis.ux * along + axis.nx * across,
+        centerPoint.y + axis.uy * along + axis.ny * across
+      );
+      const latLng = map.layerPointToLatLng(point);
+      return [latLng.lat, latLng.lng];
+    });
+  }
+
+  function createVesselBerthFootprint(
+    map,
+    record,
+    berth,
+    geometryIndex,
+    options = {}
+  ) {
+    const coordinates = vesselBerthFootprintCoordinates(
+      map,
+      record,
+      berth,
+      geometryIndex,
+      options
+    );
+    if (!coordinates) return null;
+
+    const layer = L.polygon(coordinates, {
+      color: options.color || "#0f4c81",
+      weight: options.weight ?? 1.5,
+      opacity: options.opacity ?? 0.75,
+      fillColor: options.fillColor || "#93c5fd",
+      fillOpacity: options.fillOpacity ?? 0.20,
+      interactive: options.interactive === true
+    });
+
+    if (options.addToMap !== false) layer.addTo(map);
+    return layer;
   }
 
   function createMap(container, options = {}) {
@@ -1332,6 +1493,11 @@
         : ""
     );
     addLine(
+      normalizeAlongsidePosition(record?.alongside_position)
+        ? `Liegeposition: ${alongsidePositionLabel(record.alongside_position)}`
+        : "Liegeposition: unbekannt"
+    );
+    addLine(
       record?.submission_id
         ? `Sichtung: ${record.submission_id}`
         : ""
@@ -1373,7 +1539,10 @@
 
     const compact = [
       formatDateTime(record?.captured_at),
-      record?.berth?.short_name || record?.berth?.name || ""
+      record?.berth?.short_name || record?.berth?.name || "",
+      normalizeAlongsidePosition(record?.alongside_position)
+        ? alongsidePositionLabel(record.alongside_position)
+        : ""
     ].filter(Boolean).join(" · ");
     if (compact) {
       const line = document.createElement("div");
@@ -1384,7 +1553,12 @@
     return container;
   }
 
-  function vesselBerthIcon() {
+  function vesselBerthIcon(record = null) {
+    const position = normalizeAlongsidePosition(record?.alongside_position);
+    const badge = position
+      ? `<span class="vessel-berth-position-badge">P${position}</span>`
+      : "";
+
     return L.divIcon({
       className: "",
       html:
@@ -1393,7 +1567,7 @@
         '<path d="M8 17h20l-2 8c-3 2-5 3-8 3s-5-1-8-3l-2-8Z" />' +
         '<path d="M12 17V10h11v7M16 10V6h5v4" />' +
         '<path d="M5 29c3 2 6 2 9 0 3 2 6 2 9 0 3 2 6 2 9 0" />' +
-        '</svg></div>',
+        '</svg>' + badge + '</div>',
       iconSize: [38, 38],
       iconAnchor: [19, 19]
     });
@@ -1418,7 +1592,7 @@
     const marker = L.marker(
       [displayCoords.latitude, displayCoords.longitude],
       {
-        icon: vesselBerthIcon(),
+        icon: vesselBerthIcon(record),
         zIndexOffset: options.zIndexOffset ?? 450
       }
     );
@@ -1514,6 +1688,13 @@
       date.textContent = formatDateTime(record?.captured_at);
       item.append(date);
 
+      const position = normalizeAlongsidePosition(record?.alongside_position);
+      if (position) {
+        const positionLine = document.createElement("div");
+        positionLine.textContent = alongsidePositionLabel(position);
+        item.append(positionLine);
+      }
+
       if (record?.submission_id) {
         const sighting = document.createElement("div");
         sighting.textContent = `Sichtung: ${record.submission_id}`;
@@ -1543,8 +1724,12 @@
     return container;
   }
 
-  function vesselBerthGroupIcon(count) {
+  function vesselBerthGroupIcon(count, alongsidePosition = null) {
     const safeCount = Math.max(2, Number(count) || 2);
+    const position = normalizeAlongsidePosition(alongsidePosition);
+    const positionBadge = position
+      ? `<span class="vessel-berth-position-badge">P${position}</span>`
+      : "";
     return L.divIcon({
       className: "",
       html:
@@ -1555,6 +1740,7 @@
         '<path d="M5 29c3 2 6 2 9 0 3 2 6 2 9 0 3 2 6 2 9 0" />' +
         '</svg>' +
         `<span class="vessel-berth-group-count">${safeCount}</span>` +
+        positionBadge +
         '</div>',
       iconSize: [42, 42],
       iconAnchor: [21, 21]
@@ -1589,7 +1775,10 @@
     const marker = L.marker(
       [displayCoords.latitude, displayCoords.longitude],
       {
-        icon: vesselBerthGroupIcon(normalized.length),
+        icon: vesselBerthGroupIcon(
+          normalized.length,
+          normalized[0]?.alongside_position
+        ),
         zIndexOffset: 470
       }
     );
@@ -1602,6 +1791,9 @@
 
     marker.bindTooltip(
       `${berthName}<br>${normalized.length} Anlege-Sichtungen` +
+      (normalizeAlongsidePosition(normalized[0]?.alongside_position)
+        ? `<br>${alongsidePositionLabel(normalized[0].alongside_position)}`
+        : "") +
       (options.spiderfy ? "<br>Klick: auffächern" : ""),
       {
         permanent: false,
@@ -1834,7 +2026,13 @@
     loadBerthGeometries,
     indexBerthGeometries,
     berthAnchorCoordinates,
+    normalizeAlongsidePosition,
+    alongsidePositionLabel,
+    vesselDisplayDistanceMeters,
     berthRiverwardDisplayCoordinates,
+    berthMooringAxis,
+    vesselBerthFootprintCoordinates,
+    createVesselBerthFootprint,
     createMap,
     matchingAreas,
     areaName,

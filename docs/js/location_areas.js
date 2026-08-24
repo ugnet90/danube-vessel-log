@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_areas.js
- * Version: 0.14.51
+ * Version: 0.15.0
  * Updated: 2026-08-24
  */
 
@@ -523,12 +523,18 @@
     );
   }
 
-  function riverwardDisplayCoordinates(berth) {
+  function riverwardDisplayCoordinates(berth, record = null) {
     return maps.berthRiverwardDisplayCoordinates(
       map,
       berth,
       berthGeometryIndex,
-      { distanceMeters: 10 }
+      {
+        distanceMeters: 10,
+        alongsidePosition: record?.alongside_position,
+        vesselWidthM: record?.vessel_width_m,
+        defaultVesselWidthM: 11.5,
+        gapMeters: 1
+      }
     ) || berthAnchorCoordinates(berth);
   }
 
@@ -636,13 +642,21 @@
     for (const entry of entries) {
       const berthId = String(entry?.record?.berth_id || "").trim();
       if (!berthId) continue;
-      if (!groups.has(berthId)) groups.set(berthId, []);
-      groups.get(berthId).push(entry);
+      const position = maps.normalizeAlongsidePosition(
+        entry?.record?.alongside_position
+      );
+      const groupKey = `${berthId}|${position || 0}`;
+      if (!groups.has(groupKey)) groups.set(groupKey, []);
+      groups.get(groupKey).push(entry);
     }
 
     for (const groupedEntries of groups.values()) {
       const berth = groupedEntries[0]?.berth;
-      const displayCoordinates = riverwardDisplayCoordinates(berth);
+      const representativeRecord = groupedEntries[0]?.record || null;
+      const displayCoordinates = riverwardDisplayCoordinates(
+        berth,
+        representativeRecord
+      );
       let marker = null;
 
       if (displayCoordinates) {
@@ -654,6 +668,18 @@
       }
 
       if (groupedEntries.length === 1) {
+        const footprint = maps.createVesselBerthFootprint(
+          map,
+          groupedEntries[0].record,
+          berth,
+          berthGeometryIndex,
+          {
+            addToMap: false,
+            displayCoordinates
+          }
+        );
+        if (footprint) footprint.addTo(vesselBerthLayer);
+
         marker = maps.createVesselBerthMarker(map, groupedEntries[0].record, berth, {
           addToMap: false,
           displayCoordinates,

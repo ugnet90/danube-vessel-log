@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.14.51
+// Version: 0.15.0
 // Updated: 2026-08-24
 
 "use strict";
@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let photoMapBerthLayers = null;
   let photoMapMarkers = [];
   let photoMapVesselMarker = null;
+  let photoMapVesselFootprint = null;
   let photoMapConnectionLines = [];
   let photoMapBerths = [];
   let photoMapAreasPromise = null;
@@ -189,6 +190,14 @@ document.addEventListener("DOMContentLoaded", () => {
       downstream: "flussabwärts",
       unknown: "Richtung unbekannt"
     })[direction] || value(direction);
+  }
+
+  function alongsidePositionLabel(position) {
+    const normalized = Number(position);
+    if (normalized === 1) return "Liegeposition 1 · direkt am Anleger";
+    if (normalized === 2) return "Liegeposition 2 · zweite Reihe";
+    if (normalized === 3) return "Liegeposition 3 · dritte Reihe";
+    return "";
   }
 
   function locationLabel(location) {
@@ -400,7 +409,8 @@ document.addEventListener("DOMContentLoaded", () => {
     return [
       movementLabel(sighting?.movement),
       directionLabel(sighting?.direction),
-      berthLabel(sighting?.berth)
+      berthLabel(sighting?.berth),
+      alongsidePositionLabel(sighting?.alongside_position)
     ]
       .filter(Boolean)
       .join(" · ");
@@ -778,10 +788,17 @@ document.addEventListener("DOMContentLoaded", () => {
       ) {
         photoMap.removeLayer(photoMapVesselMarker);
       }
+      if (
+        photoMapVesselFootprint &&
+        photoMap.hasLayer(photoMapVesselFootprint)
+      ) {
+        photoMap.removeLayer(photoMapVesselFootprint);
+      }
 
       photoMapMarkers = [];
       photoMapConnectionLines = [];
       photoMapVesselMarker = null;
+      photoMapVesselFootprint = null;
 
       const capturedAt = String(
         photo?.captured_at || fallbackCapturedAt || ""
@@ -940,7 +957,13 @@ document.addEventListener("DOMContentLoaded", () => {
               photoMap,
               berth,
               context.berthGeometryIndex,
-              { distanceMeters: 10 }
+              {
+                distanceMeters: 10,
+                alongsidePosition: sighting?.alongside_position,
+                vesselWidthM: currentVessel?.technical?.width_m,
+                defaultVesselWidthM: 11.5,
+                gapMeters: 1
+              }
             ) || berthCoordinates;
 
           bounds.extend([
@@ -951,6 +974,21 @@ document.addEventListener("DOMContentLoaded", () => {
             vesselDisplayCoordinates.latitude,
             vesselDisplayCoordinates.longitude
           ]);
+
+          photoMapVesselFootprint =
+            context.maps.createVesselBerthFootprint(
+              photoMap,
+              {
+                alongside_position: sighting?.alongside_position ?? null,
+                vessel_width_m: currentVessel?.technical?.width_m ?? null,
+                vessel_length_m: currentVessel?.technical?.length_m ?? null
+              },
+              berth,
+              context.berthGeometryIndex,
+              {
+                displayCoordinates: vesselDisplayCoordinates
+              }
+            );
 
           photoMapVesselMarker =
             context.maps.createVesselBerthMarker(
@@ -963,6 +1001,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 submission_id:
                   sighting?.submission_id || "",
                 direction: sighting?.direction || "",
+                alongside_position: sighting?.alongside_position ?? null,
+                vessel_width_m: currentVessel?.technical?.width_m ?? null,
+                vessel_length_m: currentVessel?.technical?.length_m ?? null,
                 berth: sighting?.berth || {}
               },
               berth,
@@ -1005,7 +1046,10 @@ document.addEventListener("DOMContentLoaded", () => {
           infoParts.push(
             `Sichtung: ${sighting?.submission_id || "–"}`,
             `${validPhotoCount} Aufnahmeort${validPhotoCount === 1 ? "" : "e"}`,
-            `Schiffmarker: ${berthName} (aus Liegekante abgeleitet)`
+            `Schiffmarker: ${berthName}` +
+              (alongsidePositionLabel(sighting?.alongside_position)
+                ? ` · ${alongsidePositionLabel(sighting.alongside_position)}`
+                : " · Liegeposition unbekannt")
           );
         }
       }
