@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.14.44
- * Updated: 2026-08-22
+ * Version: 0.15.0
+ * Updated: 2026-08-24
  */
 
 const API_VERSION = "2022-11-28";
@@ -1570,6 +1570,7 @@ async function createJsonSubmission(request, env) {
       vessel_name_entered: submission.vessel_name_entered,
       location: submission.location,
       berth: submission.berth,
+      alongside_position: submission.alongside_position,
       observer_lat: submission.observer_lat,
       observer_lon: submission.observer_lon,
       auto_confirmed:
@@ -2212,6 +2213,7 @@ async function createPhotoSubmission(request, env) {
 
       submission_id: submissionId,
       submission_path: submissionPath,
+      alongside_position: submission.alongside_position,
       
       photo_count: photoRecords.length,
       
@@ -2467,7 +2469,9 @@ function upsertReviewedSubmissionInLocationIndex({
   document,
   submission,
   vesselId,
-  vesselName
+  vesselName,
+  vesselLengthM = null,
+  vesselWidthM = null
 }) {
   const normalized = normalizePhotoLocationsIndexDocument(document);
   const submissionId = String(submission?.submission_id ?? "").trim();
@@ -2504,6 +2508,12 @@ function upsertReviewedSubmissionInLocationIndex({
   const location = locationIndexLocationRecord(submission?.location);
   const berth = locationIndexBerthRecord(submission?.berth);
   const movement = String(submission?.movement ?? "").trim();
+  const alongsidePosition = normalizeAlongsidePosition(
+    submission?.alongside_position,
+    movement
+  );
+  const normalizedVesselLengthM = parseCoordinate(vesselLengthM);
+  const normalizedVesselWidthM = parseCoordinate(vesselWidthM);
 
   for (const photo of Array.isArray(submission?.photos) ? submission.photos : []) {
     const latitude = parseCoordinate(photo?.photo_lat);
@@ -2533,6 +2543,9 @@ function upsertReviewedSubmissionInLocationIndex({
       ),
       berth,
       movement,
+      alongside_position: alongsidePosition,
+      vessel_length_m: normalizedVesselLengthM,
+      vessel_width_m: normalizedVesselWidthM,
       relation: {
         type: "sighting",
         submission_id: submissionId
@@ -2549,6 +2562,9 @@ function upsertReviewedSubmissionInLocationIndex({
     location,
     berth,
     movement,
+    alongside_position: alongsidePosition,
+    vessel_length_m: normalizedVesselLengthM,
+    vessel_width_m: normalizedVesselWidthM,
     direction: String(submission?.direction ?? "").trim(),
     photo_count: Array.isArray(submission?.photos)
       ? submission.photos.length
@@ -2570,7 +2586,7 @@ function normalizePhotoLocationsIndexDocument(document) {
     ...source,
     schema_version: Math.max(
       Number(source.schema_version) || 0,
-      3
+      4
     ),
     photos: Array.isArray(source.photos)
       ? [...source.photos]
@@ -4808,7 +4824,7 @@ async function handleVesselDetail(request, env) {
 
 function createEmptySightingsDocument() {
   return {
-    schema_version: 1,
+    schema_version: 2,
     updated_at: "",
     sightings: []
   };
@@ -4820,7 +4836,7 @@ function normalizeSightingsDocument(document) {
       ? document
       : createEmptySightingsDocument();
 
-  normalized.schema_version = 1;
+  normalized.schema_version = 2;
   normalized.updated_at =
     typeof normalized.updated_at === "string"
       ? normalized.updated_at
@@ -4976,6 +4992,15 @@ function buildSightingRecord({ submission, submissionPath }) {
       submission.movement ?? "unknown"
     ),
     movement: String(submission.movement ?? "unknown"),
+    alongside_position:
+      new Set(["matched", "unlisted"]).has(
+        String(submission?.berth?.status ?? "").trim()
+      )
+        ? normalizeAlongsidePosition(
+            submission.alongside_position,
+            submission.movement ?? "unknown"
+          )
+        : null,
     direction: String(submission.direction ?? "unknown"),
     notes: String(submission.notes ?? ""),
     observer_lat: observerLat,
@@ -5068,6 +5093,15 @@ function normalizeIndexedSightingForOutput(
     location: outputLocation,
     berth: normalizedBerth,
     movement: String(record?.movement ?? "unknown"),
+    alongside_position:
+      new Set(["matched", "unlisted"]).has(
+        String(normalizedBerth?.status ?? "").trim()
+      )
+        ? normalizeAlongsidePosition(
+            record?.alongside_position,
+            record?.movement ?? "unknown"
+          )
+        : null,
     direction: String(record?.direction ?? "unknown"),
     notes: String(record?.notes ?? ""),
     review_decision: String(record?.review_decision ?? ""),
@@ -11838,6 +11872,7 @@ async function handleSubmissionReview(request, env) {
     const sightingsCommitFile = createSightingsCommitFile(
       updatedSightingsDocument
     );
+    let mapIndexCommitFiles = [];
 
     if (
       review.decision !==
@@ -11857,6 +11892,34 @@ async function handleSubmissionReview(request, env) {
             "konnte nicht für den Aktivitätsnachweis geladen werden."
         }, 500);
       }
+
+      const mapIndexResult =
+        await loadPhotoLocationsIndexForUpdate(env);
+
+      if (!mapIndexResult.ok) {
+        return jsonResponse({
+          ok: false,
+          error:
+            mapIndexResult.error ??
+            "Der Kartenindex konnte beim Review nicht aktualisiert werden."
+        }, mapIndexResult.status ?? 502);
+      }
+
+      const updatedMapIndex =
+        upsertReviewedSubmissionInLocationIndex({
+          document: mapIndexResult.document,
+          submission,
+          vesselId: review.vessel_id,
+          vesselName: directPhotoIndexVesselName(
+            vesselResult.vessel,
+            review.vessel_id
+          ),
+          vesselLengthM: vesselResult.vessel?.technical?.length_m,
+          vesselWidthM: vesselResult.vessel?.technical?.width_m
+        });
+
+      mapIndexCommitFiles =
+        createPhotoLocationsCommitFiles(updatedMapIndex);
 
       const activation =
         activateObservedVessel({
@@ -11895,7 +11958,8 @@ async function handleSubmissionReview(request, env) {
                   JSON.stringify(submission, null, 2) + "\n",
                 encoding: "utf-8"
               },
-              sightingsCommitFile
+              sightingsCommitFile,
+              ...mapIndexCommitFiles
             ]
           });
 
@@ -11955,7 +12019,8 @@ async function handleSubmissionReview(request, env) {
           content: JSON.stringify(submission, null, 2) + "\n",
           encoding: "utf-8"
         },
-        sightingsCommitFile
+        sightingsCommitFile,
+        ...mapIndexCommitFiles
       ]
     });
 
@@ -12005,7 +12070,7 @@ function buildSubmission({
       : null;
 
   const submission = {
-    schema_version: 13,
+    schema_version: 14,
     submission_id: submissionId,
     uploaded_at: uploadedAt.toISOString(),
     captured_at: capturedAt.toISOString(),
@@ -12052,6 +12117,15 @@ function buildSubmission({
       input.movement ?? "unknown"
     ),
     movement: input.movement ?? "unknown",
+    alongside_position:
+      new Set(["matched", "unlisted"]).has(
+        String(input.berth?.status ?? "").trim()
+      )
+        ? normalizeAlongsidePosition(
+            input.alongside_position,
+            input.movement ?? "unknown"
+          )
+        : null,
     direction: input.direction ?? "unknown",
     vessel_name_entered: vesselNameEntered,
     notes:
@@ -12491,7 +12565,9 @@ async function autoConfirmMatchedSubmission({
       vesselName: directPhotoIndexVesselName(
         vesselResult.vessel,
         review.vessel_id
-      )
+      ),
+      vesselLengthM: vesselResult.vessel?.technical?.length_m,
+      vesselWidthM: vesselResult.vessel?.technical?.width_m
     });
 
   const mapIndexCommitFiles =
@@ -12625,6 +12701,44 @@ async function autoConfirmMatchedSubmission({
   };
 }
 
+function normalizeAlongsidePosition(value, movement = "unknown") {
+  if (movement !== "moored") return null;
+
+  if (value === null || value === undefined || value === "") {
+    return null;
+  }
+
+  const text = String(value).trim().toLowerCase();
+  if (!text || text === "unknown" || text === "unbekannt" || text === "null") {
+    return null;
+  }
+
+  const number = Number(text.replace(",", "."));
+  return Number.isInteger(number) && number >= 1 && number <= 3
+    ? number
+    : null;
+}
+
+function validateAlongsidePositionInput(value, movement = "unknown") {
+  if (value === null || value === undefined || value === "") return null;
+
+  const text = String(value).trim().toLowerCase();
+  if (!text || text === "unknown" || text === "unbekannt" || text === "null") {
+    return null;
+  }
+
+  if (movement !== "moored") {
+    return "alongside_position ist nur bei angelegten Sichtungen zulässig.";
+  }
+
+  const number = Number(text.replace(",", "."));
+  if (!Number.isInteger(number) || number < 1 || number > 3) {
+    return "alongside_position muss 1, 2, 3 oder unbekannt sein.";
+  }
+
+  return null;
+}
+
 function validateMetadata(input) {
   if (!input || typeof input !== "object") {
     return "Die Metadaten fehlen.";
@@ -12674,6 +12788,16 @@ function validateMetadata(input) {
 
   if (!allowedMovements.includes(movement)) {
     return "movement ist ungültig.";
+  }
+
+  const alongsidePositionError =
+    validateAlongsidePositionInput(
+      input.alongside_position,
+      movement
+    );
+
+  if (alongsidePositionError) {
+    return alongsidePositionError;
   }
 
   const allowedDirections = [
@@ -13169,6 +13293,30 @@ async function handleSubmissionBerthUpdate(request, env) {
     submission?.movement ?? "unknown"
   ).trim() || "unknown";
 
+  const alongsidePositionError =
+    validateAlongsidePositionInput(
+      input?.alongside_position,
+      movement
+    );
+
+  if (alongsidePositionError) {
+    return jsonResponse({
+      ok: false,
+      error: alongsidePositionError
+    }, 400);
+  }
+
+  let requestedAlongsidePosition =
+    input?.alongside_position === undefined
+      ? normalizeAlongsidePosition(
+          submission?.alongside_position,
+          movement
+        )
+      : normalizeAlongsidePosition(
+          input?.alongside_position,
+          movement
+        );
+
   if (
     movement === "moving" &&
     berthStatus !== "not_applicable"
@@ -13217,32 +13365,61 @@ async function handleSubmissionBerthUpdate(request, env) {
     berthResult.berth,
     movement
   );
-
   if (
-    JSON.stringify(previousBerth) ===
-    JSON.stringify(newBerth)
+    !new Set(["matched", "unlisted"]).has(
+      String(newBerth?.status ?? "").trim()
+    )
   ) {
+    requestedAlongsidePosition = null;
+  }
+  const previousAlongsidePosition = normalizeAlongsidePosition(
+    submission?.alongside_position,
+    movement
+  );
+  const berthChanged =
+    JSON.stringify(previousBerth) !==
+    JSON.stringify(newBerth);
+  const alongsidePositionChanged =
+    previousAlongsidePosition !== requestedAlongsidePosition;
+
+  if (!berthChanged && !alongsidePositionChanged) {
     return jsonResponse({
       ok: true,
       changed: false,
       submission_id: submissionId,
-      berth: newBerth
+      berth: newBerth,
+      alongside_position: requestedAlongsidePosition
     });
   }
 
   const changedAt = new Date().toISOString();
 
-  if (!Array.isArray(submission.berth_history)) {
-    submission.berth_history = [];
+  if (berthChanged) {
+    if (!Array.isArray(submission.berth_history)) {
+      submission.berth_history = [];
+    }
+
+    submission.berth_history.push({
+      changed_at: changedAt,
+      previous: previousBerth,
+      current: newBerth
+    });
   }
 
-  submission.berth_history.push({
-    changed_at: changedAt,
-    previous: previousBerth,
-    current: newBerth
-  });
+  if (alongsidePositionChanged) {
+    if (!Array.isArray(submission.alongside_position_history)) {
+      submission.alongside_position_history = [];
+    }
+
+    submission.alongside_position_history.push({
+      changed_at: changedAt,
+      previous: previousAlongsidePosition,
+      current: requestedAlongsidePosition
+    });
+  }
 
   submission.berth = newBerth;
+  submission.alongside_position = requestedAlongsidePosition;
   submission.updated_at = changedAt;
 
   const commitFiles = [
@@ -13287,10 +13464,45 @@ async function handleSubmissionBerthUpdate(request, env) {
     );
   }
 
+  if (
+    submission?.workflow?.status === "reviewed" &&
+    VESSEL_ID_PATTERN.test(
+      String(
+        submission?.workflow?.review?.vessel_id ?? ""
+      ).trim()
+    )
+  ) {
+    const reviewedVesselId = String(
+      submission.workflow.review.vessel_id
+    ).trim();
+    const [mapIndexResult, vesselResult] = await Promise.all([
+      loadPhotoLocationsIndexForUpdate(env),
+      loadCanonicalVessel(env, reviewedVesselId)
+    ]);
+
+    if (mapIndexResult.ok && vesselResult.ok) {
+      const updatedMapIndex =
+        upsertReviewedSubmissionInLocationIndex({
+          document: mapIndexResult.document,
+          submission,
+          vesselId: reviewedVesselId,
+          vesselName: directPhotoIndexVesselName(
+            vesselResult.vessel,
+            reviewedVesselId
+          ),
+          vesselLengthM: vesselResult.vessel?.technical?.length_m,
+          vesselWidthM: vesselResult.vessel?.technical?.width_m
+        });
+      commitFiles.push(
+        ...createPhotoLocationsCommitFiles(updatedMapIndex)
+      );
+    }
+  }
+
   const commitResult =
     await createAtomicGitHubCommit({
       env,
-      message: "Anlegestelle korrigiert",
+      message: "Anlegestelle und Liegeposition korrigiert",
       files: commitFiles
     });
 
@@ -13310,6 +13522,7 @@ async function handleSubmissionBerthUpdate(request, env) {
     changed: true,
     submission_id: submissionId,
     berth: newBerth,
+    alongside_position: requestedAlongsidePosition,
     changed_at: changedAt,
     commit_sha: commitResult.commitSha ?? ""
   });
