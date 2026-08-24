@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_map.js
- * Version: 0.15.1
+ * Version: 0.15.4
  * Updated: 2026-08-24
  *
  * Gemeinsame Kartenlogik für Standortseite und Foto-Kartenoverlay.
@@ -446,7 +446,15 @@
 
     dx /= length;
     dy /= length;
-    return { ux: dx, uy: dy, nx: -dy, ny: dx };
+    return {
+      ux: dx,
+      uy: dy,
+      nx: -dy,
+      ny: dx,
+      axisDirection: String(
+        entry?.mooringEdge?.properties?.axis_direction || ""
+      ).trim()
+    };
   }
 
   function vesselBerthFootprintCoordinates(
@@ -501,17 +509,37 @@
     const halfLength = vesselLengthM / (2 * metersPerPixel);
     const halfWidth = vesselWidthM / (2 * metersPerPixel);
 
-    // Symmetrischer, leicht zugespitzter Schiffskörper. Die Längsachse
-    // folgt der Liegekante; Bug/Heck werden absichtlich nicht behauptet,
-    // weil die Richtung der GeoJSON-Linie keine nautische Richtung trägt.
-    const localPoints = [
-      [-halfLength * 0.50, 0],
-      [-halfLength * 0.43, -halfWidth],
-      [ halfLength * 0.43, -halfWidth],
-      [ halfLength * 0.50, 0],
-      [ halfLength * 0.43,  halfWidth],
-      [-halfLength * 0.43,  halfWidth]
-    ];
+    const direction = String(record?.direction || "").trim().toLowerCase();
+    const axisDirection = String(axis.axisDirection || "").trim().toLowerCase();
+    let bowSign = 0;
+
+    if (axisDirection === "downstream_to_upstream") {
+      if (direction === "upstream") bowSign = 1;
+      if (direction === "downstream") bowSign = -1;
+    } else if (axisDirection === "upstream_to_downstream") {
+      if (direction === "upstream") bowSign = -1;
+      if (direction === "downstream") bowSign = 1;
+    }
+
+    // Bei bekannter Richtung: flaches Heck und zugespitzter Bug.
+    // Bei unbekannter Richtung bleibt die bisherige neutrale, symmetrische
+    // Form erhalten, damit keine nautische Ausrichtung erfunden wird.
+    const localPoints = bowSign
+      ? [
+          [-halfLength * 0.48 * bowSign, -halfWidth],
+          [ halfLength * 0.34 * bowSign, -halfWidth],
+          [ halfLength * 0.50 * bowSign, 0],
+          [ halfLength * 0.34 * bowSign,  halfWidth],
+          [-halfLength * 0.48 * bowSign,  halfWidth]
+        ]
+      : [
+          [-halfLength * 0.50, 0],
+          [-halfLength * 0.43, -halfWidth],
+          [ halfLength * 0.43, -halfWidth],
+          [ halfLength * 0.50, 0],
+          [ halfLength * 0.43,  halfWidth],
+          [-halfLength * 0.43,  halfWidth]
+        ];
 
     return localPoints.map(([along, across]) => {
       const point = L.point(
@@ -800,15 +828,100 @@
     return false;
   }
 
+  function pointToSegmentDistanceMeters(
+    longitude,
+    latitude,
+    startLongitude,
+    startLatitude,
+    endLongitude,
+    endLatitude
+  ) {
+    const values = [
+      longitude, latitude,
+      startLongitude, startLatitude,
+      endLongitude, endLatitude
+    ].map(Number);
+    if (!values.every(Number.isFinite)) return Number.POSITIVE_INFINITY;
+
+    const latitudeRadians = latitude * Math.PI / 180;
+    const metersPerDegreeLongitude = 111320 * Math.cos(latitudeRadians);
+    const metersPerDegreeLatitude = 110540;
+    const startX = (startLongitude - longitude) * metersPerDegreeLongitude;
+    const startY = (startLatitude - latitude) * metersPerDegreeLatitude;
+    const endX = (endLongitude - longitude) * metersPerDegreeLongitude;
+    const endY = (endLatitude - latitude) * metersPerDegreeLatitude;
+    const dx = endX - startX;
+    const dy = endY - startY;
+    const squaredLength = dx * dx + dy * dy;
+    if (!(squaredLength > 0)) return Math.hypot(startX, startY);
+    const ratio = Math.max(
+      0,
+      Math.min(1, -(startX * dx + startY * dy) / squaredLength)
+    );
+    return Math.hypot(startX + ratio * dx, startY + ratio * dy);
+  }
+
+  function pointToRingDistanceMeters(longitude, latitude, ring) {
+    if (!Array.isArray(ring) || ring.length < 2) {
+      return Number.POSITIVE_INFINITY;
+    }
+    let best = Number.POSITIVE_INFINITY;
+    for (let index = 0; index < ring.length; index += 1) {
+      const start = ring[index];
+      const end = ring[(index + 1) % ring.length];
+      if (!Array.isArray(start) || !Array.isArray(end)) continue;
+      best = Math.min(
+        best,
+        pointToSegmentDistanceMeters(
+          longitude, latitude,
+          start[0], start[1], end[0], end[1]
+        )
+      );
+    }
+    return best;
+  }
+
+  function pointToFeatureDistanceMeters(longitude, latitude, feature) {
+    if (pointInFeature(longitude, latitude, feature)) return 0;
+    const geometry = feature?.geometry;
+    const polygons = geometry?.type === "Polygon"
+      ? [geometry.coordinates]
+      : geometry?.type === "MultiPolygon"
+        ? geometry.coordinates
+        : [];
+    let best = Number.POSITIVE_INFINITY;
+    for (const polygon of Array.isArray(polygons) ? polygons : []) {
+      best = Math.min(
+        best,
+        pointToRingDistanceMeters(longitude, latitude, polygon?.[0])
+      );
+    }
+    return best;
+  }
+
   function matchingAreas(features, latitude, longitude) {
     return (Array.isArray(features) ? features : [])
-      .filter(feature =>
-        pointInFeature(longitude, latitude, feature)
-      )
-      .sort((left, right) =>
-        Number(right?.properties?.priority ?? 0) -
-        Number(left?.properties?.priority ?? 0)
-      );
+      .map(feature => {
+        const exact = pointInFeature(longitude, latitude, feature);
+        const toleranceM = Math.max(
+          0,
+          Number(feature?.properties?.match_tolerance_m ?? 0) || 0
+        );
+        const distanceM = exact
+          ? 0
+          : toleranceM > 0
+            ? pointToFeatureDistanceMeters(longitude, latitude, feature)
+            : Number.POSITIVE_INFINITY;
+        return { feature, exact, distanceM, toleranceM };
+      })
+      .filter(item => item.exact || item.distanceM <= item.toleranceM)
+      .sort((left, right) => {
+        const priorityDifference =
+          Number(right.feature?.properties?.priority ?? 0) -
+          Number(left.feature?.properties?.priority ?? 0);
+        return priorityDifference || left.distanceM - right.distanceM;
+      })
+      .map(item => item.feature);
   }
 
   function areaName(feature) {

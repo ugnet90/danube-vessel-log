@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.15.3
+// Version: 0.15.4
 // Updated: 2026-08-24
 
 "use strict";
@@ -980,6 +980,7 @@ document.addEventListener("DOMContentLoaded", () => {
               photoMap,
               {
                 alongside_position: sighting?.alongside_position ?? null,
+                direction: sighting?.direction || "",
                 vessel_width_m: currentVessel?.technical?.width_m ?? null,
                 vessel_length_m: currentVessel?.technical?.length_m ?? null
               },
