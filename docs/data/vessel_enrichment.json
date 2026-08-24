@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-24T14:30:46.907260Z",
+  "generated_at": "2026-08-24T14:44:21.767983Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -36,9 +36,9 @@
     "vessels_incomplete": 31,
     "vessels_complete": 0,
     "candidate_matches": 0,
-    "matched_no_new_data": 17,
+    "matched_no_new_data": 16,
     "low_confidence": 0,
-    "no_match": 14,
+    "no_match": 15,
     "lookup_errors": 0,
     "suggestions_total": 0
   },
@@ -1482,7 +1482,7 @@
     },
     {
       "vessel_id": "VES-000131",
-      "name": "Lisabelle",
+      "name": "Lisabelle A",
       "environment": "production",
       "json_path": "data/vessels/VES-000131.json",
       "missing_fields": [
@@ -1501,14 +1501,6 @@
         {
           "field": "technical.shipyard",
           "label": "Werft"
-        },
-        {
-          "field": "technical.length_m",
-          "label": "Länge"
-        },
-        {
-          "field": "technical.width_m",
-          "label": "Breite"
         },
         {
           "field": "technical.draft_m",
@@ -1539,10 +1531,10 @@
           "label": "Heimathafen"
         }
       ],
-      "missing_count": 13,
+      "missing_count": 11,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
+        "status": "no_match",
         "error": "",
         "warnings": [],
         "accepted_qid": "",
