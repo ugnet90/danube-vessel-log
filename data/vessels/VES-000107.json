@@ -91,8 +91,8 @@
     }
   },
   "media": {
-    "primary_photo_id": "PHOTO-B974FFA0782C480585E3B7459A62F997",
-    "primary_submission_id": "SUB-20260727-104146-96C97B",
+    "primary_photo_id": "",
+    "primary_submission_id": "",
     "primary_photo_updated_at": "2026-07-27T10:43:18.712Z"
   },
   "notes": "",
@@ -100,8 +100,8 @@
     "environment": "production",
     "created_at": "2026-07-27T10:42:47.677Z",
     "created_from_submission_id": "SUB-20260727-104146-96C97B",
-    "updated_at": "2026-07-27T11:37:21.568Z",
-    "updated_by": "vessel-enrichment",
+    "updated_at": "2026-08-24T13:42:46.294Z",
+    "updated_by": "web-ui-sighting-delete",
     "created_from_candidate_id": "CAN-0705978DBD47",
     "candidate_source_revision_id": "268617530",
     "change_history": [
@@ -147,6 +147,27 @@
             "field": "enrichment.wikidata.accepted_qid",
             "old_value": "",
             "new_value": "Q15260465"
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-08-24T13:42:46.294Z",
+        "changed_by": "web-ui-sighting-delete",
+        "summary": "Sichtung SUB-20260727-104146-96C97B gelöscht; kein Ersatz-Hauptfoto vorhanden.",
+        "changed_fields": [
+          "media.primary_photo_id",
+          "media.primary_submission_id"
+        ],
+        "changes": [
+          {
+            "field": "media.primary_photo_id",
+            "old_value": "PHOTO-B974FFA0782C480585E3B7459A62F997",
+            "new_value": ""
+          },
+          {
+            "field": "media.primary_submission_id",
+            "old_value": "SUB-20260727-104146-96C97B",
+            "new_value": ""
           }
         ]
       }

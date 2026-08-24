@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "updated_at": "2026-08-24T13:31:19.661Z",
+  "updated_at": "2026-08-24T13:42:46.294Z",
   "sightings": [
     {
       "submission_id": "SUB-20260824-055134-FF7351",
@@ -3500,91 +3500,6 @@
         }
       ],
       "updated_at": "2026-07-27T14:25:35.847Z",
-      "photo_count": 3
-    },
-    {
-      "submission_id": "SUB-20260727-104146-96C97B",
-      "submission_path": "inbox/submissions/2026/07/SUB-20260727-104146-96C97B.json",
-      "vessel_id": "VES-000107",
-      "captured_at": "2026-07-27T10:41:31.000Z",
-      "uploaded_at": "2026-07-27T10:41:46.905Z",
-      "reviewed_at": "2026-07-27T10:42:47.677Z",
-      "vessel_name_entered": "A-rosa Flora",
-      "location": {
-        "status": "matched",
-        "matched_by": "location_id",
-        "id": "LOC-001",
-        "area_id": "",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
-        "distance_m": null
-      },
-      "berth": {},
-      "movement": "unknown",
-      "alongside_position": null,
-      "direction": "unknown",
-      "notes": "",
-      "observer_lat": null,
-      "observer_lon": null,
-      "photo_lat": null,
-      "photo_lon": null,
-      "review_decision": "created",
-      "review_notes": "",
-      "photos": [
-        {
-          "photo_id": "PHOTO-58F820EC53584F40B73019CD71AC5245",
-          "path": "inbox/photos/2026/07/PHOTO-58F820EC53584F40B73019CD71AC5245.jpg",
-          "filename": "PHOTO-58F820EC53584F40B73019CD71AC5245.jpg",
-          "original_filename": "shortcut-photo-01.jpg",
-          "mime_type": "image/jpeg",
-          "size_bytes": 470301,
-          "sequence": 1,
-          "captured_at": "",
-          "added_at": "",
-          "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
-        },
-        {
-          "photo_id": "PHOTO-00D04B6AF31F485DB90F7DED4FD0A479",
-          "path": "inbox/photos/2026/07/PHOTO-00D04B6AF31F485DB90F7DED4FD0A479.jpg",
-          "filename": "PHOTO-00D04B6AF31F485DB90F7DED4FD0A479.jpg",
-          "original_filename": "shortcut-photo-02.jpg",
-          "mime_type": "image/jpeg",
-          "size_bytes": 411646,
-          "sequence": 2,
-          "captured_at": "",
-          "added_at": "",
-          "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
-        },
-        {
-          "photo_id": "PHOTO-B974FFA0782C480585E3B7459A62F997",
-          "path": "inbox/photos/2026/07/PHOTO-B974FFA0782C480585E3B7459A62F997.jpg",
-          "filename": "PHOTO-B974FFA0782C480585E3B7459A62F997.jpg",
-          "original_filename": "shortcut-photo-03.jpg",
-          "mime_type": "image/jpeg",
-          "size_bytes": 505142,
-          "sequence": 3,
-          "captured_at": "",
-          "added_at": "",
-          "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
-        }
-      ],
-      "updated_at": "2026-07-27T10:42:47.677Z",
       "photo_count": 3
     },
     {

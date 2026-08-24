@@ -1264,7 +1264,7 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 46,
+  "sighting_count": 45,
   "sightings": [
     {
       "submission_id": "SUB-20260824-055134-FF7351",
@@ -2289,29 +2289,6 @@
       "alongside_position": null,
       "vessel_length_m": 135,
       "vessel_width_m": 11.45,
-      "direction": "unknown",
-      "photo_count": 3
-    },
-    {
-      "submission_id": "SUB-20260727-104146-96C97B",
-      "vessel_id": "VES-000107",
-      "vessel_name": "A-Rosa Flora",
-      "captured_at": "2026-07-27T10:41:31.000Z",
-      "location": {
-        "status": "matched",
-        "matched_by": "location_id",
-        "id": "LOC-001",
-        "area_id": "",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
-        "distance_m": null
-      },
-      "berth": null,
-      "movement": "unknown",
-      "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 11.4,
       "direction": "unknown",
       "photo_count": 3
     },
