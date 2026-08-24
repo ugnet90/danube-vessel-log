@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.3**  
+Aktuelle Version: **0.15.4**  
 Stand: **24.08.2026**
 
 ## 1. Projektzweck
@@ -2919,3 +2919,20 @@ Die Änderung an `cloudflare/worker.js` erfordert ein **Cloudflare-Worker-Deploy
 - `docs/js/vessels.js`: Version `0.15.2`; Darstellung und numerische Sortierung der Zählwerte.
 - `docs/css/vessels.css`: Version `0.15.2`; kompakte numerische Spalten.
 - `README.md`: Projektstand `0.15.2`.
+
+
+## 0.15.4 – GPS-Toleranz und Schiffskontur
+
+Stand: 24.08.2026
+
+- Der Aufnahmebereich **Nibelungenbrücke** verwendet wieder die bereits fachlich vorgesehene GPS-Toleranz von **7 m**. Die Toleranz ist als `match_tolerance_m` direkt im kanonischen `data/location_areas.geojson` hinterlegt und wird identisch vom Worker, vom Rebuild-Werkzeug und von der Browser-Kartenlogik ausgewertet.
+- Ein GPS-Punkt knapp außerhalb der gezeichneten Brückenkante kann dadurch weiterhin korrekt als `Nibelungenbrücke, Linz` erkannt werden. Andere Aufnahmebereiche erhalten dadurch keine pauschale Toleranz. Prioritäten gelten weiterhin; die Brücke bleibt bei Priorität 100.
+- `distance_m` dokumentiert bei einem Toleranztreffer den Abstand zur Polygonkante; exakte Polygontreffer bleiben bei `null`.
+- Die sechs Liegekanten tragen nun explizit `axis_direction: downstream_to_upstream`. Bei bekannter Sichtungsrichtung kann die schematische Schiffskontur deshalb **Bug und Heck unterscheiden**: Bug zugespitzt, Heck flach. Bei unbekannter Richtung bleibt die Kontur bewusst symmetrisch.
+- Der Hinweis „noch kein gemessenes Schiff-GPS“ bedeutet weiterhin: Der Schiffskörper auf der Karte wird aus Liegekante, Liegeposition und Schiffsmaßen geometrisch abgeleitet. Das iPhone-GPS beschreibt den Aufnahmeort der Person/Kamera, nicht die tatsächliche GPS-Position des Schiffs.
+
+### Einspielen / Migration
+
+- Cloudflare Worker neu deployen.
+- Danach **Rebuild location matches** einmal ausführen, damit bereits gespeicherte Sichtungen/Fotos im Toleranzbereich – insbesondere der aktuelle Grenzfall an der Nibelungenbrücke – neu zugeordnet werden.
+- Der automatische `Sync public data` spiegelt `data/location_areas.geojson` und `data/berth_geometries.geojson` nach `docs/data/`; die öffentlichen Spiegel werden nicht manuell gepflegt.
