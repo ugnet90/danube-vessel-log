@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "updated_at": "2026-08-24T05:09:14.000Z",
-  "count": 36,
+  "count": 38,
   "photos": [
     {
       "photo_id": "PHOTO-438E98733CAF4ADA80952B59B27F7F22",
@@ -1190,9 +1190,81 @@
         "submission_id": "SUB-20260728-062433-033817"
       },
       "path": "inbox/photos/2026/07/PHOTO-D07368FFCCEC41C98E6A076716B1FAAA.jpg"
+    },
+    {
+      "photo_id": "PHOTO-C84128D06F564AE09A4AFBC011807590",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260824-125448-AF49A0",
+      "vessel_id": "VES-000104",
+      "vessel_name": "TUI Isla",
+      "captured_at": "2026-07-23T14:16:09.000Z",
+      "photo_lat": 48.3078,
+      "photo_lon": 14.2854,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260824-125448-AF49A0"
+      },
+      "path": "inbox/photos/2026/07/PHOTO-C84128D06F564AE09A4AFBC011807590.jpg"
+    },
+    {
+      "photo_id": "PHOTO-79CA7784CDC2474C9803DA75C3039AAE",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260824-125448-AF49A0",
+      "vessel_id": "VES-000104",
+      "vessel_name": "TUI Isla",
+      "captured_at": "2026-07-23T14:16:06.000Z",
+      "photo_lat": 48.30780833333333,
+      "photo_lon": 14.28539666666667,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260824-125448-AF49A0"
+      },
+      "path": "inbox/photos/2026/07/PHOTO-79CA7784CDC2474C9803DA75C3039AAE.jpg"
     }
   ],
-  "sighting_count": 45,
+  "sighting_count": 46,
   "sightings": [
     {
       "submission_id": "SUB-20260824-055134-FF7351",
@@ -2265,6 +2337,35 @@
       "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260824-125448-AF49A0",
+      "vessel_id": "VES-000104",
+      "vessel_name": "TUI Isla",
+      "captured_at": "2026-07-23T14:16:06.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 2
     },
     {
       "submission_id": "SUB-20260723-071316-8E68BF",
