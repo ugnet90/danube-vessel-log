@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.2**  
+Aktuelle Version: **0.15.3**  
 Stand: **24.08.2026**
 
 ## 1. Projektzweck
@@ -24,6 +24,10 @@ Wesentliche Komponenten:
 - **GitHub Actions** für abgeleitete Daten und Hilfsprozesse
 
 Der Worker erzeugt Änderungen möglichst atomar in einem gemeinsamen Git-Commit, damit zusammengehörige JSON-Daten, Fotos und Indizes nicht auseinanderlaufen.
+
+### 2.1 Einzelne Sichtungen löschen
+
+Auf der Schiffsdetailseite kann eine einzelne bestätigte Sichtung gezielt gelöscht werden, ohne andere Sichtungen des Schiffs zu verändern. Dabei werden die ursprünglichen Fotos dieser Sichtung mit gelöscht. Nachträglich ergänzte Schiffsfotos bleiben erhalten und werden automatisch vom Sichtungsbezug auf den allgemeinen Schiffsbezug zurückgesetzt. `data/sightings.json` sowie der Kartenindex `data/photo_locations.json` / `docs/data/photo_locations.json` werden im selben Commit aktualisiert. War eines der gelöschten Fotos das Hauptfoto, wird automatisch ein verbleibendes Foto als Ersatz gewählt.
 
 ## 3. Kanonische Schiffsdaten
 
