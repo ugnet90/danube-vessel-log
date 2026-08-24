@@ -1,8 +1,8 @@
 <!--
   Danube Vessel Log
   File: docs/submissions.html
-  Version: 0.14.45
-  Updated: 2026-08-23
+  Version: 0.15.0
+  Updated: 2026-08-24
 -->
 
 <!DOCTYPE html>
@@ -88,6 +88,7 @@
                   </dd>
                 </div>
                 <div><dt>Bewegung</dt><dd id="movementText"></dd></div>
+                <div><dt>Liegeposition</dt><dd id="alongsidePositionText"></dd></div>
                 <div><dt>Richtung</dt><dd id="directionText"></dd></div>
                 <div><dt>Eingabe</dt><dd id="enteredName"></dd></div>
               </dl>
@@ -107,8 +108,8 @@
           <section id="berthCorrectionPanel" class="berth-correction-panel hidden">
             <div class="berth-correction-heading">
               <div>
-                <h3>Anlegestelle korrigieren</h3>
-                <p>Die Änderung betrifft diese Sichtung und wird mit altem und neuem Wert protokolliert.</p>
+                <h3>Anlegestelle und Liegeposition korrigieren</h3>
+                <p>Anlegestelle und Liegeposition gelten nur für diese Sichtung; Änderungen werden mit altem und neuem Wert protokolliert.</p>
               </div>
               <button id="cancelBerthCorrectionButton" class="secondary-button" type="button">Abbrechen</button>
             </div>
@@ -121,8 +122,17 @@
                 <label for="berthCorrectionUnlistedText">Nicht gelistete Anlegestelle</label>
                 <input id="berthCorrectionUnlistedText" type="text" maxlength="150" autocomplete="off">
               </div>
+              <div class="form-field">
+                <label for="berthCorrectionAlongsidePosition">Liegeposition</label>
+                <select id="berthCorrectionAlongsidePosition">
+                  <option value="">Unbekannt</option>
+                  <option value="1">1 – direkt am Anleger</option>
+                  <option value="2">2 – zweite Reihe</option>
+                  <option value="3">3 – dritte Reihe</option>
+                </select>
+              </div>
               <div class="berth-correction-actions">
-                <button id="saveBerthCorrectionButton" class="primary-button" type="button">Anlegestelle speichern</button>
+                <button id="saveBerthCorrectionButton" class="primary-button" type="button">Anlegestelle und Liegeposition speichern</button>
               </div>
             </div>
             <div id="berthCorrectionResult" class="review-result hidden" aria-live="polite"></div>
