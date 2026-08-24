@@ -1,0 +1,122 @@
+{
+  "schema_version": 14,
+  "submission_id": "SUB-20260824-125448-AF49A0",
+  "uploaded_at": "2026-08-24T12:54:48.870Z",
+  "captured_at": "2026-07-23T14:16:06.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000002",
+    "name": "Schiffsanlegestelle Linz-Nibelungen",
+    "short_name": "Linz-Nibelungen Nr. 12",
+    "station_number": "12",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "upstream",
+    "river_km": 2135.1955,
+    "river_km_text": "2135,2-4,5 m",
+    "facility_type": "Gitterkahn",
+    "mooring_order": "max. Breite 30 m",
+    "entry_count": 4,
+    "entry_height": "0,85 m, 1,50 m oder 2,10 m",
+    "latitude": 48.3071005,
+    "longitude": 14.284248,
+    "address": "Obere Donaulände, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 2,
+  "direction": "upstream",
+  "vessel_name_entered": "TUI Isla",
+  "notes": "",
+  "observer_lat": 48.30780833333333,
+  "observer_lon": 14.28539666666667,
+  "photos": [
+    {
+      "photo_id": "PHOTO-79CA7784CDC2474C9803DA75C3039AAE",
+      "path": "inbox/photos/2026/07/PHOTO-79CA7784CDC2474C9803DA75C3039AAE.jpg",
+      "filename": "PHOTO-79CA7784CDC2474C9803DA75C3039AAE.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 511366,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-07-23T14:16:06.000Z",
+      "photo_lat": 48.30780833333333,
+      "photo_lon": 14.28539666666667,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-C84128D06F564AE09A4AFBC011807590",
+      "path": "inbox/photos/2026/07/PHOTO-C84128D06F564AE09A4AFBC011807590.jpg",
+      "filename": "PHOTO-C84128D06F564AE09A4AFBC011807590.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 377947,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-07-23T14:16:09.000Z",
+      "photo_lat": 48.3078,
+      "photo_lon": 14.2854,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000104",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000104"
+        ],
+        "matched_value": "TUI Isla",
+        "normalized_input": "tuiisla"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30780833333333,
+  "photo_lon": 14.28539666666667
+}
