@@ -1,0 +1,65 @@
+# Danube Vessel Log
+# File: .github/workflows/sync_public_data.yml
+# Version: 0.14.52
+# Updated: 2026-08-24
+
+name: Sync public data
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "data/location_areas.geojson"
+      - "data/photo_locations.json"
+      - "data/berth_geometries.geojson"
+      - "tools/sync_public_data.py"
+      - ".github/workflows/sync_public_data.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-public-data
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository laden
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Öffentliche Datenspiegel synchronisieren
+        run: python tools/sync_public_data.py --apply
+
+      - name: Änderungen speichern
+        shell: bash
+        run: |
+          if git diff --quiet -- \
+            docs/data/location_areas.geojson \
+            docs/data/photo_locations.json \
+            docs/data/berth_geometries.geojson; then
+            echo "Öffentliche Datenspiegel sind bereits aktuell."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add \
+            docs/data/location_areas.geojson \
+            docs/data/photo_locations.json \
+            docs/data/berth_geometries.geojson
+
+          git commit -m "Öffentliche Kartendaten synchronisiert"
+          git push
