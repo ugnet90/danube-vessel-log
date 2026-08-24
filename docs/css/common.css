@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/common.css
- * Version: 0.14.48
+ * Version: 0.14.49
  * Updated: 2026-08-23
  */
 
@@ -45,11 +45,13 @@ video {
   max-width: 100%;
 }
 
-/* Leaflet rendert Vektorlayer auf einem intern skalierten Canvas.
- * Ein globales max-width auf canvas verkleinert diesen Zeichenpuffer
- * und lässt Polygone, Linien sowie Spiderfy-Marker falsch oder gar
- * nicht erscheinen. Karten-Canvas daher niemals responsiv skalieren. */
-.leaflet-container canvas {
+/* Leaflet verwaltet Canvas und Kartenkacheln selbst pixelgenau.
+ * Globale Responsive-Regeln dürfen weder den Vektor-Zeichenpuffer
+ * noch die 256-px-Kacheln nachträglich skalieren. Das ist besonders
+ * beim Wechsel zwischen OSM und basemap.at-Orthofoto wichtig. */
+.leaflet-container canvas,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-tile {
   max-width: none !important;
   max-height: none !important;
 }
