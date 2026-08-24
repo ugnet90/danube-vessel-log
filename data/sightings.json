@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "updated_at": "2026-08-24T06:00:22.055Z",
+  "schema_version": 2,
+  "updated_at": "2026-08-24T11:31:56.811389Z",
   "sightings": [
     {
       "submission_id": "SUB-20260824-055134-FF7351",
@@ -14,7 +14,6 @@
         "status": "matched",
         "matched_by": "geo_area",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "",
         "country": "Österreich",
@@ -47,6 +46,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.3079,
@@ -67,20 +67,7 @@
           "captured_at": "2026-08-24T05:09:14.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.3079,
-          "photo_lon": 14.28531666666667,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
-            "name": "Nibelungenbrücke, Linz",
-            "municipality": "",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         }
       ],
       "updated_at": "2026-08-24T05:51:39.619Z"
@@ -97,7 +84,6 @@
         "status": "matched",
         "matched_by": "geo_area",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "",
         "country": "Österreich",
@@ -130,6 +116,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30808333333334,
@@ -150,20 +137,7 @@
           "captured_at": "2026-08-24T05:08:49.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.30808333333334,
-          "photo_lon": 14.28518333333333,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
-            "name": "Nibelungenbrücke, Linz",
-            "municipality": "",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-8DE588D9AD74486B8C3E7017420CCC18",
@@ -176,20 +150,7 @@
           "captured_at": "2026-08-24T05:06:07.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.309495,
-          "photo_lon": 14.28465333333333,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
-            "name": "Urfahraner Donaulände, Linz",
-            "municipality": "",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-C83F2C59D6F14E6C86B529DD2753A30C",
@@ -202,20 +163,7 @@
           "captured_at": "2026-08-24T05:07:42.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.30888,
-          "photo_lon": 14.28458333333333,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
-            "name": "Nibelungenbrücke, Linz",
-            "municipality": "",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         }
       ],
       "updated_at": "2026-08-24T05:58:10.338Z"
@@ -232,7 +180,6 @@
         "status": "matched",
         "matched_by": "geo_area",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "",
         "country": "Österreich",
@@ -265,6 +212,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.309075,
@@ -285,20 +233,7 @@
           "captured_at": "2026-08-24T05:07:20.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.309075,
-          "photo_lon": 14.28444166666667,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
-            "name": "Nibelungenbrücke, Linz",
-            "municipality": "",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-A451631CA5554059A47A290BFF36D77F",
@@ -311,20 +246,7 @@
           "captured_at": "2026-08-24T05:09:13.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.3079,
-          "photo_lon": 14.28531333333333,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
-            "name": "Nibelungenbrücke, Linz",
-            "municipality": "",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         }
       ],
       "updated_at": "2026-08-24T06:00:22.055Z"
@@ -341,7 +263,6 @@
         "status": "matched",
         "matched_by": "geo_area",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "",
         "country": "Österreich",
@@ -374,6 +295,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30739166666667,
@@ -394,20 +316,7 @@
           "captured_at": "2026-08-21T05:08:51.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.30739166666667,
-          "photo_lon": 14.28525,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
-            "name": "Nibelungenbrücke, Linz",
-            "municipality": "",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-7020EE264FF34661AF53E8B2C17BFB78",
@@ -420,20 +329,7 @@
           "captured_at": "2026-08-21T05:09:31.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.30712166666667,
-          "photo_lon": 14.28535333333333,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-            "name": "Obere Donaulände, Linz",
-            "municipality": "",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         }
       ],
       "updated_at": "2026-08-22T13:50:21.492Z"
@@ -450,7 +346,6 @@
         "status": "matched",
         "matched_by": "berth_id",
         "id": "LOC-001",
-        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "",
         "country": "Österreich",
@@ -483,6 +378,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": null,
@@ -503,20 +399,7 @@
           "captured_at": "2026-08-21T05:04:39.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": {
-            "status": "unknown",
-            "matched_by": "",
-            "id": "",
-            "area_id": "",
-            "name": "",
-            "municipality": "",
-            "country": "",
-            "distance_m": null
-          }
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-A345D3EC489D4D3988DB24008A21B89F",
@@ -529,20 +412,7 @@
           "captured_at": "2026-08-21T05:06:11.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.30883833333333,
-          "photo_lon": 14.28418333333333,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
-            "name": "Nibelungenbrücke, Linz",
-            "municipality": "",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-132D1CC0C0564D688A8C66367AD7EDC7",
@@ -555,20 +425,7 @@
           "captured_at": "2026-08-21T05:07:48.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.30811666666666,
-          "photo_lon": 14.28470833333333,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
-            "name": "Nibelungenbrücke, Linz",
-            "municipality": "",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-94C568AB77B3476AAD26A1C2319EAA8B",
@@ -581,20 +438,7 @@
           "captured_at": "2026-08-21T05:08:39.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.307475,
-          "photo_lon": 14.285175,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
-            "name": "Nibelungenbrücke, Linz",
-            "municipality": "",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         }
       ],
       "updated_at": "2026-08-22T14:09:32.532Z"
@@ -611,7 +455,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -644,6 +487,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": null,
@@ -664,20 +508,7 @@
           "captured_at": "2026-08-21T05:04:04.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": {
-            "status": "unknown",
-            "matched_by": "",
-            "id": "",
-            "area_id": "",
-            "name": "",
-            "municipality": "",
-            "country": "",
-            "distance_m": null
-          }
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-35F2DED0531D431EA0B2DC69AE6E7AC5",
@@ -690,24 +521,10 @@
           "captured_at": "2026-08-21T05:06:39.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.30884166666667,
-          "photo_lon": 14.28418833333333,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
-            "name": "Nibelungenbrücke, Linz",
-            "municipality": "Linz",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-21T19:55:28.054Z",
-      "photo_count": 2
+      "updated_at": "2026-08-21T19:55:28.054Z"
     },
     {
       "submission_id": "SUB-20260820-124108-48F869",
@@ -721,7 +538,6 @@
         "status": "matched",
         "matched_by": "geo_area",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
         "name": "Urfahraner Donaulände, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -754,6 +570,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.31090833333333,
@@ -774,20 +591,7 @@
           "captured_at": "2026-08-20T05:08:57.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.31090833333333,
-          "photo_lon": 14.28728666666667,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
-            "name": "Urfahraner Donaulände, Linz",
-            "municipality": "Linz",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         }
       ],
       "updated_at": "2026-08-20T13:22:05.804Z"
@@ -804,7 +608,6 @@
         "status": "matched",
         "matched_by": "geo_area",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
         "name": "Donauufer Alt-Urfahr, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -837,6 +640,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30856333333333,
@@ -857,20 +661,7 @@
           "captured_at": "2026-08-20T05:02:53.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.30856333333333,
-          "photo_lon": 14.282245,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-ALT-URFAHR",
-            "name": "Donauufer Alt-Urfahr, Linz",
-            "municipality": "Linz",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-E42E272EA3E644C283B79FDF4333292D",
@@ -883,24 +674,10 @@
           "captured_at": "2026-08-20T05:13:38.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.30908333333333,
-          "photo_lon": 14.28358,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-ALT-URFAHR",
-            "name": "Donauufer Alt-Urfahr, Linz",
-            "municipality": "Linz",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-20T12:21:23.744Z",
-      "photo_count": 2
+      "updated_at": "2026-08-20T12:21:23.744Z"
     },
     {
       "submission_id": "SUB-20260820-062732-2DAB3E",
@@ -914,7 +691,6 @@
         "status": "matched",
         "matched_by": "geo_area",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
         "name": "Donauufer Alt-Urfahr, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -947,6 +723,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30854666666666,
@@ -967,20 +744,7 @@
           "captured_at": "2026-08-20T05:02:17.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.30854666666666,
-          "photo_lon": 14.28225,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-ALT-URFAHR",
-            "name": "Donauufer Alt-Urfahr, Linz",
-            "municipality": "Linz",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-EC256CCF1A2344B69D7964ACAAD57A78",
@@ -993,20 +757,7 @@
           "captured_at": "2026-08-20T05:14:54.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.30909666666667,
-          "photo_lon": 14.28345333333333,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-ALT-URFAHR",
-            "name": "Donauufer Alt-Urfahr, Linz",
-            "municipality": "Linz",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-BD781E86C2A647F49F78754C115F0ACA",
@@ -1019,24 +770,10 @@
           "captured_at": "2026-08-20T05:22:35.000Z",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.30676666666667,
-          "photo_lon": 14.28395333333333,
-          "location": {
-            "status": "matched",
-            "matched_by": "geo_area",
-            "id": "LOC-001",
-            "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-            "name": "Obere Donaulände, Linz",
-            "municipality": "Linz",
-            "country": "Österreich",
-            "distance_m": null
-          }
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-20T06:31:40.720Z",
-      "photo_count": 3
+      "updated_at": "2026-08-20T06:31:40.720Z"
     },
     {
       "submission_id": "SUB-20260819-052017-A072A4",
@@ -1050,7 +787,6 @@
         "status": "matched",
         "matched_by": "geo_area",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
         "name": "Untere Donaulände, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -1083,6 +819,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30861666666667,
@@ -1103,11 +840,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-A1ABD78BA80648EA88122B5737E9C38D",
@@ -1120,11 +853,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-6123B41C76B945D0A00D19D82187838D",
@@ -1137,11 +866,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-D07AE86BAEB7462FACFA0C5ED193119D",
@@ -1154,11 +879,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-6FD125D5964F4CE1ACA27C7D27EC6542",
@@ -1171,15 +892,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-19T09:43:50.114Z",
-      "photo_count": 5
+      "updated_at": "2026-08-19T09:43:50.114Z"
     },
     {
       "submission_id": "SUB-20260819-050049-BE48BC",
@@ -1193,7 +909,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -1226,6 +941,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.31087186009092,
@@ -1249,7 +965,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -1282,6 +997,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.31085691179854,
@@ -1305,7 +1021,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -1338,6 +1053,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30822635736341,
@@ -1361,7 +1077,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -1394,6 +1109,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.48170310038446,
@@ -1417,7 +1133,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -1450,6 +1165,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.47358894667907,
@@ -1473,7 +1189,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -1506,6 +1221,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.45837219142424,
@@ -1529,7 +1245,6 @@
         "status": "matched",
         "matched_by": "geo_area",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -1562,6 +1277,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.3074,
@@ -1582,15 +1298,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-18T13:12:27.368Z",
-      "photo_count": 1
+      "updated_at": "2026-08-18T13:12:27.368Z"
     },
     {
       "submission_id": "SUB-20260818-101224-8E7288",
@@ -1604,7 +1315,6 @@
         "status": "matched",
         "matched_by": "geo_area",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
         "name": "Donauufer Alt-Urfahr, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -1637,6 +1347,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30918666666667,
@@ -1657,11 +1368,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-89D6E3A9DAB940A3BA31C23CD916F136",
@@ -1674,11 +1381,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-49499A8EE16B44779E0AB0EEEC44CEF8",
@@ -1691,15 +1394,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-18T10:15:20.482Z",
-      "photo_count": 3
+      "updated_at": "2026-08-18T10:15:20.482Z"
     },
     {
       "submission_id": "SUB-20260818-044727-5CB090",
@@ -1713,7 +1411,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -1746,6 +1443,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.34048926019852,
@@ -1766,15 +1464,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-18T04:47:32.395Z",
-      "photo_count": 1
+      "updated_at": "2026-08-18T04:47:32.395Z"
     },
     {
       "submission_id": "SUB-20260817-100752-22C490",
@@ -1788,7 +1481,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -1821,6 +1513,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30371548008782,
@@ -1841,11 +1534,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-A8DF3AC316104831A11FE53D1AE0E5E6",
@@ -1858,15 +1547,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-17T10:07:57.919Z",
-      "photo_count": 2
+      "updated_at": "2026-08-17T10:07:57.919Z"
     },
     {
       "submission_id": "SUB-20260817-081632-0B0183",
@@ -1880,7 +1564,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -1913,6 +1596,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30367358810197,
@@ -1936,7 +1620,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -1969,6 +1652,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.31074823698669,
@@ -1989,15 +1673,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-06T14:47:06.006Z",
-      "photo_count": 1
+      "updated_at": "2026-08-06T14:47:06.006Z"
     },
     {
       "submission_id": "SUB-20260806-142324-38E029",
@@ -2011,7 +1690,6 @@
         "status": "matched",
         "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -2044,6 +1722,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.3102467787512,
@@ -2064,15 +1743,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-18T18:33:24.635Z",
-      "photo_count": 1
+      "updated_at": "2026-08-18T18:33:24.635Z"
     },
     {
       "submission_id": "SUB-20260806-142210-89B147",
@@ -2086,7 +1760,6 @@
         "status": "matched",
         "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -2119,6 +1792,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30987691981817,
@@ -2139,11 +1813,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-F2A7EECE12694C6684DAB29662D52453",
@@ -2156,11 +1826,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-6591382AB29D482FA83A46E89F4B3A73",
@@ -2173,11 +1839,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-0701FF3B3DF546F0B7E1F49571CD3D1E",
@@ -2190,15 +1852,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-06T14:48:11.292Z",
-      "photo_count": 4
+      "updated_at": "2026-08-06T14:48:11.292Z"
     },
     {
       "submission_id": "SUB-20260806-141900-81052D",
@@ -2212,7 +1869,6 @@
         "status": "matched",
         "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -2245,6 +1901,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30994804007978,
@@ -2265,15 +1922,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-06T14:48:32.692Z",
-      "photo_count": 1
+      "updated_at": "2026-08-06T14:48:32.692Z"
     },
     {
       "submission_id": "SUB-20260806-055454-CAA0E9",
@@ -2287,7 +1939,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -2320,6 +1971,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.3036545381275,
@@ -2340,11 +1992,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-057B3D5A9B1047368B1D67ABB1C9ABC3",
@@ -2357,11 +2005,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-7CC25E03CFF94BA5BC2099370DEAD976",
@@ -2374,11 +2018,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-A056BA620A3F4751AEB1A098C6BEC6E0",
@@ -2391,11 +2031,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-607F555D1F4A44C9BDAFB5752BFC0D33",
@@ -2408,15 +2044,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-06T08:55:10.316Z",
-      "photo_count": 5
+      "updated_at": "2026-08-06T08:55:10.316Z"
     },
     {
       "submission_id": "SUB-20260805-115711-2C6744",
@@ -2430,7 +2061,6 @@
         "status": "matched",
         "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -2463,6 +2093,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30998865456132,
@@ -2483,11 +2114,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-FC6B8BCC94554ED5AE01D1718E3F8F33",
@@ -2500,11 +2127,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-A2B6707A10B64BB1BAC51FD0881B1892",
@@ -2517,15 +2140,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-05T12:06:51.337Z",
-      "photo_count": 3
+      "updated_at": "2026-08-05T12:06:51.337Z"
     },
     {
       "submission_id": "SUB-20260805-115353-717599",
@@ -2539,7 +2157,6 @@
         "status": "matched",
         "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -2572,6 +2189,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30992384307327,
@@ -2592,11 +2210,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-E0A55A0E019541F5A8C88431830A6769",
@@ -2609,11 +2223,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-8A54F691D238486E92A6942B61B6E548",
@@ -2626,11 +2236,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-3B2D549A48934033878C0F6F80590BFD",
@@ -2643,11 +2249,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-D24ABCC8401F440788629EA21B8770BC",
@@ -2660,11 +2262,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-51D19CCB5E674A53BE7DBDC7E6B6E61A",
@@ -2677,11 +2275,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-B0ED48FDD5BE4AD289CD8E859D9DBF30",
@@ -2694,15 +2288,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-05T12:09:30.924Z",
-      "photo_count": 7
+      "updated_at": "2026-08-05T12:09:30.924Z"
     },
     {
       "submission_id": "SUB-20260805-115158-1BF055",
@@ -2716,7 +2305,6 @@
         "status": "matched",
         "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -2749,6 +2337,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30982891051138,
@@ -2769,11 +2358,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-6B22411697CD42559168990907AF2947",
@@ -2786,11 +2371,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-BE0F84AF4B9A483EBBB4CD405AD8D319",
@@ -2803,11 +2384,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-00328E112BAC4B7AB9C483090E431B7D",
@@ -2820,11 +2397,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-6CEBB82F593045E7A8EC34C9FEC4D77E",
@@ -2837,11 +2410,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-1BC00DDB4BDA4C679AFB1E49BEB1372D",
@@ -2854,11 +2423,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-2B6E65EDBE124FAB8D34F649A1821E71",
@@ -2871,15 +2436,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-08-05T12:10:25.767Z",
-      "photo_count": 7
+      "updated_at": "2026-08-05T12:10:25.767Z"
     },
     {
       "submission_id": "SUB-20260731-141925-441DC5",
@@ -2893,7 +2453,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -2926,6 +2485,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.5306289532415,
@@ -2946,11 +2506,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-2F3929C23383478F8D3580553B39761B",
@@ -2963,15 +2519,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-31T14:21:15.529Z",
-      "photo_count": 2
+      "updated_at": "2026-07-31T14:21:15.529Z"
     },
     {
       "submission_id": "SUB-20260731-132500-0C1CB7",
@@ -2985,7 +2536,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -3018,6 +2568,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.53065385737199,
@@ -3038,11 +2589,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-14F83EB48031423F986388456429157B",
@@ -3055,15 +2602,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-31T13:26:59.198Z",
-      "photo_count": 2
+      "updated_at": "2026-07-31T13:26:59.198Z"
     },
     {
       "submission_id": "SUB-20260730-144242-B1A40B",
@@ -3077,7 +2619,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -3110,6 +2651,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.38778008480479,
@@ -3130,11 +2672,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-7A5091D623EE4BCEA893BBE539A0C141",
@@ -3147,11 +2685,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-6F897CDF1CEF498F9317B8A0CC2A72D8",
@@ -3164,15 +2698,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-30T16:04:49.763Z",
-      "photo_count": 3
+      "updated_at": "2026-07-30T16:04:49.763Z"
     },
     {
       "submission_id": "SUB-20260730-135420-AE6197",
@@ -3186,7 +2715,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -3219,6 +2747,7 @@
         "source_checked_at": "2026-07-28"
       },
       "movement": "moored",
+      "alongside_position": null,
       "direction": "upstream",
       "notes": "",
       "observer_lat": 48.30362626959541,
@@ -3239,11 +2768,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-687AAC3FD7774A49BAE4667DECF71EDD",
@@ -3256,15 +2781,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-30T17:33:00.999Z",
-      "photo_count": 2
+      "updated_at": "2026-07-30T17:33:00.999Z"
     },
     {
       "submission_id": "SUB-20260728-062433-033817",
@@ -3278,7 +2798,6 @@
         "status": "matched",
         "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -3286,6 +2805,7 @@
       },
       "berth": {},
       "movement": "unknown",
+      "alongside_position": null,
       "direction": "unknown",
       "notes": "",
       "observer_lat": null,
@@ -3306,11 +2826,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-D8DCFB3FB36F476C8EF7782AA7A5B3D5",
@@ -3323,15 +2839,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-28T06:26:41.861Z",
-      "photo_count": 2
+      "updated_at": "2026-07-28T06:26:41.861Z"
     },
     {
       "submission_id": "SUB-20260727-143120-E74E5E",
@@ -3345,7 +2856,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -3353,6 +2863,7 @@
       },
       "berth": {},
       "movement": "unknown",
+      "alongside_position": null,
       "direction": "unknown",
       "notes": "",
       "observer_lat": null,
@@ -3373,15 +2884,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-27T14:34:37.979Z",
-      "photo_count": 1
+      "updated_at": "2026-07-27T14:34:37.979Z"
     },
     {
       "submission_id": "SUB-20260727-142352-5EC9E4",
@@ -3395,7 +2901,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -3403,6 +2908,7 @@
       },
       "berth": {},
       "movement": "unknown",
+      "alongside_position": null,
       "direction": "unknown",
       "notes": "",
       "observer_lat": null,
@@ -3423,11 +2929,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-128DB3F662BE47BB8E47365746B4B79F",
@@ -3440,11 +2942,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-192DA1556CF24E54AD9F858CB69ACB4C",
@@ -3457,15 +2955,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-27T14:25:35.847Z",
-      "photo_count": 3
+      "updated_at": "2026-07-27T14:25:35.847Z"
     },
     {
       "submission_id": "SUB-20260727-104146-96C97B",
@@ -3479,7 +2972,6 @@
         "status": "matched",
         "matched_by": "location_id",
         "id": "LOC-001",
-        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -3487,6 +2979,7 @@
       },
       "berth": {},
       "movement": "unknown",
+      "alongside_position": null,
       "direction": "unknown",
       "notes": "",
       "observer_lat": null,
@@ -3507,11 +3000,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-00D04B6AF31F485DB90F7DED4FD0A479",
@@ -3524,11 +3013,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-B974FFA0782C480585E3B7459A62F997",
@@ -3541,15 +3026,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-27T10:42:47.677Z",
-      "photo_count": 3
+      "updated_at": "2026-07-27T10:42:47.677Z"
     },
     {
       "submission_id": "SUB-20260723-191829-3BB171",
@@ -3563,7 +3043,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -3571,6 +3050,7 @@
       },
       "berth": {},
       "movement": "unknown",
+      "alongside_position": null,
       "direction": "unknown",
       "notes": "",
       "observer_lat": null,
@@ -3591,11 +3071,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-E25AE8CE13D14225B2B7DA28F8A9D12C",
@@ -3608,15 +3084,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-23T19:24:28.438Z",
-      "photo_count": 2
+      "updated_at": "2026-07-23T19:24:28.438Z"
     },
     {
       "submission_id": "SUB-20260723-191503-F07681",
@@ -3630,7 +3101,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -3638,6 +3108,7 @@
       },
       "berth": {},
       "movement": "unknown",
+      "alongside_position": null,
       "direction": "unknown",
       "notes": "",
       "observer_lat": null,
@@ -3658,15 +3129,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-23T19:25:15.489Z",
-      "photo_count": 1
+      "updated_at": "2026-07-23T19:25:15.489Z"
     },
     {
       "submission_id": "SUB-20260723-071316-8E68BF",
@@ -3680,7 +3146,6 @@
         "status": "matched",
         "matched_by": "location_id",
         "id": "LOC-001",
-        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -3688,6 +3153,7 @@
       },
       "berth": {},
       "movement": "unknown",
+      "alongside_position": null,
       "direction": "unknown",
       "notes": "",
       "observer_lat": null,
@@ -3708,11 +3174,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-DBE910096EEF4414803D6B6201948064",
@@ -3725,11 +3187,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-660D1F61A4C4491C97147B4835AEB8A1",
@@ -3742,15 +3200,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-23T07:14:59.689Z",
-      "photo_count": 3
+      "updated_at": "2026-07-23T07:14:59.689Z"
     },
     {
       "submission_id": "SUB-20260721-191622-37FF92",
@@ -3764,7 +3217,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -3772,6 +3224,7 @@
       },
       "berth": {},
       "movement": "unknown",
+      "alongside_position": null,
       "direction": "unknown",
       "notes": "",
       "observer_lat": null,
@@ -3792,11 +3245,7 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         },
         {
           "photo_id": "PHOTO-F532C02BD94C44B5A1C12385673B0B59",
@@ -3809,15 +3258,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-22T13:03:30.818Z",
-      "photo_count": 2
+      "updated_at": "2026-07-22T13:03:30.818Z"
     },
     {
       "submission_id": "SUB-20260721-190751-ADEE95",
@@ -3831,7 +3275,6 @@
         "status": "matched",
         "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -3839,6 +3282,7 @@
       },
       "berth": {},
       "movement": "unknown",
+      "alongside_position": null,
       "direction": "unknown",
       "notes": "",
       "observer_lat": null,
@@ -3859,15 +3303,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-22T13:04:29.876Z",
-      "photo_count": 1
+      "updated_at": "2026-07-22T13:04:29.876Z"
     },
     {
       "submission_id": "SUB-20260721-185103-67FA8D",
@@ -3881,7 +3320,6 @@
         "status": "matched",
         "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -3889,6 +3327,7 @@
       },
       "berth": {},
       "movement": "unknown",
+      "alongside_position": null,
       "direction": "unknown",
       "notes": "",
       "observer_lat": null,
@@ -3909,15 +3348,10 @@
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-23T09:53:22.687Z",
-      "photo_count": 1
+      "updated_at": "2026-07-23T09:53:22.687Z"
     },
     {
       "submission_id": "SUB-20260719-160723-D3BF9E",
@@ -3931,7 +3365,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -3939,6 +3372,7 @@
       },
       "berth": {},
       "movement": "unknown",
+      "alongside_position": null,
       "direction": "unknown",
       "notes": "",
       "observer_lat": null,
@@ -3955,19 +3389,14 @@
           "original_filename": "IMG_1478.jpeg",
           "mime_type": "image/jpeg",
           "size_bytes": 1529341,
-          "sequence": 0,
+          "sequence": 1,
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-23T09:59:11.059Z",
-      "photo_count": 1
+      "updated_at": "2026-07-23T09:59:11.059Z"
     },
     {
       "submission_id": "SUB-20260719-153937-710675",
@@ -3981,7 +3410,6 @@
         "status": "unknown",
         "matched_by": "",
         "id": "",
-        "area_id": "",
         "name": "",
         "municipality": "",
         "country": "",
@@ -3989,6 +3417,7 @@
       },
       "berth": {},
       "movement": "unknown",
+      "alongside_position": null,
       "direction": "unknown",
       "notes": "",
       "observer_lat": null,
@@ -4005,19 +3434,14 @@
           "original_filename": "IMG_1477.jpeg",
           "mime_type": "image/jpeg",
           "size_bytes": 8369943,
-          "sequence": 0,
+          "sequence": 1,
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-23T19:07:26.363Z",
-      "photo_count": 1
+      "updated_at": "2026-07-23T19:07:26.363Z"
     },
     {
       "submission_id": "SUB-20260719-125510-C5F3AB",
@@ -4031,7 +3455,6 @@
         "status": "matched",
         "matched_by": "legacy_parent",
         "id": "LOC-001",
-        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
@@ -4039,6 +3462,7 @@
       },
       "berth": {},
       "movement": "unknown",
+      "alongside_position": null,
       "direction": "unknown",
       "notes": "",
       "observer_lat": null,
@@ -4055,19 +3479,14 @@
           "original_filename": "IMG_1476.jpeg",
           "mime_type": "image/jpeg",
           "size_bytes": 8303540,
-          "sequence": 0,
+          "sequence": 1,
           "captured_at": "",
           "added_at": "",
           "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
+          "notes": ""
         }
       ],
-      "updated_at": "2026-07-26T16:32:15.614Z",
-      "photo_count": 1
+      "updated_at": "2026-07-26T16:32:15.614Z"
     }
   ]
 }
