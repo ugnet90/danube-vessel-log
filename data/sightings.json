@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "updated_at": "2026-08-24T12:54:55.404Z",
+  "updated_at": "2026-08-24T13:17:38.386Z",
   "sightings": [
     {
       "submission_id": "SUB-20260824-055134-FF7351",
@@ -3747,91 +3747,6 @@
         }
       ],
       "updated_at": "2026-08-24T12:54:55.404Z"
-    },
-    {
-      "submission_id": "SUB-20260723-071316-8E68BF",
-      "submission_path": "inbox/submissions/2026/07/SUB-20260723-071316-8E68BF.json",
-      "vessel_id": "VES-000101",
-      "captured_at": "2026-07-23T07:12:59.000Z",
-      "uploaded_at": "2026-07-23T07:13:16.741Z",
-      "reviewed_at": "2026-07-23T07:14:59.689Z",
-      "vessel_name_entered": "Travelmarvel Capella",
-      "location": {
-        "status": "matched",
-        "matched_by": "location_id",
-        "id": "LOC-001",
-        "area_id": "",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "Linz",
-        "country": "Österreich",
-        "distance_m": null
-      },
-      "berth": {},
-      "movement": "unknown",
-      "alongside_position": null,
-      "direction": "unknown",
-      "notes": "",
-      "observer_lat": null,
-      "observer_lon": null,
-      "photo_lat": null,
-      "photo_lon": null,
-      "review_decision": "created",
-      "review_notes": "",
-      "photos": [
-        {
-          "photo_id": "PHOTO-2682F5D98C964BC49CB557D429D6CB47",
-          "path": "inbox/photos/2026/07/PHOTO-2682F5D98C964BC49CB557D429D6CB47.jpg",
-          "filename": "PHOTO-2682F5D98C964BC49CB557D429D6CB47.jpg",
-          "original_filename": "shortcut-photo-01.jpg",
-          "mime_type": "image/jpeg",
-          "size_bytes": 407247,
-          "sequence": 1,
-          "captured_at": "",
-          "added_at": "",
-          "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
-        },
-        {
-          "photo_id": "PHOTO-DBE910096EEF4414803D6B6201948064",
-          "path": "inbox/photos/2026/07/PHOTO-DBE910096EEF4414803D6B6201948064.jpg",
-          "filename": "PHOTO-DBE910096EEF4414803D6B6201948064.jpg",
-          "original_filename": "shortcut-photo-02.jpg",
-          "mime_type": "image/jpeg",
-          "size_bytes": 443038,
-          "sequence": 2,
-          "captured_at": "",
-          "added_at": "",
-          "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
-        },
-        {
-          "photo_id": "PHOTO-660D1F61A4C4491C97147B4835AEB8A1",
-          "path": "inbox/photos/2026/07/PHOTO-660D1F61A4C4491C97147B4835AEB8A1.jpg",
-          "filename": "PHOTO-660D1F61A4C4491C97147B4835AEB8A1.jpg",
-          "original_filename": "shortcut-photo-03.jpg",
-          "mime_type": "image/jpeg",
-          "size_bytes": 556770,
-          "sequence": 3,
-          "captured_at": "",
-          "added_at": "",
-          "source": "submission",
-          "notes": "",
-          "metadata_version": 0,
-          "photo_lat": null,
-          "photo_lon": null,
-          "location": null
-        }
-      ],
-      "updated_at": "2026-07-23T07:14:59.689Z",
-      "photo_count": 3
     },
     {
       "submission_id": "SUB-20260721-191622-37FF92",
