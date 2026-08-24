@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.15.3
+ * Version: 0.15.4
  * Updated: 2026-08-24
  */
 
@@ -14554,7 +14554,10 @@ function resolveLocationFromContext(input, context) {
           "",
         area_id: areaMatch.area_id,
         area_priority: areaMatch.priority,
-        distance_m: null
+        distance_m:
+          areaMatch.match_distance_m > 0
+            ? Math.round(areaMatch.match_distance_m * 10) / 10
+            : null
       },
       matched_by: "geo_area"
     };
@@ -14775,6 +14778,8 @@ function parseLocationAreasGeoJson(geoJsonText) {
         Number.isFinite(priorityNumber)
           ? priorityNumber
           : 0,
+      match_tolerance_m:
+        Math.max(0, Number(properties.match_tolerance_m ?? 0) || 0),
       geometry
     });
   }
@@ -14795,25 +14800,153 @@ function findLocationAreaMatch(
       ? areas
       : []
   ) {
-    if (
-      !pointInGeoJsonGeometry(
+    const exactMatch =
+      pointInGeoJsonGeometry(
         longitude,
         latitude,
         area.geometry
-      )
-    ) {
+      );
+
+    const toleranceM =
+      Math.max(0, Number(area.match_tolerance_m ?? 0) || 0);
+
+    const distanceM = exactMatch
+      ? 0
+      : toleranceM > 0
+        ? pointToGeoJsonGeometryDistanceMeters(
+            longitude,
+            latitude,
+            area.geometry
+          )
+        : Number.POSITIVE_INFINITY;
+
+    if (!exactMatch && !(distanceM <= toleranceM)) {
       continue;
     }
 
+    const candidate = {
+      ...area,
+      match_distance_m: distanceM
+    };
+
     if (
       bestMatch === null ||
-      area.priority > bestMatch.priority
+      candidate.priority > bestMatch.priority ||
+      (
+        candidate.priority === bestMatch.priority &&
+        candidate.match_distance_m < bestMatch.match_distance_m
+      )
     ) {
-      bestMatch = area;
+      bestMatch = candidate;
     }
   }
 
   return bestMatch;
+}
+
+function pointToGeoJsonGeometryDistanceMeters(
+  longitude,
+  latitude,
+  geometry
+) {
+  if (pointInGeoJsonGeometry(longitude, latitude, geometry)) {
+    return 0;
+  }
+
+  const polygons = geometry?.type === "Polygon"
+    ? [geometry.coordinates]
+    : geometry?.type === "MultiPolygon"
+      ? geometry.coordinates
+      : [];
+
+  let best = Number.POSITIVE_INFINITY;
+  for (const polygon of Array.isArray(polygons) ? polygons : []) {
+    const outerRing = Array.isArray(polygon) ? polygon[0] : null;
+    best = Math.min(
+      best,
+      pointToGeoJsonRingDistanceMeters(
+        longitude,
+        latitude,
+        outerRing
+      )
+    );
+  }
+  return best;
+}
+
+function pointToGeoJsonRingDistanceMeters(
+  longitude,
+  latitude,
+  ring
+) {
+  if (!Array.isArray(ring) || ring.length < 2) {
+    return Number.POSITIVE_INFINITY;
+  }
+
+  let best = Number.POSITIVE_INFINITY;
+  for (let index = 0; index < ring.length; index += 1) {
+    const start = ring[index];
+    const end = ring[(index + 1) % ring.length];
+    if (
+      !Array.isArray(start) || start.length < 2 ||
+      !Array.isArray(end) || end.length < 2
+    ) {
+      continue;
+    }
+    best = Math.min(
+      best,
+      pointToGeoSegmentDistanceMeters(
+        longitude,
+        latitude,
+        Number(start[0]),
+        Number(start[1]),
+        Number(end[0]),
+        Number(end[1])
+      )
+    );
+  }
+  return best;
+}
+
+function pointToGeoSegmentDistanceMeters(
+  longitude,
+  latitude,
+  startLongitude,
+  startLatitude,
+  endLongitude,
+  endLatitude
+) {
+  if (![
+    longitude, latitude,
+    startLongitude, startLatitude,
+    endLongitude, endLatitude
+  ].every(Number.isFinite)) {
+    return Number.POSITIVE_INFINITY;
+  }
+
+  const latitudeRadians = latitude * Math.PI / 180;
+  const metersPerDegreeLongitude = 111320 * Math.cos(latitudeRadians);
+  const metersPerDegreeLatitude = 110540;
+
+  const startX = (startLongitude - longitude) * metersPerDegreeLongitude;
+  const startY = (startLatitude - latitude) * metersPerDegreeLatitude;
+  const endX = (endLongitude - longitude) * metersPerDegreeLongitude;
+  const endY = (endLatitude - latitude) * metersPerDegreeLatitude;
+
+  const dx = endX - startX;
+  const dy = endY - startY;
+  const squaredLength = dx * dx + dy * dy;
+  if (!(squaredLength > 0)) {
+    return Math.hypot(startX, startY);
+  }
+
+  const ratio = Math.max(
+    0,
+    Math.min(1, -(startX * dx + startY * dy) / squaredLength)
+  );
+  const closestX = startX + ratio * dx;
+  const closestY = startY + ratio * dy;
+  return Math.hypot(closestX, closestY);
 }
 
 function pointInGeoJsonGeometry(
