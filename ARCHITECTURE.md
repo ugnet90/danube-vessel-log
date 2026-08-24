@@ -2,7 +2,7 @@
 
 ## Status
 
-**Architekturversion:** 1.0
+**Architekturversion:** 1.1 (Danube Vessel Log 0.15.0)
 
 Dieses Dokument beschreibt die verbindliche technische Grundlage des
 Projekts.
@@ -132,6 +132,17 @@ Ereignis: - passage - arrival - departure - stay - unknown
 
 Angelegte Schiffe sind grundsätzlich flussaufwärts ausgerichtet. Die
 sichtbare Ausrichtung ist keine sichere Fahrtrichtung.
+
+### Liegeposition / Päckchenbelegung
+
+Für eine konkrete angelegte Sichtung kann optional `alongside_position` gespeichert werden:
+
+- `1` = direkt an der Liegekante;
+- `2` = zweite Reihe;
+- `3` = dritte Reihe;
+- `null` = unbekannt.
+
+Die Liegeposition gehört zur Sichtung und nicht zur Anlegestelle. Historische Sichtungen dürfen nicht automatisch zu einer gleichzeitigen Mehrfachbelegung zusammengefasst werden. Die räumliche Darstellung wird aus `data/berth_geometries.geojson` (Anlegerpolygon + Liegekante) flussseitig abgeleitet.
 
 ------------------------------------------------------------------------
 

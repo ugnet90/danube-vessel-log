@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.14.52**  
+Aktuelle Version: **0.15.0**  
 Stand: **24.08.2026**
 
 ## 1. Projektzweck
@@ -324,7 +324,7 @@ Ist bei einer Sichtung keine Location direkt gespeichert, kann die Web-/API-Ausg
 
 Bei einer Sichtung **in Fahrt** soll keine Anlegestelle erzwungen werden.
 
-Mehrere historische Sichtungen an derselben Anlegestelle werden weiterhin **nicht** als gleichzeitige Päckchenbelegung interpretiert. Eine spätere tatsächliche Liegeposition `1/2/3` wird nur dann gespeichert, wenn sie für die konkrete Sichtung bekannt ist.
+Mehrere historische Sichtungen an derselben Anlegestelle werden weiterhin **nicht** als gleichzeitige Päckchenbelegung interpretiert. Ab Version 0.15.0 kann für die konkrete Sichtung optional `alongside_position = 1 | 2 | 3 | null` gespeichert werden: Position 1 liegt direkt an der Liegekante, Position 2 in der zweiten Reihe und Position 3 in der dritten Reihe. Fehlt die Information, bleibt der Wert `null`; alte Sichtungen werden nicht nachträglich als Position 1 interpretiert.
 
 ## 7. iPhone-Kurzbefehle
 
@@ -332,6 +332,8 @@ Die beiden bestehenden Sichtungs-Kurzbefehle heißen:
 
 - **Schiffsichtung mit Foto(s)**
 - **Schiffsichtung ohne Foto**
+
+Ab Version 0.15.0 senden beide Sichtungs-Kurzbefehle bei `movement = moored` optional zusätzlich `alongside_position`. Die konkrete Schrittfolge steht in `KURZBEFEHL_LIEGEPOSITION_0.15.0.md`. Der separate Zusatzfoto-Kurzbefehl bleibt unverändert.
 
 Für reine zusätzliche Schiffsfotos existiert ein separater Foto-Upload-Workflow. Dieser erzeugt keine neue Sichtung.
 
@@ -2754,3 +2756,108 @@ ersetzt werden. `docs/data/berth_geometries.geojson` wird automatisch erzeugt.
 - `tools/sync_public_data.py`: Version `0.14.52`; Dokumentation der automatischen Workflow-Ausführung, Synchronisationslogik unverändert für die drei Paare.
 - `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.14.52`.
 
+
+
+## 0.15.0 – Liegeposition und Päckchenbelegung
+
+Stand: 24.08.2026
+
+Version **0.15.0** führt die Liegeposition eines angelegten Schiffs als eigene fachliche Eigenschaft einer Sichtung ein. Damit beginnt die 0.15-Reihe: Die Änderung betrifft nicht nur die Darstellung, sondern Submission-Schema, Worker, Review, Sichtungsindizes, iPhone-Kurzbefehle und Kartenlogik.
+
+### Datenmodell
+
+Neue optionale Eigenschaft einer Sichtung:
+
+```json
+"alongside_position": 2
+```
+
+Zulässige Werte:
+
+- `1` = direkt an der Anlegestelle/Liegekante;
+- `2` = zweite Reihe längsseits;
+- `3` = dritte Reihe längsseits;
+- `null` = Position nicht bekannt.
+
+Die Position wird nur bei `movement = moored` gespeichert. Bei `moving` oder `unknown` normalisiert der Worker den Wert auf `null`. Ältere Clients dürfen das Feld vollständig weglassen.
+
+Das Submission-Schema steigt auf **14**, `data/sightings.json` auf **Schema 2** und `data/photo_locations.json` auf **Schema 4**.
+
+### Keine erfundene Gleichzeitigkeit
+
+`alongside_position` beschreibt immer nur die konkrete Sichtung. Zwei historische Sichtungen an derselben Anlegestelle und mit verschiedenen Positionen dürfen nicht als gleichzeitig dort liegende Schiffe interpretiert werden. Die Standortkarte gruppiert deshalb weiterhin historische Sichtungen, trennt die Gruppen nun aber zusätzlich nach bekannter Liegeposition.
+
+### Geometrische Darstellung
+
+Die Position wird aus der in `data/berth_geometries.geojson` gespeicherten Liegekante flussseitig abgeleitet.
+
+Für bekannte Positionen verwendet die Karte drei parallele Reihen. Der Mittelpunkt der eigenen Reihe berücksichtigt – sofern vorhanden – die in `data/vessels.csv` gespeicherte Schiffsbreite. Da bei einer einzelnen historischen Sichtung die Breiten der gleichzeitig innen liegenden Schiffe nicht zwingend bekannt sind, werden die inneren Reihen für Position 2/3 mit einer typischen Donau-Kabinenschiffsbreite von **11,5 m** modelliert. Das ist eine Darstellungsgeometrie, keine gemessene Schiff-GPS-Position.
+
+Die bisherigen Sichtungen ohne `alongside_position` bleiben bei der bisherigen neutralen, etwa 10 m flussseitigen Darstellungsposition. Sie werden ausdrücklich nicht als Position 1 umgedeutet.
+
+Marker mit bekannter Position erhalten zusätzlich ein kleines Badge `P1`, `P2` oder `P3`.
+
+### Kartenindex
+
+`data/photo_locations.json` enthält bei Sichtungen ab Schema 4 zusätzlich:
+
+- `alongside_position`;
+- `vessel_length_m`;
+- `vessel_width_m`.
+
+`tools/rebuild_location_matches.py` übernimmt diese Werte aus den bestätigten Submissions und `data/vessels.csv`. Neue bzw. überprüfte Sichtungen werden auch vom Worker entsprechend in den Kartenindex geschrieben.
+
+### Review und Korrektur
+
+Auf `submissions.html` wird die **Liegeposition** in den Sichtungsdetails angezeigt. Der vorhandene Dialog zur Anlegestellenkorrektur heißt nun **„Anlegestelle und Liegeposition korrigieren“** und kann beide Angaben gemeinsam ändern.
+
+Liegepositionen können auf `Unbekannt`, `1`, `2` oder `3` gesetzt werden. Änderungen werden separat in `alongside_position_history` protokolliert. Anlegestellenänderungen bleiben weiterhin in `berth_history` erhalten.
+
+Bei einer bereits überprüften Sichtung aktualisiert eine solche Korrektur zusätzlich `data/sightings.json` und den Kartenindex, sodass die Kartenposition ohne separaten Rebuild folgt.
+
+### Schiffsdetail
+
+Die Metadaten einer Sichtung zeigen eine bekannte Liegeposition zusätzlich zu Bewegung, Richtung und Anlegestelle. Das Foto-Kartenoverlay verwendet dieselbe Positionslogik wie die Standortkarte.
+
+### iPhone-Kurzbefehle
+
+Beide Sichtungs-Kurzbefehle werden um eine bedingte Auswahl ergänzt:
+
+- nur bei `moored` fragen;
+- `1 – direkt am Anleger`;
+- `2 – zweite Reihe`;
+- `3 – dritte Reihe`;
+- `Unbekannt`.
+
+Der technische Wert wird als `alongside_position` im bestehenden JSON bzw. Metadata-JSON gesendet. Die genaue Schrittfolge steht in `KURZBEFEHL_LIEGEPOSITION_0.15.0.md`.
+
+### Einspielen / Migration
+
+Für 0.15.0 ist ein **Cloudflare-Worker-Deployment erforderlich**.
+
+Empfohlene Reihenfolge:
+
+1. Dateien aus der 0.15.0-ZIP committen.
+2. Cloudflare Worker mit der neuen `cloudflare/worker.js` deployen.
+3. Beide Sichtungs-Kurzbefehle gemäß `KURZBEFEHL_LIEGEPOSITION_0.15.0.md` ergänzen.
+4. Einmal **Actions -> Sichtungsindex neu aufbauen -> Run workflow** ausführen.
+5. Danach einmal **Actions -> Rebuild location matches -> Run workflow** ausführen, damit `data/photo_locations.json` als Schema 4 mit Schiffsabmessungen neu erzeugt wird.
+6. GitHub-Pages-Aktualisierung abwarten und am iPhone vollständig neu laden.
+
+Die Rebuilds verändern alte Sichtungen nicht fachlich: Bei fehlender Liegeposition bleibt `alongside_position = null`.
+
+### Dateiversionen 0.15.0
+
+- `cloudflare/worker.js`: Version `0.15.0`; Validierung, Speicherung, Indizes und Korrektur der Liegeposition.
+- `tools/rebuild_sightings_index.py`: Version `0.15.0`; Sichtungsindex Schema 2 mit `alongside_position`.
+- `tools/rebuild_location_matches.py`: Version `0.15.0`; Kartenindex Schema 4 mit Liegeposition und Schiffsabmessungen.
+- `docs/js/location_map.js`: Version `0.15.0`; drei flussseitige Positionsreihen und P1/P2/P3-Badges.
+- `docs/js/location_areas.js`: Version `0.15.0`; historische Anlege-Sichtungen werden nach Anleger und Liegeposition gruppiert.
+- `docs/js/vessel.js`: Version `0.15.0`; Liegeposition in Sichtungsmetadaten und Foto-Kartenoverlay.
+- `docs/submissions.html`: Version `0.15.0`; Anzeige und Korrektur der Liegeposition.
+- `docs/js/submissions.js`: Version `0.15.0`; Review-Logik für die Liegeposition.
+- `docs/js/api.js`: Version `0.15.0`; `alongside_position` bei Anlegestellen-/Liegepositionskorrekturen.
+- `docs/css/location_areas.css`: Version `0.15.0`; Positionsbadge auf der Standortkarte.
+- `docs/css/vessel.css`: Version `0.15.0`; Positionsbadge im Foto-Kartenoverlay.
+- `KURZBEFEHL_LIEGEPOSITION_0.15.0.md`: neue Schrittfolge für beide Sichtungs-Kurzbefehle.
+- `README.md`: vollständige Projektbeschreibung; aktueller Projektstand `0.15.0`.
