@@ -2,8 +2,8 @@
   "type": "FeatureCollection",
   "schema_version": 1,
   "project": "Danube Vessel Log",
-  "version": "0.14.32",
-  "updated_at": "2026-08-20",
+  "version": "0.15.4",
+  "updated_at": "2026-08-24",
   "description": "GPS-Aufnahmebereiche Linz. Die Geometrien wurden 1:1 aus dem vom Nutzer in uMap verfeinerten GeoJSON übernommen; insbesondere die Grenzbereiche zwischen Nibelungenbrücke und den angrenzenden Uferbereichen wurden präzisiert.",
   "features": [
     {
@@ -16,8 +16,9 @@
         "municipality": "Linz",
         "country": "Österreich",
         "priority": 100,
-        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis präzise nachgezeichneter Aufnahmebereich der Nibelungenbrücke. Die Grenzbereiche zur Nibelungenbrücke wurden am 2026-08-20 gezielt verfeinert.",
-        "geometry_source": "uMap-GeoJSON des Nutzers; Geometrie 1:1 übernommen am 2026-08-20"
+        "description": "Vom Nutzer in uMap auf OpenStreetMap-Basis präzise nachgezeichneter Aufnahmebereich der Nibelungenbrücke. Die Grenzbereiche zur Nibelungenbrücke wurden am 2026-08-20 gezielt verfeinert. Für GPS-Ausreißer direkt an der Brückenkante gilt eine Matching-Toleranz von 7 m.",
+        "geometry_source": "uMap-GeoJSON des Nutzers; Geometrie 1:1 übernommen am 2026-08-20",
+        "match_tolerance_m": 7
       },
       "geometry": {
         "type": "Polygon",

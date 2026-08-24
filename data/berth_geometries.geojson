@@ -304,7 +304,8 @@
         "name": "Linz 32 - Liegekante",
         "berth_name": "Linz 32",
         "station_number": "32",
-        "geometry_role": "mooring_edge"
+        "geometry_role": "mooring_edge",
+        "axis_direction": "downstream_to_upstream"
       },
       "geometry": {
         "type": "LineString",
@@ -327,7 +328,8 @@
         "name": "Linz 1 - Brucknerhaus - Liegekante",
         "berth_name": "Linz 1 - Brucknerhaus",
         "station_number": "1",
-        "geometry_role": "mooring_edge"
+        "geometry_role": "mooring_edge",
+        "axis_direction": "downstream_to_upstream"
       },
       "geometry": {
         "type": "LineString",
@@ -350,7 +352,8 @@
         "name": "Linz-Lentos Nr. 14 - Liegekante",
         "berth_name": "Linz-Lentos Nr. 14",
         "station_number": "14",
-        "geometry_role": "mooring_edge"
+        "geometry_role": "mooring_edge",
+        "axis_direction": "downstream_to_upstream"
       },
       "geometry": {
         "type": "LineString",
@@ -373,7 +376,8 @@
         "name": "Linz-Hauptplatz Nr. 13 - Liegekante",
         "berth_name": "Linz-Hauptplatz Nr. 13",
         "station_number": "13",
-        "geometry_role": "mooring_edge"
+        "geometry_role": "mooring_edge",
+        "axis_direction": "downstream_to_upstream"
       },
       "geometry": {
         "type": "LineString",
@@ -396,7 +400,8 @@
         "name": "Linz-Nibelungen Nr. 12 - Liegekante",
         "berth_name": "Linz-Nibelungen Nr. 12",
         "station_number": "12",
-        "geometry_role": "mooring_edge"
+        "geometry_role": "mooring_edge",
+        "axis_direction": "downstream_to_upstream"
       },
       "geometry": {
         "type": "LineString",
@@ -419,7 +424,8 @@
         "name": "Linz-Schloss Nr. 11 - Liegekante",
         "berth_name": "Linz-Schloss Nr. 11",
         "station_number": "11",
-        "geometry_role": "mooring_edge"
+        "geometry_role": "mooring_edge",
+        "axis_direction": "downstream_to_upstream"
       },
       "geometry": {
         "type": "LineString",
@@ -435,5 +441,6 @@
         ]
       }
     }
-  ]
+  ],
+  "version": "0.15.4"
 }
