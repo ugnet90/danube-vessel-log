@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.4**  
+Aktuelle Version: **0.15.5**  
 Stand: **24.08.2026**
 
 ## 1. Projektzweck
@@ -2920,6 +2920,14 @@ Die Änderung an `cloudflare/worker.js` erfordert ein **Cloudflare-Worker-Deploy
 - `docs/css/vessels.css`: Version `0.15.2`; kompakte numerische Spalten.
 - `README.md`: Projektstand `0.15.2`.
 
+
+
+## 0.15.5 – Schiffslänge maßstäblich korrigiert
+
+- Die gezeichnete Schiffskontur verwendet nun die vollständige `technical.length_m`.
+- In 0.15.4 wurde die bereits halbierte Schiffslänge (`halfLength`) bei der Polygonform versehentlich nochmals ungefähr halbiert; dadurch erschien die Kontur nur rund halb so lang wie das reale Schiff.
+- Die Breite bleibt unverändert maßstäblich aus `technical.width_m`.
+- Bei bekannter Richtung bleibt das Heck flach und der Bug zugespitzt; bei unbekannter Richtung bleibt die neutrale symmetrische Kontur erhalten.
 
 ## 0.15.4 – GPS-Toleranz und Schiffskontur
 
