@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-08-24T05:09:14.000Z",
+  "updated_at": "2026-08-24T14:56:47.000Z",
   "count": 38,
   "photos": [
     {
@@ -1264,8 +1264,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 46,
+  "sighting_count": 47,
   "sightings": [
+    {
+      "submission_id": "SUB-20260824-145701-645071",
+      "vessel_id": "VES-000130",
+      "vessel_name": "Silver by Amadeus",
+      "captured_at": "2026-08-24T14:56:47.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11,
+      "direction": "upstream",
+      "photo_count": 0
+    },
     {
       "submission_id": "SUB-20260824-055134-FF7351",
       "vessel_id": "VES-000108",
