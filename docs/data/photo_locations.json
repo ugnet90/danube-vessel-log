@@ -1,7 +1,7 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "updated_at": "2026-08-24T05:09:14.000Z",
-  "count": 28,
+  "count": 36,
   "photos": [
     {
       "photo_id": "PHOTO-438E98733CAF4ADA80952B59B27F7F22",
@@ -18,7 +18,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       },
@@ -30,11 +30,194 @@
         "station_number": "14"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260824-055134-FF7351"
       },
       "path": "inbox/photos/2026/08/PHOTO-438E98733CAF4ADA80952B59B27F7F22.jpg"
+    },
+    {
+      "photo_id": "PHOTO-A451631CA5554059A47A290BFF36D77F",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260824-055441-4E6345",
+      "vessel_id": "VES-000130",
+      "vessel_name": "Silver by Amadeus",
+      "captured_at": "2026-08-24T05:09:13.000Z",
+      "photo_lat": 48.3079,
+      "photo_lon": 14.28531333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.0,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260824-055441-4E6345"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-A451631CA5554059A47A290BFF36D77F.jpg"
+    },
+    {
+      "photo_id": "PHOTO-806642B50E2449FB9A5F77C0F37E168B",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260824-055624-DD814D",
+      "vessel_id": "VES-000129",
+      "vessel_name": "Scenic Opal",
+      "captured_at": "2026-08-24T05:08:49.000Z",
+      "photo_lat": 48.30808333333334,
+      "photo_lon": 14.28518333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260824-055624-DD814D"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-806642B50E2449FB9A5F77C0F37E168B.jpg"
+    },
+    {
+      "photo_id": "PHOTO-C83F2C59D6F14E6C86B529DD2753A30C",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260824-055624-DD814D",
+      "vessel_id": "VES-000129",
+      "vessel_name": "Scenic Opal",
+      "captured_at": "2026-08-24T05:07:42.000Z",
+      "photo_lat": 48.30888,
+      "photo_lon": 14.28458333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260824-055624-DD814D"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-C83F2C59D6F14E6C86B529DD2753A30C.jpg"
+    },
+    {
+      "photo_id": "PHOTO-0090D4FF71474BB8AA8A47A3FAE0F559",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260824-055441-4E6345",
+      "vessel_id": "VES-000130",
+      "vessel_name": "Silver by Amadeus",
+      "captured_at": "2026-08-24T05:07:20.000Z",
+      "photo_lat": 48.309075,
+      "photo_lon": 14.28444166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.0,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260824-055441-4E6345"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-0090D4FF71474BB8AA8A47A3FAE0F559.jpg"
+    },
+    {
+      "photo_id": "PHOTO-8DE588D9AD74486B8C3E7017420CCC18",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260824-055624-DD814D",
+      "vessel_id": "VES-000129",
+      "vessel_name": "Scenic Opal",
+      "captured_at": "2026-08-24T05:06:07.000Z",
+      "photo_lat": 48.309495,
+      "photo_lon": 14.28465333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
+        "name": "Urfahraner Donaulände, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260824-055624-DD814D"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-8DE588D9AD74486B8C3E7017420CCC18.jpg"
     },
     {
       "photo_id": "PHOTO-FAB95861B6C84AECA3A30C9FBEEEB925",
@@ -57,6 +240,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260821-181451-7AC653"
@@ -84,6 +270,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260821-181451-7AC653"
@@ -111,6 +300,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260821-181451-7AC653"
@@ -138,6 +330,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260821-181451-7AC653"
@@ -159,7 +354,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
         "name": "Obere Donaulände, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       },
@@ -171,6 +366,9 @@
         "station_number": "12"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260822-135015-DBB3CA"
@@ -192,7 +390,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       },
@@ -204,11 +402,86 @@
         "station_number": "12"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260822-135015-DBB3CA"
       },
       "path": "inbox/photos/2026/08/PHOTO-477B91A413F849B28F927778D7CC4BCE.jpg"
+    },
+    {
+      "photo_id": "PHOTO-94C568AB77B3476AAD26A1C2319EAA8B",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260822-134740-610689",
+      "vessel_id": "VES-000128",
+      "vessel_name": "Thurgau Prestige",
+      "captured_at": "2026-08-21T05:08:39.000Z",
+      "photo_lat": 48.307475,
+      "photo_lon": 14.285175,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260822-134740-610689"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-94C568AB77B3476AAD26A1C2319EAA8B.jpg"
+    },
+    {
+      "photo_id": "PHOTO-132D1CC0C0564D688A8C66367AD7EDC7",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260822-134740-610689",
+      "vessel_id": "VES-000128",
+      "vessel_name": "Thurgau Prestige",
+      "captured_at": "2026-08-21T05:07:48.000Z",
+      "photo_lat": 48.30811666666666,
+      "photo_lon": 14.28470833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260822-134740-610689"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-132D1CC0C0564D688A8C66367AD7EDC7.jpg"
     },
     {
       "photo_id": "PHOTO-65FECF084C35494CBB28FE708AC0E65C",
@@ -231,6 +504,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260821-181451-7AC653"
@@ -264,11 +540,50 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260821-181451-7AC653"
       },
       "path": "inbox/photos/2026/08/PHOTO-35F2DED0531D431EA0B2DC69AE6E7AC5.jpg"
+    },
+    {
+      "photo_id": "PHOTO-A345D3EC489D4D3988DB24008A21B89F",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260822-134740-610689",
+      "vessel_id": "VES-000128",
+      "vessel_name": "Thurgau Prestige",
+      "captured_at": "2026-08-21T05:06:11.000Z",
+      "photo_lat": 48.30883833333333,
+      "photo_lon": 14.28418333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260822-134740-610689"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-A345D3EC489D4D3988DB24008A21B89F.jpg"
     },
     {
       "photo_id": "PHOTO-6DDBD86BED3141A28DE0280C7386FFB6",
@@ -291,6 +606,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
         "submission_id": ""
@@ -324,6 +642,9 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -351,6 +672,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
         "submission_id": ""
@@ -378,6 +702,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
         "submission_id": ""
@@ -405,6 +732,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-121908-E4BD96"
@@ -432,6 +762,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-121908-E4BD96"
@@ -459,6 +792,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -486,6 +822,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -519,6 +858,9 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -552,6 +894,9 @@
         "station_number": "12"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-121908-E4BD96"
@@ -579,6 +924,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
         "submission_id": ""
@@ -612,6 +960,9 @@
         "station_number": "1"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 114.34,
+      "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-124108-48F869"
@@ -639,6 +990,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
         "submission_id": ""
@@ -672,6 +1026,9 @@
         "station_number": "12"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-121908-E4BD96"
@@ -705,6 +1062,9 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -732,6 +1092,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 22.0,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260819-052017-A072A4"
@@ -759,6 +1122,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260806-142324-38E029"
@@ -786,6 +1152,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260806-142324-38E029"
@@ -813,6 +1182,9 @@
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260728-062433-033817"
@@ -820,7 +1192,7 @@
       "path": "inbox/photos/2026/07/PHOTO-D07368FFCCEC41C98E6A076716B1FAAA.jpg"
     }
   ],
-  "sighting_count": 43,
+  "sighting_count": 46,
   "sightings": [
     {
       "submission_id": "SUB-20260824-055134-FF7351",
@@ -833,7 +1205,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       },
@@ -845,8 +1217,69 @@
         "station_number": "14"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260824-055624-DD814D",
+      "vessel_id": "VES-000129",
+      "vessel_name": "Scenic Opal",
+      "captured_at": "2026-08-24T05:08:49.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.4,
+      "direction": "upstream",
+      "photo_count": 3
+    },
+    {
+      "submission_id": "SUB-20260824-055441-4E6345",
+      "vessel_id": "VES-000130",
+      "vessel_name": "Silver by Amadeus",
+      "captured_at": "2026-08-24T05:07:20.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.0,
+      "direction": "upstream",
+      "photo_count": 2
     },
     {
       "submission_id": "SUB-20260822-135015-DBB3CA",
@@ -859,7 +1292,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       },
@@ -871,8 +1304,40 @@
         "station_number": "12"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20260822-134740-610689",
+      "vessel_id": "VES-000128",
+      "vessel_name": "Thurgau Prestige",
+      "captured_at": "2026-08-21T05:04:39.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
+      "direction": "upstream",
+      "photo_count": 4
     },
     {
       "submission_id": "SUB-20260821-181451-7AC653",
@@ -897,6 +1362,9 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
     },
@@ -923,6 +1391,9 @@
         "station_number": "1"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 114.34,
+      "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 1
     },
@@ -949,6 +1420,9 @@
         "station_number": "12"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
       "direction": "upstream",
       "photo_count": 2
     },
@@ -975,6 +1449,9 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 3
     },
@@ -1001,6 +1478,9 @@
         "station_number": "14"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 22.0,
       "direction": "upstream",
       "photo_count": 5
     },
@@ -1027,6 +1507,9 @@
         "station_number": "14"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 0
     },
@@ -1053,6 +1536,9 @@
         "station_number": "14"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 0
     },
@@ -1079,6 +1565,9 @@
         "station_number": "12"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 0
     },
@@ -1105,6 +1594,9 @@
         "station_number": "1"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 0
     },
@@ -1131,6 +1623,9 @@
         "station_number": "1"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 0
     },
@@ -1157,6 +1652,9 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 107.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 0
     },
@@ -1183,6 +1681,9 @@
         "station_number": "12"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 1
     },
@@ -1209,6 +1710,9 @@
         "station_number": "12"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 3
     },
@@ -1235,6 +1739,9 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 1
     },
@@ -1261,6 +1768,9 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 2
     },
@@ -1287,6 +1797,9 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 0
     },
@@ -1313,6 +1826,9 @@
         "station_number": "1"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 1
     },
@@ -1339,6 +1855,9 @@
         "station_number": "13"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 1
     },
@@ -1365,6 +1884,9 @@
         "station_number": "13"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 4
     },
@@ -1391,6 +1913,9 @@
         "station_number": "14"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 1
     },
@@ -1417,6 +1942,9 @@
         "station_number": "12"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 5
     },
@@ -1443,6 +1971,9 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 107.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 3
     },
@@ -1469,6 +2000,9 @@
         "station_number": "12"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 7
     },
@@ -1495,6 +2029,9 @@
         "station_number": "14"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 7
     },
@@ -1521,6 +2058,9 @@
         "station_number": "13"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
     },
@@ -1547,6 +2087,9 @@
         "station_number": "12"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 2
     },
@@ -1573,6 +2116,9 @@
         "station_number": "13"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 3
     },
@@ -1599,6 +2145,9 @@
         "station_number": "11"
       },
       "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
     },
@@ -1619,6 +2168,9 @@
       },
       "berth": null,
       "movement": "unknown",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.4,
       "direction": "unknown",
       "photo_count": 2
     },
@@ -1639,6 +2191,9 @@
       },
       "berth": null,
       "movement": "unknown",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 1
     },
@@ -1659,6 +2214,9 @@
       },
       "berth": null,
       "movement": "unknown",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 3
     },
@@ -1679,6 +2237,9 @@
       },
       "berth": null,
       "movement": "unknown",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.4,
       "direction": "unknown",
       "photo_count": 3
     },
@@ -1699,6 +2260,9 @@
       },
       "berth": null,
       "movement": "unknown",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 2
     },
@@ -1719,6 +2283,9 @@
       },
       "berth": null,
       "movement": "unknown",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 1
     },
@@ -1739,6 +2306,9 @@
       },
       "berth": null,
       "movement": "unknown",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "unknown",
       "photo_count": 3
     },
@@ -1759,6 +2329,9 @@
       },
       "berth": null,
       "movement": "unknown",
+      "alongside_position": null,
+      "vessel_length_m": 131.0,
+      "vessel_width_m": 11.4,
       "direction": "unknown",
       "photo_count": 2
     },
@@ -1779,6 +2352,9 @@
       },
       "berth": null,
       "movement": "unknown",
+      "alongside_position": null,
+      "vessel_length_m": 131.0,
+      "vessel_width_m": 11.4,
       "direction": "unknown",
       "photo_count": 1
     },
@@ -1799,6 +2375,9 @@
       },
       "berth": null,
       "movement": "unknown",
+      "alongside_position": null,
+      "vessel_length_m": 131.0,
+      "vessel_width_m": 11.4,
       "direction": "unknown",
       "photo_count": 1
     },
@@ -1819,6 +2398,9 @@
       },
       "berth": null,
       "movement": "unknown",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 1
     },
@@ -1839,6 +2421,9 @@
       },
       "berth": null,
       "movement": "unknown",
+      "alongside_position": null,
+      "vessel_length_m": 124.5,
+      "vessel_width_m": 14.4,
       "direction": "unknown",
       "photo_count": 1
     },
@@ -1859,6 +2444,9 @@
       },
       "berth": null,
       "movement": "unknown",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 1
     }

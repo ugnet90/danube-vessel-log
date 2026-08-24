@@ -4,13 +4,13 @@
   "uploaded_at": "2026-08-22T13:47:40.325Z",
   "captured_at": "2026-08-21T05:04:39.000Z",
   "location": {
-    "status": "matched",
-    "matched_by": "berth_id",
-    "id": "LOC-001",
+    "status": "unknown",
+    "matched_by": "",
+    "id": "",
     "area_id": "",
-    "name": "Nibelungenbrücke, Linz",
+    "name": "",
     "municipality": "",
-    "country": "Österreich",
+    "country": "",
     "distance_m": null
   },
   "berth": {
@@ -87,7 +87,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       }
@@ -110,7 +110,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       }
@@ -133,7 +133,7 @@
         "id": "LOC-001",
         "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": null
       }
