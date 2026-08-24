@@ -2,7 +2,7 @@
 """
 Danube Vessel Log
 File: tools/rebuild_location_matches.py
-Version: 0.15.0
+Version: 0.15.4
 Updated: 2026-08-24
 
 Einmaliges bzw. wiederholbares Wartungswerkzeug zur nachträglichen
@@ -119,6 +119,7 @@ def load_location_areas() -> list[dict[str, Any]]:
             "municipality": str(properties.get("municipality", "")).strip(),
             "country": str(properties.get("country", "")).strip(),
             "priority": priority,
+            "match_tolerance_m": max(0.0, float(properties.get("match_tolerance_m", 0) or 0)),
             "geometry": geometry,
         })
     return areas
@@ -182,13 +183,69 @@ def point_in_geometry(lon: float, lat: float, geometry: dict[str, Any]) -> bool:
     return False
 
 
+def point_to_segment_distance_m(
+    lon: float, lat: float, lon1: float, lat1: float, lon2: float, lat2: float
+) -> float:
+    meters_per_degree_lon = 111320.0 * math.cos(math.radians(lat))
+    meters_per_degree_lat = 110540.0
+    x1 = (lon1 - lon) * meters_per_degree_lon
+    y1 = (lat1 - lat) * meters_per_degree_lat
+    x2 = (lon2 - lon) * meters_per_degree_lon
+    y2 = (lat2 - lat) * meters_per_degree_lat
+    dx = x2 - x1
+    dy = y2 - y1
+    squared_length = dx * dx + dy * dy
+    if squared_length <= 0:
+        return math.hypot(x1, y1)
+    ratio = max(0.0, min(1.0, -(x1 * dx + y1 * dy) / squared_length))
+    return math.hypot(x1 + ratio * dx, y1 + ratio * dy)
+
+
+def point_to_ring_distance_m(lon: float, lat: float, ring: list[list[float]]) -> float:
+    if not isinstance(ring, list) or len(ring) < 2:
+        return math.inf
+    best = math.inf
+    for index, start in enumerate(ring):
+        end = ring[(index + 1) % len(ring)]
+        if not (isinstance(start, list) and len(start) >= 2 and isinstance(end, list) and len(end) >= 2):
+            continue
+        best = min(
+            best,
+            point_to_segment_distance_m(
+                lon, lat, float(start[0]), float(start[1]), float(end[0]), float(end[1])
+            ),
+        )
+    return best
+
+
+def point_to_geometry_distance_m(lon: float, lat: float, geometry: dict[str, Any]) -> float:
+    if point_in_geometry(lon, lat, geometry):
+        return 0.0
+    geometry_type = geometry.get("type")
+    coordinates = geometry.get("coordinates")
+    polygons = [coordinates] if geometry_type == "Polygon" else coordinates if geometry_type == "MultiPolygon" else []
+    best = math.inf
+    for polygon in polygons or []:
+        outer_ring = polygon[0] if isinstance(polygon, list) and polygon else None
+        best = min(best, point_to_ring_distance_m(lon, lat, outer_ring))
+    return best
+
+
 def find_area_match(lon: float, lat: float, areas: list[dict[str, Any]]) -> dict[str, Any] | None:
     best = None
     for area in areas:
-        if not point_in_geometry(lon, lat, area["geometry"]):
+        exact = point_in_geometry(lon, lat, area["geometry"])
+        tolerance_m = max(0.0, float(area.get("match_tolerance_m", 0) or 0))
+        distance_m = 0.0 if exact else point_to_geometry_distance_m(lon, lat, area["geometry"]) if tolerance_m > 0 else math.inf
+        if not exact and distance_m > tolerance_m:
             continue
-        if best is None or area["priority"] > best["priority"]:
-            best = area
+        candidate = {**area, "match_distance_m": distance_m}
+        if (
+            best is None
+            or candidate["priority"] > best["priority"]
+            or (candidate["priority"] == best["priority"] and candidate["match_distance_m"] < best["match_distance_m"])
+        ):
+            best = candidate
     return best
 
 
@@ -223,7 +280,7 @@ def resolve_location(lat: float | None, lon: float | None, locations: list[dict[
             "name": public_name,
             "municipality": area_match["municipality"] or (parent.get("municipality", "") if parent else ""),
             "country": area_match["country"] or (parent.get("country", "") if parent else ""),
-            "distance_m": None,
+            "distance_m": round(area_match.get("match_distance_m", 0.0), 1) if area_match.get("match_distance_m", 0.0) > 0 else None,
         }
 
     area_managed_location_ids = {area["location_id"] for area in areas}
