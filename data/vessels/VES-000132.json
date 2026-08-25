@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000132",
+  "identity": {
+    "name": "Viktoria",
+    "former_names": [],
+    "mmsi": "269057626",
+    "imo": "",
+    "eni": "09948008",
+    "call_sign": "HE7626"
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "MT"
+  },
+  "technical": {
+    "year_built": 2004,
+    "shipyard": "",
+    "length_m": 127.7,
+    "width_m": 11.4,
+    "draft_m": null,
+    "passengers": 180
+  },
+  "operations": {
+    "operator": "Nicko Cruises",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": "Valletta"
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [
+    {
+      "source_id": "SRC-A938C6FB3972",
+      "provider": "Wikipedia",
+      "title": "Kandidatenkatalog: Viktoria",
+      "url": "https://de.wikipedia.org/wiki/Viktoria_(Schiff,_2004)",
+      "notes": "Vorbelegung aus CAN-DAA677D53DF2.",
+      "fields_used": [
+        "identity.name",
+        "identity.eni",
+        "classification.ship_type",
+        "classification.ship_subtype",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "retrieved_at": "",
+      "verified_at": "",
+      "added_at": "2026-08-25T09:33:20.856Z",
+      "added_by": "candidate-catalog",
+      "candidate_id": "CAN-DAA677D53DF2",
+      "source_revision_id": "268617530"
+    }
+  ],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-B5089213DDB14FA79D79CEB10F58A8ED",
+    "primary_submission_id": "SUB-20260825-055950-9331B4"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-08-25T09:33:20.856Z",
+    "created_from_submission_id": "SUB-20260825-055950-9331B4",
+    "updated_at": "2026-08-25T09:33:20.856Z",
+    "updated_by": "web-ui",
+    "created_from_candidate_id": "CAN-DAA677D53DF2",
+    "candidate_source_revision_id": "268617530"
+  }
+}
