@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "updated_at": "2026-08-25T14:12:33.000Z",
-  "count": 49,
+  "count": 72,
   "photos": [
     {
       "photo_id": "PHOTO-4D2094E6D97D408FA7B53493916EDAEC",
@@ -18,12 +18,15 @@
         "id": "LOC-001",
         "area_id": "",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": 140
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260825-055637-372940"
@@ -45,12 +48,15 @@
         "id": "LOC-001",
         "area_id": "",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": 94
       },
       "berth": null,
       "movement": "",
+      "alongside_position": null,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260825-055637-372940"
@@ -68,13 +74,13 @@
       "photo_lon": 14.28677833333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
-        "name": "Untere Donaulände, Linz",
-        "municipality": "",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 102
       },
       "berth": {
         "status": "matched",
@@ -85,13 +91,85 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260825-055536-FBC98F"
       },
       "path": "inbox/photos/2026/08/PHOTO-4B98E021BDF9495D8443EA51563D5F2B.jpg"
+    },
+    {
+      "photo_id": "PHOTO-3DCF5DC7672E463FA3F9CA834A8BCABC",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055637-372940",
+      "vessel_id": "VES-000134",
+      "vessel_name": "Emerald Sun",
+      "captured_at": "2026-08-25T05:11:54.000Z",
+      "photo_lat": 48.30743333333334,
+      "photo_lon": 14.28612,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 71
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055637-372940"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-3DCF5DC7672E463FA3F9CA834A8BCABC.jpg"
+    },
+    {
+      "photo_id": "PHOTO-C09A27839918402BBF93E5C003105A97",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-062214-4CC23B",
+      "vessel_id": "",
+      "vessel_name": "Test",
+      "captured_at": "2026-08-25T05:11:48.000Z",
+      "photo_lat": 48.30743833333333,
+      "photo_lon": 14.2861,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 71
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-062214-4CC23B"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-C09A27839918402BBF93E5C003105A97.jpg"
     },
     {
       "photo_id": "PHOTO-A320BE957BB4482BBC3A9EA11B962E85",
@@ -104,13 +182,13 @@
       "photo_lon": 14.2861,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
-        "name": "Untere Donaulände, Linz",
-        "municipality": "",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 71
       },
       "berth": {
         "status": "matched",
@@ -121,13 +199,265 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260825-055834-D08628"
       },
       "path": "inbox/photos/2026/08/PHOTO-A320BE957BB4482BBC3A9EA11B962E85.jpg"
+    },
+    {
+      "photo_id": "PHOTO-14FD6E860400488186517EAA4862500C",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055743-F36CE3",
+      "vessel_id": "VES-000133",
+      "vessel_name": "Lady Cristina",
+      "captured_at": "2026-08-25T05:11:48.000Z",
+      "photo_lat": 48.30743833333333,
+      "photo_lon": 14.2861,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 71
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055743-F36CE3"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-14FD6E860400488186517EAA4862500C.jpg"
+    },
+    {
+      "photo_id": "PHOTO-CF77966A8BFA4E03B6AAF903C161383C",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055637-372940",
+      "vessel_id": "VES-000134",
+      "vessel_name": "Emerald Sun",
+      "captured_at": "2026-08-25T05:11:37.000Z",
+      "photo_lat": 48.30742833333333,
+      "photo_lon": 14.28609166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 70
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055637-372940"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-CF77966A8BFA4E03B6AAF903C161383C.jpg"
+    },
+    {
+      "photo_id": "PHOTO-70F4F5D38715480384B26B432807FAFB",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055637-372940",
+      "vessel_id": "VES-000134",
+      "vessel_name": "Emerald Sun",
+      "captured_at": "2026-08-25T05:11:11.000Z",
+      "photo_lat": 48.30733833333333,
+      "photo_lon": 14.28578666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 67
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055637-372940"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-70F4F5D38715480384B26B432807FAFB.jpg"
+    },
+    {
+      "photo_id": "PHOTO-E15E9A88C2754760BB72C00E2CBA68D6",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055637-372940",
+      "vessel_id": "VES-000134",
+      "vessel_name": "Emerald Sun",
+      "captured_at": "2026-08-25T05:11:09.000Z",
+      "photo_lat": 48.30733833333333,
+      "photo_lon": 14.28578666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 67
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055637-372940"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-E15E9A88C2754760BB72C00E2CBA68D6.jpg"
+    },
+    {
+      "photo_id": "PHOTO-0B97F4ED5A2E427FA4DD1C18AC91312F",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055637-372940",
+      "vessel_id": "VES-000134",
+      "vessel_name": "Emerald Sun",
+      "captured_at": "2026-08-25T05:10:40.000Z",
+      "photo_lat": 48.30717166666667,
+      "photo_lon": 14.28533333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 76
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055637-372940"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-0B97F4ED5A2E427FA4DD1C18AC91312F.jpg"
+    },
+    {
+      "photo_id": "PHOTO-E64D4DDE1EA84C5784FB153949C5AA78",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055637-372940",
+      "vessel_id": "VES-000134",
+      "vessel_name": "Emerald Sun",
+      "captured_at": "2026-08-25T05:09:56.000Z",
+      "photo_lat": 48.30697166666667,
+      "photo_lon": 14.28465,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 116
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055637-372940"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-E64D4DDE1EA84C5784FB153949C5AA78.jpg"
+    },
+    {
+      "photo_id": "PHOTO-B974D2CBD03D44359E48A93FF03AE674",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055743-F36CE3",
+      "vessel_id": "VES-000133",
+      "vessel_name": "Lady Cristina",
+      "captured_at": "2026-08-25T05:08:36.000Z",
+      "photo_lat": 48.30670333333333,
+      "photo_lon": 14.28365,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 189
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055743-F36CE3"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-B974D2CBD03D44359E48A93FF03AE674.jpg"
     },
     {
       "photo_id": "PHOTO-319B5D0422AD427497C35C426CFB509E",
@@ -140,13 +470,13 @@
       "photo_lon": 14.28365,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
-        "municipality": "",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 189
       },
       "berth": {
         "status": "matched",
@@ -157,13 +487,49 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260825-055834-D08628"
       },
       "path": "inbox/photos/2026/08/PHOTO-319B5D0422AD427497C35C426CFB509E.jpg"
+    },
+    {
+      "photo_id": "PHOTO-A327A7A8ED1B45729AA5CCEA0185012F",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055743-F36CE3",
+      "vessel_id": "VES-000133",
+      "vessel_name": "Lady Cristina",
+      "captured_at": "2026-08-25T05:08:24.000Z",
+      "photo_lat": 48.30667166666667,
+      "photo_lon": 14.28363833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 190
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055743-F36CE3"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-A327A7A8ED1B45729AA5CCEA0185012F.jpg"
     },
     {
       "photo_id": "PHOTO-B76374EE7DD441B4B83C7F6F88CB2952",
@@ -176,13 +542,13 @@
       "photo_lon": 14.28326666666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
-        "municipality": "",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 218
       },
       "berth": {
         "status": "matched",
@@ -193,13 +559,337 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260825-055834-D08628"
       },
       "path": "inbox/photos/2026/08/PHOTO-B76374EE7DD441B4B83C7F6F88CB2952.jpg"
+    },
+    {
+      "photo_id": "PHOTO-7749BCC760F347E4ABCDBA52EB672F38",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055743-F36CE3",
+      "vessel_id": "VES-000133",
+      "vessel_name": "Lady Cristina",
+      "captured_at": "2026-08-25T05:07:59.000Z",
+      "photo_lat": 48.30661666666666,
+      "photo_lon": 14.28326666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 218
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055743-F36CE3"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-7749BCC760F347E4ABCDBA52EB672F38.jpg"
+    },
+    {
+      "photo_id": "PHOTO-7BE38BBF168B47E6A47F924A6BE33F1D",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055950-9331B4",
+      "vessel_id": "VES-000132",
+      "vessel_name": "Viktoria",
+      "captured_at": "2026-08-25T05:07:55.000Z",
+      "photo_lat": 48.306625,
+      "photo_lon": 14.28327166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 217
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 127.7,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055950-9331B4"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-7BE38BBF168B47E6A47F924A6BE33F1D.jpg"
+    },
+    {
+      "photo_id": "PHOTO-B5089213DDB14FA79D79CEB10F58A8ED",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055950-9331B4",
+      "vessel_id": "VES-000132",
+      "vessel_name": "Viktoria",
+      "captured_at": "2026-08-25T05:07:52.000Z",
+      "photo_lat": 48.306625,
+      "photo_lon": 14.28326666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 218
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 127.7,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055950-9331B4"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-B5089213DDB14FA79D79CEB10F58A8ED.jpg"
+    },
+    {
+      "photo_id": "PHOTO-7A8F83F2F0EF49D5A32567C06E7FEFDE",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055950-9331B4",
+      "vessel_id": "VES-000132",
+      "vessel_name": "Viktoria",
+      "captured_at": "2026-08-25T05:07:15.000Z",
+      "photo_lat": 48.30676666666667,
+      "photo_lon": 14.28392166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 169
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 127.7,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055950-9331B4"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-7A8F83F2F0EF49D5A32567C06E7FEFDE.jpg"
+    },
+    {
+      "photo_id": "PHOTO-7CF80C38624B4623AF03FFFD04E79D67",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055743-F36CE3",
+      "vessel_id": "VES-000133",
+      "vessel_name": "Lady Cristina",
+      "captured_at": "2026-08-25T05:07:02.000Z",
+      "photo_lat": 48.306795,
+      "photo_lon": 14.28407,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 158
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055743-F36CE3"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-7CF80C38624B4623AF03FFFD04E79D67.jpg"
+    },
+    {
+      "photo_id": "PHOTO-5226E154C05F4022A38C841662B9A35C",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055743-F36CE3",
+      "vessel_id": "VES-000133",
+      "vessel_name": "Lady Cristina",
+      "captured_at": "2026-08-25T05:07:00.000Z",
+      "photo_lat": 48.30678833333333,
+      "photo_lon": 14.28407,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 158
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055743-F36CE3"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-5226E154C05F4022A38C841662B9A35C.jpg"
+    },
+    {
+      "photo_id": "PHOTO-8A5759C915E044EB923B2B0BAE2A30D9",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055743-F36CE3",
+      "vessel_id": "VES-000133",
+      "vessel_name": "Lady Cristina",
+      "captured_at": "2026-08-25T05:05:23.000Z",
+      "photo_lat": 48.306745,
+      "photo_lon": 14.28504666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 86
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055743-F36CE3"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-8A5759C915E044EB923B2B0BAE2A30D9.jpg"
+    },
+    {
+      "photo_id": "PHOTO-D43354D7EE2B44F3A47428DA948429E5",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055743-F36CE3",
+      "vessel_id": "VES-000133",
+      "vessel_name": "Lady Cristina",
+      "captured_at": "2026-08-25T05:04:33.000Z",
+      "photo_lat": 48.30712833333333,
+      "photo_lon": 14.28535833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 72
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055743-F36CE3"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-D43354D7EE2B44F3A47428DA948429E5.jpg"
+    },
+    {
+      "photo_id": "PHOTO-EE3D3DFC4C7F42A086D971D050005962",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055743-F36CE3",
+      "vessel_id": "VES-000133",
+      "vessel_name": "Lady Cristina",
+      "captured_at": "2026-08-25T05:04:00.000Z",
+      "photo_lat": 48.30741166666667,
+      "photo_lon": 14.28526333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 97
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055743-F36CE3"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-EE3D3DFC4C7F42A086D971D050005962.jpg"
     },
     {
       "photo_id": "PHOTO-A4C9A3B7BC0A4379A73F4235105A54E2",
@@ -212,13 +902,13 @@
       "photo_lon": 14.28519166666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 110
       },
       "berth": {
         "status": "matched",
@@ -229,7 +919,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -248,13 +938,13 @@
       "photo_lon": 14.28512166666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 120
       },
       "berth": {
         "status": "matched",
@@ -265,7 +955,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -284,13 +974,13 @@
       "photo_lon": 14.284695,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 189
       },
       "berth": {
         "status": "matched",
@@ -301,7 +991,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -320,13 +1010,13 @@
       "photo_lon": 14.28419166666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 272
       },
       "berth": {
         "status": "matched",
@@ -337,13 +1027,49 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260825-055834-D08628"
       },
       "path": "inbox/photos/2026/08/PHOTO-DA29C8A7C8BC45149AEB3DB29DF8A91F.jpg"
+    },
+    {
+      "photo_id": "PHOTO-A1FBE268E5204FF1972E4ADE6DA040B6",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055950-9331B4",
+      "vessel_id": "VES-000132",
+      "vessel_name": "Viktoria",
+      "captured_at": "2026-08-25T05:01:25.000Z",
+      "photo_lat": 48.30886166666667,
+      "photo_lon": 14.28419666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 273
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 127.7,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055950-9331B4"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-A1FBE268E5204FF1972E4ADE6DA040B6.jpg"
     },
     {
       "photo_id": "PHOTO-40D8BAA8255145B79948E40331EFB3D1",
@@ -356,13 +1082,13 @@
       "photo_lon": 14.28347166666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
-        "municipality": "",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 326
       },
       "berth": {
         "status": "matched",
@@ -373,13 +1099,121 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260825-055834-D08628"
       },
       "path": "inbox/photos/2026/08/PHOTO-40D8BAA8255145B79948E40331EFB3D1.jpg"
+    },
+    {
+      "photo_id": "PHOTO-9500412AE4314E4785695CA1872D8D32",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055950-9331B4",
+      "vessel_id": "VES-000132",
+      "vessel_name": "Viktoria",
+      "captured_at": "2026-08-25T04:59:41.000Z",
+      "photo_lat": 48.30910833333333,
+      "photo_lon": 14.28347166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 326
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 127.7,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055950-9331B4"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-9500412AE4314E4785695CA1872D8D32.jpg"
+    },
+    {
+      "photo_id": "PHOTO-34514E2E842B41F7A9A134C75F184A50",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260824-142259-B5219C",
+      "vessel_id": "VES-000131",
+      "vessel_name": "Lisabelle A",
+      "captured_at": "2026-08-24T14:16:48.000Z",
+      "photo_lat": 48.308345,
+      "photo_lon": 14.28456333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 210
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 12.0,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260824-142259-B5219C"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-34514E2E842B41F7A9A134C75F184A50.jpg"
+    },
+    {
+      "photo_id": "PHOTO-2D64EEBCB2524C7F97B67EAD4C08E76F",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260824-142259-B5219C",
+      "vessel_id": "VES-000131",
+      "vessel_name": "Lisabelle A",
+      "captured_at": "2026-08-24T14:15:57.000Z",
+      "photo_lat": 48.30773,
+      "photo_lon": 14.28502,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 135
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 12.0,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260824-142259-B5219C"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-2D64EEBCB2524C7F97B67EAD4C08E76F.jpg"
     },
     {
       "photo_id": "PHOTO-438E98733CAF4ADA80952B59B27F7F22",
@@ -392,13 +1226,13 @@
       "photo_lon": 14.28531666666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 139
       },
       "berth": {
         "status": "matched",
@@ -409,7 +1243,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -428,13 +1262,13 @@
       "photo_lon": 14.28531333333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 139
       },
       "berth": {
         "status": "matched",
@@ -445,8 +1279,8 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
-      "vessel_width_m": 11,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.0,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260824-055441-4E6345"
@@ -464,13 +1298,13 @@
       "photo_lon": 14.28518333333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 161
       },
       "berth": {
         "status": "matched",
@@ -481,7 +1315,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -500,13 +1334,13 @@
       "photo_lon": 14.28458333333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 260
       },
       "berth": {
         "status": "matched",
@@ -517,7 +1351,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -536,13 +1370,13 @@
       "photo_lon": 14.28444166666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 284
       },
       "berth": {
         "status": "matched",
@@ -553,8 +1387,8 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
-      "vessel_width_m": 11,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.0,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260824-055441-4E6345"
@@ -572,13 +1406,13 @@
       "photo_lon": 14.28465333333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
-        "name": "Urfahraner Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 321
       },
       "berth": {
         "status": "matched",
@@ -589,7 +1423,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -608,18 +1442,18 @@
       "photo_lon": 14.28296166666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 241
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -638,18 +1472,18 @@
       "photo_lon": 14.28353833333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 197
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -668,18 +1502,18 @@
       "photo_lon": 14.28353333333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 198
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -698,18 +1532,18 @@
       "photo_lon": 14.28391666666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 169
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -728,13 +1562,13 @@
       "photo_lon": 14.28535333333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 72
       },
       "berth": {
         "status": "matched",
@@ -745,7 +1579,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -764,13 +1598,13 @@
       "photo_lon": 14.28525,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 96
       },
       "berth": {
         "status": "matched",
@@ -781,7 +1615,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -800,13 +1634,13 @@
       "photo_lon": 14.285175,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 107
       },
       "berth": {
         "status": "matched",
@@ -817,7 +1651,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 110,
+      "vessel_length_m": 110.0,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -836,13 +1670,13 @@
       "photo_lon": 14.28470833333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 183
       },
       "berth": {
         "status": "matched",
@@ -853,7 +1687,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 110,
+      "vessel_length_m": 110.0,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -872,18 +1706,18 @@
       "photo_lon": 14.284595,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 201
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -902,13 +1736,13 @@
       "photo_lon": 14.28418833333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 271
       },
       "berth": {
         "status": "matched",
@@ -919,7 +1753,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -938,13 +1772,13 @@
       "photo_lon": 14.28418333333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 271
       },
       "berth": {
         "status": "matched",
@@ -955,7 +1789,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 110,
+      "vessel_length_m": 110.0,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -974,18 +1808,18 @@
       "photo_lon": 14.28365833333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 188
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
@@ -1004,13 +1838,13 @@
       "photo_lon": 14.28395333333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 166
       },
       "berth": {
         "status": "matched",
@@ -1021,8 +1855,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 12,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -1040,18 +1874,18 @@
       "photo_lon": 14.28404166666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 160
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
@@ -1070,18 +1904,18 @@
       "photo_lon": 14.28525333333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 95
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
@@ -1100,13 +1934,13 @@
       "photo_lon": 14.28518333333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 108
       },
       "berth": null,
       "movement": "",
@@ -1130,13 +1964,13 @@
       "photo_lon": 14.28455333333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 213
       },
       "berth": null,
       "movement": "",
@@ -1160,19 +1994,19 @@
       "photo_lon": 14.28402833333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 297
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 12,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -1190,19 +2024,19 @@
       "photo_lon": 14.28402833333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 297
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 12,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -1220,13 +2054,13 @@
       "photo_lon": 14.28345333333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 326
       },
       "berth": {
         "status": "matched",
@@ -1237,8 +2071,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 12,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -1256,13 +2090,13 @@
       "photo_lon": 14.28358,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 319
       },
       "berth": {
         "status": "matched",
@@ -1292,18 +2126,18 @@
       "photo_lon": 14.28567,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
-        "name": "Urfahraner Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 354
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
@@ -1322,13 +2156,13 @@
       "photo_lon": 14.28728666666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
-        "name": "Urfahraner Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 464
       },
       "berth": {
         "status": "matched",
@@ -1358,18 +2192,18 @@
       "photo_lon": 14.284425,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
-        "name": "Urfahraner Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 320
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
@@ -1388,13 +2222,13 @@
       "photo_lon": 14.282245,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 352
       },
       "berth": {
         "status": "matched",
@@ -1424,13 +2258,13 @@
       "photo_lon": 14.28225,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 351
       },
       "berth": {
         "status": "matched",
@@ -1441,8 +2275,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 12,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -1460,19 +2294,19 @@
       "photo_lon": 14.28761666666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
-        "name": "Untere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 149
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 22,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 22.0,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260819-052017-A072A4"
@@ -1490,18 +2324,18 @@
       "photo_lon": 14.28557,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 97
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -1520,18 +2354,18 @@
       "photo_lon": 14.28557,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 97
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -1550,18 +2384,18 @@
       "photo_lon": 14.28917166666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
-        "name": "Untere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 335
       },
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -1580,13 +2414,13 @@
       "photo_lon": 14.2854,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": 0
+        "distance_m": 126
       },
       "berth": {
         "status": "matched",
@@ -1597,7 +2431,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1616,13 +2450,13 @@
       "photo_lon": 14.28539666666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": 0
+        "distance_m": 127
       },
       "berth": {
         "status": "matched",
@@ -1633,7 +2467,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1642,7 +2476,7 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 48,
+  "sighting_count": 52,
   "sightings": [
     {
       "submission_id": "SUB-20260825-055536-FBC98F",
@@ -1651,13 +2485,13 @@
       "captured_at": "2026-08-25T05:12:45.000Z",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
-        "name": "Untere Donaulände, Linz",
-        "municipality": "",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 102
       },
       "berth": {
         "status": "matched",
@@ -1668,10 +2502,39 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260825-055637-372940",
+      "vessel_id": "VES-000134",
+      "vessel_name": "Emerald Sun",
+      "captured_at": "2026-08-25T05:11:54.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 71
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 6
     },
     {
       "submission_id": "SUB-20260825-055834-D08628",
@@ -1680,13 +2543,13 @@
       "captured_at": "2026-08-25T05:08:30.000Z",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
-        "municipality": "",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 189
       },
       "berth": {
         "status": "matched",
@@ -1697,10 +2560,97 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 8
+    },
+    {
+      "submission_id": "SUB-20260825-055950-9331B4",
+      "vessel_id": "VES-000132",
+      "vessel_name": "Viktoria",
+      "captured_at": "2026-08-25T05:07:52.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 218
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 127.7,
+      "vessel_width_m": 11.4,
+      "direction": "upstream",
+      "photo_count": 5
+    },
+    {
+      "submission_id": "SUB-20260825-055743-F36CE3",
+      "vessel_id": "VES-000133",
+      "vessel_name": "Lady Cristina",
+      "captured_at": "2026-08-25T05:05:23.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 86
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 11.4,
+      "direction": "upstream",
+      "photo_count": 9
+    },
+    {
+      "submission_id": "SUB-20260824-142259-B5219C",
+      "vessel_id": "VES-000131",
+      "vessel_name": "Lisabelle A",
+      "captured_at": "2026-08-24T14:15:01.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110.0,
+      "vessel_width_m": 12.0,
+      "direction": "upstream",
+      "photo_count": 3
     },
     {
       "submission_id": "SUB-20260824-055134-FF7351",
@@ -1709,13 +2659,13 @@
       "captured_at": "2026-08-24T05:09:14.000Z",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 139
       },
       "berth": {
         "status": "matched",
@@ -1726,7 +2676,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 1
@@ -1738,13 +2688,13 @@
       "captured_at": "2026-08-24T05:08:49.000Z",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 161
       },
       "berth": {
         "status": "matched",
@@ -1755,7 +2705,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 3
@@ -1767,13 +2717,13 @@
       "captured_at": "2026-08-24T05:07:20.000Z",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 284
       },
       "berth": {
         "status": "matched",
@@ -1784,8 +2734,8 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
-      "vessel_width_m": 11,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 11.0,
       "direction": "upstream",
       "photo_count": 2
     },
@@ -1796,13 +2746,13 @@
       "captured_at": "2026-08-21T05:08:51.000Z",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 96
       },
       "berth": {
         "status": "matched",
@@ -1813,7 +2763,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
@@ -1842,7 +2792,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 110,
+      "vessel_length_m": 110.0,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 4
@@ -1871,7 +2821,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
@@ -1883,13 +2833,13 @@
       "captured_at": "2026-08-20T05:08:57.000Z",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-URFAHR-DONAULAENDE",
-        "name": "Urfahraner Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 464
       },
       "berth": {
         "status": "matched",
@@ -1912,13 +2862,13 @@
       "captured_at": "2026-08-20T05:02:53.000Z",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 352
       },
       "berth": {
         "status": "matched",
@@ -1941,13 +2891,13 @@
       "captured_at": "2026-08-20T05:02:17.000Z",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 351
       },
       "berth": {
         "status": "matched",
@@ -1958,8 +2908,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 12,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 3
     },
@@ -1970,13 +2920,13 @@
       "captured_at": "2026-08-19T05:04:58.000Z",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
-        "name": "Untere Donaulände, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 276
       },
       "berth": {
         "status": "matched",
@@ -1987,8 +2937,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 22,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 22.0,
       "direction": "upstream",
       "photo_count": 5
     },
@@ -2016,7 +2966,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 0
@@ -2045,7 +2995,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 0
@@ -2074,8 +3024,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 12,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 0
     },
@@ -2103,7 +3053,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 0
@@ -2132,7 +3082,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 0
@@ -2161,8 +3111,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 107,
-      "vessel_width_m": 12,
+      "vessel_length_m": 107.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 0
     },
@@ -2173,13 +3123,13 @@
       "captured_at": "2026-08-18T05:05:33.000Z",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 96
       },
       "berth": {
         "status": "matched",
@@ -2190,7 +3140,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 1
@@ -2202,13 +3152,13 @@
       "captured_at": "2026-08-18T05:02:25.000Z",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 330
       },
       "berth": {
         "status": "matched",
@@ -2219,7 +3169,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 3
@@ -2248,8 +3198,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 12,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 1
     },
@@ -2277,8 +3227,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 12,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 2
     },
@@ -2288,14 +3238,14 @@
       "vessel_name": "S. S. Emilie",
       "captured_at": "2026-08-17T08:16:16.000Z",
       "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
         "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
-        "distance_m": null
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 446
       },
       "berth": {
         "status": "matched",
@@ -2306,8 +3256,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 12,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 0
     },
@@ -2335,7 +3285,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 1
@@ -2364,7 +3314,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 1
@@ -2393,8 +3343,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 12,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 4
     },
@@ -2422,7 +3372,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 1
@@ -2451,7 +3401,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 110,
+      "vessel_length_m": 110.0,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 5
@@ -2480,8 +3430,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 107,
-      "vessel_width_m": 12,
+      "vessel_length_m": 107.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 3
     },
@@ -2509,7 +3459,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 7
@@ -2538,7 +3488,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 7
@@ -2567,7 +3517,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
@@ -2596,8 +3546,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
-      "vessel_width_m": 12,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 2
     },
@@ -2625,7 +3575,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 3
@@ -2654,7 +3604,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
@@ -2677,7 +3627,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "direction": "unknown",
       "photo_count": 2
@@ -2700,7 +3650,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 1
@@ -2723,7 +3673,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 3
@@ -2746,7 +3696,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 1
@@ -2758,13 +3708,13 @@
       "captured_at": "2026-07-23T14:16:06.000Z",
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": 0
+        "distance_m": 127
       },
       "berth": {
         "status": "matched",
@@ -2775,7 +3725,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
@@ -2786,13 +3736,13 @@
       "vessel_name": "A-Rosa Flora",
       "captured_at": "2026-07-23T05:03:57.000Z",
       "location": {
-        "status": "matched",
-        "matched_by": "berth_id",
-        "id": "LOC-001",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
         "area_id": "",
-        "name": "Nibelungenbrücke, Linz",
+        "name": "",
         "municipality": "",
-        "country": "Österreich",
+        "country": "",
         "distance_m": null
       },
       "berth": {
@@ -2804,7 +3754,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 3
@@ -2815,13 +3765,13 @@
       "vessel_name": "Travelmarvel Capella",
       "captured_at": "2026-07-23T05:01:56.000Z",
       "location": {
-        "status": "matched",
-        "matched_by": "berth_id",
-        "id": "LOC-001",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
         "area_id": "",
-        "name": "Nibelungenbrücke, Linz",
+        "name": "",
         "municipality": "",
-        "country": "Österreich",
+        "country": "",
         "distance_m": null
       },
       "berth": {
@@ -2833,8 +3783,8 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135,
-      "vessel_width_m": 12,
+      "vessel_length_m": 135.0,
+      "vessel_width_m": 12.0,
       "direction": "upstream",
       "photo_count": 3
     },
@@ -2856,7 +3806,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 131,
+      "vessel_length_m": 131.0,
       "vessel_width_m": 11.4,
       "direction": "unknown",
       "photo_count": 2
@@ -2879,7 +3829,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 131,
+      "vessel_length_m": 131.0,
       "vessel_width_m": 11.4,
       "direction": "unknown",
       "photo_count": 1
@@ -2902,7 +3852,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 131,
+      "vessel_length_m": 131.0,
       "vessel_width_m": 11.4,
       "direction": "unknown",
       "photo_count": 1
@@ -2925,7 +3875,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 1
@@ -2971,7 +3921,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 135,
+      "vessel_length_m": 135.0,
       "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 1

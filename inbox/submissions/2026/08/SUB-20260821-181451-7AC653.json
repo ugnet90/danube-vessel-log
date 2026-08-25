@@ -83,13 +83,13 @@
       "photo_lon": 14.28418833333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 271
       }
     }
   ],

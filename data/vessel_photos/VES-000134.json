@@ -23,7 +23,7 @@
         "id": "LOC-001",
         "area_id": "",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": 94
       },
@@ -54,7 +54,7 @@
         "id": "LOC-001",
         "area_id": "",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": 140
       },

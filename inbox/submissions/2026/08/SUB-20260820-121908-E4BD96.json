@@ -5,13 +5,13 @@
   "captured_at": "2026-08-20T05:02:53.000Z",
   "location": {
     "status": "matched",
-    "matched_by": "geo_area",
+    "matched_by": "coordinates",
     "id": "LOC-001",
-    "area_id": "AREA-LINZ-ALT-URFAHR",
-    "name": "Donauufer Alt-Urfahr, Linz",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
     "municipality": "Linz",
     "country": "Österreich",
-    "distance_m": null
+    "distance_m": 352
   },
   "berth": {
     "status": "matched",
@@ -60,13 +60,13 @@
       "photo_lon": 14.282245,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 352
       }
     },
     {
@@ -83,13 +83,13 @@
       "photo_lon": 14.28358,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-ALT-URFAHR",
-        "name": "Donauufer Alt-Urfahr, Linz",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 319
       }
     }
   ],

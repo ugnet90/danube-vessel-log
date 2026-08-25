@@ -5,13 +5,13 @@
   "captured_at": "2026-08-24T05:07:20.000Z",
   "location": {
     "status": "matched",
-    "matched_by": "geo_area",
+    "matched_by": "coordinates",
     "id": "LOC-001",
-    "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+    "area_id": "",
     "name": "Nibelungenbrücke, Linz",
     "municipality": "Linz",
     "country": "Österreich",
-    "distance_m": null
+    "distance_m": 284
   },
   "berth": {
     "status": "matched",
@@ -60,13 +60,13 @@
       "photo_lon": 14.28444166666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 284
       }
     },
     {
@@ -83,13 +83,13 @@
       "photo_lon": 14.28531333333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
         "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 139
       }
     }
   ],

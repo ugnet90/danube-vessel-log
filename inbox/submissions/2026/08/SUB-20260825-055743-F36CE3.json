@@ -5,13 +5,13 @@
   "captured_at": "2026-08-25T05:05:23.000Z",
   "location": {
     "status": "matched",
-    "matched_by": "geo_area",
+    "matched_by": "coordinates",
     "id": "LOC-001",
-    "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-    "name": "Obere Donaulände, Linz",
-    "municipality": "",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
     "country": "Österreich",
-    "distance_m": null
+    "distance_m": 86
   },
   "berth": {
     "status": "matched",
@@ -61,13 +61,13 @@
       "photo_lon": 14.28504666666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
-        "municipality": "",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 86
       }
     },
     {
@@ -84,13 +84,13 @@
       "photo_lon": 14.28365,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
-        "municipality": "",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 189
       }
     },
     {
@@ -107,13 +107,13 @@
       "photo_lon": 14.28407,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
-        "municipality": "",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 158
       }
     },
     {
@@ -130,13 +130,13 @@
       "photo_lon": 14.28363833333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
-        "municipality": "",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 190
       }
     },
     {
@@ -153,13 +153,13 @@
       "photo_lon": 14.28535833333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 72
       }
     },
     {
@@ -176,13 +176,13 @@
       "photo_lon": 14.28407,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
-        "municipality": "",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 158
       }
     },
     {
@@ -199,13 +199,13 @@
       "photo_lon": 14.2861,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
-        "name": "Untere Donaulände, Linz",
-        "municipality": "",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 71
       }
     },
     {
@@ -222,13 +222,13 @@
       "photo_lon": 14.28526333333333,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "area_id": "",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 97
       }
     },
     {
@@ -245,13 +245,13 @@
       "photo_lon": 14.28326666666667,
       "location": {
         "status": "matched",
-        "matched_by": "geo_area",
+        "matched_by": "coordinates",
         "id": "LOC-001",
-        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
-        "name": "Obere Donaulände, Linz",
-        "municipality": "",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
         "country": "Österreich",
-        "distance_m": null
+        "distance_m": 218
       }
     }
   ],

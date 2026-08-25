@@ -4,14 +4,14 @@
   "uploaded_at": "2026-08-17T08:16:32.000Z",
   "captured_at": "2026-08-17T08:16:16.000Z",
   "location": {
-    "status": "unknown",
-    "matched_by": "",
-    "id": "",
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
     "area_id": "",
-    "name": "",
-    "municipality": "",
-    "country": "",
-    "distance_m": null
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "distance_m": 446
   },
   "berth": {
     "status": "matched",
