@@ -1,8 +1,35 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-08-25T14:11:45.000Z",
-  "count": 48,
+  "updated_at": "2026-08-25T14:12:33.000Z",
+  "count": 49,
   "photos": [
+    {
+      "photo_id": "PHOTO-4D2094E6D97D408FA7B53493916EDAEC",
+      "source_type": "direct",
+      "submission_id": "SUB-20260825-055637-372940",
+      "vessel_id": "VES-000134",
+      "vessel_name": "Emerald Sun",
+      "captured_at": "2026-08-25T14:12:33.000Z",
+      "photo_lat": 48.30790333333334,
+      "photo_lon": 14.28527833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 140
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055637-372940"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-4D2094E6D97D408FA7B53493916EDAEC.jpg"
+    },
     {
       "photo_id": "PHOTO-FE837D0DCF8C44ACA5B194F4D0EE92CC",
       "source_type": "direct",
