@@ -1,0 +1,189 @@
+{
+  "schema_version": 14,
+  "submission_id": "SUB-20260825-055950-9331B4",
+  "uploaded_at": "2026-08-25T05:59:50.865Z",
+  "captured_at": "2026-08-25T05:07:52.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "geo_area",
+    "id": "LOC-001",
+    "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+    "name": "Obere Donaulände, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000001",
+    "name": "Schiffsanlegestelle Linz-Schloss",
+    "short_name": "Linz-Schloss Nr. 11",
+    "station_number": "11",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "upstream",
+    "river_km": 2135.3436,
+    "river_km_text": "2135,3+43,6 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 13 m",
+    "entry_count": 3,
+    "entry_height": "0,80 m oder 1,50 m",
+    "latitude": 48.3067095,
+    "longitude": 14.2825785,
+    "address": "Obere Donaulände, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 1,
+  "direction": "upstream",
+  "vessel_name_entered": "Viktoria",
+  "notes": "",
+  "observer_lat": 48.306625,
+  "observer_lon": 14.28326666666667,
+  "photos": [
+    {
+      "photo_id": "PHOTO-B5089213DDB14FA79D79CEB10F58A8ED",
+      "path": "inbox/photos/2026/08/PHOTO-B5089213DDB14FA79D79CEB10F58A8ED.jpg",
+      "filename": "PHOTO-B5089213DDB14FA79D79CEB10F58A8ED.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 369557,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-08-25T05:07:52.000Z",
+      "photo_lat": 48.306625,
+      "photo_lon": 14.28326666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "name": "Obere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-7BE38BBF168B47E6A47F924A6BE33F1D",
+      "path": "inbox/photos/2026/08/PHOTO-7BE38BBF168B47E6A47F924A6BE33F1D.jpg",
+      "filename": "PHOTO-7BE38BBF168B47E6A47F924A6BE33F1D.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 355766,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-08-25T05:07:55.000Z",
+      "photo_lat": 48.306625,
+      "photo_lon": 14.28327166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "name": "Obere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-7A8F83F2F0EF49D5A32567C06E7FEFDE",
+      "path": "inbox/photos/2026/08/PHOTO-7A8F83F2F0EF49D5A32567C06E7FEFDE.jpg",
+      "filename": "PHOTO-7A8F83F2F0EF49D5A32567C06E7FEFDE.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 367451,
+      "sequence": 3,
+      "metadata_version": 1,
+      "captured_at": "2026-08-25T05:07:15.000Z",
+      "photo_lat": 48.30676666666667,
+      "photo_lon": 14.28392166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "name": "Obere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-A1FBE268E5204FF1972E4ADE6DA040B6",
+      "path": "inbox/photos/2026/08/PHOTO-A1FBE268E5204FF1972E4ADE6DA040B6.jpg",
+      "filename": "PHOTO-A1FBE268E5204FF1972E4ADE6DA040B6.jpg",
+      "original_filename": "shortcut-photo-04.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 418045,
+      "sequence": 4,
+      "metadata_version": 1,
+      "captured_at": "2026-08-25T05:01:25.000Z",
+      "photo_lat": 48.30886166666667,
+      "photo_lon": 14.28419666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-9500412AE4314E4785695CA1872D8D32",
+      "path": "inbox/photos/2026/08/PHOTO-9500412AE4314E4785695CA1872D8D32.jpg",
+      "filename": "PHOTO-9500412AE4314E4785695CA1872D8D32.jpg",
+      "original_filename": "shortcut-photo-05.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 422533,
+      "sequence": 5,
+      "metadata_version": 1,
+      "captured_at": "2026-08-25T04:59:41.000Z",
+      "photo_lat": 48.30910833333333,
+      "photo_lon": 14.28347166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "viktoria"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.306625,
+  "photo_lon": 14.28326666666667
+}
