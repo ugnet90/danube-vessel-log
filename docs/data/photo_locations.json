@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "updated_at": "2026-08-25T05:12:45.000Z",
-  "count": 39,
+  "count": 47,
   "photos": [
     {
       "photo_id": "PHOTO-4B98E021BDF9495D8443EA51563D5F2B",
@@ -38,6 +38,294 @@
         "submission_id": "SUB-20260825-055536-FBC98F"
       },
       "path": "inbox/photos/2026/08/PHOTO-4B98E021BDF9495D8443EA51563D5F2B.jpg"
+    },
+    {
+      "photo_id": "PHOTO-A320BE957BB4482BBC3A9EA11B962E85",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055834-D08628",
+      "vessel_id": "VES-000114",
+      "vessel_name": "Avalon Illumination",
+      "captured_at": "2026-08-25T05:11:48.000Z",
+      "photo_lat": 48.30743833333333,
+      "photo_lon": 14.2861,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+        "name": "Untere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055834-D08628"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-A320BE957BB4482BBC3A9EA11B962E85.jpg"
+    },
+    {
+      "photo_id": "PHOTO-319B5D0422AD427497C35C426CFB509E",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055834-D08628",
+      "vessel_id": "VES-000114",
+      "vessel_name": "Avalon Illumination",
+      "captured_at": "2026-08-25T05:08:30.000Z",
+      "photo_lat": 48.30668666666666,
+      "photo_lon": 14.28365,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "name": "Obere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055834-D08628"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-319B5D0422AD427497C35C426CFB509E.jpg"
+    },
+    {
+      "photo_id": "PHOTO-B76374EE7DD441B4B83C7F6F88CB2952",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055834-D08628",
+      "vessel_id": "VES-000114",
+      "vessel_name": "Avalon Illumination",
+      "captured_at": "2026-08-25T05:07:59.000Z",
+      "photo_lat": 48.30661666666666,
+      "photo_lon": 14.28326666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "name": "Obere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055834-D08628"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-B76374EE7DD441B4B83C7F6F88CB2952.jpg"
+    },
+    {
+      "photo_id": "PHOTO-A4C9A3B7BC0A4379A73F4235105A54E2",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055834-D08628",
+      "vessel_id": "VES-000114",
+      "vessel_name": "Avalon Illumination",
+      "captured_at": "2026-08-25T05:03:45.000Z",
+      "photo_lat": 48.30752166666667,
+      "photo_lon": 14.28519166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055834-D08628"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-A4C9A3B7BC0A4379A73F4235105A54E2.jpg"
+    },
+    {
+      "photo_id": "PHOTO-517BC0A8D74048B1893033AE1931F4A4",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055834-D08628",
+      "vessel_id": "VES-000114",
+      "vessel_name": "Avalon Illumination",
+      "captured_at": "2026-08-25T05:03:22.000Z",
+      "photo_lat": 48.307605,
+      "photo_lon": 14.28512166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055834-D08628"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-517BC0A8D74048B1893033AE1931F4A4.jpg"
+    },
+    {
+      "photo_id": "PHOTO-6627E8C4F6034234A6D9D44021F5941D",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055834-D08628",
+      "vessel_id": "VES-000114",
+      "vessel_name": "Avalon Illumination",
+      "captured_at": "2026-08-25T05:02:34.000Z",
+      "photo_lat": 48.30817,
+      "photo_lon": 14.284695,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055834-D08628"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-6627E8C4F6034234A6D9D44021F5941D.jpg"
+    },
+    {
+      "photo_id": "PHOTO-DA29C8A7C8BC45149AEB3DB29DF8A91F",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055834-D08628",
+      "vessel_id": "VES-000114",
+      "vessel_name": "Avalon Illumination",
+      "captured_at": "2026-08-25T05:01:32.000Z",
+      "photo_lat": 48.30885333333333,
+      "photo_lon": 14.28419166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-NIBELUNGENBRUECKE",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055834-D08628"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-DA29C8A7C8BC45149AEB3DB29DF8A91F.jpg"
+    },
+    {
+      "photo_id": "PHOTO-40D8BAA8255145B79948E40331EFB3D1",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260825-055834-D08628",
+      "vessel_id": "VES-000114",
+      "vessel_name": "Avalon Illumination",
+      "captured_at": "2026-08-25T04:59:49.000Z",
+      "photo_lat": 48.30910833333333,
+      "photo_lon": 14.28347166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-ALT-URFAHR",
+        "name": "Donauufer Alt-Urfahr, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260825-055834-D08628"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-40D8BAA8255145B79948E40331EFB3D1.jpg"
     },
     {
       "photo_id": "PHOTO-438E98733CAF4ADA80952B59B27F7F22",
@@ -1300,7 +1588,7 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 47,
+  "sighting_count": 48,
   "sightings": [
     {
       "submission_id": "SUB-20260825-055536-FBC98F",
@@ -1330,6 +1618,35 @@
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260825-055834-D08628",
+      "vessel_id": "VES-000114",
+      "vessel_name": "Avalon Illumination",
+      "captured_at": "2026-08-25T05:08:30.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-OBERE-DONAULAENDE",
+        "name": "Obere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 8
     },
     {
       "submission_id": "SUB-20260824-055134-FF7351",
