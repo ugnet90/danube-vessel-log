@@ -9,7 +9,7 @@
       "Klimt"
     ],
     "mmsi": "211498130",
-    "imo": "",
+    "imo": "2704200",
     "eni": "07001828",
     "call_sign": "DJ4191"
   },
@@ -24,7 +24,7 @@
     "shipyard": "",
     "length_m": 110,
     "width_m": 11.4,
-    "draft_m": null,
+    "draft_m": 1.5,
     "passengers": 150
   },
   "operations": {
@@ -61,12 +61,34 @@
       "added_by": "candidate-catalog",
       "candidate_id": "CAN-D6C28E4C74F3",
       "source_revision_id": "268617530"
+    },
+    {
+      "source_id": "SRC-EB62DCE12707",
+      "provider": "Wikidata",
+      "title": "Wikidata: Lady Cristina",
+      "url": "https://www.wikidata.org/wiki/Q451699",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "identity.imo",
+        "technical.draft_m"
+      ],
+      "retrieved_at": "2026-08-25T09:47:14.247849Z",
+      "verified_at": "2026-08-25T10:44:02.005Z",
+      "added_at": "2026-08-25T10:44:02.005Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2340344889
     }
   ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q451699",
+      "rejected_qids": [],
+      "accepted_at": "2026-08-25T10:44:02.005Z",
+      "last_reviewed_at": "2026-08-25T10:44:02.005Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-8A5759C915E044EB923B2B0BAE2A30D9",
@@ -77,9 +99,38 @@
     "environment": "production",
     "created_at": "2026-08-25T09:41:30.181Z",
     "created_from_submission_id": "SUB-20260825-055743-F36CE3",
-    "updated_at": "2026-08-25T09:41:30.181Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-08-25T10:44:02.005Z",
+    "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-D6C28E4C74F3",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-08-25T10:44:02.005Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "2 Wikidata-Felder aus Q451699 übernommen",
+        "changed_fields": [
+          "identity.imo",
+          "technical.draft_m",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "identity.imo",
+            "old_value": "",
+            "new_value": "2704200"
+          },
+          {
+            "field": "technical.draft_m",
+            "old_value": null,
+            "new_value": 1.5
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q451699"
+          }
+        ]
+      }
+    ]
   }
 }
