@@ -1,7 +1,7 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.5**  
-Stand: **24.08.2026**
+Aktuelle Version: **0.15.6**  
+Stand: **25.08.2026**
 
 ## 1. Projektzweck
 
@@ -2921,6 +2921,13 @@ Die Änderung an `cloudflare/worker.js` erfordert ein **Cloudflare-Worker-Deploy
 - `README.md`: Projektstand `0.15.2`.
 
 
+
+
+## 0.15.6 – Kartenindex bei Schiffsneuanlage
+
+- Wird aus einer Sichtung ein **neues Schiff angelegt**, aktualisiert der Worker nun im selben atomaren Commit auch `data/photo_locations.json` und `docs/data/photo_locations.json`.
+- Dadurch erscheinen neu angelegte Schiffe mit ihrer Sichtung sofort auch auf `location_areas.html`; bisher war die Sichtung dort erst nach einem manuellen `Rebuild location matches` sichtbar.
+- Bereits fehlende Einträge werden einmalig durch `Rebuild location matches` nachgezogen.
 
 ## 0.15.5 – Schiffslänge maßstäblich korrigiert
 
