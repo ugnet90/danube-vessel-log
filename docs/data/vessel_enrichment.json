@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-25T09:45:17.863063Z",
+  "generated_at": "2026-08-25T09:47:14.247849Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -1636,8 +1636,8 @@
             "score": 1.0,
             "confidence": "very_high",
             "matched_by": [
-              "identity.mmsi",
-              "identity.eni"
+              "identity.eni",
+              "identity.mmsi"
             ],
             "manually_confirmed": false,
             "identifiers": {
