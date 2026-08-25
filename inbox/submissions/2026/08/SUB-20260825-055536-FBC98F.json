@@ -1,0 +1,99 @@
+{
+  "schema_version": 14,
+  "submission_id": "SUB-20260825-055536-FBC98F",
+  "uploaded_at": "2026-08-25T05:55:36.610Z",
+  "captured_at": "2026-08-25T05:12:45.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "geo_area",
+    "id": "LOC-001",
+    "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+    "name": "Untere Donaulände, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000004",
+    "name": "Schiffsanlegestelle Linz-Lentos",
+    "short_name": "Linz-Lentos Nr. 14",
+    "station_number": "14",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2134.92,
+    "river_km_text": "2134,9+20 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "2, max. Breite 32 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.3084435,
+    "longitude": 14.2877255,
+    "address": "Ernst-Koref-Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 1,
+  "direction": "upstream",
+  "vessel_name_entered": "S.S. Maria Theresa",
+  "notes": "",
+  "observer_lat": 48.30762833333333,
+  "observer_lon": 14.28677833333333,
+  "photos": [
+    {
+      "photo_id": "PHOTO-4B98E021BDF9495D8443EA51563D5F2B",
+      "path": "inbox/photos/2026/08/PHOTO-4B98E021BDF9495D8443EA51563D5F2B.jpg",
+      "filename": "PHOTO-4B98E021BDF9495D8443EA51563D5F2B.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 310580,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-08-25T05:12:45.000Z",
+      "photo_lat": 48.30762833333333,
+      "photo_lon": 14.28677833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+        "name": "Untere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000110",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000110"
+        ],
+        "matched_value": "S.S. Maria Theresa",
+        "normalized_input": "ssmariatheresa"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30762833333333,
+  "photo_lon": 14.28677833333333
+}
