@@ -1,0 +1,97 @@
+{
+  "schema_version": 14,
+  "submission_id": "SUB-20260825-062214-4CC23B",
+  "uploaded_at": "2026-08-25T06:22:14.420Z",
+  "captured_at": "2026-08-25T05:11:48.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "geo_area",
+    "id": "LOC-001",
+    "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+    "name": "Untere Donaulände, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000002",
+    "name": "Schiffsanlegestelle Linz-Nibelungen",
+    "short_name": "Linz-Nibelungen Nr. 12",
+    "station_number": "12",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "upstream",
+    "river_km": 2135.1955,
+    "river_km_text": "2135,2-4,5 m",
+    "facility_type": "Gitterkahn",
+    "mooring_order": "max. Breite 30 m",
+    "entry_count": 4,
+    "entry_height": "0,85 m, 1,50 m oder 2,10 m",
+    "latitude": 48.3071005,
+    "longitude": 14.284248,
+    "address": "Obere Donaulände, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 1,
+  "direction": "upstream",
+  "vessel_name_entered": "Test",
+  "notes": "",
+  "observer_lat": 48.30743833333333,
+  "observer_lon": 14.2861,
+  "photos": [
+    {
+      "photo_id": "PHOTO-C09A27839918402BBF93E5C003105A97",
+      "path": "inbox/photos/2026/08/PHOTO-C09A27839918402BBF93E5C003105A97.jpg",
+      "filename": "PHOTO-C09A27839918402BBF93E5C003105A97.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 454605,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-08-25T05:11:48.000Z",
+      "photo_lat": 48.30743833333333,
+      "photo_lon": 14.2861,
+      "location": {
+        "status": "matched",
+        "matched_by": "geo_area",
+        "id": "LOC-001",
+        "area_id": "AREA-LINZ-UNTERE-DONAULAENDE",
+        "name": "Untere Donaulände, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "test"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30743833333333,
+  "photo_lon": 14.2861
+}
