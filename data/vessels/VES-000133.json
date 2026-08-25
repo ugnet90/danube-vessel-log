@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000133",
+  "identity": {
+    "name": "Lady Cristina",
+    "former_names": [
+      "Amadagio",
+      "Monarch Queen",
+      "Klimt"
+    ],
+    "mmsi": "211498130",
+    "imo": "",
+    "eni": "07001828",
+    "call_sign": "DJ4191"
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "DE"
+  },
+  "technical": {
+    "year_built": 2006,
+    "shipyard": "",
+    "length_m": 110,
+    "width_m": 11.4,
+    "draft_m": null,
+    "passengers": 150
+  },
+  "operations": {
+    "operator": "plantours & Partner GmbH",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": ""
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [
+    {
+      "source_id": "SRC-2CC0515C2A11",
+      "provider": "Wikipedia",
+      "title": "Kandidatenkatalog: Lady Cristina",
+      "url": "https://de.wikipedia.org/wiki/Lady_Cristina",
+      "notes": "Vorbelegung aus CAN-D6C28E4C74F3.",
+      "fields_used": [
+        "identity.name",
+        "identity.former_names",
+        "identity.eni",
+        "classification.ship_type",
+        "classification.ship_subtype",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers"
+      ],
+      "retrieved_at": "",
+      "verified_at": "",
+      "added_at": "2026-08-25T09:41:30.181Z",
+      "added_by": "candidate-catalog",
+      "candidate_id": "CAN-D6C28E4C74F3",
+      "source_revision_id": "268617530"
+    }
+  ],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-8A5759C915E044EB923B2B0BAE2A30D9",
+    "primary_submission_id": "SUB-20260825-055743-F36CE3"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-08-25T09:41:30.181Z",
+    "created_from_submission_id": "SUB-20260825-055743-F36CE3",
+    "updated_at": "2026-08-25T09:41:30.181Z",
+    "updated_by": "web-ui",
+    "created_from_candidate_id": "CAN-D6C28E4C74F3",
+    "candidate_source_revision_id": "268617530"
+  }
+}
