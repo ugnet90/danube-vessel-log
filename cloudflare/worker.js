@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.15.4
- * Updated: 2026-08-24
+ * Version: 0.15.6
+ * Updated: 2026-08-25
  */
 
 const API_VERSION = "2022-11-28";
@@ -9339,6 +9339,41 @@ async function handleCreateVessel(request, env) {
 
     commitFiles.push(
       createSightingsCommitFile(updatedSightingsDocument)
+    );
+
+    /*
+     * Beim Anlegen eines neuen Schiffs aus einer Sichtung muss der
+     * Kartenindex im selben atomaren Commit aktualisiert werden.
+     * Sonst ist die Sichtung zwar auf vessel.html direkt kartierbar,
+     * fehlt aber auf location_areas.html bis zum nächsten Rebuild.
+     */
+    const mapIndexResult =
+      await loadPhotoLocationsIndexForUpdate(env);
+
+    if (!mapIndexResult.ok) {
+      return jsonResponse({
+        ok: false,
+        error:
+          mapIndexResult.error ??
+          "Der Kartenindex konnte bei der Schiffsneuanlage nicht aktualisiert werden."
+      }, mapIndexResult.status ?? 502);
+    }
+
+    const updatedMapIndex =
+      upsertReviewedSubmissionInLocationIndex({
+        document: mapIndexResult.document,
+        submission,
+        vesselId,
+        vesselName: directPhotoIndexVesselName(
+          vessel,
+          vesselId
+        ),
+        vesselLengthM: vessel?.technical?.length_m,
+        vesselWidthM: vessel?.technical?.width_m
+      });
+
+    commitFiles.push(
+      ...createPhotoLocationsCommitFiles(updatedMapIndex)
     );
   }
 
