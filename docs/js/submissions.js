@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/submissions.js
-// Version: 0.15.0
-// Updated: 2026-08-24
+// Version: 0.15.8
+// Updated: 2026-08-26
 
 "use strict";
 
@@ -2358,5 +2358,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   
-  initializeReferenceData();  
+  async function initializePage() {
+    await initializeReferenceData();
+
+    await loadSubmissions({
+      preserveSelection: false
+    });
+  }
+
+  initializePage();
 });
