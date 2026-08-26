@@ -2951,3 +2951,79 @@ Stand: 24.08.2026
 - Cloudflare Worker neu deployen.
 - Danach **Rebuild location matches** einmal ausführen, damit bereits gespeicherte Sichtungen/Fotos im Toleranzbereich – insbesondere der aktuelle Grenzfall an der Nibelungenbrücke – neu zugeordnet werden.
 - Der automatische `Sync public data` spiegelt `data/location_areas.geojson` und `data/berth_geometries.geojson` nach `docs/data/`; die öffentlichen Spiegel werden nicht manuell gepflegt.
+
+## 0.15.7 – Matching-Toleranz und Actions bereinigt
+
+Stand: 26.08.2026
+
+### Nibelungenbrücke
+
+Das Polygon der Nibelungenbrücke wurde vom Nutzer inzwischen so erweitert, dass der reale Aufnahmebereich einschließlich eines kleinen Bereichs über dem Geländer geometrisch abgedeckt ist. Dadurch ist die in 0.15.4 eingeführte große Zusatz-Toleranz von 7 m nicht mehr erwünscht.
+
+Für den aktuellen kanonischen Stand gilt daher:
+
+- `AREA-LINZ-NIBELUNGENBRUECKE`: `match_tolerance_m = 1`
+- die Toleranz dient nur noch als kleine technische Grenztoleranz;
+- die eigentliche Zuordnung erfolgt über das realistisch gezeichnete Polygon;
+- die übrigen Aufnahmebereiche behalten ihre vorhandenen Toleranzwerte unverändert.
+
+**Wichtig beim Einspielen dieser ZIP:** Das aktuell im Repository bereits vergrößerte `data/location_areas.geojson` liegt in dieser Arbeitskopie nicht vor und wird deshalb bewusst **nicht** durch eine ältere Datei aus der ZIP überschrieben. Im bereits aktuellen `data/location_areas.geojson` ist lediglich beim Feature `AREA-LINZ-NIBELUNGENBRUECKE` der bestehende Wert
+
+`"match_tolerance_m": 7`
+
+auf
+
+`"match_tolerance_m": 1`
+
+zu ändern. Der automatische `Sync public data` spiegelt die Datei anschließend nach `docs/data/location_areas.geojson`.
+
+Nach dieser Änderung einmal **Rebuild location matches** ausführen, damit bestehende Foto-/Sichtungszuordnungen mit Polygon + 1-m-Grenztoleranz neu berechnet werden.
+
+### Sync public data
+
+`data/photo_locations.json` ist ein generierter Kartenindex. Worker und Rebuild-Werkzeug schreiben bei relevanten Änderungen bereits sowohl die kanonische als auch die öffentliche Fassung. Eine Änderung dieses Index löst daher nicht mehr zusätzlich den Workflow `Sync public data` aus.
+
+Der automatische Sync bleibt aktiv für die manuell gepflegten Geodaten:
+
+- `data/location_areas.geojson`
+- `data/berth_geometries.geojson`
+
+Der Workflow kann weiterhin manuell gestartet werden; `tools/sync_public_data.py` synchronisiert dabei nach wie vor auch `photo_locations.json`.
+
+### Build vessel enrichment
+
+Änderungen an `data/vessels/<VES-ID>.json` können auch rein technische bzw. medienbezogene Ursachen haben, zum Beispiel:
+
+- neues oder gewechseltes Hauptfoto;
+- Löschung einer Sichtung;
+- Änderungen ausschließlich in `media`;
+- Änderungen ausschließlich in `audit` / `change_history`.
+
+Solche Änderungen sollen keine neue Wikidata-Abfrage auslösen. Dafür gibt es nun `tools/check_vessel_enrichment_relevance.py`.
+
+Bei einem Push vergleicht der Workflow nur die für die Anreicherung fachlich relevanten Teile eines Schiffes:
+
+- `identity`
+- `classification`
+- `technical`
+- `operations`
+- `enrichment`
+- `audit.environment`
+
+Sind ausschließlich Media-/Audit-Daten geändert, beendet sich der Workflow ohne Wikidata-Neuaufbau. Bei echten Stammdatenänderungen, Änderungen an `data/vessels.csv`, am Build-Werkzeug oder am Workflow selbst wird der Report weiterhin vollständig neu erzeugt. Manuelle und geplante Läufe bleiben unverändert möglich.
+
+### Einspielen / Migration 0.15.7
+
+1. Dateien aus der ZIP committen.
+2. Im bereits aktuellen `data/location_areas.geojson` bei `AREA-LINZ-NIBELUNGENBRUECKE` `match_tolerance_m` von `7` auf `1` ändern und committen.
+3. Den automatischen `Sync public data` abwarten.
+4. Einmal **Rebuild location matches** ausführen.
+
+Kein Cloudflare-Worker-Deployment ist für die Action-Bereinigung erforderlich; die Matching-Logik wertet den Toleranzwert bereits datengetrieben aus.
+
+### Dateiversionen 0.15.7
+
+- `.github/workflows/sync_public_data.yml`: Version `0.15.7`; generierter `photo_locations.json`-Index aus dem automatischen Push-Trigger entfernt.
+- `.github/workflows/build-vessel-enrichment.yml`: Version `0.15.7`; fachlicher Relevanzcheck vor Wikidata-Neuaufbau.
+- `tools/check_vessel_enrichment_relevance.py`: Version `0.15.7`; Vergleich der anreicherungsrelevanten Schiffsdaten zwischen zwei Git-Ständen.
+- `README.md`: Projektstand `0.15.7` und Migrationshinweise.
