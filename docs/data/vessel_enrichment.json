@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-26T05:39:07.656617Z",
+  "generated_at": "2026-08-26T05:44:14.666517Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,15 +32,15 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 35,
-    "vessels_incomplete": 35,
+    "vessels_total": 36,
+    "vessels_incomplete": 36,
     "vessels_complete": 0,
-    "candidate_matches": 0,
+    "candidate_matches": 1,
     "matched_no_new_data": 20,
     "low_confidence": 0,
     "no_match": 15,
     "lookup_errors": 0,
-    "suggestions_total": 0
+    "suggestions_total": 3
   },
   "vessels": [
     {
@@ -1708,6 +1708,189 @@
         "accepted_qid": "",
         "rejected_qids": [],
         "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000136",
+      "name": "Arena",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000136.json",
+      "missing_fields": [
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 6,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "candidate",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": [
+          {
+            "qid": "Q1426908",
+            "label": "Arena",
+            "description": "Flusskreuzfahrtschiff",
+            "url": "https://www.wikidata.org/wiki/Q1426908",
+            "score": 1.0,
+            "confidence": "very_high",
+            "matched_by": [
+              "identity.eni"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [
+                "09948011"
+              ],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Flusskreuzfahrtschiff"
+            ],
+            "suggestions": [
+              {
+                "field": "technical.shipyard",
+                "field_label": "Werft",
+                "value": "Neptun Werft",
+                "display_value": "Neptun Werft",
+                "property": "P176",
+                "property_label": "manufacturer",
+                "property_url": "https://www.wikidata.org/wiki/Property:P176",
+                "source_url": "https://www.wikidata.org/wiki/Q1426908",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.draft_m",
+                "field_label": "Tiefgang",
+                "value": 1.6,
+                "display_value": 1.6,
+                "property": "P2262",
+                "property_label": "draft",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
+                "source_url": "https://www.wikidata.org/wiki/Q1426908",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "operations.owner",
+                "field_label": "Eigentümer",
+                "value": "Premicon",
+                "display_value": "Premicon",
+                "property": "P127",
+                "property_label": "owned by",
+                "property_url": "https://www.wikidata.org/wiki/Property:P127",
+                "source_url": "https://www.wikidata.org/wiki/Q1426908",
+                "confidence": 1.0,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2406116942
+          },
+          {
+            "qid": "Q3010560",
+            "label": "Ocean Dream",
+            "description": "Kreuzfahrtschiff",
+            "url": "https://www.wikidata.org/wiki/Q3010560",
+            "score": 0.94,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [
+                "671326000"
+              ],
+              "imo": [
+                "7211517"
+              ],
+              "eni": [],
+              "call_sign": [
+                "5VBW6"
+              ]
+            },
+            "instance_of": [
+              "Kreuzfahrtschiff"
+            ],
+            "suggestions": [
+              {
+                "field": "identity.imo",
+                "field_label": "IMO",
+                "value": "7211517",
+                "display_value": "7211517",
+                "property": "P458",
+                "property_label": "IMO ship number",
+                "property_url": "https://www.wikidata.org/wiki/Property:P458",
+                "source_url": "https://www.wikidata.org/wiki/Q3010560",
+                "confidence": 0.94,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.shipyard",
+                "field_label": "Werft",
+                "value": "Cantiere navale di Riva Trigoso",
+                "display_value": "Cantiere navale di Riva Trigoso",
+                "property": "P176",
+                "property_label": "manufacturer",
+                "property_url": "https://www.wikidata.org/wiki/Property:P176",
+                "source_url": "https://www.wikidata.org/wiki/Q3010560",
+                "confidence": 0.94,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.draft_m",
+                "field_label": "Tiefgang",
+                "value": 7.0,
+                "display_value": 7.0,
+                "property": "P2262",
+                "property_label": "draft",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
+                "source_url": "https://www.wikidata.org/wiki/Q3010560",
+                "confidence": 0.94,
+                "apply_supported": true
+              },
+              {
+                "field": "operations.owner",
+                "field_label": "Eigentümer",
+                "value": "Norwegian Cruise Line",
+                "display_value": "Norwegian Cruise Line",
+                "property": "P127",
+                "property_label": "owned by",
+                "property_url": "https://www.wikidata.org/wiki/Property:P127",
+                "source_url": "https://www.wikidata.org/wiki/Q3010560",
+                "confidence": 0.94,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2504065472
+          }
+        ]
       }
     }
   ]
