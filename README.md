@@ -1,7 +1,7 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.6**  
-Stand: **25.08.2026**
+Aktuelle Version: **0.15.8**  
+Stand: **26.08.2026**
 
 ## 1. Projektzweck
 
@@ -3027,3 +3027,26 @@ Kein Cloudflare-Worker-Deployment ist für die Action-Bereinigung erforderlich; 
 - `.github/workflows/build-vessel-enrichment.yml`: Version `0.15.7`; fachlicher Relevanzcheck vor Wikidata-Neuaufbau.
 - `tools/check_vessel_enrichment_relevance.py`: Version `0.15.7`; Vergleich der anreicherungsrelevanten Schiffsdaten zwischen zwei Git-Ständen.
 - `README.md`: Projektstand `0.15.7` und Migrationshinweise.
+
+
+## 0.15.8 – Offene Sichtungen automatisch laden
+
+Stand: 26.08.2026
+
+Beim Aufruf von `submissions.html` wurde die Sichtungsliste bisher nicht automatisch geladen. Das war insbesondere beim Sprung von **Übersicht → Nächste Aufgaben → offene Sichtungen** unpraktisch, weil anschließend zusätzlich **Neu laden** angeklickt werden musste.
+
+Ab Version **0.15.8** lädt `docs/js/submissions.js` nach dem Laden der Referenzdaten automatisch die Sichtungsliste. Der standardmäßig ausgewählte Status **Offen** wird dadurch sofort vom Worker abgefragt; die erste vorhandene Sichtung wird wie bisher automatisch ausgewählt. Der manuelle Button **Neu laden** bleibt für eine spätere Aktualisierung der bereits geöffneten Seite erhalten.
+
+Die Initialisierung wartet bewusst auf `VesselReference.load()`, damit die Detailansicht beim automatischen Auswählen der ersten Sichtung bereits über die benötigten Referenzdaten verfügt. Der in den Seiteneinstellungen gespeicherte Management-API-Schlüssel ist zu diesem Zeitpunkt bereits von `nav.js` in das vorhandene Eingabefeld übernommen.
+
+### Einspielen / Migration 0.15.8
+
+- Dateien aus der ZIP committen.
+- GitHub Pages aktualisieren lassen.
+- Kein Worker-Deployment erforderlich.
+- Kein Rebuild des Sichtungsindex und kein `Rebuild location matches` erforderlich.
+
+### Dateiversionen 0.15.8
+
+- `docs/js/submissions.js`: Version `0.15.8`; Sichtungsliste wird beim Seitenaufruf automatisch geladen.
+- `README.md`: Projektstand `0.15.8`.
