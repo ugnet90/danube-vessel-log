@@ -1,8 +1,35 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-08-26T05:10:54.000Z",
-  "count": 74,
+  "updated_at": "2026-08-26T05:12:55.000Z",
+  "count": 76,
   "photos": [
+    {
+      "photo_id": "PHOTO-7EF9954D8D5A401785CA7C7C16FAC044",
+      "source_type": "direct",
+      "submission_id": "SUB-20260826-050819-5DB82A",
+      "vessel_id": "VES-000136",
+      "vessel_name": "Arena",
+      "captured_at": "2026-08-26T05:12:55.000Z",
+      "photo_lat": 48.30757166666667,
+      "photo_lon": 14.28548833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 101
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260826-050819-5DB82A"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-7EF9954D8D5A401785CA7C7C16FAC044.jpg"
+    },
     {
       "photo_id": "PHOTO-325EEE2FEBED4CBBB70401ECCE02F773",
       "source_type": "direct",
@@ -29,6 +56,33 @@
         "submission_id": "SUB-20260826-050742-5CE40F"
       },
       "path": "inbox/photos/2026/08/PHOTO-325EEE2FEBED4CBBB70401ECCE02F773.jpg"
+    },
+    {
+      "photo_id": "PHOTO-D220D1162F83421F8F99D8AFFE4068FB",
+      "source_type": "direct",
+      "submission_id": "SUB-20260826-050819-5DB82A",
+      "vessel_id": "VES-000136",
+      "vessel_name": "Arena",
+      "captured_at": "2026-08-26T05:10:42.000Z",
+      "photo_lat": 48.30841333333333,
+      "photo_lon": 14.28493333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 202
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260826-050819-5DB82A"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-D220D1162F83421F8F99D8AFFE4068FB.jpg"
     },
     {
       "photo_id": "PHOTO-2ED86A8C14AE4965AB5DBE49E7BA095D",

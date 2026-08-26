@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "vessel_id": "VES-000136",
+  "photos": [
+    {
+      "photo_id": "PHOTO-D220D1162F83421F8F99D8AFFE4068FB",
+      "path": "inbox/photos/2026/08/PHOTO-D220D1162F83421F8F99D8AFFE4068FB.jpg",
+      "filename": "PHOTO-D220D1162F83421F8F99D8AFFE4068FB.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 319486,
+      "sequence": 1,
+      "captured_at": "2026-08-26T05:10:42.000Z",
+      "added_at": "2026-08-26T05:41:14.228Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30841333333333,
+      "photo_lon": 14.28493333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 202
+      },
+      "vessel_name_entered": "Arena",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260826-050819-5DB82A"
+      }
+    },
+    {
+      "photo_id": "PHOTO-7EF9954D8D5A401785CA7C7C16FAC044",
+      "path": "inbox/photos/2026/08/PHOTO-7EF9954D8D5A401785CA7C7C16FAC044.jpg",
+      "filename": "PHOTO-7EF9954D8D5A401785CA7C7C16FAC044.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 360880,
+      "sequence": 2,
+      "captured_at": "2026-08-26T05:12:55.000Z",
+      "added_at": "2026-08-26T05:41:14.228Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30757166666667,
+      "photo_lon": 14.28548833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 101
+      },
+      "vessel_name_entered": "Arena",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260826-050819-5DB82A"
+      }
+    }
+  ],
+  "updated_at": "2026-08-26T05:41:14.228Z"
+}
