@@ -1,3 +1,8 @@
+# Danube Vessel Log
+# File: .github/workflows/build-vessel-enrichment.yml
+# Version: 0.15.7
+# Updated: 2026-08-26
+
 name: Build vessel enrichment
 
 on:
@@ -11,6 +16,7 @@ on:
       - "data/vessels.csv"
       - "data/vessels/**.json"
       - "tools/build_vessel_enrichment.py"
+      - "tools/check_vessel_enrichment_relevance.py"
       - ".github/workflows/build-vessel-enrichment.yml"
 
 permissions:
@@ -30,12 +36,31 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Relevanz der Änderung prüfen
+        id: relevance
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          set -euo pipefail
+          RELEVANT=$(python tools/check_vessel_enrichment_relevance.py \
+            "${{ github.event.before }}" \
+            "${{ github.sha }}")
+          echo "relevant=$RELEVANT" >> "$GITHUB_OUTPUT"
+          if [ "$RELEVANT" = "true" ]; then
+            echo "Stammdatenänderung: Anreicherungsreport wird neu gebaut."
+          else
+            echo "Nur Media/Audit bzw. andere nicht relevante Schiffsdaten geändert."
+            echo "Wikidata-Neuaufbau wird übersprungen."
+          fi
+
       - name: Python einrichten
+        if: github.event_name != 'push' || steps.relevance.outputs.relevant == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Report auf aktuellem main erstellen und einchecken
+        if: github.event_name != 'push' || steps.relevance.outputs.relevant == 'true'
         env:
           WIKIDATA_USER_AGENT: >-
             DanubeVesselLog/0.14.15

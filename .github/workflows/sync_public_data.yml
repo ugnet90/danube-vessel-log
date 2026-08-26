@@ -1,7 +1,7 @@
 # Danube Vessel Log
 # File: .github/workflows/sync_public_data.yml
-# Version: 0.14.52
-# Updated: 2026-08-24
+# Version: 0.15.7
+# Updated: 2026-08-26
 
 name: Sync public data
 
@@ -12,7 +12,6 @@ on:
       - main
     paths:
       - "data/location_areas.geojson"
-      - "data/photo_locations.json"
       - "data/berth_geometries.geojson"
       - "tools/sync_public_data.py"
       - ".github/workflows/sync_public_data.yml"
