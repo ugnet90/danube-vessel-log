@@ -1,0 +1,73 @@
+{
+  "schema_version": 14,
+  "submission_id": "SUB-20260826-120256-E5F92D",
+  "uploaded_at": "2026-08-26T12:02:56.947Z",
+  "captured_at": "2026-08-26T12:02:44.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000006",
+    "name": "Donaustation Linz 32",
+    "short_name": "Linz 32",
+    "station_number": "32",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "left",
+    "relative_to_reference": "downstream",
+    "river_km": 2134.279,
+    "river_km_text": "2134,200–36 bis 2134,400–6 m",
+    "facility_type": "Ponton",
+    "mooring_order": "25",
+    "entry_count": 0,
+    "entry_height": "",
+    "latitude": 48.314108,
+    "longitude": 14.2910485,
+    "address": "",
+    "access_type": "public",
+    "source_url": "https://www.donaustationen.at/anlegestellen-1/linz-32/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 1,
+  "direction": "upstream",
+  "vessel_name_entered": "Amadeus Cara",
+  "notes": "",
+  "observer_lat": 48.3110495074831,
+  "observer_lon": 14.28295507861572,
+  "photos": [],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000115",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000115"
+        ],
+        "matched_value": "Amadeus Cara",
+        "normalized_input": "amadeuscara"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
