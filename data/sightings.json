@@ -16,7 +16,7 @@
         "id": "LOC-001",
         "area_id": "",
         "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
+        "municipality": "Linz",
         "country": "Österreich",
         "distance_m": 327
       },
@@ -78,13 +78,14 @@
             "id": "LOC-001",
             "area_id": "",
             "name": "Nibelungenbrücke, Linz",
-            "municipality": "",
+            "municipality": "Linz",
             "country": "Österreich",
             "distance_m": 327
           }
         }
       ],
-      "updated_at": "2026-08-26T05:37:11.487Z"
+      "updated_at": "2026-08-26T05:37:11.487Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260826-050819-5DB82A",
@@ -95,13 +96,13 @@
       "reviewed_at": "2026-08-26T05:40:04.945Z",
       "vessel_name_entered": "Arena",
       "location": {
-        "status": "matched",
-        "matched_by": "berth_id",
-        "id": "LOC-001",
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
         "area_id": "",
-        "name": "Nibelungenbrücke, Linz",
+        "name": "",
         "municipality": "",
-        "country": "Österreich",
+        "country": "",
         "distance_m": null
       },
       "berth": {
@@ -168,7 +169,8 @@
           }
         }
       ],
-      "updated_at": "2026-08-26T05:40:04.945Z"
+      "updated_at": "2026-08-26T05:40:04.945Z",
+      "photo_count": 1
     },
     {
       "submission_id": "SUB-20260825-055536-FBC98F",
