@@ -2512,7 +2512,7 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 53,
+  "sighting_count": 54,
   "sightings": [
     {
       "submission_id": "SUB-20260826-050742-5CE40F",
@@ -2535,6 +2535,35 @@
         "name": "Donaustation Linz 1 (Brucknerhaus)",
         "short_name": "Linz 1 – Brucknerhaus",
         "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "direction": "upstream",
+      "photo_count": 1
+    },
+    {
+      "submission_id": "SUB-20260826-050819-5DB82A",
+      "vessel_id": "VES-000136",
+      "vessel_name": "Arena",
+      "captured_at": "2026-08-26T05:05:52.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
       },
       "movement": "moored",
       "alongside_position": 2,

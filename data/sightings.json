@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "updated_at": "2026-08-26T05:37:11.487Z",
+  "updated_at": "2026-08-26T05:40:04.945Z",
   "sightings": [
     {
       "submission_id": "SUB-20260826-050742-5CE40F",
@@ -85,6 +85,90 @@
         }
       ],
       "updated_at": "2026-08-26T05:37:11.487Z"
+    },
+    {
+      "submission_id": "SUB-20260826-050819-5DB82A",
+      "submission_path": "inbox/submissions/2026/08/SUB-20260826-050819-5DB82A.json",
+      "vessel_id": "VES-000136",
+      "captured_at": "2026-08-26T05:05:52.000Z",
+      "uploaded_at": "2026-08-26T05:08:19.252Z",
+      "reviewed_at": "2026-08-26T05:40:04.945Z",
+      "vessel_name_entered": "Arena",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14",
+        "location_id": "LOC-001",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "river": "Donau",
+        "bank": "right",
+        "relative_to_reference": "downstream",
+        "river_km": 2134.92,
+        "river_km_text": "2134,9+20 m",
+        "facility_type": "Rohrponton",
+        "mooring_order": "2, max. Breite 32 m",
+        "entry_count": 4,
+        "entry_height": "1,60 m",
+        "latitude": 48.3084435,
+        "longitude": 14.2877255,
+        "address": "Ernst-Koref-Promenade, 4020 Linz",
+        "access_type": "public",
+        "source_url": "https://maps.oberoesterreich.at/",
+        "source_checked_at": "2026-08-24"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "direction": "upstream",
+      "notes": "",
+      "observer_lat": null,
+      "observer_lon": null,
+      "photo_lat": null,
+      "photo_lon": null,
+      "review_decision": "created",
+      "review_notes": "",
+      "photos": [
+        {
+          "photo_id": "PHOTO-3EF9A2B6F9AE4C709150F764882E0415",
+          "path": "inbox/photos/2026/08/PHOTO-3EF9A2B6F9AE4C709150F764882E0415.jpg",
+          "filename": "PHOTO-3EF9A2B6F9AE4C709150F764882E0415.jpg",
+          "original_filename": "shortcut-photo-01.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 337803,
+          "sequence": 1,
+          "captured_at": "2026-08-26T05:05:52.000Z",
+          "added_at": "",
+          "source": "submission",
+          "notes": "",
+          "metadata_version": 1,
+          "photo_lat": null,
+          "photo_lon": null,
+          "location": {
+            "status": "unknown",
+            "matched_by": "",
+            "id": "",
+            "area_id": "",
+            "name": "",
+            "municipality": "",
+            "country": "",
+            "distance_m": null
+          }
+        }
+      ],
+      "updated_at": "2026-08-26T05:40:04.945Z"
     },
     {
       "submission_id": "SUB-20260825-055536-FBC98F",

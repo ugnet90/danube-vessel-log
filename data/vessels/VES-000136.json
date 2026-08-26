@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000136",
+  "identity": {
+    "name": "Arena",
+    "former_names": [
+      "Flamenco"
+    ],
+    "mmsi": "269057629",
+    "imo": "",
+    "eni": "09948011",
+    "call_sign": "HE7629"
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "CH"
+  },
+  "technical": {
+    "year_built": 2005,
+    "shipyard": "",
+    "length_m": 135,
+    "width_m": 11.4,
+    "draft_m": null,
+    "passengers": 200
+  },
+  "operations": {
+    "operator": "1AVista-Reisen",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": "Basel"
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [
+    {
+      "source_id": "SRC-3F86C21A959E",
+      "provider": "Wikipedia",
+      "title": "Kandidatenkatalog: Arena",
+      "url": "https://de.wikipedia.org/wiki/Arena_(Schiff)",
+      "notes": "Vorbelegung aus CAN-79B7BAAB7147.",
+      "fields_used": [
+        "identity.name",
+        "identity.former_names",
+        "identity.eni",
+        "classification.ship_type",
+        "classification.ship_subtype",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "retrieved_at": "",
+      "verified_at": "",
+      "added_at": "2026-08-26T05:40:04.945Z",
+      "added_by": "candidate-catalog",
+      "candidate_id": "CAN-79B7BAAB7147",
+      "source_revision_id": "268617530"
+    }
+  ],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-3EF9A2B6F9AE4C709150F764882E0415",
+    "primary_submission_id": "SUB-20260826-050819-5DB82A"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-08-26T05:40:04.945Z",
+    "created_from_submission_id": "SUB-20260826-050819-5DB82A",
+    "updated_at": "2026-08-26T05:40:04.945Z",
+    "updated_by": "web-ui",
+    "created_from_candidate_id": "CAN-79B7BAAB7147",
+    "candidate_source_revision_id": "268617530"
+  }
+}
