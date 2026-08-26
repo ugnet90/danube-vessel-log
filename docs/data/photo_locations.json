@@ -1,8 +1,35 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-08-26T05:06:25.000Z",
-  "count": 73,
+  "updated_at": "2026-08-26T05:10:54.000Z",
+  "count": 74,
   "photos": [
+    {
+      "photo_id": "PHOTO-325EEE2FEBED4CBBB70401ECCE02F773",
+      "source_type": "direct",
+      "submission_id": "SUB-20260826-050742-5CE40F",
+      "vessel_id": "VES-000135",
+      "vessel_name": "AmaBella",
+      "captured_at": "2026-08-26T05:10:54.000Z",
+      "photo_lat": 48.30840333333333,
+      "photo_lon": 14.28490333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 202
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260826-050742-5CE40F"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-325EEE2FEBED4CBBB70401ECCE02F773.jpg"
+    },
     {
       "photo_id": "PHOTO-2ED86A8C14AE4965AB5DBE49E7BA095D",
       "source_type": "sighting",
