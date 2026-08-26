@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-08-26T05:12:55.000Z",
+  "updated_at": "2026-08-26T12:02:44.000Z",
   "count": 76,
   "photos": [
     {
@@ -25,7 +25,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -55,7 +55,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -85,7 +85,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -121,7 +121,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -151,7 +151,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -181,7 +181,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -217,7 +217,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -253,7 +253,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -325,7 +325,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -361,7 +361,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -397,7 +397,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -433,7 +433,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -469,7 +469,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -505,7 +505,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -541,7 +541,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -577,7 +577,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -613,7 +613,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -649,7 +649,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -685,7 +685,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -721,7 +721,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -865,7 +865,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -901,7 +901,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -937,7 +937,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -973,7 +973,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -1009,7 +1009,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -1045,7 +1045,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1081,7 +1081,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1117,7 +1117,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1153,7 +1153,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1225,7 +1225,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1297,8 +1297,8 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 110.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 110,
+      "vessel_width_m": 12,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260824-142259-B5219C"
@@ -1333,8 +1333,8 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 110.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 110,
+      "vessel_width_m": 12,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260824-142259-B5219C"
@@ -1369,7 +1369,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1405,8 +1405,8 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 11.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260824-055441-4E6345"
@@ -1441,7 +1441,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -1477,7 +1477,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -1513,8 +1513,8 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 11.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260824-055441-4E6345"
@@ -1549,7 +1549,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -1579,7 +1579,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1609,7 +1609,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1639,7 +1639,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1669,7 +1669,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1705,7 +1705,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1741,7 +1741,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1777,7 +1777,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -1813,7 +1813,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -1843,7 +1843,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1879,7 +1879,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -1915,7 +1915,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -1945,7 +1945,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
@@ -1981,8 +1981,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -2011,7 +2011,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
@@ -2041,7 +2041,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
@@ -2131,8 +2131,8 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -2161,8 +2161,8 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -2197,8 +2197,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -2263,7 +2263,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
@@ -2329,7 +2329,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "vessel",
@@ -2401,8 +2401,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260820-062732-2DAB3E"
@@ -2431,8 +2431,8 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 22.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 22,
       "relation": {
         "type": "sighting",
         "submission_id": "SUB-20260819-052017-A072A4"
@@ -2461,7 +2461,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -2491,7 +2491,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -2521,7 +2521,7 @@
       "berth": null,
       "movement": "",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "relation": {
         "type": "sighting",
@@ -2557,7 +2557,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -2593,7 +2593,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "relation": {
         "type": "sighting",
@@ -2602,8 +2602,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 54,
+  "sighting_count": 55,
   "sightings": [
+    {
+      "submission_id": "SUB-20260826-120256-E5F92D",
+      "vessel_id": "VES-000115",
+      "vessel_name": "Amadeus Cara",
+      "captured_at": "2026-08-26T12:02:44.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000006",
+        "name": "Donaustation Linz 32",
+        "short_name": "Linz 32",
+        "station_number": "32"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "direction": "upstream",
+      "photo_count": 0
+    },
     {
       "submission_id": "SUB-20260826-050742-5CE40F",
       "vessel_id": "VES-000135",
@@ -2628,7 +2657,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 1
@@ -2657,7 +2686,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 1
@@ -2686,7 +2715,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 1
@@ -2715,7 +2744,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 6
@@ -2744,7 +2773,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 8
@@ -2802,7 +2831,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 9
@@ -2831,8 +2860,8 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 110.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 110,
+      "vessel_width_m": 12,
       "direction": "upstream",
       "photo_count": 3
     },
@@ -2860,7 +2889,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 1
@@ -2889,7 +2918,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 3
@@ -2918,8 +2947,8 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 11.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11,
       "direction": "upstream",
       "photo_count": 2
     },
@@ -2947,7 +2976,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
@@ -2976,7 +3005,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 4
@@ -3005,7 +3034,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
@@ -3092,8 +3121,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
       "direction": "upstream",
       "photo_count": 3
     },
@@ -3121,8 +3150,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 22.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 22,
       "direction": "upstream",
       "photo_count": 5
     },
@@ -3150,7 +3179,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 0
@@ -3179,7 +3208,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 0
@@ -3208,8 +3237,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
       "direction": "upstream",
       "photo_count": 0
     },
@@ -3237,7 +3266,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 0
@@ -3266,7 +3295,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 0
@@ -3295,8 +3324,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 107.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 107,
+      "vessel_width_m": 12,
       "direction": "upstream",
       "photo_count": 0
     },
@@ -3324,7 +3353,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 1
@@ -3353,7 +3382,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 3
@@ -3382,8 +3411,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
       "direction": "upstream",
       "photo_count": 1
     },
@@ -3411,8 +3440,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
       "direction": "upstream",
       "photo_count": 2
     },
@@ -3440,8 +3469,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
       "direction": "upstream",
       "photo_count": 0
     },
@@ -3469,7 +3498,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 1
@@ -3498,7 +3527,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 1
@@ -3527,8 +3556,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
       "direction": "upstream",
       "photo_count": 4
     },
@@ -3556,7 +3585,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 1
@@ -3585,7 +3614,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 110.0,
+      "vessel_length_m": 110,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 5
@@ -3614,8 +3643,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 107.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 107,
+      "vessel_width_m": 12,
       "direction": "upstream",
       "photo_count": 3
     },
@@ -3643,7 +3672,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 7
@@ -3672,7 +3701,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 7
@@ -3701,7 +3730,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
@@ -3730,8 +3759,8 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
       "direction": "upstream",
       "photo_count": 2
     },
@@ -3759,7 +3788,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 3
@@ -3788,7 +3817,7 @@
       },
       "movement": "moored",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
@@ -3811,7 +3840,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "direction": "unknown",
       "photo_count": 2
@@ -3834,7 +3863,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 1
@@ -3857,7 +3886,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 3
@@ -3880,7 +3909,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 1
@@ -3909,7 +3938,7 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
@@ -3938,7 +3967,7 @@
       },
       "movement": "moored",
       "alongside_position": 1,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 3
@@ -3967,8 +3996,8 @@
       },
       "movement": "moored",
       "alongside_position": 2,
-      "vessel_length_m": 135.0,
-      "vessel_width_m": 12.0,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
       "direction": "upstream",
       "photo_count": 3
     },
@@ -3990,7 +4019,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 131.0,
+      "vessel_length_m": 131,
       "vessel_width_m": 11.4,
       "direction": "unknown",
       "photo_count": 2
@@ -4013,7 +4042,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 131.0,
+      "vessel_length_m": 131,
       "vessel_width_m": 11.4,
       "direction": "unknown",
       "photo_count": 1
@@ -4036,7 +4065,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 131.0,
+      "vessel_length_m": 131,
       "vessel_width_m": 11.4,
       "direction": "unknown",
       "photo_count": 1
@@ -4059,7 +4088,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 1
@@ -4105,7 +4134,7 @@
       "berth": null,
       "movement": "unknown",
       "alongside_position": null,
-      "vessel_length_m": 135.0,
+      "vessel_length_m": 135,
       "vessel_width_m": 11.45,
       "direction": "unknown",
       "photo_count": 1
