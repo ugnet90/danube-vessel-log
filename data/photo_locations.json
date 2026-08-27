@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-08-27T05:03:33.000Z",
+  "updated_at": "2026-08-27T05:03:55.000Z",
   "count": 76,
   "photos": [
     {
@@ -2602,8 +2602,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 56,
+  "sighting_count": 57,
   "sightings": [
+    {
+      "submission_id": "SUB-20260827-121733-CB3CAB",
+      "vessel_id": "VES-000114",
+      "vessel_name": "Avalon Illumination",
+      "captured_at": "2026-08-27T05:03:55.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 1
+    },
     {
       "submission_id": "SUB-20260827-121650-AE7B8D",
       "vessel_id": "VES-000105",

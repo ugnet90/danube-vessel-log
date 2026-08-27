@@ -72,7 +72,7 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "reviewed",
     "auto": {
       "vessel_match": {
         "status": "matched",
@@ -87,11 +87,11 @@
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
-      "vessel_id": "",
-      "decision": "",
-      "notes": ""
+      "reviewed": true,
+      "reviewed_at": "2026-08-27T12:17:39.349Z",
+      "vessel_id": "VES-000114",
+      "decision": "confirmed",
+      "notes": "Automatisch bestätigt: eindeutige Zuordnung."
     }
   },
   "photo_lat": null,
