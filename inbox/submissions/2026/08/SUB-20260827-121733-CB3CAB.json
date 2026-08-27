@@ -1,0 +1,99 @@
+{
+  "schema_version": 14,
+  "submission_id": "SUB-20260827-121733-CB3CAB",
+  "uploaded_at": "2026-08-27T12:17:33.690Z",
+  "captured_at": "2026-08-27T05:03:55.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000003",
+    "name": "Schiffsanlegestelle Linz-Hauptplatz",
+    "short_name": "Linz-Hauptplatz Nr. 13",
+    "station_number": "13",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2135.045,
+    "river_km_text": "2135,0+45 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 29 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.307747,
+    "longitude": 14.2862415,
+    "address": "Dr. Ernst Koref Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 1,
+  "direction": "upstream",
+  "vessel_name_entered": "Avalon Illumination",
+  "notes": "",
+  "observer_lat": null,
+  "observer_lon": null,
+  "photos": [
+    {
+      "photo_id": "PHOTO-9FB532DC90924B09915B60B0F79AFE5F",
+      "path": "inbox/photos/2026/08/PHOTO-9FB532DC90924B09915B60B0F79AFE5F.jpg",
+      "filename": "PHOTO-9FB532DC90924B09915B60B0F79AFE5F.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 375031,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-08-27T05:03:55.000Z",
+      "photo_lat": null,
+      "photo_lon": null,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000114",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000114"
+        ],
+        "matched_value": "Avalon Illumination",
+        "normalized_input": "avalonillumination"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": null,
+  "photo_lon": null
+}
