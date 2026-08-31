@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-08-31T06:55:59.000Z",
+  "updated_at": "2026-08-31T06:56:22.000Z",
   "count": 76,
   "photos": [
     {
@@ -2602,8 +2602,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 60,
+  "sighting_count": 61,
   "sightings": [
+    {
+      "submission_id": "SUB-20260831-065632-79C2A2",
+      "vessel_id": "VES-000119",
+      "vessel_name": "AmaSonata",
+      "captured_at": "2026-08-31T06:56:22.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 444
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 0
+    },
     {
       "submission_id": "SUB-20260831-065609-F7EFC3",
       "vessel_id": "VES-000118",
