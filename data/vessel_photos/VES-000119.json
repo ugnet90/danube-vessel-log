@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "vessel_id": "VES-000119",
   "photos": [
     {
@@ -94,7 +94,100 @@
         "type": "vessel",
         "submission_id": ""
       }
+    },
+    {
+      "photo_id": "PHOTO-477E91750C204035828099AE6CEB6DBD",
+      "path": "inbox/photos/2026/08/PHOTO-477E91750C204035828099AE6CEB6DBD.jpg",
+      "filename": "PHOTO-477E91750C204035828099AE6CEB6DBD.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 310660,
+      "sequence": 4,
+      "captured_at": "2026-08-31T14:09:29.000Z",
+      "added_at": "2026-08-31T14:35:27.588Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.308145,
+      "photo_lon": 14.28764166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 184
+      },
+      "vessel_name_entered": "AmaSonata",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260831-065632-79C2A2"
+      }
+    },
+    {
+      "photo_id": "PHOTO-8570B9A824574518994F922A91D0D377",
+      "path": "inbox/photos/2026/08/PHOTO-8570B9A824574518994F922A91D0D377.jpg",
+      "filename": "PHOTO-8570B9A824574518994F922A91D0D377.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 341505,
+      "sequence": 5,
+      "captured_at": "2026-08-31T14:11:05.000Z",
+      "added_at": "2026-08-31T14:35:27.588Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.307555,
+      "photo_lon": 14.286305,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 84
+      },
+      "vessel_name_entered": "AmaSonata",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260831-065632-79C2A2"
+      }
+    },
+    {
+      "photo_id": "PHOTO-C50C3C3C7F554CA8A33E83CB475BF4E3",
+      "path": "inbox/photos/2026/08/PHOTO-C50C3C3C7F554CA8A33E83CB475BF4E3.jpg",
+      "filename": "PHOTO-C50C3C3C7F554CA8A33E83CB475BF4E3.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 498954,
+      "sequence": 6,
+      "captured_at": "2026-08-31T14:13:09.000Z",
+      "added_at": "2026-08-31T14:35:27.588Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30738333333333,
+      "photo_lon": 14.28567166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 76
+      },
+      "vessel_name_entered": "AmaSonata",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260831-065632-79C2A2"
+      }
     }
   ],
-  "updated_at": "2026-08-20T13:08:25.440Z"
+  "updated_at": "2026-08-31T14:35:27.588Z"
 }
