@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "vessel_id": "VES-000118",
+  "photos": [
+    {
+      "photo_id": "PHOTO-1439D46BFA094F128F24E0FDD167EF4E",
+      "path": "inbox/photos/2026/08/PHOTO-1439D46BFA094F128F24E0FDD167EF4E.jpg",
+      "filename": "PHOTO-1439D46BFA094F128F24E0FDD167EF4E.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 393860,
+      "sequence": 1,
+      "captured_at": "2026-08-31T14:10:56.000Z",
+      "added_at": "2026-08-31T14:25:58.653Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30754666666667,
+      "photo_lon": 14.28629666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 83
+      },
+      "vessel_name_entered": "NickoVision",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260831-065609-F7EFC3"
+      }
+    }
+  ],
+  "updated_at": "2026-08-31T14:25:58.653Z"
+}
