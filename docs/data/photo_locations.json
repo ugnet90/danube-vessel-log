@@ -24,10 +24,10 @@
       },
       "berth": {
         "status": "matched",
-        "id": "BER-000003",
-        "name": "Schiffsanlegestelle Linz-Hauptplatz",
-        "short_name": "Linz-Hauptplatz Nr. 13",
-        "station_number": "13"
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
       },
       "movement": "moored",
       "alongside_position": 1,
@@ -60,10 +60,10 @@
       },
       "berth": {
         "status": "matched",
-        "id": "BER-000003",
-        "name": "Schiffsanlegestelle Linz-Hauptplatz",
-        "short_name": "Linz-Hauptplatz Nr. 13",
-        "station_number": "13"
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
       },
       "movement": "moored",
       "alongside_position": 1,
@@ -123,10 +123,10 @@
       },
       "berth": {
         "status": "matched",
-        "id": "BER-000003",
-        "name": "Schiffsanlegestelle Linz-Hauptplatz",
-        "short_name": "Linz-Hauptplatz Nr. 13",
-        "station_number": "13"
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
       },
       "movement": "moored",
       "alongside_position": 1,
@@ -159,10 +159,10 @@
       },
       "berth": {
         "status": "matched",
-        "id": "BER-000003",
-        "name": "Schiffsanlegestelle Linz-Hauptplatz",
-        "short_name": "Linz-Hauptplatz Nr. 13",
-        "station_number": "13"
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
       },
       "movement": "moored",
       "alongside_position": 1,
@@ -2819,10 +2819,10 @@
       },
       "berth": {
         "status": "matched",
-        "id": "BER-000003",
-        "name": "Schiffsanlegestelle Linz-Hauptplatz",
-        "short_name": "Linz-Hauptplatz Nr. 13",
-        "station_number": "13"
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
       },
       "movement": "moored",
       "alongside_position": 1,

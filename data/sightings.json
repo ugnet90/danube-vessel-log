@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "updated_at": "2026-08-31T14:30:02.343Z",
+  "updated_at": "2026-08-31T14:32:30.893Z",
   "sightings": [
     {
       "submission_id": "SUB-20260831-142952-FC568F",
@@ -23,25 +23,25 @@
       "berth": {
         "status": "matched",
         "matched_by": "berth_id",
-        "id": "BER-000003",
-        "name": "Schiffsanlegestelle Linz-Hauptplatz",
-        "short_name": "Linz-Hauptplatz Nr. 13",
-        "station_number": "13",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14",
         "location_id": "LOC-001",
         "municipality": "Linz",
         "country": "Österreich",
         "river": "Donau",
         "bank": "right",
         "relative_to_reference": "downstream",
-        "river_km": 2135.045,
-        "river_km_text": "2135,0+45 m",
+        "river_km": 2134.92,
+        "river_km_text": "2134,9+20 m",
         "facility_type": "Rohrponton",
-        "mooring_order": "max. Breite 29 m",
+        "mooring_order": "2, max. Breite 32 m",
         "entry_count": 4,
         "entry_height": "1,60 m",
-        "latitude": 48.307747,
-        "longitude": 14.2862415,
-        "address": "Dr. Ernst Koref Promenade, 4020 Linz",
+        "latitude": 48.3084435,
+        "longitude": 14.2877255,
+        "address": "Ernst-Koref-Promenade, 4020 Linz",
         "access_type": "public",
         "source_url": "https://maps.oberoesterreich.at/",
         "source_checked_at": "2026-08-24"
@@ -162,7 +162,7 @@
           }
         }
       ],
-      "updated_at": "2026-08-31T14:30:02.343Z"
+      "updated_at": "2026-08-31T14:32:30.893Z"
     },
     {
       "submission_id": "SUB-20260831-065632-79C2A2",
