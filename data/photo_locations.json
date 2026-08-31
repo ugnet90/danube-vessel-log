@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-08-27T13:51:06.000Z",
+  "updated_at": "2026-08-31T06:55:36.000Z",
   "count": 76,
   "photos": [
     {
@@ -2602,8 +2602,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 58,
+  "sighting_count": 59,
   "sightings": [
+    {
+      "submission_id": "SUB-20260831-065548-D984F2",
+      "vessel_id": "VES-000112",
+      "vessel_name": "S. S. Emilie",
+      "captured_at": "2026-08-31T06:55:36.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 444
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "direction": "upstream",
+      "photo_count": 0
+    },
     {
       "submission_id": "SUB-20260827-135115-2CCD7E",
       "vessel_id": "VES-000121",
