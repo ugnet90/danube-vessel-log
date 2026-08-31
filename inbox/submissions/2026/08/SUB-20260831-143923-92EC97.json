@@ -1,0 +1,143 @@
+{
+  "schema_version": 14,
+  "submission_id": "SUB-20260831-143923-92EC97",
+  "uploaded_at": "2026-08-31T14:39:23.883Z",
+  "captured_at": "2026-08-31T14:07:14.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": 342
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000005",
+    "name": "Donaustation Linz 1 (Brucknerhaus)",
+    "short_name": "Linz 1 – Brucknerhaus",
+    "station_number": "1",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2134.52,
+    "river_km_text": "2134,6+10–2134,4+30",
+    "facility_type": "Tankkahn",
+    "mooring_order": "25 m",
+    "entry_count": 0,
+    "entry_height": "",
+    "latitude": 48.311353,
+    "longitude": 14.2917265,
+    "address": "Untere Donaulände beim Brucknerhaus, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://www.donaustationen.at/anlegestellen-1/linz-1/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 2,
+  "direction": "upstream",
+  "vessel_name_entered": "Emerald Star",
+  "notes": "",
+  "observer_lat": 48.3091,
+  "observer_lon": 14.289275,
+  "photos": [
+    {
+      "photo_id": "PHOTO-0166BAE754D84947A94E92E5D56D0B21",
+      "path": "inbox/photos/2026/08/PHOTO-0166BAE754D84947A94E92E5D56D0B21.jpg",
+      "filename": "PHOTO-0166BAE754D84947A94E92E5D56D0B21.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 354743,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-08-31T14:07:14.000Z",
+      "photo_lat": 48.3091,
+      "photo_lon": 14.289275,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 342
+      }
+    },
+    {
+      "photo_id": "PHOTO-5CBCC3B6B3BB42B5983A5DBC0325D9BF",
+      "path": "inbox/photos/2026/08/PHOTO-5CBCC3B6B3BB42B5983A5DBC0325D9BF.jpg",
+      "filename": "PHOTO-5CBCC3B6B3BB42B5983A5DBC0325D9BF.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 435997,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-08-31T14:14:18.000Z",
+      "photo_lat": 48.307995,
+      "photo_lon": 14.28523333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 151
+      }
+    },
+    {
+      "photo_id": "PHOTO-F6B4F8E7E39F4FDE8C02574F2F371F93",
+      "path": "inbox/photos/2026/08/PHOTO-F6B4F8E7E39F4FDE8C02574F2F371F93.jpg",
+      "filename": "PHOTO-F6B4F8E7E39F4FDE8C02574F2F371F93.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 367526,
+      "sequence": 3,
+      "metadata_version": 1,
+      "captured_at": "2026-08-31T14:15:09.000Z",
+      "photo_lat": 48.30848666666667,
+      "photo_lon": 14.284875,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 212
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "emerald star"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.3091,
+  "photo_lon": 14.289275
+}
