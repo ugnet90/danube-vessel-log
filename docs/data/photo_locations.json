@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-08-31T06:55:36.000Z",
+  "updated_at": "2026-08-31T06:55:59.000Z",
   "count": 76,
   "photos": [
     {
@@ -2602,8 +2602,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 59,
+  "sighting_count": 60,
   "sightings": [
+    {
+      "submission_id": "SUB-20260831-065609-F7EFC3",
+      "vessel_id": "VES-000118",
+      "vessel_name": "NickoVision",
+      "captured_at": "2026-08-31T06:55:59.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 444
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "direction": "upstream",
+      "photo_count": 0
+    },
     {
       "submission_id": "SUB-20260831-065548-D984F2",
       "vessel_id": "VES-000112",
