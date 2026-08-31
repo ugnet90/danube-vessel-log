@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "updated_at": "2026-08-31T14:15:09.000Z",
-  "count": 88,
+  "count": 93,
   "photos": [
     {
       "photo_id": "PHOTO-F6B4F8E7E39F4FDE8C02574F2F371F93",
@@ -40,6 +40,42 @@
       "path": "inbox/photos/2026/08/PHOTO-F6B4F8E7E39F4FDE8C02574F2F371F93.jpg"
     },
     {
+      "photo_id": "PHOTO-5698660D32C14407858F0D3298448B84",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260831-143802-140E62",
+      "vessel_id": "VES-000138",
+      "vessel_name": "Amadeus Nova",
+      "captured_at": "2026-08-31T14:15:05.000Z",
+      "photo_lat": 48.30849166666667,
+      "photo_lon": 14.28487833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 212
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260831-143802-140E62"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-5698660D32C14407858F0D3298448B84.jpg"
+    },
+    {
       "photo_id": "PHOTO-5CBCC3B6B3BB42B5983A5DBC0325D9BF",
       "source_type": "sighting",
       "submission_id": "SUB-20260831-143923-92EC97",
@@ -74,6 +110,114 @@
         "submission_id": "SUB-20260831-143923-92EC97"
       },
       "path": "inbox/photos/2026/08/PHOTO-5CBCC3B6B3BB42B5983A5DBC0325D9BF.jpg"
+    },
+    {
+      "photo_id": "PHOTO-D395AD3AC3524182942F48709B3DD67A",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260831-143802-140E62",
+      "vessel_id": "VES-000138",
+      "vessel_name": "Amadeus Nova",
+      "captured_at": "2026-08-31T14:14:12.000Z",
+      "photo_lat": 48.30801166666667,
+      "photo_lon": 14.28522833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 153
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260831-143802-140E62"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-D395AD3AC3524182942F48709B3DD67A.jpg"
+    },
+    {
+      "photo_id": "PHOTO-E62A3F0AA3A44155A7FF9F19C5C049B4",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260831-143802-140E62",
+      "vessel_id": "VES-000138",
+      "vessel_name": "Amadeus Nova",
+      "captured_at": "2026-08-31T14:13:38.000Z",
+      "photo_lat": 48.30765333333333,
+      "photo_lon": 14.28550333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 108
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260831-143802-140E62"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-E62A3F0AA3A44155A7FF9F19C5C049B4.jpg"
+    },
+    {
+      "photo_id": "PHOTO-08E917743FF1491EB9AE41CC9992ACF0",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260831-143802-140E62",
+      "vessel_id": "VES-000138",
+      "vessel_name": "Amadeus Nova",
+      "captured_at": "2026-08-31T14:13:24.000Z",
+      "photo_lat": 48.30753,
+      "photo_lon": 14.28557833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 93
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260831-143802-140E62"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-08E917743FF1491EB9AE41CC9992ACF0.jpg"
     },
     {
       "photo_id": "PHOTO-C50C3C3C7F554CA8A33E83CB475BF4E3",
@@ -227,6 +371,42 @@
         "submission_id": "SUB-20260831-065609-F7EFC3"
       },
       "path": "inbox/photos/2026/08/PHOTO-1439D46BFA094F128F24E0FDD167EF4E.jpg"
+    },
+    {
+      "photo_id": "PHOTO-739A96B540694B60A68A92E4C4CD10C9",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260831-143802-140E62",
+      "vessel_id": "VES-000138",
+      "vessel_name": "Amadeus Nova",
+      "captured_at": "2026-08-31T14:09:29.000Z",
+      "photo_lat": 48.308145,
+      "photo_lon": 14.28764166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 184
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260831-143802-140E62"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-739A96B540694B60A68A92E4C4CD10C9.jpg"
     },
     {
       "photo_id": "PHOTO-477E91750C204035828099AE6CEB6DBD",
@@ -2989,8 +3169,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 63,
+  "sighting_count": 64,
   "sightings": [
+    {
+      "submission_id": "SUB-20260831-143802-140E62",
+      "vessel_id": "VES-000138",
+      "vessel_name": "Amadeus Nova",
+      "captured_at": "2026-08-31T14:09:29.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 184
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 5
+    },
     {
       "submission_id": "SUB-20260831-143923-92EC97",
       "vessel_id": "VES-000137",
