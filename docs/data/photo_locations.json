@@ -1,8 +1,80 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-08-31T14:13:09.000Z",
-  "count": 85,
+  "updated_at": "2026-08-31T14:15:09.000Z",
+  "count": 88,
   "photos": [
+    {
+      "photo_id": "PHOTO-F6B4F8E7E39F4FDE8C02574F2F371F93",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260831-143923-92EC97",
+      "vessel_id": "VES-000137",
+      "vessel_name": "Emerald Star",
+      "captured_at": "2026-08-31T14:15:09.000Z",
+      "photo_lat": 48.30848666666667,
+      "photo_lon": 14.284875,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 212
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260831-143923-92EC97"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-F6B4F8E7E39F4FDE8C02574F2F371F93.jpg"
+    },
+    {
+      "photo_id": "PHOTO-5CBCC3B6B3BB42B5983A5DBC0325D9BF",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260831-143923-92EC97",
+      "vessel_id": "VES-000137",
+      "vessel_name": "Emerald Star",
+      "captured_at": "2026-08-31T14:14:18.000Z",
+      "photo_lat": 48.307995,
+      "photo_lon": 14.28523333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 151
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260831-143923-92EC97"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-5CBCC3B6B3BB42B5983A5DBC0325D9BF.jpg"
+    },
     {
       "photo_id": "PHOTO-C50C3C3C7F554CA8A33E83CB475BF4E3",
       "source_type": "direct",
@@ -218,6 +290,42 @@
         "submission_id": "SUB-20260831-142952-FC568F"
       },
       "path": "inbox/photos/2026/08/PHOTO-DAD934A760EC4FE7B3627AD07426E19F.jpg"
+    },
+    {
+      "photo_id": "PHOTO-0166BAE754D84947A94E92E5D56D0B21",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260831-143923-92EC97",
+      "vessel_id": "VES-000137",
+      "vessel_name": "Emerald Star",
+      "captured_at": "2026-08-31T14:07:14.000Z",
+      "photo_lat": 48.3091,
+      "photo_lon": 14.289275,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 342
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260831-143923-92EC97"
+      },
+      "path": "inbox/photos/2026/08/PHOTO-0166BAE754D84947A94E92E5D56D0B21.jpg"
     },
     {
       "photo_id": "PHOTO-0B5E8E91BC7F4A77A1B959E9B41ADE7D",
@@ -2881,8 +2989,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 62,
+  "sighting_count": 63,
   "sightings": [
+    {
+      "submission_id": "SUB-20260831-143923-92EC97",
+      "vessel_id": "VES-000137",
+      "vessel_name": "Emerald Star",
+      "captured_at": "2026-08-31T14:07:14.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 342
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 3
+    },
     {
       "submission_id": "SUB-20260831-142952-FC568F",
       "vessel_id": "VES-000134",

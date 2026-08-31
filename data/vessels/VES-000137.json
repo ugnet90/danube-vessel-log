@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000137",
+  "identity": {
+    "name": "Emerald Star",
+    "former_names": [],
+    "mmsi": "",
+    "imo": "",
+    "eni": "02336546",
+    "call_sign": ""
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "MT"
+  },
+  "technical": {
+    "year_built": 2014,
+    "shipyard": "",
+    "length_m": 135,
+    "width_m": 11.45,
+    "draft_m": null,
+    "passengers": 182
+  },
+  "operations": {
+    "operator": "Emerald Waterways",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": "Valletta"
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [
+    {
+      "source_id": "SRC-AD195E21041A",
+      "provider": "Wikipedia",
+      "title": "Kandidatenkatalog: Emerald Star",
+      "url": "https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen",
+      "notes": "Vorbelegung aus CAN-677984D9735D.",
+      "fields_used": [
+        "identity.name",
+        "identity.eni",
+        "classification.ship_type",
+        "classification.ship_subtype",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "retrieved_at": "",
+      "verified_at": "",
+      "added_at": "2026-08-31T14:40:32.680Z",
+      "added_by": "candidate-catalog",
+      "candidate_id": "CAN-677984D9735D",
+      "source_revision_id": "268617530"
+    }
+  ],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-0166BAE754D84947A94E92E5D56D0B21",
+    "primary_submission_id": "SUB-20260831-143923-92EC97"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-08-31T14:40:32.680Z",
+    "created_from_submission_id": "SUB-20260831-143923-92EC97",
+    "updated_at": "2026-08-31T14:40:32.680Z",
+    "updated_by": "web-ui",
+    "created_from_candidate_id": "CAN-677984D9735D",
+    "candidate_source_revision_id": "268617530"
+  }
+}
