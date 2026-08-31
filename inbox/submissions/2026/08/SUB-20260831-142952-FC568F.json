@@ -1,0 +1,168 @@
+{
+  "schema_version": 14,
+  "submission_id": "SUB-20260831-142952-FC568F",
+  "uploaded_at": "2026-08-31T14:29:52.354Z",
+  "captured_at": "2026-08-31T14:06:51.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": 344
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000003",
+    "name": "Schiffsanlegestelle Linz-Hauptplatz",
+    "short_name": "Linz-Hauptplatz Nr. 13",
+    "station_number": "13",
+    "location_id": "LOC-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2135.045,
+    "river_km_text": "2135,0+45 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 29 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.307747,
+    "longitude": 14.2862415,
+    "address": "Dr. Ernst Koref Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 1,
+  "direction": "upstream",
+  "vessel_name_entered": "Emerald Sun",
+  "notes": "",
+  "observer_lat": 48.30912833333333,
+  "observer_lon": 14.28926166666667,
+  "photos": [
+    {
+      "photo_id": "PHOTO-0B5E8E91BC7F4A77A1B959E9B41ADE7D",
+      "path": "inbox/photos/2026/08/PHOTO-0B5E8E91BC7F4A77A1B959E9B41ADE7D.jpg",
+      "filename": "PHOTO-0B5E8E91BC7F4A77A1B959E9B41ADE7D.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 367804,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-08-31T14:06:51.000Z",
+      "photo_lat": 48.30912833333333,
+      "photo_lon": 14.28926166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 344
+      }
+    },
+    {
+      "photo_id": "PHOTO-DAD934A760EC4FE7B3627AD07426E19F",
+      "path": "inbox/photos/2026/08/PHOTO-DAD934A760EC4FE7B3627AD07426E19F.jpg",
+      "filename": "PHOTO-DAD934A760EC4FE7B3627AD07426E19F.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 387306,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-08-31T14:07:17.000Z",
+      "photo_lat": 48.30912833333333,
+      "photo_lon": 14.289275,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 345
+      }
+    },
+    {
+      "photo_id": "PHOTO-B209351601C9420A941FD835AB75245D",
+      "path": "inbox/photos/2026/08/PHOTO-B209351601C9420A941FD835AB75245D.jpg",
+      "filename": "PHOTO-B209351601C9420A941FD835AB75245D.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 341505,
+      "sequence": 3,
+      "metadata_version": 1,
+      "captured_at": "2026-08-31T14:11:05.000Z",
+      "photo_lat": 48.307555,
+      "photo_lon": 14.286305,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 84
+      }
+    },
+    {
+      "photo_id": "PHOTO-64E58A86BE244083AED2721541E262B1",
+      "path": "inbox/photos/2026/08/PHOTO-64E58A86BE244083AED2721541E262B1.jpg",
+      "filename": "PHOTO-64E58A86BE244083AED2721541E262B1.jpg",
+      "original_filename": "shortcut-photo-04.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 498954,
+      "sequence": 4,
+      "metadata_version": 1,
+      "captured_at": "2026-08-31T14:13:09.000Z",
+      "photo_lat": 48.30738333333333,
+      "photo_lon": 14.28567166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 76
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000134",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000134"
+        ],
+        "matched_value": "Emerald Sun",
+        "normalized_input": "emeraldsun"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30912833333333,
+  "photo_lon": 14.28926166666667
+}
