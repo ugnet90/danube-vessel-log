@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "updated_at": "2026-09-03T05:13:12.000Z",
-  "count": 99,
+  "count": 100,
   "photos": [
     {
       "photo_id": "PHOTO-D279CD664367426EA2B3FBB74584E3D6",
@@ -74,6 +74,33 @@
         "submission_id": "SUB-20260903-052539-772127"
       },
       "path": "inbox/photos/2026/09/PHOTO-08B451A6D6964A719F2E122AD2A55596.jpg"
+    },
+    {
+      "photo_id": "PHOTO-B6036891CBB94A9DAC646B3806A9102D",
+      "source_type": "direct",
+      "submission_id": "SUB-20260903-052539-772127",
+      "vessel_id": "VES-000140",
+      "vessel_name": "River Sapphire",
+      "captured_at": "2026-09-03T05:12:38.000Z",
+      "photo_lat": 48.30742,
+      "photo_lon": 14.28528333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 97
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260903-052539-772127"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-B6036891CBB94A9DAC646B3806A9102D.jpg"
     },
     {
       "photo_id": "PHOTO-87AE6BA148514C8D816F320B5B4323BE",
