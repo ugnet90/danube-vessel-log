@@ -19,15 +19,15 @@
   },
   "technical": {
     "year_built": 2005,
-    "shipyard": "",
+    "shipyard": "Neptun Werft",
     "length_m": 135,
     "width_m": 11.4,
-    "draft_m": null,
+    "draft_m": 1.6,
     "passengers": 200
   },
   "operations": {
     "operator": "1AVista-Reisen",
-    "owner": "",
+    "owner": "Premicon",
     "manager": "",
     "cruise_brand": "",
     "home_port": "Basel"
@@ -61,12 +61,35 @@
       "added_by": "candidate-catalog",
       "candidate_id": "CAN-79B7BAAB7147",
       "source_revision_id": "268617530"
+    },
+    {
+      "source_id": "SRC-1BCF510715B6",
+      "provider": "Wikidata",
+      "title": "Wikidata: Arena",
+      "url": "https://www.wikidata.org/wiki/Q1426908",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "technical.shipyard",
+        "technical.draft_m",
+        "operations.owner"
+      ],
+      "retrieved_at": "2026-09-03T05:45:39.896927Z",
+      "verified_at": "2026-09-03T14:36:30.049Z",
+      "added_at": "2026-09-03T14:36:30.049Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2406116942
     }
   ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q1426908",
+      "rejected_qids": [],
+      "accepted_at": "2026-09-03T14:36:30.049Z",
+      "last_reviewed_at": "2026-09-03T14:36:30.049Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-3EF9A2B6F9AE4C709150F764882E0415",
@@ -77,9 +100,44 @@
     "environment": "production",
     "created_at": "2026-08-26T05:40:04.945Z",
     "created_from_submission_id": "SUB-20260826-050819-5DB82A",
-    "updated_at": "2026-08-26T05:40:04.945Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-09-03T14:36:30.049Z",
+    "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-79B7BAAB7147",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-09-03T14:36:30.049Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "3 Wikidata-Felder aus Q1426908 übernommen",
+        "changed_fields": [
+          "technical.shipyard",
+          "technical.draft_m",
+          "operations.owner",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "technical.shipyard",
+            "old_value": "",
+            "new_value": "Neptun Werft"
+          },
+          {
+            "field": "technical.draft_m",
+            "old_value": null,
+            "new_value": 1.6
+          },
+          {
+            "field": "operations.owner",
+            "old_value": "",
+            "new_value": "Premicon"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q1426908"
+          }
+        ]
+      }
+    ]
   }
 }
