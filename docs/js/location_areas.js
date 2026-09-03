@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: docs/js/location_areas.js
- * Version: 0.15.0
- * Updated: 2026-08-24
+ * Version: 0.15.10
+ * Updated: 2026-09-03
  */
 
 "use strict";
@@ -922,7 +922,7 @@
     vesselBerthLayer.addTo(map);
 
     try {
-      berths = await maps.loadBerths(workerUrl, "LOC-001");
+      berths = await maps.loadBerths(workerUrl);
       berthLayers = maps.addBerthLayers(map, berths, {
         addToMap: true,
         geometryIndex: berthGeometryIndex,

@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.15.4
-// Updated: 2026-08-24
+// Version: 0.15.10
+// Updated: 2026-09-03
 
 "use strict";
 
@@ -715,7 +715,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (!photoMapBerthsPromise && workerUrl) {
-      photoMapBerthsPromise = maps.loadBerths(workerUrl, "LOC-001")
+      photoMapBerthsPromise = maps.loadBerths(workerUrl)
         .catch(() => []);
     }
     if (!photoMapBerthGeometriesPromise) {
