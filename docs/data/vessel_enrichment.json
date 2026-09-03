@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-09-03T05:45:39.896927Z",
+  "generated_at": "2026-09-03T14:52:30.152531Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 40,
     "vessels_incomplete": 40,
     "vessels_complete": 0,
-    "candidate_matches": 4,
-    "matched_no_new_data": 21,
+    "candidate_matches": 0,
+    "matched_no_new_data": 0,
     "low_confidence": 0,
-    "no_match": 15,
-    "lookup_errors": 0,
-    "suggestions_total": 12
+    "no_match": 0,
+    "lookup_errors": 40,
+    "suggestions_total": 0
   },
   "vessels": [
     {
@@ -85,8 +85,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 7.4833333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -131,8 +131,8 @@
       "missing_count": 7,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 7.8666666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "Q132731400",
         "rejected_qids": [],
@@ -181,8 +181,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 7.8666666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -207,8 +207,8 @@
       "missing_count": 2,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 7.8666666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "Q277910",
         "rejected_qids": [],
@@ -245,8 +245,8 @@
       "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 7.8666666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
@@ -300,8 +300,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 7.8666666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -350,8 +350,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 8.5 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -380,8 +380,8 @@
       "missing_count": 3,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 8.5 seconds lagged.",
         "warnings": [],
         "accepted_qid": "Q15260465",
         "rejected_qids": [],
@@ -430,8 +430,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 8.5 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -472,8 +472,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 8.5 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -514,8 +514,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 9.95 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
@@ -557,8 +557,8 @@
       "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 9.95 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -607,8 +607,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 9.95 seconds lagged.",
         "warnings": [],
         "accepted_qid": "Q1597558",
         "rejected_qids": [],
@@ -657,8 +657,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 9.95 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -703,8 +703,8 @@
       "missing_count": 7,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 9.95 seconds lagged.",
         "warnings": [],
         "accepted_qid": "Q131405286",
         "rejected_qids": [],
@@ -745,8 +745,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 7.7333333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
@@ -798,8 +798,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 7.7333333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -836,8 +836,8 @@
       "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 7.7333333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "Q122413683",
         "rejected_qids": [],
@@ -886,8 +886,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 7.7333333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -936,8 +936,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 11.066666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -974,8 +974,8 @@
       "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 11.066666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "Q131429325",
         "rejected_qids": [],
@@ -1016,8 +1016,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 11.066666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -1078,8 +1078,8 @@
       "missing_count": 11,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 11.066666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -1140,8 +1140,8 @@
       "missing_count": 11,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 11.066666666667 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -1222,8 +1222,8 @@
       "missing_count": 16,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 11.983333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -1272,8 +1272,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 11.983333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -1310,8 +1310,8 @@
       "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 11.983333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "Q22968357",
         "rejected_qids": [],
@@ -1356,8 +1356,8 @@
       "missing_count": 7,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 11.983333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "Q124258713",
         "rejected_qids": [],
@@ -1410,8 +1410,8 @@
       "missing_count": 9,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 12.433333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -1472,8 +1472,8 @@
       "missing_count": 11,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 12.433333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -1534,8 +1534,8 @@
       "missing_count": 11,
       "lookup": {
         "provider": "wikidata",
-        "status": "no_match",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 12.433333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -1576,8 +1576,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 12.433333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -1614,8 +1614,8 @@
       "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 12.433333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "Q451699",
         "rejected_qids": [],
@@ -1660,8 +1660,8 @@
       "missing_count": 7,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 13.4 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -1702,8 +1702,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 13.4 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -1721,18 +1721,6 @@
           "label": "IMO"
         },
         {
-          "field": "technical.shipyard",
-          "label": "Werft"
-        },
-        {
-          "field": "technical.draft_m",
-          "label": "Tiefgang"
-        },
-        {
-          "field": "operations.owner",
-          "label": "Eigentümer"
-        },
-        {
           "field": "operations.manager",
           "label": "Manager"
         },
@@ -1741,156 +1729,17 @@
           "label": "Marke"
         }
       ],
-      "missing_count": 6,
+      "missing_count": 3,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 13.4 seconds lagged.",
         "warnings": [],
-        "accepted_qid": "",
-        "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q1426908",
-            "label": "Arena",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q1426908",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "identity.eni"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [
-                "09948011"
-              ],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Neptun Werft",
-                "display_value": "Neptun Werft",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q1426908",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 1.6,
-                "display_value": 1.6,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q1426908",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Premicon",
-                "display_value": "Premicon",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q1426908",
-                "confidence": 1.0,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2406116942
-          },
-          {
-            "qid": "Q3010560",
-            "label": "Ocean Dream",
-            "description": "Kreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q3010560",
-            "score": 0.94,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [
-                "671326000"
-              ],
-              "imo": [
-                "7211517"
-              ],
-              "eni": [],
-              "call_sign": [
-                "5VBW6"
-              ]
-            },
-            "instance_of": [
-              "Kreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.imo",
-                "field_label": "IMO",
-                "value": "7211517",
-                "display_value": "7211517",
-                "property": "P458",
-                "property_label": "IMO ship number",
-                "property_url": "https://www.wikidata.org/wiki/Property:P458",
-                "source_url": "https://www.wikidata.org/wiki/Q3010560",
-                "confidence": 0.94,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Cantiere navale di Riva Trigoso",
-                "display_value": "Cantiere navale di Riva Trigoso",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q3010560",
-                "confidence": 0.94,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 7.0,
-                "display_value": 7.0,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q3010560",
-                "confidence": 0.94,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Norwegian Cruise Line",
-                "display_value": "Norwegian Cruise Line",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q3010560",
-                "confidence": 0.94,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2504065472
-          }
-        ]
+        "accepted_qid": "Q1426908",
+        "rejected_qids": [
+          "Q3010560"
+        ],
+        "candidates": []
       }
     },
     {
@@ -1900,20 +1749,8 @@
       "json_path": "data/vessels/VES-000137.json",
       "missing_fields": [
         {
-          "field": "identity.mmsi",
-          "label": "MMSI"
-        },
-        {
-          "field": "identity.imo",
-          "label": "IMO"
-        },
-        {
           "field": "identity.call_sign",
           "label": "Rufzeichen"
-        },
-        {
-          "field": "technical.shipyard",
-          "label": "Werft"
         },
         {
           "field": "technical.draft_m",
@@ -1932,220 +1769,18 @@
           "label": "Marke"
         }
       ],
-      "missing_count": 8,
+      "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 13.4 seconds lagged.",
         "warnings": [],
-        "accepted_qid": "",
-        "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q52311301",
-            "label": "Emerald Star",
-            "description": "Schiff, Baujahr 1967",
-            "url": "https://www.wikidata.org/wiki/Q52311301",
-            "score": 0.98,
-            "confidence": "very_high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [
-                "6713893"
-              ],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Schiff"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.imo",
-                "field_label": "IMO",
-                "value": "6713893",
-                "display_value": "6713893",
-                "property": "P458",
-                "property_label": "IMO ship number",
-                "property_url": "https://www.wikidata.org/wiki/Property:P458",
-                "source_url": "https://www.wikidata.org/wiki/Q52311301",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Blohm + Voss",
-                "display_value": "Blohm + Voss",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q52311301",
-                "confidence": 0.98,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2087856603
-          },
-          {
-            "qid": "Q116864293",
-            "label": "ENI 02335646",
-            "description": "Flusskreuzfahrttschiff",
-            "url": "https://www.wikidata.org/wiki/Q116864293",
-            "score": 0.975,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [
-                "229818000"
-              ],
-              "imo": [],
-              "eni": [
-                "02335646"
-              ],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.mmsi",
-                "field_label": "MMSI",
-                "value": "229818000",
-                "display_value": "229818000",
-                "property": "P587",
-                "property_label": "MMSI",
-                "property_url": "https://www.wikidata.org/wiki/Property:P587",
-                "source_url": "https://www.wikidata.org/wiki/Q116864293",
-                "confidence": 0.975,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Shipyard De Hoop",
-                "display_value": "Shipyard De Hoop",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q116864293",
-                "confidence": 0.975,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2067360247
-          },
-          {
-            "qid": "Q83598105",
-            "label": "Emerald Star",
-            "description": "ship built in 2005",
-            "url": "https://www.wikidata.org/wiki/Q83598105",
-            "score": 0.97,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [
-                "9290830"
-              ],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Schiff"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.imo",
-                "field_label": "IMO",
-                "value": "9290830",
-                "display_value": "9290830",
-                "property": "P458",
-                "property_label": "IMO ship number",
-                "property_url": "https://www.wikidata.org/wiki/Property:P458",
-                "source_url": "https://www.wikidata.org/wiki/Q83598105",
-                "confidence": 0.97,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Hyundai Mipo Dockyard",
-                "display_value": "Hyundai Mipo Dockyard",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q83598105",
-                "confidence": 0.97,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 1760764987
-          },
-          {
-            "qid": "Q86062383",
-            "label": "Emerald Star",
-            "description": "Schiff, Baujahr 2010",
-            "url": "https://www.wikidata.org/wiki/Q86062383",
-            "score": 0.96,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [
-                "9449261"
-              ],
-              "eni": [],
-              "call_sign": [
-                "VREW5"
-              ]
-            },
-            "instance_of": [
-              "Schiff"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.imo",
-                "field_label": "IMO",
-                "value": "9449261",
-                "display_value": "9449261",
-                "property": "P458",
-                "property_label": "IMO ship number",
-                "property_url": "https://www.wikidata.org/wiki/Property:P458",
-                "source_url": "https://www.wikidata.org/wiki/Q86062383",
-                "confidence": 0.96,
-                "apply_supported": true
-              },
-              {
-                "field": "identity.call_sign",
-                "field_label": "Rufzeichen",
-                "value": "VREW5",
-                "display_value": "VREW5",
-                "property": "P2317",
-                "property_label": "call sign",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2317",
-                "source_url": "https://www.wikidata.org/wiki/Q86062383",
-                "confidence": 0.96,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2088009340
-          }
-        ]
+        "accepted_qid": "Q116864293",
+        "rejected_qids": [
+          "Q83598105",
+          "Q86062383"
+        ],
+        "candidates": []
       }
     },
     {
@@ -2167,14 +1802,6 @@
           "label": "Rufzeichen"
         },
         {
-          "field": "technical.shipyard",
-          "label": "Werft"
-        },
-        {
-          "field": "technical.draft_m",
-          "label": "Tiefgang"
-        },
-        {
           "field": "operations.owner",
           "label": "Eigentümer"
         },
@@ -2187,66 +1814,15 @@
           "label": "Marke"
         }
       ],
-      "missing_count": 8,
+      "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 10.333333333333 seconds lagged.",
         "warnings": [],
-        "accepted_qid": "",
+        "accepted_qid": "Q131424798",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q131424798",
-            "label": "Amadeus Nova",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q131424798",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "identity.eni"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [
-                "02340299"
-              ],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "TeamCo Shipyard BV",
-                "display_value": "TeamCo Shipyard BV",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q131424798",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 1.5,
-                "display_value": 1.5,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q131424798",
-                "confidence": 1.0,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2322031248
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -2311,8 +1887,8 @@
       "missing_count": 13,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 10.333333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -2338,24 +1914,8 @@
           "label": "Rufzeichen"
         },
         {
-          "field": "classification.flag",
-          "label": "Flagge"
-        },
-        {
-          "field": "technical.shipyard",
-          "label": "Werft"
-        },
-        {
-          "field": "technical.draft_m",
-          "label": "Tiefgang"
-        },
-        {
           "field": "operations.operator",
           "label": "Betreiber"
-        },
-        {
-          "field": "operations.owner",
-          "label": "Eigentümer"
         },
         {
           "field": "operations.manager",
@@ -2364,282 +1924,22 @@
         {
           "field": "operations.cruise_brand",
           "label": "Marke"
-        },
-        {
-          "field": "operations.home_port",
-          "label": "Heimathafen"
         }
       ],
-      "missing_count": 11,
+      "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 10.333333333333 seconds lagged.",
         "warnings": [],
-        "accepted_qid": "",
-        "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q790106",
-            "label": "Travelmarvel Sapphire",
-            "description": "Flusskreuzfahrtschiff vom Typ TwinCruiser",
-            "url": "https://www.wikidata.org/wiki/Q790106",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "identity.eni"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [
-                "09948012"
-              ],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff",
-              "TwinCruiser"
-            ],
-            "suggestions": [
-              {
-                "field": "classification.flag",
-                "field_label": "Flagge",
-                "value": "CH",
-                "display_value": "Schweiz",
-                "property": "P8047",
-                "property_label": "country of registry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P8047",
-                "source_url": "https://www.wikidata.org/wiki/Q790106",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Neptun Werft",
-                "display_value": "Neptun Werft",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q790106",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 1.6,
-                "display_value": 1.6,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q790106",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Premicon",
-                "display_value": "Premicon",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q790106",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.home_port",
-                "field_label": "Heimathafen",
-                "value": "Basel",
-                "display_value": "Basel",
-                "property": "P532",
-                "property_label": "port of registry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P532",
-                "source_url": "https://www.wikidata.org/wiki/Q790106",
-                "confidence": 1.0,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2340335025
-          },
-          {
-            "qid": "Q694257",
-            "label": "Vienna Insurance Group",
-            "description": "Versicherungskonzern",
-            "url": "https://www.wikidata.org/wiki/Q694257",
-            "score": 0.795,
-            "confidence": "low",
-            "matched_by": [
-              "name_partial"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Holding",
-              "börsennotiertes Unternehmen"
-            ],
-            "suggestions": [
-              {
-                "field": "classification.flag",
-                "field_label": "Flagge",
-                "value": "AT",
-                "display_value": "Österreich",
-                "property": "P17",
-                "property_label": "country",
-                "property_url": "https://www.wikidata.org/wiki/Property:P17",
-                "source_url": "https://www.wikidata.org/wiki/Q694257",
-                "confidence": 0.795,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Wiener Städtische Versicherungsverein",
-                "display_value": "Wiener Städtische Versicherungsverein",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q694257",
-                "confidence": 0.795,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2534543599
-          },
-          {
-            "qid": "Q609508",
-            "label": "Viennale",
-            "description": "jährliches Filmfestival in Wien, Österreich",
-            "url": "https://www.wikidata.org/wiki/Q609508",
-            "score": 0.79,
-            "confidence": "low",
-            "matched_by": [
-              "name_partial"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Filmfestival"
-            ],
-            "suggestions": [
-              {
-                "field": "classification.flag",
-                "field_label": "Flagge",
-                "value": "AT",
-                "display_value": "Österreich",
-                "property": "P17",
-                "property_label": "country",
-                "property_url": "https://www.wikidata.org/wiki/Property:P17",
-                "source_url": "https://www.wikidata.org/wiki/Q609508",
-                "confidence": 0.79,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2532303944
-          },
-          {
-            "qid": "Q685504",
-            "label": "Vienna Shorts",
-            "description": "jährliches Filmfestival in Wien, Österreich",
-            "url": "https://www.wikidata.org/wiki/Q685504",
-            "score": 0.785,
-            "confidence": "low",
-            "matched_by": [
-              "name_partial"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Filmfestival"
-            ],
-            "suggestions": [
-              {
-                "field": "classification.flag",
-                "field_label": "Flagge",
-                "value": "AT",
-                "display_value": "Österreich",
-                "property": "P17",
-                "property_label": "country",
-                "property_url": "https://www.wikidata.org/wiki/Property:P17",
-                "source_url": "https://www.wikidata.org/wiki/Q685504",
-                "confidence": 0.785,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2433826069
-          },
-          {
-            "qid": "Q686431",
-            "label": "Vienna International Centre",
-            "description": "Amtssitz der Vereinten Nationen in Wien; Sehenswürdigkeit",
-            "url": "https://www.wikidata.org/wiki/Q686431",
-            "score": 0.78,
-            "confidence": "low",
-            "matched_by": [
-              "name_partial"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Gebäudekomplex",
-              "UN-Depotbibliothek",
-              "Führung",
-              "Sehenswürdigkeit",
-              "Sehenswürdigkeiten in Wien"
-            ],
-            "suggestions": [
-              {
-                "field": "classification.flag",
-                "field_label": "Flagge",
-                "value": "AT",
-                "display_value": "Österreich",
-                "property": "P17",
-                "property_label": "country",
-                "property_url": "https://www.wikidata.org/wiki/Property:P17",
-                "source_url": "https://www.wikidata.org/wiki/Q686431",
-                "confidence": 0.78,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Österreich",
-                "display_value": "Österreich",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q686431",
-                "confidence": 0.78,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2513533752
-          }
-        ]
+        "accepted_qid": "Q790106",
+        "rejected_qids": [
+          "Q609508",
+          "Q685504",
+          "Q686431",
+          "Q694257"
+        ],
+        "candidates": []
       }
     }
   ]
