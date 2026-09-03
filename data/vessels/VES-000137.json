@@ -5,7 +5,7 @@
     "name": "Emerald Star",
     "former_names": [],
     "mmsi": "",
-    "imo": "",
+    "imo": "6713893",
     "eni": "02336546",
     "call_sign": ""
   },
@@ -17,7 +17,7 @@
   },
   "technical": {
     "year_built": 2014,
-    "shipyard": "",
+    "shipyard": "Blohm + Voss",
     "length_m": 135,
     "width_m": 11.45,
     "draft_m": null,
@@ -58,12 +58,34 @@
       "added_by": "candidate-catalog",
       "candidate_id": "CAN-677984D9735D",
       "source_revision_id": "268617530"
+    },
+    {
+      "source_id": "SRC-07248B1AF6AD",
+      "provider": "Wikidata",
+      "title": "Wikidata: Emerald Star",
+      "url": "https://www.wikidata.org/wiki/Q52311301",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "identity.imo",
+        "technical.shipyard"
+      ],
+      "retrieved_at": "2026-09-03T05:45:39.896927Z",
+      "verified_at": "2026-09-03T14:37:25.183Z",
+      "added_at": "2026-09-03T14:37:25.183Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2087856603
     }
   ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q52311301",
+      "rejected_qids": [],
+      "accepted_at": "2026-09-03T14:37:25.183Z",
+      "last_reviewed_at": "2026-09-03T14:37:25.183Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-0166BAE754D84947A94E92E5D56D0B21",
@@ -74,9 +96,38 @@
     "environment": "production",
     "created_at": "2026-08-31T14:40:32.680Z",
     "created_from_submission_id": "SUB-20260831-143923-92EC97",
-    "updated_at": "2026-08-31T14:40:32.680Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-09-03T14:37:25.183Z",
+    "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-677984D9735D",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-09-03T14:37:25.183Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "2 Wikidata-Felder aus Q52311301 übernommen",
+        "changed_fields": [
+          "identity.imo",
+          "technical.shipyard",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "identity.imo",
+            "old_value": "",
+            "new_value": "6713893"
+          },
+          {
+            "field": "technical.shipyard",
+            "old_value": "",
+            "new_value": "Blohm + Voss"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q52311301"
+          }
+        ]
+      }
+    ]
   }
 }
