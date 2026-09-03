@@ -1,8 +1,188 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-08-31T14:15:09.000Z",
-  "count": 94,
+  "updated_at": "2026-09-03T05:13:12.000Z",
+  "count": 99,
   "photos": [
+    {
+      "photo_id": "PHOTO-D279CD664367426EA2B3FBB74584E3D6",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260903-052539-772127",
+      "vessel_id": "VES-000140",
+      "vessel_name": "River Sapphire",
+      "captured_at": "2026-09-03T05:13:12.000Z",
+      "photo_lat": 48.307145,
+      "photo_lon": 14.285355,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 73
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.42,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260903-052539-772127"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-D279CD664367426EA2B3FBB74584E3D6.jpg"
+    },
+    {
+      "photo_id": "PHOTO-08B451A6D6964A719F2E122AD2A55596",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260903-052539-772127",
+      "vessel_id": "VES-000140",
+      "vessel_name": "River Sapphire",
+      "captured_at": "2026-09-03T05:13:10.000Z",
+      "photo_lat": 48.30714166666667,
+      "photo_lon": 14.28535,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 73
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.42,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260903-052539-772127"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-08B451A6D6964A719F2E122AD2A55596.jpg"
+    },
+    {
+      "photo_id": "PHOTO-87AE6BA148514C8D816F320B5B4323BE",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260903-052539-772127",
+      "vessel_id": "VES-000140",
+      "vessel_name": "River Sapphire",
+      "captured_at": "2026-09-03T05:11:54.000Z",
+      "photo_lat": 48.30788833333333,
+      "photo_lon": 14.28491333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 154
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.42,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260903-052539-772127"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-87AE6BA148514C8D816F320B5B4323BE.jpg"
+    },
+    {
+      "photo_id": "PHOTO-E93CC5BD83024DEF85D8A26E64691593",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260903-052539-772127",
+      "vessel_id": "VES-000140",
+      "vessel_name": "River Sapphire",
+      "captured_at": "2026-09-03T05:11:02.000Z",
+      "photo_lat": 48.30846166666667,
+      "photo_lon": 14.284505,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 223
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.42,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260903-052539-772127"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-E93CC5BD83024DEF85D8A26E64691593.jpg"
+    },
+    {
+      "photo_id": "PHOTO-E42F07A791F24B389B5B9DFEE6B210F2",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260903-052539-772127",
+      "vessel_id": "VES-000140",
+      "vessel_name": "River Sapphire",
+      "captured_at": "2026-09-03T05:09:28.000Z",
+      "photo_lat": 48.3092,
+      "photo_lon": 14.283575,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 330
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.42,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260903-052539-772127"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-E42F07A791F24B389B5B9DFEE6B210F2.jpg"
+    },
     {
       "photo_id": "PHOTO-F6B4F8E7E39F4FDE8C02574F2F371F93",
       "source_type": "sighting",
@@ -3205,8 +3385,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 65,
+  "sighting_count": 66,
   "sightings": [
+    {
+      "submission_id": "SUB-20260903-052539-772127",
+      "vessel_id": "VES-000140",
+      "vessel_name": "River Sapphire",
+      "captured_at": "2026-09-03T05:09:28.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 330
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.42,
+      "direction": "upstream",
+      "photo_count": 5
+    },
     {
       "submission_id": "SUB-20260831-142423-6FAA49",
       "vessel_id": "VES-000139",
