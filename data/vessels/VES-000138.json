@@ -17,10 +17,10 @@
   },
   "technical": {
     "year_built": 2024,
-    "shipyard": "",
+    "shipyard": "TeamCo Shipyard BV",
     "length_m": 135,
     "width_m": 11.45,
-    "draft_m": null,
+    "draft_m": 1.5,
     "passengers": 158
   },
   "operations": {
@@ -58,12 +58,34 @@
       "added_by": "candidate-catalog",
       "candidate_id": "CAN-C1C687E08504",
       "source_revision_id": "268617530"
+    },
+    {
+      "source_id": "SRC-BCE917875FED",
+      "provider": "Wikidata",
+      "title": "Wikidata: Amadeus Nova",
+      "url": "https://www.wikidata.org/wiki/Q131424798",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "technical.shipyard",
+        "technical.draft_m"
+      ],
+      "retrieved_at": "2026-09-03T05:45:39.896927Z",
+      "verified_at": "2026-09-03T14:35:59.530Z",
+      "added_at": "2026-09-03T14:35:59.530Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2322031248
     }
   ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q131424798",
+      "rejected_qids": [],
+      "accepted_at": "2026-09-03T14:35:59.530Z",
+      "last_reviewed_at": "2026-09-03T14:35:59.530Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-739A96B540694B60A68A92E4C4CD10C9",
@@ -74,9 +96,38 @@
     "environment": "production",
     "created_at": "2026-08-31T14:40:59.490Z",
     "created_from_submission_id": "SUB-20260831-143802-140E62",
-    "updated_at": "2026-08-31T14:40:59.490Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-09-03T14:35:59.530Z",
+    "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-C1C687E08504",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-09-03T14:35:59.530Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "2 Wikidata-Felder aus Q131424798 übernommen",
+        "changed_fields": [
+          "technical.shipyard",
+          "technical.draft_m",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "technical.shipyard",
+            "old_value": "",
+            "new_value": "TeamCo Shipyard BV"
+          },
+          {
+            "field": "technical.draft_m",
+            "old_value": null,
+            "new_value": 1.5
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q131424798"
+          }
+        ]
+      }
+    ]
   }
 }
