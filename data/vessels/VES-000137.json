@@ -4,7 +4,7 @@
   "identity": {
     "name": "Emerald Star",
     "former_names": [],
-    "mmsi": "",
+    "mmsi": "229818000",
     "imo": "6713893",
     "eni": "02336546",
     "call_sign": ""
@@ -74,6 +74,21 @@
       "added_at": "2026-09-03T14:37:25.183Z",
       "added_by": "vessel-enrichment",
       "source_revision_id": 2087856603
+    },
+    {
+      "source_id": "SRC-7159AA13B1FB",
+      "provider": "Wikidata",
+      "title": "Wikidata: ENI 02335646",
+      "url": "https://www.wikidata.org/wiki/Q116864293",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "identity.mmsi"
+      ],
+      "retrieved_at": "2026-09-03T05:45:39.896927Z",
+      "verified_at": "2026-09-03T14:38:16.401Z",
+      "added_at": "2026-09-03T14:38:16.401Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2067360247
     }
   ],
   "enrichment": {
@@ -81,10 +96,10 @@
     "last_run_at": "",
     "providers": [],
     "wikidata": {
-      "accepted_qid": "Q52311301",
+      "accepted_qid": "Q116864293",
       "rejected_qids": [],
-      "accepted_at": "2026-09-03T14:37:25.183Z",
-      "last_reviewed_at": "2026-09-03T14:37:25.183Z"
+      "accepted_at": "2026-09-03T14:38:16.401Z",
+      "last_reviewed_at": "2026-09-03T14:38:16.401Z"
     }
   },
   "media": {
@@ -96,7 +111,7 @@
     "environment": "production",
     "created_at": "2026-08-31T14:40:32.680Z",
     "created_from_submission_id": "SUB-20260831-143923-92EC97",
-    "updated_at": "2026-09-03T14:37:25.183Z",
+    "updated_at": "2026-09-03T14:38:16.401Z",
     "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-677984D9735D",
     "candidate_source_revision_id": "268617530",
@@ -125,6 +140,27 @@
             "field": "enrichment.wikidata.accepted_qid",
             "old_value": "",
             "new_value": "Q52311301"
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-09-03T14:38:16.401Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "1 Wikidata-Feld aus Q116864293 übernommen",
+        "changed_fields": [
+          "identity.mmsi",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "identity.mmsi",
+            "old_value": "",
+            "new_value": "229818000"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "Q52311301",
+            "new_value": "Q116864293"
           }
         ]
       }
