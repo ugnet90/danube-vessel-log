@@ -1,7 +1,7 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.8**  
-Stand: **26.08.2026**
+Aktuelle Version: **0.15.10**  
+Stand: **03.09.2026**
 
 ## 1. Projektzweck
 
@@ -311,7 +311,7 @@ Anlegestellen werden separat geführt und können einer Location zugeordnet sein
 
 `data/berths.csv`
 
-Für die sechs aktuell kartierten Linzer Anleger existiert ab Version 0.14.51 zusätzlich eine eigene Geometriedatei:
+Für die sieben aktuell kartierten Anleger (sechs in Linz und Brandstatt/Pupping) existiert zusätzlich eine eigene Geometriedatei:
 
 `data/berth_geometries.geojson`
 
@@ -322,7 +322,7 @@ Sie enthält pro Anlegestelle zwei Geometrien:
 
 Die Zuordnung erfolgt ausschließlich über die stabile `berth_id`, nicht über den sichtbaren Namen. `docs/data/berth_geometries.geojson` ist nur der von `tools/sync_public_data.py` erzeugte öffentliche Spiegel für GitHub Pages. Ab Version 0.14.52 startet `.github/workflows/sync_public_data.yml` diese Synchronisierung bei Änderungen der kanonischen Datei auf `main` automatisch; gepflegt wird daher ausschließlich `data/berth_geometries.geojson`.
 
-Die Punktkoordinaten `latitude`/`longitude` in `data/berths.csv` entsprechen für diese sechs Anleger dem Mittelpunkt der jeweiligen Liegekante. Dadurch bleiben bestehende API-Verbraucher kompatibel, während die Karte die präzisere Polygon- und Liniengeometrie verwenden kann. Insbesondere wurde damit die zuvor zu weit südwestlich liegende Kartenkoordinate von **Linz 32** korrigiert.
+Die Punktkoordinaten `latitude`/`longitude` in `data/berths.csv` entsprechen für diese sieben Anleger dem Mittelpunkt der jeweiligen Liegekante. Dadurch bleiben bestehende API-Verbraucher kompatibel, während die Karte die präzisere Polygon- und Liniengeometrie verwenden kann. Insbesondere wurde damit die zuvor zu weit südwestlich liegende Kartenkoordinate von **Linz 32** korrigiert.
 
 Ist bei einer Sichtung keine Location direkt gespeichert, kann die Web-/API-Ausgabe die Location über die bekannte `location_id` der Anlegestelle ergänzen.
 
@@ -338,6 +338,8 @@ Die beiden bestehenden Sichtungs-Kurzbefehle heißen:
 - **Schiffsichtung ohne Foto**
 
 Ab Version 0.15.0 senden beide Sichtungs-Kurzbefehle bei `movement = moored` optional zusätzlich `alongside_position`. Die konkrete Schrittfolge steht in `docs/shortcuts/KURZBEFEHL_LIEGEPOSITION_0.15.0.md`. Der separate Zusatzfoto-Kurzbefehl bleibt unverändert.
+
+Ab Version **0.15.11** werden Ort und Anlegestelle nicht mehr als feste Menüpunkte im Kurzbefehl gepflegt. Der geschützte Worker-Endpunkt `GET /berth-options` liest die aktiven Datensätze direkt aus `data/berths.csv` und liefert eine für Apple Kurzbefehle flache zweistufige Auswahl **Ort → Anlegestelle**. Die Schrittfolge steht in `docs/shortcuts/KURZBEFEHL_DYNAMISCHE_ANLEGESTELLEN_0.15.11.md`.
 
 Für reine zusätzliche Schiffsfotos existiert ein separater Foto-Upload-Workflow. Dieser erzeugt keine neue Sichtung.
 
@@ -391,6 +393,7 @@ Der aktuelle Worker stellt unter anderem folgende Endpunkte bereit:
 
 - `GET /`
 - `GET /berths`
+- `GET /berth-options`
 - `GET /vessels`
 - `GET /vessel-names`
 - `GET /vessel`
@@ -3050,3 +3053,122 @@ Die Initialisierung wartet bewusst auf `VesselReference.load()`, damit die Detai
 
 - `docs/js/submissions.js`: Version `0.15.8`; Sichtungsliste wird beim Seitenaufruf automatisch geladen.
 - `README.md`: Projektstand `0.15.8`.
+
+
+## 0.15.10 – Brandstatt als siebente Anlegestelle
+
+Stand: 03.09.2026
+
+Version **0.15.9** wurde als nicht eingespielter Darstellungsversuch verworfen. Der nächste produktive Stand ist daher **0.15.10**.
+
+### Brandstatt (Pupping)
+
+Die Schiffsanlegestelle **Brandstatt** in der Gemeinde Pupping wird als siebente bekannte Anlegestelle aufgenommen:
+
+- `berth_id`: `BER-000007`
+- `location_id`: `LOC-002`
+- Kurzname: `Brandstatt (Pupping)`
+- Donau, rechtes Ufer
+- Strom-km: `2157,0 bis 2156,8+25`
+- Bauart: `Güterkahn`
+- Liegeordnung: `max. Breite 35 m`
+- Einstieghöhe: `0,97 m`
+- Betreiber: `WGD Donau Oberösterreich Tourismus GmbH`
+
+Die Kartenkoordinate in `data/berths.csv` wird – wie bei den Linzer Anlegern – aus dem Mittelpunkt der vom Nutzer gezeichneten Liegekante abgeleitet. Polygon und Liegekante liegen kanonisch in `data/berth_geometries.geojson`.
+
+Quelle für die fachlichen Stammdaten: WGD Donau Oberösterreich Tourismus GmbH / Donauregion, Schiffsanlegestelle Brandstatt, geprüft am 03.09.2026.
+
+### Neuer Standort `LOC-002`
+
+`data/locations.csv` erhält den Referenzstandort **Brandstatt, Pupping** (`LOC-002`). Solange noch kein eigener Aufnahmebereich als Polygon gezeichnet ist, dient ein kleiner punktbasierter Radius von **150 m** zur automatischen Zuordnung unmittelbar im Bereich der Anlegestelle. Sobald später ein GeoJSON-Aufnahmebereich für `LOC-002` vorhanden ist, wird der Radius durch die bestehende Polygonlogik automatisch nicht mehr für diese Location verwendet.
+
+### Karten nicht mehr auf Linz-Anleger beschränkt
+
+Die gemeinsam verwendete Anlegestellen-API konnte bereits ohne `location_id` alle aktiven Anleger liefern. Zwei Browserseiten hatten beim Laden jedoch noch `LOC-001` fest eingetragen:
+
+- `location_areas.html`
+- Foto-Kartenoverlay auf `vessel.html`
+
+`docs/js/location_areas.js` und `docs/js/vessel.js` laden nun alle aktiven Anlegestellen. Dadurch kann Brandstatt samt Polygon, Liegekante und daraus abgeleiteter Schiffsposition auch außerhalb von Linz dargestellt werden.
+
+Die zweistufige iPhone-Auswahl **Ort → Anlegestelle** ist bewusst noch nicht Bestandteil dieser Version. Sie wird im nächsten Schritt separat in beiden Sichtungs-Kurzbefehlen umgesetzt.
+
+### Einspielen / Migration 0.15.10
+
+1. Die Dateien aus der ZIP in den angegebenen Repository-Pfaden ersetzen bzw. ergänzen.
+2. `data/berth_geometries.geojson` committen; `Sync public data` erzeugt danach automatisch `docs/data/berth_geometries.geojson`.
+3. GitHub Pages aktualisieren lassen.
+4. **Cloudflare Worker muss nicht neu deployt werden** – der vorhandene Worker liest `data/berths.csv` und `data/locations.csv` bei Bedarf direkt aus dem Repository.
+5. Kein Sichtungsindex-Rebuild und kein `Rebuild location matches` ist allein für die neue Anlegestelle erforderlich. Ein späterer Rebuild kann vorhandene GPS-Daten im neuen `LOC-002`-Radius nachträglich zuordnen, falls das gewünscht ist.
+
+### Dateiversionen 0.15.10
+
+- `data/berths.csv`: `BER-000007` Brandstatt (Pupping) ergänzt.
+- `data/locations.csv`: `LOC-002` Brandstatt, Pupping ergänzt.
+- `data/berth_geometries.geojson`: Brandstatt-Polygon und Liegekante ergänzt.
+- `docs/js/location_areas.js`: Version `0.15.10`; aktive Anleger werden standortunabhängig geladen.
+- `docs/js/vessel.js`: Version `0.15.10`; Foto-Kartenoverlay lädt aktive Anleger standortunabhängig.
+- `README.md`: Projektstand `0.15.10`.
+
+## 0.15.11 – dynamische Anlegestellenauswahl im iPhone
+
+Stand: 03.09.2026
+
+Die beiden Sichtungs-Kurzbefehle müssen Anlegestellen künftig nicht mehr hardcodiert enthalten. Der neue Worker-Endpunkt
+
+`GET /berth-options`
+
+liest bei jedem Abruf die aktiven Datensätze aus der kanonischen `data/berths.csv`. Damit wird dieselbe Grundidee wie bei der dynamischen Schiffsauswahl über `GET /vessel-names` verwendet. Eine zusätzliche öffentliche `berths.json`-Datei wird bewusst **nicht** eingeführt; sie wäre nur ein weiterer zu synchronisierender Datenbestand.
+
+### Zweistufige Auswahl
+
+Ohne Parameter liefert `/berth-options` eine für Apple Kurzbefehle optimierte Ortsliste. Die Orte werden aus `municipality` der aktiven Anlegestellen abgeleitet. Aktuell sind das:
+
+- `Linz`
+- `Pupping`
+
+Zusätzlich werden `Anderer Ort` und `Ort unbekannt` angeboten.
+
+Mit dem Parameter
+
+`?municipality=<Ort>`
+
+werden nur die aktiven Anleger dieses Orts geliefert. Für Linz sind das die sechs bestehenden Linzer Anleger; für Pupping derzeit `Brandstatt (Pupping)`. Zusätzlich enthält die Liste `Andere Anlegestelle` und `Anlegestelle unbekannt`.
+
+Die API liefert bewusst flache Felder für Apple Kurzbefehle:
+
+- `choices`: sichtbare Auswahltexte;
+- `values`: technische Werte in derselben Reihenfolge;
+- `value_by_choice`: direkte Zuordnung vom sichtbaren Text zum technischen Wert.
+
+Für bekannte Anleger ist der technische Wert die stabile `BER-...`-ID. Sonderwerte sind `unlisted` und `unknown`. Die bestehenden Submission-Felder `berth_status`, `berth_id`, `berth_name_entered` und `alongside_position` bleiben unverändert. Es gibt daher keine Datenmigration.
+
+### Authentifizierung
+
+`GET /berth-options` verwendet wie `GET /vessel-names` den vorhandenen `X-Upload-Key`. Ein zusätzlicher Management-Key oder ein neuer iPhone-Schlüssel ist nicht erforderlich.
+
+### Künftige neue Anleger
+
+Nach der Umstellung der Kurzbefehle genügt künftig:
+
+1. Anleger in `data/berths.csv` ergänzen und `active = true` setzen;
+2. committen;
+3. beim nächsten Aufruf liest der Worker den neuen Stand automatisch.
+
+Neue Anleger einer vorhandenen Gemeinde erscheinen automatisch im zweiten Menü. Eine neue Gemeinde erscheint automatisch in der ersten Ortsauswahl.
+
+### Einspielen / Migration 0.15.11
+
+1. Dateien aus der ZIP committen.
+2. **Cloudflare Worker neu deployen.**
+3. Kein `Sync public data`, kein Sichtungsindex-Rebuild und kein `Rebuild location matches` erforderlich.
+4. Zuerst den Kurzbefehl **Schiffsichtung mit Foto(s)** gemäß `docs/shortcuts/KURZBEFEHL_DYNAMISCHE_ANLEGESTELLEN_0.15.11.md` umstellen und testen.
+5. Danach dieselbe Auswahlstruktur in **Schiffsichtung ohne Foto** übernehmen.
+
+### Dateiversionen 0.15.11
+
+- `cloudflare/worker.js`: Version `0.15.11`; neuer geschützter Endpunkt `GET /berth-options`.
+- `docs/shortcuts/KURZBEFEHL_DYNAMISCHE_ANLEGESTELLEN_0.15.11.md`: vollständige Schrittfolge für die dynamische zweistufige Auswahl.
+- `README.md`: Projektstand `0.15.11`.
+
