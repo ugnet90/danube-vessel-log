@@ -18,22 +18,22 @@
     "ship_type": "PASSENGER",
     "ship_subtype": "RIVER_CRUISE",
     "status": "active",
-    "flag": ""
+    "flag": "CH"
   },
   "technical": {
     "year_built": 2006,
-    "shipyard": "",
+    "shipyard": "Neptun Werft",
     "length_m": 135,
     "width_m": 11.42,
-    "draft_m": null,
+    "draft_m": 1.6,
     "passengers": 164
   },
   "operations": {
     "operator": "",
-    "owner": "",
+    "owner": "Premicon",
     "manager": "",
     "cruise_brand": "",
-    "home_port": ""
+    "home_port": "Basel"
   },
   "name_history": [],
   "identifiers_history": [],
@@ -61,12 +61,37 @@
       "added_by": "candidate-catalog",
       "candidate_id": "CAN-BF252725A335",
       "source_revision_id": "268617530"
+    },
+    {
+      "source_id": "SRC-DB789C8EDC3C",
+      "provider": "Wikidata",
+      "title": "Wikidata: Travelmarvel Sapphire",
+      "url": "https://www.wikidata.org/wiki/Q790106",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "classification.flag",
+        "technical.shipyard",
+        "technical.draft_m",
+        "operations.owner",
+        "operations.home_port"
+      ],
+      "retrieved_at": "2026-09-03T05:45:39.896927Z",
+      "verified_at": "2026-09-03T14:34:32.350Z",
+      "added_at": "2026-09-03T14:34:32.350Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2340335025
     }
   ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q790106",
+      "rejected_qids": [],
+      "accepted_at": "2026-09-03T14:34:32.350Z",
+      "last_reviewed_at": "2026-09-03T14:34:32.350Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-E42F07A791F24B389B5B9DFEE6B210F2",
@@ -77,9 +102,56 @@
     "environment": "production",
     "created_at": "2026-09-03T05:41:12.409Z",
     "created_from_submission_id": "SUB-20260903-052539-772127",
-    "updated_at": "2026-09-03T05:41:12.409Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-09-03T14:34:32.350Z",
+    "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-BF252725A335",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-09-03T14:34:32.350Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "5 Wikidata-Felder aus Q790106 übernommen",
+        "changed_fields": [
+          "classification.flag",
+          "technical.shipyard",
+          "technical.draft_m",
+          "operations.owner",
+          "operations.home_port",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "classification.flag",
+            "old_value": "",
+            "new_value": "CH"
+          },
+          {
+            "field": "technical.shipyard",
+            "old_value": "",
+            "new_value": "Neptun Werft"
+          },
+          {
+            "field": "technical.draft_m",
+            "old_value": null,
+            "new_value": 1.6
+          },
+          {
+            "field": "operations.owner",
+            "old_value": "",
+            "new_value": "Premicon"
+          },
+          {
+            "field": "operations.home_port",
+            "old_value": "",
+            "new_value": "Basel"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q790106"
+          }
+        ]
+      }
+    ]
   }
 }
