@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.15.6
- * Updated: 2026-08-25
+ * Version: 0.15.11
+ * Updated: 2026-09-03
  */
 
 const API_VERSION = "2022-11-28";
@@ -191,6 +191,25 @@ export default {
         return jsonResponse({
           ok: false,
           error: "Unbehandelter Fehler beim Laden der Anlegestellen.",
+          exception:
+            error instanceof Error
+              ? error.message
+              : String(error)
+        }, 500);
+      }
+    }
+
+    if (
+      request.method === "GET" &&
+      url.pathname === "/berth-options"
+    ) {
+      try {
+        return await handleBerthOptions(request, env);
+      } catch (error) {
+        return jsonResponse({
+          ok: false,
+          error:
+            "Unbehandelter Fehler beim Laden der Kurzbefehl-Anlegestellen.",
           exception:
             error instanceof Error
               ? error.message
@@ -13706,6 +13725,189 @@ function parseBerthsCsv(csvText) {
         "de"
       )
   );
+}
+
+async function handleBerthOptions(request, env) {
+  // Analog zu /vessel-names für Apple Kurzbefehle:
+  // Der vorhandene X-Upload-Key reicht aus.
+  const authError = checkUploadKey(request, env);
+  if (authError) return authError;
+
+  const url = new URL(request.url);
+  const municipality = String(
+    url.searchParams.get("municipality") ?? ""
+  ).trim();
+
+  if (municipality.length > 120) {
+    return jsonResponse({
+      ok: false,
+      error: "municipality ist zu lang."
+    }, 400);
+  }
+
+  const result = await loadBerths(env);
+
+  if (!result.ok) {
+    return jsonResponse({
+      ok: false,
+      error: result.error
+    }, result.status ?? 502);
+  }
+
+  const activeBerths = result.berths.filter(
+    berth => berth.active
+  );
+
+  if (!municipality) {
+    const areas = new Map();
+
+    for (const berth of activeBerths) {
+      const areaName = String(
+        berth.municipality ?? ""
+      ).trim();
+
+      if (!areaName) continue;
+
+      const key = areaName.toLocaleLowerCase("de");
+      const current = areas.get(key);
+
+      if (!current) {
+        areas.set(key, {
+          name: areaName,
+          display_order:
+            Number.isFinite(berth.display_order)
+              ? berth.display_order
+              : 9999
+        });
+      } else {
+        current.display_order = Math.min(
+          current.display_order,
+          Number.isFinite(berth.display_order)
+            ? berth.display_order
+            : 9999
+        );
+      }
+    }
+
+    const areaList = [...areas.values()]
+      .sort((left, right) =>
+        left.display_order - right.display_order ||
+        left.name.localeCompare(
+          right.name,
+          "de",
+          { sensitivity: "base", numeric: true }
+        )
+      );
+
+    const choices = [
+      ...areaList.map(area => area.name),
+      "Anderer Ort",
+      "Ort unbekannt"
+    ];
+
+    const values = [
+      ...areaList.map(area => area.name),
+      "unlisted",
+      "unknown"
+    ];
+
+    return jsonResponse({
+      ok: true,
+      level: "municipality",
+      count: choices.length,
+      choices,
+      values,
+      value_by_choice: Object.fromEntries(
+        choices.map((choice, index) => [
+          choice,
+          values[index]
+        ])
+      )
+    });
+  }
+
+  const normalizedMunicipality =
+    municipality.toLocaleLowerCase("de");
+
+  const matchingBerths = activeBerths.filter(
+    berth =>
+      String(berth.municipality ?? "")
+        .trim()
+        .toLocaleLowerCase("de") ===
+      normalizedMunicipality
+  );
+
+  if (matchingBerths.length === 0) {
+    return jsonResponse({
+      ok: false,
+      error:
+        `Für ${municipality} sind keine aktiven Anlegestellen vorhanden.`
+    }, 404);
+  }
+
+  const usedLabels = new Set();
+  const berthChoices = matchingBerths.map(berth => {
+    let label = String(
+      berth.short_name || berth.public_name
+    ).trim();
+
+    const normalizedLabel =
+      label.toLocaleLowerCase("de");
+
+    if (usedLabels.has(normalizedLabel)) {
+      const publicName = String(
+        berth.public_name ?? ""
+      ).trim();
+
+      if (
+        publicName &&
+        !usedLabels.has(
+          publicName.toLocaleLowerCase("de")
+        )
+      ) {
+        label = publicName;
+      } else {
+        label = `${label} (${berth.berth_id})`;
+      }
+    }
+
+    usedLabels.add(
+      label.toLocaleLowerCase("de")
+    );
+
+    return {
+      choice: label,
+      value: berth.berth_id
+    };
+  });
+
+  const choices = [
+    ...berthChoices.map(item => item.choice),
+    "Andere Anlegestelle",
+    "Anlegestelle unbekannt"
+  ];
+
+  const values = [
+    ...berthChoices.map(item => item.value),
+    "unlisted",
+    "unknown"
+  ];
+
+  return jsonResponse({
+    ok: true,
+    level: "berth",
+    municipality:
+      String(matchingBerths[0].municipality ?? municipality).trim(),
+    count: choices.length,
+    choices,
+    values,
+    value_by_choice: Object.fromEntries(
+      choices.map((choice, index) => [
+        choice,
+        values[index]
+      ])
+    )
+  });
 }
 
 async function handleBerthsList(request, env) {
