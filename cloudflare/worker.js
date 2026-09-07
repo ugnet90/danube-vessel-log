@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.15.11
- * Updated: 2026-09-03
+ * Version: 0.15.12
+ * Updated: 2026-09-07
  */
 
 const API_VERSION = "2022-11-28";
@@ -13430,6 +13430,20 @@ function validateMetadata(input) {
   }
 
   if (
+    input.berth_municipality_entered !== undefined &&
+    typeof input.berth_municipality_entered !== "string"
+  ) {
+    return "berth_municipality_entered muss Text sein.";
+  }
+
+  if (
+    typeof input.berth_municipality_entered === "string" &&
+    input.berth_municipality_entered.length > 120
+  ) {
+    return "berth_municipality_entered darf höchstens 120 Zeichen enthalten.";
+  }
+
+  if (
     input.berth_name_entered !== undefined &&
     typeof input.berth_name_entered !== "string"
   ) {
@@ -13801,7 +13815,7 @@ async function handleBerthOptions(request, env) {
 
     const choices = [
       ...areaList.map(area => area.name),
-      "Anderer Ort",
+      "+ neuen Ort eingeben",
       "Ort unbekannt"
     ];
 
@@ -13883,7 +13897,7 @@ async function handleBerthOptions(request, env) {
 
   const choices = [
     ...berthChoices.map(item => item.choice),
-    "Andere Anlegestelle",
+    "+ neue Anlegestelle eingeben",
     "Anlegestelle unbekannt"
   ];
 
@@ -14080,7 +14094,13 @@ async function handleSubmissionBerthUpdate(request, env) {
       berth_id:
         String(input?.berth_id ?? "").trim(),
       berth_name_entered:
-        String(input?.berth_name_entered ?? "").trim()
+        String(input?.berth_name_entered ?? "").trim(),
+      berth_municipality_entered:
+        String(
+          input?.berth_municipality_entered ??
+          submission?.berth?.municipality ??
+          ""
+        ).trim()
     },
     location,
     env
@@ -14277,6 +14297,10 @@ async function resolveBerth({
     input.berth_name_entered ?? ""
   ).trim();
 
+  const enteredMunicipality = String(
+    input.berth_municipality_entered ?? ""
+  ).trim();
+
   let status = String(
     input.berth_status ?? ""
   ).trim();
@@ -14333,7 +14357,9 @@ async function resolveBerth({
           location_id:
             location?.location_id ?? "",
           municipality:
-            location?.municipality ?? "",
+            enteredMunicipality ||
+            location?.municipality ||
+            "",
           country:
             location?.country ?? ""
         },
