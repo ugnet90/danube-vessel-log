@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.15.12
+ * Version: 0.15.13
  * Updated: 2026-09-07
  */
 
@@ -12623,7 +12623,7 @@ function buildSubmission({
       : null;
 
   const submission = {
-    schema_version: 14,
+    schema_version: 15,
     submission_id: submissionId,
     uploaded_at: uploadedAt.toISOString(),
     captured_at: capturedAt.toISOString(),
@@ -13430,6 +13430,16 @@ function validateMetadata(input) {
   }
 
   if (
+    input.berth_area_id !== undefined &&
+    String(input.berth_area_id).trim() !== "" &&
+    !/^BTA-\d{3,}$/.test(
+      String(input.berth_area_id).trim()
+    )
+  ) {
+    return "berth_area_id muss dem Format BTA-001 entsprechen.";
+  }
+
+  if (
     input.berth_municipality_entered !== undefined &&
     typeof input.berth_municipality_entered !== "string"
   ) {
@@ -13548,6 +13558,10 @@ function normalizeSubmissionBerth(
       typeof source.location_id === "string"
         ? source.location_id
         : "",
+    area_id:
+      typeof source.area_id === "string"
+        ? source.area_id
+        : "",
     municipality:
       typeof source.municipality === "string"
         ? source.municipality
@@ -13662,6 +13676,7 @@ function parseBerthsCsv(csvText) {
   const requiredHeaders = [
     "berth_id",
     "location_id",
+    "berth_area_id",
     "public_name",
     "active"
   ];
@@ -13688,6 +13703,7 @@ function parseBerthsCsv(csvText) {
     if (
       !/^BER-\d{6}$/.test(row.berth_id) ||
       !/^LOC-\d{3,}$/.test(row.location_id) ||
+      !/^BTA-\d{3,}$/.test(row.berth_area_id) ||
       !row.public_name
     ) {
       continue;
@@ -13748,14 +13764,36 @@ async function handleBerthOptions(request, env) {
   if (authError) return authError;
 
   const url = new URL(request.url);
+  const areaId = String(
+    url.searchParams.get("area_id") ?? ""
+  ).trim();
   const municipality = String(
     url.searchParams.get("municipality") ?? ""
   ).trim();
+
+  if (
+    areaId &&
+    !/^BTA-\d{3,}$/.test(areaId)
+  ) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "area_id muss dem Format BTA-001 entsprechen."
+    }, 400);
+  }
 
   if (municipality.length > 120) {
     return jsonResponse({
       ok: false,
       error: "municipality ist zu lang."
+    }, 400);
+  }
+
+  if (areaId && municipality) {
+    return jsonResponse({
+      ok: false,
+      error:
+        "Bitte entweder area_id oder municipality verwenden, nicht beides."
     }, 400);
   }
 
@@ -13772,22 +13810,33 @@ async function handleBerthOptions(request, env) {
     berth => berth.active
   );
 
-  if (!municipality) {
+  if (!areaId && !municipality) {
     const areas = new Map();
 
     for (const berth of activeBerths) {
+      const berthAreaId = String(
+        berth.berth_area_id ?? ""
+      ).trim();
       const areaName = String(
         berth.municipality ?? ""
       ).trim();
 
-      if (!areaName) continue;
+      if (
+        !/^BTA-\d{3,}$/.test(berthAreaId) ||
+        !areaName
+      ) {
+        continue;
+      }
 
-      const key = areaName.toLocaleLowerCase("de");
-      const current = areas.get(key);
+      const current = areas.get(berthAreaId);
 
       if (!current) {
-        areas.set(key, {
+        areas.set(berthAreaId, {
+          id: berthAreaId,
           name: areaName,
+          country: String(
+            berth.country ?? ""
+          ).trim(),
           display_order:
             Number.isFinite(berth.display_order)
               ? berth.display_order
@@ -13820,14 +13869,14 @@ async function handleBerthOptions(request, env) {
     ];
 
     const values = [
-      ...areaList.map(area => area.name),
+      ...areaList.map(area => area.id),
       "unlisted",
       "unknown"
     ];
 
     return jsonResponse({
       ok: true,
-      level: "municipality",
+      level: "berth_area",
       count: choices.length,
       choices,
       values,
@@ -13840,24 +13889,40 @@ async function handleBerthOptions(request, env) {
     });
   }
 
-  const normalizedMunicipality =
-    municipality.toLocaleLowerCase("de");
+  let matchingBerths;
 
-  const matchingBerths = activeBerths.filter(
-    berth =>
-      String(berth.municipality ?? "")
-        .trim()
-        .toLocaleLowerCase("de") ===
-      normalizedMunicipality
-  );
+  if (areaId) {
+    matchingBerths = activeBerths.filter(
+      berth =>
+        String(berth.berth_area_id ?? "").trim() ===
+        areaId
+    );
+  } else {
+    const normalizedMunicipality =
+      municipality.toLocaleLowerCase("de");
+
+    matchingBerths = activeBerths.filter(
+      berth =>
+        String(berth.municipality ?? "")
+          .trim()
+          .toLocaleLowerCase("de") ===
+        normalizedMunicipality
+    );
+  }
 
   if (matchingBerths.length === 0) {
     return jsonResponse({
       ok: false,
       error:
-        `Für ${municipality} sind keine aktiven Anlegestellen vorhanden.`
+        areaId
+          ? `Für ${areaId} sind keine aktiven Anlegestellen vorhanden.`
+          : `Für ${municipality} sind keine aktiven Anlegestellen vorhanden.`
     }, 404);
   }
+
+  const selectedAreaId = String(
+    matchingBerths[0].berth_area_id ?? ""
+  ).trim();
 
   const usedLabels = new Set();
   const berthChoices = matchingBerths.map(berth => {
@@ -13910,6 +13975,7 @@ async function handleBerthOptions(request, env) {
   return jsonResponse({
     ok: true,
     level: "berth",
+    area_id: selectedAreaId,
     municipality:
       String(matchingBerths[0].municipality ?? municipality).trim(),
     count: choices.length,
@@ -14095,6 +14161,12 @@ async function handleSubmissionBerthUpdate(request, env) {
         String(input?.berth_id ?? "").trim(),
       berth_name_entered:
         String(input?.berth_name_entered ?? "").trim(),
+      berth_area_id:
+        String(
+          input?.berth_area_id ??
+          submission?.berth?.area_id ??
+          ""
+        ).trim(),
       berth_municipality_entered:
         String(
           input?.berth_municipality_entered ??
@@ -14297,6 +14369,10 @@ async function resolveBerth({
     input.berth_name_entered ?? ""
   ).trim();
 
+  const enteredAreaId = String(
+    input.berth_area_id ?? ""
+  ).trim();
+
   const enteredMunicipality = String(
     input.berth_municipality_entered ?? ""
   ).trim();
@@ -14329,6 +14405,43 @@ async function resolveBerth({
     };
   }
 
+  let berthsResult = null;
+  let selectedArea = null;
+
+  if (enteredAreaId) {
+    berthsResult = await loadBerths(env);
+
+    if (!berthsResult.ok) {
+      return berthsResult;
+    }
+
+    const areaBerths = berthsResult.berths.filter(
+      item =>
+        item.active &&
+        String(item.berth_area_id ?? "").trim() ===
+          enteredAreaId
+    );
+
+    if (areaBerths.length === 0) {
+      return {
+        ok: false,
+        status: 400,
+        error:
+          `Der Anlegestellen-Ort ${enteredAreaId} ist nicht vorhanden oder inaktiv.`
+      };
+    }
+
+    selectedArea = {
+      id: enteredAreaId,
+      municipality: String(
+        areaBerths[0].municipality ?? ""
+      ).trim(),
+      country: String(
+        areaBerths[0].country ?? ""
+      ).trim()
+    };
+  }
+
   if (status === "unknown") {
     return {
       ok: true,
@@ -14337,7 +14450,13 @@ async function resolveBerth({
           status,
           matched_by: "selection",
           location_id:
-            location?.location_id ?? ""
+            location?.location_id ?? "",
+          area_id:
+            selectedArea?.id ?? "",
+          municipality:
+            selectedArea?.municipality ?? "",
+          country:
+            selectedArea?.country ?? ""
         },
         input.movement
       )
@@ -14356,19 +14475,26 @@ async function resolveBerth({
             "Andere, nicht gelistete Anlegestelle",
           location_id:
             location?.location_id ?? "",
+          area_id:
+            selectedArea?.id ?? "",
           municipality:
             enteredMunicipality ||
+            selectedArea?.municipality ||
             location?.municipality ||
             "",
           country:
-            location?.country ?? ""
+            selectedArea?.country ||
+            location?.country ||
+            ""
         },
         input.movement
       )
     };
   }
 
-  const berthsResult = await loadBerths(env);
+  if (!berthsResult) {
+    berthsResult = await loadBerths(env);
+  }
 
   if (!berthsResult.ok) {
     return berthsResult;
@@ -14386,6 +14512,19 @@ async function resolveBerth({
       status: 400,
       error:
         `Die Anlegestelle ${enteredId || "(leer)"} ist nicht vorhanden oder inaktiv.`
+    };
+  }
+
+  if (
+    enteredAreaId &&
+    berth.berth_area_id &&
+    berth.berth_area_id !== enteredAreaId
+  ) {
+    return {
+      ok: false,
+      status: 409,
+      error:
+        `${berth.public_name} gehört nicht zum ausgewählten Anlegestellen-Ort ${enteredAreaId}.`
     };
   }
 
@@ -14416,6 +14555,8 @@ async function resolveBerth({
           berth.station_number,
         location_id:
           berth.location_id,
+        area_id:
+          berth.berth_area_id,
         municipality:
           berth.municipality,
         country:
