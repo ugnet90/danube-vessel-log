@@ -92,16 +92,17 @@
     }
   },
   "media": {
-    "primary_photo_id": "PHOTO-6107C4F14B6042048A13F1192463E0C1",
-    "primary_submission_id": "SUB-20260907-103016-68ADEF"
+    "primary_photo_id": "PHOTO-FB0A84F8F4EE4AEBB5C628B764953463",
+    "primary_submission_id": "SUB-20260907-103016-68ADEF",
+    "primary_photo_updated_at": "2026-09-07T14:27:17.826Z"
   },
   "notes": "",
   "audit": {
     "environment": "production",
     "created_at": "2026-09-07T12:59:48.732Z",
     "created_from_submission_id": "SUB-20260907-103016-68ADEF",
-    "updated_at": "2026-09-07T14:26:26.669Z",
-    "updated_by": "vessel-enrichment",
+    "updated_at": "2026-09-07T14:27:17.826Z",
+    "updated_by": "web-ui-primary-photo",
     "created_from_candidate_id": "CAN-485799F10D72",
     "candidate_source_revision_id": "268617530",
     "change_history": [
