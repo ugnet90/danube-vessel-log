@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-09-07T14:31:29.176150Z",
+  "generated_at": "2026-09-07T14:36:17.062289Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -36,11 +36,11 @@
     "vessels_incomplete": 41,
     "vessels_complete": 0,
     "candidate_matches": 0,
-    "matched_no_new_data": 24,
-    "low_confidence": 0,
+    "matched_no_new_data": 25,
+    "low_confidence": 1,
     "no_match": 15,
-    "lookup_errors": 2,
-    "suggestions_total": 0
+    "lookup_errors": 0,
+    "suggestions_total": 1
   },
   "vessels": [
     {
@@ -1929,8 +1929,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 5.1833333333333 seconds lagged.",
+        "status": "low_confidence",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q790106",
         "rejected_qids": [
@@ -1939,7 +1939,44 @@
           "Q686431",
           "Q694257"
         ],
-        "candidates": []
+        "candidates": [
+          {
+            "qid": "Q32999",
+            "label": "Flughafen Wien-Schwechat",
+            "description": "größter Flughafen Österreichs",
+            "url": "https://www.wikidata.org/wiki/Q32999",
+            "score": 0.775,
+            "confidence": "low",
+            "matched_by": [
+              "name_partial"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "internationaler Flughafen"
+            ],
+            "suggestions": [
+              {
+                "field": "operations.operator",
+                "field_label": "Betreiber",
+                "value": "Flughafen Wien AG",
+                "display_value": "Flughafen Wien AG",
+                "property": "P137",
+                "property_label": "operator",
+                "property_url": "https://www.wikidata.org/wiki/Property:P137",
+                "source_url": "https://www.wikidata.org/wiki/Q32999",
+                "confidence": 0.775,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2517382246
+          }
+        ]
       }
     },
     {
@@ -1960,8 +1997,8 @@
       "missing_count": 2,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 5.1833333333333 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q277892",
         "rejected_qids": [],
