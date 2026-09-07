@@ -49,7 +49,7 @@
   "observer_lon": 14.04305877231018,
   "photos": [],
   "workflow": {
-    "status": "new",
+    "status": "reviewed",
     "auto": {
       "vessel_match": {
         "status": "matched",
@@ -64,11 +64,11 @@
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
-      "vessel_id": "",
-      "decision": "",
-      "notes": ""
+      "reviewed": true,
+      "reviewed_at": "2026-09-07T14:52:25.354Z",
+      "vessel_id": "VES-000121",
+      "decision": "confirmed",
+      "notes": "Automatisch bestätigt: eindeutige Zuordnung."
     }
   }
 }
