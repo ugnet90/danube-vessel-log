@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-09-07T13:02:29.642980Z",
+  "generated_at": "2026-09-07T14:31:29.176150Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 41,
     "vessels_incomplete": 41,
     "vessels_complete": 0,
-    "candidate_matches": 1,
+    "candidate_matches": 0,
     "matched_no_new_data": 24,
-    "low_confidence": 1,
+    "low_confidence": 0,
     "no_match": 15,
-    "lookup_errors": 0,
-    "suggestions_total": 6
+    "lookup_errors": 2,
+    "suggestions_total": 0
   },
   "vessels": [
     {
@@ -1929,8 +1929,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "low_confidence",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 5.1833333333333 seconds lagged.",
         "warnings": [],
         "accepted_qid": "Q790106",
         "rejected_qids": [
@@ -1939,44 +1939,7 @@
           "Q686431",
           "Q694257"
         ],
-        "candidates": [
-          {
-            "qid": "Q32999",
-            "label": "Flughafen Wien-Schwechat",
-            "description": "größter Flughafen Österreichs",
-            "url": "https://www.wikidata.org/wiki/Q32999",
-            "score": 0.775,
-            "confidence": "low",
-            "matched_by": [
-              "name_partial"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "internationaler Flughafen"
-            ],
-            "suggestions": [
-              {
-                "field": "operations.operator",
-                "field_label": "Betreiber",
-                "value": "Flughafen Wien AG",
-                "display_value": "Flughafen Wien AG",
-                "property": "P137",
-                "property_label": "operator",
-                "property_url": "https://www.wikidata.org/wiki/Property:P137",
-                "source_url": "https://www.wikidata.org/wiki/Q32999",
-                "confidence": 0.775,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2517382246
-          }
-        ]
+        "candidates": []
       }
     },
     {
@@ -1986,26 +1949,6 @@
       "json_path": "data/vessels/VES-000141.json",
       "missing_fields": [
         {
-          "field": "identity.mmsi",
-          "label": "MMSI"
-        },
-        {
-          "field": "identity.call_sign",
-          "label": "Rufzeichen"
-        },
-        {
-          "field": "technical.shipyard",
-          "label": "Werft"
-        },
-        {
-          "field": "technical.draft_m",
-          "label": "Tiefgang"
-        },
-        {
-          "field": "operations.owner",
-          "label": "Eigentümer"
-        },
-        {
           "field": "operations.manager",
           "label": "Manager"
         },
@@ -2014,109 +1957,15 @@
           "label": "Marke"
         }
       ],
-      "missing_count": 7,
+      "missing_count": 2,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1013: 5.1833333333333 seconds lagged.",
         "warnings": [],
-        "accepted_qid": "",
+        "accepted_qid": "Q277892",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q277892",
-            "label": "A-Rosa Bella",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q277892",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "identity.imo",
-              "identity.eni"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [
-                "211160660"
-              ],
-              "imo": [
-                "9271482"
-              ],
-              "eni": [
-                "04801170"
-              ],
-              "call_sign": [
-                "DC8470"
-              ]
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.mmsi",
-                "field_label": "MMSI",
-                "value": "211160660",
-                "display_value": "211160660",
-                "property": "P587",
-                "property_label": "MMSI",
-                "property_url": "https://www.wikidata.org/wiki/Property:P587",
-                "source_url": "https://www.wikidata.org/wiki/Q277892",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "identity.call_sign",
-                "field_label": "Rufzeichen",
-                "value": "DC8470",
-                "display_value": "DC8470",
-                "property": "P2317",
-                "property_label": "call sign",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2317",
-                "source_url": "https://www.wikidata.org/wiki/Q277892",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Neptun Werft",
-                "display_value": "Neptun Werft",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q277892",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 1.87,
-                "display_value": 1.87,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q277892",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "A-ROSA Flussschiff",
-                "display_value": "A-ROSA Flussschiff",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q277892",
-                "confidence": 1.0,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2517633058
-          }
-        ]
+        "candidates": []
       }
     }
   ]
