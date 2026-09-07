@@ -1,8 +1,224 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-09-03T05:13:12.000Z",
-  "count": 100,
+  "updated_at": "2026-09-07T05:10:55.000Z",
+  "count": 106,
   "photos": [
+    {
+      "photo_id": "PHOTO-179C6147D2ED4309B684F7F501D07B9E",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260907-103016-68ADEF",
+      "vessel_id": "VES-000141",
+      "vessel_name": "A-Rosa Bella",
+      "captured_at": "2026-09-07T05:10:55.000Z",
+      "photo_lat": 48.30756166666666,
+      "photo_lon": 14.28515,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 115
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 124.5,
+      "vessel_width_m": 14.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260907-103016-68ADEF"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-179C6147D2ED4309B684F7F501D07B9E.jpg"
+    },
+    {
+      "photo_id": "PHOTO-09CA06B58BB34526BA3C6F38E8E4ACE0",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260907-103016-68ADEF",
+      "vessel_id": "VES-000141",
+      "vessel_name": "A-Rosa Bella",
+      "captured_at": "2026-09-07T05:10:07.000Z",
+      "photo_lat": 48.308125,
+      "photo_lon": 14.28472,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 184
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 124.5,
+      "vessel_width_m": 14.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260907-103016-68ADEF"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-09CA06B58BB34526BA3C6F38E8E4ACE0.jpg"
+    },
+    {
+      "photo_id": "PHOTO-B27105C616844A67AAC5AD643C456CA1",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260907-103016-68ADEF",
+      "vessel_id": "VES-000141",
+      "vessel_name": "A-Rosa Bella",
+      "captured_at": "2026-09-07T05:09:49.000Z",
+      "photo_lat": 48.30831166666667,
+      "photo_lon": 14.28461666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 205
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 124.5,
+      "vessel_width_m": 14.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260907-103016-68ADEF"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-B27105C616844A67AAC5AD643C456CA1.jpg"
+    },
+    {
+      "photo_id": "PHOTO-FB0A84F8F4EE4AEBB5C628B764953463",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260907-103016-68ADEF",
+      "vessel_id": "VES-000141",
+      "vessel_name": "A-Rosa Bella",
+      "captured_at": "2026-09-07T05:09:14.000Z",
+      "photo_lat": 48.308705,
+      "photo_lon": 14.28429666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 254
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 124.5,
+      "vessel_width_m": 14.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260907-103016-68ADEF"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-FB0A84F8F4EE4AEBB5C628B764953463.jpg"
+    },
+    {
+      "photo_id": "PHOTO-B79F11793A454FC8A28358193B818C4C",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260907-103016-68ADEF",
+      "vessel_id": "VES-000141",
+      "vessel_name": "A-Rosa Bella",
+      "captured_at": "2026-09-07T05:07:56.000Z",
+      "photo_lat": 48.30920833333333,
+      "photo_lon": 14.28358,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 331
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 124.5,
+      "vessel_width_m": 14.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260907-103016-68ADEF"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-B79F11793A454FC8A28358193B818C4C.jpg"
+    },
+    {
+      "photo_id": "PHOTO-6107C4F14B6042048A13F1192463E0C1",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260907-103016-68ADEF",
+      "vessel_id": "VES-000141",
+      "vessel_name": "A-Rosa Bella",
+      "captured_at": "2026-09-07T05:07:44.000Z",
+      "photo_lat": 48.30921666666666,
+      "photo_lon": 14.28358,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 331
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 124.5,
+      "vessel_width_m": 14.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260907-103016-68ADEF"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-6107C4F14B6042048A13F1192463E0C1.jpg"
+    },
     {
       "photo_id": "PHOTO-D279CD664367426EA2B3FBB74584E3D6",
       "source_type": "sighting",
@@ -3412,8 +3628,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 66,
+  "sighting_count": 67,
   "sightings": [
+    {
+      "submission_id": "SUB-20260907-103016-68ADEF",
+      "vessel_id": "VES-000141",
+      "vessel_name": "A-Rosa Bella",
+      "captured_at": "2026-09-07T05:07:44.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 331
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 124.5,
+      "vessel_width_m": 14.4,
+      "direction": "upstream",
+      "photo_count": 6
+    },
     {
       "submission_id": "SUB-20260903-052539-772127",
       "vessel_id": "VES-000140",
