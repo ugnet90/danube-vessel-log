@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.12**  
+Aktuelle Version: **0.15.13**  
 Stand: **07.09.2026**
 
 ## 1. Projektzweck
@@ -320,7 +320,7 @@ Sie enthält pro Anlegestelle zwei Geometrien:
 - `berth_polygon`: die tatsächliche Ponton-/Anlegerfläche;
 - `mooring_edge`: die wasserseitige **Liegekante**, an der das erste Schiff längsseits liegt.
 
-Die Zuordnung erfolgt ausschließlich über die stabile `berth_id`, nicht über den sichtbaren Namen. `docs/data/berth_geometries.geojson` ist nur der von `tools/sync_public_data.py` erzeugte öffentliche Spiegel für GitHub Pages. Ab Version 0.14.52 startet `.github/workflows/sync_public_data.yml` diese Synchronisierung bei Änderungen der kanonischen Datei auf `main` automatisch; gepflegt wird daher ausschließlich `data/berth_geometries.geojson`.
+Die Zuordnung der konkreten Anlegestelle erfolgt ausschließlich über die stabile `berth_id`, nicht über den sichtbaren Namen. Ab Version **0.15.13** besitzt jeder Anleger zusätzlich eine stabile `berth_area_id` (`BTA-...`) für die übergeordnete Ortsauswahl im iPhone-Kurzbefehl. Aktuell gilt `BTA-001 = Linz` und `BTA-002 = Pupping`. Diese Area-ID ist bewusst **nicht** identisch mit `location_id`: `LOC-...` bezeichnet weiterhin Aufnahme-/Referenzorte wie die Nibelungenbrücke und wird nicht zu einer Gemeinde-ID umgedeutet. `docs/data/berth_geometries.geojson` ist nur der von `tools/sync_public_data.py` erzeugte öffentliche Spiegel für GitHub Pages. Ab Version 0.14.52 startet `.github/workflows/sync_public_data.yml` diese Synchronisierung bei Änderungen der kanonischen Datei auf `main` automatisch; gepflegt wird daher ausschließlich `data/berth_geometries.geojson`.
 
 Die Punktkoordinaten `latitude`/`longitude` in `data/berths.csv` entsprechen für diese sieben Anleger dem Mittelpunkt der jeweiligen Liegekante. Dadurch bleiben bestehende API-Verbraucher kompatibel, während die Karte die präzisere Polygon- und Liniengeometrie verwenden kann. Insbesondere wurde damit die zuvor zu weit südwestlich liegende Kartenkoordinate von **Linz 32** korrigiert.
 
@@ -339,7 +339,7 @@ Die beiden bestehenden Sichtungs-Kurzbefehle heißen:
 
 Ab Version 0.15.0 senden beide Sichtungs-Kurzbefehle bei `movement = moored` optional zusätzlich `alongside_position`. Die konkrete Schrittfolge steht in `docs/shortcuts/KURZBEFEHL_LIEGEPOSITION_0.15.0.md`. Der separate Zusatzfoto-Kurzbefehl bleibt unverändert.
 
-Ab Version **0.15.11** werden Ort und Anlegestelle nicht mehr als feste Menüpunkte im Kurzbefehl gepflegt. Der geschützte Worker-Endpunkt `GET /berth-options` liest die aktiven Datensätze direkt aus `data/berths.csv` und liefert eine für Apple Kurzbefehle flache zweistufige Auswahl **Ort → Anlegestelle**. Ab Version **0.15.12** heißen die Sonderauswahlen analog zur Schiffsauswahl `+ neuen Ort eingeben` und `+ neue Anlegestelle eingeben`. Neue Orte werden zusätzlich über `berth_municipality_entered` erfasst und vom Worker in `submission.berth.municipality` übernommen. Die aktuelle Schrittfolge steht in `docs/shortcuts/KURZBEFEHL_DYNAMISCHE_ANLEGESTELLEN_0.15.12.md`.
+Ab Version **0.15.11** werden Ort und Anlegestelle nicht mehr als feste Menüpunkte im Kurzbefehl gepflegt. Der geschützte Worker-Endpunkt `GET /berth-options` liest die aktiven Datensätze direkt aus `data/berths.csv` und liefert eine für Apple Kurzbefehle flache zweistufige Auswahl **Ort → Anlegestelle**. Ab Version **0.15.12** heißen die Sonderauswahlen analog zur Schiffsauswahl `+ neuen Ort eingeben` und `+ neue Anlegestelle eingeben`. Ab Version **0.15.13** liefert die Ortsebene für bekannte Orte stabile `BTA-...`-IDs (`berth_area_id`). Dadurch bleibt `berth_municipality_entered` ausschließlich manuellen neuen Orten vorbehalten; bekannte Orte wie Linz oder Pupping werden nicht redundant als Freitext gespeichert. Die aktuelle Schrittfolge steht in `docs/shortcuts/KURZBEFEHL_DYNAMISCHE_ANLEGESTELLEN_0.15.13.md`.
 
 Für reine zusätzliche Schiffsfotos existiert ein separater Foto-Upload-Workflow. Dieser erzeugt keine neue Sichtung.
 
@@ -3227,4 +3227,73 @@ Die in der Kurzbefehlsanleitung dokumentierte Logik ist präzisiert: `alongside_
 - `cloudflare/worker.js`: Version `0.15.12`; neue sichtbare Auswahltexte und Unterstützung für `berth_municipality_entered`.
 - `docs/shortcuts/KURZBEFEHL_DYNAMISCHE_ANLEGESTELLEN_0.15.12.md`: aktualisierte vollständige Schrittfolge.
 - `README.md`: Projektstand `0.15.12`.
+
+## 0.15.13 – stabile Orts-IDs für die Anlegestellenauswahl
+
+Stand: 07.09.2026
+
+Die zweistufige Auswahl **Ort → Anlegestelle** erhält einen eigenen stabilen Elternbezug. Hintergrund ist die saubere Trennung zwischen dem Aufnahmeort des Fotografen (`LOC-...`) und dem vom Benutzer ausgewählten Ort der Anlegestelle.
+
+### Neue `berth_area_id`
+
+`data/berths.csv` enthält ab 0.15.13 zusätzlich die Spalte `berth_area_id`.
+
+Aktuell:
+
+- `BTA-001` → Linz
+- `BTA-002` → Pupping
+
+Die vorhandenen `location_id`- und `reference_location_id`-Felder bleiben unverändert und behalten ihre bisherige Bedeutung. Insbesondere wird `LOC-001` **nicht** zu einer allgemeinen Linz-ID umgedeutet; es bleibt der bestehende Aufnahme-/Referenzort Nibelungenbrücke.
+
+### `/berth-options`
+
+Ohne Parameter liefert der Endpunkt weiterhin die sichtbaren Ortsnamen, aber `value_by_choice` ordnet bekannte Orte nun der stabilen `BTA-...`-ID zu:
+
+- `Linz` → `BTA-001`
+- `Pupping` → `BTA-002`
+- `+ neuen Ort eingeben` → `unlisted`
+- `Ort unbekannt` → `unknown`
+
+Die zweite Stufe wird künftig bevorzugt mit
+
+`GET /berth-options?area_id=BTA-001`
+
+abgerufen. Der bisherige Parameter `?municipality=Linz` bleibt aus Kompatibilitätsgründen erhalten.
+
+### Neue Upload-Variable `berth_area_id`
+
+Die beiden Sichtungs-Kurzbefehle senden optional zusätzlich
+
+`berth_area_id`
+
+im Format `BTA-001`.
+
+Der Worker speichert diese Information kanonisch als `submission.berth.area_id`. Bei einer bekannten Anlegestelle wird die Area-ID aus `data/berths.csv` übernommen; bei einer neuen Anlegestelle in einem bekannten Ort bleibt die Area-ID erhalten und liefert dem Worker den Ortsbezug.
+
+`berth_municipality_entered` wird dagegen nur noch verwendet, wenn der Benutzer tatsächlich `+ neuen Ort eingeben` auswählt.
+
+Damit sind die Fälle fachlich sauber getrennt:
+
+- **bekannter Ort + bekannte Anlegestelle:** `berth_area_id` + `berth_id`;
+- **bekannter Ort + neue Anlegestelle:** `berth_area_id`, `berth_id` leer, manueller `berth_name_entered`;
+- **neuer Ort + neue Anlegestelle:** `berth_area_id` leer, manueller `berth_municipality_entered` und `berth_name_entered`;
+- **bekannter Ort + Anlegestelle unbekannt:** `berth_area_id` bleibt erhalten, `berth_status = unknown`.
+
+Neue Submissions verwenden wegen des zusätzlichen kanonischen `submission.berth.area_id` nun `schema_version = 15`. Alte Submissions bleiben lesbar.
+
+### Einspielen / Migration 0.15.13
+
+1. `data/berths.csv`, `cloudflare/worker.js`, die Kurzbefehlsanleitung und `README.md` gemeinsam committen.
+2. Danach den **Cloudflare Worker neu deployen**.
+3. Kein `Sync public data`, kein Sichtungsindex-Rebuild und kein `Rebuild location matches` erforderlich.
+4. `/berth-options` testen: auf Ortsebene müssen `Linz → BTA-001` und `Pupping → BTA-002` erscheinen.
+5. Im Kurzbefehl **Schiffsichtung mit Foto(s)** die bekannte Ortsauswahl auf `berth_area_id` und den zweiten Abruf auf `?area_id=` umstellen.
+6. Nach erfolgreichem Test dieselbe Logik in **Schiffsichtung ohne Foto** übernehmen.
+
+### Dateiversionen 0.15.13
+
+- `cloudflare/worker.js`: Version `0.15.13`; stabile Berth-Area-IDs und `berth_area_id`-Verarbeitung.
+- `data/berths.csv`: neue Spalte `berth_area_id`.
+- `docs/shortcuts/KURZBEFEHL_DYNAMISCHE_ANLEGESTELLEN_0.15.13.md`: vollständige aktualisierte Schrittfolge.
+- `README.md`: Projektstand `0.15.13`.
 
