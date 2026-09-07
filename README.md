@@ -1,7 +1,7 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.10**  
-Stand: **03.09.2026**
+Aktuelle Version: **0.15.12**  
+Stand: **07.09.2026**
 
 ## 1. Projektzweck
 
@@ -339,7 +339,7 @@ Die beiden bestehenden Sichtungs-Kurzbefehle heißen:
 
 Ab Version 0.15.0 senden beide Sichtungs-Kurzbefehle bei `movement = moored` optional zusätzlich `alongside_position`. Die konkrete Schrittfolge steht in `docs/shortcuts/KURZBEFEHL_LIEGEPOSITION_0.15.0.md`. Der separate Zusatzfoto-Kurzbefehl bleibt unverändert.
 
-Ab Version **0.15.11** werden Ort und Anlegestelle nicht mehr als feste Menüpunkte im Kurzbefehl gepflegt. Der geschützte Worker-Endpunkt `GET /berth-options` liest die aktiven Datensätze direkt aus `data/berths.csv` und liefert eine für Apple Kurzbefehle flache zweistufige Auswahl **Ort → Anlegestelle**. Die Schrittfolge steht in `docs/shortcuts/KURZBEFEHL_DYNAMISCHE_ANLEGESTELLEN_0.15.11.md`.
+Ab Version **0.15.11** werden Ort und Anlegestelle nicht mehr als feste Menüpunkte im Kurzbefehl gepflegt. Der geschützte Worker-Endpunkt `GET /berth-options` liest die aktiven Datensätze direkt aus `data/berths.csv` und liefert eine für Apple Kurzbefehle flache zweistufige Auswahl **Ort → Anlegestelle**. Ab Version **0.15.12** heißen die Sonderauswahlen analog zur Schiffsauswahl `+ neuen Ort eingeben` und `+ neue Anlegestelle eingeben`. Neue Orte werden zusätzlich über `berth_municipality_entered` erfasst und vom Worker in `submission.berth.municipality` übernommen. Die aktuelle Schrittfolge steht in `docs/shortcuts/KURZBEFEHL_DYNAMISCHE_ANLEGESTELLEN_0.15.12.md`.
 
 Für reine zusätzliche Schiffsfotos existiert ein separater Foto-Upload-Workflow. Dieser erzeugt keine neue Sichtung.
 
@@ -3171,4 +3171,60 @@ Neue Anleger einer vorhandenen Gemeinde erscheinen automatisch im zweiten Menü.
 - `cloudflare/worker.js`: Version `0.15.11`; neuer geschützter Endpunkt `GET /berth-options`.
 - `docs/shortcuts/KURZBEFEHL_DYNAMISCHE_ANLEGESTELLEN_0.15.11.md`: vollständige Schrittfolge für die dynamische zweistufige Auswahl.
 - `README.md`: Projektstand `0.15.11`.
+
+## 0.15.12 – neue Orte und Anleger konsistent erfassen
+
+Stand: 07.09.2026
+
+Die dynamische zweistufige Auswahl aus Version 0.15.11 wird sprachlich und technisch an die bereits bewährte dynamische Schiffsauswahl angeglichen.
+
+### Einheitliche sichtbare Sonderauswahlen
+
+Der Worker-Endpunkt `GET /berth-options` liefert ab 0.15.12:
+
+- auf Ortsebene `+ neuen Ort eingeben` statt `Anderer Ort`;
+- auf Anlegerebene `+ neue Anlegestelle eingeben` statt `Andere Anlegestelle`;
+- `Ort unbekannt` und `Anlegestelle unbekannt` bleiben unverändert.
+
+Die technischen Werte ändern sich nicht. Neue, noch nicht gelistete Einträge liefern weiterhin `unlisted`, unbekannte Einträge weiterhin `unknown`. Bestehende Kurzbefehlslogik kann daher mit einer reinen Anpassung der sichtbaren Vergleichstexte weiterverwendet werden.
+
+### Neuer eingegebener Ort wird gespeichert
+
+Für eine noch nicht gelistete Anlegestelle akzeptiert der Worker zusätzlich das optionale Upload-Feld
+
+`berth_municipality_entered`
+
+als Text bis maximal 120 Zeichen.
+
+Bei `berth_status = unlisted` verwendet der Worker den eingegebenen Ort mit Vorrang vor einem eventuell aus dem GPS-/Aufnahmeort abgeleiteten Gemeindenamen. In der gespeicherten Submission wird kein redundantes neues Top-Level-Feld angelegt; der Wert wird in das bereits vorhandene kanonische Feld
+
+`submission.berth.municipality`
+
+übernommen. Der frei eingegebene Anlegername wird wie bisher in `submission.berth.name` übernommen.
+
+Damit lassen sich insbesondere zwei Fälle sauber unterscheiden:
+
+- bekannter Ort, neue Anlegestelle, z. B. `Linz` → `+ neue Anlegestelle eingeben`;
+- neuer Ort und neue Anlegestelle, z. B. `+ neuen Ort eingeben` → `Grein` → `Grein Donaustation`.
+
+Für Korrekturen einer bereits gespeicherten nicht gelisteten Anlegestelle behält der Worker den vorhandenen Gemeindenamen bei, sofern kein neuer `berth_municipality_entered`-Wert übergeben wird.
+
+### Liegeposition nur bei bekannter Anlegestelle
+
+Die in der Kurzbefehlsanleitung dokumentierte Logik ist präzisiert: `alongside_position` wird standardmäßig auf `unknown` gesetzt und P1/P2/P3 nur dann abgefragt, wenn `berth_status = matched` ist. Bei `unlisted` oder `unknown` wird keine Liegeposition abgefragt.
+
+### Einspielen / Migration 0.15.12
+
+1. Dateien aus der ZIP in den angegebenen Repository-Pfaden ersetzen bzw. ergänzen.
+2. **Cloudflare Worker neu deployen.**
+3. Kein `Sync public data`, kein Sichtungsindex-Rebuild und kein `Rebuild location matches` erforderlich.
+4. Im bereits umgebauten Kurzbefehl **Schiffsichtung mit Foto(s)** den sichtbaren Vergleich `Anderer Ort` auf `+ neuen Ort eingeben` ändern.
+5. Den JSON-Upload um `berth_municipality_entered` ergänzen und die Ortsabfrage gemäß `docs/shortcuts/KURZBEFEHL_DYNAMISCHE_ANLEGESTELLEN_0.15.12.md` ergänzen.
+6. Danach die vollständig getestete Logik in **Schiffsichtung ohne Foto** übernehmen.
+
+### Dateiversionen 0.15.12
+
+- `cloudflare/worker.js`: Version `0.15.12`; neue sichtbare Auswahltexte und Unterstützung für `berth_municipality_entered`.
+- `docs/shortcuts/KURZBEFEHL_DYNAMISCHE_ANLEGESTELLEN_0.15.12.md`: aktualisierte vollständige Schrittfolge.
+- `README.md`: Projektstand `0.15.12`.
 
