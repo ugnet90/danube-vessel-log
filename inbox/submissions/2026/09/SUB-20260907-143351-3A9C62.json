@@ -1,0 +1,74 @@
+{
+  "schema_version": 15,
+  "submission_id": "SUB-20260907-143351-3A9C62",
+  "uploaded_at": "2026-09-07T14:33:51.739Z",
+  "captured_at": "2026-09-07T14:33:37.000Z",
+  "location": {
+    "status": "unknown",
+    "matched_by": "",
+    "id": "",
+    "area_id": "",
+    "name": "",
+    "municipality": "",
+    "country": "",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "not_applicable",
+    "matched_by": "selection",
+    "id": "",
+    "name": "",
+    "short_name": "",
+    "station_number": "",
+    "location_id": "",
+    "area_id": "",
+    "municipality": "",
+    "country": "",
+    "river": "",
+    "bank": "",
+    "relative_to_reference": "",
+    "river_km": null,
+    "river_km_text": "",
+    "facility_type": "",
+    "mooring_order": "",
+    "entry_count": null,
+    "entry_height": "",
+    "latitude": null,
+    "longitude": null,
+    "address": "",
+    "access_type": "",
+    "source_url": "",
+    "source_checked_at": ""
+  },
+  "movement": "moving",
+  "alongside_position": null,
+  "direction": "downstream",
+  "vessel_name_entered": "Emerald Sun",
+  "notes": "",
+  "observer_lat": 48.32400956444054,
+  "observer_lon": 14.20198288906643,
+  "photos": [],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000134",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000134"
+        ],
+        "matched_value": "Emerald Sun",
+        "normalized_input": "emeraldsun"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
