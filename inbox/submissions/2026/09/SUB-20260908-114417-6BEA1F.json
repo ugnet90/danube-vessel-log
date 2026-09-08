@@ -47,31 +47,7 @@
   "notes": "",
   "observer_lat": 48.30741166666667,
   "observer_lon": 14.28523333333333,
-  "photos": [
-    {
-      "photo_id": "PHOTO-A82026DD6CD44044820BCBB133B27973",
-      "path": "inbox/photos/2026/09/PHOTO-A82026DD6CD44044820BCBB133B27973.jpg",
-      "filename": "PHOTO-A82026DD6CD44044820BCBB133B27973.jpg",
-      "original_filename": "shortcut-photo-01.jpg",
-      "mime_type": "image/jpeg",
-      "size_bytes": 375837,
-      "sequence": 1,
-      "metadata_version": 1,
-      "captured_at": "2026-09-07T05:11:11.000Z",
-      "photo_lat": 48.30741166666667,
-      "photo_lon": 14.28523333333333,
-      "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "area_id": "",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
-        "country": "Österreich",
-        "distance_m": 99
-      }
-    }
-  ],
+  "photos": [],
   "workflow": {
     "status": "reviewed",
     "auto": {
@@ -96,5 +72,37 @@
     }
   },
   "photo_lat": 48.30741166666667,
-  "photo_lon": 14.28523333333333
+  "photo_lon": 14.28523333333333,
+  "photo_count": 0,
+  "updated_at": "2026-09-08T14:02:13.648Z",
+  "photo_history": [
+    {
+      "action": "deleted",
+      "deleted_at": "2026-09-08T14:02:13.648Z",
+      "deleted_by": "web-ui",
+      "photo": {
+        "photo_id": "PHOTO-A82026DD6CD44044820BCBB133B27973",
+        "path": "inbox/photos/2026/09/PHOTO-A82026DD6CD44044820BCBB133B27973.jpg",
+        "filename": "PHOTO-A82026DD6CD44044820BCBB133B27973.jpg",
+        "original_filename": "shortcut-photo-01.jpg",
+        "mime_type": "image/jpeg",
+        "size_bytes": 375837,
+        "sequence": 1,
+        "metadata_version": 1,
+        "captured_at": "2026-09-07T05:11:11.000Z",
+        "photo_lat": 48.30741166666667,
+        "photo_lon": 14.28523333333333,
+        "location": {
+          "status": "matched",
+          "matched_by": "coordinates",
+          "id": "LOC-001",
+          "area_id": "",
+          "name": "Nibelungenbrücke, Linz",
+          "municipality": "",
+          "country": "Österreich",
+          "distance_m": 99
+        }
+      }
+    }
+  ]
 }

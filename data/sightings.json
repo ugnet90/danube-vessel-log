@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "updated_at": "2026-09-08T11:44:22.556Z",
+  "updated_at": "2026-09-08T14:02:13.648Z",
   "sightings": [
     {
       "submission_id": "SUB-20260907-145222-D2512B",
@@ -173,35 +173,8 @@
       "photo_lon": 14.28523333333333,
       "review_decision": "confirmed",
       "review_notes": "Automatisch bestätigt: eindeutige Zuordnung.",
-      "photos": [
-        {
-          "photo_id": "PHOTO-A82026DD6CD44044820BCBB133B27973",
-          "path": "inbox/photos/2026/09/PHOTO-A82026DD6CD44044820BCBB133B27973.jpg",
-          "filename": "PHOTO-A82026DD6CD44044820BCBB133B27973.jpg",
-          "original_filename": "shortcut-photo-01.jpg",
-          "mime_type": "image/jpeg",
-          "size_bytes": 375837,
-          "sequence": 1,
-          "captured_at": "2026-09-07T05:11:11.000Z",
-          "added_at": "",
-          "source": "submission",
-          "notes": "",
-          "metadata_version": 1,
-          "photo_lat": 48.30741166666667,
-          "photo_lon": 14.28523333333333,
-          "location": {
-            "status": "matched",
-            "matched_by": "coordinates",
-            "id": "LOC-001",
-            "area_id": "",
-            "name": "Nibelungenbrücke, Linz",
-            "municipality": "",
-            "country": "Österreich",
-            "distance_m": 99
-          }
-        }
-      ],
-      "updated_at": "2026-09-08T11:44:22.556Z"
+      "photos": [],
+      "updated_at": "2026-09-08T14:02:13.648Z"
     },
     {
       "submission_id": "SUB-20260907-103016-68ADEF",
