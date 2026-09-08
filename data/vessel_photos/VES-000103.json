@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "vessel_id": "VES-000103",
+  "photos": [
+    {
+      "photo_id": "PHOTO-1AEF739DFC5546D3AC6C391BDBEDD45A",
+      "path": "inbox/photos/2026/09/PHOTO-1AEF739DFC5546D3AC6C391BDBEDD45A.jpg",
+      "filename": "PHOTO-1AEF739DFC5546D3AC6C391BDBEDD45A.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 375837,
+      "sequence": 1,
+      "captured_at": "2026-09-07T05:11:11.000Z",
+      "added_at": "2026-09-08T14:03:23.155Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30741166666667,
+      "photo_lon": 14.28523333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 99
+      },
+      "vessel_name_entered": "A-Rosa Riva",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260908-114417-6BEA1F"
+      }
+    }
+  ],
+  "updated_at": "2026-09-08T14:03:23.155Z"
+}
