@@ -36,7 +36,14 @@
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "",
+      "rejected_qids": [
+        "Q26760"
+      ],
+      "last_reviewed_at": "2026-09-09T06:45:26.500Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-C57C9537FA5547229DF6757FD4812381",
@@ -47,7 +54,26 @@
     "environment": "production",
     "created_at": "2026-09-09T06:26:17.460Z",
     "created_from_submission_id": "SUB-20260909-060738-95FFA1",
-    "updated_at": "2026-09-09T06:26:17.460Z",
-    "updated_by": "web-ui"
+    "updated_at": "2026-09-09T06:45:26.500Z",
+    "updated_by": "vessel-enrichment",
+    "change_history": [
+      {
+        "changed_at": "2026-09-09T06:45:26.500Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "Wikidata-Kandidat Q26760 als unpassend markiert",
+        "changed_fields": [
+          "enrichment.wikidata.rejected_qids"
+        ],
+        "changes": [
+          {
+            "field": "enrichment.wikidata.rejected_qids",
+            "old_value": [],
+            "new_value": [
+              "Q26760"
+            ]
+          }
+        ]
+      }
+    ]
   }
 }
