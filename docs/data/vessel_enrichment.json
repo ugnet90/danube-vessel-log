@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-09-09T07:04:37.065365Z",
+  "generated_at": "2026-09-09T07:23:26.413781Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -1976,44 +1976,16 @@
       "json_path": "data/vessels/VES-000142.json",
       "missing_fields": [
         {
-          "field": "identity.mmsi",
-          "label": "MMSI"
-        },
-        {
           "field": "identity.imo",
           "label": "IMO"
-        },
-        {
-          "field": "identity.call_sign",
-          "label": "Rufzeichen"
-        },
-        {
-          "field": "technical.year_built",
-          "label": "Baujahr"
         },
         {
           "field": "technical.shipyard",
           "label": "Werft"
         },
         {
-          "field": "technical.length_m",
-          "label": "Länge"
-        },
-        {
-          "field": "technical.width_m",
-          "label": "Breite"
-        },
-        {
           "field": "technical.draft_m",
           "label": "Tiefgang"
-        },
-        {
-          "field": "technical.passengers",
-          "label": "Passagiere"
-        },
-        {
-          "field": "operations.operator",
-          "label": "Betreiber"
         },
         {
           "field": "operations.manager",
@@ -2022,13 +1994,9 @@
         {
           "field": "operations.cruise_brand",
           "label": "Marke"
-        },
-        {
-          "field": "operations.home_port",
-          "label": "Heimathafen"
         }
       ],
-      "missing_count": 13,
+      "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
         "status": "no_match",
