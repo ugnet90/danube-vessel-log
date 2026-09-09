@@ -20,7 +20,7 @@
     "shipyard": "",
     "length_m": 110,
     "width_m": 11.4,
-    "draft_m": null,
+    "draft_m": 1.5,
     "passengers": 153
   },
   "operations": {
@@ -32,11 +32,33 @@
   },
   "name_history": [],
   "identifiers_history": [],
-  "sources": [],
+  "sources": [
+    {
+      "source_id": "SRC-8E8A002147C9",
+      "provider": "Wikidata",
+      "title": "Wikidata: Aurelia I",
+      "url": "https://www.wikidata.org/wiki/Q775214",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "technical.draft_m"
+      ],
+      "retrieved_at": "2026-09-09T08:08:02.148859Z",
+      "verified_at": "2026-09-09T08:43:17.141Z",
+      "added_at": "2026-09-09T08:43:17.141Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2406584334
+    }
+  ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q775214",
+      "rejected_qids": [],
+      "accepted_at": "2026-09-09T08:43:17.141Z",
+      "last_reviewed_at": "2026-09-09T08:43:17.141Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-9F876D1B3CDA462E9779D9E807433D78",
@@ -47,7 +69,30 @@
     "environment": "production",
     "created_at": "2026-09-09T08:05:15.641Z",
     "created_from_submission_id": "SUB-20260909-075841-EA67F5",
-    "updated_at": "2026-09-09T08:05:15.641Z",
-    "updated_by": "web-ui"
+    "updated_at": "2026-09-09T08:43:17.141Z",
+    "updated_by": "vessel-enrichment",
+    "change_history": [
+      {
+        "changed_at": "2026-09-09T08:43:17.141Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "1 Wikidata-Feld aus Q775214 übernommen",
+        "changed_fields": [
+          "technical.draft_m",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "technical.draft_m",
+            "old_value": null,
+            "new_value": 1.5
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q775214"
+          }
+        ]
+      }
+    ]
   }
 }
