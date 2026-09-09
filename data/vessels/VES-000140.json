@@ -92,10 +92,11 @@
         "Q694257",
         "Q609508",
         "Q685504",
-        "Q686431"
+        "Q686431",
+        "Q32999"
       ],
       "accepted_at": "2026-09-03T14:34:32.350Z",
-      "last_reviewed_at": "2026-09-03T14:35:29.470Z"
+      "last_reviewed_at": "2026-09-09T07:02:18.064Z"
     }
   },
   "media": {
@@ -107,7 +108,7 @@
     "environment": "production",
     "created_at": "2026-09-03T05:41:12.409Z",
     "created_from_submission_id": "SUB-20260903-052539-772127",
-    "updated_at": "2026-09-03T14:35:29.470Z",
+    "updated_at": "2026-09-09T07:02:18.064Z",
     "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-BF252725A335",
     "candidate_source_revision_id": "268617530",
@@ -236,6 +237,32 @@
               "Q609508",
               "Q685504",
               "Q686431"
+            ]
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-09-09T07:02:18.064Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "Wikidata-Kandidat Q32999 als unpassend markiert",
+        "changed_fields": [
+          "enrichment.wikidata.rejected_qids"
+        ],
+        "changes": [
+          {
+            "field": "enrichment.wikidata.rejected_qids",
+            "old_value": [
+              "Q694257",
+              "Q609508",
+              "Q685504",
+              "Q686431"
+            ],
+            "new_value": [
+              "Q694257",
+              "Q609508",
+              "Q685504",
+              "Q686431",
+              "Q32999"
             ]
           }
         ]
