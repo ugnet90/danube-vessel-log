@@ -1,0 +1,131 @@
+{
+  "schema_version": 2,
+  "vessel_id": "VES-000142",
+  "photos": [
+    {
+      "photo_id": "PHOTO-96A61C32D4D14120A85B1A0A57F19F61",
+      "path": "inbox/photos/2026/09/PHOTO-96A61C32D4D14120A85B1A0A57F19F61.jpg",
+      "filename": "PHOTO-96A61C32D4D14120A85B1A0A57F19F61.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 321747,
+      "sequence": 1,
+      "captured_at": "2026-09-09T05:06:09.000Z",
+      "added_at": "2026-09-09T07:19:07.103Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30872833333333,
+      "photo_lon": 14.28429666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 256
+      },
+      "vessel_name_entered": "VistaMilla",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260909-060738-95FFA1"
+      }
+    },
+    {
+      "photo_id": "PHOTO-2BB12EC9CAA4414D96E536FAE48CED69",
+      "path": "inbox/photos/2026/09/PHOTO-2BB12EC9CAA4414D96E536FAE48CED69.jpg",
+      "filename": "PHOTO-2BB12EC9CAA4414D96E536FAE48CED69.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 423758,
+      "sequence": 2,
+      "captured_at": "2026-09-09T05:07:05.000Z",
+      "added_at": "2026-09-09T07:19:07.103Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30815833333333,
+      "photo_lon": 14.28470333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 187
+      },
+      "vessel_name_entered": "VistaMilla",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260909-060738-95FFA1"
+      }
+    },
+    {
+      "photo_id": "PHOTO-EC7543B44E1C4599A5CB1D19E3A0B746",
+      "path": "inbox/photos/2026/09/PHOTO-EC7543B44E1C4599A5CB1D19E3A0B746.jpg",
+      "filename": "PHOTO-EC7543B44E1C4599A5CB1D19E3A0B746.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 427881,
+      "sequence": 3,
+      "captured_at": "2026-09-09T05:07:46.000Z",
+      "added_at": "2026-09-09T07:19:07.103Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30782,
+      "photo_lon": 14.28496333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 146
+      },
+      "vessel_name_entered": "VistaMilla",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260909-060738-95FFA1"
+      }
+    },
+    {
+      "photo_id": "PHOTO-48B4888EFED14C5F8E1C004C97DAD89E",
+      "path": "inbox/photos/2026/09/PHOTO-48B4888EFED14C5F8E1C004C97DAD89E.jpg",
+      "filename": "PHOTO-48B4888EFED14C5F8E1C004C97DAD89E.jpg",
+      "original_filename": "shortcut-photo-04.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 448174,
+      "sequence": 4,
+      "captured_at": "2026-09-09T05:08:18.000Z",
+      "added_at": "2026-09-09T07:19:07.103Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30750333333334,
+      "photo_lon": 14.285195,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 108
+      },
+      "vessel_name_entered": "VistaMilla",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260909-060738-95FFA1"
+      }
+    }
+  ],
+  "updated_at": "2026-09-09T07:19:07.103Z"
+}

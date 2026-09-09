@@ -1,8 +1,116 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-09-09T05:04:48.000Z",
-  "count": 110,
+  "updated_at": "2026-09-09T05:08:18.000Z",
+  "count": 114,
   "photos": [
+    {
+      "photo_id": "PHOTO-48B4888EFED14C5F8E1C004C97DAD89E",
+      "source_type": "direct",
+      "submission_id": "SUB-20260909-060738-95FFA1",
+      "vessel_id": "VES-000142",
+      "vessel_name": "VistaMilla",
+      "captured_at": "2026-09-09T05:08:18.000Z",
+      "photo_lat": 48.30750333333334,
+      "photo_lon": 14.285195,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 108
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260909-060738-95FFA1"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-48B4888EFED14C5F8E1C004C97DAD89E.jpg"
+    },
+    {
+      "photo_id": "PHOTO-EC7543B44E1C4599A5CB1D19E3A0B746",
+      "source_type": "direct",
+      "submission_id": "SUB-20260909-060738-95FFA1",
+      "vessel_id": "VES-000142",
+      "vessel_name": "VistaMilla",
+      "captured_at": "2026-09-09T05:07:46.000Z",
+      "photo_lat": 48.30782,
+      "photo_lon": 14.28496333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 146
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260909-060738-95FFA1"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-EC7543B44E1C4599A5CB1D19E3A0B746.jpg"
+    },
+    {
+      "photo_id": "PHOTO-2BB12EC9CAA4414D96E536FAE48CED69",
+      "source_type": "direct",
+      "submission_id": "SUB-20260909-060738-95FFA1",
+      "vessel_id": "VES-000142",
+      "vessel_name": "VistaMilla",
+      "captured_at": "2026-09-09T05:07:05.000Z",
+      "photo_lat": 48.30815833333333,
+      "photo_lon": 14.28470333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 187
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260909-060738-95FFA1"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-2BB12EC9CAA4414D96E536FAE48CED69.jpg"
+    },
+    {
+      "photo_id": "PHOTO-96A61C32D4D14120A85B1A0A57F19F61",
+      "source_type": "direct",
+      "submission_id": "SUB-20260909-060738-95FFA1",
+      "vessel_id": "VES-000142",
+      "vessel_name": "VistaMilla",
+      "captured_at": "2026-09-09T05:06:09.000Z",
+      "photo_lat": 48.30872833333333,
+      "photo_lon": 14.28429666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 256
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260909-060738-95FFA1"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-96A61C32D4D14120A85B1A0A57F19F61.jpg"
+    },
     {
       "photo_id": "PHOTO-0CF8491F1CBB4FEE8C14172FB872FAF0",
       "source_type": "sighting",
