@@ -2,7 +2,7 @@
   "schema_version": 1,
   "vessel_id": "VES-000142",
   "identity": {
-    "name": "VistaMilla",
+    "name": "Vista Milla",
     "former_names": [],
     "mmsi": "272985000",
     "imo": "",
@@ -56,7 +56,7 @@
     "environment": "production",
     "created_at": "2026-09-09T06:26:17.460Z",
     "created_from_submission_id": "SUB-20260909-060738-95FFA1",
-    "updated_at": "2026-09-09T07:17:01.431Z",
+    "updated_at": "2026-09-09T11:16:03.836Z",
     "updated_by": "web-ui",
     "change_history": [
       {
@@ -217,6 +217,20 @@
             "field": "operations.home_port",
             "old_value": "",
             "new_value": "Kiew"
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-09-09T11:16:03.836Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "identity.name"
+        ],
+        "changes": [
+          {
+            "field": "identity.name",
+            "old_value": "VistaMilla",
+            "new_value": "Vista Milla"
           }
         ]
       }
