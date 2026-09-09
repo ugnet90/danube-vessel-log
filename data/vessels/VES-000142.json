@@ -28,7 +28,7 @@
     "owner": "Chervona Ruta",
     "manager": "",
     "cruise_brand": "",
-    "home_port": ""
+    "home_port": "Kiew"
   },
   "name_history": [],
   "identifiers_history": [],
@@ -56,7 +56,7 @@
     "environment": "production",
     "created_at": "2026-09-09T06:26:17.460Z",
     "created_from_submission_id": "SUB-20260909-060738-95FFA1",
-    "updated_at": "2026-09-09T07:16:31.002Z",
+    "updated_at": "2026-09-09T07:17:01.431Z",
     "updated_by": "web-ui",
     "change_history": [
       {
@@ -203,6 +203,20 @@
             "field": "operations.operator",
             "old_value": "",
             "new_value": "1AVista Reisen GmbH"
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-09-09T07:17:01.431Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "operations.home_port"
+        ],
+        "changes": [
+          {
+            "field": "operations.home_port",
+            "old_value": "",
+            "new_value": "Kiew"
           }
         ]
       }
