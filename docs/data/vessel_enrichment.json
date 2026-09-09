@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-09-09T06:29:03.898735Z",
+  "generated_at": "2026-09-09T06:52:17.464649Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 42,
     "vessels_incomplete": 42,
     "vessels_complete": 0,
-    "candidate_matches": 1,
+    "candidate_matches": 0,
     "matched_no_new_data": 25,
     "low_confidence": 1,
-    "no_match": 15,
+    "no_match": 16,
     "lookup_errors": 0,
-    "suggestions_total": 10
+    "suggestions_total": 1
   },
   "vessels": [
     {
@@ -2007,7 +2007,7 @@
     },
     {
       "vessel_id": "VES-000142",
-      "name": "Milla",
+      "name": "VistaMilla",
       "environment": "production",
       "json_path": "data/vessels/VES-000142.json",
       "missing_fields": [
@@ -2022,10 +2022,6 @@
         {
           "field": "identity.call_sign",
           "label": "Rufzeichen"
-        },
-        {
-          "field": "classification.flag",
-          "label": "Flagge"
         },
         {
           "field": "technical.year_built",
@@ -2056,10 +2052,6 @@
           "label": "Betreiber"
         },
         {
-          "field": "operations.owner",
-          "label": "Eigentümer"
-        },
-        {
           "field": "operations.manager",
           "label": "Manager"
         },
@@ -2072,238 +2064,19 @@
           "label": "Heimathafen"
         }
       ],
-      "missing_count": 15,
+      "missing_count": 13,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "no_match",
         "error": "",
         "warnings": [],
         "accepted_qid": "",
-        "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q775214",
-            "label": "Aurelia I",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q775214",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "identity.eni"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [
-                "248061000"
-              ],
-              "imo": [],
-              "eni": [
-                "07001841"
-              ],
-              "call_sign": [
-                "HE7243"
-              ]
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.mmsi",
-                "field_label": "MMSI",
-                "value": "248061000",
-                "display_value": "248061000",
-                "property": "P587",
-                "property_label": "MMSI",
-                "property_url": "https://www.wikidata.org/wiki/Property:P587",
-                "source_url": "https://www.wikidata.org/wiki/Q775214",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "identity.call_sign",
-                "field_label": "Rufzeichen",
-                "value": "HE7243",
-                "display_value": "HE7243",
-                "property": "P2317",
-                "property_label": "call sign",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2317",
-                "source_url": "https://www.wikidata.org/wiki/Q775214",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "classification.flag",
-                "field_label": "Flagge",
-                "value": "MT",
-                "display_value": "Malta",
-                "property": "P8047",
-                "property_label": "country of registry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P8047",
-                "source_url": "https://www.wikidata.org/wiki/Q775214",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.year_built",
-                "field_label": "Baujahr",
-                "value": 2006,
-                "display_value": 2006,
-                "property": "P729",
-                "property_label": "service entry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P729",
-                "source_url": "https://www.wikidata.org/wiki/Q775214",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.length_m",
-                "field_label": "Länge",
-                "value": 110.0,
-                "display_value": 110.0,
-                "property": "P2043",
-                "property_label": "length",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2043",
-                "source_url": "https://www.wikidata.org/wiki/Q775214",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.width_m",
-                "field_label": "Breite",
-                "value": 11.4,
-                "display_value": 11.4,
-                "property": "P2261",
-                "property_label": "beam",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2261",
-                "source_url": "https://www.wikidata.org/wiki/Q775214",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 1.5,
-                "display_value": 1.5,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q775214",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.passengers",
-                "field_label": "Passagiere",
-                "value": 159,
-                "display_value": 159,
-                "property": "P1083",
-                "property_label": "maximum capacity",
-                "property_url": "https://www.wikidata.org/wiki/Property:P1083",
-                "source_url": "https://www.wikidata.org/wiki/Q775214",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "Scylla",
-                "display_value": "Scylla",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q775214",
-                "confidence": 1.0,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2406584334
-          },
-          {
-            "qid": "Q26760",
-            "label": "Millard County",
-            "description": "County im US-Bundesstaat Utah",
-            "url": "https://www.wikidata.org/wiki/Q26760",
-            "score": 0.78,
-            "confidence": "low",
-            "matched_by": [
-              "name_partial"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "County von Utah"
-            ],
-            "suggestions": [
-              {
-                "field": "classification.flag",
-                "field_label": "Flagge",
-                "value": "US",
-                "display_value": "Vereinigte Staaten",
-                "property": "P17",
-                "property_label": "country",
-                "property_url": "https://www.wikidata.org/wiki/Property:P17",
-                "source_url": "https://www.wikidata.org/wiki/Q26760",
-                "confidence": 0.78,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.year_built",
-                "field_label": "Baujahr",
-                "value": 1852,
-                "display_value": 1852,
-                "property": "P571",
-                "property_label": "inception",
-                "property_url": "https://www.wikidata.org/wiki/Property:P571",
-                "source_url": "https://www.wikidata.org/wiki/Q26760",
-                "confidence": 0.78,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2540116724
-          },
-          {
-            "qid": "Q203278",
-            "label": "Millau",
-            "description": "französische Gemeinde im Département Aveyron",
-            "url": "https://www.wikidata.org/wiki/Q203278",
-            "score": 0.775,
-            "confidence": "low",
-            "matched_by": [
-              "name_partial"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Gemeinde in Frankreich"
-            ],
-            "suggestions": [
-              {
-                "field": "classification.flag",
-                "field_label": "Flagge",
-                "value": "FR",
-                "display_value": "Frankreich",
-                "property": "P17",
-                "property_label": "country",
-                "property_url": "https://www.wikidata.org/wiki/Property:P17",
-                "source_url": "https://www.wikidata.org/wiki/Q203278",
-                "confidence": 0.775,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2526335770
-          }
-        ]
+        "rejected_qids": [
+          "Q203278",
+          "Q26760",
+          "Q775214"
+        ],
+        "candidates": []
       }
     }
   ]
