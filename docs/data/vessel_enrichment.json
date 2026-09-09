@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-09-09T06:54:48.529291Z",
+  "generated_at": "2026-09-09T07:04:37.065365Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -36,11 +36,11 @@
     "vessels_incomplete": 42,
     "vessels_complete": 0,
     "candidate_matches": 0,
-    "matched_no_new_data": 25,
-    "low_confidence": 1,
+    "matched_no_new_data": 26,
+    "low_confidence": 0,
     "no_match": 16,
     "lookup_errors": 0,
-    "suggestions_total": 1
+    "suggestions_total": 0
   },
   "vessels": [
     {
@@ -1929,54 +1929,18 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "low_confidence",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
         "accepted_qid": "Q790106",
         "rejected_qids": [
+          "Q32999",
           "Q609508",
           "Q685504",
           "Q686431",
           "Q694257"
         ],
-        "candidates": [
-          {
-            "qid": "Q32999",
-            "label": "Flughafen Wien-Schwechat",
-            "description": "größter Flughafen Österreichs",
-            "url": "https://www.wikidata.org/wiki/Q32999",
-            "score": 0.775,
-            "confidence": "low",
-            "matched_by": [
-              "name_partial"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "internationaler Flughafen"
-            ],
-            "suggestions": [
-              {
-                "field": "operations.operator",
-                "field_label": "Betreiber",
-                "value": "Flughafen Wien AG",
-                "display_value": "Flughafen Wien AG",
-                "property": "P137",
-                "property_label": "operator",
-                "property_url": "https://www.wikidata.org/wiki/Property:P137",
-                "source_url": "https://www.wikidata.org/wiki/Q32999",
-                "confidence": 0.775,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2517382246
-          }
-        ]
+        "candidates": []
       }
     },
     {
