@@ -2,7 +2,7 @@
   "schema_version": 1,
   "vessel_id": "VES-000142",
   "identity": {
-    "name": "Milla",
+    "name": "VistaMilla",
     "former_names": [],
     "mmsi": "",
     "imo": "",
@@ -13,7 +13,7 @@
     "ship_type": "UNKNOWN",
     "ship_subtype": "UNKNOWN",
     "status": "active",
-    "flag": ""
+    "flag": "UA"
   },
   "technical": {
     "year_built": null,
@@ -25,7 +25,7 @@
   },
   "operations": {
     "operator": "",
-    "owner": "",
+    "owner": "Chervona Ruta",
     "manager": "",
     "cruise_brand": "",
     "home_port": ""
@@ -56,8 +56,8 @@
     "environment": "production",
     "created_at": "2026-09-09T06:26:17.460Z",
     "created_from_submission_id": "SUB-20260909-060738-95FFA1",
-    "updated_at": "2026-09-09T06:47:21.421Z",
-    "updated_by": "vessel-enrichment",
+    "updated_at": "2026-09-09T06:49:33.850Z",
+    "updated_by": "web-ui",
     "change_history": [
       {
         "changed_at": "2026-09-09T06:45:26.500Z",
@@ -115,6 +115,32 @@
               "Q203278",
               "Q775214"
             ]
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-09-09T06:49:33.850Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "identity.name",
+          "classification.flag",
+          "operations.owner"
+        ],
+        "changes": [
+          {
+            "field": "identity.name",
+            "old_value": "Milla",
+            "new_value": "VistaMilla"
+          },
+          {
+            "field": "classification.flag",
+            "old_value": "",
+            "new_value": "UA"
+          },
+          {
+            "field": "operations.owner",
+            "old_value": "",
+            "new_value": "Chervona Ruta"
           }
         ]
       }
