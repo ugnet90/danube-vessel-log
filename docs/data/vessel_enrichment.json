@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-09-09T08:45:44.356994Z",
+  "generated_at": "2026-09-09T11:20:46.605110Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -1971,7 +1971,7 @@
     },
     {
       "vessel_id": "VES-000142",
-      "name": "VistaMilla",
+      "name": "Vista Milla",
       "environment": "production",
       "json_path": "data/vessels/VES-000142.json",
       "missing_fields": [
@@ -2013,7 +2013,7 @@
     },
     {
       "vessel_id": "VES-000143",
-      "name": "VistaLilea",
+      "name": "Vista Lilea",
       "environment": "production",
       "json_path": "data/vessels/VES-000143.json",
       "missing_fields": [
