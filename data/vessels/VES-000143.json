@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000143",
+  "identity": {
+    "name": "VistaLilea",
+    "former_names": [],
+    "mmsi": "272187800",
+    "imo": "",
+    "eni": "07001841",
+    "call_sign": "UXPD"
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "UA"
+  },
+  "technical": {
+    "year_built": 2007,
+    "shipyard": "",
+    "length_m": 110,
+    "width_m": 11.4,
+    "draft_m": null,
+    "passengers": 153
+  },
+  "operations": {
+    "operator": "1AVista Reisen GmbH",
+    "owner": "Chervona Ruta",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": "Kiew"
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-9F876D1B3CDA462E9779D9E807433D78",
+    "primary_submission_id": "SUB-20260909-075841-EA67F5"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-09-09T08:05:15.641Z",
+    "created_from_submission_id": "SUB-20260909-075841-EA67F5",
+    "updated_at": "2026-09-09T08:05:15.641Z",
+    "updated_by": "web-ui"
+  }
+}
