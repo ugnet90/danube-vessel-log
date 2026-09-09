@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000142",
+  "identity": {
+    "name": "Milla",
+    "former_names": [],
+    "mmsi": "",
+    "imo": "",
+    "eni": "07001841",
+    "call_sign": ""
+  },
+  "classification": {
+    "ship_type": "UNKNOWN",
+    "ship_subtype": "UNKNOWN",
+    "status": "active",
+    "flag": ""
+  },
+  "technical": {
+    "year_built": null,
+    "shipyard": "",
+    "length_m": null,
+    "width_m": null,
+    "draft_m": null,
+    "passengers": null
+  },
+  "operations": {
+    "operator": "",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": ""
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-C57C9537FA5547229DF6757FD4812381",
+    "primary_submission_id": "SUB-20260909-060738-95FFA1"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-09-09T06:26:17.460Z",
+    "created_from_submission_id": "SUB-20260909-060738-95FFA1",
+    "updated_at": "2026-09-09T06:26:17.460Z",
+    "updated_by": "web-ui"
+  }
+}

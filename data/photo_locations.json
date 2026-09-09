@@ -1,8 +1,80 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-09-07T14:51:57.000Z",
-  "count": 108,
+  "updated_at": "2026-09-09T05:04:48.000Z",
+  "count": 110,
   "photos": [
+    {
+      "photo_id": "PHOTO-0CF8491F1CBB4FEE8C14172FB872FAF0",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260909-060738-95FFA1",
+      "vessel_id": "VES-000142",
+      "vessel_name": "Milla",
+      "captured_at": "2026-09-09T05:04:48.000Z",
+      "photo_lat": 48.30920833333333,
+      "photo_lon": 14.28361166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 329
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260909-060738-95FFA1"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-0CF8491F1CBB4FEE8C14172FB872FAF0.jpg"
+    },
+    {
+      "photo_id": "PHOTO-C57C9537FA5547229DF6757FD4812381",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260909-060738-95FFA1",
+      "vessel_id": "VES-000142",
+      "vessel_name": "Milla",
+      "captured_at": "2026-09-09T05:04:18.000Z",
+      "photo_lat": 48.30920833333333,
+      "photo_lon": 14.28361166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 329
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260909-060738-95FFA1"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-C57C9537FA5547229DF6757FD4812381.jpg"
+    },
     {
       "photo_id": "PHOTO-A82026DD6CD44044820BCBB133B27973",
       "source_type": "sighting",
@@ -3691,8 +3763,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 70,
+  "sighting_count": 71,
   "sightings": [
+    {
+      "submission_id": "SUB-20260909-060738-95FFA1",
+      "vessel_id": "VES-000142",
+      "vessel_name": "Milla",
+      "captured_at": "2026-09-09T05:04:18.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 329
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
+      "direction": "upstream",
+      "photo_count": 2
+    },
     {
       "submission_id": "SUB-20260907-145222-D2512B",
       "vessel_id": "VES-000121",
