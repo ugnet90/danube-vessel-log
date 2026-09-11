@@ -1,0 +1,123 @@
+{
+  "schema_version": 15,
+  "submission_id": "SUB-20260911-064646-76CDD1",
+  "uploaded_at": "2026-09-11T06:46:46.339Z",
+  "captured_at": "2026-09-11T04:56:35.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000001",
+    "name": "Schiffsanlegestelle Linz-Schloss",
+    "short_name": "Linz-Schloss Nr. 11",
+    "station_number": "11",
+    "location_id": "LOC-001",
+    "area_id": "BTA-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "upstream",
+    "river_km": 2135.3436,
+    "river_km_text": "2135,3+43,6 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 13 m",
+    "entry_count": 3,
+    "entry_height": "0,80 m oder 1,50 m",
+    "latitude": 48.3067095,
+    "longitude": 14.2825785,
+    "address": "Obere Donaulände, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 1,
+  "direction": "upstream",
+  "vessel_name_entered": "TUI Maya",
+  "notes": "",
+  "observer_lat": null,
+  "observer_lon": null,
+  "photos": [
+    {
+      "photo_id": "PHOTO-1B1C64A20C3B48248B6E8E3F53EB3D41",
+      "path": "inbox/photos/2026/09/PHOTO-1B1C64A20C3B48248B6E8E3F53EB3D41.jpg",
+      "filename": "PHOTO-1B1C64A20C3B48248B6E8E3F53EB3D41.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 382546,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-09-11T04:56:35.000Z",
+      "photo_lat": null,
+      "photo_lon": null,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-E75DE4BFBFEE4D7693F6CB0A22F7CACB",
+      "path": "inbox/photos/2026/09/PHOTO-E75DE4BFBFEE4D7693F6CB0A22F7CACB.jpg",
+      "filename": "PHOTO-E75DE4BFBFEE4D7693F6CB0A22F7CACB.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 416566,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-09-11T04:58:02.000Z",
+      "photo_lat": 48.30865833333333,
+      "photo_lon": 14.28433833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 248
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000111",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000111"
+        ],
+        "matched_value": "TUI Maya",
+        "normalized_input": "tuimaya"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": null,
+  "photo_lon": null
+}
