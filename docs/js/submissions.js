@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/submissions.js
-// Version: 0.15.8
-// Updated: 2026-08-26
+// Version: 0.15.16
+// Updated: 2026-09-11
 
 "use strict";
 
@@ -1044,11 +1044,44 @@ document.addEventListener("DOMContentLoaded", () => {
         `${submissions.length === 1 ? "" : "en"} verbleibend.`
       );
     } catch (error) {
-      showVesselCreateResult(
-        "error",
+      const message =
         error instanceof Error
           ? error.message
-          : String(error)
+          : String(error);
+
+      const githubStep =
+        error?.data &&
+        typeof error.data === "object" &&
+        typeof error.data.github_step === "string"
+          ? error.data.github_step.trim()
+          : "";
+
+      const githubStatus =
+        error?.data &&
+        typeof error.data === "object" &&
+        Number.isInteger(error.data.github_status)
+          ? error.data.github_status
+          : null;
+
+      const technicalDetails = [];
+
+      if (githubStep) {
+        technicalDetails.push(
+          `GitHub-Schritt: ${githubStep}`
+        );
+      }
+
+      if (githubStatus !== null) {
+        technicalDetails.push(
+          `HTTP ${githubStatus}`
+        );
+      }
+
+      showVesselCreateResult(
+        "error",
+        technicalDetails.length > 0
+          ? `${message} (${technicalDetails.join(" · ")})`
+          : message
       );
     } finally {
       setVesselCreateBusy(false);
