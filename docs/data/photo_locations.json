@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "updated_at": "2026-09-11T05:01:23.000Z",
-  "count": 121,
+  "count": 126,
   "photos": [
     {
       "photo_id": "PHOTO-8E6C6128C4DB4D439B34012978E2A066",
@@ -76,6 +76,150 @@
       "path": "inbox/photos/2026/09/PHOTO-E648A29715844D519BF1BEA4B9DE72D5.jpg"
     },
     {
+      "photo_id": "PHOTO-043FD036EAB549B598509CE32FCE603F",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260911-064526-251A3B",
+      "vessel_id": "VES-000144",
+      "vessel_name": "A-ROSA DONNA",
+      "captured_at": "2026-09-11T05:00:22.000Z",
+      "photo_lat": 48.30753333333333,
+      "photo_lon": 14.28515,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 113
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 124.5,
+      "vessel_width_m": 14.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260911-064526-251A3B"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-043FD036EAB549B598509CE32FCE603F.jpg"
+    },
+    {
+      "photo_id": "PHOTO-3DBBDAF5BAAA43EC8AA49878527CF64F",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260911-064526-251A3B",
+      "vessel_id": "VES-000144",
+      "vessel_name": "A-ROSA DONNA",
+      "captured_at": "2026-09-11T04:59:39.000Z",
+      "photo_lat": 48.30792166666667,
+      "photo_lon": 14.28488666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 158
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 124.5,
+      "vessel_width_m": 14.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260911-064526-251A3B"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-3DBBDAF5BAAA43EC8AA49878527CF64F.jpg"
+    },
+    {
+      "photo_id": "PHOTO-99349F3AD89444B6ADF8F4A2BE223D70",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260911-064526-251A3B",
+      "vessel_id": "VES-000144",
+      "vessel_name": "A-ROSA DONNA",
+      "captured_at": "2026-09-11T04:59:35.000Z",
+      "photo_lat": 48.30791333333333,
+      "photo_lon": 14.28489666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 157
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 124.5,
+      "vessel_width_m": 14.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260911-064526-251A3B"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-99349F3AD89444B6ADF8F4A2BE223D70.jpg"
+    },
+    {
+      "photo_id": "PHOTO-CDC20C4BBE1E4E768CAE2005666B9D0E",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260911-064526-251A3B",
+      "vessel_id": "VES-000144",
+      "vessel_name": "A-ROSA DONNA",
+      "captured_at": "2026-09-11T04:58:57.000Z",
+      "photo_lat": 48.30826166666667,
+      "photo_lon": 14.28465,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 199
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 124.5,
+      "vessel_width_m": 14.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260911-064526-251A3B"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-CDC20C4BBE1E4E768CAE2005666B9D0E.jpg"
+    },
+    {
       "photo_id": "PHOTO-E75DE4BFBFEE4D7693F6CB0A22F7CACB",
       "source_type": "sighting",
       "submission_id": "SUB-20260911-064646-76CDD1",
@@ -110,6 +254,42 @@
         "submission_id": "SUB-20260911-064646-76CDD1"
       },
       "path": "inbox/photos/2026/09/PHOTO-E75DE4BFBFEE4D7693F6CB0A22F7CACB.jpg"
+    },
+    {
+      "photo_id": "PHOTO-17DE05A3768940DA8536234A854EE610",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260911-064526-251A3B",
+      "vessel_id": "VES-000144",
+      "vessel_name": "A-ROSA DONNA",
+      "captured_at": "2026-09-11T04:57:55.000Z",
+      "photo_lat": 48.308655,
+      "photo_lon": 14.28434666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 248
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 124.5,
+      "vessel_width_m": 14.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260911-064526-251A3B"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-17DE05A3768940DA8536234A854EE610.jpg"
     },
     {
       "photo_id": "PHOTO-28EF7CF881C84BCE85973B8D788A1EB0",
@@ -4123,7 +4303,7 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 74,
+  "sighting_count": 75,
   "sightings": [
     {
       "submission_id": "SUB-20260911-065428-515059",
@@ -4182,6 +4362,35 @@
       "vessel_width_m": 11.45,
       "direction": "upstream",
       "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20260911-064526-251A3B",
+      "vessel_id": "VES-000144",
+      "vessel_name": "A-ROSA DONNA",
+      "captured_at": "2026-09-11T04:56:26.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 124.5,
+      "vessel_width_m": 14.4,
+      "direction": "upstream",
+      "photo_count": 6
     },
     {
       "submission_id": "SUB-20260909-075841-EA67F5",
