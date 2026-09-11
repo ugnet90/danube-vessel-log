@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.15.13
- * Updated: 2026-09-07
+ * Version: 0.15.14
+ * Updated: 2026-09-11
  */
 
 const API_VERSION = "2022-11-28";
@@ -127,6 +127,28 @@ const REFERENCE_CACHE_TTL_MS =
 
 let vesselReferenceCache = null;
 const VESSEL_ID_PATTERN = /^VES-\d{6}$/;
+
+/*
+ * Kanonische Schreibregeln für Flottennamen.
+ *
+ * Die Eingabe darf bei den hinterlegten Flotten hinsichtlich
+ * Groß-/Kleinschreibung sowie Trennzeichen variieren. Gespeichert
+ * wird ausschließlich die kanonische Form.
+ *
+ * Neue Flotten können hier ergänzt werden, ohne die allgemeine
+ * Matching-Logik des Workers zu verändern.
+ */
+const VESSEL_NAME_CANONICALIZATION_RULES = Object.freeze([
+  Object.freeze({
+    rule_id: "fleet-a-rosa",
+    canonical_prefix: "A-ROSA",
+    match_token_prefixes: Object.freeze([
+      Object.freeze(["a", "rosa"]),
+      Object.freeze(["arosa"])
+    ]),
+    suffix_case: "upper"
+  })
+]);
 
 const VESSEL_ENRICHMENT_FIELDS = Object.freeze({
   "identity.mmsi": { section: "identity", key: "mmsi", type: "mmsi" },
@@ -10359,10 +10381,15 @@ function validateNewVesselInput(
     };
   }
 
-  const name =
+  const enteredName =
     normalizeIndexText(
       input.name,
       150
+    );
+
+  const name =
+    canonicalizeVesselNameForStorage(
+      enteredName
     );
 
   if (!name) {
@@ -10668,10 +10695,15 @@ function validateVesselUpdateInput(
     };
   }
 
-  const name =
+  const enteredName =
     normalizeIndexText(
       input.name,
       150
+    );
+
+  const name =
+    canonicalizeVesselNameForStorage(
+      enteredName
     );
 
   if (!name) {
@@ -11507,7 +11539,10 @@ function applyCandidateOrigin({
     addField("operations.home_port", candidate.home_port);
   } else {
     const currentName = String(vessel.identity.name ?? "").trim();
-    const candidateName = String(candidate.name ?? "").trim();
+    const candidateName =
+      canonicalizeVesselNameForStorage(
+        String(candidate.name ?? "").trim()
+      );
 
     const sameNormalizedName =
       currentName &&
@@ -16842,6 +16877,94 @@ async function loadCanonicalVessel(
     vessel
   };
 }
+
+function canonicalizeVesselNameForStorage(value) {
+  const original =
+    String(value ?? "")
+      .trim()
+      .replace(/\s+/g, " ");
+
+  if (!original) {
+    return "";
+  }
+
+  const tokens =
+    buildVesselNameKeys(
+      original
+    )
+      .name_key
+      .split(/\s+/)
+      .filter(Boolean);
+
+  for (
+    const rule
+    of VESSEL_NAME_CANONICALIZATION_RULES
+  ) {
+    const prefixes =
+      Array.isArray(
+        rule.match_token_prefixes
+      )
+        ? rule.match_token_prefixes
+        : [];
+
+    for (const prefix of prefixes) {
+      if (
+        !Array.isArray(prefix) ||
+        prefix.length === 0 ||
+        tokens.length <= prefix.length
+      ) {
+        continue;
+      }
+
+      const matchesPrefix =
+        prefix.every(
+          (token, index) =>
+            tokens[index] === token
+        );
+
+      if (!matchesPrefix) {
+        continue;
+      }
+
+      let suffix =
+        tokens
+          .slice(prefix.length)
+          .join(" ");
+
+      if (
+        rule.suffix_case === "upper"
+      ) {
+        suffix =
+          suffix.toLocaleUpperCase(
+            "de"
+          );
+      } else if (
+        rule.suffix_case === "lower"
+      ) {
+        suffix =
+          suffix.toLocaleLowerCase(
+            "de"
+          );
+      }
+
+      const canonicalPrefix =
+        String(
+          rule.canonical_prefix ??
+          ""
+        ).trim();
+
+      if (
+        canonicalPrefix &&
+        suffix
+      ) {
+        return `${canonicalPrefix} ${suffix}`;
+      }
+    }
+  }
+
+  return original;
+}
+
 
 const VESSEL_NAME_PREFIXES =
   new Set([
