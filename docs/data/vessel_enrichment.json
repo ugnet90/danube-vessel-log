@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-09-11T07:42:25.825606Z",
+  "generated_at": "2026-09-11T08:21:56.199918Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 44,
     "vessels_incomplete": 44,
     "vessels_complete": 0,
-    "candidate_matches": 1,
-    "matched_no_new_data": 27,
+    "candidate_matches": 0,
+    "matched_no_new_data": 28,
     "low_confidence": 0,
     "no_match": 16,
     "lookup_errors": 0,
-    "suggestions_total": 3
+    "suggestions_total": 0
   },
   "vessels": [
     {
@@ -2052,18 +2052,6 @@
       "json_path": "data/vessels/VES-000144.json",
       "missing_fields": [
         {
-          "field": "technical.shipyard",
-          "label": "Werft"
-        },
-        {
-          "field": "technical.draft_m",
-          "label": "Tiefgang"
-        },
-        {
-          "field": "operations.owner",
-          "label": "Eigentümer"
-        },
-        {
           "field": "operations.manager",
           "label": "Manager"
         },
@@ -2072,86 +2060,15 @@
           "label": "Marke"
         }
       ],
-      "missing_count": 5,
+      "missing_count": 2,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
-        "accepted_qid": "",
+        "accepted_qid": "Q277902",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q277902",
-            "label": "A-Rosa Donna",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q277902",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "identity.imo",
-              "identity.eni",
-              "identity.mmsi"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [
-                "211160680"
-              ],
-              "imo": [
-                "9271470"
-              ],
-              "eni": [
-                "04801130"
-              ],
-              "call_sign": [
-                "DC8431"
-              ]
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Neptun Werft",
-                "display_value": "Neptun Werft",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q277902",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 1.87,
-                "display_value": 1.87,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q277902",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "A-ROSA Flussschiff",
-                "display_value": "A-ROSA Flussschiff",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q277902",
-                "confidence": 1.0,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2406117061
-          }
-        ]
+        "candidates": []
       }
     }
   ]
