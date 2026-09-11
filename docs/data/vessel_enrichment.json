@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-09-09T11:23:08.420335Z",
+  "generated_at": "2026-09-11T06:26:05.125946Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -191,7 +191,7 @@
     },
     {
       "vessel_id": "VES-000103",
-      "name": "A-Rosa Riva",
+      "name": "A-ROSA RIVA",
       "environment": "production",
       "json_path": "data/vessels/VES-000103.json",
       "missing_fields": [
@@ -360,7 +360,7 @@
     },
     {
       "vessel_id": "VES-000107",
-      "name": "A-Rosa Flora",
+      "name": "A-ROSA FLORA",
       "environment": "production",
       "json_path": "data/vessels/VES-000107.json",
       "missing_fields": [
@@ -1945,7 +1945,7 @@
     },
     {
       "vessel_id": "VES-000141",
-      "name": "A-Rosa Bella",
+      "name": "A-ROSA BELLA",
       "environment": "production",
       "json_path": "data/vessels/VES-000141.json",
       "missing_fields": [
