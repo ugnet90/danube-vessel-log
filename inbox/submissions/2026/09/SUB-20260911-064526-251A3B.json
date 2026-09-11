@@ -1,0 +1,213 @@
+{
+  "schema_version": 15,
+  "submission_id": "SUB-20260911-064526-251A3B",
+  "uploaded_at": "2026-09-11T06:45:26.432Z",
+  "captured_at": "2026-09-11T04:56:26.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000002",
+    "name": "Schiffsanlegestelle Linz-Nibelungen",
+    "short_name": "Linz-Nibelungen Nr. 12",
+    "station_number": "12",
+    "location_id": "LOC-001",
+    "area_id": "BTA-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "upstream",
+    "river_km": 2135.1955,
+    "river_km_text": "2135,2-4,5 m",
+    "facility_type": "Gitterkahn",
+    "mooring_order": "max. Breite 30 m",
+    "entry_count": 4,
+    "entry_height": "0,85 m, 1,50 m oder 2,10 m",
+    "latitude": 48.3071005,
+    "longitude": 14.284248,
+    "address": "Obere Donaulände, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 2,
+  "direction": "upstream",
+  "vessel_name_entered": "A-rosa Donna",
+  "notes": "",
+  "observer_lat": null,
+  "observer_lon": null,
+  "photos": [
+    {
+      "photo_id": "PHOTO-2ECE7AD34E9142D6923668B0B42320EE",
+      "path": "inbox/photos/2026/09/PHOTO-2ECE7AD34E9142D6923668B0B42320EE.jpg",
+      "filename": "PHOTO-2ECE7AD34E9142D6923668B0B42320EE.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 310068,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-09-11T04:56:26.000Z",
+      "photo_lat": null,
+      "photo_lon": null,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-17DE05A3768940DA8536234A854EE610",
+      "path": "inbox/photos/2026/09/PHOTO-17DE05A3768940DA8536234A854EE610.jpg",
+      "filename": "PHOTO-17DE05A3768940DA8536234A854EE610.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 290751,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-09-11T04:57:55.000Z",
+      "photo_lat": 48.308655,
+      "photo_lon": 14.28434666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 248
+      }
+    },
+    {
+      "photo_id": "PHOTO-CDC20C4BBE1E4E768CAE2005666B9D0E",
+      "path": "inbox/photos/2026/09/PHOTO-CDC20C4BBE1E4E768CAE2005666B9D0E.jpg",
+      "filename": "PHOTO-CDC20C4BBE1E4E768CAE2005666B9D0E.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 339907,
+      "sequence": 3,
+      "metadata_version": 1,
+      "captured_at": "2026-09-11T04:58:57.000Z",
+      "photo_lat": 48.30826166666667,
+      "photo_lon": 14.28465,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 199
+      }
+    },
+    {
+      "photo_id": "PHOTO-99349F3AD89444B6ADF8F4A2BE223D70",
+      "path": "inbox/photos/2026/09/PHOTO-99349F3AD89444B6ADF8F4A2BE223D70.jpg",
+      "filename": "PHOTO-99349F3AD89444B6ADF8F4A2BE223D70.jpg",
+      "original_filename": "shortcut-photo-04.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 429182,
+      "sequence": 4,
+      "metadata_version": 1,
+      "captured_at": "2026-09-11T04:59:35.000Z",
+      "photo_lat": 48.30791333333333,
+      "photo_lon": 14.28489666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 157
+      }
+    },
+    {
+      "photo_id": "PHOTO-3DBBDAF5BAAA43EC8AA49878527CF64F",
+      "path": "inbox/photos/2026/09/PHOTO-3DBBDAF5BAAA43EC8AA49878527CF64F.jpg",
+      "filename": "PHOTO-3DBBDAF5BAAA43EC8AA49878527CF64F.jpg",
+      "original_filename": "shortcut-photo-05.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 362195,
+      "sequence": 5,
+      "metadata_version": 1,
+      "captured_at": "2026-09-11T04:59:39.000Z",
+      "photo_lat": 48.30792166666667,
+      "photo_lon": 14.28488666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 158
+      }
+    },
+    {
+      "photo_id": "PHOTO-043FD036EAB549B598509CE32FCE603F",
+      "path": "inbox/photos/2026/09/PHOTO-043FD036EAB549B598509CE32FCE603F.jpg",
+      "filename": "PHOTO-043FD036EAB549B598509CE32FCE603F.jpg",
+      "original_filename": "shortcut-photo-06.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 276002,
+      "sequence": 6,
+      "metadata_version": 1,
+      "captured_at": "2026-09-11T05:00:22.000Z",
+      "photo_lat": 48.30753333333333,
+      "photo_lon": 14.28515,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 113
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "a rosa donna"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": null,
+  "photo_lon": null
+}
