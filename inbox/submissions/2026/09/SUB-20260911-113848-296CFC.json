@@ -1,0 +1,100 @@
+{
+  "schema_version": 15,
+  "submission_id": "SUB-20260911-113848-296CFC",
+  "uploaded_at": "2026-09-11T11:38:48.129Z",
+  "captured_at": "2026-09-11T11:23:43.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": 178
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000004",
+    "name": "Schiffsanlegestelle Linz-Lentos",
+    "short_name": "Linz-Lentos Nr. 14",
+    "station_number": "14",
+    "location_id": "LOC-001",
+    "area_id": "BTA-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2134.92,
+    "river_km_text": "2134,9+20 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "2, max. Breite 32 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.3084435,
+    "longitude": 14.2877255,
+    "address": "Ernst-Koref-Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 1,
+  "direction": "upstream",
+  "vessel_name_entered": "France",
+  "notes": "",
+  "observer_lat": 48.30820833333333,
+  "observer_lon": 14.28506666666667,
+  "photos": [
+    {
+      "photo_id": "PHOTO-12B87BA62E1744F4B54AA927E3686DEA",
+      "path": "inbox/photos/2026/09/PHOTO-12B87BA62E1744F4B54AA927E3686DEA.jpg",
+      "filename": "PHOTO-12B87BA62E1744F4B54AA927E3686DEA.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 400531,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-09-11T11:23:43.000Z",
+      "photo_lat": 48.30820833333333,
+      "photo_lon": 14.28506666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 178
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000116",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000116"
+        ],
+        "matched_value": "France",
+        "normalized_input": "france"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30820833333333,
+  "photo_lon": 14.28506666666667
+}
