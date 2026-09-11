@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.15**  
+Aktuelle Version: **0.15.16**  
 Stand: **11.09.2026**
 
 ## 1. Projektzweck
@@ -3435,3 +3435,59 @@ die Submission-Datei selbst muss dafür nicht angepasst werden.
 
 - `cloudflare/worker.js`: Version `0.15.15`; Katalogtreffer liefern kanonische Flottennamen.
 - `README.md`: vollständige Projektdokumentation; aktueller Projektstand `0.15.15`.
+
+
+## 0.15.16 – sichere atomare Commits bei parallelen GitHub-Änderungen
+
+Version **0.15.16** macht die atomaren Worker-Commits robust gegen einen
+kurzzeitigen Branch-Konflikt, wenn sich `main` während eines laufenden
+Speichervorgangs durch einen anderen Commit weiterbewegt.
+
+Ein typischer Fall ist der automatisch ausgelöste Workflow
+**Build vessel enrichment**: Änderungen an `data/vessels.csv` oder
+`data/vessels/*.json` können einen Folge-Commit des Workflows auslösen, während
+der Worker gerade eine neue Sichtung oder ein neues Schiff speichert.
+
+### Sicherer Retry
+
+Schlägt ausschließlich das abschließende Aktualisieren des `main`-Refs mit
+einem GitHub-Konflikt (`409`/`422`) fehl, liest der Worker den neuen
+Branch-Stand. Ein automatischer Retry erfolgt nur dann, wenn **keine der vom
+laufenden atomaren Commit betroffenen Dateien** zwischenzeitlich verändert
+wurde.
+
+Damit gilt:
+
+- nur ein fremder Commit an anderen Dateien, z. B.
+  `docs/data/vessel_enrichment.json` -> der Worker setzt seinen Commit sicher
+  auf dem neuen `main`-Stand nochmals auf;
+- eine parallele Änderung an `data/vessels.csv`, derselben Submission,
+  `data/sightings.json`, dem Kartenindex oder einer anderen Zieldatei -> kein
+  automatisches Überschreiben; stattdessen sauberer Konflikt mit Aufforderung
+  zum Neuladen;
+- maximal drei sichere Commit-Versuche;
+- doppelte Dateipfade innerhalb eines atomaren Commits werden vorab abgefangen.
+
+Die Änderung betrifft die zentrale Funktion `createAtomicGitHubCommit()` und
+kommt damit auch anderen atomaren Worker-Schreibvorgängen zugute.
+
+Kann ein Fehler nicht automatisch aufgelöst werden, zeigt die Neuanlage in
+`submissions.html` zusätzlich den betroffenen GitHub-Schritt und den HTTP-Status
+an. Dadurch bleibt ein weiterer Fehler eindeutig diagnostizierbar, statt nur die
+allgemeine Meldung „konnte nicht atomar gespeichert werden“ auszugeben.
+
+### Einspielen 0.15.16
+
+1. `cloudflare/worker.js`, `docs/js/submissions.js` und `README.md` committen.
+2. Cloudflare Worker neu deployen.
+3. GitHub Pages normal aktualisieren lassen bzw. die Sichtungsseite danach
+   vollständig neu laden.
+4. Kein Rebuild und kein `Sync public data` erforderlich.
+5. Die fehlgeschlagene Neuanlage von `A-ROSA DONNA` anschließend erneut
+   ausführen.
+
+### Dateiversionen 0.15.16
+
+- `cloudflare/worker.js`: Version `0.15.16`; sicherer Retry atomarer GitHub-Commits bei parallelen Branch-Änderungen.
+- `docs/js/submissions.js`: Version `0.15.16`; zeigt bei verbleibenden Neuanlagefehlern GitHub-Schritt und HTTP-Status.
+- `README.md`: vollständige Projektdokumentation; aktueller Projektstand `0.15.16`.
