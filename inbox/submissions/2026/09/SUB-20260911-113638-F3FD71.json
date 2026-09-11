@@ -1,0 +1,123 @@
+{
+  "schema_version": 15,
+  "submission_id": "SUB-20260911-113638-F3FD71",
+  "uploaded_at": "2026-09-11T11:36:38.662Z",
+  "captured_at": "2026-09-11T11:21:50.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": 69
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000003",
+    "name": "Schiffsanlegestelle Linz-Hauptplatz",
+    "short_name": "Linz-Hauptplatz Nr. 13",
+    "station_number": "13",
+    "location_id": "LOC-001",
+    "area_id": "BTA-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2135.045,
+    "river_km_text": "2135,0+45 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 29 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.307747,
+    "longitude": 14.2862415,
+    "address": "Dr. Ernst Koref Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 1,
+  "direction": "upstream",
+  "vessel_name_entered": "Thurgau Prestige",
+  "notes": "",
+  "observer_lat": 48.30733666666666,
+  "observer_lon": 14.285725,
+  "photos": [
+    {
+      "photo_id": "PHOTO-A56C2EA444D44E99B949BDCBC6DD7209",
+      "path": "inbox/photos/2026/09/PHOTO-A56C2EA444D44E99B949BDCBC6DD7209.jpg",
+      "filename": "PHOTO-A56C2EA444D44E99B949BDCBC6DD7209.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 524267,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-09-11T11:21:50.000Z",
+      "photo_lat": 48.30733666666666,
+      "photo_lon": 14.285725,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 69
+      }
+    },
+    {
+      "photo_id": "PHOTO-1F5BCABAF9EB40BA8B76187A8E499A6A",
+      "path": "inbox/photos/2026/09/PHOTO-1F5BCABAF9EB40BA8B76187A8E499A6A.jpg",
+      "filename": "PHOTO-1F5BCABAF9EB40BA8B76187A8E499A6A.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 460485,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-09-11T11:22:14.000Z",
+      "photo_lat": 48.30754666666667,
+      "photo_lon": 14.28557,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 95
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000128",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000128"
+        ],
+        "matched_value": "Thurgau Prestige",
+        "normalized_input": "thurgauprestige"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30733666666666,
+  "photo_lon": 14.285725
+}
