@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-09-11T08:21:56.199918Z",
+  "generated_at": "2026-09-11T11:51:56.941306Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,11 +32,11 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 44,
-    "vessels_incomplete": 44,
+    "vessels_total": 45,
+    "vessels_incomplete": 45,
     "vessels_complete": 0,
     "candidate_matches": 0,
-    "matched_no_new_data": 28,
+    "matched_no_new_data": 29,
     "low_confidence": 0,
     "no_match": 16,
     "lookup_errors": 0,
@@ -2067,6 +2067,48 @@
         "error": "",
         "warnings": [],
         "accepted_qid": "Q277902",
+        "rejected_qids": [],
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000145",
+      "name": "Viva Moments",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000145.json",
+      "missing_fields": [
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 6,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "matched_no_new_data",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
         "rejected_qids": [],
         "candidates": []
       }
