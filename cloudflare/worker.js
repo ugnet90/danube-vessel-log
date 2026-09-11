@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.15.15
+ * Version: 0.15.16
  * Updated: 2026-09-11
  */
 
@@ -9428,14 +9428,27 @@ async function handleCreateVessel(request, env) {
   });
 
   if (!commitResult.ok) {
+    const concurrentTargetChange =
+      commitResult.step ===
+        "update_ref_conflict_target_changed";
+
     return jsonResponse({
       ok: false,
       error:
-        "Das Schiff konnte nicht atomar in JSON und CSV gespeichert werden.",
+        concurrentTargetChange
+          ? "Während des Speicherns wurden dieselben Schiffsdaten parallel geändert. " +
+            "Bitte die Seite neu laden und die Neuanlage nochmals ausführen."
+          : "Das Schiff konnte nicht atomar in JSON und CSV gespeichert werden.",
       github_step: commitResult.step,
       github_status: commitResult.status,
       github_response: commitResult.body
-    }, commitResult.status === 422 ? 409 : 502);
+    },
+      concurrentTargetChange ||
+      commitResult.status === 409 ||
+      commitResult.status === 422
+        ? 409
+        : 502
+    );
   }
 
   return jsonResponse({
@@ -17388,6 +17401,11 @@ function createSubmissionPath(capturedAt, submissionId) {
 
 /**
  * Erzeugt mehrere Dateien atomar in einem Git-Commit.
+ *
+ * Falls sich main zwischen Lesen des Ausgangsstands und dem finalen
+ * Ref-Update durch einen anderen Commit weiterbewegt, wird nur dann
+ * automatisch erneut versucht, wenn keine der von diesem Commit
+ * betroffenen Dateien zwischenzeitlich verändert wurde.
  */
 async function createAtomicGitHubCommit({
   env,
@@ -17400,58 +17418,38 @@ async function createAtomicGitHubCommit({
 
   const headers = githubHeaders(env);
 
-  // 1. Aktuellen Branch-Stand lesen
-  const refResult = await githubRequest(
-    `${baseUrl}/git/ref/heads/${BRANCH}`,
-    { method: "GET", headers }
-  );
+  const normalizedFiles =
+    Array.isArray(files)
+      ? files.filter(file =>
+          file &&
+          typeof file.path === "string" &&
+          file.path.trim()
+        )
+      : [];
 
-  if (!refResult.ok) {
-    return {
-      ...refResult,
-      step: "get_ref"
-    };
-  }
+  const targetPaths =
+    normalizedFiles.map(file =>
+      file.path.trim()
+    );
 
-  const parentCommitSha = refResult.body.object?.sha;
-
-  if (!parentCommitSha) {
-    return {
-      ok: false,
-      step: "get_ref",
-      status: 502,
-      body: "GitHub lieferte keinen Commit-SHA."
-    };
-  }
-
-  // 2. Basis-Tree des aktuellen Commits lesen
-  const commitResult = await githubRequest(
-    `${baseUrl}/git/commits/${parentCommitSha}`,
-    { method: "GET", headers }
-  );
-
-  if (!commitResult.ok) {
-    return {
-      ...commitResult,
-      step: "get_parent_commit"
-    };
-  }
-
-  const baseTreeSha = commitResult.body.tree?.sha;
-
-  if (!baseTreeSha) {
+  if (
+    targetPaths.length !==
+    new Set(targetPaths).size
+  ) {
     return {
       ok: false,
-      step: "get_parent_commit",
-      status: 502,
-      body: "GitHub lieferte keinen Tree-SHA."
+      step: "validate_files",
+      status: 500,
+      body:
+        "Der atomare Commit enthält denselben Dateipfad mehrfach."
     };
   }
 
-  // 3. Für jede Datei einen Blob erzeugen
+  // Die Blobs sind unabhängig vom Basis-Tree und können bei einem
+  // sicheren Retry wiederverwendet werden.
   const treeEntries = [];
 
-  for (const file of files) {
+  for (const file of normalizedFiles) {
     if (file.delete === true) {
       treeEntries.push({
         path: file.path,
@@ -17492,72 +17490,343 @@ async function createAtomicGitHubCommit({
     });
   }
 
-  // 4. Neuen Tree erzeugen
-  const treeResult = await githubRequest(
-    `${baseUrl}/git/trees`,
-    {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        base_tree: baseTreeSha,
-        tree: treeEntries
-      })
+  const initialBase =
+    await loadAtomicCommitBase({
+      baseUrl,
+      headers
+    });
+
+  if (!initialBase.ok) {
+    return initialBase;
+  }
+
+  let parentCommitSha =
+    initialBase.commitSha;
+  let baseTreeSha =
+    initialBase.treeSha;
+
+  const maxAttempts = 3;
+
+  for (
+    let attempt = 1;
+    attempt <= maxAttempts;
+    attempt += 1
+  ) {
+    const attemptParentCommitSha =
+      parentCommitSha;
+    const attemptBaseTreeSha =
+      baseTreeSha;
+
+    const treeResult = await githubRequest(
+      `${baseUrl}/git/trees`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          base_tree: attemptBaseTreeSha,
+          tree: treeEntries
+        })
+      }
+    );
+
+    if (!treeResult.ok) {
+      return {
+        ...treeResult,
+        step: "create_tree"
+      };
     }
+
+    const newCommitResult = await githubRequest(
+      `${baseUrl}/git/commits`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          message,
+          tree: treeResult.body.sha,
+          parents: [attemptParentCommitSha]
+        })
+      }
+    );
+
+    if (!newCommitResult.ok) {
+      return {
+        ...newCommitResult,
+        step: "create_commit"
+      };
+    }
+
+    const newCommitSha =
+      newCommitResult.body.sha;
+
+    const updateRefResult = await githubRequest(
+      `${baseUrl}/git/refs/heads/${BRANCH}`,
+      {
+        method: "PATCH",
+        headers,
+        body: JSON.stringify({
+          sha: newCommitSha,
+          force: false
+        })
+      }
+    );
+
+    if (updateRefResult.ok) {
+      return {
+        ok: true,
+        commitSha: newCommitSha,
+        retry_count: attempt - 1
+      };
+    }
+
+    const refConflict =
+      updateRefResult.status === 409 ||
+      updateRefResult.status === 422;
+
+    if (
+      !refConflict ||
+      attempt >= maxAttempts
+    ) {
+      return {
+        ...updateRefResult,
+        step: "update_ref"
+      };
+    }
+
+    /*
+     * main kann sich z. B. durch einen gleichzeitig laufenden
+     * GitHub-Actions-Commit weiterbewegen. Vor einem Retry wird deshalb
+     * geprüft, ob eine unserer Zieldateien betroffen war.
+     */
+    const latestBase =
+      await loadAtomicCommitBase({
+        baseUrl,
+        headers
+      });
+
+    if (!latestBase.ok) {
+      return {
+        ...latestBase,
+        step:
+          latestBase.step ??
+          "retry_get_ref"
+      };
+    }
+
+    if (
+      latestBase.commitSha ===
+      attemptParentCommitSha
+    ) {
+      return {
+        ...updateRefResult,
+        step: "update_ref"
+      };
+    }
+
+    const safetyCheck =
+      await compareAtomicTargetPaths({
+        baseUrl,
+        headers,
+        previousTreeSha:
+          attemptBaseTreeSha,
+        latestTreeSha:
+          latestBase.treeSha,
+        targetPaths
+      });
+
+    if (!safetyCheck.ok) {
+      return safetyCheck;
+    }
+
+    if (safetyCheck.changedPaths.length > 0) {
+      return {
+        ok: false,
+        step:
+          "update_ref_conflict_target_changed",
+        status: 409,
+        body: {
+          message:
+            "Mindestens eine Zieldatei wurde parallel geändert.",
+          changed_paths:
+            safetyCheck.changedPaths
+        }
+      };
+    }
+
+    parentCommitSha =
+      latestBase.commitSha;
+    baseTreeSha =
+      latestBase.treeSha;
+  }
+
+  return {
+    ok: false,
+    step: "update_ref",
+    status: 409,
+    body:
+      "Der Branch konnte nach mehreren sicheren Versuchen nicht aktualisiert werden."
+  };
+}
+
+async function loadAtomicCommitBase({
+  baseUrl,
+  headers
+}) {
+  const refResult = await githubRequest(
+    `${baseUrl}/git/ref/heads/${BRANCH}`,
+    { method: "GET", headers }
   );
 
-  if (!treeResult.ok) {
+  if (!refResult.ok) {
     return {
-      ...treeResult,
-      step: "create_tree"
+      ...refResult,
+      step: "get_ref"
     };
   }
 
-  // 5. Commit erzeugen
-  const newCommitResult = await githubRequest(
-    `${baseUrl}/git/commits`,
-    {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        message,
-        tree: treeResult.body.sha,
-        parents: [parentCommitSha]
-      })
-    }
-  );
+  const commitSha =
+    refResult.body.object?.sha;
 
-  if (!newCommitResult.ok) {
+  if (!commitSha) {
     return {
-      ...newCommitResult,
-      step: "create_commit"
+      ok: false,
+      step: "get_ref",
+      status: 502,
+      body:
+        "GitHub lieferte keinen Commit-SHA."
     };
   }
 
-  const newCommitSha = newCommitResult.body.sha;
-
-  // 6. Branch auf den neuen Commit setzen
-  const updateRefResult = await githubRequest(
-    `${baseUrl}/git/refs/heads/${BRANCH}`,
-    {
-      method: "PATCH",
-      headers,
-      body: JSON.stringify({
-        sha: newCommitSha,
-        force: false
-      })
-    }
+  const commitResult = await githubRequest(
+    `${baseUrl}/git/commits/${commitSha}`,
+    { method: "GET", headers }
   );
 
-  if (!updateRefResult.ok) {
+  if (!commitResult.ok) {
     return {
-      ...updateRefResult,
-      step: "update_ref"
+      ...commitResult,
+      step: "get_parent_commit"
+    };
+  }
+
+  const treeSha =
+    commitResult.body.tree?.sha;
+
+  if (!treeSha) {
+    return {
+      ok: false,
+      step: "get_parent_commit",
+      status: 502,
+      body:
+        "GitHub lieferte keinen Tree-SHA."
     };
   }
 
   return {
     ok: true,
-    commitSha: newCommitSha
+    commitSha,
+    treeSha
+  };
+}
+
+async function compareAtomicTargetPaths({
+  baseUrl,
+  headers,
+  previousTreeSha,
+  latestTreeSha,
+  targetPaths
+}) {
+  const previousResult =
+    await loadGitTreePathShas({
+      baseUrl,
+      headers,
+      treeSha: previousTreeSha,
+      targetPaths
+    });
+
+  if (!previousResult.ok) {
+    return previousResult;
+  }
+
+  const latestResult =
+    await loadGitTreePathShas({
+      baseUrl,
+      headers,
+      treeSha: latestTreeSha,
+      targetPaths
+    });
+
+  if (!latestResult.ok) {
+    return latestResult;
+  }
+
+  const changedPaths =
+    targetPaths.filter(path =>
+      previousResult.pathShas[path] !==
+      latestResult.pathShas[path]
+    );
+
+  return {
+    ok: true,
+    changedPaths
+  };
+}
+
+async function loadGitTreePathShas({
+  baseUrl,
+  headers,
+  treeSha,
+  targetPaths
+}) {
+  const treeResult = await githubRequest(
+    `${baseUrl}/git/trees/${treeSha}?recursive=1`,
+    { method: "GET", headers }
+  );
+
+  if (!treeResult.ok) {
+    return {
+      ...treeResult,
+      step: "compare_target_paths"
+    };
+  }
+
+  if (treeResult.body?.truncated === true) {
+    return {
+      ok: false,
+      step: "compare_target_paths",
+      status: 409,
+      body:
+        "Der Repository-Tree ist für einen sicheren automatischen Retry zu groß."
+    };
+  }
+
+  const wanted =
+    new Set(targetPaths);
+
+  const pathShas = {};
+
+  for (const path of wanted) {
+    pathShas[path] = "";
+  }
+
+  for (
+    const entry
+    of Array.isArray(treeResult.body?.tree)
+      ? treeResult.body.tree
+      : []
+  ) {
+    if (
+      entry?.type === "blob" &&
+      wanted.has(entry.path)
+    ) {
+      pathShas[entry.path] =
+        String(entry.sha ?? "");
+    }
+  }
+
+  return {
+    ok: true,
+    pathShas
   };
 }
 
