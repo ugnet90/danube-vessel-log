@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.15.14
+ * Version: 0.15.15
  * Updated: 2026-09-11
  */
 
@@ -16489,7 +16489,9 @@ function matchVesselCatalogByName(
         candidate.candidate_id,
 
       name:
-        candidate.name,
+        canonicalizeVesselNameForStorage(
+          candidate.name
+        ),
 
       former_names:
         candidate.former_names,
