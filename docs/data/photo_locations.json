@@ -1,8 +1,80 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-09-11T05:01:23.000Z",
-  "count": 126,
+  "updated_at": "2026-09-11T11:22:14.000Z",
+  "count": 128,
   "photos": [
+    {
+      "photo_id": "PHOTO-1F5BCABAF9EB40BA8B76187A8E499A6A",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260911-113638-F3FD71",
+      "vessel_id": "VES-000128",
+      "vessel_name": "Thurgau Prestige",
+      "captured_at": "2026-09-11T11:22:14.000Z",
+      "photo_lat": 48.30754666666667,
+      "photo_lon": 14.28557,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 95
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260911-113638-F3FD71"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-1F5BCABAF9EB40BA8B76187A8E499A6A.jpg"
+    },
+    {
+      "photo_id": "PHOTO-A56C2EA444D44E99B949BDCBC6DD7209",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260911-113638-F3FD71",
+      "vessel_id": "VES-000128",
+      "vessel_name": "Thurgau Prestige",
+      "captured_at": "2026-09-11T11:21:50.000Z",
+      "photo_lat": 48.30733666666666,
+      "photo_lon": 14.285725,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 69
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260911-113638-F3FD71"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-A56C2EA444D44E99B949BDCBC6DD7209.jpg"
+    },
     {
       "photo_id": "PHOTO-8E6C6128C4DB4D439B34012978E2A066",
       "source_type": "sighting",
@@ -4303,8 +4375,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 75,
+  "sighting_count": 76,
   "sightings": [
+    {
+      "submission_id": "SUB-20260911-113638-F3FD71",
+      "vessel_id": "VES-000128",
+      "vessel_name": "Thurgau Prestige",
+      "captured_at": "2026-09-11T11:21:50.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 69
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110,
+      "vessel_width_m": 11.4,
+      "direction": "upstream",
+      "photo_count": 2
+    },
     {
       "submission_id": "SUB-20260911-065428-515059",
       "vessel_id": "VES-000112",
