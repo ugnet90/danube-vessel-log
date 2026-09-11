@@ -1,8 +1,80 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-09-11T04:58:02.000Z",
-  "count": 119,
+  "updated_at": "2026-09-11T05:01:23.000Z",
+  "count": 121,
   "photos": [
+    {
+      "photo_id": "PHOTO-8E6C6128C4DB4D439B34012978E2A066",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260911-065428-515059",
+      "vessel_id": "VES-000112",
+      "vessel_name": "S. S. Emilie",
+      "captured_at": "2026-09-11T05:01:23.000Z",
+      "photo_lat": 48.30714166666667,
+      "photo_lon": 14.28535833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 73
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260911-065428-515059"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-8E6C6128C4DB4D439B34012978E2A066.jpg"
+    },
+    {
+      "photo_id": "PHOTO-E648A29715844D519BF1BEA4B9DE72D5",
+      "source_type": "sighting",
+      "submission_id": "SUB-20260911-065428-515059",
+      "vessel_id": "VES-000112",
+      "vessel_name": "S. S. Emilie",
+      "captured_at": "2026-09-11T05:00:48.000Z",
+      "photo_lat": 48.30741166666667,
+      "photo_lon": 14.28522166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 99
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260911-065428-515059"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-E648A29715844D519BF1BEA4B9DE72D5.jpg"
+    },
     {
       "photo_id": "PHOTO-E75DE4BFBFEE4D7693F6CB0A22F7CACB",
       "source_type": "sighting",
@@ -4051,8 +4123,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 73,
+  "sighting_count": 74,
   "sightings": [
+    {
+      "submission_id": "SUB-20260911-065428-515059",
+      "vessel_id": "VES-000112",
+      "vessel_name": "S. S. Emilie",
+      "captured_at": "2026-09-11T05:00:48.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 99
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "direction": "upstream",
+      "photo_count": 2
+    },
     {
       "submission_id": "SUB-20260911-064646-76CDD1",
       "vessel_id": "VES-000111",
