@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000145",
+  "identity": {
+    "name": "Viva Moments",
+    "former_names": [
+      "Robert Burns"
+    ],
+    "mmsi": "269057635",
+    "imo": "",
+    "eni": "07002085",
+    "call_sign": "HE7635"
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "CH"
+  },
+  "technical": {
+    "year_built": 2018,
+    "shipyard": "",
+    "length_m": 135,
+    "width_m": 11.45,
+    "draft_m": null,
+    "passengers": 176
+  },
+  "operations": {
+    "operator": "Scylla (VIVA Cruises)",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": "Basel"
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [
+    {
+      "source_id": "SRC-FF4DC6A92296",
+      "provider": "Wikipedia",
+      "title": "Kandidatenkatalog: Viva Moments",
+      "url": "https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen",
+      "notes": "Vorbelegung aus CAN-C25D08C493CA.",
+      "fields_used": [
+        "identity.name",
+        "identity.former_names",
+        "identity.eni",
+        "classification.ship_type",
+        "classification.ship_subtype",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "retrieved_at": "",
+      "verified_at": "",
+      "added_at": "2026-09-11T11:46:37.478Z",
+      "added_by": "candidate-catalog",
+      "candidate_id": "CAN-C25D08C493CA",
+      "source_revision_id": "268617530"
+    }
+  ],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-E0BF4E1F1AE54AB3A4CBA6CC3FE639F4",
+    "primary_submission_id": "SUB-20260911-113803-824E8E"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-09-11T11:46:37.478Z",
+    "created_from_submission_id": "SUB-20260911-113803-824E8E",
+    "updated_at": "2026-09-11T11:46:37.478Z",
+    "updated_by": "web-ui",
+    "created_from_candidate_id": "CAN-C25D08C493CA",
+    "candidate_source_revision_id": "268617530"
+  }
+}
