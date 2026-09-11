@@ -2,7 +2,7 @@
   "schema_version": 1,
   "vessel_id": "VES-000107",
   "identity": {
-    "name": "A-Rosa Flora",
+    "name": "A-ROSA FLORA",
     "former_names": [],
     "mmsi": "211621310",
     "imo": "",
@@ -100,8 +100,8 @@
     "environment": "production",
     "created_at": "2026-07-27T10:42:47.677Z",
     "created_from_submission_id": "SUB-20260727-104146-96C97B",
-    "updated_at": "2026-08-24T13:50:08.365Z",
-    "updated_by": "web-ui-primary-photo",
+    "updated_at": "2026-09-11T06:08:10.543Z",
+    "updated_by": "migration-v0.15.14",
     "created_from_candidate_id": "CAN-0705978DBD47",
     "candidate_source_revision_id": "268617530",
     "change_history": [
@@ -168,6 +168,21 @@
             "field": "media.primary_submission_id",
             "old_value": "SUB-20260727-104146-96C97B",
             "new_value": ""
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-09-11T06:08:10.543Z",
+        "changed_by": "migration-v0.15.14",
+        "summary": "Schiffsname gemäß Flottenregel A-ROSA vereinheitlicht",
+        "changed_fields": [
+          "identity.name"
+        ],
+        "changes": [
+          {
+            "field": "identity.name",
+            "old_value": "A-Rosa Flora",
+            "new_value": "A-ROSA FLORA"
           }
         ]
       }

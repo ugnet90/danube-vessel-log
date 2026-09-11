@@ -2,7 +2,7 @@
   "schema_version": 1,
   "vessel_id": "VES-000103",
   "identity": {
-    "name": "A-Rosa Riva",
+    "name": "A-ROSA RIVA",
     "former_names": [],
     "mmsi": "211160710",
     "imo": "8979295",
@@ -100,8 +100,8 @@
     "environment": "production",
     "created_at": "2026-07-23T19:07:26.363Z",
     "created_from_submission_id": "SUB-20260719-153937-710675",
-    "updated_at": "2026-07-27T06:11:28.978Z",
-    "updated_by": "vessel-enrichment",
+    "updated_at": "2026-09-11T06:08:10.543Z",
+    "updated_by": "migration-v0.15.14",
     "created_from_candidate_id": "CAN-1989310A9291",
     "candidate_source_revision_id": "268617530",
     "change_history": [
@@ -147,6 +147,21 @@
             "field": "enrichment.wikidata.accepted_qid",
             "old_value": "",
             "new_value": "Q277910"
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-09-11T06:08:10.543Z",
+        "changed_by": "migration-v0.15.14",
+        "summary": "Schiffsname gemäß Flottenregel A-ROSA vereinheitlicht",
+        "changed_fields": [
+          "identity.name"
+        ],
+        "changes": [
+          {
+            "field": "identity.name",
+            "old_value": "A-Rosa Riva",
+            "new_value": "A-ROSA RIVA"
           }
         ]
       }
