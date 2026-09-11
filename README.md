@@ -1,7 +1,7 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.13**  
-Stand: **07.09.2026**
+Aktuelle Version: **0.15.15**  
+Stand: **11.09.2026**
 
 ## 1. Projektzweck
 
@@ -88,6 +88,37 @@ Daraus folgt:
 - neue Schiffe aus einer bestätigten Sichtung werden mit `active` angelegt;
 - wird eine bestätigte Sichtung einem bestehenden Schiff zugeordnet, wird dessen Status serverseitig auf `active` gesetzt;
 - war der vorherige Status `unknown`, `inactive` oder `scrapped`, wird die Statusänderung in der Historie mit Submission-ID und Sichtungszeitpunkt dokumentiert.
+
+### 3.4 Kanonische Flotten-Namensregeln
+
+Ab Version **0.15.14** besitzt der Worker eine zentrale, erweiterbare
+Namensnormalisierung für Flotten mit fest definierter Schreibweise.
+
+Die erste Regel betrifft **A-ROSA**. Unterschiedliche Eingaben wie beispielsweise
+
+- `A-Rosa Donna`
+- `A ROSA DONNA`
+- `A'ROSA DONNA`
+- `A’ROSA Donna`
+- `AROSA DONNA`
+
+werden bei der Speicherung eines kanonischen Schiffsnamens zu
+
+`A-ROSA DONNA`
+
+vereinheitlicht.
+
+Die tolerante Namenssuche und -zuordnung bleibt davon getrennt. Der tatsächlich
+im Kurzbefehl eingegebene Text kann in einer Submission weiterhin als
+`vessel_name_entered` erhalten bleiben; der kanonische Stammdatensatz unter
+`data/vessels/` erhält dagegen die festgelegte Schreibweise.
+
+Die Regeln stehen zentral in `cloudflare/worker.js` unter
+`VESSEL_NAME_CANONICALIZATION_RULES` und können später um weitere Flotten
+erweitert werden. Die Normalisierung greift bei Neuanlage und manueller
+Bearbeitung eines Schiffs. Auch eine spätere Verknüpfung mit dem
+Kandidatenkatalog darf einen bereits kanonischen Namen nicht auf eine abweichende
+Quellschreibweise zurücksetzen.
 
 ## 4. Sichtungen
 
@@ -3297,3 +3328,110 @@ Neue Submissions verwenden wegen des zusätzlichen kanonischen `submission.berth
 - `docs/shortcuts/KURZBEFEHL_DYNAMISCHE_ANLEGESTELLEN_0.15.13.md`: vollständige aktualisierte Schrittfolge.
 - `README.md`: Projektstand `0.15.13`.
 
+## 0.15.14 – kanonische Flotten-Namensregeln
+
+Version **0.15.14** führt eine zentrale, erweiterbare Normalisierung für
+Schiffsnamen bestimmter Flotten ein.
+
+### A-ROSA
+
+Für die A-ROSA-Flotte werden unterschiedliche Schreibweisen des Präfixes
+unabhängig von Groß-/Kleinschreibung und typischen Trennzeichen erkannt.
+Gespeichert wird die kanonische Form:
+
+`A-ROSA <SCHIFFSNAME>`
+
+Der eigentliche Schiffsname wird bei dieser Flottenregel in Großbuchstaben
+gespeichert.
+
+Beispiele:
+
+- `A-Rosa Riva` -> `A-ROSA RIVA`
+- `A Rosa Donna` -> `A-ROSA DONNA`
+- `A'ROSA Flora` -> `A-ROSA FLORA`
+- `AROSA Bella` -> `A-ROSA BELLA`
+
+Die allgemeine Ähnlichkeits- und Dublettenlogik bleibt unverändert. Ein
+Schreibfehler im eigentlichen Schiffsnamen wird nicht stillschweigend erraten;
+die Regel vereinheitlicht nur die definierte Flottenschreibweise.
+
+### Bestehende A-ROSA-Datensätze
+
+Die drei bereits vorhandenen kanonischen Datensätze wurden vereinheitlicht:
+
+- `VES-000103`: `A-Rosa Riva` -> `A-ROSA RIVA`
+- `VES-000107`: `A-Rosa Flora` -> `A-ROSA FLORA`
+- `VES-000141`: `A-Rosa Bella` -> `A-ROSA BELLA`
+
+Die Änderungen sind jeweils im Audit-Verlauf der kanonischen JSON-Datei
+dokumentiert. Die bisherigen Schreibvarianten werden nicht als frühere
+Schiffsnamen eingetragen, weil es sich nicht um tatsächliche Umbenennungen
+handelt.
+
+### Kandidatenkatalog
+
+Eine spätere Verknüpfung mit einem Kandidaten aus
+`data/vessel_candidates.csv` kann die kanonische Schreibweise nicht wieder auf
+die abweichende Quellschreibweise zurücksetzen.
+
+### Einspielen / Migration 0.15.14
+
+Version 0.15.14 verändert den Cloudflare Worker. Nach dem Commit ist daher ein
+**Worker-Deployment** erforderlich.
+
+Der vorhandene Foto-/Kartenindex wird für die drei bereits bestehenden
+A-ROSA-Schiffe im Paket direkt mit der neuen kanonischen Schreibweise
+aktualisiert und der GitHub-Pages-Spiegel bytegleich mitgeführt. Ein Rebuild der
+Sichtungs- oder Kartenindizes ist deshalb für diese Änderung nicht erforderlich.
+
+### Dateiversionen 0.15.14
+
+- `cloudflare/worker.js`: Version `0.15.14`; zentrale Flotten-Namensnormalisierung mit erster Regel für A-ROSA.
+- `data/vessels.csv`: bestehende A-ROSA-Namen auf kanonische Schreibweise vereinheitlicht.
+- `data/vessels/VES-000103.json`: `A-ROSA RIVA`.
+- `data/vessels/VES-000107.json`: `A-ROSA FLORA`.
+- `data/vessels/VES-000141.json`: `A-ROSA BELLA`.
+- `data/photo_locations.json`: bestehende Kartenindex-Namen der drei A-ROSA-Schiffe vereinheitlicht.
+- `docs/data/photo_locations.json`: bytegleicher GitHub-Pages-Spiegel des aktualisierten Kartenindex.
+- `README.md`: vollständige Projektdokumentation; aktueller Projektstand `0.15.14`.
+
+
+
+## 0.15.15 – kanonische Namen bereits im Katalogtreffer
+
+Version **0.15.15** ergänzt die in 0.15.14 eingeführte
+Flotten-Namensnormalisierung auch in der Ausgabe der Kandidatensuche.
+
+### Katalogtreffer und Neuanlage
+
+`matchVesselCatalogByName()` gibt den Namen eines Katalogtreffers nun bereits
+in kanonischer Form zurück. Dadurch gilt für hinterlegte Flottenregeln die
+richtige Schreibweise schon **vor dem Speichern**.
+
+Für A-ROSA bedeutet das beispielsweise:
+
+- Katalogquelle: `A-Rosa Donna`
+- Anzeige unter **Mögliche Katalogtreffer**: `A-ROSA DONNA`
+- nach **Daten in Neuanlage übernehmen** im Feld **Name**: `A-ROSA DONNA`
+- serverseitig gespeicherter Name: `A-ROSA DONNA`
+
+Die Quellschreibweise in `data/vessel_candidates.csv` wird dabei nicht
+verändert. Sie bleibt als importierte Quelldatei erhalten. Die
+Kanonisierung erfolgt an der Ausgabe-/Übernahmegrenze.
+
+Die Review-Liste berechnet Katalogtreffer beim Laden über den Worker neu.
+Deshalb wird auch eine bereits vorhandene offene Sichtung nach dem Deployment
+und erneutem Laden der Seite mit dem kanonischen Kandidatennamen angezeigt;
+die Submission-Datei selbst muss dafür nicht angepasst werden.
+
+### Einspielen 0.15.15
+
+1. `cloudflare/worker.js` und `README.md` committen.
+2. Cloudflare Worker neu deployen.
+3. Die Sichtungsseite vollständig neu laden.
+4. Kein Rebuild und kein `Sync public data` erforderlich.
+
+### Dateiversionen 0.15.15
+
+- `cloudflare/worker.js`: Version `0.15.15`; Katalogtreffer liefern kanonische Flottennamen.
+- `README.md`: vollständige Projektdokumentation; aktueller Projektstand `0.15.15`.
