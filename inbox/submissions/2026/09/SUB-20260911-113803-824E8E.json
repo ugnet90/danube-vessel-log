@@ -1,0 +1,144 @@
+{
+  "schema_version": 15,
+  "submission_id": "SUB-20260911-113803-824E8E",
+  "uploaded_at": "2026-09-11T11:38:03.376Z",
+  "captured_at": "2026-09-11T11:22:30.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": 106
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000003",
+    "name": "Schiffsanlegestelle Linz-Hauptplatz",
+    "short_name": "Linz-Hauptplatz Nr. 13",
+    "station_number": "13",
+    "location_id": "LOC-001",
+    "area_id": "BTA-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2135.045,
+    "river_km_text": "2135,0+45 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 29 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.307747,
+    "longitude": 14.2862415,
+    "address": "Dr. Ernst Koref Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 2,
+  "direction": "upstream",
+  "vessel_name_entered": "Viva Moments",
+  "notes": "",
+  "observer_lat": 48.30763666666667,
+  "observer_lon": 14.28551333333333,
+  "photos": [
+    {
+      "photo_id": "PHOTO-E0BF4E1F1AE54AB3A4CBA6CC3FE639F4",
+      "path": "inbox/photos/2026/09/PHOTO-E0BF4E1F1AE54AB3A4CBA6CC3FE639F4.jpg",
+      "filename": "PHOTO-E0BF4E1F1AE54AB3A4CBA6CC3FE639F4.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 402657,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-09-11T11:22:30.000Z",
+      "photo_lat": 48.30763666666667,
+      "photo_lon": 14.28551333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 106
+      }
+    },
+    {
+      "photo_id": "PHOTO-85F65BEFF8C74C128804EB0C493BC8D0",
+      "path": "inbox/photos/2026/09/PHOTO-85F65BEFF8C74C128804EB0C493BC8D0.jpg",
+      "filename": "PHOTO-85F65BEFF8C74C128804EB0C493BC8D0.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 503978,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-09-11T11:23:02.000Z",
+      "photo_lat": 48.30785,
+      "photo_lon": 14.28531666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 134
+      }
+    },
+    {
+      "photo_id": "PHOTO-D022621D85234D4B9EAA92C13EF4E4EA",
+      "path": "inbox/photos/2026/09/PHOTO-D022621D85234D4B9EAA92C13EF4E4EA.jpg",
+      "filename": "PHOTO-D022621D85234D4B9EAA92C13EF4E4EA.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 527922,
+      "sequence": 3,
+      "metadata_version": 1,
+      "captured_at": "2026-09-11T11:23:05.000Z",
+      "photo_lat": 48.30785,
+      "photo_lon": 14.28532833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 133
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "viva moments"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30763666666667,
+  "photo_lon": 14.28551333333333
+}
