@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "vessel_id": "VES-000147",
+  "photos": [
+    {
+      "photo_id": "PHOTO-749234FB531642678743A967773DDE43",
+      "path": "inbox/photos/2026/09/PHOTO-749234FB531642678743A967773DDE43.jpg",
+      "filename": "PHOTO-749234FB531642678743A967773DDE43.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 289318,
+      "sequence": 1,
+      "captured_at": "2026-09-28T14:14:38.000Z",
+      "added_at": "2026-09-28T14:47:17.631Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": null,
+      "photo_lon": null,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "vessel_name_entered": "Anna Katharina",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260928-135016-C70AC0"
+      }
+    }
+  ],
+  "updated_at": "2026-09-28T14:47:17.631Z"
+}
