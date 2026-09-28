@@ -1,8 +1,35 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-09-28T13:49:43.000Z",
-  "count": 132,
+  "updated_at": "2026-09-28T14:15:49.000Z",
+  "count": 133,
   "photos": [
+    {
+      "photo_id": "PHOTO-F54F8AA10D294D6EB8D3C3BD60AC2797",
+      "source_type": "direct",
+      "submission_id": "SUB-20260928-133747-45EA37",
+      "vessel_id": "VES-000146",
+      "vessel_name": "Amadeus Imperial",
+      "captured_at": "2026-09-28T14:15:49.000Z",
+      "photo_lat": 48.30879666666667,
+      "photo_lon": 14.28465333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 250
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260928-133747-45EA37"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-F54F8AA10D294D6EB8D3C3BD60AC2797.jpg"
+    },
     {
       "photo_id": "PHOTO-12B87BA62E1744F4B54AA927E3686DEA",
       "source_type": "sighting",

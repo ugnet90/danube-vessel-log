@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "vessel_id": "VES-000146",
+  "photos": [
+    {
+      "photo_id": "PHOTO-F49BA060A9854CCC8DC452CC37C332B6",
+      "path": "inbox/photos/2026/09/PHOTO-F49BA060A9854CCC8DC452CC37C332B6.jpg",
+      "filename": "PHOTO-F49BA060A9854CCC8DC452CC37C332B6.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 372678,
+      "sequence": 1,
+      "captured_at": "2026-09-28T14:14:31.000Z",
+      "added_at": "2026-09-28T14:46:36.936Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": null,
+      "photo_lon": null,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "vessel_name_entered": "Amadeus Imperial",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260928-133747-45EA37"
+      }
+    },
+    {
+      "photo_id": "PHOTO-F54F8AA10D294D6EB8D3C3BD60AC2797",
+      "path": "inbox/photos/2026/09/PHOTO-F54F8AA10D294D6EB8D3C3BD60AC2797.jpg",
+      "filename": "PHOTO-F54F8AA10D294D6EB8D3C3BD60AC2797.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 363155,
+      "sequence": 2,
+      "captured_at": "2026-09-28T14:15:49.000Z",
+      "added_at": "2026-09-28T14:46:36.936Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30879666666667,
+      "photo_lon": 14.28465333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 250
+      },
+      "vessel_name_entered": "Amadeus Imperial",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260928-133747-45EA37"
+      }
+    }
+  ],
+  "updated_at": "2026-09-28T14:46:36.936Z"
+}
