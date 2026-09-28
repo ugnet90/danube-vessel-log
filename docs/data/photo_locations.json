@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-09-28T10:35:37.000Z",
+  "updated_at": "2026-09-28T13:37:17.000Z",
   "count": 132,
   "photos": [
     {
@@ -4519,8 +4519,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 83,
+  "sighting_count": 84,
   "sightings": [
+    {
+      "submission_id": "SUB-20260928-133747-45EA37",
+      "vessel_id": "VES-000146",
+      "vessel_name": "Amadeus Imperial",
+      "captured_at": "2026-09-28T13:37:17.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 457
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "direction": "upstream",
+      "photo_count": 0
+    },
     {
       "submission_id": "SUB-20260928-103601-9A0F41",
       "vessel_id": "VES-000110",
