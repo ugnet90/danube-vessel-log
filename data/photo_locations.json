@@ -1,8 +1,35 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-09-29T14:11:20.000Z",
-  "count": 141,
+  "updated_at": "2026-09-29T14:17:00.000Z",
+  "count": 142,
   "photos": [
+    {
+      "photo_id": "PHOTO-FE12477B74604B2AB9676BAF67C6E200",
+      "source_type": "direct",
+      "submission_id": "SUB-20260929-133222-0F384B",
+      "vessel_id": "VES-000149",
+      "vessel_name": "Viking Aegir",
+      "captured_at": "2026-09-29T14:17:00.000Z",
+      "photo_lat": 48.30894166666667,
+      "photo_lon": 14.28451666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 269
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260929-133222-0F384B"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-FE12477B74604B2AB9676BAF67C6E200.jpg"
+    },
     {
       "photo_id": "PHOTO-877F73FC94B443B1B2497EFA30A9B2FA",
       "source_type": "direct",
