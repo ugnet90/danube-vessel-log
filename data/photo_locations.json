@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-09-29T05:12:10.000Z",
+  "updated_at": "2026-09-29T13:28:17.000Z",
   "count": 139,
   "photos": [
     {
@@ -4762,8 +4762,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 88,
+  "sighting_count": 89,
   "sightings": [
+    {
+      "submission_id": "SUB-20260929-132831-37AFE9",
+      "vessel_id": "VES-000113",
+      "vessel_name": "Vista Classica",
+      "captured_at": "2026-09-29T13:28:17.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 457
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000001",
+        "name": "Schiffsanlegestelle Linz-Schloss",
+        "short_name": "Linz-Schloss Nr. 11",
+        "station_number": "11"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 107,
+      "vessel_width_m": 12,
+      "direction": "upstream",
+      "photo_count": 0
+    },
     {
       "submission_id": "SUB-20260929-053220-DF0297",
       "vessel_id": "VES-000131",
