@@ -4690,7 +4690,7 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 87,
+  "sighting_count": 86,
   "sightings": [
     {
       "submission_id": "SUB-20260929-052927-BD15DA",
@@ -4834,35 +4834,6 @@
       "alongside_position": 1,
       "vessel_length_m": 135,
       "vessel_width_m": 11.4,
-      "direction": "upstream",
-      "photo_count": 0
-    },
-    {
-      "submission_id": "SUB-20260928-103400-23107A",
-      "vessel_id": "VES-000131",
-      "vessel_name": "Lisabelle A",
-      "captured_at": "2026-09-28T10:33:45.000Z",
-      "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "area_id": "",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
-        "country": "Österreich",
-        "distance_m": 233
-      },
-      "berth": {
-        "status": "matched",
-        "id": "BER-000003",
-        "name": "Schiffsanlegestelle Linz-Hauptplatz",
-        "short_name": "Linz-Hauptplatz Nr. 13",
-        "station_number": "13"
-      },
-      "movement": "moored",
-      "alongside_position": 1,
-      "vessel_length_m": 110,
-      "vessel_width_m": 12,
       "direction": "upstream",
       "photo_count": 0
     },
