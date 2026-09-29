@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000150",
+  "identity": {
+    "name": "Celina",
+    "former_names": [],
+    "mmsi": "269057627",
+    "imo": "",
+    "eni": "",
+    "call_sign": "HE7627"
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "CH"
+  },
+  "technical": {
+    "year_built": null,
+    "shipyard": "",
+    "length_m": 128,
+    "width_m": 12,
+    "draft_m": null,
+    "passengers": null
+  },
+  "operations": {
+    "operator": "",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": ""
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "",
+    "primary_submission_id": "SUB-20260929-132915-5C1077"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-09-29T13:41:12.599Z",
+    "created_from_submission_id": "SUB-20260929-132915-5C1077",
+    "updated_at": "2026-09-29T13:41:12.599Z",
+    "updated_by": "web-ui"
+  }
+}
