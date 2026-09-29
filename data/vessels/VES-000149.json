@@ -4,10 +4,10 @@
   "identity": {
     "name": "Viking Aegir",
     "former_names": [],
-    "mmsi": "269057127",
+    "mmsi": "269057408",
     "imo": "",
     "eni": "07001957",
-    "call_sign": "HE7127"
+    "call_sign": "HE7408"
   },
   "classification": {
     "ship_type": "PASSENGER",
@@ -74,9 +74,31 @@
     "environment": "production",
     "created_at": "2026-09-29T13:39:43.966Z",
     "created_from_submission_id": "SUB-20260929-133222-0F384B",
-    "updated_at": "2026-09-29T13:39:43.966Z",
+    "updated_at": "2026-09-29T13:43:41.067Z",
     "updated_by": "web-ui",
     "created_from_candidate_id": "CAN-AF6E35CECB2F",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-09-29T13:43:41.067Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "identity.mmsi",
+          "identity.call_sign"
+        ],
+        "changes": [
+          {
+            "field": "identity.mmsi",
+            "old_value": "269057127",
+            "new_value": "269057408"
+          },
+          {
+            "field": "identity.call_sign",
+            "old_value": "HE7127",
+            "new_value": "HE7408"
+          }
+        ]
+      }
+    ]
   }
 }
