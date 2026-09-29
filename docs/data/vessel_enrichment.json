@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-09-29T05:56:29.521931Z",
+  "generated_at": "2026-09-29T13:48:32.814612Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,15 +32,15 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 48,
-    "vessels_incomplete": 48,
+    "vessels_total": 51,
+    "vessels_incomplete": 51,
     "vessels_complete": 0,
-    "candidate_matches": 0,
+    "candidate_matches": 3,
     "matched_no_new_data": 31,
     "low_confidence": 0,
     "no_match": 17,
     "lookup_errors": 0,
-    "suggestions_total": 0
+    "suggestions_total": 3
   },
   "vessels": [
     {
@@ -2261,6 +2261,434 @@
         "accepted_qid": "",
         "rejected_qids": [],
         "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000149",
+      "name": "Viking Aegir",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000149.json",
+      "missing_fields": [
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 6,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "candidate",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": [
+          {
+            "qid": "Q106254726",
+            "label": "Viking Aegir",
+            "description": "Flusskreuzfahrtschiff",
+            "url": "https://www.wikidata.org/wiki/Q106254726",
+            "score": 1.0,
+            "confidence": "very_high",
+            "matched_by": [
+              "identity.eni"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [
+                "07001957"
+              ],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Flusskreuzfahrtschiff"
+            ],
+            "suggestions": [
+              {
+                "field": "technical.shipyard",
+                "field_label": "Werft",
+                "value": "Neptun Werft",
+                "display_value": "Neptun Werft",
+                "property": "P176",
+                "property_label": "manufacturer",
+                "property_url": "https://www.wikidata.org/wiki/Property:P176",
+                "source_url": "https://www.wikidata.org/wiki/Q106254726",
+                "confidence": 1.0,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2375743722
+          }
+        ]
+      }
+    },
+    {
+      "vessel_id": "VES-000150",
+      "name": "Celina",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000150.json",
+      "missing_fields": [
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.eni",
+          "label": "ENI"
+        },
+        {
+          "field": "technical.year_built",
+          "label": "Baujahr"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "technical.passengers",
+          "label": "Passagiere"
+        },
+        {
+          "field": "operations.operator",
+          "label": "Betreiber"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        },
+        {
+          "field": "operations.home_port",
+          "label": "Heimathafen"
+        }
+      ],
+      "missing_count": 11,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "candidate",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": [
+          {
+            "qid": "Q387861",
+            "label": "Celina",
+            "description": "Stadt im US-Bundesstaat Ohio",
+            "url": "https://www.wikidata.org/wiki/Q387861",
+            "score": 0.955,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Ort mit Status „City“ in den Vereinigten Staaten",
+              "County Seat"
+            ],
+            "suggestions": [
+              {
+                "field": "technical.year_built",
+                "field_label": "Baujahr",
+                "value": 1834,
+                "display_value": 1834,
+                "property": "P571",
+                "property_label": "inception",
+                "property_url": "https://www.wikidata.org/wiki/Property:P571",
+                "source_url": "https://www.wikidata.org/wiki/Q387861",
+                "confidence": 0.955,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2530087256
+          },
+          {
+            "qid": "Q83638599",
+            "label": "Celina",
+            "description": "Mehrzweckschiff",
+            "url": "https://www.wikidata.org/wiki/Q83638599",
+            "score": 0.95,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [
+                "9030230"
+              ],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Mehrzweckschiff"
+            ],
+            "suggestions": [
+              {
+                "field": "identity.imo",
+                "field_label": "IMO",
+                "value": "9030230",
+                "display_value": "9030230",
+                "property": "P458",
+                "property_label": "IMO ship number",
+                "property_url": "https://www.wikidata.org/wiki/Property:P458",
+                "source_url": "https://www.wikidata.org/wiki/Q83638599",
+                "confidence": 0.95,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.year_built",
+                "field_label": "Baujahr",
+                "value": 1992,
+                "display_value": 1992,
+                "property": "P729",
+                "property_label": "service entry",
+                "property_url": "https://www.wikidata.org/wiki/Property:P729",
+                "source_url": "https://www.wikidata.org/wiki/Q83638599",
+                "confidence": 0.95,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.shipyard",
+                "field_label": "Werft",
+                "value": "Bijlsma Wartena",
+                "display_value": "Bijlsma Wartena",
+                "property": "P176",
+                "property_label": "manufacturer",
+                "property_url": "https://www.wikidata.org/wiki/Property:P176",
+                "source_url": "https://www.wikidata.org/wiki/Q83638599",
+                "confidence": 0.95,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.draft_m",
+                "field_label": "Tiefgang",
+                "value": 4.12,
+                "display_value": 4.12,
+                "property": "P2262",
+                "property_label": "draft",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
+                "source_url": "https://www.wikidata.org/wiki/Q83638599",
+                "confidence": 0.95,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 1866948568
+          }
+        ]
+      }
+    },
+    {
+      "vessel_id": "VES-000151",
+      "name": "The Gentleman",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000151.json",
+      "missing_fields": [
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.eni",
+          "label": "ENI"
+        },
+        {
+          "field": "technical.year_built",
+          "label": "Baujahr"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "technical.passengers",
+          "label": "Passagiere"
+        },
+        {
+          "field": "operations.operator",
+          "label": "Betreiber"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        },
+        {
+          "field": "operations.home_port",
+          "label": "Heimathafen"
+        }
+      ],
+      "missing_count": 11,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "candidate",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": [
+          {
+            "qid": "Q61721900",
+            "label": "The Gentleman",
+            "description": "Gemälde von Joan Miró",
+            "url": "https://www.wikidata.org/wiki/Q61721900",
+            "score": 0.95,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Gemälde"
+            ],
+            "suggestions": [
+              {
+                "field": "technical.year_built",
+                "field_label": "Baujahr",
+                "value": 1924,
+                "display_value": 1924,
+                "property": "P571",
+                "property_label": "inception",
+                "property_url": "https://www.wikidata.org/wiki/Property:P571",
+                "source_url": "https://www.wikidata.org/wiki/Q61721900",
+                "confidence": 0.95,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2267096540
+          },
+          {
+            "qid": "Q49405121",
+            "label": "The Gentleman",
+            "description": "Gemälde von Anonymus",
+            "url": "https://www.wikidata.org/wiki/Q49405121",
+            "score": 0.93,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Gemälde"
+            ],
+            "suggestions": [
+              {
+                "field": "operations.owner",
+                "field_label": "Eigentümer",
+                "value": "E. & A. Silberman",
+                "display_value": "E. & A. Silberman",
+                "property": "P127",
+                "property_label": "owned by",
+                "property_url": "https://www.wikidata.org/wiki/Property:P127",
+                "source_url": "https://www.wikidata.org/wiki/Q49405121",
+                "confidence": 0.93,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2379739036
+          },
+          {
+            "qid": "Q153297",
+            "label": "The Gentleman’s Magazine",
+            "description": "britische Zeitschrift",
+            "url": "https://www.wikidata.org/wiki/Q153297",
+            "score": 0.8,
+            "confidence": "low",
+            "matched_by": [
+              "name_partial"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Zeitschrift",
+              "Monatsblatt",
+              "Männermagazin"
+            ],
+            "suggestions": [
+              {
+                "field": "technical.year_built",
+                "field_label": "Baujahr",
+                "value": 1731,
+                "display_value": 1731,
+                "property": "P571",
+                "property_label": "inception",
+                "property_url": "https://www.wikidata.org/wiki/Property:P571",
+                "source_url": "https://www.wikidata.org/wiki/Q153297",
+                "confidence": 0.8,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2517434396
+          }
+        ]
       }
     }
   ]
