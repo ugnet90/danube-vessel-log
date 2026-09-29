@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000149",
+  "identity": {
+    "name": "Viking Aegir",
+    "former_names": [],
+    "mmsi": "269057127",
+    "imo": "",
+    "eni": "07001957",
+    "call_sign": "HE7127"
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "CH"
+  },
+  "technical": {
+    "year_built": 2012,
+    "shipyard": "",
+    "length_m": 135,
+    "width_m": 11.45,
+    "draft_m": null,
+    "passengers": 190
+  },
+  "operations": {
+    "operator": "Viking River Cruises",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": "Basel"
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [
+    {
+      "source_id": "SRC-C99EC2B62700",
+      "provider": "Wikipedia",
+      "title": "Kandidatenkatalog: Viking Aegir",
+      "url": "https://de.wikipedia.org/wiki/Viking_Aegir",
+      "notes": "Vorbelegung aus CAN-AF6E35CECB2F.",
+      "fields_used": [
+        "identity.name",
+        "identity.eni",
+        "classification.ship_type",
+        "classification.ship_subtype",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "retrieved_at": "",
+      "verified_at": "",
+      "added_at": "2026-09-29T13:39:43.966Z",
+      "added_by": "candidate-catalog",
+      "candidate_id": "CAN-AF6E35CECB2F",
+      "source_revision_id": "268617530"
+    }
+  ],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "",
+    "primary_submission_id": "SUB-20260929-133222-0F384B"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-09-29T13:39:43.966Z",
+    "created_from_submission_id": "SUB-20260929-133222-0F384B",
+    "updated_at": "2026-09-29T13:39:43.966Z",
+    "updated_by": "web-ui",
+    "created_from_candidate_id": "CAN-AF6E35CECB2F",
+    "candidate_source_revision_id": "268617530"
+  }
+}

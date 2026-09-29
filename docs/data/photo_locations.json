@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-09-29T13:31:21.000Z",
+  "updated_at": "2026-09-29T13:31:55.000Z",
   "count": 139,
   "photos": [
     {
@@ -4762,8 +4762,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 91,
+  "sighting_count": 92,
   "sightings": [
+    {
+      "submission_id": "SUB-20260929-133222-0F384B",
+      "vessel_id": "VES-000149",
+      "vessel_name": "Viking Aegir",
+      "captured_at": "2026-09-29T13:31:55.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 457
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 0
+    },
     {
       "submission_id": "SUB-20260929-133135-13F024",
       "vessel_id": "VES-000119",
