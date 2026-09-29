@@ -40,9 +40,10 @@
     "wikidata": {
       "accepted_qid": "",
       "rejected_qids": [
-        "Q61721900"
+        "Q61721900",
+        "Q49405121"
       ],
-      "last_reviewed_at": "2026-09-29T13:58:24.412Z"
+      "last_reviewed_at": "2026-09-29T13:58:32.212Z"
     }
   },
   "media": {
@@ -54,7 +55,7 @@
     "environment": "production",
     "created_at": "2026-09-29T13:42:23.463Z",
     "created_from_submission_id": "SUB-20260929-133316-3084A4",
-    "updated_at": "2026-09-29T13:58:24.412Z",
+    "updated_at": "2026-09-29T13:58:32.212Z",
     "updated_by": "vessel-enrichment",
     "change_history": [
       {
@@ -70,6 +71,26 @@
             "old_value": [],
             "new_value": [
               "Q61721900"
+            ]
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-09-29T13:58:32.212Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "Wikidata-Kandidat Q49405121 als unpassend markiert",
+        "changed_fields": [
+          "enrichment.wikidata.rejected_qids"
+        ],
+        "changes": [
+          {
+            "field": "enrichment.wikidata.rejected_qids",
+            "old_value": [
+              "Q61721900"
+            ],
+            "new_value": [
+              "Q61721900",
+              "Q49405121"
             ]
           }
         ]
