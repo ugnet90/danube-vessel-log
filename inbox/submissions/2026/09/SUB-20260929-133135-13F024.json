@@ -1,0 +1,74 @@
+{
+  "schema_version": 15,
+  "submission_id": "SUB-20260929-133135-13F024",
+  "uploaded_at": "2026-09-29T13:31:35.265Z",
+  "captured_at": "2026-09-29T13:31:21.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": 457
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000005",
+    "name": "Donaustation Linz 1 (Brucknerhaus)",
+    "short_name": "Linz 1 – Brucknerhaus",
+    "station_number": "1",
+    "location_id": "LOC-001",
+    "area_id": "BTA-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2134.52,
+    "river_km_text": "2134,6+10–2134,4+30",
+    "facility_type": "Tankkahn",
+    "mooring_order": "25 m",
+    "entry_count": 0,
+    "entry_height": "",
+    "latitude": 48.311353,
+    "longitude": 14.2917265,
+    "address": "Untere Donaulände beim Brucknerhaus, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://www.donaustationen.at/anlegestellen-1/linz-1/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 1,
+  "direction": "upstream",
+  "vessel_name_entered": "AmaSonata",
+  "notes": "",
+  "observer_lat": 48.30362173675958,
+  "observer_lon": 14.29011425176066,
+  "photos": [],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000119",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000119"
+        ],
+        "matched_value": "AmaSonata",
+        "normalized_input": "amasonata"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
