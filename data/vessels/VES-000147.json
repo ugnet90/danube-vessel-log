@@ -25,7 +25,7 @@
   },
   "operations": {
     "operator": "Scylla ( Phoenix Reisen )",
-    "owner": "",
+    "owner": "Scylla",
     "manager": "",
     "cruise_brand": "",
     "home_port": "Basel"
@@ -58,12 +58,33 @@
       "added_by": "candidate-catalog",
       "candidate_id": "CAN-B527F6000F82",
       "source_revision_id": "268617530"
+    },
+    {
+      "source_id": "SRC-436A75470245",
+      "provider": "Wikidata",
+      "title": "Wikidata: Anna Katharina",
+      "url": "https://www.wikidata.org/wiki/Q132024052",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "operations.owner"
+      ],
+      "retrieved_at": "2026-09-29T05:43:45.518462Z",
+      "verified_at": "2026-09-29T05:48:40.389Z",
+      "added_at": "2026-09-29T05:48:40.389Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2348407676
     }
   ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q132024052",
+      "rejected_qids": [],
+      "accepted_at": "2026-09-29T05:48:40.389Z",
+      "last_reviewed_at": "2026-09-29T05:48:40.389Z"
+    }
   },
   "media": {
     "primary_photo_id": "",
@@ -74,9 +95,32 @@
     "environment": "production",
     "created_at": "2026-09-28T13:50:58.029Z",
     "created_from_submission_id": "SUB-20260928-135016-C70AC0",
-    "updated_at": "2026-09-28T13:50:58.029Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-09-29T05:48:40.389Z",
+    "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-B527F6000F82",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-09-29T05:48:40.389Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "1 Wikidata-Feld aus Q132024052 übernommen",
+        "changed_fields": [
+          "operations.owner",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "operations.owner",
+            "old_value": "",
+            "new_value": "Scylla"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q132024052"
+          }
+        ]
+      }
+    ]
   }
 }
