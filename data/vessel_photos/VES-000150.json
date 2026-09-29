@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "vessel_id": "VES-000150",
+  "photos": [
+    {
+      "photo_id": "PHOTO-213785C1CBB14508843FC342E1B85731",
+      "path": "inbox/photos/2026/09/PHOTO-213785C1CBB14508843FC342E1B85731.jpg",
+      "filename": "PHOTO-213785C1CBB14508843FC342E1B85731.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 438058,
+      "sequence": 1,
+      "captured_at": "2026-09-29T14:10:42.000Z",
+      "added_at": "2026-09-29T14:42:04.429Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30712833333333,
+      "photo_lon": 14.28536333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 72
+      },
+      "vessel_name_entered": "Celina",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260929-132915-5C1077"
+      }
+    },
+    {
+      "photo_id": "PHOTO-877F73FC94B443B1B2497EFA30A9B2FA",
+      "path": "inbox/photos/2026/09/PHOTO-877F73FC94B443B1B2497EFA30A9B2FA.jpg",
+      "filename": "PHOTO-877F73FC94B443B1B2497EFA30A9B2FA.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 388839,
+      "sequence": 2,
+      "captured_at": "2026-09-29T14:11:20.000Z",
+      "added_at": "2026-09-29T14:42:04.429Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": 48.30737833333333,
+      "photo_lon": 14.28527,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 94
+      },
+      "vessel_name_entered": "Celina",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260929-132915-5C1077"
+      }
+    }
+  ],
+  "updated_at": "2026-09-29T14:42:04.429Z"
+}

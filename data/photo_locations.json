@@ -1,8 +1,62 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-09-29T13:32:47.000Z",
-  "count": 139,
+  "updated_at": "2026-09-29T14:11:20.000Z",
+  "count": 141,
   "photos": [
+    {
+      "photo_id": "PHOTO-877F73FC94B443B1B2497EFA30A9B2FA",
+      "source_type": "direct",
+      "submission_id": "SUB-20260929-132915-5C1077",
+      "vessel_id": "VES-000150",
+      "vessel_name": "Celina",
+      "captured_at": "2026-09-29T14:11:20.000Z",
+      "photo_lat": 48.30737833333333,
+      "photo_lon": 14.28527,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 94
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260929-132915-5C1077"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-877F73FC94B443B1B2497EFA30A9B2FA.jpg"
+    },
+    {
+      "photo_id": "PHOTO-213785C1CBB14508843FC342E1B85731",
+      "source_type": "direct",
+      "submission_id": "SUB-20260929-132915-5C1077",
+      "vessel_id": "VES-000150",
+      "vessel_name": "Celina",
+      "captured_at": "2026-09-29T14:10:42.000Z",
+      "photo_lat": 48.30712833333333,
+      "photo_lon": 14.28536333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 72
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20260929-132915-5C1077"
+      },
+      "path": "inbox/photos/2026/09/PHOTO-213785C1CBB14508843FC342E1B85731.jpg"
+    },
     {
       "photo_id": "PHOTO-04FC78B0BA3E40DDB0124C95D993D730",
       "source_type": "sighting",
