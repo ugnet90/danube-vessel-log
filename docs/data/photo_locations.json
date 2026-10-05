@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-09-29T14:17:00.000Z",
+  "updated_at": "2026-10-05T14:39:06.000Z",
   "count": 142,
   "photos": [
     {
@@ -4843,8 +4843,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 94,
+  "sighting_count": 95,
   "sightings": [
+    {
+      "submission_id": "SUB-20261005-143922-71D8AA",
+      "vessel_id": "VES-000119",
+      "vessel_name": "AmaSonata",
+      "captured_at": "2026-10-05T14:39:06.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 0
+    },
     {
       "submission_id": "SUB-20260929-133316-3084A4",
       "vessel_id": "VES-000151",
