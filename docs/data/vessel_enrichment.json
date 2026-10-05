@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-10-05T11:28:05.654943Z",
+  "generated_at": "2026-10-05T14:45:32.515841Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,15 +32,15 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 51,
-    "vessels_incomplete": 51,
+    "vessels_total": 52,
+    "vessels_incomplete": 52,
     "vessels_complete": 0,
-    "candidate_matches": 1,
+    "candidate_matches": 2,
     "matched_no_new_data": 33,
     "low_confidence": 0,
     "no_match": 17,
     "lookup_errors": 0,
-    "suggestions_total": 4
+    "suggestions_total": 5
   },
   "vessels": [
     {
@@ -2504,6 +2504,93 @@
           "Q61721900"
         ],
         "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000152",
+      "name": "Carmen",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000152.json",
+      "missing_fields": [
+        {
+          "field": "identity.mmsi",
+          "label": "MMSI"
+        },
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.call_sign",
+          "label": "Rufzeichen"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 8,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "candidate",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": [
+          {
+            "qid": "Q140362890",
+            "label": "Viking",
+            "description": "European reseller of office supplies and furniture",
+            "url": "https://www.wikidata.org/wiki/Q140362890",
+            "score": 0.92,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Gewerbebetrieb"
+            ],
+            "suggestions": [
+              {
+                "field": "operations.owner",
+                "field_label": "Eigentümer",
+                "value": "RAJA-Gruppe",
+                "display_value": "RAJA-Gruppe",
+                "property": "P127",
+                "property_label": "owned by",
+                "property_url": "https://www.wikidata.org/wiki/Property:P127",
+                "source_url": "https://www.wikidata.org/wiki/Q140362890",
+                "confidence": 0.92,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2510750312
+          }
+        ]
       }
     }
   ]
