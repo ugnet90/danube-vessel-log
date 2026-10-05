@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-10-05T14:45:32.515841Z",
+  "generated_at": "2026-10-05T15:08:42.344930Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,15 +32,15 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 52,
-    "vessels_incomplete": 52,
+    "vessels_total": 53,
+    "vessels_incomplete": 53,
     "vessels_complete": 0,
-    "candidate_matches": 2,
+    "candidate_matches": 3,
     "matched_no_new_data": 33,
     "low_confidence": 0,
     "no_match": 17,
     "lookup_errors": 0,
-    "suggestions_total": 5
+    "suggestions_total": 11
   },
   "vessels": [
     {
@@ -2589,6 +2589,169 @@
               }
             ],
             "revision_id": 2510750312
+          }
+        ]
+      }
+    },
+    {
+      "vessel_id": "VES-000153",
+      "name": "Erika Kaiser",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000153.json",
+      "missing_fields": [
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.eni",
+          "label": "ENI"
+        },
+        {
+          "field": "technical.year_built",
+          "label": "Baujahr"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "technical.passengers",
+          "label": "Passagiere"
+        },
+        {
+          "field": "operations.operator",
+          "label": "Betreiber"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        },
+        {
+          "field": "operations.home_port",
+          "label": "Heimathafen"
+        }
+      ],
+      "missing_count": 11,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "candidate",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": [
+          {
+            "qid": "Q108885155",
+            "label": "Swiss Diamond",
+            "description": "Flusskreuzfahrtschiff",
+            "url": "https://www.wikidata.org/wiki/Q108885155",
+            "score": 1.0,
+            "confidence": "very_high",
+            "matched_by": [
+              "identity.mmsi"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [
+                "269057030"
+              ],
+              "imo": [],
+              "eni": [
+                "07001646"
+              ],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Flusskreuzfahrtschiff"
+            ],
+            "suggestions": [
+              {
+                "field": "identity.eni",
+                "field_label": "ENI",
+                "value": "07001646",
+                "display_value": "07001646",
+                "property": "P5910",
+                "property_label": "ENI number",
+                "property_url": "https://www.wikidata.org/wiki/Property:P5910",
+                "source_url": "https://www.wikidata.org/wiki/Q108885155",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.year_built",
+                "field_label": "Baujahr",
+                "value": 1994,
+                "display_value": 1994,
+                "property": "P729",
+                "property_label": "service entry",
+                "property_url": "https://www.wikidata.org/wiki/Property:P729",
+                "source_url": "https://www.wikidata.org/wiki/Q108885155",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.draft_m",
+                "field_label": "Tiefgang",
+                "value": 1.3,
+                "display_value": 1.3,
+                "property": "P2262",
+                "property_label": "draft",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
+                "source_url": "https://www.wikidata.org/wiki/Q108885155",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.passengers",
+                "field_label": "Passagiere",
+                "value": 123,
+                "display_value": 123,
+                "property": "P1083",
+                "property_label": "maximum capacity",
+                "property_url": "https://www.wikidata.org/wiki/Property:P1083",
+                "source_url": "https://www.wikidata.org/wiki/Q108885155",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "operations.operator",
+                "field_label": "Betreiber",
+                "value": "Scylla",
+                "display_value": "Scylla",
+                "property": "P137",
+                "property_label": "operator",
+                "property_url": "https://www.wikidata.org/wiki/Property:P137",
+                "source_url": "https://www.wikidata.org/wiki/Q108885155",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "operations.home_port",
+                "field_label": "Heimathafen",
+                "value": "Basel",
+                "display_value": "Basel",
+                "property": "P532",
+                "property_label": "port of registry",
+                "property_url": "https://www.wikidata.org/wiki/Property:P532",
+                "source_url": "https://www.wikidata.org/wiki/Q108885155",
+                "confidence": 1.0,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2340348584
           }
         ]
       }
