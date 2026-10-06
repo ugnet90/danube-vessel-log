@@ -3,35 +3,32 @@
   "vessel_id": "VES-000152",
   "identity": {
     "name": "Carmen",
-    "former_names": [
-      "Viking Europe",
-      "Bellefleur"
-    ],
-    "mmsi": "",
+    "former_names": [],
+    "mmsi": "244070771",
     "imo": "",
-    "eni": "04800250",
-    "call_sign": ""
+    "eni": "02321750",
+    "call_sign": "PD6931"
   },
   "classification": {
     "ship_type": "PASSENGER",
     "ship_subtype": "RIVER_CRUISE",
     "status": "active",
-    "flag": "MT"
+    "flag": "NL"
   },
   "technical": {
-    "year_built": 2001,
+    "year_built": null,
     "shipyard": "",
-    "length_m": 114.34,
-    "width_m": 11.4,
+    "length_m": 110,
+    "width_m": null,
     "draft_m": null,
-    "passengers": 150
+    "passengers": null
   },
   "operations": {
-    "operator": "Sijfa Cruises",
+    "operator": "",
     "owner": "",
     "manager": "",
     "cruise_brand": "",
-    "home_port": "Valletta"
+    "home_port": ""
   },
   "name_history": [],
   "identifiers_history": [],
@@ -78,9 +75,88 @@
     "environment": "production",
     "created_at": "2026-10-05T14:42:24.149Z",
     "created_from_submission_id": "SUB-20261005-143748-9ED597",
-    "updated_at": "2026-10-05T14:42:24.149Z",
+    "updated_at": "2026-10-06T12:23:00.258Z",
     "updated_by": "web-ui",
     "created_from_candidate_id": "CAN-5D3FB4B53B07",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-10-06T12:23:00.258Z",
+        "changed_by": "web-ui",
+        "changed_fields": [
+          "identity.former_names",
+          "identity.mmsi",
+          "identity.eni",
+          "identity.call_sign",
+          "classification.flag",
+          "technical.year_built",
+          "technical.length_m",
+          "technical.width_m",
+          "technical.passengers",
+          "operations.operator",
+          "operations.home_port"
+        ],
+        "changes": [
+          {
+            "field": "identity.former_names",
+            "old_value": [
+              "Viking Europe",
+              "Bellefleur"
+            ],
+            "new_value": []
+          },
+          {
+            "field": "identity.mmsi",
+            "old_value": "",
+            "new_value": "244070771"
+          },
+          {
+            "field": "identity.eni",
+            "old_value": "04800250",
+            "new_value": "02321750"
+          },
+          {
+            "field": "identity.call_sign",
+            "old_value": "",
+            "new_value": "PD6931"
+          },
+          {
+            "field": "classification.flag",
+            "old_value": "MT",
+            "new_value": "NL"
+          },
+          {
+            "field": "technical.year_built",
+            "old_value": 2001,
+            "new_value": null
+          },
+          {
+            "field": "technical.length_m",
+            "old_value": 114.34,
+            "new_value": 110
+          },
+          {
+            "field": "technical.width_m",
+            "old_value": 11.4,
+            "new_value": null
+          },
+          {
+            "field": "technical.passengers",
+            "old_value": 150,
+            "new_value": null
+          },
+          {
+            "field": "operations.operator",
+            "old_value": "Sijfa Cruises",
+            "new_value": ""
+          },
+          {
+            "field": "operations.home_port",
+            "old_value": "Valletta",
+            "new_value": ""
+          }
+        ]
+      }
+    ]
   }
 }
