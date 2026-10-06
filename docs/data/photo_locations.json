@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-10-06T04:31:21.000Z",
+  "updated_at": "2026-10-06T04:32:15.000Z",
   "count": 142,
   "photos": [
     {
@@ -4843,8 +4843,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 104,
+  "sighting_count": 105,
   "sightings": [
+    {
+      "submission_id": "SUB-20261006-043247-E6D76C",
+      "vessel_id": "VES-000154",
+      "vessel_name": "A-ROSA CLEA",
+      "captured_at": "2026-10-06T04:32:15.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
+      "direction": "upstream",
+      "photo_count": 0
+    },
     {
       "submission_id": "SUB-20261006-043136-54CBC7",
       "vessel_id": "VES-000149",
