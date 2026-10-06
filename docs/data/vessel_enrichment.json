@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-10-05T15:08:42.344930Z",
+  "generated_at": "2026-10-06T10:53:20.285820Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,13 +32,13 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 53,
-    "vessels_incomplete": 53,
+    "vessels_total": 54,
+    "vessels_incomplete": 54,
     "vessels_complete": 0,
     "candidate_matches": 3,
     "matched_no_new_data": 33,
     "low_confidence": 0,
-    "no_match": 17,
+    "no_match": 18,
     "lookup_errors": 0,
     "suggestions_total": 11
   },
@@ -2754,6 +2754,76 @@
             "revision_id": 2340348584
           }
         ]
+      }
+    },
+    {
+      "vessel_id": "VES-000154",
+      "name": "A-ROSA CLEA",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000154.json",
+      "missing_fields": [
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "identity.eni",
+          "label": "ENI"
+        },
+        {
+          "field": "technical.year_built",
+          "label": "Baujahr"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.length_m",
+          "label": "Länge"
+        },
+        {
+          "field": "technical.width_m",
+          "label": "Breite"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "technical.passengers",
+          "label": "Passagiere"
+        },
+        {
+          "field": "operations.operator",
+          "label": "Betreiber"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        },
+        {
+          "field": "operations.home_port",
+          "label": "Heimathafen"
+        }
+      ],
+      "missing_count": 13,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "no_match",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": []
       }
     }
   ]
