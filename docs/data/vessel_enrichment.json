@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-10-06T12:16:10.879750Z",
+  "generated_at": "2026-10-06T12:29:19.095534Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -40,7 +40,7 @@
     "low_confidence": 0,
     "no_match": 18,
     "lookup_errors": 0,
-    "suggestions_total": 1
+    "suggestions_total": 2
   },
   "vessels": [
     {
@@ -2439,24 +2439,32 @@
       "json_path": "data/vessels/VES-000152.json",
       "missing_fields": [
         {
-          "field": "identity.mmsi",
-          "label": "MMSI"
-        },
-        {
           "field": "identity.imo",
           "label": "IMO"
         },
         {
-          "field": "identity.call_sign",
-          "label": "Rufzeichen"
+          "field": "technical.year_built",
+          "label": "Baujahr"
         },
         {
           "field": "technical.shipyard",
           "label": "Werft"
         },
         {
+          "field": "technical.width_m",
+          "label": "Breite"
+        },
+        {
           "field": "technical.draft_m",
           "label": "Tiefgang"
+        },
+        {
+          "field": "technical.passengers",
+          "label": "Passagiere"
+        },
+        {
+          "field": "operations.operator",
+          "label": "Betreiber"
         },
         {
           "field": "operations.owner",
@@ -2469,23 +2477,79 @@
         {
           "field": "operations.cruise_brand",
           "label": "Marke"
+        },
+        {
+          "field": "operations.home_port",
+          "label": "Heimathafen"
         }
       ],
-      "missing_count": 8,
+      "missing_count": 11,
       "lookup": {
         "provider": "wikidata",
         "status": "candidate",
         "error": "",
         "warnings": [],
         "accepted_qid": "",
-        "rejected_qids": [],
+        "rejected_qids": [
+          "Q140362890"
+        ],
         "candidates": [
           {
-            "qid": "Q140362890",
-            "label": "Viking",
-            "description": "European reseller of office supplies and furniture",
-            "url": "https://www.wikidata.org/wiki/Q140362890",
-            "score": 0.92,
+            "qid": "Q108710614",
+            "label": "River Baroness",
+            "description": "Flusskreuzfahrtschiff",
+            "url": "https://www.wikidata.org/wiki/Q108710614",
+            "score": 1.0,
+            "confidence": "very_high",
+            "matched_by": [
+              "identity.eni"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [
+                "02321750"
+              ],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Flusskreuzfahrtschiff"
+            ],
+            "suggestions": [
+              {
+                "field": "technical.year_built",
+                "field_label": "Baujahr",
+                "value": 1995,
+                "display_value": 1995,
+                "property": "P729",
+                "property_label": "service entry",
+                "property_url": "https://www.wikidata.org/wiki/Property:P729",
+                "source_url": "https://www.wikidata.org/wiki/Q108710614",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.shipyard",
+                "field_label": "Werft",
+                "value": "Shipyard De Hoop",
+                "display_value": "Shipyard De Hoop",
+                "property": "P176",
+                "property_label": "manufacturer",
+                "property_url": "https://www.wikidata.org/wiki/Property:P176",
+                "source_url": "https://www.wikidata.org/wiki/Q108710614",
+                "confidence": 1.0,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2340354809
+          },
+          {
+            "qid": "Q241239",
+            "label": "Carmen",
+            "description": "philippinische Stadtgemeinde in der Provinz Bohol",
+            "url": "https://www.wikidata.org/wiki/Q241239",
+            "score": 0.955,
             "confidence": "high",
             "matched_by": [
               "name"
@@ -2498,23 +2562,131 @@
               "call_sign": []
             },
             "instance_of": [
-              "Gewerbebetrieb"
+              "Gemeinden auf den Philippinen"
             ],
             "suggestions": [
               {
-                "field": "operations.owner",
-                "field_label": "Eigentümer",
-                "value": "RAJA-Gruppe",
-                "display_value": "RAJA-Gruppe",
-                "property": "P127",
-                "property_label": "owned by",
-                "property_url": "https://www.wikidata.org/wiki/Property:P127",
-                "source_url": "https://www.wikidata.org/wiki/Q140362890",
-                "confidence": 0.92,
+                "field": "technical.year_built",
+                "field_label": "Baujahr",
+                "value": 1869,
+                "display_value": 1869,
+                "property": "P571",
+                "property_label": "inception",
+                "property_url": "https://www.wikidata.org/wiki/Property:P571",
+                "source_url": "https://www.wikidata.org/wiki/Q241239",
+                "confidence": 0.955,
                 "apply_supported": true
               }
             ],
-            "revision_id": 2510750312
+            "revision_id": 2540756567
+          },
+          {
+            "qid": "Q674832",
+            "label": "Carmen",
+            "description": "Novelle von Prosper Mérimée",
+            "url": "https://www.wikidata.org/wiki/Q674832",
+            "score": 0.95,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "literarisches Werk"
+            ],
+            "suggestions": [
+              {
+                "field": "technical.year_built",
+                "field_label": "Baujahr",
+                "value": 1845,
+                "display_value": 1845,
+                "property": "P571",
+                "property_label": "inception",
+                "property_url": "https://www.wikidata.org/wiki/Property:P571",
+                "source_url": "https://www.wikidata.org/wiki/Q674832",
+                "confidence": 0.95,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2489817472
+          },
+          {
+            "qid": "Q315882",
+            "label": "Carmen",
+            "description": "philippinische Stadtgemeinde in der Provinz Cebu",
+            "url": "https://www.wikidata.org/wiki/Q315882",
+            "score": 0.945,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Gemeinden auf den Philippinen"
+            ],
+            "suggestions": [
+              {
+                "field": "technical.year_built",
+                "field_label": "Baujahr",
+                "value": 1851,
+                "display_value": 1851,
+                "property": "P571",
+                "property_label": "inception",
+                "property_url": "https://www.wikidata.org/wiki/Property:P571",
+                "source_url": "https://www.wikidata.org/wiki/Q315882",
+                "confidence": 0.945,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2540756154
+          },
+          {
+            "qid": "Q315144",
+            "label": "Carmen",
+            "description": "philippinische Stadtgemeinde in der Provinz Cotabato",
+            "url": "https://www.wikidata.org/wiki/Q315144",
+            "score": 0.94,
+            "confidence": "high",
+            "matched_by": [
+              "name"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Gemeinden auf den Philippinen"
+            ],
+            "suggestions": [
+              {
+                "field": "technical.year_built",
+                "field_label": "Baujahr",
+                "value": 1956,
+                "display_value": 1956,
+                "property": "P571",
+                "property_label": "inception",
+                "property_url": "https://www.wikidata.org/wiki/Property:P571",
+                "source_url": "https://www.wikidata.org/wiki/Q315144",
+                "confidence": 0.94,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2540752944
           }
         ]
       }
