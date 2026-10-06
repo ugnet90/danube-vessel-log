@@ -64,7 +64,14 @@
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "",
+      "rejected_qids": [
+        "Q140362890"
+      ],
+      "last_reviewed_at": "2026-10-06T12:23:39.352Z"
+    }
   },
   "media": {
     "primary_photo_id": "",
@@ -75,8 +82,8 @@
     "environment": "production",
     "created_at": "2026-10-05T14:42:24.149Z",
     "created_from_submission_id": "SUB-20261005-143748-9ED597",
-    "updated_at": "2026-10-06T12:23:00.258Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-10-06T12:23:39.352Z",
+    "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-5D3FB4B53B07",
     "candidate_source_revision_id": "268617530",
     "change_history": [
@@ -154,6 +161,23 @@
             "field": "operations.home_port",
             "old_value": "Valletta",
             "new_value": ""
+          }
+        ]
+      },
+      {
+        "changed_at": "2026-10-06T12:23:39.352Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "Wikidata-Kandidat Q140362890 als unpassend markiert",
+        "changed_fields": [
+          "enrichment.wikidata.rejected_qids"
+        ],
+        "changes": [
+          {
+            "field": "enrichment.wikidata.rejected_qids",
+            "old_value": [],
+            "new_value": [
+              "Q140362890"
+            ]
           }
         ]
       }
