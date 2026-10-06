@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-10-06T12:07:44.642801Z",
+  "generated_at": "2026-10-06T12:16:10.879750Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 54,
     "vessels_incomplete": 54,
     "vessels_complete": 0,
-    "candidate_matches": 2,
-    "matched_no_new_data": 34,
+    "candidate_matches": 1,
+    "matched_no_new_data": 35,
     "low_confidence": 0,
     "no_match": 18,
     "lookup_errors": 0,
-    "suggestions_total": 5
+    "suggestions_total": 1
   },
   "vessels": [
     {
@@ -2355,89 +2355,15 @@
       "missing_count": 11,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
-          "Q387861"
+          "Q387861",
+          "Q83638599"
         ],
-        "candidates": [
-          {
-            "qid": "Q83638599",
-            "label": "Celina",
-            "description": "Mehrzweckschiff",
-            "url": "https://www.wikidata.org/wiki/Q83638599",
-            "score": 0.95,
-            "confidence": "high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [
-                "9030230"
-              ],
-              "eni": [],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Mehrzweckschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.imo",
-                "field_label": "IMO",
-                "value": "9030230",
-                "display_value": "9030230",
-                "property": "P458",
-                "property_label": "IMO ship number",
-                "property_url": "https://www.wikidata.org/wiki/Property:P458",
-                "source_url": "https://www.wikidata.org/wiki/Q83638599",
-                "confidence": 0.95,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.year_built",
-                "field_label": "Baujahr",
-                "value": 1992,
-                "display_value": 1992,
-                "property": "P729",
-                "property_label": "service entry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P729",
-                "source_url": "https://www.wikidata.org/wiki/Q83638599",
-                "confidence": 0.95,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "Bijlsma Wartena",
-                "display_value": "Bijlsma Wartena",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q83638599",
-                "confidence": 0.95,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 4.12,
-                "display_value": 4.12,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q83638599",
-                "confidence": 0.95,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 1866948568
-          }
-        ]
+        "candidates": []
       }
     },
     {
