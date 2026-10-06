@@ -6,7 +6,7 @@
     "former_names": [],
     "mmsi": "269057030",
     "imo": "",
-    "eni": "",
+    "eni": "07001646",
     "call_sign": "HE7030"
   },
   "classification": {
@@ -16,27 +16,54 @@
     "flag": "CH"
   },
   "technical": {
-    "year_built": null,
+    "year_built": 1994,
     "shipyard": "",
     "length_m": 102,
     "width_m": 12,
-    "draft_m": null,
-    "passengers": null
+    "draft_m": 1.3,
+    "passengers": 123
   },
   "operations": {
-    "operator": "",
+    "operator": "Scylla",
     "owner": "",
     "manager": "",
     "cruise_brand": "",
-    "home_port": ""
+    "home_port": "Basel"
   },
   "name_history": [],
   "identifiers_history": [],
-  "sources": [],
+  "sources": [
+    {
+      "source_id": "SRC-01163D0CE252",
+      "provider": "Wikidata",
+      "title": "Wikidata: Swiss Diamond",
+      "url": "https://www.wikidata.org/wiki/Q108885155",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "identity.eni",
+        "technical.year_built",
+        "technical.draft_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "retrieved_at": "2026-10-06T10:53:20.285820Z",
+      "verified_at": "2026-10-06T12:04:29.335Z",
+      "added_at": "2026-10-06T12:04:29.335Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2340348584
+    }
+  ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q108885155",
+      "rejected_qids": [],
+      "accepted_at": "2026-10-06T12:04:29.335Z",
+      "last_reviewed_at": "2026-10-06T12:04:29.335Z"
+    }
   },
   "media": {
     "primary_photo_id": "",
@@ -47,7 +74,60 @@
     "environment": "production",
     "created_at": "2026-10-05T15:05:22.496Z",
     "created_from_submission_id": "SUB-20261005-143842-0161A7",
-    "updated_at": "2026-10-05T15:05:22.496Z",
-    "updated_by": "web-ui"
+    "updated_at": "2026-10-06T12:04:29.335Z",
+    "updated_by": "vessel-enrichment",
+    "change_history": [
+      {
+        "changed_at": "2026-10-06T12:04:29.335Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "6 Wikidata-Felder aus Q108885155 übernommen",
+        "changed_fields": [
+          "identity.eni",
+          "technical.year_built",
+          "technical.draft_m",
+          "technical.passengers",
+          "operations.operator",
+          "operations.home_port",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "identity.eni",
+            "old_value": "",
+            "new_value": "07001646"
+          },
+          {
+            "field": "technical.year_built",
+            "old_value": null,
+            "new_value": 1994
+          },
+          {
+            "field": "technical.draft_m",
+            "old_value": null,
+            "new_value": 1.3
+          },
+          {
+            "field": "technical.passengers",
+            "old_value": null,
+            "new_value": 123
+          },
+          {
+            "field": "operations.operator",
+            "old_value": "",
+            "new_value": "Scylla"
+          },
+          {
+            "field": "operations.home_port",
+            "old_value": "",
+            "new_value": "Basel"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q108885155"
+          }
+        ]
+      }
+    ]
   }
 }
