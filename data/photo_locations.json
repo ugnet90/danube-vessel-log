@@ -1,8 +1,116 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-10-06T04:32:15.000Z",
-  "count": 142,
+  "updated_at": "2026-10-06T05:11:02.000Z",
+  "count": 146,
   "photos": [
+    {
+      "photo_id": "PHOTO-B271BC0A57C04C508F4064E8AACD80F8",
+      "source_type": "direct",
+      "submission_id": "SUB-20261006-043247-E6D76C",
+      "vessel_id": "VES-000154",
+      "vessel_name": "A-ROSA CLEA",
+      "captured_at": "2026-10-06T05:11:02.000Z",
+      "photo_lat": 48.30753,
+      "photo_lon": 14.28519166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 110
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261006-043247-E6D76C"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-B271BC0A57C04C508F4064E8AACD80F8.jpg"
+    },
+    {
+      "photo_id": "PHOTO-C0FF9AE2EB8F4A1CBFD3B5D44013AB30",
+      "source_type": "direct",
+      "submission_id": "SUB-20261006-043247-E6D76C",
+      "vessel_id": "VES-000154",
+      "vessel_name": "A-ROSA CLEA",
+      "captured_at": "2026-10-06T05:10:08.000Z",
+      "photo_lat": 48.308105,
+      "photo_lon": 14.284745,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 181
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261006-043247-E6D76C"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-C0FF9AE2EB8F4A1CBFD3B5D44013AB30.jpg"
+    },
+    {
+      "photo_id": "PHOTO-43078B4533F64CF995EA4AD56196786A",
+      "source_type": "direct",
+      "submission_id": "SUB-20261006-043247-E6D76C",
+      "vessel_id": "VES-000154",
+      "vessel_name": "A-ROSA CLEA",
+      "captured_at": "2026-10-06T05:09:31.000Z",
+      "photo_lat": 48.308545,
+      "photo_lon": 14.28441666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 235
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261006-043247-E6D76C"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-43078B4533F64CF995EA4AD56196786A.jpg"
+    },
+    {
+      "photo_id": "PHOTO-A09E077E04E64A6C844AD127687E4703",
+      "source_type": "direct",
+      "submission_id": "SUB-20261006-043247-E6D76C",
+      "vessel_id": "VES-000154",
+      "vessel_name": "A-ROSA CLEA",
+      "captured_at": "2026-10-06T05:08:14.000Z",
+      "photo_lat": 48.30922,
+      "photo_lon": 14.28357166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 332
+      },
+      "berth": null,
+      "movement": "",
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261006-043247-E6D76C"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-A09E077E04E64A6C844AD127687E4703.jpg"
+    },
     {
       "photo_id": "PHOTO-FE12477B74604B2AB9676BAF67C6E200",
       "source_type": "direct",
