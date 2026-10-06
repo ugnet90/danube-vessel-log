@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-10-06T10:53:20.285820Z",
+  "generated_at": "2026-10-06T12:07:44.642801Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 54,
     "vessels_incomplete": 54,
     "vessels_complete": 0,
-    "candidate_matches": 3,
-    "matched_no_new_data": 33,
+    "candidate_matches": 2,
+    "matched_no_new_data": 34,
     "low_confidence": 0,
     "no_match": 18,
     "lookup_errors": 0,
-    "suggestions_total": 11
+    "suggestions_total": 5
   },
   "vessels": [
     {
@@ -2604,28 +2604,8 @@
           "label": "IMO"
         },
         {
-          "field": "identity.eni",
-          "label": "ENI"
-        },
-        {
-          "field": "technical.year_built",
-          "label": "Baujahr"
-        },
-        {
           "field": "technical.shipyard",
           "label": "Werft"
-        },
-        {
-          "field": "technical.draft_m",
-          "label": "Tiefgang"
-        },
-        {
-          "field": "technical.passengers",
-          "label": "Passagiere"
-        },
-        {
-          "field": "operations.operator",
-          "label": "Betreiber"
         },
         {
           "field": "operations.owner",
@@ -2638,122 +2618,17 @@
         {
           "field": "operations.cruise_brand",
           "label": "Marke"
-        },
-        {
-          "field": "operations.home_port",
-          "label": "Heimathafen"
         }
       ],
-      "missing_count": 11,
+      "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
-        "accepted_qid": "",
+        "accepted_qid": "Q108885155",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q108885155",
-            "label": "Swiss Diamond",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q108885155",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "identity.mmsi"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [
-                "269057030"
-              ],
-              "imo": [],
-              "eni": [
-                "07001646"
-              ],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.eni",
-                "field_label": "ENI",
-                "value": "07001646",
-                "display_value": "07001646",
-                "property": "P5910",
-                "property_label": "ENI number",
-                "property_url": "https://www.wikidata.org/wiki/Property:P5910",
-                "source_url": "https://www.wikidata.org/wiki/Q108885155",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.year_built",
-                "field_label": "Baujahr",
-                "value": 1994,
-                "display_value": 1994,
-                "property": "P729",
-                "property_label": "service entry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P729",
-                "source_url": "https://www.wikidata.org/wiki/Q108885155",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 1.3,
-                "display_value": 1.3,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q108885155",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.passengers",
-                "field_label": "Passagiere",
-                "value": 123,
-                "display_value": 123,
-                "property": "P1083",
-                "property_label": "maximum capacity",
-                "property_url": "https://www.wikidata.org/wiki/Property:P1083",
-                "source_url": "https://www.wikidata.org/wiki/Q108885155",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.operator",
-                "field_label": "Betreiber",
-                "value": "Scylla",
-                "display_value": "Scylla",
-                "property": "P137",
-                "property_label": "operator",
-                "property_url": "https://www.wikidata.org/wiki/Property:P137",
-                "source_url": "https://www.wikidata.org/wiki/Q108885155",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.home_port",
-                "field_label": "Heimathafen",
-                "value": "Basel",
-                "display_value": "Basel",
-                "property": "P532",
-                "property_label": "port of registry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P532",
-                "source_url": "https://www.wikidata.org/wiki/Q108885155",
-                "confidence": 1.0,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2340348584
-          }
-        ]
+        "candidates": []
       }
     },
     {
