@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-10-06T12:53:07.528068Z",
+  "generated_at": "2026-10-07T12:03:43.969338Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -32,15 +32,15 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 54,
-    "vessels_incomplete": 54,
+    "vessels_total": 55,
+    "vessels_incomplete": 55,
     "vessels_complete": 0,
-    "candidate_matches": 0,
+    "candidate_matches": 1,
     "matched_no_new_data": 36,
     "low_confidence": 0,
     "no_match": 18,
     "lookup_errors": 0,
-    "suggestions_total": 0
+    "suggestions_total": 2
   },
   "vessels": [
     {
@@ -2598,6 +2598,99 @@
         "accepted_qid": "",
         "rejected_qids": [],
         "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000155",
+      "name": "Savor",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000155.json",
+      "missing_fields": [
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 6,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "candidate",
+        "error": "",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": [
+          {
+            "qid": "Q131986622",
+            "label": "ENI 07001997",
+            "description": "Kabinenschiff, Baujahr 2014",
+            "url": "https://www.wikidata.org/wiki/Q131986622",
+            "score": 1.0,
+            "confidence": "very_high",
+            "matched_by": [
+              "identity.eni"
+            ],
+            "manually_confirmed": false,
+            "identifiers": {
+              "mmsi": [],
+              "imo": [],
+              "eni": [
+                "07001997"
+              ],
+              "call_sign": []
+            },
+            "instance_of": [
+              "Flusskreuzfahrtschiff"
+            ],
+            "suggestions": [
+              {
+                "field": "technical.shipyard",
+                "field_label": "Werft",
+                "value": "VAHALI",
+                "display_value": "VAHALI",
+                "property": "P176",
+                "property_label": "manufacturer",
+                "property_url": "https://www.wikidata.org/wiki/Property:P176",
+                "source_url": "https://www.wikidata.org/wiki/Q131986622",
+                "confidence": 1.0,
+                "apply_supported": true
+              },
+              {
+                "field": "technical.draft_m",
+                "field_label": "Tiefgang",
+                "value": 1.99,
+                "display_value": 1.99,
+                "property": "P2262",
+                "property_label": "draft",
+                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
+                "source_url": "https://www.wikidata.org/wiki/Q131986622",
+                "confidence": 1.0,
+                "apply_supported": true
+              }
+            ],
+            "revision_id": 2305302315
+          }
+        ]
       }
     }
   ]
