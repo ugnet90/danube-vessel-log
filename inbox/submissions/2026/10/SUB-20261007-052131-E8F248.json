@@ -1,0 +1,213 @@
+{
+  "schema_version": 15,
+  "submission_id": "SUB-20261007-052131-E8F248",
+  "uploaded_at": "2026-10-07T05:21:31.548Z",
+  "captured_at": "2026-10-07T05:03:37.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000003",
+    "name": "Schiffsanlegestelle Linz-Hauptplatz",
+    "short_name": "Linz-Hauptplatz Nr. 13",
+    "station_number": "13",
+    "location_id": "LOC-001",
+    "area_id": "BTA-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2135.045,
+    "river_km_text": "2135,0+45 m",
+    "facility_type": "Rohrponton",
+    "mooring_order": "max. Breite 29 m",
+    "entry_count": 4,
+    "entry_height": "1,60 m",
+    "latitude": 48.307747,
+    "longitude": 14.2862415,
+    "address": "Dr. Ernst Koref Promenade, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://maps.oberoesterreich.at/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 1,
+  "direction": "upstream",
+  "vessel_name_entered": "Savor",
+  "notes": "",
+  "observer_lat": null,
+  "observer_lon": null,
+  "photos": [
+    {
+      "photo_id": "PHOTO-B8C41BB2C4524CDE80F9818B1CA4D857",
+      "path": "inbox/photos/2026/10/PHOTO-B8C41BB2C4524CDE80F9818B1CA4D857.jpg",
+      "filename": "PHOTO-B8C41BB2C4524CDE80F9818B1CA4D857.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 322121,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-10-07T05:03:37.000Z",
+      "photo_lat": null,
+      "photo_lon": null,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-B9AEAA2CF80D4CCB8AA98AC471E09881",
+      "path": "inbox/photos/2026/10/PHOTO-B9AEAA2CF80D4CCB8AA98AC471E09881.jpg",
+      "filename": "PHOTO-B9AEAA2CF80D4CCB8AA98AC471E09881.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 360465,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-10-07T05:05:09.000Z",
+      "photo_lat": 48.3087,
+      "photo_lon": 14.2847,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 239
+      }
+    },
+    {
+      "photo_id": "PHOTO-65C13E900A0F47E2BA6D28B2E8605266",
+      "path": "inbox/photos/2026/10/PHOTO-65C13E900A0F47E2BA6D28B2E8605266.jpg",
+      "filename": "PHOTO-65C13E900A0F47E2BA6D28B2E8605266.jpg",
+      "original_filename": "shortcut-photo-03.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 458923,
+      "sequence": 3,
+      "metadata_version": 1,
+      "captured_at": "2026-10-07T05:06:31.000Z",
+      "photo_lat": 48.30791333333333,
+      "photo_lon": 14.28523,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 143
+      }
+    },
+    {
+      "photo_id": "PHOTO-6AE9E7DA7C9E41BA969848C7D040F23A",
+      "path": "inbox/photos/2026/10/PHOTO-6AE9E7DA7C9E41BA969848C7D040F23A.jpg",
+      "filename": "PHOTO-6AE9E7DA7C9E41BA969848C7D040F23A.jpg",
+      "original_filename": "shortcut-photo-04.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 419664,
+      "sequence": 4,
+      "metadata_version": 1,
+      "captured_at": "2026-10-07T05:06:36.000Z",
+      "photo_lat": 48.30792,
+      "photo_lon": 14.285275,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 142
+      }
+    },
+    {
+      "photo_id": "PHOTO-C75DCC41139B496DA4E7CE3EB03120CA",
+      "path": "inbox/photos/2026/10/PHOTO-C75DCC41139B496DA4E7CE3EB03120CA.jpg",
+      "filename": "PHOTO-C75DCC41139B496DA4E7CE3EB03120CA.jpg",
+      "original_filename": "shortcut-photo-05.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 408208,
+      "sequence": 5,
+      "metadata_version": 1,
+      "captured_at": "2026-10-07T05:07:17.000Z",
+      "photo_lat": 48.307525,
+      "photo_lon": 14.28554166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 94
+      }
+    },
+    {
+      "photo_id": "PHOTO-841609D5FA43429D9C288A8FDF5ED523",
+      "path": "inbox/photos/2026/10/PHOTO-841609D5FA43429D9C288A8FDF5ED523.jpg",
+      "filename": "PHOTO-841609D5FA43429D9C288A8FDF5ED523.jpg",
+      "original_filename": "shortcut-photo-06.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 434890,
+      "sequence": 6,
+      "metadata_version": 1,
+      "captured_at": "2026-10-07T05:08:02.000Z",
+      "photo_lat": 48.30732166666667,
+      "photo_lon": 14.28574166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 67
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "savor"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": null,
+  "photo_lon": null
+}
