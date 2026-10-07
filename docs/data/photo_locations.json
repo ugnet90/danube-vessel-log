@@ -1,8 +1,188 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-10-06T14:18:41.000Z",
-  "count": 147,
+  "updated_at": "2026-10-07T05:08:02.000Z",
+  "count": 152,
   "photos": [
+    {
+      "photo_id": "PHOTO-841609D5FA43429D9C288A8FDF5ED523",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261007-052131-E8F248",
+      "vessel_id": "VES-000155",
+      "vessel_name": "Savor",
+      "captured_at": "2026-10-07T05:08:02.000Z",
+      "photo_lat": 48.30732166666667,
+      "photo_lon": 14.28574166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 67
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261007-052131-E8F248"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-841609D5FA43429D9C288A8FDF5ED523.jpg"
+    },
+    {
+      "photo_id": "PHOTO-C75DCC41139B496DA4E7CE3EB03120CA",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261007-052131-E8F248",
+      "vessel_id": "VES-000155",
+      "vessel_name": "Savor",
+      "captured_at": "2026-10-07T05:07:17.000Z",
+      "photo_lat": 48.307525,
+      "photo_lon": 14.28554166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 94
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261007-052131-E8F248"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-C75DCC41139B496DA4E7CE3EB03120CA.jpg"
+    },
+    {
+      "photo_id": "PHOTO-6AE9E7DA7C9E41BA969848C7D040F23A",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261007-052131-E8F248",
+      "vessel_id": "VES-000155",
+      "vessel_name": "Savor",
+      "captured_at": "2026-10-07T05:06:36.000Z",
+      "photo_lat": 48.30792,
+      "photo_lon": 14.285275,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 142
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261007-052131-E8F248"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-6AE9E7DA7C9E41BA969848C7D040F23A.jpg"
+    },
+    {
+      "photo_id": "PHOTO-65C13E900A0F47E2BA6D28B2E8605266",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261007-052131-E8F248",
+      "vessel_id": "VES-000155",
+      "vessel_name": "Savor",
+      "captured_at": "2026-10-07T05:06:31.000Z",
+      "photo_lat": 48.30791333333333,
+      "photo_lon": 14.28523,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 143
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261007-052131-E8F248"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-65C13E900A0F47E2BA6D28B2E8605266.jpg"
+    },
+    {
+      "photo_id": "PHOTO-B9AEAA2CF80D4CCB8AA98AC471E09881",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261007-052131-E8F248",
+      "vessel_id": "VES-000155",
+      "vessel_name": "Savor",
+      "captured_at": "2026-10-07T05:05:09.000Z",
+      "photo_lat": 48.3087,
+      "photo_lon": 14.2847,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 239
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261007-052131-E8F248"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-B9AEAA2CF80D4CCB8AA98AC471E09881.jpg"
+    },
     {
       "photo_id": "PHOTO-6CAC2D3D2A4645E9BF58E6FFB97DAA8C",
       "source_type": "direct",
@@ -4978,8 +5158,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 105,
+  "sighting_count": 106,
   "sightings": [
+    {
+      "submission_id": "SUB-20261007-052131-E8F248",
+      "vessel_id": "VES-000155",
+      "vessel_name": "Savor",
+      "captured_at": "2026-10-07T05:03:37.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "direction": "upstream",
+      "photo_count": 6
+    },
     {
       "submission_id": "SUB-20261006-043247-E6D76C",
       "vessel_id": "VES-000154",

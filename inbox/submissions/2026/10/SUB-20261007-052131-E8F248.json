@@ -188,7 +188,7 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "reviewed",
     "auto": {
       "vessel_match": {
         "status": "unmatched",
@@ -201,10 +201,10 @@
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
-      "vessel_id": "",
-      "decision": "",
+      "reviewed": true,
+      "reviewed_at": "2026-10-07T12:00:25.900Z",
+      "vessel_id": "VES-000155",
+      "decision": "created",
       "notes": ""
     }
   },

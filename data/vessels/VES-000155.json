@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000155",
+  "identity": {
+    "name": "Savor",
+    "former_names": [],
+    "mmsi": "269057488",
+    "imo": "",
+    "eni": "07001997",
+    "call_sign": "HE7488"
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "CH"
+  },
+  "technical": {
+    "year_built": 2014,
+    "shipyard": "",
+    "length_m": 135,
+    "width_m": 11.4,
+    "draft_m": null,
+    "passengers": 142
+  },
+  "operations": {
+    "operator": "Scylla (Tauck Tours)",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": "Basel"
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [
+    {
+      "source_id": "SRC-3907EADBB449",
+      "provider": "Wikipedia",
+      "title": "Kandidatenkatalog: Savor",
+      "url": "https://de.wikipedia.org/wiki/Liste_von_Flusskreuzfahrtschiffen",
+      "notes": "Vorbelegung aus CAN-1E021B393D82.",
+      "fields_used": [
+        "identity.name",
+        "identity.eni",
+        "classification.ship_type",
+        "classification.ship_subtype",
+        "classification.flag",
+        "technical.year_built",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.passengers",
+        "operations.operator",
+        "operations.home_port"
+      ],
+      "retrieved_at": "",
+      "verified_at": "",
+      "added_at": "2026-10-07T12:00:25.900Z",
+      "added_by": "candidate-catalog",
+      "candidate_id": "CAN-1E021B393D82",
+      "source_revision_id": "268617530"
+    }
+  ],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-B8C41BB2C4524CDE80F9818B1CA4D857",
+    "primary_submission_id": "SUB-20261007-052131-E8F248"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-10-07T12:00:25.900Z",
+    "created_from_submission_id": "SUB-20261007-052131-E8F248",
+    "updated_at": "2026-10-07T12:00:25.900Z",
+    "updated_by": "web-ui",
+    "created_from_candidate_id": "CAN-1E021B393D82",
+    "candidate_source_revision_id": "268617530"
+  }
+}
