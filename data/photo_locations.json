@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-10-08T05:05:38.000Z",
+  "updated_at": "2026-10-08T13:46:08.000Z",
   "count": 155,
   "photos": [
     {
@@ -5266,8 +5266,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 108,
+  "sighting_count": 109,
   "sightings": [
+    {
+      "submission_id": "SUB-20261008-134625-9F85C8",
+      "vessel_id": "VES-000121",
+      "vessel_name": "AmaMagna",
+      "captured_at": "2026-10-08T13:46:08.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000006",
+        "name": "Donaustation Linz 32",
+        "short_name": "Linz 32",
+        "station_number": "32"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 22,
+      "direction": "upstream",
+      "photo_count": 0
+    },
     {
       "submission_id": "SUB-20261008-052923-F50236",
       "vessel_id": "VES-000122",
