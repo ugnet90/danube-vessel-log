@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-10-08T13:48:35.000Z",
+  "updated_at": "2026-10-08T13:49:01.000Z",
   "count": 155,
   "photos": [
     {
@@ -5266,8 +5266,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 111,
+  "sighting_count": 112,
   "sightings": [
+    {
+      "submission_id": "SUB-20261008-134915-D3A8DA",
+      "vessel_id": "VES-000110",
+      "vessel_name": "S.S. Maria Theresa",
+      "captured_at": "2026-10-08T13:49:01.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "direction": "upstream",
+      "photo_count": 0
+    },
     {
       "submission_id": "SUB-20261008-134848-984A42",
       "vessel_id": "VES-000112",
