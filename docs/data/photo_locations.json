@@ -1,8 +1,44 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-10-07T05:08:02.000Z",
-  "count": 152,
+  "updated_at": "2026-10-08T05:04:50.000Z",
+  "count": 153,
   "photos": [
+    {
+      "photo_id": "PHOTO-BE7F212B7A31495794B711BAA546CD09",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261008-052812-21F067",
+      "vessel_id": "VES-000102",
+      "vessel_name": "AmaStella",
+      "captured_at": "2026-10-08T05:04:50.000Z",
+      "photo_lat": 48.307495,
+      "photo_lon": 14.28518833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 108
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261008-052812-21F067"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-BE7F212B7A31495794B711BAA546CD09.jpg"
+    },
     {
       "photo_id": "PHOTO-841609D5FA43429D9C288A8FDF5ED523",
       "source_type": "sighting",
@@ -5158,8 +5194,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 106,
+  "sighting_count": 107,
   "sightings": [
+    {
+      "submission_id": "SUB-20261008-052812-21F067",
+      "vessel_id": "VES-000102",
+      "vessel_name": "AmaStella",
+      "captured_at": "2026-10-08T05:03:26.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 2
+    },
     {
       "submission_id": "SUB-20261007-052131-E8F248",
       "vessel_id": "VES-000155",
