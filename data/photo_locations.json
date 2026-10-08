@@ -1,8 +1,80 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-10-08T05:04:50.000Z",
-  "count": 153,
+  "updated_at": "2026-10-08T05:05:38.000Z",
+  "count": 155,
   "photos": [
+    {
+      "photo_id": "PHOTO-076D3639051F49CEA04E2422F5611410",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261008-052923-F50236",
+      "vessel_id": "VES-000122",
+      "vessel_name": "Emerald Destiny",
+      "captured_at": "2026-10-08T05:05:38.000Z",
+      "photo_lat": 48.30714166666667,
+      "photo_lon": 14.28536166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 73
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261008-052923-F50236"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-076D3639051F49CEA04E2422F5611410.jpg"
+    },
+    {
+      "photo_id": "PHOTO-CA76D96E99F841D68EFB4F62EC293768",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261008-052923-F50236",
+      "vessel_id": "VES-000122",
+      "vessel_name": "Emerald Destiny",
+      "captured_at": "2026-10-08T05:05:06.000Z",
+      "photo_lat": 48.30741166666667,
+      "photo_lon": 14.28523833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 98
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261008-052923-F50236"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-CA76D96E99F841D68EFB4F62EC293768.jpg"
+    },
     {
       "photo_id": "PHOTO-BE7F212B7A31495794B711BAA546CD09",
       "source_type": "sighting",
@@ -5194,8 +5266,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 107,
+  "sighting_count": 108,
   "sightings": [
+    {
+      "submission_id": "SUB-20261008-052923-F50236",
+      "vessel_id": "VES-000122",
+      "vessel_name": "Emerald Destiny",
+      "captured_at": "2026-10-08T05:05:06.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 98
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 2
+    },
     {
       "submission_id": "SUB-20261008-052812-21F067",
       "vessel_id": "VES-000102",
