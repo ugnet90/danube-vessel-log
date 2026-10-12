@@ -1,7 +1,7 @@
 /*
  * Danube Vessel Log
  * File: docs/css/analytics.css
- * Version: 0.15.17
+ * Version: 0.15.21
  * Updated: 2026-10-12
  */
 
@@ -393,4 +393,16 @@
     grid-template-columns: minmax(105px, 1.3fr) minmax(80px, 1.5fr) auto;
     gap: 8px;
   }
+}
+
+.analytics-photo-link {
+  color: #1d4ed8;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.analytics-photo-link:hover,
+.analytics-photo-link:focus-visible {
+  text-decoration: underline;
+  outline: none;
 }
