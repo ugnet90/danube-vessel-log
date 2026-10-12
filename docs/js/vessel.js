@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.15.10
+// Version: 0.15.21
 // Updated: 2026-09-03
 
 "use strict";
@@ -4892,6 +4892,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function scrollToPhotosIfRequested() {
+    if (window.location.hash !== "#photos") return;
+
+    const target = byId("photos");
+    if (!target) return;
+
+    window.requestAnimationFrame(() => {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  }
+
   function render(payload) {
     const vessel =
       payload.vessel || {};
@@ -5155,6 +5169,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     
     content.classList.remove("hidden");
+    scrollToPhotosIfRequested();
   }
 
   async function load() {
