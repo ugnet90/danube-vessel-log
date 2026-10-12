@@ -4892,10 +4892,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function photoScrollTarget() {
+    const directGallery = byId("directPhotosGallery");
+    if (
+      directGallery
+      && !directGallery.classList.contains("hidden")
+      && directGallery.childElementCount > 0
+    ) {
+      return byId("photos") || directGallery;
+    }
+
+    const sightingGallery =
+      document.querySelector(
+        "#sightingsList .sighting-gallery"
+      );
+
+    return (
+      sightingGallery?.closest(".sighting-item")
+      || byId("photos")
+    );
+  }
+
   function scrollToPhotosIfRequested() {
     if (window.location.hash !== "#photos") return;
 
-    const target = byId("photos");
+    const target = photoScrollTarget();
     if (!target) return;
 
     window.requestAnimationFrame(() => {
@@ -5229,6 +5250,24 @@ document.addEventListener("DOMContentLoaded", () => {
         !currentVessel;
     }
   }
+
+  byId("summaryPhotosLink")
+    ?.addEventListener(
+      "click",
+      event => {
+        event.preventDefault();
+        window.history.replaceState(
+          null,
+          "",
+          "#photos"
+        );
+        const target = photoScrollTarget();
+        target?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    );
 
   prepareDeleteButton.addEventListener(
     "click",
