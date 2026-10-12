@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/analytics.js
-// Version: 0.15.19
+// Version: 0.15.20
 // Updated: 2026-10-12
 
 "use strict";
@@ -60,31 +60,133 @@
     }
   }
 
-  function populateFilters() {
-    const dimensions = state.document?.dimensions || {};
-    addOptions(elements.locationFilter, dimensions.locations || []);
-    addOptions(elements.vesselFilter, dimensions.vessels || []);
-    addOptions(elements.operatorFilter, dimensions.operators || [], "id", "name");
-    updateBerthOptions();
+  function currentFilterValues() {
+    return {
+      from: elements.dateFrom.value,
+      to: elements.dateTo.value,
+      location: elements.locationFilter.value,
+      berth: elements.berthFilter.value,
+      vessel: elements.vesselFilter.value,
+      operator: elements.operatorFilter.value,
+      movement: elements.movementFilter.value
+    };
   }
 
-  function updateBerthOptions() {
-    const current = elements.berthFilter.value;
-    const locationId = elements.locationFilter.value;
-    const seen = new Map();
+  function recordMatchesFilters(record, filters, omittedFacet = "") {
+    if (filters.from && record.local_date < filters.from) return false;
+    if (filters.to && record.local_date > filters.to) return false;
+    if (omittedFacet !== "location" && filters.location && record.location_area_id !== filters.location) return false;
+    if (omittedFacet !== "berth" && filters.berth && record.berth_id !== filters.berth) return false;
+    if (omittedFacet !== "vessel" && filters.vessel && record.vessel_id !== filters.vessel) return false;
+    if (
+      omittedFacet !== "operator"
+      && filters.operator
+      && (record.operator || record.cruise_brand) !== filters.operator
+    ) return false;
+    if (omittedFacet !== "movement" && filters.movement && record.movement !== filters.movement) return false;
+    return true;
+  }
 
-    for (const record of state.records) {
-      if (locationId && record.location_area_id !== locationId) continue;
-      if (!record.berth_id) continue;
-      seen.set(record.berth_id, record.berth_short_name || record.berth_name || record.berth_id);
+  function setFacetOptions(select, items) {
+    const current = select.value;
+    addOptions(select, items);
+    const valid = items.some(item => (typeof item === "string" ? item : String(item.id ?? "")) === current);
+    select.value = valid ? current : "";
+    return current !== "" && !valid;
+  }
+
+  function facetRecords(omittedFacet) {
+    const filters = currentFilterValues();
+    return state.records.filter(record => recordMatchesFilters(record, filters, omittedFacet));
+  }
+
+  function updateFacetedFilters() {
+    const facets = [
+      {
+        key: "location",
+        select: elements.locationFilter,
+        items(records) {
+          const seen = new Map();
+          for (const record of records) {
+            if (!record.location_area_id) continue;
+            seen.set(record.location_area_id, record.location_area_name || record.location_area_id);
+          }
+          return [...seen.entries()]
+            .map(([id, name]) => ({ id, name }))
+            .sort((a, b) => a.name.localeCompare(b.name, "de", { numeric: true }));
+        }
+      },
+      {
+        key: "berth",
+        select: elements.berthFilter,
+        items(records) {
+          const seen = new Map();
+          for (const record of records) {
+            if (!record.berth_id) continue;
+            seen.set(record.berth_id, record.berth_short_name || record.berth_name || record.berth_id);
+          }
+          return [...seen.entries()]
+            .map(([id, name]) => ({ id, name }))
+            .sort((a, b) => a.name.localeCompare(b.name, "de", { numeric: true }));
+        }
+      },
+      {
+        key: "vessel",
+        select: elements.vesselFilter,
+        items(records) {
+          const seen = new Map();
+          for (const record of records) {
+            if (!record.vessel_id) continue;
+            seen.set(record.vessel_id, record.vessel_name || record.vessel_id);
+          }
+          return [...seen.entries()]
+            .map(([id, name]) => ({ id, name }))
+            .sort((a, b) => a.name.localeCompare(b.name, "de", { numeric: true }));
+        }
+      },
+      {
+        key: "operator",
+        select: elements.operatorFilter,
+        items(records) {
+          return [...new Set(
+            records
+              .map(record => record.operator || record.cruise_brand)
+              .filter(Boolean)
+          )].sort((a, b) => a.localeCompare(b, "de", { numeric: true }));
+        }
+      },
+      {
+        key: "movement",
+        select: elements.movementFilter,
+        items(records) {
+          const labels = {
+            moored: "Liegend",
+            moving: "Fahrend",
+            unknown: "Unbekannt"
+          };
+          const values = [...new Set(records.map(record => record.movement || "unknown"))];
+          return ["moored", "moving", "unknown"]
+            .filter(value => values.includes(value))
+            .map(id => ({ id, name: labels[id] }));
+        }
+      }
+    ];
+
+    // Falls eine bestehende Auswahl durch einen anderen Filter unzulässig wird,
+    // wird sie auf "Alle" zurückgesetzt. Danach werden alle Facetten noch einmal
+    // berechnet, damit die Optionslisten zueinander konsistent bleiben.
+    for (let pass = 0; pass < 6; pass += 1) {
+      let resetOccurred = false;
+      for (const facet of facets) {
+        const records = facetRecords(facet.key);
+        if (setFacetOptions(facet.select, facet.items(records))) resetOccurred = true;
+      }
+      if (!resetOccurred) break;
     }
+  }
 
-    const items = [...seen.entries()]
-      .map(([id, name]) => ({ id, name }))
-      .sort((a, b) => a.name.localeCompare(b.name, "de", { numeric: true }));
-
-    addOptions(elements.berthFilter, items);
-    if (items.some(item => item.id === current)) elements.berthFilter.value = current;
+  function populateFilters() {
+    updateFacetedFilters();
   }
 
   function localToday() {
@@ -121,24 +223,8 @@
   }
 
   function filterRecords() {
-    const from = elements.dateFrom.value;
-    const to = elements.dateTo.value;
-    const location = elements.locationFilter.value;
-    const berth = elements.berthFilter.value;
-    const vessel = elements.vesselFilter.value;
-    const operator = elements.operatorFilter.value;
-    const movement = elements.movementFilter.value;
-
-    state.filtered = state.records.filter(record => {
-      if (from && record.local_date < from) return false;
-      if (to && record.local_date > to) return false;
-      if (location && record.location_area_id !== location) return false;
-      if (berth && record.berth_id !== berth) return false;
-      if (vessel && record.vessel_id !== vessel) return false;
-      if (operator && (record.operator || record.cruise_brand) !== operator) return false;
-      if (movement && record.movement !== movement) return false;
-      return true;
-    });
+    const filters = currentFilterValues();
+    state.filtered = state.records.filter(record => recordMatchesFilters(record, filters));
   }
 
   function renderKpis() {
@@ -162,9 +248,9 @@
     elements.kpiPhotos.textContent = formatInteger(photos);
     elements.kpiLocations.textContent = formatInteger(locations.size);
     elements.kpiSightingsDetail.textContent = state.filtered.length === state.records.length ? "gesamt" : "im aktuellen Filter";
-    elements.kpiVesselsDetail.textContent = vesselIds.size === 1 ? "verschiedenes Schiff" : "verschiedene Schiffe";
-    elements.kpiDaysDetail.textContent = days.size === 1 ? "verschiedener Tag" : "verschiedene Tage";
-    elements.kpiPhotosDetail.textContent = photos === 1 ? "Originalfoto der Sichtungen" : "Originalfotos der Sichtungen";
+    elements.kpiVesselsDetail.textContent = vesselIds.size === 1 ? "Schiff" : "verschiedene Schiffe";
+    elements.kpiDaysDetail.textContent = days.size === 1 ? "Tag" : "verschiedene Tage";
+    elements.kpiPhotosDetail.textContent = photos === 1 ? "Originalfoto" : "Originalfotos";
     elements.kpiLocationsDetail.textContent = unknownLocations
       ? `${quantityLabel(unknownLocations, "Sichtung", "Sichtungen")} ohne Standort`
       : (locations.size === 1 ? "bekannter Standort" : "bekannte Standorte");
@@ -413,6 +499,7 @@
   }
 
   function renderAll() {
+    updateFacetedFilters();
     filterRecords();
     renderKpis();
     renderTrend();
@@ -428,7 +515,6 @@
     elements.dateFrom.value = "";
     elements.dateTo.value = "";
     elements.locationFilter.value = "";
-    updateBerthOptions();
     elements.berthFilter.value = "";
     elements.vesselFilter.value = "";
     elements.operatorFilter.value = "";
@@ -452,12 +538,13 @@
       });
     }
 
-    elements.locationFilter.addEventListener("change", () => {
-      updateBerthOptions();
-      renderAll();
-    });
-
-    for (const element of [elements.berthFilter, elements.vesselFilter, elements.operatorFilter, elements.movementFilter]) {
+    for (const element of [
+      elements.locationFilter,
+      elements.berthFilter,
+      elements.vesselFilter,
+      elements.operatorFilter,
+      elements.movementFilter
+    ]) {
       element.addEventListener("change", renderAll);
     }
 
@@ -500,7 +587,7 @@
       renderTrend();
       renderRankings();
       renderTable();
-      setStatus(`Auswertungsdaten konnten nicht geladen werden: ${error instanceof Error ? error.message : String(error)}. Falls v0.15.17 gerade eingespielt wurde, zuerst den Workflow „Build analytics data“ erfolgreich durchlaufen lassen.`, true);
+      setStatus(`Auswertungsdaten konnten nicht geladen werden: ${error instanceof Error ? error.message : String(error)}. Falls die Auswertungsdaten gerade neu aufgebaut werden, zuerst den Workflow „Build analytics data“ erfolgreich durchlaufen lassen.`, true);
     } finally {
       elements.reloadButton.disabled = false;
     }
