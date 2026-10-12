@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/vessel.js
-// Version: 0.15.10
+// Version: 0.15.21
 // Updated: 2026-09-03
 
 "use strict";
@@ -4892,6 +4892,41 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function photoScrollTarget() {
+    const directGallery = byId("directPhotosGallery");
+    if (
+      directGallery
+      && !directGallery.classList.contains("hidden")
+      && directGallery.childElementCount > 0
+    ) {
+      return byId("photos") || directGallery;
+    }
+
+    const sightingGallery =
+      document.querySelector(
+        "#sightingsList .sighting-gallery"
+      );
+
+    return (
+      sightingGallery?.closest(".sighting-item")
+      || byId("photos")
+    );
+  }
+
+  function scrollToPhotosIfRequested() {
+    if (window.location.hash !== "#photos") return;
+
+    const target = photoScrollTarget();
+    if (!target) return;
+
+    window.requestAnimationFrame(() => {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  }
+
   function render(payload) {
     const vessel =
       payload.vessel || {};
@@ -5155,6 +5190,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     
     content.classList.remove("hidden");
+    scrollToPhotosIfRequested();
   }
 
   async function load() {
@@ -5214,6 +5250,24 @@ document.addEventListener("DOMContentLoaded", () => {
         !currentVessel;
     }
   }
+
+  byId("summaryPhotosLink")
+    ?.addEventListener(
+      "click",
+      event => {
+        event.preventDefault();
+        window.history.replaceState(
+          null,
+          "",
+          "#photos"
+        );
+        const target = photoScrollTarget();
+        target?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    );
 
   prepareDeleteButton.addEventListener(
     "click",

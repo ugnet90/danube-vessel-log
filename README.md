@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.20**  
+Aktuelle Version: **0.15.21**  
 Stand: **12.10.2026**
 
 ## 1. Projektzweck
@@ -3610,3 +3610,20 @@ unzulässig, fällt der betreffende Filter automatisch auf **Alle** zurück.
 Zusätzlich wurden die KPI-Texte bei genau einem Treffer vereinfacht:
 **1 Schiff**, **1 Tag**, **1 Originalfoto**. Das Wort „verschieden“ wird nur
 noch bei mehreren Schiffen bzw. Tagen verwendet.
+
+
+## 0.15.21 – Fotolinks aus Auswertungen und Übersicht
+
+Die Schiffsauswertung und die Schiffsdetailseite verlinken nun direkt in den
+Fotobereich eines Schiffs.
+
+- In der Tabelle **Schiffsauswertung** steht die Spalte **Fotos** jetzt direkt
+  vor **Sichtungen**.
+- Fotozahlen größer 0 sind anklickbar und öffnen
+  `vessel.html?id=<VESSEL-ID>#photos`.
+- Nach dem Laden der Schiffsdaten wird automatisch zur ersten tatsächlich
+  vorhandenen Fotogalerie gescrollt. Gibt es zusätzliche Schiffsfotos, beginnt
+  der Sprung dort; andernfalls bei der ersten Sichtung mit Fotos.
+- Die **Fotos**-Kachel in der Übersicht von `vessel.html` ist ebenfalls
+  klickbar und verwendet denselben Sprung.
+- Fotozahl 0 bleibt in der Auswertung reiner Text ohne Link.
