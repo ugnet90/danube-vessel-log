@@ -2,7 +2,7 @@
 """
 Danube Vessel Log
 File: tools/build_analytics.py
-Version: 0.15.17
+Version: 0.15.18
 Updated: 2026-10-12
 
 Build a privacy-reduced public analytics dataset from canonical vessel and
@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SIGHTINGS_PATH = ROOT / "data" / "sightings.json"
 VESSELS_PATH = ROOT / "data" / "vessels.csv"
 LOCATIONS_PATH = ROOT / "data" / "locations.csv"
+BERTHS_PATH = ROOT / "data" / "berths.csv"
 OUTPUT_PATH = ROOT / "docs" / "data" / "analytics.json"
 LOCAL_TZ = ZoneInfo("Europe/Vienna")
 
@@ -79,10 +80,30 @@ def load_locations() -> dict[str, dict[str, str]]:
     return load_csv_index(LOCATIONS_PATH, "location_id")
 
 
+def load_berths() -> dict[str, dict[str, str]]:
+    return load_csv_index(BERTHS_PATH, "berth_id")
+
+
+def area_by_municipality(berths: dict[str, dict[str, str]]) -> dict[str, str]:
+    candidates: dict[str, set[str]] = {}
+    for berth in berths.values():
+        municipality = text(berth.get("municipality"))
+        area_id = text(berth.get("berth_area_id"))
+        if municipality and area_id:
+            candidates.setdefault(municipality, set()).add(area_id)
+    return {
+        municipality: next(iter(area_ids))
+        for municipality, area_ids in candidates.items()
+        if len(area_ids) == 1
+    }
+
+
 def build_record(
     sighting: dict,
     vessels: dict[str, dict[str, str]],
     locations: dict[str, dict[str, str]],
+    berths: dict[str, dict[str, str]],
+    municipality_areas: dict[str, str],
 ) -> dict | None:
     vessel_id = text(sighting.get("vessel_id"))
     vessel = vessels.get(vessel_id)
@@ -116,6 +137,17 @@ def build_record(
         or text(location_master.get("country"))
     )
 
+    berth_id = text(berth.get("id"))
+    berth_master = berths.get(berth_id, {})
+    location_area_id = (
+        text(berth.get("area_id"))
+        or text(berth_master.get("berth_area_id"))
+        or municipality_areas.get(municipality, "")
+    )
+    location_area_name = municipality
+    if not location_area_name and location_id:
+        location_area_name = location_name
+
     return {
         "vessel_id": vessel_id,
         "vessel_name": text(vessel.get("name")) or vessel_id,
@@ -131,11 +163,13 @@ def build_record(
         "local_year": local_dt.year,
         "weekday": local_dt.weekday(),
         "hour": local_dt.hour,
-        "location_id": location_id,
-        "location_name": location_name,
+        "location_reference_id": location_id,
+        "location_reference_name": location_name,
+        "location_area_id": location_area_id,
+        "location_area_name": location_area_name,
         "municipality": municipality,
         "country": country,
-        "berth_id": text(berth.get("id")),
+        "berth_id": berth_id,
         "berth_name": text(berth.get("name")),
         "berth_short_name": text(berth.get("short_name")),
         "movement": text(sighting.get("movement")) or "unknown",
@@ -162,6 +196,8 @@ def main() -> None:
     sightings_document = load_sightings()
     vessels = load_vessels()
     locations = load_locations()
+    berths = load_berths()
+    municipality_areas = area_by_municipality(berths)
 
     records = []
     skipped = 0
@@ -169,7 +205,7 @@ def main() -> None:
         if not isinstance(sighting, dict):
             skipped += 1
             continue
-        record = build_record(sighting, vessels, locations)
+        record = build_record(sighting, vessels, locations, berths, municipality_areas)
         if record:
             records.append(record)
         else:
@@ -201,7 +237,7 @@ def main() -> None:
                 }
                 for vessel_id in sorted(vessel_ids, key=lambda item: text(vessels[item].get("name")).casefold())
             ],
-            "locations": unique_dimension(records, "location_id", "location_name"),
+            "locations": unique_dimension(records, "location_area_id", "location_area_name"),
             "berths": unique_dimension(records, "berth_id", "berth_short_name"),
             "operators": sorted(
                 {record["operator"] or record["cruise_brand"] for record in records if record["operator"] or record["cruise_brand"]},
