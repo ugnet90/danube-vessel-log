@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.17**  
+Aktuelle Version: **0.15.18**  
 Stand: **12.10.2026**
 
 ## 1. Projektzweck
@@ -3555,3 +3555,30 @@ Review-Status entfernen.
 - Kein `Rebuild location matches` erforderlich.
 - **Sichtungsindex sicher abgleichen** nicht allein zur Einführung der
   Auswertungen starten; dieser Workflow bleibt ein Wartungswerkzeug.
+
+
+## 0.15.18 – Standortbereiche in Auswertungen
+
+Die Auswertungen unterscheiden nun fachlich zwischen dem kanonischen
+Geo-Referenzort und dem übergeordneten Standortbereich.
+
+- `LOC-001 = Nibelungenbrücke, Linz` bleibt als Geo-Referenzort für die
+  bestehende Standortlogik erhalten.
+- Für Statistiken werden die Linzer Anleger über
+  `berth_area_id = BTA-001` gemeinsam als **Linz** ausgewertet.
+- `BTA-002` steht für den Bereich **Pupping** und kann künftig entsprechend
+  ausgewertet werden.
+- Die Anleger bleiben darunter separat erhalten, z. B. Schloss Nr. 11,
+  Nibelungen Nr. 12, Hauptplatz Nr. 13, Lentos Nr. 14, Brucknerhaus und
+  Linz 32.
+- Sechs ältere Sichtungen aus Juli 2026 wurden anhand ihrer vorhandenen
+  Foto-GPS-Koordinaten nachträglich belastbar dem Linzer Standortbezug
+  zugeordnet. Ihre Distanz zu `LOC-001` beträgt nur 80 bis 163 Meter.
+- Die fahrende Sichtung der **Emerald Sun** vom 07.09.2026 bleibt ohne
+  Standortbereich, da sie westlich des Linzer Anlegerbereichs aufgenommen
+  wurde.
+
+Die öffentliche Datei `docs/data/analytics.json` verwendet dafür
+`location_area_id` und `location_area_name`. Der eigentliche
+Geo-Referenzort bleibt getrennt als `location_reference_id` und
+`location_reference_name` erhalten.
