@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "vessel_id": "VES-000141",
+  "photos": [
+    {
+      "photo_id": "PHOTO-E61080FBCEAE442BB38131680FEF7A57",
+      "path": "inbox/photos/2026/09/PHOTO-E61080FBCEAE442BB38131680FEF7A57.jpg",
+      "filename": "PHOTO-E61080FBCEAE442BB38131680FEF7A57.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 169675,
+      "sequence": 1,
+      "captured_at": "2026-09-29T11:45:01.000Z",
+      "added_at": "2026-10-12T05:57:38.628Z",
+      "source": "direct_vessel_upload",
+      "notes": "",
+      "metadata_version": 1,
+      "photo_lat": null,
+      "photo_lon": null,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "vessel_name_entered": "A-ROSA BELLA",
+      "relation": {
+        "type": "vessel",
+        "submission_id": ""
+      }
+    }
+  ],
+  "updated_at": "2026-10-12T05:57:38.628Z"
+}
