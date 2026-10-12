@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/analytics.js
-// Version: 0.15.18
+// Version: 0.15.19
 // Updated: 2026-10-12
 
 "use strict";
@@ -22,6 +22,11 @@
 
   function formatInteger(value) {
     return new Intl.NumberFormat("de-AT", { maximumFractionDigits: 0 }).format(Number(value) || 0);
+  }
+
+  function quantityLabel(value, singular, plural) {
+    const count = Number(value) || 0;
+    return `${formatInteger(count)} ${count === 1 ? singular : plural}`;
   }
 
   function formatDate(value) {
@@ -157,9 +162,12 @@
     elements.kpiPhotos.textContent = formatInteger(photos);
     elements.kpiLocations.textContent = formatInteger(locations.size);
     elements.kpiSightingsDetail.textContent = state.filtered.length === state.records.length ? "gesamt" : "im aktuellen Filter";
+    elements.kpiVesselsDetail.textContent = vesselIds.size === 1 ? "verschiedenes Schiff" : "verschiedene Schiffe";
+    elements.kpiDaysDetail.textContent = days.size === 1 ? "verschiedener Tag" : "verschiedene Tage";
+    elements.kpiPhotosDetail.textContent = photos === 1 ? "Originalfoto der Sichtungen" : "Originalfotos der Sichtungen";
     elements.kpiLocationsDetail.textContent = unknownLocations
-      ? `${formatInteger(unknownLocations)} Sichtungen ohne Standort`
-      : "bekannte Standorte";
+      ? `${quantityLabel(unknownLocations, "Sichtung", "Sichtungen")} ohne Standort`
+      : (locations.size === 1 ? "bekannter Standort" : "bekannte Standorte");
   }
 
   function monthRange(records) {
@@ -198,7 +206,7 @@
       const value = counts.get(month) || 0;
       const item = document.createElement("div");
       item.className = "analytics-column-item";
-      item.title = `${formatMonth(month)}: ${value} Sichtungen`;
+      item.title = `${formatMonth(month)}: ${quantityLabel(value, "Sichtung", "Sichtungen")}`;
 
       const track = document.createElement("div");
       track.className = "analytics-column-track";
@@ -364,7 +372,7 @@
   function renderTable() {
     const rows = sortVesselRows(aggregateVessels());
     elements.analyticsTableBody.replaceChildren();
-    elements.tableResultCount.textContent = `${formatInteger(rows.length)} Schiffe`;
+    elements.tableResultCount.textContent = quantityLabel(rows.length, "Schiff", "Schiffe");
     elements.tableEmpty.classList.toggle("hidden", rows.length > 0);
     elements.analyticsTableBody.closest(".analytics-table-scroll").classList.toggle("hidden", rows.length === 0);
 
@@ -410,7 +418,9 @@
     renderTrend();
     renderRankings();
     renderTable();
-    setStatus(`${formatInteger(state.filtered.length)} von ${formatInteger(state.records.length)} Sichtungen im aktuellen Filter.`);
+    const filteredLabel = quantityLabel(state.filtered.length, "Sichtung", "Sichtungen");
+    const totalLabel = quantityLabel(state.records.length, "Sichtung", "Sichtungen");
+    setStatus(`${filteredLabel} von ${totalLabel} im aktuellen Filter.`);
   }
 
   function resetFilters() {
@@ -512,8 +522,11 @@
       kpiSightings: byId("kpiSightings"),
       kpiSightingsDetail: byId("kpiSightingsDetail"),
       kpiVessels: byId("kpiVessels"),
+      kpiVesselsDetail: byId("kpiVesselsDetail"),
       kpiDays: byId("kpiDays"),
+      kpiDaysDetail: byId("kpiDaysDetail"),
       kpiPhotos: byId("kpiPhotos"),
+      kpiPhotosDetail: byId("kpiPhotosDetail"),
       kpiLocations: byId("kpiLocations"),
       kpiLocationsDetail: byId("kpiLocationsDetail"),
       trendChart: byId("trendChart"),

@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.18**  
+Aktuelle Version: **0.15.19**  
 Stand: **12.10.2026**
 
 ## 1. Projektzweck
@@ -3582,3 +3582,11 @@ Die öffentliche Datei `docs/data/analytics.json` verwendet dafür
 `location_area_id` und `location_area_name`. Der eigentliche
 Geo-Referenzort bleibt getrennt als `location_reference_id` und
 `location_reference_name` erhalten.
+
+
+## 0.15.19 – Singular und Plural in Auswertungen
+
+Dynamische Mengenangaben auf der Auswertungsseite verwenden jetzt korrekt
+Singular bzw. Plural. Das betrifft insbesondere Sichtung/Sichtungen,
+Schiff/Schiffe, Tag/Tage, Foto/Fotos und Standort/Standorte sowie
+Tabellenzähler und Statusmeldungen.
