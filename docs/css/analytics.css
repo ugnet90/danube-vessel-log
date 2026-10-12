@@ -1,0 +1,396 @@
+/*
+ * Danube Vessel Log
+ * File: docs/css/analytics.css
+ * Version: 0.15.17
+ * Updated: 2026-10-12
+ */
+
+.analytics-page {
+  width: min(1400px, 100%);
+  margin: 0 auto;
+  padding: 24px 20px 44px;
+}
+
+.analytics-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.analytics-header h1 {
+  margin: 0 0 6px;
+  font-size: 1.8rem;
+}
+
+.analytics-header p,
+.analytics-card-header p {
+  margin: 0;
+  color: #52606d;
+}
+
+.analytics-status {
+  min-height: 24px;
+  margin: 0 2px 12px;
+  color: #52606d;
+}
+
+.analytics-status.error {
+  color: #b42318;
+  font-weight: 700;
+}
+
+.analytics-filter-card,
+.analytics-card,
+.analytics-kpi {
+  border: 1px solid #d9e0e7;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 4%);
+}
+
+.analytics-filter-card {
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.analytics-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 12px 14px;
+}
+
+.analytics-filter-grid .form-field {
+  margin: 0;
+}
+
+.analytics-filter-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.analytics-kpis {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.analytics-kpi {
+  min-width: 0;
+  padding: 16px 17px;
+}
+
+.analytics-kpi span,
+.analytics-kpi small {
+  display: block;
+  color: #607080;
+}
+
+.analytics-kpi span {
+  font-size: 0.86rem;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.analytics-kpi strong {
+  display: block;
+  margin: 7px 0 4px;
+  color: #172b4d;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.analytics-kpi small {
+  font-size: 0.82rem;
+}
+
+.analytics-card {
+  min-width: 0;
+  padding: 18px;
+}
+
+.analytics-trend-card {
+  margin-bottom: 18px;
+}
+
+.analytics-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.analytics-card-header h2 {
+  margin: 0 0 4px;
+  font-size: 1.08rem;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.analytics-column-chart {
+  min-height: 230px;
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 12px 4px 2px;
+  border-top: 1px solid #edf1f5;
+}
+
+.analytics-column-item {
+  min-width: 68px;
+  flex: 1 0 68px;
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  align-items: end;
+  gap: 6px;
+  text-align: center;
+}
+
+.analytics-column-track {
+  width: min(44px, 70%);
+  height: 160px;
+  display: flex;
+  align-items: flex-end;
+  justify-self: center;
+  border-radius: 7px 7px 3px 3px;
+  background: #edf3fb;
+  overflow: hidden;
+}
+
+.analytics-column-bar {
+  width: 100%;
+  min-height: 2px;
+  border-radius: 7px 7px 0 0;
+  background: #2563eb;
+}
+
+.analytics-column-value {
+  color: #172b4d;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.analytics-column-label {
+  color: #607080;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.analytics-bar-chart {
+  display: grid;
+  gap: 10px;
+}
+
+.analytics-bar-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1.35fr) minmax(110px, 2fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.analytics-bar-label {
+  min-width: 0;
+  overflow: hidden;
+  color: #334e68;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.analytics-bar-label a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.analytics-bar-label a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.analytics-bar-track {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #edf1f5;
+}
+
+.analytics-bar-fill {
+  height: 100%;
+  min-width: 2px;
+  border-radius: inherit;
+  background: #2563eb;
+}
+
+.analytics-bar-value {
+  min-width: 2.2rem;
+  color: #172b4d;
+  font-weight: 800;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.analytics-empty {
+  padding: 28px 8px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.analytics-table-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.analytics-table-header {
+  align-items: center;
+  margin: 0;
+  padding: 18px;
+}
+
+.analytics-result-count {
+  color: #52606d;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.analytics-table-scroll {
+  overflow-x: auto;
+  border-top: 1px solid #e4e7eb;
+}
+
+.analytics-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+.analytics-table th,
+.analytics-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e4e7eb;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.analytics-table th {
+  padding: 0;
+  background: #f8fafc;
+  color: #486581;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.analytics-table th button {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 750;
+  text-align: left;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.analytics-table th.numeric button {
+  justify-content: flex-end;
+}
+
+.analytics-table th button:hover,
+.analytics-table th.is-sorted button {
+  background: #eef4fb;
+  color: #1d4ed8;
+}
+
+.analytics-table td.numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.analytics-vessel-link {
+  color: #172b4d;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.analytics-vessel-link:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.analytics-footer {
+  padding: 14px 2px 0;
+  color: #6b7280;
+  font-size: 0.82rem;
+  text-align: right;
+}
+
+@media (max-width: 1100px) {
+  .analytics-filter-grid {
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+  }
+
+  .analytics-kpis {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .analytics-page {
+    padding: 16px 12px 32px;
+  }
+
+  .analytics-header {
+    align-items: center;
+  }
+
+  .analytics-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .analytics-filter-grid,
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .analytics-kpi {
+    padding: 14px;
+  }
+
+  .analytics-kpi:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .analytics-filter-actions .secondary-button {
+    width: 100%;
+  }
+
+  .analytics-bar-row {
+    grid-template-columns: minmax(105px, 1.3fr) minmax(80px, 1.5fr) auto;
+    gap: 8px;
+  }
+}
