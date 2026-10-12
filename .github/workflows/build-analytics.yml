@@ -1,6 +1,6 @@
 # Danube Vessel Log
 # File: .github/workflows/build-analytics.yml
-# Version: 0.15.17
+# Version: 0.15.18
 # Updated: 2026-10-12
 
 name: Build analytics data
@@ -15,6 +15,7 @@ on:
       - "data/sightings.json"
       - "data/vessels.csv"
       - "data/locations.csv"
+      - "data/berths.csv"
       - "tools/build_analytics.py"
       - ".github/workflows/build-analytics.yml"
 
