@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/analytics.js
-// Version: 0.15.20
+// Version: 0.15.21
 // Updated: 2026-10-12
 
 "use strict";
@@ -472,6 +472,20 @@
       nameCell.appendChild(link);
       row.appendChild(nameCell);
 
+      const photosCell = document.createElement("td");
+      photosCell.className = "numeric";
+      if (item.photos > 0) {
+        const photosLink = document.createElement("a");
+        photosLink.className = "analytics-photo-link";
+        photosLink.href = `vessel.html?id=${encodeURIComponent(item.vessel_id)}#photos`;
+        photosLink.textContent = formatInteger(item.photos);
+        photosLink.title = `${quantityLabel(item.photos, "Foto", "Fotos")} von ${item.name} anzeigen`;
+        photosCell.appendChild(photosLink);
+      } else {
+        photosCell.textContent = "0";
+      }
+      row.appendChild(photosCell);
+
       for (const key of ["sightings", "days"]) {
         const cell = document.createElement("td");
         cell.className = "numeric";
@@ -486,7 +500,7 @@
       last.textContent = formatDate(item.last);
       row.appendChild(last);
 
-      for (const key of ["locations", "photos"]) {
+      for (const key of ["locations"]) {
         const cell = document.createElement("td");
         cell.className = "numeric";
         cell.textContent = formatInteger(item[key]);
