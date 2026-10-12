@@ -1,7 +1,7 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.16**  
-Stand: **11.09.2026**
+Aktuelle Version: **0.15.17**  
+Stand: **12.10.2026**
 
 ## 1. Projektzweck
 
@@ -3491,3 +3491,67 @@ allgemeine Meldung „konnte nicht atomar gespeichert werden“ auszugeben.
 - `cloudflare/worker.js`: Version `0.15.16`; sicherer Retry atomarer GitHub-Commits bei parallelen Branch-Änderungen.
 - `docs/js/submissions.js`: Version `0.15.16`; zeigt bei verbleibenden Neuanlagefehlern GitHub-Schritt und HTTP-Status.
 - `README.md`: vollständige Projektdokumentation; aktueller Projektstand `0.15.16`.
+
+
+## 0.15.17 – Auswertungen und sicherer Sichtungsindex
+
+Version **0.15.17** ergänzt einen eigenen Hauptbereich **Auswertungen** und
+sichert gleichzeitig den dauerhaften Sichtungsindex gegen bereits bewusst
+gelöschte historische Inbox-Dateien ab.
+
+### Auswertungsseite
+
+Die neue Seite `docs/analytics.html` ist über den Hauptmenüpunkt
+**Auswertungen** erreichbar. Sie verwendet gemeinsame Filter für:
+
+- Zeitraum einschließlich freiem Von-/Bis-Datum;
+- Standort;
+- Anlegestelle;
+- Schiff;
+- Betreiber bzw. ersatzweise Marke;
+- Bewegung (`liegend`, `fahrend`, `unbekannt`).
+
+Alle Kennzahlen und Ranglisten reagieren gemeinsam auf diese Filter. Die erste
+Ausbaustufe zeigt Sichtungen, verschiedene Schiffe, Sichtungstage,
+ursprüngliche Sichtungsfotos, bekannte Standorte, monatlichen Sichtungsverlauf,
+Top-Schiffe, häufigste Anlegestellen, Standorte, Betreiber / Marken sowie eine
+sortierbare Schiffsauswertung mit erster und letzter Sichtung,
+Sichtungstagen, Standorten und Fotos.
+
+### Datenschutzreduzierte öffentliche Auswertungsdaten
+
+Die Weboberfläche liest nicht direkt aus `data/sightings.json`. Stattdessen
+erzeugt `tools/build_analytics.py` den abgeleiteten Datensatz
+`docs/data/analytics.json`. Nicht veröffentlicht werden Beobachterkoordinaten,
+freie Notizen, Review-Notizen, Submission-Pfade und der roh eingegebene
+Schiffsname. Zeitangaben werden auf `Europe/Vienna` bezogen.
+
+Bei älteren Sichtungen mit bekannter Anlegestelle, aber fehlendem Standort,
+wird der Standort über `berth.location_id` und `data/locations.csv`
+ergänzt.
+
+### Entwicklungs- und Build-Ablauf
+
+Die Entwicklung erfolgt auf `work/v0.15.17-analytics`. Der Workflow
+**Build analytics data** läuft dort automatisch und erzeugt
+`docs/data/analytics.json` auf demselben Branch. Nach erfolgreicher Prüfung
+wird der Entwicklungsbranch nach `main` übernommen. Auf `main` erzeugt der
+Workflow den Datensatz anschließend nochmals aus dem aktuellen
+Produktionsstand.
+
+### Sicherer Sichtungsindex-Abgleich
+
+`tools/rebuild_sightings_index.py` übernimmt nicht mehr ausschließlich den
+aktuellen Inhalt von `inbox/submissions/`. Der vorhandene
+`data/sightings.json`-Bestand ist die Ausgangsbasis. Historische Sichtungen
+bleiben dadurch erhalten, wenn ihre temporäre Inbox-Datei bereits gelöscht
+wurde. Eine noch vorhandene Submission kann ihren eigenen Indexeintrag
+weiterhin ergänzen, aktualisieren oder bei ausdrücklich nicht mehr gültigem
+Review-Status entfernen.
+
+### Hinweise
+
+- Kein Cloudflare-Worker-Deployment erforderlich.
+- Kein `Rebuild location matches` erforderlich.
+- **Sichtungsindex sicher abgleichen** nicht allein zur Einführung der
+  Auswertungen starten; dieser Workflow bleibt ein Wartungswerkzeug.

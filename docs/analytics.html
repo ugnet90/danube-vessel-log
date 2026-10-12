@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<!--
+  Danube Vessel Log
+  File: docs/analytics.html
+  Version: 0.15.17
+  Updated: 2026-10-12
+-->
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <!-- Danube Vessel Log: Favicons -->
+  <link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon/favicon-48x48.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+  <link rel="manifest" href="assets/favicon/site.webmanifest">
+  <meta name="theme-color" content="#0647c7">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auswertungen · Danube Vessel Log</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/analytics.css">
+</head>
+<body>
+  <div class="site-nav-shell" data-site-nav></div>
+
+  <main class="analytics-page">
+    <header class="analytics-header">
+      <div>
+        <h1>Auswertungen</h1>
+        <p>Sichtungen, Schiffe, Standorte und Betreiber gemeinsam auswerten.</p>
+      </div>
+      <button id="reloadButton" class="secondary-button" type="button">Neu laden</button>
+    </header>
+
+    <div id="pageStatus" class="analytics-status" aria-live="polite">Auswertungsdaten werden geladen …</div>
+
+    <section class="analytics-filter-card" aria-label="Auswertungsfilter">
+      <div class="analytics-filter-grid">
+        <div class="form-field">
+          <label for="periodFilter">Zeitraum</label>
+          <select id="periodFilter">
+            <option value="all">Gesamt</option>
+            <option value="year">Dieses Jahr</option>
+            <option value="month">Dieser Monat</option>
+            <option value="30days">Letzte 30 Tage</option>
+            <option value="custom">Benutzerdefiniert</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="dateFrom">Von</label>
+          <input id="dateFrom" type="date">
+        </div>
+        <div class="form-field">
+          <label for="dateTo">Bis</label>
+          <input id="dateTo" type="date">
+        </div>
+        <div class="form-field">
+          <label for="locationFilter">Standort</label>
+          <select id="locationFilter"><option value="">Alle</option></select>
+        </div>
+        <div class="form-field">
+          <label for="berthFilter">Anlegestelle</label>
+          <select id="berthFilter"><option value="">Alle</option></select>
+        </div>
+        <div class="form-field">
+          <label for="vesselFilter">Schiff</label>
+          <select id="vesselFilter"><option value="">Alle</option></select>
+        </div>
+        <div class="form-field">
+          <label for="operatorFilter">Betreiber / Marke</label>
+          <select id="operatorFilter"><option value="">Alle</option></select>
+        </div>
+        <div class="form-field">
+          <label for="movementFilter">Bewegung</label>
+          <select id="movementFilter">
+            <option value="">Alle</option>
+            <option value="moored">Liegend</option>
+            <option value="moving">Fahrend</option>
+            <option value="unknown">Unbekannt</option>
+          </select>
+        </div>
+      </div>
+      <div class="analytics-filter-actions">
+        <button id="resetFiltersButton" class="secondary-button" type="button">Filter zurücksetzen</button>
+      </div>
+    </section>
+
+    <section class="analytics-kpis" aria-label="Kennzahlen">
+      <article class="analytics-kpi"><span>Sichtungen</span><strong id="kpiSightings">–</strong><small id="kpiSightingsDetail">im Filter</small></article>
+      <article class="analytics-kpi"><span>Schiffe</span><strong id="kpiVessels">–</strong><small>verschiedene Schiffe</small></article>
+      <article class="analytics-kpi"><span>Sichtungstage</span><strong id="kpiDays">–</strong><small>verschiedene Tage</small></article>
+      <article class="analytics-kpi"><span>Sichtungsfotos</span><strong id="kpiPhotos">–</strong><small>Originalfotos der Sichtungen</small></article>
+      <article class="analytics-kpi"><span>Standorte</span><strong id="kpiLocations">–</strong><small id="kpiLocationsDetail">bekannte Standorte</small></article>
+    </section>
+
+    <section class="analytics-card analytics-trend-card">
+      <header class="analytics-card-header">
+        <div><h2>Sichtungen im Zeitverlauf</h2><p>Monatliche Anzahl im gewählten Filter.</p></div>
+      </header>
+      <div id="trendChart" class="analytics-column-chart" role="img" aria-label="Sichtungen pro Monat"></div>
+      <div id="trendEmpty" class="analytics-empty hidden">Keine Daten im gewählten Zeitraum.</div>
+    </section>
+
+    <div class="analytics-grid">
+      <section class="analytics-card">
+        <header class="analytics-card-header"><div><h2>Top-Schiffe</h2><p>Nach Anzahl der Sichtungen.</p></div></header>
+        <div id="topVesselsChart" class="analytics-bar-chart"></div>
+      </section>
+
+      <section class="analytics-card">
+        <header class="analytics-card-header"><div><h2>Anlegestellen</h2><p>Häufigste erfasste Liegeplätze.</p></div></header>
+        <div id="topBerthsChart" class="analytics-bar-chart"></div>
+      </section>
+
+      <section class="analytics-card">
+        <header class="analytics-card-header"><div><h2>Standorte</h2><p>Sichtungen nach aufgelöstem Standort.</p></div></header>
+        <div id="topLocationsChart" class="analytics-bar-chart"></div>
+      </section>
+
+      <section class="analytics-card">
+        <header class="analytics-card-header"><div><h2>Betreiber / Marke</h2><p>Sichtungen nach Betreiber, ersatzweise nach Marke.</p></div></header>
+        <div id="topOperatorsChart" class="analytics-bar-chart"></div>
+      </section>
+    </div>
+
+    <section class="analytics-card analytics-table-card">
+      <header class="analytics-card-header analytics-table-header">
+        <div><h2>Schiffsauswertung</h2><p>Aggregiert über den aktuellen Filter.</p></div>
+        <strong id="tableResultCount" class="analytics-result-count"></strong>
+      </header>
+      <div class="analytics-table-scroll">
+        <table class="analytics-table">
+          <thead>
+            <tr>
+              <th data-sort-key="name"><button type="button">Schiff <span aria-hidden="true">↕</span></button></th>
+              <th data-sort-key="sightings" class="numeric"><button type="button">Sichtungen <span aria-hidden="true">↓</span></button></th>
+              <th data-sort-key="days" class="numeric"><button type="button">Tage <span aria-hidden="true">↕</span></button></th>
+              <th data-sort-key="first"><button type="button">Erste <span aria-hidden="true">↕</span></button></th>
+              <th data-sort-key="last"><button type="button">Letzte <span aria-hidden="true">↕</span></button></th>
+              <th data-sort-key="locations" class="numeric"><button type="button">Standorte <span aria-hidden="true">↕</span></button></th>
+              <th data-sort-key="photos" class="numeric"><button type="button">Fotos <span aria-hidden="true">↕</span></button></th>
+            </tr>
+          </thead>
+          <tbody id="analyticsTableBody"></tbody>
+        </table>
+      </div>
+      <div id="tableEmpty" class="analytics-empty hidden">Keine Schiffe im gewählten Filter.</div>
+    </section>
+
+    <footer class="analytics-footer">
+      <span id="dataUpdatedAt">Datenstand: –</span>
+    </footer>
+  </main>
+
+  <script src="js/site_map.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/analytics.js"></script>
+</body>
+</html>

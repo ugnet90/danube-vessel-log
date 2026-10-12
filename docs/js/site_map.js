@@ -1,7 +1,7 @@
 // Danube Vessel Log
 // File: docs/js/site_map.js
-// Version: 0.14.33
-// Updated: 2026-08-20
+// Version: 0.15.17
+// Updated: 2026-10-12
 
 "use strict";
 
@@ -16,6 +16,11 @@ window.VesselSite = Object.freeze({
       id: "vessels",
       label: "Schiffe",
       href: "vessels.html"
+    },
+    {
+      id: "analytics",
+      label: "Auswertungen",
+      href: "analytics.html"
     },
     {
       id: "enrichment",

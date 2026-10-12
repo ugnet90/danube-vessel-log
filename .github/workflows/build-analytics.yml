@@ -1,0 +1,90 @@
+# Danube Vessel Log
+# File: .github/workflows/build-analytics.yml
+# Version: 0.15.17
+# Updated: 2026-10-12
+
+name: Build analytics data
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - work/v0.15.17-analytics
+    paths:
+      - "data/sightings.json"
+      - "data/vessels.csv"
+      - "data/locations.csv"
+      - "tools/build_analytics.py"
+      - ".github/workflows/build-analytics.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-analytics-data-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository laden
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Auswertungsdaten auf aktuellem Branch erzeugen
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          BRANCH="${GITHUB_REF_NAME}"
+
+          for ATTEMPT in 1 2 3 4 5
+          do
+            echo "Versuch $ATTEMPT von 5 auf $BRANCH"
+            git fetch origin "$BRANCH"
+            git reset --hard "origin/$BRANCH"
+
+            python tools/build_analytics.py
+            git add docs/data/analytics.json
+
+            if git diff --cached --quiet
+            then
+              echo "Auswertungsdaten sind bereits aktuell."
+              exit 0
+            fi
+
+            VERSION=$(python - <<'PY'
+          import re
+          from pathlib import Path
+          content = Path("README.md").read_text(encoding="utf-8-sig")
+          match = re.search(r"Aktuelle Version:\s*\*\*([0-9.]+)\*\*", content)
+          print(match.group(1) if match else "0.15.17")
+          PY
+            )
+
+            git commit -m "v${VERSION} analytics data"
+
+            if git push origin "HEAD:$BRANCH"
+            then
+              echo "Push erfolgreich."
+              exit 0
+            fi
+
+            echo "$BRANCH wurde während des Laufs verändert; Daten werden neu erzeugt."
+            sleep $((ATTEMPT * 2))
+          done
+
+          echo "Push nach fünf Neuaufbauten weiterhin nicht möglich."
+          exit 1
