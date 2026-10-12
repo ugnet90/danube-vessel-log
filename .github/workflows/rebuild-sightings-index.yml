@@ -1,8 +1,9 @@
 # Danube Vessel Log
 # File: .github/workflows/rebuild-sightings-index.yml
-# Version: 1.0.0
+# Version: 0.15.17
+# Updated: 2026-10-12
 
-name: Sichtungsindex neu aufbauen
+name: Sichtungsindex sicher abgleichen
 
 on:
   workflow_dispatch:
@@ -29,7 +30,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Sichtungsindex erzeugen
+      - name: Sichtungsindex sicher abgleichen
         run: python tools/rebuild_sightings_index.py
 
       - name: Änderungen speichern
@@ -43,5 +44,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/sightings.json
-          git commit -m "Rebuild sightings index"
+          VERSION="0.15.17"
+          git commit -m "v${VERSION} merge sightings index"
           git push
