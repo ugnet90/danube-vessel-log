@@ -11,6 +11,7 @@ on:
     branches:
       - main
       - "work/**"
+      - work/v0.15.18-location-areas
     paths:
       - "data/sightings.json"
       - "data/vessels.csv"
