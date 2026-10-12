@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "updated_at": "2026-10-08T13:49:19.281Z",
+  "updated_at": "2026-10-12T08:30:00Z",
   "sightings": [
     {
       "submission_id": "SUB-20261008-134915-D3A8DA",
@@ -9718,14 +9718,14 @@
       "reviewed_at": "2026-07-27T14:34:37.979Z",
       "vessel_name_entered": "AmaMora",
       "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
+        "status": "matched",
+        "matched_by": "legacy_photo_gps",
+        "id": "LOC-001",
         "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
-        "distance_m": null
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 163
       },
       "berth": {},
       "movement": "unknown",
@@ -9757,7 +9757,7 @@
           "location": null
         }
       ],
-      "updated_at": "2026-07-27T14:34:37.979Z",
+      "updated_at": "2026-10-12T08:30:00Z",
       "photo_count": 1
     },
     {
@@ -9769,14 +9769,14 @@
       "reviewed_at": "2026-07-27T14:25:35.847Z",
       "vessel_name_entered": "AmaReina",
       "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
+        "status": "matched",
+        "matched_by": "legacy_photo_gps",
+        "id": "LOC-001",
         "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
-        "distance_m": null
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 80
       },
       "berth": {},
       "movement": "unknown",
@@ -9842,7 +9842,7 @@
           "location": null
         }
       ],
-      "updated_at": "2026-07-27T14:25:35.847Z",
+      "updated_at": "2026-10-12T08:30:00Z",
       "photo_count": 3
     },
     {
@@ -9854,14 +9854,14 @@
       "reviewed_at": "2026-07-23T19:25:15.489Z",
       "vessel_name_entered": "AmaMora",
       "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
+        "status": "matched",
+        "matched_by": "legacy_photo_gps",
+        "id": "LOC-001",
         "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
-        "distance_m": null
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 163
       },
       "berth": {},
       "movement": "unknown",
@@ -9893,7 +9893,7 @@
           "location": null
         }
       ],
-      "updated_at": "2026-07-23T19:25:15.489Z",
+      "updated_at": "2026-10-12T08:30:00Z",
       "photo_count": 1
     },
     {
@@ -10290,14 +10290,14 @@
       "reviewed_at": "2026-07-22T13:03:30.818Z",
       "vessel_name_entered": "S. S. Beatrice",
       "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
+        "status": "matched",
+        "matched_by": "legacy_photo_gps",
+        "id": "LOC-001",
         "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
-        "distance_m": null
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 111
       },
       "berth": {},
       "movement": "unknown",
@@ -10346,7 +10346,7 @@
           "location": null
         }
       ],
-      "updated_at": "2026-07-22T13:03:30.818Z",
+      "updated_at": "2026-10-12T08:30:00Z",
       "photo_count": 2
     },
     {
@@ -10460,14 +10460,14 @@
       "reviewed_at": "2026-07-23T09:59:11.059Z",
       "vessel_name_entered": "Anna Stella",
       "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
+        "status": "matched",
+        "matched_by": "legacy_photo_gps",
+        "id": "LOC-001",
         "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
-        "distance_m": null
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 139
       },
       "berth": {},
       "movement": "unknown",
@@ -10499,7 +10499,7 @@
           "location": null
         }
       ],
-      "updated_at": "2026-07-23T09:59:11.059Z",
+      "updated_at": "2026-10-12T08:30:00Z",
       "photo_count": 1
     },
     {
@@ -10511,14 +10511,14 @@
       "reviewed_at": "2026-07-23T19:07:26.363Z",
       "vessel_name_entered": "A‘Rosa Riva",
       "location": {
-        "status": "unknown",
-        "matched_by": "",
-        "id": "",
+        "status": "matched",
+        "matched_by": "legacy_photo_gps",
+        "id": "LOC-001",
         "area_id": "",
-        "name": "",
-        "municipality": "",
-        "country": "",
-        "distance_m": null
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "Linz",
+        "country": "Österreich",
+        "distance_m": 130
       },
       "berth": {},
       "movement": "unknown",
@@ -10550,7 +10550,7 @@
           "location": null
         }
       ],
-      "updated_at": "2026-07-23T19:07:26.363Z",
+      "updated_at": "2026-10-12T08:30:00Z",
       "photo_count": 1
     },
     {
