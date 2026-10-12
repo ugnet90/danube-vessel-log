@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.19**  
+Aktuelle Version: **0.15.20**  
 Stand: **12.10.2026**
 
 ## 1. Projektzweck
@@ -3590,3 +3590,23 @@ Dynamische Mengenangaben auf der Auswertungsseite verwenden jetzt korrekt
 Singular bzw. Plural. Das betrifft insbesondere Sichtung/Sichtungen,
 Schiff/Schiffe, Tag/Tage, Foto/Fotos und Standort/Standorte sowie
 Tabellenzähler und Statusmeldungen.
+
+
+## 0.15.20 – Abhängige Auswertungsfilter
+
+Die Auswahlfelder der Auswertungsseite arbeiten nun facettiert. Jeder
+Dropdown-Filter zeigt nur noch Werte, für die unter Berücksichtigung der
+anderen aktiven Filter tatsächlich Sichtungen vorhanden sind. Dadurch werden
+offensichtlich leere Filterkombinationen vermieden.
+
+Beispiel: Wird der Zeitraum auf einen einzelnen Tag eingeschränkt, zeigt der
+Filter **Schiff** nur noch Schiffe, die an diesem Tag tatsächlich gesichtet
+wurden. Entsprechend reagieren auch Standort, Anlegestelle, Betreiber/Marke
+und Bewegung aufeinander.
+
+Wird eine bereits gewählte Option durch eine Änderung eines anderen Filters
+unzulässig, fällt der betreffende Filter automatisch auf **Alle** zurück.
+
+Zusätzlich wurden die KPI-Texte bei genau einem Treffer vereinfacht:
+**1 Schiff**, **1 Tag**, **1 Originalfoto**. Das Wort „verschieden“ wird nur
+noch bei mehreren Schiffen bzw. Tagen verwendet.
