@@ -1,6 +1,6 @@
 // Danube Vessel Log
 // File: docs/js/analytics.js
-// Version: 0.15.17
+// Version: 0.15.18
 // Updated: 2026-10-12
 
 "use strict";
@@ -69,7 +69,7 @@
     const seen = new Map();
 
     for (const record of state.records) {
-      if (locationId && record.location_id !== locationId) continue;
+      if (locationId && record.location_area_id !== locationId) continue;
       if (!record.berth_id) continue;
       seen.set(record.berth_id, record.berth_short_name || record.berth_name || record.berth_id);
     }
@@ -127,7 +127,7 @@
     state.filtered = state.records.filter(record => {
       if (from && record.local_date < from) return false;
       if (to && record.local_date > to) return false;
-      if (location && record.location_id !== location) return false;
+      if (location && record.location_area_id !== location) return false;
       if (berth && record.berth_id !== berth) return false;
       if (vessel && record.vessel_id !== vessel) return false;
       if (operator && (record.operator || record.cruise_brand) !== operator) return false;
@@ -147,7 +147,7 @@
       vesselIds.add(record.vessel_id);
       days.add(record.local_date);
       photos += Number(record.photo_count) || 0;
-      if (record.location_id) locations.add(record.location_id);
+      if (record.location_area_id) locations.add(record.location_area_id);
       else unknownLocations += 1;
     }
 
@@ -288,9 +288,9 @@
       label: record.berth_short_name || record.berth_name || record.berth_id
     }) : null));
 
-    const locationItems = countsBy(state.filtered, record => record.location_id ? ({
-      id: record.location_id,
-      label: record.location_name || record.location_id
+    const locationItems = countsBy(state.filtered, record => record.location_area_id ? ({
+      id: record.location_area_id,
+      label: record.location_area_name || record.location_area_id
     }) : ({ id: "__unknown__", label: "Unbekannter Standort" }));
     renderBars(elements.topLocationsChart, locationItems);
 
@@ -322,7 +322,7 @@
       item.dates.add(record.local_date);
       if (record.local_date < item.first) item.first = record.local_date;
       if (record.local_date > item.last) item.last = record.local_date;
-      if (record.location_id) item.locationIds.add(record.location_id);
+      if (record.location_area_id) item.locationIds.add(record.location_area_id);
       item.photos += Number(record.photo_count) || 0;
     }
 
