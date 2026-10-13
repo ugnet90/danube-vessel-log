@@ -1,8 +1,188 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-10-12T13:57:57.000Z",
-  "count": 155,
+  "updated_at": "2026-10-13T10:48:48.000Z",
+  "count": 160,
   "photos": [
+    {
+      "photo_id": "PHOTO-A7750B65C09D4C8AB49C14ECFF8E9FF4",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261013-111309-4F057B",
+      "vessel_id": "VES-000121",
+      "vessel_name": "AmaMagna",
+      "captured_at": "2026-10-13T10:48:48.000Z",
+      "photo_lat": 48.30787833333333,
+      "photo_lon": 14.28531333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 137
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 22,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261013-111309-4F057B"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-A7750B65C09D4C8AB49C14ECFF8E9FF4.jpg"
+    },
+    {
+      "photo_id": "PHOTO-8D27662BA7B444F0A6C5D98FFD8F3F28",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261013-111309-4F057B",
+      "vessel_id": "VES-000121",
+      "vessel_name": "AmaMagna",
+      "captured_at": "2026-10-13T10:48:45.000Z",
+      "photo_lat": 48.30788833333333,
+      "photo_lon": 14.285325,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 137
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 22,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261013-111309-4F057B"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-8D27662BA7B444F0A6C5D98FFD8F3F28.jpg"
+    },
+    {
+      "photo_id": "PHOTO-80F9387355B34F99B1E5AC1CD0E778BE",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261013-111309-4F057B",
+      "vessel_id": "VES-000121",
+      "vessel_name": "AmaMagna",
+      "captured_at": "2026-10-13T10:48:10.000Z",
+      "photo_lat": 48.30758333333333,
+      "photo_lon": 14.285555,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 99
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 22,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261013-111309-4F057B"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-80F9387355B34F99B1E5AC1CD0E778BE.jpg"
+    },
+    {
+      "photo_id": "PHOTO-112DE90077524878A117C094DC2F3794",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261013-111309-4F057B",
+      "vessel_id": "VES-000121",
+      "vessel_name": "AmaMagna",
+      "captured_at": "2026-10-13T10:48:03.000Z",
+      "photo_lat": 48.30757833333333,
+      "photo_lon": 14.28556166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 99
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 22,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261013-111309-4F057B"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-112DE90077524878A117C094DC2F3794.jpg"
+    },
+    {
+      "photo_id": "PHOTO-3F5017F8E7AD48B08A5C383A60E5C439",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261013-111309-4F057B",
+      "vessel_id": "VES-000121",
+      "vessel_name": "AmaMagna",
+      "captured_at": "2026-10-13T10:47:28.000Z",
+      "photo_lat": 48.30732,
+      "photo_lon": 14.285745,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 67
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 22,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261013-111309-4F057B"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-3F5017F8E7AD48B08A5C383A60E5C439.jpg"
+    },
     {
       "photo_id": "PHOTO-076D3639051F49CEA04E2422F5611410",
       "source_type": "sighting",
@@ -5266,8 +5446,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 118,
+  "sighting_count": 119,
   "sightings": [
+    {
+      "submission_id": "SUB-20261013-111309-4F057B",
+      "vessel_id": "VES-000121",
+      "vessel_name": "AmaMagna",
+      "captured_at": "2026-10-13T10:47:28.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 67
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 22,
+      "direction": "upstream",
+      "photo_count": 5
+    },
     {
       "submission_id": "SUB-20261012-135813-FC4156",
       "vessel_id": "VES-000146",
