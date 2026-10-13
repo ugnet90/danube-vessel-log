@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-12T13:58:33.650547Z",
-  "source_updated_at": "2026-10-12T13:58:16.272Z",
+  "generated_at": "2026-10-13T11:13:36.596871Z",
+  "source_updated_at": "2026-10-13T11:13:20.737Z",
   "timezone": "Europe/Vienna",
   "meta": {
-    "record_count": 118,
+    "record_count": 119,
     "vessel_count": 55,
     "date_min": "2026-07-19",
-    "date_max": "2026-10-12",
+    "date_max": "2026-10-13",
     "skipped_record_count": 0
   },
   "dimensions": {
@@ -401,6 +401,35 @@
     ]
   },
   "records": [
+    {
+      "vessel_id": "VES-000121",
+      "vessel_name": "AmaMagna",
+      "operator": "AMA Waterways",
+      "cruise_brand": "",
+      "ship_type": "PASSENGER",
+      "ship_subtype": "RIVER_CRUISE",
+      "flag": "CH",
+      "status": "active",
+      "captured_at": "2026-10-13T10:47:28.000Z",
+      "local_date": "2026-10-13",
+      "local_month": "2026-10",
+      "local_year": 2026,
+      "weekday": 1,
+      "hour": 12,
+      "location_reference_id": "LOC-001",
+      "location_reference_name": "Nibelungenbrücke, Linz",
+      "location_area_id": "BTA-001",
+      "location_area_name": "Linz",
+      "municipality": "Linz",
+      "country": "Österreich",
+      "berth_id": "BER-000003",
+      "berth_name": "Schiffsanlegestelle Linz-Hauptplatz",
+      "berth_short_name": "Linz-Hauptplatz Nr. 13",
+      "movement": "moored",
+      "direction": "upstream",
+      "alongside_position": 1,
+      "photo_count": 5
+    },
     {
       "vessel_id": "VES-000146",
       "vessel_name": "Amadeus Imperial",
