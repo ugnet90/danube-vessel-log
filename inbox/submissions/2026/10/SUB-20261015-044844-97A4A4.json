@@ -1,0 +1,74 @@
+{
+  "schema_version": 15,
+  "submission_id": "SUB-20261015-044844-97A4A4",
+  "uploaded_at": "2026-10-15T04:48:44.004Z",
+  "captured_at": "2026-10-15T04:48:24.000Z",
+  "location": {
+    "status": "unknown",
+    "matched_by": "",
+    "id": "",
+    "area_id": "",
+    "name": "",
+    "municipality": "",
+    "country": "",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "unknown",
+    "matched_by": "selection",
+    "id": "",
+    "name": "",
+    "short_name": "",
+    "station_number": "",
+    "location_id": "",
+    "area_id": "BTA-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "",
+    "bank": "",
+    "relative_to_reference": "",
+    "river_km": null,
+    "river_km_text": "",
+    "facility_type": "",
+    "mooring_order": "",
+    "entry_count": null,
+    "entry_height": "",
+    "latitude": null,
+    "longitude": null,
+    "address": "",
+    "access_type": "",
+    "source_url": "",
+    "source_checked_at": ""
+  },
+  "movement": "moored",
+  "alongside_position": null,
+  "direction": "upstream",
+  "vessel_name_entered": "Savor",
+  "notes": "",
+  "observer_lat": 48.33604130367699,
+  "observer_lon": 14.18122608297666,
+  "photos": [],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000155",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000155"
+        ],
+        "matched_value": "Savor",
+        "normalized_input": "savor"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
