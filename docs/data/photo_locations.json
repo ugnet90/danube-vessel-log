@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-10-15T04:47:47.000Z",
+  "updated_at": "2026-10-15T04:48:24.000Z",
   "count": 160,
   "photos": [
     {
@@ -5446,8 +5446,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 123,
+  "sighting_count": 124,
   "sightings": [
+    {
+      "submission_id": "SUB-20261015-044844-97A4A4",
+      "vessel_id": "VES-000155",
+      "vessel_name": "Savor",
+      "captured_at": "2026-10-15T04:48:24.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "unknown",
+        "id": "",
+        "name": "",
+        "short_name": "",
+        "station_number": ""
+      },
+      "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "direction": "upstream",
+      "photo_count": 0
+    },
     {
       "submission_id": "SUB-20261015-044804-B2AE4B",
       "vessel_id": "VES-000117",
