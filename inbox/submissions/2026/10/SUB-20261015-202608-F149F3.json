@@ -1,0 +1,72 @@
+{
+  "schema_version": 15,
+  "submission_id": "SUB-20261015-202608-F149F3",
+  "uploaded_at": "2026-10-15T20:26:08.329Z",
+  "captured_at": "2026-10-15T20:25:34.000Z",
+  "location": {
+    "status": "unknown",
+    "matched_by": "",
+    "id": "",
+    "area_id": "",
+    "name": "",
+    "municipality": "",
+    "country": "",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "not_applicable",
+    "matched_by": "selection",
+    "id": "",
+    "name": "",
+    "short_name": "",
+    "station_number": "",
+    "location_id": "",
+    "area_id": "",
+    "municipality": "",
+    "country": "",
+    "river": "",
+    "bank": "",
+    "relative_to_reference": "",
+    "river_km": null,
+    "river_km_text": "",
+    "facility_type": "",
+    "mooring_order": "",
+    "entry_count": null,
+    "entry_height": "",
+    "latitude": null,
+    "longitude": null,
+    "address": "",
+    "access_type": "",
+    "source_url": "",
+    "source_checked_at": ""
+  },
+  "movement": "moving",
+  "alongside_position": null,
+  "direction": "downstream",
+  "vessel_name_entered": "Lilea",
+  "notes": "",
+  "observer_lat": 48.3641234398461,
+  "observer_lon": 14.02194787958555,
+  "photos": [],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "lilea"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  }
+}
