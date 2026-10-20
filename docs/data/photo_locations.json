@@ -5626,7 +5626,7 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 130,
+  "sighting_count": 131,
   "sightings": [
     {
       "submission_id": "SUB-20261020-055233-BC85FF",
@@ -5857,6 +5857,35 @@
       "alongside_position": 2,
       "vessel_length_m": 135,
       "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 0
+    },
+    {
+      "submission_id": "SUB-20261015-044731-A3319B",
+      "vessel_id": "VES-000159",
+      "vessel_name": "SE Manon",
+      "captured_at": "2026-10-15T04:47:03.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
       "direction": "upstream",
       "photo_count": 0
     },
