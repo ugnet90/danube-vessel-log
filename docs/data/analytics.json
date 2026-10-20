@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-20T06:02:21.975999Z",
-  "source_updated_at": "2026-10-20T06:02:02.397Z",
+  "generated_at": "2026-10-20T06:04:27.028654Z",
+  "source_updated_at": "2026-10-20T06:04:10.026Z",
   "timezone": "Europe/Vienna",
   "meta": {
-    "record_count": 130,
-    "vessel_count": 58,
+    "record_count": 131,
+    "vessel_count": 59,
     "date_min": "2026-07-19",
     "date_max": "2026-10-20",
     "skipped_record_count": 0
@@ -256,6 +256,12 @@
         "id": "VES-000129",
         "name": "Scenic Opal",
         "operator": "Scenic Tours",
+        "cruise_brand": ""
+      },
+      {
+        "id": "VES-000159",
+        "name": "SE Manon",
+        "operator": "",
         "cruise_brand": ""
       },
       {
@@ -650,6 +656,35 @@
       "movement": "moored",
       "direction": "upstream",
       "alongside_position": 2,
+      "photo_count": 0
+    },
+    {
+      "vessel_id": "VES-000159",
+      "vessel_name": "SE Manon",
+      "operator": "",
+      "cruise_brand": "",
+      "ship_type": "PASSENGER",
+      "ship_subtype": "RIVER_CRUISE",
+      "flag": "",
+      "status": "active",
+      "captured_at": "2026-10-15T04:47:03.000Z",
+      "local_date": "2026-10-15",
+      "local_month": "2026-10",
+      "local_year": 2026,
+      "weekday": 3,
+      "hour": 6,
+      "location_reference_id": "LOC-001",
+      "location_reference_name": "Nibelungenbrücke, Linz",
+      "location_area_id": "BTA-001",
+      "location_area_name": "Linz",
+      "municipality": "Linz",
+      "country": "Österreich",
+      "berth_id": "BER-000005",
+      "berth_name": "Donaustation Linz 1 (Brucknerhaus)",
+      "berth_short_name": "Linz 1 – Brucknerhaus",
+      "movement": "moored",
+      "direction": "upstream",
+      "alongside_position": 1,
       "photo_count": 0
     },
     {
