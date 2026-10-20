@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-20T05:59:01.058491Z",
-  "source_updated_at": "2026-10-20T05:58:42.258Z",
+  "generated_at": "2026-10-20T06:01:01.316320Z",
+  "source_updated_at": "2026-10-20T06:00:43.389Z",
   "timezone": "Europe/Vienna",
   "meta": {
-    "record_count": 128,
-    "vessel_count": 56,
+    "record_count": 129,
+    "vessel_count": 57,
     "date_min": "2026-07-19",
     "date_max": "2026-10-20",
     "skipped_record_count": 0
@@ -196,6 +196,12 @@
         "id": "VES-000133",
         "name": "Lady Cristina",
         "operator": "plantours & Partner GmbH",
+        "cruise_brand": ""
+      },
+      {
+        "id": "VES-000157",
+        "name": "Lilea",
+        "operator": "",
         "cruise_brand": ""
       },
       {
@@ -436,6 +442,35 @@
       "direction": "upstream",
       "alongside_position": 1,
       "photo_count": 4
+    },
+    {
+      "vessel_id": "VES-000157",
+      "vessel_name": "Lilea",
+      "operator": "",
+      "cruise_brand": "",
+      "ship_type": "PASSENGER",
+      "ship_subtype": "RIVER_CRUISE",
+      "flag": "UA",
+      "status": "active",
+      "captured_at": "2026-10-15T20:25:34.000Z",
+      "local_date": "2026-10-15",
+      "local_month": "2026-10",
+      "local_year": 2026,
+      "weekday": 3,
+      "hour": 22,
+      "location_reference_id": "",
+      "location_reference_name": "",
+      "location_area_id": "",
+      "location_area_name": "",
+      "municipality": "",
+      "country": "",
+      "berth_id": "",
+      "berth_name": "",
+      "berth_short_name": "",
+      "movement": "moving",
+      "direction": "downstream",
+      "alongside_position": null,
+      "photo_count": 0
     },
     {
       "vessel_id": "VES-000114",
