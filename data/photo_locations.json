@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "updated_at": "2026-10-20T05:06:44.000Z",
-  "count": 163,
+  "count": 165,
   "photos": [
     {
       "photo_id": "PHOTO-AB11A7D49F434EBAB51DA8953A9381D1",
@@ -110,6 +110,78 @@
         "submission_id": "SUB-20261020-055233-BC85FF"
       },
       "path": "inbox/photos/2026/10/PHOTO-BFF36A324EBC466DB7CFF47404EBF427.jpg"
+    },
+    {
+      "photo_id": "PHOTO-16BAEBC5FA704714888B096BC485D323",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261015-122909-C9874F",
+      "vessel_id": "VES-000158",
+      "vessel_name": "AmaSofia",
+      "captured_at": "2026-10-15T11:57:15.000Z",
+      "photo_lat": 48.30949666666667,
+      "photo_lon": 14.28464666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 321
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261015-122909-C9874F"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-16BAEBC5FA704714888B096BC485D323.jpg"
+    },
+    {
+      "photo_id": "PHOTO-36071A1FA442482FB276BDA05AFB392D",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261015-122909-C9874F",
+      "vessel_id": "VES-000158",
+      "vessel_name": "AmaSofia",
+      "captured_at": "2026-10-15T11:55:39.000Z",
+      "photo_lat": 48.30950333333333,
+      "photo_lon": 14.28467,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 321
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261015-122909-C9874F"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-36071A1FA442482FB276BDA05AFB392D.jpg"
     },
     {
       "photo_id": "PHOTO-A7750B65C09D4C8AB49C14ECFF8E9FF4",
@@ -5554,7 +5626,7 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 129,
+  "sighting_count": 130,
   "sightings": [
     {
       "submission_id": "SUB-20261020-055233-BC85FF",
@@ -5613,6 +5685,35 @@
       "vessel_width_m": null,
       "direction": "downstream",
       "photo_count": 0
+    },
+    {
+      "submission_id": "SUB-20261015-122909-C9874F",
+      "vessel_id": "VES-000158",
+      "vessel_name": "AmaSofia",
+      "captured_at": "2026-10-15T11:55:39.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 321
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
+      "direction": "upstream",
+      "photo_count": 2
     },
     {
       "submission_id": "SUB-20261015-045034-6BB627",

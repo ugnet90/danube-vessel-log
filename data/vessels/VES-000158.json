@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "vessel_id": "VES-000158",
+  "identity": {
+    "name": "AmaSofia",
+    "former_names": [],
+    "mmsi": "269057135",
+    "imo": "",
+    "eni": "",
+    "call_sign": "HE7135"
+  },
+  "classification": {
+    "ship_type": "PASSENGER",
+    "ship_subtype": "RIVER_CRUISE",
+    "status": "active",
+    "flag": "CH"
+  },
+  "technical": {
+    "year_built": null,
+    "shipyard": "",
+    "length_m": null,
+    "width_m": null,
+    "draft_m": null,
+    "passengers": null
+  },
+  "operations": {
+    "operator": "",
+    "owner": "",
+    "manager": "",
+    "cruise_brand": "",
+    "home_port": ""
+  },
+  "name_history": [],
+  "identifiers_history": [],
+  "sources": [],
+  "enrichment": {
+    "status": "pending",
+    "last_run_at": "",
+    "providers": []
+  },
+  "media": {
+    "primary_photo_id": "PHOTO-36071A1FA442482FB276BDA05AFB392D",
+    "primary_submission_id": "SUB-20261015-122909-C9874F"
+  },
+  "notes": "",
+  "audit": {
+    "environment": "production",
+    "created_at": "2026-10-20T06:02:02.397Z",
+    "created_from_submission_id": "SUB-20261015-122909-C9874F",
+    "updated_at": "2026-10-20T06:02:02.397Z",
+    "updated_by": "web-ui"
+  }
+}
