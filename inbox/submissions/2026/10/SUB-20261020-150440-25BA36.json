@@ -1,0 +1,98 @@
+{
+  "schema_version": 15,
+  "submission_id": "SUB-20261020-150440-25BA36",
+  "uploaded_at": "2026-10-20T15:04:40.324Z",
+  "captured_at": "2026-10-20T14:14:48.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "coordinates",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": 188
+  },
+  "berth": {
+    "status": "unknown",
+    "matched_by": "selection",
+    "id": "",
+    "name": "",
+    "short_name": "",
+    "station_number": "",
+    "location_id": "LOC-001",
+    "area_id": "BTA-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "",
+    "bank": "",
+    "relative_to_reference": "",
+    "river_km": null,
+    "river_km_text": "",
+    "facility_type": "",
+    "mooring_order": "",
+    "entry_count": null,
+    "entry_height": "",
+    "latitude": null,
+    "longitude": null,
+    "address": "",
+    "access_type": "",
+    "source_url": "",
+    "source_checked_at": ""
+  },
+  "movement": "moored",
+  "alongside_position": null,
+  "direction": "upstream",
+  "vessel_name_entered": "VIVA Two",
+  "notes": "",
+  "observer_lat": 48.30829666666666,
+  "observer_lon": 14.285005,
+  "photos": [
+    {
+      "photo_id": "PHOTO-26F8778DEA5141718462E978D71DC731",
+      "path": "inbox/photos/2026/10/PHOTO-26F8778DEA5141718462E978D71DC731.jpg",
+      "filename": "PHOTO-26F8778DEA5141718462E978D71DC731.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 244111,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-10-20T14:14:48.000Z",
+      "photo_lat": 48.30829666666666,
+      "photo_lon": 14.285005,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 188
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "unmatched",
+        "vessel_id": "",
+        "matched_by": "",
+        "candidate_count": 0,
+        "candidate_ids": [],
+        "matched_value": "",
+        "normalized_input": "viva two"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.30829666666666,
+  "photo_lon": 14.285005
+}
