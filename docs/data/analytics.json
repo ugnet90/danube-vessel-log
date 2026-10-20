@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-20T06:01:01.316320Z",
-  "source_updated_at": "2026-10-20T06:00:43.389Z",
+  "generated_at": "2026-10-20T06:02:21.975999Z",
+  "source_updated_at": "2026-10-20T06:02:02.397Z",
   "timezone": "Europe/Vienna",
   "meta": {
-    "record_count": 129,
-    "vessel_count": 57,
+    "record_count": 130,
+    "vessel_count": 58,
     "date_min": "2026-07-19",
     "date_max": "2026-10-20",
     "skipped_record_count": 0
@@ -100,6 +100,12 @@
         "id": "VES-000108",
         "name": "AmaReina",
         "operator": "AMA Waterways",
+        "cruise_brand": ""
+      },
+      {
+        "id": "VES-000158",
+        "name": "AmaSofia",
+        "operator": "",
         "cruise_brand": ""
       },
       {
@@ -471,6 +477,35 @@
       "direction": "downstream",
       "alongside_position": null,
       "photo_count": 0
+    },
+    {
+      "vessel_id": "VES-000158",
+      "vessel_name": "AmaSofia",
+      "operator": "",
+      "cruise_brand": "",
+      "ship_type": "PASSENGER",
+      "ship_subtype": "RIVER_CRUISE",
+      "flag": "CH",
+      "status": "active",
+      "captured_at": "2026-10-15T11:55:39.000Z",
+      "local_date": "2026-10-15",
+      "local_month": "2026-10",
+      "local_year": 2026,
+      "weekday": 3,
+      "hour": 13,
+      "location_reference_id": "LOC-001",
+      "location_reference_name": "Nibelungenbrücke, Linz",
+      "location_area_id": "BTA-001",
+      "location_area_name": "Linz",
+      "municipality": "Linz",
+      "country": "Österreich",
+      "berth_id": "BER-000003",
+      "berth_name": "Schiffsanlegestelle Linz-Hauptplatz",
+      "berth_short_name": "Linz-Hauptplatz Nr. 13",
+      "movement": "moored",
+      "direction": "upstream",
+      "alongside_position": 2,
+      "photo_count": 2
     },
     {
       "vessel_id": "VES-000114",
