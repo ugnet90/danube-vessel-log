@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-20T06:04:27.028654Z",
+  "generated_at": "2026-10-20T06:20:39.411063Z",
   "source_updated_at": "2026-10-20T06:04:10.026Z",
   "timezone": "Europe/Vienna",
   "meta": {
@@ -665,7 +665,7 @@
       "cruise_brand": "",
       "ship_type": "PASSENGER",
       "ship_subtype": "RIVER_CRUISE",
-      "flag": "",
+      "flag": "DE",
       "status": "active",
       "captured_at": "2026-10-15T04:47:03.000Z",
       "local_date": "2026-10-15",
