@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "updated_at": "2026-10-20T05:58:42.258Z",
+  "updated_at": "2026-10-20T06:00:43.389Z",
   "sightings": [
     {
       "submission_id": "SUB-20261020-055233-BC85FF",
@@ -164,6 +164,64 @@
         }
       ],
       "updated_at": "2026-10-20T05:58:42.258Z"
+    },
+    {
+      "submission_id": "SUB-20261015-202608-F149F3",
+      "submission_path": "inbox/submissions/2026/10/SUB-20261015-202608-F149F3.json",
+      "vessel_id": "VES-000157",
+      "captured_at": "2026-10-15T20:25:34.000Z",
+      "uploaded_at": "2026-10-15T20:26:08.329Z",
+      "reviewed_at": "2026-10-20T06:00:43.389Z",
+      "vessel_name_entered": "Lilea",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "not_applicable",
+        "matched_by": "selection",
+        "id": "",
+        "name": "",
+        "short_name": "",
+        "station_number": "",
+        "location_id": "",
+        "area_id": "",
+        "municipality": "",
+        "country": "",
+        "river": "",
+        "bank": "",
+        "relative_to_reference": "",
+        "river_km": null,
+        "river_km_text": "",
+        "facility_type": "",
+        "mooring_order": "",
+        "entry_count": null,
+        "entry_height": "",
+        "latitude": null,
+        "longitude": null,
+        "address": "",
+        "access_type": "",
+        "source_url": "",
+        "source_checked_at": ""
+      },
+      "movement": "moving",
+      "alongside_position": null,
+      "direction": "downstream",
+      "notes": "",
+      "observer_lat": 48.3641234398461,
+      "observer_lon": 14.02194787958555,
+      "photo_lat": null,
+      "photo_lon": null,
+      "review_decision": "created",
+      "review_notes": "",
+      "photos": [],
+      "updated_at": "2026-10-20T06:00:43.389Z"
     },
     {
       "submission_id": "SUB-20261015-045034-6BB627",

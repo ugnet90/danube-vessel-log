@@ -5554,7 +5554,7 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 128,
+  "sighting_count": 129,
   "sightings": [
     {
       "submission_id": "SUB-20261020-055233-BC85FF",
@@ -5584,6 +5584,35 @@
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 4
+    },
+    {
+      "submission_id": "SUB-20261015-202608-F149F3",
+      "vessel_id": "VES-000157",
+      "vessel_name": "Lilea",
+      "captured_at": "2026-10-15T20:25:34.000Z",
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "not_applicable",
+        "id": "",
+        "name": "",
+        "short_name": "",
+        "station_number": ""
+      },
+      "movement": "moving",
+      "alongside_position": null,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
+      "direction": "downstream",
+      "photo_count": 0
     },
     {
       "submission_id": "SUB-20261015-045034-6BB627",
