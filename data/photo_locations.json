@@ -1,8 +1,116 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-10-15T04:50:17.000Z",
-  "count": 160,
+  "updated_at": "2026-10-20T05:06:44.000Z",
+  "count": 163,
   "photos": [
+    {
+      "photo_id": "PHOTO-AB11A7D49F434EBAB51DA8953A9381D1",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261020-055233-BC85FF",
+      "vessel_id": "VES-000156",
+      "vessel_name": "Adora",
+      "captured_at": "2026-10-20T05:06:44.000Z",
+      "photo_lat": 48.30739666666667,
+      "photo_lon": 14.285295,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 94
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261020-055233-BC85FF"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-AB11A7D49F434EBAB51DA8953A9381D1.jpg"
+    },
+    {
+      "photo_id": "PHOTO-AEC6E8E23F0F4265B2984890D6D06525",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261020-055233-BC85FF",
+      "vessel_id": "VES-000156",
+      "vessel_name": "Adora",
+      "captured_at": "2026-10-20T05:06:05.000Z",
+      "photo_lat": 48.30777,
+      "photo_lon": 14.28498833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 140
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261020-055233-BC85FF"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-AEC6E8E23F0F4265B2984890D6D06525.jpg"
+    },
+    {
+      "photo_id": "PHOTO-BFF36A324EBC466DB7CFF47404EBF427",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261020-055233-BC85FF",
+      "vessel_id": "VES-000156",
+      "vessel_name": "Adora",
+      "captured_at": "2026-10-20T05:04:54.000Z",
+      "photo_lat": 48.30861666666667,
+      "photo_lon": 14.284375,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 243
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261020-055233-BC85FF"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-BFF36A324EBC466DB7CFF47404EBF427.jpg"
+    },
     {
       "photo_id": "PHOTO-A7750B65C09D4C8AB49C14ECFF8E9FF4",
       "source_type": "sighting",
@@ -5446,8 +5554,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 127,
+  "sighting_count": 128,
   "sightings": [
+    {
+      "submission_id": "SUB-20261020-055233-BC85FF",
+      "vessel_id": "VES-000156",
+      "vessel_name": "Adora",
+      "captured_at": "2026-10-20T05:03:39.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "direction": "upstream",
+      "photo_count": 4
+    },
     {
       "submission_id": "SUB-20261015-045034-6BB627",
       "vessel_id": "VES-000114",
