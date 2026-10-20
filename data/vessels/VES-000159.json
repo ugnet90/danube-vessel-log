@@ -4,23 +4,23 @@
   "identity": {
     "name": "SE Manon",
     "former_names": [],
-    "mmsi": "",
+    "mmsi": "244316200",
     "imo": "",
-    "eni": "",
-    "call_sign": ""
+    "eni": "04608050",
+    "call_sign": "PA3733"
   },
   "classification": {
     "ship_type": "PASSENGER",
     "ship_subtype": "RIVER_CRUISE",
     "status": "active",
-    "flag": ""
+    "flag": "DE"
   },
   "technical": {
-    "year_built": null,
-    "shipyard": "",
-    "length_m": null,
-    "width_m": null,
-    "draft_m": null,
+    "year_built": 1999,
+    "shipyard": "De Merwede",
+    "length_m": 110,
+    "width_m": 11.4,
+    "draft_m": 1.5,
     "passengers": null
   },
   "operations": {
@@ -28,15 +28,46 @@
     "owner": "",
     "manager": "",
     "cruise_brand": "",
-    "home_port": ""
+    "home_port": "Oberwesel"
   },
   "name_history": [],
   "identifiers_history": [],
-  "sources": [],
+  "sources": [
+    {
+      "source_id": "SRC-CF60757CB7FB",
+      "provider": "Wikidata",
+      "title": "Wikidata: SE-Manon",
+      "url": "https://www.wikidata.org/wiki/Q132176360",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "identity.mmsi",
+        "identity.eni",
+        "identity.call_sign",
+        "classification.flag",
+        "technical.year_built",
+        "technical.shipyard",
+        "technical.length_m",
+        "technical.width_m",
+        "technical.draft_m",
+        "operations.home_port"
+      ],
+      "retrieved_at": "2026-10-20T06:12:01.264569Z",
+      "verified_at": "2026-10-20T06:20:25.853Z",
+      "added_at": "2026-10-20T06:20:25.853Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2338418513
+    }
+  ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q132176360",
+      "rejected_qids": [],
+      "accepted_at": "2026-10-20T06:20:25.853Z",
+      "last_reviewed_at": "2026-10-20T06:20:25.853Z"
+    }
   },
   "media": {
     "primary_photo_id": "",
@@ -47,7 +78,84 @@
     "environment": "production",
     "created_at": "2026-10-20T06:04:10.026Z",
     "created_from_submission_id": "SUB-20261015-044731-A3319B",
-    "updated_at": "2026-10-20T06:04:10.026Z",
-    "updated_by": "web-ui"
+    "updated_at": "2026-10-20T06:20:25.853Z",
+    "updated_by": "vessel-enrichment",
+    "change_history": [
+      {
+        "changed_at": "2026-10-20T06:20:25.853Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "10 Wikidata-Felder aus Q132176360 übernommen",
+        "changed_fields": [
+          "identity.mmsi",
+          "identity.eni",
+          "identity.call_sign",
+          "classification.flag",
+          "technical.year_built",
+          "technical.shipyard",
+          "technical.length_m",
+          "technical.width_m",
+          "technical.draft_m",
+          "operations.home_port",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "identity.mmsi",
+            "old_value": "",
+            "new_value": "244316200"
+          },
+          {
+            "field": "identity.eni",
+            "old_value": "",
+            "new_value": "04608050"
+          },
+          {
+            "field": "identity.call_sign",
+            "old_value": "",
+            "new_value": "PA3733"
+          },
+          {
+            "field": "classification.flag",
+            "old_value": "",
+            "new_value": "DE"
+          },
+          {
+            "field": "technical.year_built",
+            "old_value": null,
+            "new_value": 1999
+          },
+          {
+            "field": "technical.shipyard",
+            "old_value": "",
+            "new_value": "De Merwede"
+          },
+          {
+            "field": "technical.length_m",
+            "old_value": null,
+            "new_value": 110
+          },
+          {
+            "field": "technical.width_m",
+            "old_value": null,
+            "new_value": 11.4
+          },
+          {
+            "field": "technical.draft_m",
+            "old_value": null,
+            "new_value": 1.5
+          },
+          {
+            "field": "operations.home_port",
+            "old_value": "",
+            "new_value": "Oberwesel"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q132176360"
+          }
+        ]
+      }
+    ]
   }
 }
