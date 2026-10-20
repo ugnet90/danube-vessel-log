@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-10-20T06:12:01.264569Z",
+  "generated_at": "2026-10-20T06:26:55.486635Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 59,
     "vessels_incomplete": 59,
     "vessels_complete": 0,
-    "candidate_matches": 1,
-    "matched_no_new_data": 39,
+    "candidate_matches": 0,
+    "matched_no_new_data": 40,
     "low_confidence": 0,
     "no_match": 19,
     "lookup_errors": 0,
-    "suggestions_total": 10
+    "suggestions_total": 0
   },
   "vessels": [
     {
@@ -2823,44 +2823,8 @@
       "json_path": "data/vessels/VES-000159.json",
       "missing_fields": [
         {
-          "field": "identity.mmsi",
-          "label": "MMSI"
-        },
-        {
           "field": "identity.imo",
           "label": "IMO"
-        },
-        {
-          "field": "identity.eni",
-          "label": "ENI"
-        },
-        {
-          "field": "identity.call_sign",
-          "label": "Rufzeichen"
-        },
-        {
-          "field": "classification.flag",
-          "label": "Flagge"
-        },
-        {
-          "field": "technical.year_built",
-          "label": "Baujahr"
-        },
-        {
-          "field": "technical.shipyard",
-          "label": "Werft"
-        },
-        {
-          "field": "technical.length_m",
-          "label": "Länge"
-        },
-        {
-          "field": "technical.width_m",
-          "label": "Breite"
-        },
-        {
-          "field": "technical.draft_m",
-          "label": "Tiefgang"
         },
         {
           "field": "technical.passengers",
@@ -2881,172 +2845,17 @@
         {
           "field": "operations.cruise_brand",
           "label": "Marke"
-        },
-        {
-          "field": "operations.home_port",
-          "label": "Heimathafen"
         }
       ],
-      "missing_count": 16,
+      "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
-        "accepted_qid": "",
+        "accepted_qid": "Q132176360",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q132176360",
-            "label": "SE-Manon",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q132176360",
-            "score": 0.98,
-            "confidence": "very_high",
-            "matched_by": [
-              "name"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [
-                "244316200"
-              ],
-              "imo": [],
-              "eni": [
-                "04608050"
-              ],
-              "call_sign": [
-                "PA3733"
-              ]
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.mmsi",
-                "field_label": "MMSI",
-                "value": "244316200",
-                "display_value": "244316200",
-                "property": "P587",
-                "property_label": "MMSI",
-                "property_url": "https://www.wikidata.org/wiki/Property:P587",
-                "source_url": "https://www.wikidata.org/wiki/Q132176360",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "identity.eni",
-                "field_label": "ENI",
-                "value": "04608050",
-                "display_value": "04608050",
-                "property": "P5910",
-                "property_label": "ENI number",
-                "property_url": "https://www.wikidata.org/wiki/Property:P5910",
-                "source_url": "https://www.wikidata.org/wiki/Q132176360",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "identity.call_sign",
-                "field_label": "Rufzeichen",
-                "value": "PA3733",
-                "display_value": "PA3733",
-                "property": "P2317",
-                "property_label": "call sign",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2317",
-                "source_url": "https://www.wikidata.org/wiki/Q132176360",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "classification.flag",
-                "field_label": "Flagge",
-                "value": "DE",
-                "display_value": "Deutschland",
-                "property": "P8047",
-                "property_label": "country of registry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P8047",
-                "source_url": "https://www.wikidata.org/wiki/Q132176360",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.year_built",
-                "field_label": "Baujahr",
-                "value": 1999,
-                "display_value": 1999,
-                "property": "P571",
-                "property_label": "inception",
-                "property_url": "https://www.wikidata.org/wiki/Property:P571",
-                "source_url": "https://www.wikidata.org/wiki/Q132176360",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "De Merwede",
-                "display_value": "De Merwede",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q132176360",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.length_m",
-                "field_label": "Länge",
-                "value": 110.0,
-                "display_value": 110.0,
-                "property": "P2043",
-                "property_label": "length",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2043",
-                "source_url": "https://www.wikidata.org/wiki/Q132176360",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.width_m",
-                "field_label": "Breite",
-                "value": 11.4,
-                "display_value": 11.4,
-                "property": "P2261",
-                "property_label": "beam",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2261",
-                "source_url": "https://www.wikidata.org/wiki/Q132176360",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 1.5,
-                "display_value": 1.5,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q132176360",
-                "confidence": 0.98,
-                "apply_supported": true
-              },
-              {
-                "field": "operations.home_port",
-                "field_label": "Heimathafen",
-                "value": "Oberwesel",
-                "display_value": "Oberwesel",
-                "property": "P532",
-                "property_label": "port of registry",
-                "property_url": "https://www.wikidata.org/wiki/Property:P532",
-                "source_url": "https://www.wikidata.org/wiki/Q132176360",
-                "confidence": 0.98,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2338418513
-          }
-        ]
+        "candidates": []
       }
     }
   ]
