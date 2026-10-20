@@ -66,16 +66,17 @@
     "providers": []
   },
   "media": {
-    "primary_photo_id": "PHOTO-4BB272E05C454EDEB39883A793E4AA3D",
-    "primary_submission_id": "SUB-20261020-055233-BC85FF"
+    "primary_photo_id": "PHOTO-AEC6E8E23F0F4265B2984890D6D06525",
+    "primary_submission_id": "SUB-20261020-055233-BC85FF",
+    "primary_photo_updated_at": "2026-10-20T06:21:32.800Z"
   },
   "notes": "",
   "audit": {
     "environment": "production",
     "created_at": "2026-10-20T05:58:42.258Z",
     "created_from_submission_id": "SUB-20261020-055233-BC85FF",
-    "updated_at": "2026-10-20T05:58:42.258Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-10-20T06:21:32.800Z",
+    "updated_by": "web-ui-primary-photo",
     "created_from_candidate_id": "CAN-9D3ADED062D6",
     "candidate_source_revision_id": "268617530"
   }
