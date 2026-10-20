@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-15T04:50:55.787208Z",
-  "source_updated_at": "2026-10-15T04:50:37.516Z",
+  "generated_at": "2026-10-20T05:59:01.058491Z",
+  "source_updated_at": "2026-10-20T05:58:42.258Z",
   "timezone": "Europe/Vienna",
   "meta": {
-    "record_count": 127,
-    "vessel_count": 55,
+    "record_count": 128,
+    "vessel_count": 56,
     "date_min": "2026-07-19",
-    "date_max": "2026-10-15",
+    "date_max": "2026-10-20",
     "skipped_record_count": 0
   },
   "dimensions": {
@@ -40,6 +40,12 @@
         "id": "VES-000103",
         "name": "A-ROSA RIVA",
         "operator": "A-ROSA Flussschiff",
+        "cruise_brand": ""
+      },
+      {
+        "id": "VES-000156",
+        "name": "Adora",
+        "operator": "Dunav Tours ( Phoenix Reisen )",
         "cruise_brand": ""
       },
       {
@@ -384,6 +390,7 @@
       "Avalon Waterways",
       "CroisiEurope",
       "Danubia Kreuzfahrten",
+      "Dunav Tours ( Phoenix Reisen )",
       "Emerald Waterways",
       "Nicko Cruises",
       "plantours & Partner GmbH",
@@ -401,6 +408,35 @@
     ]
   },
   "records": [
+    {
+      "vessel_id": "VES-000156",
+      "vessel_name": "Adora",
+      "operator": "Dunav Tours ( Phoenix Reisen )",
+      "cruise_brand": "",
+      "ship_type": "PASSENGER",
+      "ship_subtype": "RIVER_CRUISE",
+      "flag": "BG",
+      "status": "active",
+      "captured_at": "2026-10-20T05:03:39.000Z",
+      "local_date": "2026-10-20",
+      "local_month": "2026-10",
+      "local_year": 2026,
+      "weekday": 1,
+      "hour": 7,
+      "location_reference_id": "LOC-001",
+      "location_reference_name": "Nibelungenbrücke, Linz",
+      "location_area_id": "BTA-001",
+      "location_area_name": "Linz",
+      "municipality": "Linz",
+      "country": "Österreich",
+      "berth_id": "BER-000002",
+      "berth_name": "Schiffsanlegestelle Linz-Nibelungen",
+      "berth_short_name": "Linz-Nibelungen Nr. 12",
+      "movement": "moored",
+      "direction": "upstream",
+      "alongside_position": 1,
+      "photo_count": 4
+    },
     {
       "vessel_id": "VES-000114",
       "vessel_name": "Avalon Illumination",
