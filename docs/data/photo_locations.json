@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-10-27T06:11:24.000Z",
+  "updated_at": "2026-10-27T14:57:10.000Z",
   "count": 170,
   "photos": [
     {
@@ -5806,8 +5806,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 133,
+  "sighting_count": 134,
   "sightings": [
+    {
+      "submission_id": "SUB-20261027-145724-C9D2FC",
+      "vessel_id": "VES-000107",
+      "vessel_name": "A-ROSA FLORA",
+      "captured_at": "2026-10-27T14:57:10.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 469
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "direction": "upstream",
+      "photo_count": 0
+    },
     {
       "submission_id": "SUB-20261027-063852-43D23F",
       "vessel_id": "VES-000161",
