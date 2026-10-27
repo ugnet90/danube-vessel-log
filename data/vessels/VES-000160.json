@@ -4,7 +4,7 @@
   "identity": {
     "name": "Viva Two",
     "former_names": [],
-    "mmsi": "",
+    "mmsi": "269057829",
     "imo": "",
     "eni": "07002168",
     "call_sign": ""
@@ -17,15 +17,15 @@
   },
   "technical": {
     "year_built": 2023,
-    "shipyard": "",
+    "shipyard": "VAHALI",
     "length_m": 135,
     "width_m": 11.45,
-    "draft_m": null,
+    "draft_m": 2.1,
     "passengers": 190
   },
   "operations": {
     "operator": "Scylla (VIVA Cruises)",
-    "owner": "",
+    "owner": "Scylla",
     "manager": "",
     "cruise_brand": "",
     "home_port": "Basel"
@@ -58,12 +58,36 @@
       "added_by": "candidate-catalog",
       "candidate_id": "CAN-F8FA24FA27BD",
       "source_revision_id": "268617530"
+    },
+    {
+      "source_id": "SRC-6921606243BE",
+      "provider": "Wikidata",
+      "title": "Wikidata: Viva Two",
+      "url": "https://www.wikidata.org/wiki/Q124448366",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "identity.mmsi",
+        "technical.shipyard",
+        "technical.draft_m",
+        "operations.owner"
+      ],
+      "retrieved_at": "2026-10-27T07:43:29.061120Z",
+      "verified_at": "2026-10-27T09:37:54.810Z",
+      "added_at": "2026-10-27T09:37:54.810Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2319751178
     }
   ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q124448366",
+      "rejected_qids": [],
+      "accepted_at": "2026-10-27T09:37:54.810Z",
+      "last_reviewed_at": "2026-10-27T09:37:54.810Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-26F8778DEA5141718462E978D71DC731",
@@ -74,9 +98,50 @@
     "environment": "production",
     "created_at": "2026-10-27T07:39:55.353Z",
     "created_from_submission_id": "SUB-20261020-150440-25BA36",
-    "updated_at": "2026-10-27T07:39:55.353Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-10-27T09:37:54.810Z",
+    "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-F8FA24FA27BD",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-10-27T09:37:54.810Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "4 Wikidata-Felder aus Q124448366 übernommen",
+        "changed_fields": [
+          "identity.mmsi",
+          "technical.shipyard",
+          "technical.draft_m",
+          "operations.owner",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "identity.mmsi",
+            "old_value": "",
+            "new_value": "269057829"
+          },
+          {
+            "field": "technical.shipyard",
+            "old_value": "",
+            "new_value": "VAHALI"
+          },
+          {
+            "field": "technical.draft_m",
+            "old_value": null,
+            "new_value": 2.1
+          },
+          {
+            "field": "operations.owner",
+            "old_value": "",
+            "new_value": "Scylla"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q124448366"
+          }
+        ]
+      }
+    ]
   }
 }
