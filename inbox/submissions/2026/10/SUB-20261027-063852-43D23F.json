@@ -72,36 +72,13 @@
       }
     },
     {
-      "photo_id": "PHOTO-051BFE73E72E4477AF8596C86556DC57",
-      "path": "inbox/photos/2026/10/PHOTO-051BFE73E72E4477AF8596C86556DC57.jpg",
-      "filename": "PHOTO-051BFE73E72E4477AF8596C86556DC57.jpg",
-      "original_filename": "shortcut-photo-02.jpg",
-      "mime_type": "image/jpeg",
-      "size_bytes": 344417,
-      "sequence": 2,
-      "metadata_version": 1,
-      "captured_at": "2026-10-27T06:09:10.000Z",
-      "photo_lat": 48.30869166666667,
-      "photo_lon": 14.284695,
-      "location": {
-        "status": "matched",
-        "matched_by": "coordinates",
-        "id": "LOC-001",
-        "area_id": "",
-        "name": "Nibelungenbrücke, Linz",
-        "municipality": "",
-        "country": "Österreich",
-        "distance_m": 238
-      }
-    },
-    {
       "photo_id": "PHOTO-F9A664F822D04C8DB66F002BEC918700",
       "path": "inbox/photos/2026/10/PHOTO-F9A664F822D04C8DB66F002BEC918700.jpg",
       "filename": "PHOTO-F9A664F822D04C8DB66F002BEC918700.jpg",
       "original_filename": "shortcut-photo-03.jpg",
       "mime_type": "image/jpeg",
       "size_bytes": 335945,
-      "sequence": 3,
+      "sequence": 2,
       "metadata_version": 1,
       "captured_at": "2026-10-27T06:09:18.000Z",
       "photo_lat": 48.30869166666667,
@@ -124,7 +101,7 @@
       "original_filename": "shortcut-photo-04.jpg",
       "mime_type": "image/jpeg",
       "size_bytes": 288881,
-      "sequence": 4,
+      "sequence": 3,
       "metadata_version": 1,
       "captured_at": "2026-10-27T06:11:24.000Z",
       "photo_lat": 48.30758333333333,
@@ -163,5 +140,37 @@
     }
   },
   "photo_lat": 48.30950833333333,
-  "photo_lon": 14.28463
+  "photo_lon": 14.28463,
+  "photo_count": 3,
+  "updated_at": "2026-10-27T10:28:05.156Z",
+  "photo_history": [
+    {
+      "action": "deleted",
+      "deleted_at": "2026-10-27T10:28:05.156Z",
+      "deleted_by": "web-ui",
+      "photo": {
+        "photo_id": "PHOTO-051BFE73E72E4477AF8596C86556DC57",
+        "path": "inbox/photos/2026/10/PHOTO-051BFE73E72E4477AF8596C86556DC57.jpg",
+        "filename": "PHOTO-051BFE73E72E4477AF8596C86556DC57.jpg",
+        "original_filename": "shortcut-photo-02.jpg",
+        "mime_type": "image/jpeg",
+        "size_bytes": 344417,
+        "sequence": 2,
+        "metadata_version": 1,
+        "captured_at": "2026-10-27T06:09:10.000Z",
+        "photo_lat": 48.30869166666667,
+        "photo_lon": 14.284695,
+        "location": {
+          "status": "matched",
+          "matched_by": "coordinates",
+          "id": "LOC-001",
+          "area_id": "",
+          "name": "Nibelungenbrücke, Linz",
+          "municipality": "",
+          "country": "Österreich",
+          "distance_m": 238
+        }
+      }
+    }
+  ]
 }
