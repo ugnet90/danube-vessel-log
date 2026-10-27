@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-20T06:20:39.411063Z",
-  "source_updated_at": "2026-10-20T06:04:10.026Z",
+  "generated_at": "2026-10-27T07:40:12.722855Z",
+  "source_updated_at": "2026-10-27T07:39:55.353Z",
   "timezone": "Europe/Vienna",
   "meta": {
-    "record_count": 131,
-    "vessel_count": 59,
+    "record_count": 132,
+    "vessel_count": 60,
     "date_min": "2026-07-19",
     "date_max": "2026-10-20",
     "skipped_record_count": 0
@@ -365,6 +365,12 @@
         "name": "Viva Moments",
         "operator": "Scylla (VIVA Cruises)",
         "cruise_brand": ""
+      },
+      {
+        "id": "VES-000160",
+        "name": "Viva Two",
+        "operator": "Scylla (VIVA Cruises)",
+        "cruise_brand": ""
       }
     ],
     "locations": [
@@ -426,6 +432,35 @@
     ]
   },
   "records": [
+    {
+      "vessel_id": "VES-000160",
+      "vessel_name": "Viva Two",
+      "operator": "Scylla (VIVA Cruises)",
+      "cruise_brand": "",
+      "ship_type": "PASSENGER",
+      "ship_subtype": "RIVER_CRUISE",
+      "flag": "CH",
+      "status": "active",
+      "captured_at": "2026-10-20T14:14:48.000Z",
+      "local_date": "2026-10-20",
+      "local_month": "2026-10",
+      "local_year": 2026,
+      "weekday": 1,
+      "hour": 16,
+      "location_reference_id": "LOC-001",
+      "location_reference_name": "Nibelungenbrücke, Linz",
+      "location_area_id": "BTA-001",
+      "location_area_name": "Linz",
+      "municipality": "Linz",
+      "country": "Österreich",
+      "berth_id": "",
+      "berth_name": "",
+      "berth_short_name": "",
+      "movement": "moored",
+      "direction": "upstream",
+      "alongside_position": null,
+      "photo_count": 1
+    },
     {
       "vessel_id": "VES-000156",
       "vessel_name": "Adora",
