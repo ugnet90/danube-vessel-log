@@ -1,8 +1,152 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-10-20T14:14:48.000Z",
-  "count": 166,
+  "updated_at": "2026-10-27T06:11:24.000Z",
+  "count": 170,
   "photos": [
+    {
+      "photo_id": "PHOTO-A999D32E3A224A828FFEE1D09882E16E",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261027-063852-43D23F",
+      "vessel_id": "VES-000161",
+      "vessel_name": "Riviera Radiance",
+      "captured_at": "2026-10-27T06:11:24.000Z",
+      "photo_lat": 48.30758333333333,
+      "photo_lon": 14.28547,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 102
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261027-063852-43D23F"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-A999D32E3A224A828FFEE1D09882E16E.jpg"
+    },
+    {
+      "photo_id": "PHOTO-F9A664F822D04C8DB66F002BEC918700",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261027-063852-43D23F",
+      "vessel_id": "VES-000161",
+      "vessel_name": "Riviera Radiance",
+      "captured_at": "2026-10-27T06:09:18.000Z",
+      "photo_lat": 48.30869166666667,
+      "photo_lon": 14.28469666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 238
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261027-063852-43D23F"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-F9A664F822D04C8DB66F002BEC918700.jpg"
+    },
+    {
+      "photo_id": "PHOTO-051BFE73E72E4477AF8596C86556DC57",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261027-063852-43D23F",
+      "vessel_id": "VES-000161",
+      "vessel_name": "Riviera Radiance",
+      "captured_at": "2026-10-27T06:09:10.000Z",
+      "photo_lat": 48.30869166666667,
+      "photo_lon": 14.284695,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 238
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261027-063852-43D23F"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-051BFE73E72E4477AF8596C86556DC57.jpg"
+    },
+    {
+      "photo_id": "PHOTO-CC0770A8BF994B19AD8AF5727EE08F9E",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261027-063852-43D23F",
+      "vessel_id": "VES-000161",
+      "vessel_name": "Riviera Radiance",
+      "captured_at": "2026-10-27T06:07:02.000Z",
+      "photo_lat": 48.30950833333333,
+      "photo_lon": 14.28463,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 323
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261027-063852-43D23F"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-CC0770A8BF994B19AD8AF5727EE08F9E.jpg"
+    },
     {
       "photo_id": "PHOTO-26F8778DEA5141718462E978D71DC731",
       "source_type": "sighting",
@@ -5662,8 +5806,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 132,
+  "sighting_count": 133,
   "sightings": [
+    {
+      "submission_id": "SUB-20261027-063852-43D23F",
+      "vessel_id": "VES-000161",
+      "vessel_name": "Riviera Radiance",
+      "captured_at": "2026-10-27T06:07:02.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 323
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "direction": "upstream",
+      "photo_count": 4
+    },
     {
       "submission_id": "SUB-20261020-150440-25BA36",
       "vessel_id": "VES-000160",
