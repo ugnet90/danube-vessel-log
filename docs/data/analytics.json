@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-27T07:40:12.722855Z",
-  "source_updated_at": "2026-10-27T07:39:55.353Z",
+  "generated_at": "2026-10-27T09:40:11.306273Z",
+  "source_updated_at": "2026-10-27T09:39:51.176Z",
   "timezone": "Europe/Vienna",
   "meta": {
-    "record_count": 132,
-    "vessel_count": 60,
+    "record_count": 133,
+    "vessel_count": 61,
     "date_min": "2026-07-19",
-    "date_max": "2026-10-20",
+    "date_max": "2026-10-27",
     "skipped_record_count": 0
   },
   "dimensions": {
@@ -229,6 +229,12 @@
         "cruise_brand": ""
       },
       {
+        "id": "VES-000161",
+        "name": "Riviera Radiance",
+        "operator": "",
+        "cruise_brand": ""
+      },
+      {
         "id": "VES-000100",
         "name": "S. S. Beatrice",
         "operator": "Uniworld River Cruises",
@@ -432,6 +438,35 @@
     ]
   },
   "records": [
+    {
+      "vessel_id": "VES-000161",
+      "vessel_name": "Riviera Radiance",
+      "operator": "",
+      "cruise_brand": "",
+      "ship_type": "PASSENGER",
+      "ship_subtype": "RIVER_CRUISE",
+      "flag": "CH",
+      "status": "active",
+      "captured_at": "2026-10-27T06:07:02.000Z",
+      "local_date": "2026-10-27",
+      "local_month": "2026-10",
+      "local_year": 2026,
+      "weekday": 1,
+      "hour": 7,
+      "location_reference_id": "LOC-001",
+      "location_reference_name": "Nibelungenbrücke, Linz",
+      "location_area_id": "BTA-001",
+      "location_area_name": "Linz",
+      "municipality": "Linz",
+      "country": "Österreich",
+      "berth_id": "BER-000004",
+      "berth_name": "Schiffsanlegestelle Linz-Lentos",
+      "berth_short_name": "Linz-Lentos Nr. 14",
+      "movement": "moored",
+      "direction": "upstream",
+      "alongside_position": 1,
+      "photo_count": 4
+    },
     {
       "vessel_id": "VES-000160",
       "vessel_name": "Viva Two",
