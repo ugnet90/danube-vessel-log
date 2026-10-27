@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-10-27T10:02:09.192752Z",
+  "generated_at": "2026-10-27T10:05:39.462134Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -36,10 +36,10 @@
     "vessels_incomplete": 61,
     "vessels_complete": 0,
     "candidate_matches": 0,
-    "matched_no_new_data": 12,
+    "matched_no_new_data": 42,
     "low_confidence": 0,
-    "no_match": 6,
-    "lookup_errors": 43,
+    "no_match": 19,
+    "lookup_errors": 0,
     "suggestions_total": 0
   },
   "vessels": [
@@ -85,8 +85,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.1 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -131,8 +131,8 @@
       "missing_count": 7,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.1 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q132731400",
         "rejected_qids": [],
@@ -181,8 +181,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.0333333333333 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -207,8 +207,8 @@
       "missing_count": 2,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.0333333333333 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q277910",
         "rejected_qids": [],
@@ -245,8 +245,8 @@
       "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.0333333333333 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
@@ -300,8 +300,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.0333333333333 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -350,8 +350,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.2 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -380,8 +380,8 @@
       "missing_count": 3,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.2 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q15260465",
         "rejected_qids": [],
@@ -430,8 +430,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.2 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -472,8 +472,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.2 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -514,8 +514,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.2 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
@@ -557,8 +557,8 @@
       "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.8333333333333 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -607,8 +607,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.8333333333333 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q1597558",
         "rejected_qids": [],
@@ -657,8 +657,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.8333333333333 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -703,8 +703,8 @@
       "missing_count": 7,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.8333333333333 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q131405286",
         "rejected_qids": [],
@@ -745,8 +745,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 8.0333333333333 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
@@ -798,8 +798,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 8.0333333333333 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -836,8 +836,8 @@
       "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 8.0333333333333 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q122413683",
         "rejected_qids": [],
@@ -886,8 +886,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 8.0333333333333 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -936,8 +936,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 8.0333333333333 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -1887,8 +1887,8 @@
       "missing_count": 13,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 5.6666666666667 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -1929,8 +1929,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 5.6666666666667 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q790106",
         "rejected_qids": [
@@ -1961,8 +1961,8 @@
       "missing_count": 2,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 5.6666666666667 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q277892",
         "rejected_qids": [],
@@ -1999,8 +1999,8 @@
       "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 5.6666666666667 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
@@ -2037,8 +2037,8 @@
       "missing_count": 4,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 6 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q775214",
         "rejected_qids": [],
@@ -2063,8 +2063,8 @@
       "missing_count": 2,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 6 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q277902",
         "rejected_qids": [],
@@ -2105,8 +2105,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 6 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -2147,8 +2147,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 6 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q131461220",
         "rejected_qids": [],
@@ -2193,8 +2193,8 @@
       "missing_count": 7,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 6 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q132024052",
         "rejected_qids": [],
@@ -2255,8 +2255,8 @@
       "missing_count": 11,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 5.85 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -2293,8 +2293,8 @@
       "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 5.85 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q106254726",
         "rejected_qids": [],
@@ -2355,8 +2355,8 @@
       "missing_count": 11,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 5.85 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
@@ -2420,8 +2420,8 @@
       "missing_count": 11,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 5.85 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
@@ -2478,8 +2478,8 @@
       "missing_count": 9,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 6.6666666666667 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q108710614",
         "rejected_qids": [
@@ -2522,8 +2522,8 @@
       "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 6.6666666666667 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q108885155",
         "rejected_qids": [],
@@ -2592,8 +2592,8 @@
       "missing_count": 13,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 6.6666666666667 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -2626,8 +2626,8 @@
       "missing_count": 4,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 6.6666666666667 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q131986622",
         "rejected_qids": [],
@@ -2668,8 +2668,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 6.6666666666667 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -2738,8 +2738,8 @@
       "missing_count": 13,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.2 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -2808,8 +2808,8 @@
       "missing_count": 13,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.2 seconds lagged.",
+        "status": "no_match",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
@@ -2850,8 +2850,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.2 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q132176360",
         "rejected_qids": [],
@@ -2884,8 +2884,8 @@
       "missing_count": 4,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.2 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "Q124448366",
         "rejected_qids": [],
@@ -2946,8 +2946,8 @@
       "missing_count": 11,
       "lookup": {
         "provider": "wikidata",
-        "status": "lookup_error",
-        "error": "Wikidata Action API: maxlag: Waiting for wdqs1011: 7.9666666666667 seconds lagged.",
+        "status": "matched_no_new_data",
+        "error": "",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [],
