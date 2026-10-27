@@ -1,8 +1,44 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-10-20T05:06:44.000Z",
-  "count": 165,
+  "updated_at": "2026-10-20T14:14:48.000Z",
+  "count": 166,
   "photos": [
+    {
+      "photo_id": "PHOTO-26F8778DEA5141718462E978D71DC731",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261020-150440-25BA36",
+      "vessel_id": "VES-000160",
+      "vessel_name": "Viva Two",
+      "captured_at": "2026-10-20T14:14:48.000Z",
+      "photo_lat": 48.30829666666666,
+      "photo_lon": 14.285005,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 188
+      },
+      "berth": {
+        "status": "unknown",
+        "id": "",
+        "name": "",
+        "short_name": "",
+        "station_number": ""
+      },
+      "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261020-150440-25BA36"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-26F8778DEA5141718462E978D71DC731.jpg"
+    },
     {
       "photo_id": "PHOTO-AB11A7D49F434EBAB51DA8953A9381D1",
       "source_type": "sighting",
@@ -5626,8 +5662,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 131,
+  "sighting_count": 132,
   "sightings": [
+    {
+      "submission_id": "SUB-20261020-150440-25BA36",
+      "vessel_id": "VES-000160",
+      "vessel_name": "Viva Two",
+      "captured_at": "2026-10-20T14:14:48.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 188
+      },
+      "berth": {
+        "status": "unknown",
+        "id": "",
+        "name": "",
+        "short_name": "",
+        "station_number": ""
+      },
+      "movement": "moored",
+      "alongside_position": null,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 1
+    },
     {
       "submission_id": "SUB-20261020-055233-BC85FF",
       "vessel_id": "VES-000156",
