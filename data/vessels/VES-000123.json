@@ -39,15 +39,16 @@
     "providers": []
   },
   "media": {
-    "primary_photo_id": "",
-    "primary_submission_id": "SUB-20260819-045746-AA535E"
+    "primary_photo_id": "PHOTO-F8040549717C476BAE936E6751E4C64D",
+    "primary_submission_id": "SUB-20261028-081029-300E6F",
+    "primary_photo_updated_at": "2026-10-28T08:19:05.853Z"
   },
   "notes": "",
   "audit": {
     "environment": "production",
     "created_at": "2026-08-19T05:41:52.709Z",
     "created_from_submission_id": "SUB-20260819-045746-AA535E",
-    "updated_at": "2026-08-19T05:41:52.709Z",
-    "updated_by": "web-ui"
+    "updated_at": "2026-10-28T08:19:05.853Z",
+    "updated_by": "web-ui-primary-photo"
   }
 }
