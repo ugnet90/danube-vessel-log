@@ -1,0 +1,123 @@
+{
+  "schema_version": 15,
+  "submission_id": "SUB-20261028-081227-E7C719",
+  "uploaded_at": "2026-10-28T08:12:27.067Z",
+  "captured_at": "2026-10-28T06:13:34.000Z",
+  "location": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "LOC-001",
+    "area_id": "",
+    "name": "Nibelungenbrücke, Linz",
+    "municipality": "",
+    "country": "Österreich",
+    "distance_m": null
+  },
+  "berth": {
+    "status": "matched",
+    "matched_by": "berth_id",
+    "id": "BER-000005",
+    "name": "Donaustation Linz 1 (Brucknerhaus)",
+    "short_name": "Linz 1 – Brucknerhaus",
+    "station_number": "1",
+    "location_id": "LOC-001",
+    "area_id": "BTA-001",
+    "municipality": "Linz",
+    "country": "Österreich",
+    "river": "Donau",
+    "bank": "right",
+    "relative_to_reference": "downstream",
+    "river_km": 2134.52,
+    "river_km_text": "2134,6+10–2134,4+30",
+    "facility_type": "Tankkahn",
+    "mooring_order": "25 m",
+    "entry_count": 0,
+    "entry_height": "",
+    "latitude": 48.311353,
+    "longitude": 14.2917265,
+    "address": "Untere Donaulände beim Brucknerhaus, 4020 Linz",
+    "access_type": "public",
+    "source_url": "https://www.donaustationen.at/anlegestellen-1/linz-1/",
+    "source_checked_at": "2026-08-24"
+  },
+  "movement": "moored",
+  "alongside_position": 1,
+  "direction": "upstream",
+  "vessel_name_entered": "Lilea",
+  "notes": "",
+  "observer_lat": 48.31186333333333,
+  "observer_lon": 14.28854666666667,
+  "photos": [
+    {
+      "photo_id": "PHOTO-81B2EAB565F0468FB671DAA5676F55E3",
+      "path": "inbox/photos/2026/10/PHOTO-81B2EAB565F0468FB671DAA5676F55E3.jpg",
+      "filename": "PHOTO-81B2EAB565F0468FB671DAA5676F55E3.jpg",
+      "original_filename": "shortcut-photo-01.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 347585,
+      "sequence": 1,
+      "metadata_version": 1,
+      "captured_at": "2026-10-28T06:13:34.000Z",
+      "photo_lat": 48.31186333333333,
+      "photo_lon": 14.28854666666667,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    },
+    {
+      "photo_id": "PHOTO-703CC06F5207426E8FBD195BE40D3088",
+      "path": "inbox/photos/2026/10/PHOTO-703CC06F5207426E8FBD195BE40D3088.jpg",
+      "filename": "PHOTO-703CC06F5207426E8FBD195BE40D3088.jpg",
+      "original_filename": "shortcut-photo-02.jpg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 360361,
+      "sequence": 2,
+      "metadata_version": 1,
+      "captured_at": "2026-10-28T06:13:58.000Z",
+      "photo_lat": 48.31186333333333,
+      "photo_lon": 14.288545,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      }
+    }
+  ],
+  "workflow": {
+    "status": "new",
+    "auto": {
+      "vessel_match": {
+        "status": "matched",
+        "vessel_id": "VES-000157",
+        "matched_by": "vessel_id",
+        "candidate_count": 1,
+        "candidate_ids": [
+          "VES-000157"
+        ],
+        "matched_value": "Lilea",
+        "normalized_input": "lilea"
+      }
+    },
+    "review": {
+      "reviewed": false,
+      "reviewed_at": "",
+      "vessel_id": "",
+      "decision": "",
+      "notes": ""
+    }
+  },
+  "photo_lat": 48.31186333333333,
+  "photo_lon": 14.28854666666667
+}
