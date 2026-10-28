@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "updated_at": "2026-10-28T06:21:33.000Z",
-  "count": 174,
+  "count": 176,
   "photos": [
     {
       "photo_id": "PHOTO-F8040549717C476BAE936E6751E4C64D",
@@ -74,6 +74,78 @@
         "submission_id": "SUB-20261028-081029-300E6F"
       },
       "path": "inbox/photos/2026/10/PHOTO-EF4977BCCBED443EBE914BFF4CF07BC7.jpg"
+    },
+    {
+      "photo_id": "PHOTO-703CC06F5207426E8FBD195BE40D3088",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261028-081227-E7C719",
+      "vessel_id": "VES-000157",
+      "vessel_name": "Lilea",
+      "captured_at": "2026-10-28T06:13:58.000Z",
+      "photo_lat": 48.31186333333333,
+      "photo_lon": 14.288545,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261028-081227-E7C719"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-703CC06F5207426E8FBD195BE40D3088.jpg"
+    },
+    {
+      "photo_id": "PHOTO-81B2EAB565F0468FB671DAA5676F55E3",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261028-081227-E7C719",
+      "vessel_id": "VES-000157",
+      "vessel_name": "Lilea",
+      "captured_at": "2026-10-28T06:13:34.000Z",
+      "photo_lat": 48.31186333333333,
+      "photo_lon": 14.28854666666667,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261028-081227-E7C719"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-81B2EAB565F0468FB671DAA5676F55E3.jpg"
     },
     {
       "photo_id": "PHOTO-0FFD9476D1D94D9982AE54FFB9EACC79",
@@ -5950,8 +6022,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 136,
+  "sighting_count": 137,
   "sightings": [
+    {
+      "submission_id": "SUB-20261028-081227-E7C719",
+      "vessel_id": "VES-000157",
+      "vessel_name": "Lilea",
+      "captured_at": "2026-10-28T06:13:34.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": null,
+      "vessel_width_m": null,
+      "direction": "upstream",
+      "photo_count": 2
+    },
     {
       "submission_id": "SUB-20261028-081029-300E6F",
       "vessel_id": "VES-000123",
