@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-10-27T10:32:50.736675Z",
+  "generated_at": "2026-10-28T08:22:37.594377Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -36,10 +36,10 @@
     "vessels_incomplete": 61,
     "vessels_complete": 0,
     "candidate_matches": 0,
-    "matched_no_new_data": 42,
+    "matched_no_new_data": 38,
     "low_confidence": 0,
     "no_match": 19,
-    "lookup_errors": 0,
+    "lookup_errors": 4,
     "suggestions_total": 0
   },
   "vessels": [
@@ -514,8 +514,8 @@
       "missing_count": 6,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: cirrussearch-too-busy-error: Search is currently too busy. Please try again later.",
         "warnings": [],
         "accepted_qid": "",
         "rejected_qids": [
@@ -607,8 +607,8 @@
       "missing_count": 8,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: cirrussearch-too-busy-error: Search is currently too busy. Please try again later.",
         "warnings": [],
         "accepted_qid": "Q1597558",
         "rejected_qids": [],
@@ -1614,8 +1614,8 @@
       "missing_count": 5,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: cirrussearch-too-busy-error: Search is currently too busy. Please try again later.",
         "warnings": [],
         "accepted_qid": "Q451699",
         "rejected_qids": [],
@@ -1732,8 +1732,8 @@
       "missing_count": 3,
       "lookup": {
         "provider": "wikidata",
-        "status": "matched_no_new_data",
-        "error": "",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: cirrussearch-too-busy-error: Search is currently too busy. Please try again later.",
         "warnings": [],
         "accepted_qid": "Q1426908",
         "rejected_qids": [
