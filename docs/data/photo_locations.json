@@ -1,8 +1,152 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-10-27T14:57:38.000Z",
-  "count": 170,
+  "updated_at": "2026-10-28T06:21:33.000Z",
+  "count": 174,
   "photos": [
+    {
+      "photo_id": "PHOTO-F8040549717C476BAE936E6751E4C64D",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261028-081029-300E6F",
+      "vessel_id": "VES-000123",
+      "vessel_name": "APT Ostara",
+      "captured_at": "2026-10-28T06:21:33.000Z",
+      "photo_lat": 48.30857833333334,
+      "photo_lon": 14.28481333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 223
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261028-081029-300E6F"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-F8040549717C476BAE936E6751E4C64D.jpg"
+    },
+    {
+      "photo_id": "PHOTO-EF4977BCCBED443EBE914BFF4CF07BC7",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261028-081029-300E6F",
+      "vessel_id": "VES-000123",
+      "vessel_name": "APT Ostara",
+      "captured_at": "2026-10-28T06:15:37.000Z",
+      "photo_lat": 48.31130333333333,
+      "photo_lon": 14.28786666666667,
+      "location": {
+        "status": "unknown",
+        "matched_by": "",
+        "id": "",
+        "area_id": "",
+        "name": "",
+        "municipality": "",
+        "country": "",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261028-081029-300E6F"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-EF4977BCCBED443EBE914BFF4CF07BC7.jpg"
+    },
+    {
+      "photo_id": "PHOTO-0FFD9476D1D94D9982AE54FFB9EACC79",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261028-081029-300E6F",
+      "vessel_id": "VES-000123",
+      "vessel_name": "APT Ostara",
+      "captured_at": "2026-10-28T06:09:47.000Z",
+      "photo_lat": 48.309975,
+      "photo_lon": 14.28557,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 356
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261028-081029-300E6F"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-0FFD9476D1D94D9982AE54FFB9EACC79.jpg"
+    },
+    {
+      "photo_id": "PHOTO-FC3F889F7B044CD88690049E1CA3E950",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261028-081029-300E6F",
+      "vessel_id": "VES-000123",
+      "vessel_name": "APT Ostara",
+      "captured_at": "2026-10-28T06:08:27.000Z",
+      "photo_lat": 48.30947833333333,
+      "photo_lon": 14.28470833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 318
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261028-081029-300E6F"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-FC3F889F7B044CD88690049E1CA3E950.jpg"
+    },
     {
       "photo_id": "PHOTO-A999D32E3A224A828FFEE1D09882E16E",
       "source_type": "sighting",
@@ -5806,8 +5950,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 135,
+  "sighting_count": 136,
   "sightings": [
+    {
+      "submission_id": "SUB-20261028-081029-300E6F",
+      "vessel_id": "VES-000123",
+      "vessel_name": "APT Ostara",
+      "captured_at": "2026-10-28T06:08:27.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 318
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000005",
+        "name": "Donaustation Linz 1 (Brucknerhaus)",
+        "short_name": "Linz 1 – Brucknerhaus",
+        "station_number": "1"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 12,
+      "direction": "upstream",
+      "photo_count": 4
+    },
     {
       "submission_id": "SUB-20261027-145752-088E7D",
       "vessel_id": "VES-000121",
