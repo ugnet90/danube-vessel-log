@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-27T15:03:13.397780Z",
-  "source_updated_at": "2026-10-27T14:57:55.421Z",
+  "generated_at": "2026-10-28T08:10:55.423852Z",
+  "source_updated_at": "2026-10-28T08:10:39.463Z",
   "timezone": "Europe/Vienna",
   "meta": {
-    "record_count": 135,
+    "record_count": 136,
     "vessel_count": 61,
     "date_min": "2026-07-19",
-    "date_max": "2026-10-27",
+    "date_max": "2026-10-28",
     "skipped_record_count": 0
   },
   "dimensions": {
@@ -438,6 +438,35 @@
     ]
   },
   "records": [
+    {
+      "vessel_id": "VES-000123",
+      "vessel_name": "APT Ostara",
+      "operator": "",
+      "cruise_brand": "",
+      "ship_type": "PASSENGER",
+      "ship_subtype": "RIVER_CRUISE",
+      "flag": "CH",
+      "status": "active",
+      "captured_at": "2026-10-28T06:08:27.000Z",
+      "local_date": "2026-10-28",
+      "local_month": "2026-10",
+      "local_year": 2026,
+      "weekday": 2,
+      "hour": 7,
+      "location_reference_id": "LOC-001",
+      "location_reference_name": "Nibelungenbrücke, Linz",
+      "location_area_id": "BTA-001",
+      "location_area_name": "Linz",
+      "municipality": "Linz",
+      "country": "Österreich",
+      "berth_id": "BER-000005",
+      "berth_name": "Donaustation Linz 1 (Brucknerhaus)",
+      "berth_short_name": "Linz 1 – Brucknerhaus",
+      "movement": "moored",
+      "direction": "upstream",
+      "alongside_position": 2,
+      "photo_count": 4
+    },
     {
       "vessel_id": "VES-000121",
       "vessel_name": "AmaMagna",
