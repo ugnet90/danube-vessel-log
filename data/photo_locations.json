@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "updated_at": "2026-11-11T06:14:24.000Z",
-  "count": 178,
+  "count": 179,
   "photos": [
     {
       "photo_id": "PHOTO-5ABE01319A5248819A86F6851C0BCBA0",
@@ -74,6 +74,42 @@
         "submission_id": "SUB-20261111-064801-CBC32C"
       },
       "path": "inbox/photos/2026/11/PHOTO-C4B809B0BE3D4757A759DF5F168DE008.jpg"
+    },
+    {
+      "photo_id": "PHOTO-ACDAF2552E344186A2FDC58502BA255D",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261111-064611-5DD0C5",
+      "vessel_id": "VES-000162",
+      "vessel_name": "Spirit of the Danube",
+      "captured_at": "2026-11-11T06:11:42.000Z",
+      "photo_lat": 48.30868666666667,
+      "photo_lon": 14.284695,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 237
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261111-064611-5DD0C5"
+      },
+      "path": "inbox/photos/2026/11/PHOTO-ACDAF2552E344186A2FDC58502BA255D.jpg"
     },
     {
       "photo_id": "PHOTO-F8040549717C476BAE936E6751E4C64D",
@@ -6094,7 +6130,7 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 138,
+  "sighting_count": 139,
   "sightings": [
     {
       "submission_id": "SUB-20261111-064801-CBC32C",
@@ -6122,6 +6158,35 @@
       "alongside_position": 1,
       "vessel_length_m": 135,
       "vessel_width_m": 12,
+      "direction": "upstream",
+      "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20261111-064611-5DD0C5",
+      "vessel_id": "VES-000162",
+      "vessel_name": "Spirit of the Danube",
+      "captured_at": "2026-11-11T06:08:41.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000004",
+        "name": "Schiffsanlegestelle Linz-Lentos",
+        "short_name": "Linz-Lentos Nr. 14",
+        "station_number": "14"
+      },
+      "movement": "moored",
+      "alongside_position": 2,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 2
     },
