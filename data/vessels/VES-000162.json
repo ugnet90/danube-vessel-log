@@ -17,7 +17,7 @@
   },
   "technical": {
     "year_built": 2022,
-    "shipyard": "",
+    "shipyard": "VAHALI",
     "length_m": 135,
     "width_m": 11.4,
     "draft_m": null,
@@ -57,12 +57,33 @@
       "added_by": "candidate-catalog",
       "candidate_id": "CAN-C2C51BB091FA",
       "source_revision_id": "268617530"
+    },
+    {
+      "source_id": "SRC-4FEE859765BC",
+      "provider": "Wikidata",
+      "title": "Wikidata: Spirit of the Danube",
+      "url": "https://www.wikidata.org/wiki/Q132539902",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "technical.shipyard"
+      ],
+      "retrieved_at": "2026-11-11T15:52:44.853561Z",
+      "verified_at": "2026-11-12T13:46:40.746Z",
+      "added_at": "2026-11-12T13:46:40.746Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2419989445
     }
   ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q132539902",
+      "rejected_qids": [],
+      "accepted_at": "2026-11-12T13:46:40.746Z",
+      "last_reviewed_at": "2026-11-12T13:46:40.746Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-1CFCD5F1AB45417883FB111E0C97EC4A",
@@ -73,9 +94,32 @@
     "environment": "production",
     "created_at": "2026-11-11T15:46:00.551Z",
     "created_from_submission_id": "SUB-20261111-064611-5DD0C5",
-    "updated_at": "2026-11-11T15:46:00.551Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-11-12T13:46:40.746Z",
+    "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-C2C51BB091FA",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-11-12T13:46:40.746Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "1 Wikidata-Feld aus Q132539902 übernommen",
+        "changed_fields": [
+          "technical.shipyard",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "technical.shipyard",
+            "old_value": "",
+            "new_value": "VAHALI"
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q132539902"
+          }
+        ]
+      }
+    ]
   }
 }
