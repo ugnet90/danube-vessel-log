@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-11-16T12:54:20.010274Z",
+  "generated_at": "2026-11-18T12:51:02.387556Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -8,7 +8,7 @@
     "url": "https://www.wikidata.org/",
     "strategy": "Action API with optional batched Query Service identifier lookup and manual candidate decisions"
   },
-  "mode": "online",
+  "mode": "incremental",
   "warnings": [],
   "field_labels": {
     "identity.mmsi": "MMSI",
@@ -32,14 +32,14 @@
     "operations.home_port": "Heimathafen"
   },
   "summary": {
-    "vessels_total": 62,
-    "vessels_incomplete": 62,
+    "vessels_total": 64,
+    "vessels_incomplete": 64,
     "vessels_complete": 0,
     "candidate_matches": 0,
     "matched_no_new_data": 4,
     "low_confidence": 0,
     "no_match": 1,
-    "lookup_errors": 57,
+    "lookup_errors": 59,
     "suggestions_total": 0
   },
   "vessels": [
@@ -3000,6 +3000,90 @@
         "error": "",
         "warnings": [],
         "accepted_qid": "Q132539902",
+        "rejected_qids": [],
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000163",
+      "name": "Avalon Visionary",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000163.json",
+      "missing_fields": [
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 6,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 22.566666666667 seconds lagged.",
+        "warnings": [],
+        "accepted_qid": "",
+        "rejected_qids": [],
+        "candidates": []
+      }
+    },
+    {
+      "vessel_id": "VES-000164",
+      "name": "Viva Enjoy",
+      "environment": "production",
+      "json_path": "data/vessels/VES-000164.json",
+      "missing_fields": [
+        {
+          "field": "identity.imo",
+          "label": "IMO"
+        },
+        {
+          "field": "technical.shipyard",
+          "label": "Werft"
+        },
+        {
+          "field": "technical.draft_m",
+          "label": "Tiefgang"
+        },
+        {
+          "field": "operations.owner",
+          "label": "Eigentümer"
+        },
+        {
+          "field": "operations.manager",
+          "label": "Manager"
+        },
+        {
+          "field": "operations.cruise_brand",
+          "label": "Marke"
+        }
+      ],
+      "missing_count": 6,
+      "lookup": {
+        "provider": "wikidata",
+        "status": "lookup_error",
+        "error": "Wikidata Action API: maxlag: Waiting for wdqs1014: 22.566666666667 seconds lagged.",
+        "warnings": [],
+        "accepted_qid": "",
         "rejected_qids": [],
         "candidates": []
       }
