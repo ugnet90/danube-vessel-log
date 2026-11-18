@@ -1,14 +1,14 @@
 # Danube Vessel Log
 # File: .github/workflows/build-vessel-enrichment.yml
-# Version: 0.15.7
-# Updated: 2026-08-26
+# Version: 0.15.22
+# Updated: 2026-11-18
 
 name: Build vessel enrichment
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 4 * * 1"
+    - cron: "17 4 1 * *"
   push:
     branches:
       - main
@@ -53,6 +53,53 @@ jobs:
             echo "Wikidata-Neuaufbau wird übersprungen."
           fi
 
+      - name: Umfang der Anreicherung bestimmen
+        id: scope
+        if: github.event_name == 'push' && steps.relevance.outputs.relevant == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BEFORE="${{ github.event.before }}"
+          AFTER="${{ github.sha }}"
+
+          mapfile -t CHANGED_PATHS < <(
+            git diff --name-only "$BEFORE" "$AFTER"
+          )
+
+          FULL_REFRESH=false
+          for PATHNAME in "${CHANGED_PATHS[@]}"
+          do
+            case "$PATHNAME" in
+              tools/build_vessel_enrichment.py|tools/check_vessel_enrichment_relevance.py|.github/workflows/build-vessel-enrichment.yml)
+                FULL_REFRESH=true
+                ;;
+            esac
+          done
+
+          mapfile -t VESSEL_IDS < <(
+            printf '%s\n' "${CHANGED_PATHS[@]}" |
+              sed -nE 's#^data/vessels/(VES-[0-9]{6})\.json$#\1#p' |
+              sort -u
+          )
+
+          if [ "$FULL_REFRESH" = "true" ] || [ "${#VESSEL_IDS[@]}" -eq 0 ]
+          then
+            echo "mode=full" >> "$GITHUB_OUTPUT"
+            echo "args=" >> "$GITHUB_OUTPUT"
+            echo "Vollrefresh erforderlich."
+          else
+            ARGS="--reuse-existing"
+            for VESSEL_ID in "${VESSEL_IDS[@]}"
+            do
+              ARGS="$ARGS --vessel-id $VESSEL_ID"
+            done
+
+            echo "mode=incremental" >> "$GITHUB_OUTPUT"
+            echo "args=$ARGS" >> "$GITHUB_OUTPUT"
+            echo "Inkrementelle Anreicherung: ${VESSEL_IDS[*]}"
+          fi
+
       - name: Python einrichten
         if: github.event_name != 'push' || steps.relevance.outputs.relevant == 'true'
         uses: actions/setup-python@v5
@@ -68,6 +115,7 @@ jobs:
           WIKIDATA_DELAY_SECONDS: "0.75"
           WIKIDATA_MAX_CANDIDATES: "5"
           WIKIDATA_WDQS_RETRIES: "1"
+          WIKIDATA_TIMEOUT_SECONDS: ${{ github.event_name == 'push' && '12' || '35' }}
         run: |
           set -euo pipefail
 
@@ -85,7 +133,14 @@ jobs:
             git reset --hard origin/main
 
             python tools/build_vessel_enrichment.py --self-test
-            python tools/build_vessel_enrichment.py
+
+            EXTRA_ARGS=()
+            if [ "${{ github.event_name }}" = "push" ] && [ "${{ steps.scope.outputs.mode }}" = "incremental" ]
+            then
+              read -r -a EXTRA_ARGS <<< "${{ steps.scope.outputs.args }}"
+            fi
+
+            python tools/build_vessel_enrichment.py "${EXTRA_ARGS[@]}"
 
             git add docs/data/vessel_enrichment.json
 
@@ -104,7 +159,12 @@ jobs:
             fi
 
             echo "main wurde während des Laufs erneut verändert."
-            echo "Der Report wird auf Basis des neuen main-Stands nochmals erzeugt."
+            if [ "${{ github.event_name }}" = "push" ] && [ "${{ steps.scope.outputs.mode }}" = "incremental" ]
+            then
+              echo "Nur die geänderten Schiffe werden auf Basis des neuen main-Stands nochmals erzeugt."
+            else
+              echo "Der Report wird auf Basis des neuen main-Stands nochmals erzeugt."
+            fi
             sleep $((ATTEMPT * 2))
           done
 
