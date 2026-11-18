@@ -4,6 +4,10 @@
 The script reads data/vessels.csv and the canonical JSON files referenced by
 that index. It never modifies vessel records. Suggestions are written to
 `docs/data/vessel_enrichment.json` for review in the browser.
+
+Full refreshes process every vessel. Incremental refreshes can reuse unchanged
+entries from the existing report and query Wikidata only for selected vessel
+IDs.
 """
 
 from __future__ import annotations
@@ -179,6 +183,17 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=OUTPUT_PATH,
         help="Output JSON path.",
+    )
+    parser.add_argument(
+        "--vessel-id",
+        action="append",
+        default=[],
+        help="Refresh only this vessel ID; may be supplied more than once.",
+    )
+    parser.add_argument(
+        "--reuse-existing",
+        action="store_true",
+        help="Reuse unchanged entries from the existing output report.",
     )
     return parser.parse_args()
 
@@ -939,26 +954,8 @@ def build_record(
     return item
 
 
-def build_report(records: list[VesselRecord], offline: bool) -> dict[str, Any]:
-    if offline:
-        exact_by_vessel: dict[str, dict[str, list[str]]] = {}
-        report_warnings: list[str] = []
-    else:
-        exact_by_vessel, report_warnings = batch_exact_matches(records)
-
-    vessels = []
-    for position, record in enumerate(records, start=1):
-        print(f"[{position}/{len(records)}] {record.vessel_id}", flush=True)
-        vessels.append(
-            build_record(
-                record,
-                offline,
-                exact_by_vessel.get(record.vessel_id, {}),
-                report_warnings,
-            )
-        )
-
-    summary = {
+def report_summary(vessels: list[dict[str, Any]]) -> dict[str, int]:
+    return {
         "vessels_total": len(vessels),
         "vessels_incomplete": sum(item["missing_count"] > 0 for item in vessels),
         "vessels_complete": sum(item["missing_count"] == 0 for item in vessels),
@@ -973,6 +970,15 @@ def build_report(records: list[VesselRecord], offline: bool) -> dict[str, Any]:
             for candidate in item["lookup"].get("candidates", [])[:1]
         ),
     }
+
+
+def report_document(
+    vessels: list[dict[str, Any]],
+    *,
+    offline: bool,
+    warnings: list[str],
+    mode: str,
+) -> dict[str, Any]:
     return {
         "schema_version": 3,
         "generated_at": utc_now(),
@@ -983,12 +989,125 @@ def build_report(records: list[VesselRecord], offline: bool) -> dict[str, Any]:
             "url": "https://www.wikidata.org/",
             "strategy": "Action API with optional batched Query Service identifier lookup and manual candidate decisions",
         },
-        "mode": "offline" if offline else "online",
-        "warnings": report_warnings,
+        "mode": mode if not offline else "offline",
+        "warnings": warnings,
         "field_labels": FIELD_LABELS,
-        "summary": summary,
+        "summary": report_summary(vessels),
         "vessels": vessels,
     }
+
+
+def load_existing_report(path: Path) -> dict[str, Any] | None:
+    if not path.exists():
+        return None
+    try:
+        value = json.loads(path.read_text(encoding="utf-8-sig"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    if not isinstance(value, dict) or not isinstance(value.get("vessels"), list):
+        return None
+    return value
+
+
+def build_report(
+    records: list[VesselRecord],
+    offline: bool,
+    *,
+    vessel_ids: set[str] | None = None,
+    reuse_existing: bool = False,
+    existing_report: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    selected_ids = {value for value in (vessel_ids or set()) if value}
+    record_ids = {record.vessel_id for record in records}
+
+    existing_by_id: dict[str, dict[str, Any]] = {}
+    if reuse_existing and isinstance(existing_report, dict):
+        for item in existing_report.get("vessels", []):
+            if isinstance(item, dict):
+                vessel_id = str(item.get("vessel_id") or "").strip()
+                if vessel_id:
+                    existing_by_id[vessel_id] = item
+
+    if selected_ids:
+        unknown = sorted(selected_ids - record_ids)
+        if unknown:
+            print(
+                "Nicht mehr im Schiffsindex enthalten und daher aus dem Report entfernt: "
+                + ", ".join(unknown),
+                flush=True,
+            )
+
+        refresh_ids = selected_ids & record_ids
+
+        # If an unchanged current vessel has no reusable report entry, refresh
+        # it too so the final report always remains complete.
+        if reuse_existing:
+            refresh_ids.update(record_ids - existing_by_id.keys())
+    else:
+        refresh_ids = set(record_ids)
+
+    refresh_records = [
+        record for record in records if record.vessel_id in refresh_ids
+    ]
+
+    if offline:
+        exact_by_vessel: dict[str, dict[str, list[str]]] = {}
+        report_warnings: list[str] = []
+    else:
+        exact_by_vessel, report_warnings = batch_exact_matches(refresh_records)
+
+    refreshed_by_id: dict[str, dict[str, Any]] = {}
+    for position, record in enumerate(refresh_records, start=1):
+        print(
+            f"[refresh {position}/{len(refresh_records)}] {record.vessel_id}",
+            flush=True,
+        )
+        refreshed_by_id[record.vessel_id] = build_record(
+            record,
+            offline,
+            exact_by_vessel.get(record.vessel_id, {}),
+            report_warnings,
+        )
+
+    vessels: list[dict[str, Any]] = []
+    reused = 0
+    for record in records:
+        refreshed = refreshed_by_id.get(record.vessel_id)
+        if refreshed is not None:
+            vessels.append(refreshed)
+            continue
+
+        reusable = existing_by_id.get(record.vessel_id)
+        if reusable is not None:
+            vessels.append(reusable)
+            reused += 1
+            continue
+
+        # Defensive fallback: this should only happen when incremental mode was
+        # requested without a usable prior report.
+        vessels.append(
+            build_record(
+                record,
+                offline,
+                {},
+                report_warnings,
+            )
+        )
+
+    mode = "incremental" if selected_ids and reuse_existing else "online"
+    if selected_ids:
+        print(
+            f"Inkrementell: {len(refreshed_by_id)} neu berechnet, "
+            f"{reused} aus bestehendem Report übernommen.",
+            flush=True,
+        )
+
+    return report_document(
+        vessels,
+        offline=offline,
+        warnings=report_warnings,
+        mode=mode,
+    )
 
 
 def self_test() -> None:
@@ -1046,9 +1165,24 @@ def main() -> int:
     if args.self_test:
         self_test()
         return 0
+
     records = load_vessels()
-    report = build_report(records, args.offline)
     output = args.output if args.output.is_absolute() else ROOT / args.output
+    existing_report = load_existing_report(output) if args.reuse_existing else None
+
+    vessel_ids = {
+        str(value or "").strip()
+        for value in args.vessel_id
+        if str(value or "").strip()
+    }
+
+    report = build_report(
+        records,
+        args.offline,
+        vessel_ids=vessel_ids,
+        reuse_existing=args.reuse_existing,
+        existing_report=existing_report,
+    )
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"Report written: {output}")
