@@ -1157,6 +1157,56 @@ def self_test() -> None:
     assert not candidate_has_actionable_suggestions({
         "suggestions": [{"field": "technical.year_built", "apply_supported": False}]
     })
+
+    test_vessel = {
+        "identity": {"name": "Test A", "mmsi": "", "imo": "", "eni": "", "call_sign": ""},
+        "classification": {"ship_type": "", "ship_subtype": "", "flag": "", "status": "unknown"},
+        "technical": {"year_built": None, "shipyard": "", "length_m": None, "width_m": None, "draft_m": None, "passengers": None},
+        "operations": {"operator": "", "owner": "", "manager": "", "cruise_brand": "", "home_port": ""},
+        "audit": {"environment": "production"},
+    }
+    records = [
+        VesselRecord(
+            vessel_id="VES-900001",
+            path=Path("data/vessels/VES-900001.json"),
+            index={"name": "Test A", "json_path": "data/vessels/VES-900001.json"},
+            vessel=test_vessel,
+        ),
+        VesselRecord(
+            vessel_id="VES-900002",
+            path=Path("data/vessels/VES-900002.json"),
+            index={"name": "Test B", "json_path": "data/vessels/VES-900002.json"},
+            vessel={**test_vessel, "identity": {**test_vessel["identity"], "name": "Test B"}},
+        ),
+    ]
+    reusable = {
+        "vessel_id": "VES-900002",
+        "name": "Test B",
+        "environment": "production",
+        "json_path": "data/vessels/VES-900002.json",
+        "missing_fields": [],
+        "missing_count": 0,
+        "lookup": {
+            "provider": "wikidata",
+            "status": "not_needed",
+            "error": "",
+            "warnings": [],
+            "accepted_qid": "",
+            "rejected_qids": [],
+            "candidates": [],
+        },
+    }
+    incremental = build_report(
+        records,
+        True,
+        vessel_ids={"VES-900001"},
+        reuse_existing=True,
+        existing_report={"vessels": [reusable]},
+    )
+    assert incremental["mode"] == "offline"
+    assert len(incremental["vessels"]) == 2
+    assert incremental["vessels"][1] is reusable
+
     print("Self-test OK")
 
 
