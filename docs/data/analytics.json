@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-11T15:46:18.588988Z",
-  "source_updated_at": "2026-11-11T15:46:00.551Z",
+  "generated_at": "2026-11-18T06:54:50.176383Z",
+  "source_updated_at": "2026-11-18T06:54:30.810Z",
   "timezone": "Europe/Vienna",
   "meta": {
-    "record_count": 139,
-    "vessel_count": 62,
+    "record_count": 140,
+    "vessel_count": 63,
     "date_min": "2026-07-19",
-    "date_max": "2026-11-11",
+    "date_max": "2026-11-18",
     "skipped_record_count": 0
   },
   "dimensions": {
@@ -147,6 +147,12 @@
       {
         "id": "VES-000114",
         "name": "Avalon Illumination",
+        "operator": "Avalon Waterways",
+        "cruise_brand": ""
+      },
+      {
+        "id": "VES-000163",
+        "name": "Avalon Visionary",
         "operator": "Avalon Waterways",
         "cruise_brand": ""
       },
@@ -444,6 +450,35 @@
     ]
   },
   "records": [
+    {
+      "vessel_id": "VES-000163",
+      "vessel_name": "Avalon Visionary",
+      "operator": "Avalon Waterways",
+      "cruise_brand": "",
+      "ship_type": "PASSENGER",
+      "ship_subtype": "RIVER_CRUISE",
+      "flag": "DE",
+      "status": "active",
+      "captured_at": "2026-11-18T06:06:47.000Z",
+      "local_date": "2026-11-18",
+      "local_month": "2026-11",
+      "local_year": 2026,
+      "weekday": 2,
+      "hour": 7,
+      "location_reference_id": "LOC-001",
+      "location_reference_name": "Nibelungenbrücke, Linz",
+      "location_area_id": "BTA-001",
+      "location_area_name": "Linz",
+      "municipality": "Linz",
+      "country": "Österreich",
+      "berth_id": "BER-000002",
+      "berth_name": "Schiffsanlegestelle Linz-Nibelungen",
+      "berth_short_name": "Linz-Nibelungen Nr. 12",
+      "movement": "moored",
+      "direction": "upstream",
+      "alongside_position": 1,
+      "photo_count": 4
+    },
     {
       "vessel_id": "VES-000123",
       "vessel_name": "APT Ostara",
