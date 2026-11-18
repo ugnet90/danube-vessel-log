@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-18T12:50:09.084346Z",
-  "source_updated_at": "2026-11-18T12:49:36.673Z",
+  "generated_at": "2026-11-18T16:04:20.628079Z",
+  "source_updated_at": "2026-11-18T16:04:02.256Z",
   "timezone": "Europe/Vienna",
   "meta": {
-    "record_count": 141,
-    "vessel_count": 64,
+    "record_count": 142,
+    "vessel_count": 65,
     "date_min": "2026-07-19",
     "date_max": "2026-11-18",
     "skipped_record_count": 0
@@ -235,6 +235,12 @@
         "cruise_brand": ""
       },
       {
+        "id": "VES-000165",
+        "name": "Riverside Mozart",
+        "operator": "Riverside Luxury Cruises",
+        "cruise_brand": ""
+      },
+      {
         "id": "VES-000161",
         "name": "Riviera Radiance",
         "operator": "",
@@ -442,6 +448,7 @@
       "Emerald Waterways",
       "Nicko Cruises",
       "plantours & Partner GmbH",
+      "Riverside Luxury Cruises",
       "Scenic Tours",
       "Scylla",
       "Scylla ( Phoenix Reisen )",
@@ -456,6 +463,35 @@
     ]
   },
   "records": [
+    {
+      "vessel_id": "VES-000165",
+      "vessel_name": "Riverside Mozart",
+      "operator": "Riverside Luxury Cruises",
+      "cruise_brand": "",
+      "ship_type": "PASSENGER",
+      "ship_subtype": "RIVER_CRUISE",
+      "flag": "MT",
+      "status": "active",
+      "captured_at": "2026-11-18T15:06:25.000Z",
+      "local_date": "2026-11-18",
+      "local_month": "2026-11",
+      "local_year": 2026,
+      "weekday": 2,
+      "hour": 16,
+      "location_reference_id": "LOC-001",
+      "location_reference_name": "Nibelungenbrücke, Linz",
+      "location_area_id": "BTA-001",
+      "location_area_name": "Linz",
+      "municipality": "Linz",
+      "country": "Österreich",
+      "berth_id": "BER-000003",
+      "berth_name": "Schiffsanlegestelle Linz-Hauptplatz",
+      "berth_short_name": "Linz-Hauptplatz Nr. 13",
+      "movement": "moored",
+      "direction": "upstream",
+      "alongside_position": 1,
+      "photo_count": 4
+    },
     {
       "vessel_id": "VES-000163",
       "vessel_name": "Avalon Visionary",
