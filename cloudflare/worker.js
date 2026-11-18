@@ -1,8 +1,8 @@
 /*
  * Danube Vessel Log
  * File: cloudflare/worker.js
- * Version: 0.15.16
- * Updated: 2026-09-11
+ * Version: 0.15.23
+ * Updated: 2026-11-18
  */
 
 const API_VERSION = "2022-11-28";
@@ -8780,24 +8780,33 @@ async function handleLinkVesselCandidate(request, env) {
     }, 400);
   }
 
-  const submissionPath = submissionId
-    ? buildSubmissionPath(submissionId)
-    : "";
+  let submissionPath = "";
+  let submissionFile = null;
 
-  if (submissionId && !submissionPath) {
-    return jsonResponse({
-      ok: false,
-      error: "submission_id ist ungültig."
-    }, 400);
+  if (submissionId) {
+    submissionFile =
+      await resolveSubmissionFile({
+        env,
+        submissionId
+      });
+
+    if (!submissionFile.ok) {
+      return jsonResponse({
+        ok: false,
+        error:
+          submissionFile.error ??
+          "Die zugehörige Sichtung konnte nicht geladen werden."
+      }, submissionFile.status ?? 502);
+    }
+
+    submissionPath =
+      submissionFile.path;
   }
 
-  const [vesselResult, candidatesResult, submissionFile] =
+  const [vesselResult, candidatesResult] =
     await Promise.all([
       loadCanonicalVessel(env, vesselId),
-      loadVesselCandidates(env),
-      submissionPath
-        ? readGitHubFile({ env, path: submissionPath })
-        : Promise.resolve(null)
+      loadVesselCandidates(env)
     ]);
 
   if (!vesselResult.ok) {
@@ -8812,13 +8821,6 @@ async function handleLinkVesselCandidate(request, env) {
       ok: false,
       error: candidatesResult.error
     }, candidatesResult.status ?? 502);
-  }
-
-  if (submissionPath && !submissionFile?.ok) {
-    return jsonResponse({
-      ok: false,
-      error: "Die zugehörige Sichtung konnte nicht geladen werden."
-    }, submissionFile?.status === 404 ? 404 : 502);
   }
 
   const candidate = candidatesResult.candidates.find(
@@ -9233,29 +9235,32 @@ async function handleCreateVessel(request, env) {
   let submissionPath = "";
 
   if (validation.data.submission_id) {
-    submissionPath = buildSubmissionPath(
-      validation.data.submission_id
-    );
-
-    if (!submissionPath) {
-      return jsonResponse({
-        ok: false,
-        error: "Die submission_id ist ungültig."
-      }, 400);
-    }
-
-    const submissionFile = await readGitHubFile({
-      env,
-      path: submissionPath
-    });
+    const submissionFile =
+      await resolveSubmissionFile({
+        env,
+        submissionId:
+          validation.data.submission_id
+      });
 
     if (!submissionFile.ok) {
       return jsonResponse({
         ok: false,
-        error: "Die zugehörige Sichtung konnte nicht gelesen werden.",
-        github_status: submissionFile.status ?? null
-      }, submissionFile.status === 404 ? 404 : 502);
+        error:
+          submissionFile.error ??
+          "Die zugehörige Sichtung konnte nicht gelesen werden.",
+        github_status:
+          submissionFile.status ?? null
+      }, submissionFile.status === 400
+        ? 400
+        : submissionFile.status === 404
+          ? 404
+          : submissionFile.status === 409
+            ? 409
+            : 502);
     }
+
+    submissionPath =
+      submissionFile.path;
 
     try {
       submission = JSON.parse(
@@ -12365,23 +12370,28 @@ async function handleSubmissionReview(request, env) {
             ? input.submission_id.trim()
             : "";
 
-    const path = buildSubmissionPath(submissionId);
-
-    if (!path) {
-        return jsonResponse({
-            ok: false,
-            error: "Ungültige submission_id."
-        }, 400);
-    }
-
-    const file = await readGitHubFile({
+    const file =
+      await resolveSubmissionFile({
         env,
-        path
-    });
+        submissionId
+      });
 
     if (!file.ok) {
-        return jsonResponse(file, file.status ?? 500);
+      return jsonResponse(
+        {
+          ok: false,
+          error:
+            file.error ??
+            "Die Sichtung konnte nicht geladen werden.",
+          github_status:
+            file.status ?? null
+        },
+        file.status ?? 500
+      );
     }
+
+    const path =
+      file.path;
 
     let submission;
     
@@ -14100,14 +14110,6 @@ async function handleSubmissionBerthUpdate(request, env) {
     input?.submission_id ?? ""
   ).trim();
 
-  const submissionPath = buildSubmissionPath(submissionId);
-  if (!submissionPath) {
-    return jsonResponse({
-      ok: false,
-      error: "Ungültige submission_id."
-    }, 400);
-  }
-
   const allowedStatuses = new Set([
     "matched",
     "unknown",
@@ -14126,20 +14128,23 @@ async function handleSubmissionBerthUpdate(request, env) {
     }, 400);
   }
 
-  const file = await readGitHubFile({
-    env,
-    path: submissionPath
-  });
+  const file =
+    await resolveSubmissionFile({
+      env,
+      submissionId
+    });
 
   if (!file.ok) {
     return jsonResponse({
       ok: false,
       error:
-        file.status === 404
-          ? "Die Sichtung wurde nicht gefunden."
-          : "Die Sichtung konnte nicht geladen werden."
-    }, file.status === 404 ? 404 : 502);
+        file.error ??
+        "Die Sichtung konnte nicht geladen werden."
+    }, file.status ?? 502);
   }
+
+  const submissionPath =
+    file.path;
 
   let submission;
   try {
@@ -17890,6 +17895,108 @@ function buildSubmissionPath(submissionId) {
   const month = submissionId.substring(8, 10);
 
   return `inbox/submissions/${year}/${month}/${submissionId}.json`;
+}
+
+async function resolveSubmissionFile({
+  env,
+  submissionId
+}) {
+  const fallbackPath =
+    buildSubmissionPath(
+      String(submissionId ?? "").trim()
+    );
+
+  if (!fallbackPath) {
+    return {
+      ok: false,
+      status: 400,
+      error: "Ungültige submission_id."
+    };
+  }
+
+  const directFile =
+    await readGitHubFile({
+      env,
+      path: fallbackPath
+    });
+
+  if (directFile.ok) {
+    return {
+      ...directFile,
+      resolved_by:
+        "submission_id_date"
+    };
+  }
+
+  if (directFile.status !== 404) {
+    return directFile;
+  }
+
+  /*
+   * Die Submission-ID wird beim Upload erzeugt, während der Ablageordner
+   * bewusst aus captured_at gebildet wird. Bei verspätet hochgeladenen
+   * Sichtungen können deshalb Monat/Jahr der ID vom tatsächlichen Pfad
+   * abweichen.
+   *
+   * In diesem Fall wird die Datei über den aktuellen Repository-Baum
+   * anhand ihres eindeutigen Dateinamens aufgelöst.
+   */
+  const pathsResult =
+    await listSubmissionPaths(env);
+
+  if (!pathsResult.ok) {
+    return pathsResult;
+  }
+
+  const filename =
+    `${String(submissionId).trim()}.json`;
+
+  const matches =
+    pathsResult.paths
+      .filter(path =>
+        path.endsWith(
+          `/${filename}`
+        )
+      );
+
+  if (matches.length === 0) {
+    return {
+      ok: false,
+      status: 404,
+      error:
+        "Die Sichtung wurde nicht gefunden."
+    };
+  }
+
+  if (matches.length > 1) {
+    return {
+      ok: false,
+      status: 409,
+      error:
+        "Die submission_id ist im Repository nicht eindeutig."
+    };
+  }
+
+  const resolvedPath =
+    matches[0];
+
+  const resolvedFile =
+    await readGitHubFile({
+      env,
+      path: resolvedPath
+    });
+
+  if (!resolvedFile.ok) {
+    return resolvedFile;
+  }
+
+  return {
+    ...resolvedFile,
+    path:
+      resolvedPath,
+    resolved_by:
+      "repository_tree"
+  };
 }
 
 async function readGitHubFile({
