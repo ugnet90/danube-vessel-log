@@ -1,8 +1,152 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-11-11T06:14:24.000Z",
-  "count": 179,
+  "updated_at": "2026-11-18T06:09:58.000Z",
+  "count": 183,
   "photos": [
+    {
+      "photo_id": "PHOTO-A38AC5DC02D74DAA96BA31540BEA01BE",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261118-065119-391B0E",
+      "vessel_id": "VES-000163",
+      "vessel_name": "Avalon Visionary",
+      "captured_at": "2026-11-18T06:09:58.000Z",
+      "photo_lat": 48.30742,
+      "photo_lon": 14.28526333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 98
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261118-065119-391B0E"
+      },
+      "path": "inbox/photos/2026/11/PHOTO-A38AC5DC02D74DAA96BA31540BEA01BE.jpg"
+    },
+    {
+      "photo_id": "PHOTO-1F01334ACF554698A872471FE3F565EC",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261118-065119-391B0E",
+      "vessel_id": "VES-000163",
+      "vessel_name": "Avalon Visionary",
+      "captured_at": "2026-11-18T06:09:21.000Z",
+      "photo_lat": 48.30778833333333,
+      "photo_lon": 14.28498666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 142
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261118-065119-391B0E"
+      },
+      "path": "inbox/photos/2026/11/PHOTO-1F01334ACF554698A872471FE3F565EC.jpg"
+    },
+    {
+      "photo_id": "PHOTO-49719D5A02E54AD4A74B6F9B9C315B4F",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261118-065119-391B0E",
+      "vessel_id": "VES-000163",
+      "vessel_name": "Avalon Visionary",
+      "captured_at": "2026-11-18T06:08:17.000Z",
+      "photo_lat": 48.30848,
+      "photo_lon": 14.28447,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 226
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261118-065119-391B0E"
+      },
+      "path": "inbox/photos/2026/11/PHOTO-49719D5A02E54AD4A74B6F9B9C315B4F.jpg"
+    },
+    {
+      "photo_id": "PHOTO-3F52C7E9355540578501D6EC13999445",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261118-065119-391B0E",
+      "vessel_id": "VES-000163",
+      "vessel_name": "Avalon Visionary",
+      "captured_at": "2026-11-18T06:06:47.000Z",
+      "photo_lat": 48.30922833333333,
+      "photo_lon": 14.283645,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 330
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261118-065119-391B0E"
+      },
+      "path": "inbox/photos/2026/11/PHOTO-3F52C7E9355540578501D6EC13999445.jpg"
+    },
     {
       "photo_id": "PHOTO-5ABE01319A5248819A86F6851C0BCBA0",
       "source_type": "sighting",
@@ -6130,8 +6274,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 139,
+  "sighting_count": 140,
   "sightings": [
+    {
+      "submission_id": "SUB-20261118-065119-391B0E",
+      "vessel_id": "VES-000163",
+      "vessel_name": "Avalon Visionary",
+      "captured_at": "2026-11-18T06:06:47.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 330
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 110,
+      "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 4
+    },
     {
       "submission_id": "SUB-20261111-064801-CBC32C",
       "vessel_id": "VES-000123",
