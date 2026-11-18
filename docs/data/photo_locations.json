@@ -1,8 +1,152 @@
 {
   "schema_version": 4,
-  "updated_at": "2026-11-18T06:09:58.000Z",
-  "count": 188,
+  "updated_at": "2026-11-18T15:08:31.000Z",
+  "count": 192,
   "photos": [
+    {
+      "photo_id": "PHOTO-5BB2E990F9C248618A84B5122F1B10E2",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261118-150940-14CE3C",
+      "vessel_id": "VES-000165",
+      "vessel_name": "Riverside Mozart",
+      "captured_at": "2026-11-18T15:08:31.000Z",
+      "photo_lat": 48.30822,
+      "photo_lon": 14.28508,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 178
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 120.6,
+      "vessel_width_m": 22.86,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261118-150940-14CE3C"
+      },
+      "path": "inbox/photos/2026/11/PHOTO-5BB2E990F9C248618A84B5122F1B10E2.jpg"
+    },
+    {
+      "photo_id": "PHOTO-77A41728AC0741B7BF8545EFFB734FE3",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261118-150940-14CE3C",
+      "vessel_id": "VES-000165",
+      "vessel_name": "Riverside Mozart",
+      "captured_at": "2026-11-18T15:07:54.000Z",
+      "photo_lat": 48.30787166666666,
+      "photo_lon": 14.28526333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 138
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 120.6,
+      "vessel_width_m": 22.86,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261118-150940-14CE3C"
+      },
+      "path": "inbox/photos/2026/11/PHOTO-77A41728AC0741B7BF8545EFFB734FE3.jpg"
+    },
+    {
+      "photo_id": "PHOTO-0D7B13F814394557937EA33FCE85C2A8",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261118-150940-14CE3C",
+      "vessel_id": "VES-000165",
+      "vessel_name": "Riverside Mozart",
+      "captured_at": "2026-11-18T15:07:07.000Z",
+      "photo_lat": 48.30756333333333,
+      "photo_lon": 14.28557,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 97
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 120.6,
+      "vessel_width_m": 22.86,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261118-150940-14CE3C"
+      },
+      "path": "inbox/photos/2026/11/PHOTO-0D7B13F814394557937EA33FCE85C2A8.jpg"
+    },
+    {
+      "photo_id": "PHOTO-929DC352BFC647FC962C981EBB229AD9",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261118-150940-14CE3C",
+      "vessel_id": "VES-000165",
+      "vessel_name": "Riverside Mozart",
+      "captured_at": "2026-11-18T15:06:25.000Z",
+      "photo_lat": 48.30729666666667,
+      "photo_lon": 14.28579666666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 63
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 120.6,
+      "vessel_width_m": 22.86,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261118-150940-14CE3C"
+      },
+      "path": "inbox/photos/2026/11/PHOTO-929DC352BFC647FC962C981EBB229AD9.jpg"
+    },
     {
       "photo_id": "PHOTO-A38AC5DC02D74DAA96BA31540BEA01BE",
       "source_type": "sighting",
@@ -6454,8 +6598,37 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 141,
+  "sighting_count": 142,
   "sightings": [
+    {
+      "submission_id": "SUB-20261118-150940-14CE3C",
+      "vessel_id": "VES-000165",
+      "vessel_name": "Riverside Mozart",
+      "captured_at": "2026-11-18T15:06:25.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 63
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000003",
+        "name": "Schiffsanlegestelle Linz-Hauptplatz",
+        "short_name": "Linz-Hauptplatz Nr. 13",
+        "station_number": "13"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 120.6,
+      "vessel_width_m": 22.86,
+      "direction": "upstream",
+      "photo_count": 4
+    },
     {
       "submission_id": "SUB-20261118-065119-391B0E",
       "vessel_id": "VES-000163",
