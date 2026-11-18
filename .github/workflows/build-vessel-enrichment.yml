@@ -15,9 +15,6 @@ on:
     paths:
       - "data/vessels.csv"
       - "data/vessels/**.json"
-      - "tools/build_vessel_enrichment.py"
-      - "tools/check_vessel_enrichment_relevance.py"
-      - ".github/workflows/build-vessel-enrichment.yml"
 
 permissions:
   contents: write
@@ -67,27 +64,17 @@ jobs:
             git diff --name-only "$BEFORE" "$AFTER"
           )
 
-          FULL_REFRESH=false
-          for PATHNAME in "${CHANGED_PATHS[@]}"
-          do
-            case "$PATHNAME" in
-              tools/build_vessel_enrichment.py|tools/check_vessel_enrichment_relevance.py|.github/workflows/build-vessel-enrichment.yml)
-                FULL_REFRESH=true
-                ;;
-            esac
-          done
-
           mapfile -t VESSEL_IDS < <(
             printf '%s\n' "${CHANGED_PATHS[@]}" |
               sed -nE 's#^data/vessels/(VES-[0-9]{6})\.json$#\1#p' |
               sort -u
           )
 
-          if [ "$FULL_REFRESH" = "true" ] || [ "${#VESSEL_IDS[@]}" -eq 0 ]
+          if [ "${#VESSEL_IDS[@]}" -eq 0 ]
           then
-            echo "mode=full" >> "$GITHUB_OUTPUT"
+            echo "mode=skip" >> "$GITHUB_OUTPUT"
             echo "args=" >> "$GITHUB_OUTPUT"
-            echo "Vollrefresh erforderlich."
+            echo "Keine geänderte Vessel-JSON gefunden; Wikidata-Lauf wird übersprungen."
           else
             ARGS="--reuse-existing"
             for VESSEL_ID in "${VESSEL_IDS[@]}"
@@ -101,13 +88,13 @@ jobs:
           fi
 
       - name: Python einrichten
-        if: github.event_name != 'push' || steps.relevance.outputs.relevant == 'true'
+        if: github.event_name != 'push' || (steps.relevance.outputs.relevant == 'true' && steps.scope.outputs.mode != 'skip')
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Report auf aktuellem main erstellen und einchecken
-        if: github.event_name != 'push' || steps.relevance.outputs.relevant == 'true'
+        if: github.event_name != 'push' || (steps.relevance.outputs.relevant == 'true' && steps.scope.outputs.mode != 'skip')
         env:
           WIKIDATA_USER_AGENT: >-
             DanubeVesselLog/0.14.15
