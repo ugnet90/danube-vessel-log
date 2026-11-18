@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.22**  
+Aktuelle Version: **0.15.23**  
 Stand: **12.10.2026**
 
 ## 1. Projektzweck
@@ -3673,3 +3673,37 @@ Beim manuellen Start kann optional eine einzelne Vessel-ID, z. B.
 Änderungen am Enrichment-Code selbst lösen keinen automatischen Vollrefresh
 mehr aus. Automatische Push-Läufe reagieren nur noch auf Änderungen an
 `data/vessels.csv` bzw. `data/vessels/*.json`.
+
+
+## 0.15.23 – Verspätet hochgeladene Sichtungen
+
+Der Worker löst Submission-Dateien jetzt robust über ihre tatsächliche
+Repository-Position auf.
+
+Hintergrund: Die Submission-ID wird beim Upload erzeugt, während der
+Ablageordner bewusst aus dem Aufnahmedatum (`captured_at`) gebildet wird.
+Wird eine ältere Sichtung erst in einem späteren Monat hochgeladen, können
+Monat/Jahr der ID und des Ablagepfads voneinander abweichen.
+
+Beispiel:
+
+- Aufnahme: 27.10.2026
+- Upload/Submission-ID: `SUB-20261106-...`
+- tatsächlicher Pfad: `inbox/submissions/2026/10/...`
+
+Bisher rekonstruierten mehrere Bearbeitungsfunktionen fälschlich
+`inbox/submissions/2026/11/...` und erhielten HTTP 404.
+
+Der neue Resolver versucht weiterhin zuerst den schnellen aus der ID
+abgeleiteten Pfad. Bei HTTP 404 wird die eindeutige Submission-Datei im
+aktuellen Repository-Baum anhand der Submission-ID gesucht.
+
+Die zentrale Auflösung wird verwendet für:
+
+- Sichtung bestätigen, korrigieren oder ablehnen;
+- neues Schiff aus einer Sichtung anlegen;
+- Anlegestelle einer Sichtung korrigieren;
+- Kandidatenverknüpfung mit einer Sichtung.
+
+Für die Änderung ist nach dem Merge ein **Cloudflare-Worker-Deployment**
+erforderlich.
