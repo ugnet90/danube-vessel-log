@@ -96,7 +96,7 @@
     }
   ],
   "workflow": {
-    "status": "new",
+    "status": "rejected",
     "auto": {
       "vessel_match": {
         "status": "unmatched",
@@ -109,10 +109,10 @@
       }
     },
     "review": {
-      "reviewed": false,
-      "reviewed_at": "",
+      "reviewed": true,
+      "reviewed_at": "2026-11-18T12:48:48.818Z",
       "vessel_id": "",
-      "decision": "",
+      "decision": "rejected",
       "notes": ""
     }
   },
