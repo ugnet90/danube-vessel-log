@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "updated_at": "2026-11-18T06:09:58.000Z",
-  "count": 183,
+  "count": 188,
   "photos": [
     {
       "photo_id": "PHOTO-A38AC5DC02D74DAA96BA31540BEA01BE",
@@ -254,6 +254,186 @@
         "submission_id": "SUB-20261111-064611-5DD0C5"
       },
       "path": "inbox/photos/2026/11/PHOTO-ACDAF2552E344186A2FDC58502BA255D.jpg"
+    },
+    {
+      "photo_id": "PHOTO-AD19BA9503B846F4BD29440BFC1BA5AF",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261101-181723-25DDE2",
+      "vessel_id": "VES-000164",
+      "vessel_name": "Viva Enjoy",
+      "captured_at": "2026-10-30T06:05:03.000Z",
+      "photo_lat": 48.30723,
+      "photo_lon": 14.28537833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 77
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261101-181723-25DDE2"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-AD19BA9503B846F4BD29440BFC1BA5AF.jpg"
+    },
+    {
+      "photo_id": "PHOTO-DEB29622036F4F9B9CD3C5300F017959",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261101-181723-25DDE2",
+      "vessel_id": "VES-000164",
+      "vessel_name": "Viva Enjoy",
+      "captured_at": "2026-10-30T06:04:41.000Z",
+      "photo_lat": 48.30745,
+      "photo_lon": 14.285245,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 101
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261101-181723-25DDE2"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-DEB29622036F4F9B9CD3C5300F017959.jpg"
+    },
+    {
+      "photo_id": "PHOTO-062564FF6E854465B035B1B43366FA6F",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261101-181723-25DDE2",
+      "vessel_id": "VES-000164",
+      "vessel_name": "Viva Enjoy",
+      "captured_at": "2026-10-30T06:03:55.000Z",
+      "photo_lat": 48.30788833333333,
+      "photo_lon": 14.28488833333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 155
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261101-181723-25DDE2"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-062564FF6E854465B035B1B43366FA6F.jpg"
+    },
+    {
+      "photo_id": "PHOTO-91ADA9EF2A544E04BC2B120070DA3C6D",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261101-181723-25DDE2",
+      "vessel_id": "VES-000164",
+      "vessel_name": "Viva Enjoy",
+      "captured_at": "2026-10-30T06:03:48.000Z",
+      "photo_lat": 48.307895,
+      "photo_lon": 14.28488333333333,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 156
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261101-181723-25DDE2"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-91ADA9EF2A544E04BC2B120070DA3C6D.jpg"
+    },
+    {
+      "photo_id": "PHOTO-CA94E637BF384D3DB663C1A06643ED31",
+      "source_type": "sighting",
+      "submission_id": "SUB-20261101-181723-25DDE2",
+      "vessel_id": "VES-000164",
+      "vessel_name": "Viva Enjoy",
+      "captured_at": "2026-10-30T06:02:52.000Z",
+      "photo_lat": 48.308545,
+      "photo_lon": 14.28441166666667,
+      "location": {
+        "status": "matched",
+        "matched_by": "coordinates",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": 235
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "relation": {
+        "type": "sighting",
+        "submission_id": "SUB-20261101-181723-25DDE2"
+      },
+      "path": "inbox/photos/2026/10/PHOTO-CA94E637BF384D3DB663C1A06643ED31.jpg"
     },
     {
       "photo_id": "PHOTO-F8040549717C476BAE936E6751E4C64D",
@@ -6274,7 +6454,7 @@
       "path": "inbox/photos/2026/07/PHOTO-B46653D517914CDABAC1CB79B628C78C.jpg"
     }
   ],
-  "sighting_count": 140,
+  "sighting_count": 141,
   "sightings": [
     {
       "submission_id": "SUB-20261118-065119-391B0E",
@@ -6362,6 +6542,35 @@
       "vessel_width_m": 11.4,
       "direction": "upstream",
       "photo_count": 2
+    },
+    {
+      "submission_id": "SUB-20261101-181723-25DDE2",
+      "vessel_id": "VES-000164",
+      "vessel_name": "Viva Enjoy",
+      "captured_at": "2026-10-30T06:01:34.000Z",
+      "location": {
+        "status": "matched",
+        "matched_by": "berth_id",
+        "id": "LOC-001",
+        "area_id": "",
+        "name": "Nibelungenbrücke, Linz",
+        "municipality": "",
+        "country": "Österreich",
+        "distance_m": null
+      },
+      "berth": {
+        "status": "matched",
+        "id": "BER-000002",
+        "name": "Schiffsanlegestelle Linz-Nibelungen",
+        "short_name": "Linz-Nibelungen Nr. 12",
+        "station_number": "12"
+      },
+      "movement": "moored",
+      "alongside_position": 1,
+      "vessel_length_m": 135,
+      "vessel_width_m": 11.45,
+      "direction": "upstream",
+      "photo_count": 6
     },
     {
       "submission_id": "SUB-20261028-081227-E7C719",
