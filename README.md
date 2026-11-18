@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.21**  
+Aktuelle Version: **0.15.22**  
 Stand: **12.10.2026**
 
 ## 1. Projektzweck
@@ -3627,3 +3627,49 @@ Fotobereich eines Schiffs.
 - Die **Fotos**-Kachel in der Übersicht von `vessel.html` ist ebenfalls
   klickbar und verwendet denselben Sprung.
 - Fotozahl 0 bleibt in der Auswertung reiner Text ohne Link.
+
+
+## 0.15.22 – Inkrementelle Schiffsanreicherung
+
+Der Wikidata-Enrichment-Workflow wurde grundlegend auf geringeren
+GitHub-Actions-Verbrauch optimiert.
+
+### Automatische Push-Läufe
+
+Bei einer normalen Schiffsanlage oder einer fachlich relevanten Änderung wird
+nicht mehr der komplette Schiffsbestand neu gegen Wikidata geprüft. Stattdessen
+werden nur die tatsächlich geänderten `VES-...`-Datensätze neu berechnet.
+Alle unveränderten Einträge werden aus
+`docs/data/vessel_enrichment.json` übernommen.
+
+Damit bleibt der Report vollständig, ohne bei jeder neuen Sichtung bzw.
+Schiffsanlage alle vorhandenen Schiffe erneut abzufragen.
+
+### Konkurrenz mit anderen Bot-Commits
+
+Wenn während eines Enrichment-Laufs ein anderer Workflow `main` verändert
+(z. B. die Analytics-Daten), wird bei einem Push-Konflikt ebenfalls nur die
+kleine inkrementelle Teilmenge erneut berechnet. Der bisherige vollständige
+Neuaufbau bei jedem Retry entfällt.
+
+### Wikidata-Timeout
+
+Automatische Push-Läufe verwenden einen kürzeren Netzwerk-Timeout. Wenn
+Wikidata vorübergehend nicht reagiert, soll ein einzelner neuer Schiffseintrag
+nicht über viele Minuten GitHub-Actions-Zeit blockieren. Fehler bleiben im
+Report sichtbar und können später erneut geprüft werden.
+
+### Vollrefresh
+
+Der automatische Vollrefresh läuft nicht mehr wöchentlich, sondern nur noch
+am **1. Tag jedes Monats**. Ein manueller Vollrefresh bleibt über
+`workflow_dispatch` jederzeit möglich.
+
+Beim manuellen Start kann optional eine einzelne Vessel-ID, z. B.
+`VES-000163`, angegeben werden. Dann wird nur dieses Schiff neu angereichert.
+
+### Workflow-Trigger
+
+Änderungen am Enrichment-Code selbst lösen keinen automatischen Vollrefresh
+mehr aus. Automatische Push-Läufe reagieren nur noch auf Änderungen an
+`data/vessels.csv` bzw. `data/vessels/*.json`.
