@@ -8,7 +8,7 @@
       "Crystal Mozart"
     ],
     "mmsi": "211857450",
-    "imo": "",
+    "imo": "8643341",
     "eni": "04805980",
     "call_sign": "DK8255"
   },
@@ -20,10 +20,10 @@
   },
   "technical": {
     "year_built": 1987,
-    "shipyard": "",
+    "shipyard": "MAN DWE",
     "length_m": 120.6,
     "width_m": 22.86,
-    "draft_m": null,
+    "draft_m": 1.6,
     "passengers": 207
   },
   "operations": {
@@ -62,12 +62,35 @@
       "added_by": "candidate-catalog",
       "candidate_id": "CAN-720370CAF76B",
       "source_revision_id": "268617530"
+    },
+    {
+      "source_id": "SRC-40FD8A096F84",
+      "provider": "Wikidata",
+      "title": "Wikidata: Riverside Mozart",
+      "url": "https://www.wikidata.org/wiki/Q15712921",
+      "notes": "Manuell geprüfte Übernahme aus der Datenanreicherung.",
+      "fields_used": [
+        "identity.imo",
+        "technical.shipyard",
+        "technical.draft_m"
+      ],
+      "retrieved_at": "2026-11-18T16:04:45.937028Z",
+      "verified_at": "2026-11-19T09:29:33.173Z",
+      "added_at": "2026-11-19T09:29:33.173Z",
+      "added_by": "vessel-enrichment",
+      "source_revision_id": 2407000802
     }
   ],
   "enrichment": {
     "status": "pending",
     "last_run_at": "",
-    "providers": []
+    "providers": [],
+    "wikidata": {
+      "accepted_qid": "Q15712921",
+      "rejected_qids": [],
+      "accepted_at": "2026-11-19T09:29:33.173Z",
+      "last_reviewed_at": "2026-11-19T09:29:33.173Z"
+    }
   },
   "media": {
     "primary_photo_id": "PHOTO-929DC352BFC647FC962C981EBB229AD9",
@@ -78,9 +101,44 @@
     "environment": "production",
     "created_at": "2026-11-18T16:04:02.256Z",
     "created_from_submission_id": "SUB-20261118-150940-14CE3C",
-    "updated_at": "2026-11-18T16:04:02.256Z",
-    "updated_by": "web-ui",
+    "updated_at": "2026-11-19T09:29:33.173Z",
+    "updated_by": "vessel-enrichment",
     "created_from_candidate_id": "CAN-720370CAF76B",
-    "candidate_source_revision_id": "268617530"
+    "candidate_source_revision_id": "268617530",
+    "change_history": [
+      {
+        "changed_at": "2026-11-19T09:29:33.173Z",
+        "changed_by": "vessel-enrichment",
+        "summary": "3 Wikidata-Felder aus Q15712921 übernommen",
+        "changed_fields": [
+          "identity.imo",
+          "technical.shipyard",
+          "technical.draft_m",
+          "enrichment.wikidata.accepted_qid"
+        ],
+        "changes": [
+          {
+            "field": "identity.imo",
+            "old_value": "",
+            "new_value": "8643341"
+          },
+          {
+            "field": "technical.shipyard",
+            "old_value": "",
+            "new_value": "MAN DWE"
+          },
+          {
+            "field": "technical.draft_m",
+            "old_value": null,
+            "new_value": 1.6
+          },
+          {
+            "field": "enrichment.wikidata.accepted_qid",
+            "old_value": "",
+            "new_value": "Q15712921"
+          }
+        ]
+      }
+    ]
   }
 }
