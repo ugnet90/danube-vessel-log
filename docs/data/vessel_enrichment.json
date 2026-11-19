@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-11-18T16:04:45.937028Z",
+  "generated_at": "2026-11-19T09:29:52.303888Z",
   "provider": {
     "id": "wikidata",
     "label": "Wikidata",
@@ -35,12 +35,12 @@
     "vessels_total": 65,
     "vessels_incomplete": 65,
     "vessels_complete": 0,
-    "candidate_matches": 1,
-    "matched_no_new_data": 4,
+    "candidate_matches": 0,
+    "matched_no_new_data": 5,
     "low_confidence": 0,
     "no_match": 1,
     "lookup_errors": 59,
-    "suggestions_total": 3
+    "suggestions_total": 0
   },
   "vessels": [
     {
@@ -3095,18 +3095,6 @@
       "json_path": "data/vessels/VES-000165.json",
       "missing_fields": [
         {
-          "field": "identity.imo",
-          "label": "IMO"
-        },
-        {
-          "field": "technical.shipyard",
-          "label": "Werft"
-        },
-        {
-          "field": "technical.draft_m",
-          "label": "Tiefgang"
-        },
-        {
           "field": "operations.owner",
           "label": "Eigentümer"
         },
@@ -3119,80 +3107,15 @@
           "label": "Marke"
         }
       ],
-      "missing_count": 6,
+      "missing_count": 3,
       "lookup": {
         "provider": "wikidata",
-        "status": "candidate",
+        "status": "matched_no_new_data",
         "error": "",
         "warnings": [],
-        "accepted_qid": "",
+        "accepted_qid": "Q15712921",
         "rejected_qids": [],
-        "candidates": [
-          {
-            "qid": "Q15712921",
-            "label": "Riverside Mozart",
-            "description": "Flusskreuzfahrtschiff",
-            "url": "https://www.wikidata.org/wiki/Q15712921",
-            "score": 1.0,
-            "confidence": "very_high",
-            "matched_by": [
-              "identity.eni"
-            ],
-            "manually_confirmed": false,
-            "identifiers": {
-              "mmsi": [],
-              "imo": [
-                "8643341"
-              ],
-              "eni": [
-                "04805980"
-              ],
-              "call_sign": []
-            },
-            "instance_of": [
-              "Flusskreuzfahrtschiff"
-            ],
-            "suggestions": [
-              {
-                "field": "identity.imo",
-                "field_label": "IMO",
-                "value": "8643341",
-                "display_value": "8643341",
-                "property": "P458",
-                "property_label": "IMO ship number",
-                "property_url": "https://www.wikidata.org/wiki/Property:P458",
-                "source_url": "https://www.wikidata.org/wiki/Q15712921",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.shipyard",
-                "field_label": "Werft",
-                "value": "MAN DWE",
-                "display_value": "MAN DWE",
-                "property": "P176",
-                "property_label": "manufacturer",
-                "property_url": "https://www.wikidata.org/wiki/Property:P176",
-                "source_url": "https://www.wikidata.org/wiki/Q15712921",
-                "confidence": 1.0,
-                "apply_supported": true
-              },
-              {
-                "field": "technical.draft_m",
-                "field_label": "Tiefgang",
-                "value": 1.6,
-                "display_value": 1.6,
-                "property": "P2262",
-                "property_label": "draft",
-                "property_url": "https://www.wikidata.org/wiki/Property:P2262",
-                "source_url": "https://www.wikidata.org/wiki/Q15712921",
-                "confidence": 1.0,
-                "apply_supported": true
-              }
-            ],
-            "revision_id": 2407000802
-          }
-        ]
+        "candidates": []
       }
     }
   ]
