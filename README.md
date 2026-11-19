@@ -1,6 +1,6 @@
 # Danube Vessel Log
 
-Aktuelle Version: **0.15.23**  
+Aktuelle Version: **0.15.24**  
 Stand: **12.10.2026**
 
 ## 1. Projektzweck
@@ -3707,3 +3707,26 @@ Die zentrale Auflösung wird verwendet für:
 
 Für die Änderung ist nach dem Merge ein **Cloudflare-Worker-Deployment**
 erforderlich.
+
+
+## 0.15.24 – Neues Favicon-Symbol
+
+Die komplette Favicon-Familie verwendet jetzt das neue, großflächige
+Schiffssymbol mit weißem Hintergrund und blauem Rahmen.
+
+Aktualisiert wurden:
+
+- `favicon.ico` mit 16/32/48 px;
+- PNG-Favicons mit 16, 32 und 48 px;
+- `apple-touch-icon.png` mit 180 × 180 px für iPhone/iPad;
+- Android-/Manifest-Icons mit 192 × 192 und 512 × 512 px;
+- der 512-px-Master;
+- die zusätzliche Root-Datei `docs/favicon.ico`.
+
+Alle HTML-Seiten binden die Favicon-Familie jetzt einheitlich ein. Auch
+`ais_live.html`, `location_areas.html`, `submissions.html` und
+`index.html`, die zuvor keine vollständige Favicon-Einbindung hatten, sind
+nun abgedeckt.
+
+Die Icon-URLs tragen den Versionsparameter `v=0.15.24`, damit Browser und
+iOS beim Wechsel nicht dauerhaft auf zuvor gecachten Symbolen bleiben.
